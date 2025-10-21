@@ -43,26 +43,24 @@ export default function CandidateNavigation({
           <Link href="/candidate" className="flex items-center">
             <img src='https://res.cloudinary.com/drlcisipo/image/upload/v1705704261/Website%20images/logo_gox0fw.png' alt="Moil Logo" className="w-12 h-6 md:w-16 md:h-8" />
           </Link>
-          
+
           {/* Navigation Tabs - Desktop */}
           <nav className="hidden lg:flex items-center space-x-1 bg-gray-100/80 rounded-full p-1">
-            <button 
-              className={`px-3 py-2 rounded-full text-xs font-medium transition-all duration-300 ${
-                activeTab === "jobs" 
-                  ? "bg-white text-[#5843BE] shadow-sm" 
+            <button
+              className={`px-3 py-2 rounded-full text-xs font-medium transition-all duration-300 ${activeTab === "jobs"
+                  ? "bg-white text-[#5843BE] shadow-sm"
                   : "text-gray-600 hover:text-[#5843BE] hover:bg-white/50"
-              }`}
+                }`}
               onClick={() => setActiveTab("jobs")}
             >
               Looking for jobs
             </button>
             <Link
-              href="/business"
-              className={`px-3 py-2 rounded-full text-xs font-medium transition-all duration-300 ${
-                activeTab === "hire" 
-                  ? "bg-white text-[#5843BE] shadow-sm" 
+              href={`/business?lg=${lgQuery}`}
+              className={`px-3 py-2 rounded-full text-xs font-medium transition-all duration-300 ${activeTab === "hire"
+                  ? "bg-white text-[#5843BE] shadow-sm"
                   : "text-gray-600 hover:text-[#5843BE] hover:bg-white/50"
-              }`}
+                }`}
             >
               Want to hire
             </Link>
@@ -83,25 +81,25 @@ export default function CandidateNavigation({
 
           {/* Header Actions - Desktop */}
           <div className="hidden lg:flex items-center space-x-2">
-            <CustomTranslateButton 
+            <CustomTranslateButton
               variant="candidate"
               setShowLanguageModal={setShowLanguageModal}
               setLgQuery={setQueryLg}
               lgQuery={lgQuery}
             />
-            <Link 
-              href="/business" 
+            <Link
+              href={`/business?lg=${lgQuery}`}
               className="text-xs text-gray-600 hover:text-[#5843BE] transition-colors px-3 py-2 rounded-full hover:bg-gray-100/50"
             >
               Switch to Business
             </Link>
-            <button 
+            <button
               onClick={handleLoginClick}
               className="px-3 py-2 text-xs font-medium text-gray-700 hover:text-[#5843BE] transition-colors"
             >
               Login
             </button>
-            <button 
+            <button
               onClick={handleGetStartedClick}
               className="px-4 py-2 bg-gradient-to-r from-[#FF6633] to-[#ea580c] text-white text-xs font-medium rounded-full hover:from-[#ea580c] hover:to-[#FF6633] transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg"
             >
@@ -112,7 +110,7 @@ export default function CandidateNavigation({
           {/* Mobile Actions */}
           <div className="lg:hidden flex items-center space-x-2">
             {/* Mobile Translate Button */}
-            <CustomTranslateButton 
+            <CustomTranslateButton
               variant="candidate"
               setShowLanguageModal={setShowLanguageModal}
               setLgQuery={setQueryLg}
@@ -121,7 +119,7 @@ export default function CandidateNavigation({
               showText={true}
               className="p-2 rounded-lg hover:bg-gray-100/50"
             />
-            
+
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -144,12 +142,11 @@ export default function CandidateNavigation({
             <div className="px-4 py-4 space-y-1">
               {/* Mobile Navigation Tabs */}
               <div className="space-y-1 mb-4">
-                <button 
-                  className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 ${
-                    activeTab === "jobs" 
-                      ? "bg-[#5843BE] text-white" 
+                <button
+                  className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 ${activeTab === "jobs"
+                      ? "bg-[#5843BE] text-white"
                       : "text-gray-600 hover:bg-gray-100/50"
-                  }`}
+                    }`}
                   onClick={() => {
                     setActiveTab("jobs");
                     setIsMobileMenuOpen(false);
@@ -158,18 +155,17 @@ export default function CandidateNavigation({
                   I am looking for jobs
                 </button>
                 <Link
-                  href="/business"
-                  className={`block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 ${
-                    activeTab === "hire" 
-                      ? "bg-[#5843BE] text-white" 
+                  href={`/business?lg=${lgQuery}`}
+                  className={`block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 ${activeTab === "hire"
+                      ? "bg-[#5843BE] text-white"
                       : "text-gray-600 hover:bg-gray-100/50"
-                  }`}
+                    }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   I want to hire workers
                 </Link>
               </div>
-              
+
               {/* Mobile Section Links */}
               <div className="space-y-1 mb-4">
                 <a href="#ai-resume" className="block px-4 py-3 text-sm text-gray-600 hover:bg-gray-100/50 rounded-lg transition-all" onClick={() => setIsMobileMenuOpen(false)}>
@@ -185,7 +181,7 @@ export default function CandidateNavigation({
 
               {/* Mobile Actions */}
               <div className="pt-3 border-t border-gray-200/50 space-y-1">
-                <CustomTranslateButton 
+                <CustomTranslateButton
                   variant="candidate"
                   setShowLanguageModal={setShowLanguageModal}
                   setLgQuery={setQueryLg}
@@ -193,14 +189,14 @@ export default function CandidateNavigation({
                   showMobileText={true}
                   className="flex items-center space-x-3 w-full px-4 py-3 text-sm text-gray-600 hover:bg-gray-100/50 rounded-lg transition-all"
                 />
-                <Link 
+                <Link
                   href={`/business?lg=${lgQuery}`}
                   className="block px-4 py-3 text-sm text-gray-600 hover:bg-gray-100/50 rounded-lg transition-all"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Switch to Business
                 </Link>
-                <button 
+                <button
                   onClick={() => {
                     handleLoginClick();
                     setIsMobileMenuOpen(false);
@@ -209,7 +205,7 @@ export default function CandidateNavigation({
                 >
                   Login
                 </button>
-                <button 
+                <button
                   onClick={() => {
                     handleGetStartedClick();
                     setIsMobileMenuOpen(false);
