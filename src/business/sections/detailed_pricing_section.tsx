@@ -35,23 +35,11 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
   ];
 
   const pricingDetails = [
-    {
-      label: "AI Market Research Assistant",
-      values: ["Limited access", "Full access"]
-    },
-    {
-      label: "AI Business Coach",
-      values: ["Basic guidance", "Full strategy, planning & execution support"]
-    },
-    {
+     {
       label: "Job Postings",
       values: ["1 per month", "3 per month"]
     },
-    {
-      label: "AI-Generated Images",
-      values: ["10 per month", "50 per month"]
-    },
-    {
+      {
       label: "Bilingual Support",
       values: ["English only", "English & Spanish"]
     },
@@ -62,7 +50,19 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
     {
       label: "Support",
       values: ["Community support", "Priority email support"]
-    }
+    },
+    {
+      label: "AI Market Research Assistant",
+      values: ["N/A", "Full access"]
+    },
+    {
+      label: "AI Business Coach",
+      values: ["N/A", "Full strategy, planning & execution support"]
+    },
+    {
+      label: "AI-Generated Images",
+      values: ["N/A", "50 per month"]
+    },  
   ];
 
   const mobilePricingDetails = [
@@ -82,13 +82,14 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
       },
       label: ["ai_research", "ai_coach", "job_postings", "ai_images", "bilingual", "toolbox", "support"],
       values: [
+         ["Job Postings", "1 per month"],
         ["AI Market Research Assistant", "Limited access"],
-        ["AI Business Coach", "Basic guidance"],
-        ["Job Postings", "1 per month"],
-        ["AI-Generated Images", "10 per month"],
-        ["Bilingual Support", "English only"],
-        ["Moil AI Toolbox", "Basic tools"],
-        ["Support", "Community support"]
+        ["AI Business Coach", "N/A"],
+       
+        ["AI-Generated Images", "50 per month"],
+        ["Bilingual Support", "English & Spanish"],
+        ["Moil AI Toolbox", "Full access to all tools"],
+        ["Support", "Priority email support"]
       ]
     },
     {
@@ -108,9 +109,9 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
       },
       label: ["ai_research", "ai_coach", "job_postings", "ai_images", "bilingual", "toolbox", "support"],
       values: [
+         ["Job Postings", "3 per month"],
         ["AI Market Research Assistant", "Full access"],
         ["AI Business Coach", "Full strategy, planning & execution support"],
-        ["Job Postings", "3 per month"],
         ["AI-Generated Images", "50 per month"],
         ["Bilingual Support", "English & Spanish"],
         ["Moil AI Toolbox", "Full access to all tools"],
