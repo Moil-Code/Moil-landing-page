@@ -166,18 +166,6 @@ export default function CandidateNavigation({
                 </Link>
               </div>
 
-              {/* Mobile Section Links */}
-              <div className="space-y-1 mb-4">
-                <a href="#ai-resume" className="block px-4 py-3 text-sm text-gray-600 hover:bg-gray-100/50 rounded-lg transition-all" onClick={() => setIsMobileMenuOpen(false)}>
-                  AI Resume Builder
-                </a>
-                <a href="#voice-assistant" className="block px-4 py-3 text-sm text-gray-600 hover:bg-gray-100/50 rounded-lg transition-all" onClick={() => setIsMobileMenuOpen(false)}>
-                  Voice Assistant
-                </a>
-                <a href="#bilingual" className="block px-4 py-3 text-sm text-gray-600 hover:bg-gray-100/50 rounded-lg transition-all" onClick={() => setIsMobileMenuOpen(false)}>
-                  Bilingual Support
-                </a>
-              </div>
 
               {/* Mobile Actions */}
               <div className="pt-3 border-t border-gray-200/50 space-y-1">
