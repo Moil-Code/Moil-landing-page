@@ -10,6 +10,7 @@ import useOnScreen from "../../common/hooks/impress";
 import { baseURL } from "../../common/constants/baseUrl";
 
 export default function DashboardQueryItem(props: any) {
+  const { recruitingUntilLabel = "Recruiting until", viewDetailsLabel = "View Job Details" } = props;
 
   const [ref, isVisible]: any = useOnScreen({ threshold: 0.5 });
 
@@ -78,7 +79,7 @@ export default function DashboardQueryItem(props: any) {
           <RecruitmentDurationSvg />
           <div>
             <span className="text-slate-800 text-opacity-80 text-[10px] font-medium font-['Poppins']">
-              Recruiting until{" "}
+              {recruitingUntilLabel}{" "}
             </span>
             <span className="text-indigo-700 text-[10px] font-semibold font-['Poppins']">
               {props.recruitmentDuration}
@@ -92,7 +93,7 @@ export default function DashboardQueryItem(props: any) {
 
         >
           <span className="text-center text-indigo-700 text-sm font-semibold font-['Poppins']">
-            View Job Details
+            {viewDetailsLabel}
           </span>
         </Link>
       </div>

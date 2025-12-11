@@ -10,6 +10,7 @@ import DashboardQueryItem from "../components/dashboard_query_item";
 import { baseURL, workerBaseUrl } from "../../common/constants/baseUrl";
 import { buildCandidateJobUrl } from "../utils/urlBuilder";
 import PaginationBtn from "../components/paginate_btn";
+import { translations, Language } from "../utils/translations";
 
 
 interface JobPost {
@@ -37,7 +38,9 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
   const title = searchParams?.get("title") || "";
   const location = searchParams?.get("location") || "";
   const getPage = searchParams?.get("page") || "1";
-  const pageLang = searchParams?.get("lg") || "en";
+  const rawLang = searchParams?.get("lg") || "en";
+  const pageLang = (["en", "es"].includes(rawLang) ? rawLang : "en") as Language;
+  const t = translations[pageLang];
   const refQuery = searchParams?.get("ref") || "";
 
   const [ourSearchLoading, setOurSearchLoading] = useState(false);
@@ -96,11 +99,11 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
       } else {
         setJobListData([]);
         setTotalJobs(0);
-        setOurError(data.message || "No records match this search criteria");
+        setOurError(data.message || t.noRecordsMatch);
       }
     } catch (error) {
       console.error("Search error:", error);
-      setOurError("An error occurred while searching. Please try again.");
+      setOurError(t.errorOccurred);
       setJobListData([]);
       setTotalJobs(0);
     } finally {
@@ -153,7 +156,7 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white group-hover:scale-110 transition-transform">
                   <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                <span className="text-white font-semibold">Back to Home</span>
+                <span className="text-white font-semibold">{t.backToHome}</span>
               </button>
               
               <div className="flex items-center gap-4">
@@ -166,10 +169,10 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
                 </div>
                 <div className="text-left">
                   <h1 className="text-2xl lg:text-4xl font-bold text-white leading-tight">
-                    Find Your Dream Job
+                    {t.findDreamJob}
                   </h1>
                   <p className="text-white/80 text-sm lg:text-base mt-1">
-                    Discover thousands of opportunities tailored to your skills
+                    {t.discoverOpportunities}
                   </p>
                 </div>
               </div>
@@ -179,15 +182,15 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
             <div className="hidden lg:flex items-center gap-8">
               <div className="text-center">
                 <div className="text-2xl font-bold text-white">10K+</div>
-                <div className="text-white/70 text-xs">Active Jobs</div>
+                <div className="text-white/70 text-xs">{t.activeJobs}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-white">500+</div>
-                <div className="text-white/70 text-xs">Companies</div>
+                <div className="text-white/70 text-xs">{t.companies}</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-white">95%</div>
-                <div className="text-white/70 text-xs">Success Rate</div>
+                <div className="text-white/70 text-xs">{t.successRate}</div>
               </div>
             </div>
           </div>
@@ -211,8 +214,8 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
               </svg>
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900">Search & Filter Jobs</h2>
-              <p className="text-gray-600">Use advanced filters to find exactly what you're looking for</p>
+              <h2 className="text-xl font-bold text-gray-900">{t.searchFilterJobs}</h2>
+              <p className="text-gray-600">{t.useAdvancedFilters}</p>
             </div>
           </div>
 
@@ -227,7 +230,7 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
               </div>
               <input
                 type="text"
-                placeholder="Job title, keywords, or company"
+                placeholder={t.jobTitlePlaceholder}
                 value={searchJob}
                 onChange={(e) => setSearchJob(e.target.value)}
                 className="w-full pl-12 pr-12 py-4 bg-white rounded-2xl border border-gray-200 focus:border-[#FF6633] focus:ring-2 focus:ring-[#FF6633]/20 outline-none transition-all duration-300 text-gray-900 placeholder-gray-500"
@@ -253,7 +256,7 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
               </div>
               <Autocomplete
                 apiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY_1}
-                placeholder="City, state, or remote"
+                placeholder={t.locationPlaceholder}
                 value={searchLocation}
                 onPlaceSelected={(place) => {
                   setSearchLocation(place.formatted_address || "");
@@ -287,7 +290,7 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
               {ourSearchLoading ? (
                 <>
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  <span>Searching...</span>
+                  <span>{t.searching}</span>
                 </>
               ) : (
                 <>
@@ -295,7 +298,7 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
                     <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2"/>
                     <path d="M21 21L16.65 16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                  <span>Search Jobs</span>
+                  <span>{t.searchJobs}</span>
                 </>
               )}
             </button>
@@ -306,7 +309,7 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-600">
                   <path d="M22 3H2L10 12.46V19L14 21V12.46L22 3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                <span className="text-gray-700 font-medium">Filters</span>
+                <span className="text-gray-700 font-medium">{t.filters}</span>
               </button>
             </div>
           </div>
@@ -318,12 +321,12 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
             {!ourSearchLoading && (
               <div className="flex items-center gap-4">
                 <h3 className="text-2xl font-bold text-gray-900">
-                  {jobListData.length} {totalJobs !== 0 ? `of ${totalJobs.toLocaleString()}` : ''} Jobs Found
+                  {jobListData.length} {totalJobs !== 0 ? `${t.of} ${totalJobs.toLocaleString()}` : ''} {t.jobsFound}
                 </h3>
                 {totalJobs > 0 && (
                   <div className="flex items-center gap-2 px-3 py-1 bg-green-100 rounded-full">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-green-700 text-sm font-medium">Live Results</span>
+                    <span className="text-green-700 text-sm font-medium">{t.liveResults}</span>
                   </div>
                 )}
               </div>
@@ -347,7 +350,7 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
               alt="moil logo" 
               className="w-6 h-4" 
             />
-            <span className="text-gray-700 font-medium text-sm">One-Click Apply</span>
+            <span className="text-gray-700 font-medium text-sm">{t.oneClickApply}</span>
             <div className="w-2 h-2 bg-[#FF6633] rounded-full animate-pulse"></div>
           </div>
         </div>
@@ -384,6 +387,8 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
                 recruitmentDuration={item.applicationDeadline}
                 JobLocation={`${item.location.city}, ${item.location.state}`}
                 indeed={item.indeed}
+                recruitingUntilLabel={t.recruitingUntil}
+                viewDetailsLabel={t.viewJobDetails}
                 jobUrl={buildCandidateJobUrl(item.custom_name, { 
                   lg: pageLang,
                   ...(refQuery && { ref: refQuery })
@@ -402,8 +407,8 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
                 <path d="M21 21L16.65 16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No jobs found</h3>
-            <p className="text-gray-600 mb-6">Try adjusting your search criteria or explore different keywords</p>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">{t.noJobsFound}</h3>
+            <p className="text-gray-600 mb-6">{t.adjustCriteria}</p>
             <button
               onClick={() => {
                 setSearchJob("");
@@ -412,7 +417,7 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
               }}
               className="px-6 py-3 bg-[#FF6633] text-white font-medium rounded-xl hover:bg-[#ea580c] transition-colors"
             >
-              Clear Filters
+              {t.clearFilters}
             </button>
           </div>
         )}
