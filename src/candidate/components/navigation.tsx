@@ -74,8 +74,8 @@ export default function CandidateNavigation({
             <a href="#voice-assistant" className="px-3 py-2 text-xs text-gray-600 hover:text-[#5843BE] rounded-full hover:bg-gray-100/50 transition-all">
               Voice Assistant
             </a>
-            <a href="#bilingual" className="px-3 py-2 text-xs text-gray-600 hover:text-[#5843BE] rounded-full hover:bg-gray-100/50 transition-all">
-              Bilingual
+            <a target="_blank" href="https://blog.moilapp.com" className="px-3 py-2 text-xs text-gray-600 hover:text-[#5843BE] rounded-full hover:bg-gray-100/50 transition-all">
+              Blog
             </a>
           </div>
 
