@@ -1,133 +1,108 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { MessageSquare, Search, FileText, Palette, Users, TrendingUp } from "lucide-react";
 
-const researchHighlights = [
-  {
-    icon: (
-      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
-      </svg>
-    ),
-    title: "Market Size Analysis",
-    description: "TAM, SAM, SOM calculations with growth projections"
-  },
-  {
-    icon: (
-      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/>
-      </svg>
-    ),
-    title: "Customer Personas",
-    description: "Detailed buyer profiles with demographics & behaviors"
-  },
-  {
-    icon: (
-      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-      </svg>
-    ),
-    title: "Competitive Analysis",
-    description: "Competitor mapping with pricing & positioning insights"
-  },
-  {
-    icon: (
-      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
-        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clipRule="evenodd"/>
-      </svg>
-    ),
-    title: "Financial Models",
-    description: "Revenue projections, cost structure & funding needs"
-  }
-];
-
-const businessPlanSteps = [
+const journeySteps = [
   {
     id: 1,
-    title: "Business Overview",
-    description: "Analyzing your business model and core value proposition",
-    image: "business_overview.jpg",
-    color: "from-[#5843BD] to-[#4a3ba0]",
-    duration: "2 min",
-    icon: (
-      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm2 2h8v2H6V6zm0 4h8v2H6v-2z" clipRule="evenodd"/>
-      </svg>
-    )
+    step: "STEP 1",
+    title: "Answer 21 Strategic Questions",
+    duration: "5-10 min",
+    description: "Kickstart with our AI business coach via voice or text (English/Spanish).",
+    valueDelivered: [
+      "Deep understanding of your business model",
+      "Clear gaps, strengths, and opportunities identified",
+      "Strong foundation for research + personalized launch roadmap"
+    ],
+    tagline: "Start your AI-powered business journey effortlessly.",
+    icon: <MessageSquare className="w-7 h-7" />,
+    color: "from-[#5843BD] to-[#4a3ba0]"
   },
   {
     id: 2,
-    title: "Market & Audience",
-    description: "Identifying target market and customer segments",
-    image: "market_audience.png",
-    color: "from-[#FF6633] to-[#e55a2b]",
-    duration: "3 min",
-    icon: (
-      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
-      </svg>
-    )
+    step: "STEP 2",
+    title: "Comprehensive Market Research",
+    duration: "Automated",
+    description: "Your AI business coach instantly runs deep automated market research using your answers—analyzing real data on size, competition, demographics, and validation.",
+    valueDelivered: [
+      "TAM/SAM/SOM calculations",
+      "Competitive landscape mapping",
+      "Detailed customer personas",
+      "Opportunity scoring & validation"
+    ],
+    tagline: "",
+    icon: <Search className="w-7 h-7" />,
+    color: "from-[#FF6633] to-[#e55a2b]"
   },
   {
     id: 3,
-    title: "Competitive Analysis",
-    description: "Mapping competitors and market positioning",
-    image: "competitor.jpg",
-    color: "from-[#5843BD] to-[#FF6633]",
-    duration: "4 min",
-    icon: (
-      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-      </svg>
-    )
+    step: "STEP 3",
+    title: "Generate Investor-Ready Business Plan",
+    duration: "One Click",
+    description: "Download a polished PDF ready for investors, banks, or partners—built fast and smart with AI for small business.",
+    valueDelivered: [
+      "Compelling executive summary",
+      "5-year financial projections & revenue/cost models",
+      "Go-to-market + marketing strategy",
+      "Operational roadmap",
+      "Funding requirements analysis"
+    ],
+    tagline: "",
+    icon: <FileText className="w-7 h-7" />,
+    color: "from-[#5843BD] to-[#FF6633]"
   },
   {
     id: 4,
-    title: "Business Model",
-    description: "Finalizing your complete business strategy",
-    image: "business_model.jpg",
-    color: "from-[#5843BD] to-[#4a3ba0]",
-    duration: "2 min",
-    icon: (
-      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"/>
-      </svg>
-    )
+    step: "STEP 4",
+    title: "Launch Marketing & Build Presence",
+    duration: "AI Tools",
+    description: "Create professional marketing materials and establish your brand presence with AI-powered tools.",
+    valueDelivered: [
+      "Blog posts, social media, emails, ad copy",
+      "Graphics, product images, posts",
+      "Contracts, proposals, branding (logos, colors, messaging)",
+      "SEO keyword research + website content"
+    ],
+    tagline: "",
+    icon: <Palette className="w-7 h-7" />,
+    color: "from-[#5843BD] to-[#4a3ba0]"
   },
   {
     id: 5,
-    title: "Financial Projections",
-    description: "Creating revenue models and funding requirements",
-    image: "Financials.jpg",
-    color: "from-[#FF6633] to-[#5843BD]",
-    duration: "3 min",
-    icon: (
-      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
-      </svg>
-    )
+    step: "STEP 5",
+    title: "Smart Hiring & Team Building",
+    duration: "2 min to post + ongoing",
+    description: "Scale confidently with AI hiring tools that craft optimized job descriptions, auto-post to 10+ platforms (incl. local Facebook groups), and deliver 95% accurate candidate matching.",
+    valueDelivered: [
+      "Skills/location/experience scoring",
+      "Interview questions generation",
+      "Automated candidate screening"
+    ],
+    tagline: "",
+    icon: <Users className="w-7 h-7" />,
+    color: "from-[#FF6633] to-[#5843BD]"
+  },
+  {
+    id: 6,
+    step: "STEP 6",
+    title: "Ongoing Growth Coaching",
+    duration: "24/7 AI Partner",
+    description: "The more you use it, the better it knows your business—your dedicated AI business coach for sustained growth.",
+    valueDelivered: [
+      "24/7 advice & troubleshooting",
+      "Cash flow/financial guidance",
+      "Marketing refinements",
+      "Customer retention tactics",
+      "Scaling + hiring recommendations",
+      "Industry insights/alerts"
+    ],
+    tagline: "",
+    icon: <TrendingUp className="w-7 h-7" />,
+    color: "from-[#5843BD] to-[#4a3ba0]"
   }
 ];
 
 export default function MarketResearch() {
-  const [businessType, setBusinessType] = useState("");
-  const [location, setLocation] = useState("austin");
-  const [targetMarket, setTargetMarket] = useState("young-professionals");
-  const [showResults, setShowResults] = useState(false);
-  const [activeStep, setActiveStep] = useState(1);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveStep(prev => prev >= 5 ? 1 : prev + 1);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const generateSampleResearch = () => {
-    setShowResults(true);
-  };
-
   return (
     <section className="relative py-8 md:py-16 lg:py-24 xl:py-32 overflow-hidden" id="research">
       {/* Sophisticated White to Purple Gradient Background */}
@@ -174,206 +149,106 @@ export default function MarketResearch() {
         <div className="text-center mb-8 md:mb-12 lg:mb-16 xl:mb-20 px-4">
           <div className="inline-flex items-center gap-2 px-4 py-2 md:px-6 bg-white border border-gray-200 rounded-full text-xs md:text-sm font-medium mb-4 md:mb-6 text-gray-700 shadow-sm">
             <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-[#5843BD] rounded-full"></div>
-            AI-Powered Research
+            Your Business Journey
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 lg:mb-6 text-gray-900 leading-tight">
-            Complete Business Plan{" "}
-            <span className="text-[#5843BD]">in Minutes</span>
+            From Questions to Growth:{" "}
+            <span className="text-[#5843BD]">Your Complete Journey</span>
           </h2>
           <p className="text-sm md:text-base lg:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Skip expensive consultants and months of research. Our AI generates comprehensive 
-            business plans that helped 200+ businesses secure funding and make informed decisions.
+            Your AI Business Coach guides you through every stage of building your business—from validating your
+            idea to scaling with a team. Here&apos;s how it works.
           </p>
         </div>
 
-        {/* Research Highlights */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12 lg:mb-16 xl:mb-20 px-4">
-          {researchHighlights.map((highlight, index) => (
-            <div key={index} className="group bg-white rounded-lg md:rounded-xl p-4 md:p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-              <div className="w-10 h-10 md:w-12 md:h-12 bg-[#5843BD] rounded-lg flex items-center justify-center text-white mb-3 md:mb-4 group-hover:bg-[#FF6633] transition-colors duration-300">
-                {highlight.icon}
-              </div>
-              <h4 className="text-base md:text-lg font-semibold text-gray-900 mb-2">{highlight.title}</h4>
-              <p className="text-gray-600 text-xs md:text-sm leading-relaxed">{highlight.description}</p>
-            </div>
-          ))}
-        </div>
+                {/* 6-Step Journey Tree */}
+        <div className="relative max-w-6xl mx-auto mt-12 md:mt-20 px-4">
+          {/* Central Line (Desktop) / Left Line (Mobile) */}
+          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#5843BD] via-[#FF6633] to-[#5843BD] md:-translate-x-1/2 opacity-30"></div>
 
-        {/* Business Plan Steps - Sophisticated Timeline Design */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h3 className="text-2xl font-bold text-gray-900 mb-3">
-              Business Plan Generation Process
-            </h3>
-            <p className="text-gray-600">An elegant, step-by-step journey to your complete business plan</p>
-          </div>
+          {journeySteps.map((step, index) => {
+            const isRight = index % 2 !== 0; // Index 0 (Left), Index 1 (Right)
 
-          <div className="relative max-w-4xl mx-auto">
-            {/* Vertical Line */}
-            <div className="absolute left-4 top-4 bottom-4 w-0.5 bg-gray-200 lg:left-1/2 lg:-translate-x-1/2"></div>
+            return (
+              <div key={step.id} className={`relative flex items-center mb-16 last:mb-0 md:justify-between w-full ${isRight ? 'md:flex-row-reverse' : ''}`}>
+                
+                {/* Timeline Dot */}
+                <div className="absolute left-8 md:left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white border-4 border-[#5843BD] z-10 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-xs font-bold text-[#5843BD]">{step.id}</span>
+                </div>
 
-            {businessPlanSteps.map((step, index) => {
-              const isCompleted = activeStep > step.id;
-              const isActive = activeStep === step.id;
-              const isEven = index % 2 === 0;
+                {/* Connecting Line (Mobile Only - Horizontal) */}
+                <div className="absolute left-12 w-8 h-0.5 bg-[#5843BD]/30 md:hidden"></div>
 
-              return (
-                <div
-                  key={step.id}
-                  className={`relative flex items-center mb-8 w-full cursor-pointer group ${
-                    isEven ? 'lg:flex-row-reverse' : ''
-                  }`}
-                  onClick={() => setActiveStep(step.id)}
-                >
-                  {/* Timeline Dot */}
-                  <div className={`absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-4 border-white ring-4 transition-all duration-300 lg:left-1/2 lg:-translate-x-1/2 z-10 ${
-                    isActive ? 'ring-[#5843BD] bg-[#5843BD]' : isCompleted ? 'ring-gray-400 bg-gray-400' : 'ring-gray-300 bg-gray-300'
-                  }`}>
-                  </div>
+                {/* Content Card */}
+                <div className={`w-full pl-20 md:pl-0 md:w-[calc(50%-40px)]`}>
+                  <div className="group bg-white rounded-2xl p-6 md:p-8 border border-gray-200 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
+                    
+                    {/* Hover Gradient Effect */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${step.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
 
-                  {/* Content Card */}
-                  <div className={`w-full ml-12 lg:ml-0 lg:w-[calc(50%-2rem)] ${
-                    isEven ? 'lg:mr-[calc(50%+2rem)]' : 'lg:ml-[calc(50%+2rem)]'
-                  }`}>
-                    <div className={`bg-white rounded-xl p-6 border-2 transition-all duration-300 shadow-sm hover:shadow-lg hover:border-[#FF6633] ${
-                      isActive ? 'border-[#5843BD] shadow-lg' : 'border-gray-200'
-                    }`}>
-                      <div className={`flex items-center justify-between mb-2 ${
-                        isEven ? 'lg:flex-row-reverse' : ''
-                      }`}>
-                        <h4 className={`text-lg font-semibold transition-colors duration-300 ${
-                          isActive ? 'text-[#5843BD]' : 'text-gray-900 group-hover:text-[#FF6633]'
-                        }`}>
-                          {step.title}
-                        </h4>
-                        <div className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 ${
-                          isActive ? 'bg-[#5843BD]/10 text-[#5843BD]' : 'bg-gray-100 text-gray-600'
-                        }`}>
-                          {step.duration}
-                        </div>
+                    {/* Step Header */}
+                    <div className="flex items-center justify-between mb-4 relative z-10">
+                      <div className={`w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br ${step.color} rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                        {step.icon}
                       </div>
-                      <p className="text-gray-600 text-sm leading-relaxed">
-                        {step.description}
-                      </p>
+                      <div className="px-3 py-1.5 bg-gray-100 rounded-full text-xs md:text-sm font-medium text-gray-600">
+                        {step.duration}
+                      </div>
                     </div>
+
+                    {/* Step Badge */}
+                    <div className="inline-flex items-center gap-2 mb-3 relative z-10">
+                      <span className="text-xs font-bold text-[#5843BD] bg-[#5843BD]/10 px-2 py-1 rounded">{step.step}</span>
+                    </div>
+
+                    {/* Title & Description */}
+                    <h4 className="text-lg md:text-xl font-bold text-gray-900 mb-3 group-hover:text-[#5843BD] transition-colors relative z-10">
+                      {step.title}
+                    </h4>
+                    <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-4 relative z-10">
+                      {step.description}
+                    </p>
+
+                    {/* Value Delivered */}
+                    <div className="mt-4 border-t border-gray-100 pt-4 relative z-10">
+                      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Key Outputs:</div>
+                      <ul className="space-y-2">
+                        {step.valueDelivered.map((value, idx) => (
+                          <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
+                            <div className="w-5 h-5 rounded-full bg-[#5843BD]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                              <svg className="w-3 h-3 text-[#5843BD]" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                              </svg>
+                            </div>
+                            <span className="text-gray-600 group-hover:text-gray-900 transition-colors">{value}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Tagline (if exists) */}
+                    {step.tagline && (
+                      <div className="mt-4 pt-4 border-t border-gray-100 relative z-10">
+                        <p className="text-sm font-medium text-[#FF6633] italic flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#FF6633]"></span>
+                          {step.tagline}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Interactive Demo - Sophisticated Redesign */}
-        <div className="bg-white/60 backdrop-blur-xl rounded-3xl border border-white/30 shadow-2xl overflow-hidden">
-          <div className="grid lg:grid-cols-2 items-center">
-            {/* Prominent Image Section */}
-            <div className="relative p-8 bg-gradient-to-br from-gray-50 to-gray-100 h-full flex items-center justify-center">
-              <img 
-                src={`/${businessPlanSteps[activeStep - 1]?.image}`} 
-                alt={businessPlanSteps[activeStep - 1]?.title}
-                className="aspect-[] max-w-full object-contain filter drop-shadow-2xl transition-all duration-500 ease-in-out transform group-hover:scale-105"
-              />
-              <div className="absolute top-6 right-6 bg-[#5843BD] text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
-                Step {activeStep} / 5
               </div>
-            </div>
-
-            {/* Content Section */}
-            <div className="p-8 lg:p-12">
-              <h3 className="text-2xl font-bold mb-4 text-gray-900">
-                {businessPlanSteps[activeStep - 1]?.title}
-              </h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                {businessPlanSteps[activeStep - 1]?.description}
-              </p>
-              
-              {/* Progress Bar */}
-              <div className="mb-6">
-                <div className="flex justify-between items-center mb-2 text-sm font-medium">
-                  <span className="text-gray-600">AI Analysis</span>
-                  <span className="text-[#5843BD]">{activeStep * 20}% Complete</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
-                  <div 
-                    className="h-2.5 rounded-full bg-gradient-to-r from-[#5843BD] to-[#FF6633] transition-all duration-700"
-                    style={{ width: `${(activeStep / 5) * 100}%` }}
-                  ></div>
-                </div>
-              </div>
-
-              {/* Demo Features */}
-              <div className="space-y-3">
-                {activeStep === 1 && (
-                  <>
-                    <div className="flex items-center gap-3 p-3 bg-white/70 rounded-lg border border-gray-200/50 shadow-sm">
-                      <div className="w-2.5 h-2.5 bg-[#5843BD] rounded-full animate-pulse"></div>
-                      <span className="text-gray-700 font-medium">Scanning business model...</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 bg-white/70 rounded-lg border border-gray-200/50 shadow-sm">
-                      <div className="w-2.5 h-2.5 bg-[#5843BD] rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-                      <span className="text-gray-700 font-medium">Analyzing value proposition...</span>
-                    </div>
-                  </>
-                )}
-                {activeStep === 2 && (
-                  <>
-                    <div className="flex items-center gap-3 p-3 bg-white/70 rounded-lg border border-gray-200/50 shadow-sm">
-                      <div className="w-2.5 h-2.5 bg-[#FF6633] rounded-full animate-pulse"></div>
-                      <span className="text-gray-700 font-medium">Identifying target demographics</span>
-                    </div>
-                     <div className="flex items-center gap-3 p-3 bg-white/70 rounded-lg border border-gray-200/50 shadow-sm">
-                      <div className="w-2.5 h-2.5 bg-[#FF6633] rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-                      <span className="text-gray-700 font-medium">Analyzing market size: $2.4B</span>
-                    </div>
-                  </>
-                )}
-                {activeStep === 3 && (
-                  <>
-                    <div className="flex items-center gap-3 p-3 bg-white/70 rounded-lg border border-gray-200/50 shadow-sm">
-                      <div className="w-2.5 h-2.5 bg-[#5843BD] rounded-full animate-pulse"></div>
-                      <span className="text-gray-700 font-medium">Mapping 12 direct competitors</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 bg-white/70 rounded-lg border border-gray-200/50 shadow-sm">
-                      <div className="w-2.5 h-2.5 bg-[#5843BD] rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-                      <span className="text-gray-700 font-medium">Analyzing pricing strategies</span>
-                    </div>
-                  </>
-                )}
-                {activeStep === 4 && (
-                  <>
-                    <div className="flex items-center gap-3 p-3 bg-white/70 rounded-lg border border-gray-200/50 shadow-sm">
-                      <div className="w-2.5 h-2.5 bg-[#FF6633] rounded-full animate-pulse"></div>
-                      <span className="text-gray-700 font-medium">Creating 5-year revenue model</span>
-                    </div>
-                     <div className="flex items-center gap-3 p-3 bg-white/70 rounded-lg border-gray-200/50 shadow-sm">
-                      <div className="w-2.5 h-2.5 bg-[#FF6633] rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-                      <span className="text-gray-700 font-medium">ROI projections: 340% in 3 years</span>
-                    </div>
-                  </>
-                )}
-                {activeStep === 5 && (
-                  <>
-                    <div className="flex items-center gap-3 p-3 bg-white/70 rounded-lg border border-gray-200/50 shadow-sm">
-                      <div className="w-2.5 h-2.5 bg-[#5843BD] rounded-full animate-pulse"></div>
-                      <span className="text-gray-700 font-medium">Generating executive summary</span>
-                    </div>
-                     <div className="flex items-center gap-3 p-3 bg-white/70 rounded-lg border border-gray-200/50 shadow-sm">
-                      <div className="w-2.5 h-2.5 bg-[#5843BD] rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-                      <span className="text-gray-700 font-medium">Finalizing business strategy</span>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
 
         {/* Clean CTA */}
-        <div className="text-center mt-16">
-          <button className="bg-[#5843BD] hover:bg-[#4a3ba0] text-white font-semibold py-4 px-8 rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl">
-            Generate My Business Plan
+        <div className="text-center mt-12 md:mt-16 lg:mt-20">
+          <button className="bg-[#5843BD] hover:bg-[#4a3ba0] text-white font-semibold py-4 px-8 rounded-xl transition-colors duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+            Start Your AI-Powered Journey
           </button>
-          <p className="text-gray-600 mt-4">Complete business plan ready in under 15 minutes</p>
+          <p className="text-gray-600 mt-4 text-sm md:text-base">From idea to growth—your complete business journey starts here</p>
         </div>
       </div>
     </section>

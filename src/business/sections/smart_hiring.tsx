@@ -1,88 +1,62 @@
 "use client";
 
 import { openBusinessRegister } from "../utils/urlBuilder";
+import { MessageSquare, FileText, Share2, Users, UserCheck } from "lucide-react";
 
-const hiringHighlights = [
+const hiringSteps = [
   {
-    icon: (
-      <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
-        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
-      </svg>
-    ),
-    title: "Smart Job Distribution",
-    description: "Auto-posting to 10+ Facebook groups, 3x weekly for maximum reach",
-    metric: "10+ Groups",
+    step: "1",
+    title: "Tell Your AI Coach What You Need",
+    example: '"I need to hire a skilled plumber for residential work in Austin"',
+    icon: <MessageSquare className="w-6 h-6" />,
     gradient: "from-[#5843BD] to-purple-600"
   },
   {
-    icon: (
-      <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/>
-      </svg>
-    ),
-    title: "AI Candidate Matching",
-    description: "Skills analysis, location scoring, and 95% match confidence ratings",
-    metric: "95% Accuracy",
-    gradient: "from-green-500 to-teal-600"
-  },
-  {
-    icon: (
-      <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-      </svg>
-    ),
-    title: "Auto-Generated Skill Tests",
-    description: "Custom assessments based on job requirements to screen candidates",
-    metric: "2 Min Setup",
+    step: "2",
+    title: "AI Generates Everything",
+    outputs: [
+      "Complete job description with requirements",
+      "Skills assessment and screening questions",
+      "Competitive salary recommendations",
+      "Optimized posting copy for maximum reach"
+    ],
+    icon: <FileText className="w-6 h-6" />,
     gradient: "from-[#FF6633] to-orange-600"
   },
   {
-    icon: (
-      <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
-      </svg>
-    ),
-    title: "Real-Time Tracking",
-    description: "Application dashboard with interview scheduling and analytics",
-    metric: "Live Updates",
-    gradient: "from-purple-500 to-pink-600"
-  }
-];
-
-const featureShowcase = [
-  {
-    icon: (
-      <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
-        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
-      </svg>
-    ),
-    title: "Social Media Reach",
-    description: "Austin Jobs, Round Rock Hiring, Cedar Park Opportunities, Local Tech Jobs...",
-    detail: "Weekly Distribution: Monday: Initial post • Wednesday: Highlight skills • Friday: Deadline reminder",
+    step: "3",
+    title: "Auto-Posts to 10+ Platforms",
+    platforms: "Austin Jobs • Round Rock Hiring • Cedar Park Opportunities • Spanish Job Groups • Local Trade Networks • 5+ more targeted groups",
+    distribution: [
+      { day: "Monday", action: "Initial post with AI-optimized copy" },
+      { day: "Wednesday", action: "Skills highlight and benefits" },
+      { day: "Friday", action: "Application deadline reminder" }
+    ],
+    icon: <Share2 className="w-6 h-6" />,
     gradient: "from-[#5843BD] to-purple-600"
   },
   {
-    icon: (
-      <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/>
-      </svg>
-    ),
-    title: "AI Candidate Matching",
-    description: "95% match: Perfect fit • 85% match: Strong candidate • 75% match: Worth reviewing",
-    detail: "Skills Analysis + Location Scoring + Experience Match",
+    step: "4",
+    title: "AI Matches & Scores Candidates",
+    scoring: [
+      "Skills match analysis",
+      "Location proximity scoring",
+      "Experience level matching",
+      "Language requirements (EN/ES)"
+    ],
+    matchRatings: [
+      { percent: "95%", label: "Perfect fit—interview immediately" },
+      { percent: "85%", label: "Strong candidate—review priority" },
+      { percent: "75%", label: "Worth considering" }
+    ],
+    icon: <Users className="w-6 h-6" />,
     gradient: "from-green-500 to-teal-600"
   },
   {
-    icon: (
-      <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd"/>
-      </svg>
-    ),
-    title: "2-Minute Job Posting",
-    description: "AI generates job descriptions, roles, and required skills automatically",
-    detail: "Just enter job title → AI creates everything else",
+    step: "5",
+    title: "You Interview Top Matches",
+    description: "Review ranked candidates, schedule interviews, and hire with confidence.",
+    icon: <UserCheck className="w-6 h-6" />,
     gradient: "from-[#FF6633] to-orange-600"
   }
 ];
@@ -90,7 +64,12 @@ const featureShowcase = [
 const stats = [
   { number: "5x", label: "Faster than Indeed" },
   { number: "94%", label: "Interview success rate" },
-  { number: "5,000+", label: "Jobs posted monthly" }
+  { number: "91%", label: "Retention at 90 days" },
+  { number: "58%", label: "Bilingual candidates (vs. 22% avg)" },
+  { number: "$850", label: "Avg cost per hire (vs. $2,400)" },
+  { number: "11 days", label: "Avg time to hire (vs. 32 days)" },
+  { number: "5,000+", label: "Jobs posted monthly" },
+  { number: "500+", label: "Businesses hiring with confidence" }
 ];
 
 interface SmartHiringProps {
@@ -123,161 +102,164 @@ export default function SmartHiring({ refQuery, lgQuery }: SmartHiringProps) {
             <div className="w-2 h-2 bg-[#FF6633] rounded-full animate-pulse"></div>
             AI-Powered Hiring
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-bold mb-4 md:mb-6 lg:mb-8 leading-tight">
-            <span className="bg-gradient-to-r from-[#5843BD] via-purple-600 to-[#5843BD] bg-clip-text text-transparent">Smart </span>
-            <span className="bg-gradient-to-r from-[#FF6633] via-orange-500 to-[#FF6633] bg-clip-text text-transparent">Hiring Platform</span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 lg:mb-8 leading-tight">
+            <span className="bg-gradient-to-r from-[#5843BD] via-purple-600 to-[#5843BD] bg-clip-text text-transparent">Build Your Team </span>
+            <span className="bg-gradient-to-r from-[#FF6633] via-orange-500 to-[#FF6633] bg-clip-text text-transparent">5x Faster</span>
           </h2>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed px-4">
-            AI-powered recruiting tools that find, screen, and match the best local talent. 
-            Post once, reach everywhere with automated distribution to 10+ groups per city.
+            Your AI Coach doesn&apos;t just plan your business—it helps you build your team. Post once,
+            reach 10+ platforms, and get matched with qualified candidates automatically.
           </p>
         </div>
 
-        {/* Feature Cards Grid - Premium Design */}
-        <div className="max-w-7xl mx-auto mb-8 md:mb-12 lg:mb-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            {hiringHighlights.map((highlight, index) => (
-              <div key={index} className="group relative bg-white/80 backdrop-blur-xl rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 border border-white/60 hover:border-[#5843BD]/30 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] overflow-hidden">
-                {/* Animated Gradient Border Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-[#5843BD]/0 via-[#5843BD]/5 to-[#FF6633]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
-                
-                <div className="relative z-10">
-                  <div className="flex items-start justify-between mb-4 md:mb-6">
-                    <div className={`w-12 h-12 md:w-14 lg:w-16 md:h-14 lg:h-16 bg-gradient-to-br ${highlight.gradient} rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                      <div className="scale-125">
-                        {highlight.icon}
+        {/* How AI-Powered Hiring Works - Section Title */}
+        <div className="text-center mb-8 md:mb-12">
+          <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#5843BD]">How AI-Powered Hiring Works</h3>
+        </div>
+
+        {/* 5-Step Hiring Process */}
+        <div className="max-w-4xl mx-auto mb-12 md:mb-16 lg:mb-20 space-y-6 md:space-y-8">
+          {hiringSteps.map((step, index) => (
+            <div key={index} className="group relative bg-white/90 backdrop-blur-xl rounded-2xl p-6 md:p-8 border border-white/60 hover:border-[#5843BD]/30 shadow-lg hover:shadow-xl transition-all duration-300">
+              <div className="flex items-start gap-4 md:gap-6">
+                {/* Step Number & Icon */}
+                <div className="flex-shrink-0">
+                  <div className={`w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br ${step.gradient} rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    {step.icon}
+                  </div>
+                  <div className="text-center mt-2">
+                    <span className="text-xs font-bold text-[#5843BD] bg-[#5843BD]/10 px-2 py-1 rounded">Step {step.step}</span>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="flex-1">
+                  <h4 className="text-lg md:text-xl font-bold text-gray-900 mb-3 group-hover:text-[#5843BD] transition-colors">
+                    {step.title}
+                  </h4>
+
+                  {/* Step 1: Example quote */}
+                  {step.example && (
+                    <div className="bg-[#5843BD]/5 border-l-4 border-[#5843BD] p-4 rounded-r-lg italic text-gray-700">
+                      {step.example}
+                    </div>
+                  )}
+
+                  {/* Step 2: Outputs list */}
+                  {step.outputs && (
+                    <ul className="space-y-2">
+                      {step.outputs.map((output, idx) => (
+                        <li key={idx} className="flex items-center gap-2 text-gray-700">
+                          <svg className="w-5 h-5 text-[#FF6633] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                          </svg>
+                          <span>{output}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {/* Step 3: Platforms & Distribution */}
+                  {step.platforms && (
+                    <div className="space-y-4">
+                      <p className="text-gray-600 text-sm md:text-base">
+                        <span className="font-semibold text-gray-900">Your job reaches:</span> {step.platforms}
+                      </p>
+                      <div className="bg-gray-50 rounded-xl p-4">
+                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Distribution Strategy:</p>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                          {step.distribution?.map((dist, idx) => (
+                            <div key={idx} className="flex items-center gap-2">
+                              <span className="text-xs font-bold text-[#5843BD] bg-[#5843BD]/10 px-2 py-1 rounded">{dist.day}</span>
+                              <span className="text-xs text-gray-600">{dist.action}</span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                    <div className="px-2 py-1 md:px-4 md:py-2 bg-[#FF6633]/10 border border-[#FF6633]/30 text-[#FF6633] text-xs md:text-sm font-medium md:font-bold rounded-full backdrop-blur-sm">
-                      {highlight.metric}
+                  )}
+
+                  {/* Step 4: Scoring & Match Ratings */}
+                  {step.scoring && (
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900 mb-2">Every applicant gets scored on:</p>
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          {step.scoring.map((score, idx) => (
+                            <li key={idx} className="flex items-center gap-2 text-gray-700 text-sm">
+                              <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                              </svg>
+                              <span>{score}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-xl p-4">
+                        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Match Ratings:</p>
+                        <div className="space-y-2">
+                          {step.matchRatings?.map((rating, idx) => (
+                            <div key={idx} className="flex items-center gap-3">
+                              <span className="text-sm font-bold text-green-600 bg-green-100 px-2 py-1 rounded min-w-[50px] text-center">{rating.percent}</span>
+                              <span className="text-sm text-gray-700">{rating.label}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <h4 className="text-lg md:text-xl lg:text-2xl font-bold text-[#5843BD] mb-2 md:mb-3">{highlight.title}</h4>
-                  <p className="text-sm md:text-base text-gray-600 leading-relaxed">{highlight.description}</p>
+                  )}
+
+                  {/* Step 5: Description */}
+                  {step.description && (
+                    <p className="text-gray-600 text-sm md:text-base">{step.description}</p>
+                  )}
                 </div>
-
-                {/* Decorative Corner Element */}
-                <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-gradient-to-br from-[#FF6633]/10 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Feature Showcase - Premium Bento Grid Style */}
-        <div className="max-w-6xl mx-auto mb-8 md:mb-12 lg:mb-20">
-          <div className="text-center mb-8 md:mb-12 lg:mb-16">
-            <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#5843BD] mb-3 md:mb-4 lg:mb-6">Platform Features</h3>
-            <p className="text-gray-600 text-sm md:text-base lg:text-lg px-4">See how our AI streamlines your entire hiring process</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {featureShowcase.map((feature, index) => (
-              <div key={index} className="group relative bg-white/90 backdrop-blur-2xl rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 border border-white/60 hover:border-[#5843BD]/30 shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
-                {/* Hover Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#5843BD]/0 via-[#5843BD]/5 to-[#FF6633]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                
-                <div className="relative z-10">
-                  <div className={`w-10 h-10 md:w-12 lg:w-14 md:h-12 lg:h-14 bg-gradient-to-br ${feature.gradient} rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 shadow-xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                    <div className="scale-150">
-                      {feature.icon}
-                    </div>
-                  </div>
-                  
-                  <h5 className="text-lg md:text-xl font-bold text-[#5843BD] mb-3 md:mb-4">{feature.title}</h5>
-                  <p className="text-gray-600 text-xs md:text-sm mb-3 md:mb-4 leading-relaxed">{feature.description}</p>
-                  <div className="pt-4 border-t border-gray-200">
-                    <p className="text-gray-500 text-xs leading-relaxed">{feature.detail}</p>
-                  </div>
-                </div>
-
-                {/* Corner Accent */}
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#FF6633]/10 to-transparent rounded-bl-full opacity-50"></div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Stats Section - Glassmorphism Cards */}
-        <div className="max-w-5xl mx-auto mb-8 md:mb-12 lg:mb-20">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            {stats.map((stat, index) => (
-              <div key={index} className="group relative bg-white/90 backdrop-blur-2xl rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-10 border border-white/60 hover:border-[#5843BD]/30 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 text-center overflow-hidden">
-                {/* Animated Background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#5843BD]/0 via-[#5843BD]/5 to-[#FF6633]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                
-                <div className="relative z-10">
-                  <div className="text-3xl md:text-4xl lg:text-6xl font-bold text-[#5843BD] mb-2 md:mb-3 lg:mb-4 group-hover:scale-110 transition-transform duration-300">
-                    {stat.number}
-                  </div>
-                  <div className="text-gray-600 font-medium md:font-semibold text-xs md:text-sm uppercase tracking-wider">{stat.label}</div>
-                </div>
-
-                {/* Decorative Element */}
-                <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#5843BD]/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Premium CTA Section - Market Research Focus */}
-        <div className="relative max-w-6xl mx-auto">
-          {/* Background Elements */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#5843BD]/10 via-transparent to-[#FF6633]/10 rounded-3xl blur-3xl"></div>
-          <div className="absolute -top-8 -left-8 w-32 h-32 bg-[#5843BD]/20 rounded-full blur-2xl animate-pulse"></div>
-          <div className="absolute -bottom-8 -right-8 w-40 h-40 bg-[#FF6633]/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-          
-          <div className="relative bg-gradient-to-br from-white/95 via-white/90 to-white/95 backdrop-blur-3xl rounded-2xl md:rounded-3xl border border-white/50 shadow-2xl overflow-hidden">
-            {/* Animated Border */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#5843BD]/20 via-[#FF6633]/20 to-[#5843BD]/20 opacity-50 animate-pulse rounded-3xl"></div>
-            
-            <div className="relative z-10 p-6 md:p-10 lg:p-16 text-center">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-2 md:px-4 bg-gradient-to-r from-[#5843BD]/10 to-[#FF6633]/10 border border-[#5843BD]/20 rounded-full text-xs md:text-sm font-medium md:font-semibold text-[#5843BD] mb-4 md:mb-6 lg:mb-8">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                </svg>
-                Trusted by 500+ Businesses
-              </div>
-
-              {/* Main Heading */}
-              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 leading-tight">
-                <span className="bg-gradient-to-r from-[#5843BD] via-purple-600 to-[#5843BD] bg-clip-text text-transparent">
-                  Ready to Build Your
-                </span>
-                <br />
-                <span className="bg-gradient-to-r from-[#FF6633] via-orange-500 to-[#FF6633] bg-clip-text text-transparent">
-                  Business Plan?
-                </span>
-              </h3>
-
-              {/* Subheading */}
-              <p className="text-sm md:text-base lg:text-xl text-gray-600 mb-6 md:mb-8 lg:mb-12 max-w-3xl mx-auto leading-relaxed px-4">
-                Skip expensive consultants and months of research. Get your comprehensive AI-generated 
-                business plan in minutes, complete with market analysis and financial projections.
-              </p>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <button 
-                  onClick={handleGenerateBusinessPlan}
-                  className="group relative bg-[#5843BD] text-white font-bold py-3 px-6 md:py-4 lg:py-5 md:px-8 lg:px-10 rounded-xl md:rounded-2xl transition-all duration-300 hover:scale-105 shadow-2xl overflow-hidden w-full sm:w-auto min-w-[200px]"
-                >
-                  {/* Button Shine Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
-                  <span className="relative flex items-center justify-center gap-2">
-                    Generate Business Plan
-                    <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                  </span>
-                </button>
               </div>
             </div>
+          ))}
+        </div>
 
-            {/* Floating Elements */}
-            <div className="absolute top-8 right-8 w-16 h-16 bg-gradient-to-br from-[#5843BD]/10 to-transparent rounded-full blur-xl animate-pulse"></div>
-            <div className="absolute bottom-8 left-8 w-20 h-20 bg-gradient-to-br from-[#FF6633]/10 to-transparent rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        {/* Stats Section - Hiring Results */}
+        <div className="max-w-6xl mx-auto mb-12 md:mb-16 lg:mb-20">
+          <div className="text-center mb-8 md:mb-12">
+            <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#5843BD]">Hiring Results That Speak for Themselves</h3>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {stats.map((stat, index) => (
+              <div key={index} className="group relative bg-white/90 backdrop-blur-xl rounded-2xl p-4 md:p-6 border border-white/60 hover:border-[#5843BD]/30 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+                <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#5843BD] mb-1 md:mb-2 group-hover:scale-110 transition-transform duration-300">
+                  {stat.number}
+                </div>
+                <div className="text-gray-600 text-xs md:text-sm">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="relative max-w-4xl mx-auto">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#5843BD]/10 via-transparent to-[#FF6633]/10 rounded-3xl blur-3xl"></div>
+          
+          <div className="relative bg-gradient-to-br from-white/95 via-white/90 to-white/95 backdrop-blur-xl rounded-2xl md:rounded-3xl border border-white/50 shadow-2xl p-8 md:p-12 text-center">
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6">
+              <span className="bg-gradient-to-r from-[#5843BD] to-[#FF6633] bg-clip-text text-transparent">
+                Start Hiring with Your AI Coach
+              </span>
+            </h3>
+            <p className="text-gray-600 mb-6 md:mb-8 max-w-2xl mx-auto">
+              Join 500+ businesses that have transformed their hiring process with AI-powered candidate matching.
+            </p>
+            <button 
+              onClick={handleGenerateBusinessPlan}
+              className="group relative bg-[#5843BD] text-white font-bold py-4 px-8 md:py-5 md:px-10 rounded-xl md:rounded-2xl transition-all duration-300 hover:scale-105 shadow-2xl"
+            >
+              <span className="flex items-center justify-center gap-2">
+                Start Hiring with Your AI Coach
+                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+            </button>
           </div>
         </div>
       </div>

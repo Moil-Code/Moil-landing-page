@@ -2,6 +2,14 @@
 
 import Image from "next/image";
 import { openBusinessRegister } from "../utils/urlBuilder";
+import { 
+  Bot, 
+  Search, 
+  Palette, 
+  Users, 
+  FileText, 
+  Files 
+} from "lucide-react";
 
 interface EnhancedHeroProps {
   onGetStarted?: () => void;
@@ -18,6 +26,46 @@ export default function EnhancedHero({ onGetStarted, refQuery, lgQuery }: Enhanc
     // Scroll to the interactive demo section (services section)
     document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  const features = [
+    {
+      icon: <Bot className="w-5 h-5" />,
+      title: "AI Business Coach",
+      subtitle: "Your Co-Founder",
+      color: "from-blue-500 to-purple-600"
+    },
+    {
+      icon: <Search className="w-5 h-5" />,
+      title: "Market Research",
+      subtitle: "21 Questions to Insights",
+      color: "from-green-500 to-teal-600"
+    },
+    {
+      icon: <Palette className="w-5 h-5" />,
+      title: "Marketing Content",
+      subtitle: "Images, Posts, Documents",
+      color: "from-pink-500 to-rose-600"
+    },
+    {
+      icon: <Users className="w-5 h-5" />,
+      title: "Smart Hiring",
+      subtitle: "Automated Matching",
+      color: "from-orange-500 to-red-600"
+    },
+    {
+      icon: <FileText className="w-5 h-5" />,
+      title: "Business Plans",
+      subtitle: "Investor-Ready",
+      color: "from-purple-500 to-indigo-600"
+    },
+    {
+      icon: <Files className="w-5 h-5" />,
+      title: "Document Creation",
+      subtitle: "Contracts, Proposals, More",
+      color: "from-cyan-500 to-blue-600"
+    }
+  ];
+
   return (
     <section className="hero-redesigned">
       {/* Animated Illustration Background */}
@@ -38,27 +86,28 @@ export default function EnhancedHero({ onGetStarted, refQuery, lgQuery }: Enhanc
             </div>
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-medium font-black mb-4 md:mb-6 lg:mb-8 leading-tight">
               <span className="text-white">
-                Complete Business Growth Platform for SMBs
+              AI Business Coach for Small Business Owners
               </span>
             </h1>
             
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 mb-6 md:mb-8 lg:mb-10 max-w-2xl leading-relaxed">
-              From AI-powered market research and business planning to smart hiring tools. 
-              Everything you need to grow your business in one integrated platform.
+             Meet your intelligent co-founder that guides you from market research to hiring to growth.
+Get business plans, marketing content, and smart hiring—all powered by AI that understands your
+business.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 md:gap-6 mb-8 md:mb-10 lg:mb-12">
               <button 
                 onClick={handleGetStarted}
-                className="bg-gradient-to-r font-medium from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-3 px-6 md:py-4 md:px-8 lg:px-10 rounded-full text-sm md:text-base lg:text-lg transition-all duration-300 hover:scale-105 shadow-2xl hover:shadow-orange-500/25"
+                className="bg-gradient-to-r font-medium from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-3 px-6 md:py-4 md:px-6 lg:px-8 rounded-full text-sm md:text-base lg:text-md transition-all duration-300 hover:scale-105 shadow-2xl hover:shadow-orange-500/25"
               >
-                Get Started Free
+                Get Started Today
               </button>
               <button 
                 onClick={handleSeeDemo}
-                className="border-2 font-medium border-white/30 text-white hover:bg-white/10 font-semibold py-3 px-6 md:py-4 md:px-8 lg:px-10 rounded-full text-sm md:text-base lg:text-lg transition-all duration-300 hover:scale-105 backdrop-blur-sm"
+                className="border-2 font-medium border-white/30 text-white hover:bg-white/10 font-semibold py-3 px-6 md:py-4 md:px-6 lg:px-8 rounded-full text-sm md:text-base lg:text-md transition-all duration-300 hover:scale-105 backdrop-blur-sm"
               >
-                See Demo
+                See Your AI Coach in Action
               </button>
             </div>
 
@@ -142,33 +191,23 @@ export default function EnhancedHero({ onGetStarted, refQuery, lgQuery }: Enhanc
           </div>
         </div>
 
-        {/* Key Features Stats - moved below everything */}
-        <div className="mt-4 lg:mt-4 pt-4">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto text-xs md:text-sm">
-            <div className="flex items-center gap-3 text-white/80 justify-center">
-              <div className="w-6 h-6 md:w-8 md:h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
+        {/* Feature Badges - Bottom Grid */}
+        <div className="mt-8 lg:mt-12 w-full">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 w-full">
+            {features.map((feature, index) => (
+              <div 
+                key={index}
+                className="bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 backdrop-blur-sm rounded-xl p-3 md:p-4 transition-all duration-300 group text-center lg:text-left flex flex-col items-center lg:items-start h-full"
+              >
+                <div className={`w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-br ${feature.color} flex items-center justify-center mb-2 md:mb-3 group-hover:scale-110 transition-transform shadow-lg`}>
+                  <div className="text-white">
+                    {feature.icon}
+                  </div>
+                </div>
+                <h3 className="text-white font-semibold text-xs md:text-sm mb-0.5 md:mb-1 leading-tight">{feature.title}</h3>
+                <p className="text-white/50 text-[10px] md:text-xs leading-tight">{feature.subtitle}</p>
               </div>
-              <span className="font-medium">AI-Powered Research</span>
-            </div>
-            <div className="flex items-center gap-2 md:gap-3 text-white/80 justify-center">
-              <div className="w-6 h-6 md:w-8 md:h-8 bg-gradient-to-r from-green-500 to-teal-600 rounded-lg flex items-center justify-center">
-                <svg className="w-3 h-3 md:w-4 md:h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
-                </svg>
-              </div>
-              <span className="font-medium">Smart Hiring Tools</span>
-            </div>
-            <div className="flex items-center self-center gap-2 md:gap-3 text-white/80 justify-center">
-              <div className="w-6 h-6 md:w-8 md:h-8 bg-gradient-to-r from-orange-500 to-red-600 rounded-lg flex items-center justify-center">
-                <svg className="w-3 h-3 md:w-4 md:h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
-                </svg>
-              </div>
-              <span className="font-medium">Growth Analytics</span>
-            </div>
+            ))}
           </div>
         </div>
       </div>
