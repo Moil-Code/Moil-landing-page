@@ -1,6 +1,7 @@
 "use client";
 
 import { MessageSquare, Search, FileText, Palette, Users, TrendingUp } from "lucide-react";
+import { openBusinessRegister } from "../utils/urlBuilder";
 
 const journeySteps = [
   {
@@ -102,7 +103,12 @@ const journeySteps = [
   }
 ];
 
-export default function MarketResearch() {
+interface MarketResearchProps {
+  refQuery?: string;
+  lgQuery?: string;
+}
+
+export default function MarketResearch({ refQuery, lgQuery }: MarketResearchProps) {
   return (
     <section className="relative py-8 md:py-16 lg:py-24 xl:py-32 overflow-hidden" id="research">
       {/* Sophisticated White to Purple Gradient Background */}
@@ -245,7 +251,7 @@ export default function MarketResearch() {
 
         {/* Clean CTA */}
         <div className="text-center mt-12 md:mt-16 lg:mt-20">
-          <button className="bg-[#5843BD] hover:bg-[#4a3ba0] text-white font-semibold py-4 px-8 rounded-xl transition-colors duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+          <button  onClick={() => openBusinessRegister({ ref: refQuery, lg: lgQuery })} className="bg-[#5843BD] hover:bg-[#4a3ba0] text-white font-semibold py-4 px-8 rounded-xl transition-colors duration-300 shadow-lg hover:shadow-xl hover:scale-105">
             Start Your AI-Powered Journey
           </button>
           <p className="text-gray-600 mt-4 text-sm md:text-base">From idea to growth—your complete business journey starts here</p>

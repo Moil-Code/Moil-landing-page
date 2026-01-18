@@ -73,11 +73,11 @@ export default function BusinessPage() {
           <ServicesShowcase refQuery={refQuery || undefined} lgQuery={queryLg} />
         </div>
         <div id="features">
-          <MarketResearch />
+          <MarketResearch refQuery={refQuery || undefined} lgQuery={queryLg} />
         </div>
         <SmartHiring refQuery={refQuery || undefined} lgQuery={queryLg} />
         <div id="testimonials">
-          <TestimonialsSection />
+          <TestimonialsSection refQuery={refQuery || undefined} lgQuery={queryLg} />
         </div>
         <FAQSection />
         <FinalCTA refQuery={refQuery || undefined} lgQuery={queryLg} />

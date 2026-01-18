@@ -1,12 +1,12 @@
 "use client";
 
 import { openBusinessRegister, buildBusinessUrl } from "../utils/urlBuilder";
-import { 
-  Search, 
-  FileText, 
-  Palette, 
-  Image, 
-  Files, 
+import {
+  Search,
+  FileText,
+  Palette,
+  Image,
+  Files,
   Users,
   Zap,
   Brain,
@@ -335,6 +335,25 @@ export default function ServicesShowcase({ refQuery, lgQuery }: ServicesShowcase
                   <p className="text-white/80 text-sm leading-relaxed flex-grow">Talk to your AI Business Coach completely free. No credit card required to start</p>
                 </div>
               </div>
+            </div>
+
+            <div className="flex mt-10 justify-center items-center">
+
+              <button
+                onClick={() => openBusinessRegister({ ref: refQuery, lg: lgQuery })}
+                className="group relative bg-gradient-to-r from-white to-gray-50 text-[#5843BD] font-black py-5 px-10 md:py-6 md:px-14 rounded-2xl transition-all duration-300 hover:scale-105 shadow-2xl hover:shadow-white/30 overflow-hidden text-lg md:text-xl"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
+                <span className="relative flex items-center justify-center gap-3">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+                  </svg>
+                  Get Your AI Co-Founder Now
+                  <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </span>
+              </button>
             </div>
           </div>
         </div>
