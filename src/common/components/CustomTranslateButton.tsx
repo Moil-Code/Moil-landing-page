@@ -1,6 +1,14 @@
 "use client";
-import React, { useState, useEffect, useCallback } from 'react';
-import { getCookie, hasCookie, setCookie } from 'cookies-next';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { getCookie, hasCookie } from 'cookies-next';
+
+// TypeScript declarations
+declare global {
+  interface Window {
+    google: any;
+    googleTranslateElementInit?: () => void;
+  }
+}
 
 interface CustomTranslateButtonProps {
   setShowLanguageModal: (show: boolean) => void;
@@ -15,6 +23,34 @@ interface CustomTranslateButtonProps {
   iconOnly?: boolean;
   showMobileText?: boolean;
 }
+
+// Helper to trigger Google Translate programmatically
+const triggerGoogleTranslate = (langCode: string) => {
+  const maxAttempts = 20;
+  let attempts = 0;
+  
+  const tryTranslate = () => {
+    attempts++;
+    const select = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+    
+    if (select) {
+      select.value = langCode;
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+      console.log('Google Translate triggered for:', langCode);
+      return true;
+    }
+    
+    if (attempts < maxAttempts) {
+      setTimeout(tryTranslate, 200);
+    } else {
+      console.warn('Google Translate dropdown not found after', maxAttempts, 'attempts');
+    }
+    return false;
+  };
+  
+  // Start trying after a short delay to let Google Translate initialize
+  setTimeout(tryTranslate, 500);
+};
 
 const CustomTranslateButton: React.FC<CustomTranslateButtonProps> = ({
   setShowLanguageModal,
@@ -31,60 +67,99 @@ const CustomTranslateButton: React.FC<CustomTranslateButtonProps> = ({
 }) => {
   const [currentLang, setCurrentLang] = useState<'en' | 'es'>('en');
   const [isTranslating, setIsTranslating] = useState(false);
+  const [scriptLoaded, setScriptLoaded] = useState(false);
+  const hasTriggeredTranslation = useRef(false);
 
+  // Determine the current language from multiple sources (priority order)
   useEffect(() => {
-    // Load Google Translate script
-    var addScript = document.createElement('script');
-    addScript.setAttribute('src', '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit');
-    document.body.appendChild(addScript);
-    window.googleTranslateElementInit = googleTranslateElementInit;
-
-    // Check current language from cookie
+    // Priority 1: URL parameter (lgQuery prop)
+    if (lgQuery === 'es' || lgQuery === 'en') {
+      setCurrentLang(lgQuery as 'en' | 'es');
+      return;
+    }
+    
+    // Priority 2: localStorage (most reliable for persistence)
+    const storedLang = localStorage.getItem('tlang');
+    if (storedLang === 'es' || storedLang === 'en') {
+      setCurrentLang(storedLang as 'en' | 'es');
+      return;
+    }
+    
+    // Priority 3: URL search params
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get('lg');
+    if (urlLang === 'es' || urlLang === 'en') {
+      setCurrentLang(urlLang as 'en' | 'es');
+      return;
+    }
+    
+    // Priority 4: Cookie (fallback)
     if (hasCookie('googtrans')) {
       const cookieValue = getCookie('googtrans') as string;
-      setCurrentLang(cookieValue === '/auto/es' ? 'es' : 'en');
-    }
-
-    return () => {
-      if (document.body.contains(addScript)) {
-        document.body.removeChild(addScript);
+      if (cookieValue?.includes('/es')) {
+        setCurrentLang('es');
+        return;
       }
-      delete window.googleTranslateElementInit;
+    }
+    
+    // Default to English
+    setCurrentLang('en');
+  }, [lgQuery]);
+
+  // Load Google Translate script and initialize
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    // Define the init function
+    const googleTranslateElementInit = () => {
+      if (window.google?.translate?.TranslateElement) {
+        new window.google.translate.TranslateElement({
+          pageLanguage: 'en',
+          includedLanguages: 'es,en',
+          layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
+          autoDisplay: false
+        }, 'google_translate_element');
+        
+        console.log('Google Translate initialized');
+        setScriptLoaded(true);
+      }
+    };
+    
+    // Set the global callback
+    window.googleTranslateElementInit = googleTranslateElementInit;
+    
+    // Check if script already exists
+    const existingScript = document.querySelector('script[src*="translate.google.com"]');
+    if (!existingScript) {
+      const script = document.createElement('script');
+      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      script.async = true;
+      document.body.appendChild(script);
+    } else if (window.google?.translate?.TranslateElement) {
+      // Script exists and Google Translate is ready
+      googleTranslateElementInit();
+    }
+    
+    return () => {
+      // Don't remove - causes issues
     };
   }, []);
 
-  const googleTranslateElementInit = () => {
-    new window.google.translate.TranslateElement({
-      pageLanguage: 'auto',
-      autoDisplay: false,
-      includedLanguages: "es,en",
-      layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE
-    }, 'google_translate_element');
-  };
-
-  const toggleLanguage = useCallback(() => {
-    const newLang = currentLang === 'en' ? 'es' : 'en';
-    const cookieValue = newLang === 'es' ? '/auto/es' : '/auto/en';
+  // Trigger translation when script is loaded and language is Spanish
+  useEffect(() => {
+    if (!scriptLoaded || hasTriggeredTranslation.current) return;
     
-    setCookie('googtrans', cookieValue);
-    setCurrentLang(newLang);
+    const targetLang = lgQuery || localStorage.getItem('tlang');
     
-    // Update query parameter using the provided setter
-    setLgQuery(newLang);
-    
-    // Update URL parameter
-    const url = new URL(window.location.href);
-    url.searchParams.set('lg', newLang);
-    window.history.replaceState({}, '', url);
-    
-    window.location.reload();
-  }, [currentLang, setLgQuery]);
+    if (targetLang === 'es') {
+      hasTriggeredTranslation.current = true;
+      triggerGoogleTranslate('es');
+    }
+  }, [scriptLoaded, lgQuery]);
 
   // Handle translate button click
   const handleTranslateClick = useCallback(() => {
     setIsTranslating(true);
-    
-    // Always show the language modal for user selection
     setShowLanguageModal(true);
     setIsTranslating(false);
   }, [setShowLanguageModal]);
@@ -200,13 +275,5 @@ const CustomTranslateButton: React.FC<CustomTranslateButtonProps> = ({
     </div>
   );
 };
-
-// TypeScript declarations
-declare global {
-  interface Window {
-    google: any;
-    googleTranslateElementInit?: () => void;
-  }
-}
 
 export default CustomTranslateButton;

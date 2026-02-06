@@ -29,23 +29,40 @@ export default function CandidatePage() {
     const searchParams = new URLSearchParams(url.search);
     setRefQuery(searchParams.get('ref'));
     
-    // Get lg parameter from URL
+    // Get lg parameter from URL first (highest priority)
     const lgParam = searchParams.get('lg');
-    if (lgParam) {
-      setQueryLg(lgParam);
+    
+    // Get stored language from localStorage
+    const tlang = localStorage.getItem("tlang");
+    
+    // Determine the language to use (URL param takes priority, then localStorage)
+    let effectiveLang = '';
+    if (lgParam && (lgParam === 'en' || lgParam === 'es')) {
+      effectiveLang = lgParam;
+      // Sync localStorage with URL param
+      if (tlang !== lgParam) {
+        localStorage.setItem('tlang', lgParam);
+      }
+    } else if (tlang && (tlang === 'en' || tlang === 'es')) {
+      effectiveLang = tlang;
+      // Update URL to match localStorage (without reload)
+      url.searchParams.set('lg', tlang);
+      window.history.replaceState({}, '', url.toString());
+    }
+    
+    if (effectiveLang) {
+      setQueryLg(effectiveLang);
     }
 
-    console.log(window.location.href)
-
-    const tlang = localStorage.getItem("tlang");
-    console.log(tlang)
+    console.log('Page load - URL:', window.location.href, 'tlang:', tlang, 'lgParam:', lgParam, 'effective:', effectiveLang);
     
     // Show language modal on every homepage visit, but not immediately after language selection
     const currentPath = window.location.pathname;
     const isHomePage = currentPath === '/' || currentPath === '';
     const justSelectedLanguage = sessionStorage.getItem('justSelectedLanguage');
     
-    if (isHomePage && !justSelectedLanguage) {
+    if (isHomePage && !justSelectedLanguage && !effectiveLang) {
+      // Only show modal if no language is set yet
       setTimeout(() => {
         setShowLanguageModal(true);
       }, 50);

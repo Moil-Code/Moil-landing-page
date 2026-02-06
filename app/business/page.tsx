@@ -27,17 +27,44 @@ export default function BusinessPage() {
     const searchParams = new URLSearchParams(url.search);
     setRefQuery(searchParams.get('ref'));
     
-    // Get lg parameter from URL
+    // Get lg parameter from URL first (highest priority)
     const lgParam = searchParams.get('lg');
-    if (lgParam) {
-      setQueryLg(lgParam);
+    
+    // Get stored language from localStorage
+    const tlang = localStorage.getItem("tlang");
+    
+    // Determine the language to use (URL param takes priority, then localStorage)
+    let effectiveLang = '';
+    if (lgParam && (lgParam === 'en' || lgParam === 'es')) {
+      effectiveLang = lgParam;
+      // Sync localStorage with URL param
+      if (tlang !== lgParam) {
+        localStorage.setItem('tlang', lgParam);
+      }
+    } else if (tlang && (tlang === 'en' || tlang === 'es')) {
+      effectiveLang = tlang;
+      // Update URL to match localStorage (without reload)
+      url.searchParams.set('lg', tlang);
+      window.history.replaceState({}, '', url.toString());
+    }
+    
+    if (effectiveLang) {
+      setQueryLg(effectiveLang);
     }
 
-    const tlang = localStorage.getItem("tlang");
-    if (tlang == null) {
+    console.log('Business page load - URL:', window.location.href, 'tlang:', tlang, 'lgParam:', lgParam, 'effective:', effectiveLang);
+    
+    // Show language modal only if no language is set yet
+    const justSelectedLanguage = sessionStorage.getItem('justSelectedLanguage');
+    if (!effectiveLang && !justSelectedLanguage) {
       setTimeout(() => {
         setShowLanguageModal(true);
       }, 50);
+    }
+    
+    // Clear the flag after checking
+    if (justSelectedLanguage) {
+      sessionStorage.removeItem('justSelectedLanguage');
     }
   }, []);
 

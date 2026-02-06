@@ -1,7 +1,37 @@
 import React, { useState } from "react";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { setCookie } from 'cookies-next';
+import { setCookie, deleteCookie } from 'cookies-next';
 import BackButton from "./back_button";
+
+// Helper function to properly set Google Translate cookie
+// Google Translate requires the cookie to be set in a specific way
+const setGoogleTranslateCookie = (langCode: string) => {
+  const cookieValue = langCode === 'en' ? '/auto/en' : '/auto/es';
+  
+  // First, clear any existing googtrans cookies to prevent conflicts
+  deleteCookie('googtrans', { path: '/' });
+  deleteCookie('googtrans', { path: '/', domain: window.location.hostname });
+  
+  // For production, we need to handle subdomain cookies
+  const hostname = window.location.hostname;
+  const domainParts = hostname.split('.');
+  if (domainParts.length > 2) {
+    // Clear cookie on parent domain (e.g., .moilapp.com)
+    const parentDomain = '.' + domainParts.slice(-2).join('.');
+    deleteCookie('googtrans', { path: '/', domain: parentDomain });
+  }
+  
+  // Set the cookie without domain (required for Google Translate to work)
+  document.cookie = `googtrans=${cookieValue}; path=/`;
+  
+  // Also set with domain for cross-subdomain support
+  if (domainParts.length > 2) {
+    const parentDomain = '.' + domainParts.slice(-2).join('.');
+    document.cookie = `googtrans=${cookieValue}; path=/; domain=${parentDomain}`;
+  }
+  
+  console.log('SelectLanguage: Cookie set for', langCode, 'value:', cookieValue);
+};
 
 interface SelectLanguageProps {
   setQueryLg: (lang: string) => void;
@@ -20,9 +50,8 @@ const SelectLanguage = ({ setQueryLg, handleClick }: SelectLanguageProps) => {
     localStorage.setItem("tlang", newLang);
     sessionStorage.setItem('justSelectedLanguage', 'true');
     
-    // Set Google Translate cookie (tutorial approach)
-    setCookie('googtrans', '/auto/en', { path: '/', domain: window.location.hostname });
-    console.log('SelectLanguage: Cookie set for English');
+    // Set Google Translate cookie properly for production
+    setGoogleTranslateCookie('en');
 
     let url = new URL(window.location.href);
     console.log("Language changed to:", newLang);
@@ -57,9 +86,8 @@ const SelectLanguage = ({ setQueryLg, handleClick }: SelectLanguageProps) => {
     localStorage.setItem("tlang", newLang);
     sessionStorage.setItem('justSelectedLanguage', 'true');
     
-    // Set Google Translate cookie (tutorial approach)
-    setCookie('googtrans', '/auto/es', { path: '/', domain: window.location.hostname });
-    console.log('SelectLanguage: Cookie set for Spanish');
+    // Set Google Translate cookie properly for production
+    setGoogleTranslateCookie('es');
 
     let url = new URL(window.location.href);
     console.log("Language changed to:", newLang);
