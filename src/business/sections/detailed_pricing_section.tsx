@@ -74,7 +74,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
     },
     {
       label: "Job Postings",
-      values: ["3/month", "10/month", "Unlimited"]
+      values: ["3", "10", "Unlimited"]
     },
     {
       label: "Moil 360 Marketing Calendar",
@@ -94,11 +94,11 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
     },
     {
       label: "Email Templates",
-      values: ["X", "10/month", "Unlimited"]
+      values: ["X", "10", "Unlimited"]
     },
     {
       label: "Blog Posts",
-      values: ["X", "X", "4/month"]
+      values: ["X", "X", "4"]
     },
     {
       label: "Support",
@@ -162,12 +162,12 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
         ["AI Images/month", "200"],
         ["Audio Creation", "60s clips (15 min)"],
         ["Video Creation", "3/month (30s)"],
-        ["Job Postings", "10/month"],
+        ["Job Postings", "10"],
         ["Moil 360 Marketing Calendar", "X"],
         ["Social Media Content", "X"],
         ["AI Image Editing", "X"],
         ["Candidate Matching", "X"],
-        ["Email Templates", "10/month"],
+        ["Email Templates", "10"],
         ["Blog Posts", "X"],
         ["Support", "24hr email"]
       ]
@@ -200,7 +200,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
         ["AI Image Editing", "✓ Unlimited"],
         ["Candidate Matching", "✓ AI-powered"],
         ["Email Templates", "Unlimited"],
-        ["Blog Posts", "4/month"],
+        ["Blog Posts", "4"],
         ["Support", "Same-day + Phone"]
       ]
     }
@@ -209,7 +209,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
 
 
   return (
-    <div className="w-full max-w-7xl mx-auto">
+    <div className="w-full xl:max-w-6xl xtraxl:max-w-7xl mx-auto">
       <table className="hidden lg:table table-fixed w-full border-collapse border border-[#E6E9F5] bg-white rounded-xl overflow-hidden shadow-lg">
         <thead>
           <th className="w-[90%] p-6">
