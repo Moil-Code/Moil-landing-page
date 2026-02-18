@@ -118,8 +118,8 @@ export default function BusinessNavigation({ page, refQuery, lgQuery, setQueryLg
                 <Link href={`/business${queryString}#services`} className="px-3 py-2 text-xs text-gray-600 hover:text-[#5843BE] rounded-full hover:bg-gray-100/50 transition-all">
                   Services
                 </Link>
-                <Link href={`/business${queryString}#features`} className="px-3 py-2 text-xs text-gray-600 hover:text-[#5843BE] rounded-full hover:bg-gray-100/50 transition-all">
-                  Features
+                 <Link href={`/business/pricing${queryString}`} className="px-3 py-2 text-xs text-gray-600 hover:text-[#5843BE] rounded-full hover:bg-gray-100/50 transition-all">
+                  Pricing
                 </Link>
               </>
             ) : (
@@ -127,9 +127,9 @@ export default function BusinessNavigation({ page, refQuery, lgQuery, setQueryLg
                 <button onClick={() => handleScrollTo('services')} className="px-3 py-2 text-xs text-gray-600 hover:text-[#5843BE] rounded-full hover:bg-gray-100/50 transition-all">
                   Services
                 </button>
-                <button onClick={() => handleScrollTo('features')} className="px-3 py-2 text-xs text-gray-600 hover:text-[#5843BE] rounded-full hover:bg-gray-100/50 transition-all">
-                  Features
-                </button>
+                <Link href={`/business/pricing${queryString}`} className="px-3 py-2 text-xs text-gray-600 hover:text-[#5843BE] rounded-full hover:bg-gray-100/50 transition-all">
+                  Pricing
+                </Link>
               </>
             )}
             <Link target="_blank" href="https://blog.moilapp.com" className="px-3 py-2 text-xs text-gray-600 hover:text-[#5843BE] rounded-full hover:bg-gray-100/50 transition-all">
@@ -227,6 +227,10 @@ export default function BusinessNavigation({ page, refQuery, lgQuery, setQueryLg
                   I want to hire workers
                 </button>
               </div>
+
+              <Link href={`/business/pricing${queryString}`} className="block px-4 py-3 text-sm text-gray-600 hover:bg-gray-100/50 rounded-lg transition-all">
+                Pricing
+              </Link>
 
 
               {/* Mobile Actions */}

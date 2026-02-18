@@ -6,116 +6,202 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
 
   const pricingHeaders = [
     {
-      plan: "BASIC",
+      plan: "STARTER",
       price: {
-        monthly: 0,
-        annually: 0
+        monthly: 15,
+        annually: 135
       },
-      percentage_off: 0,
-      cta: "Get Started Free",
+      percentage_off: 25,
+      cta: "Purchase",
       flowId: {
-        monthly: nanoid() + nanoid() + '_basic_monthly',
-        annually: nanoid() + nanoid() + '_basic_yearly'
+        monthly: nanoid() + nanoid() + '_starter_monthly',
+        annually: nanoid() + nanoid() + '_starter_yearly'
       }
     },
     {
-      plan: "PREMIUM",
+      plan: "PROFESSIONAL",
       price: {
-        monthly: 15,
-        annually: 140
+        monthly: 25,
+        annually: 225
       },
-      percentage_off: 22,
-      cta: "Start Free Trial",
+      percentage_off: 25,
+      cta: "Purchase",
       tag: "Best Value",
       flowId: {
-        monthly: nanoid() + nanoid() + '_premium_monthly',
-        annually: nanoid() + nanoid() + '_premium_yearly'
+        monthly: nanoid() + nanoid() + '_professional_monthly',
+        annually: nanoid() + nanoid() + '_professional_yearly'
+      }
+    },
+    {
+      plan: "MARKETING PRO",
+      price: {
+        monthly: 75,
+        annually: 675
+      },
+      percentage_off: 25,
+      cta: "Purchase",
+      flowId: {
+        monthly: nanoid() + nanoid() + '_marketing_pro_monthly',
+        annually: nanoid() + nanoid() + '_marketing_pro_yearly'
       }
     }
   ];
 
   const pricingDetails = [
-     {
-      label: "Job Postings",
-      values: ["1 per month", "3 per month"]
-    },
-      {
-      label: "Bilingual Support",
-      values: ["English only", "English & Spanish"]
+    {
+      label: "AI Business Coach",
+      values: ["✓ Unlimited", "✓ Unlimited", "✓ Unlimited"]
     },
     {
-      label: "Moil AI Toolbox",
-      values: ["Basic tools", "Full access to all tools"]
+      label: "Market Research",
+      values: ["✓", "✓", "✓"]
+    },
+    {
+      label: "Business Planning",
+      values: ["✓", "✓", "✓"]
+    },
+    {
+      label: "AI Images/month",
+      values: ["75", "200", "Unlimited"]
+    },
+    {
+      label: "Audio Creation",
+      values: ["30s clips (5 min)", "60s clips (15 min)", "2 min clips (30 min)"]
+    },
+    {
+      label: "Video Creation",
+      values: ["X", "3/month (30s)", "15/month (60s)"]
+    },
+    {
+      label: "Job Postings",
+      values: ["3/month", "10/month", "Unlimited"]
+    },
+    {
+      label: "Moil 360 Marketing Calendar",
+      values: ["X", "X", "✓ 30-day automated"]
+    },
+    {
+      label: "Social Media Content",
+      values: ["X", "X", "✓ Full month generated"]
+    },
+    {
+      label: "AI Image Editing",
+      values: ["X", "X", "✓ Unlimited"]
+    },
+    {
+      label: "Candidate Matching",
+      values: ["X", "X", "✓ AI-powered"]
+    },
+    {
+      label: "Email Templates",
+      values: ["X", "10/month", "Unlimited"]
+    },
+    {
+      label: "Blog Posts",
+      values: ["X", "X", "4/month"]
     },
     {
       label: "Support",
-      values: ["Community support", "Priority email support"]
-    },
-    {
-      label: "AI Market Research Assistant",
-      values: ["N/A", "Full access"]
-    },
-    {
-      label: "AI Business Coach",
-      values: ["N/A", "Full strategy, planning & execution support"]
-    },
-    {
-      label: "AI-Generated Images",
-      values: ["N/A", "50 per month"]
-    },  
+      values: ["Email", "24hr email", "Same-day + Phone"]
+    }
   ];
 
   const mobilePricingDetails = [
     {
       "pricing_header": {
-        plan: "BASIC",
+        plan: "STARTER",
         price: {
-          monthly: 0,
-          annually: 0
+          monthly: 15,
+          annually: 135
         },
-        percentage_off: 0,
-        cta: "Get Started Free",
+        percentage_off: 25,
+        cta: "Purchase",
         flowId: {
-          monthly: nanoid() + nanoid() + '_basic_monthly',
-          annually: nanoid() + nanoid() + '_basic_yearly'
+          monthly: nanoid() + nanoid() + '_starter_monthly',
+          annually: nanoid() + nanoid() + '_starter_yearly'
         }
       },
-      label: ["ai_research", "ai_coach", "job_postings", "ai_images", "bilingual", "toolbox", "support"],
+      label: ["ai_coach", "market_research", "business_planning", "ai_images", "audio_creation", "video_creation", "job_postings", "marketing_calendar", "social_media", "image_editing", "candidate_matching", "email_templates", "blog_posts", "support"],
       values: [
-         ["Job Postings", "1 per month"],
-        ["AI Market Research Assistant", "Limited access"],
-        ["AI Business Coach", "N/A"],
-       
-        ["AI-Generated Images", "50 per month"],
-        ["Bilingual Support", "English & Spanish"],
-        ["Moil AI Toolbox", "Full access to all tools"],
-        ["Support", "Priority email support"]
+        ["AI Business Coach", "✓ Unlimited"],
+        ["Market Research", "✓"],
+        ["Business Planning", "✓"],
+        ["AI Images/month", "75"],
+        ["Audio Creation", "30s clips (5 min)"],
+        ["Video Creation", "X"],
+        ["Job Postings", "3/month"],
+        ["Moil 360 Marketing Calendar", "X"],
+        ["Social Media Content", "X"],
+        ["AI Image Editing", "X"],
+        ["Candidate Matching", "X"],
+        ["Email Templates", "X"],
+        ["Blog Posts", "X"],
+        ["Support", "Email"]
       ]
     },
     {
       "pricing_header": {
-        plan: "PREMIUM",
+        plan: "PROFESSIONAL",
         price: {
-          monthly: 15,
-          annually: 140
+          monthly: 25,
+          annually: 225
         },
-        percentage_off: 22,
-        cta: "Start Free Trial",
+        percentage_off: 25,
+        cta: "Purchase",
         tag: "Best Value",
         flowId: {
-          monthly: nanoid() + nanoid() + '_premium_monthly',
-          annually: nanoid() + nanoid() + '_premium_yearly'
+          monthly: nanoid() + nanoid() + '_professional_monthly',
+          annually: nanoid() + nanoid() + '_professional_yearly'
         }
       },
-      label: ["ai_research", "ai_coach", "job_postings", "ai_images", "bilingual", "toolbox", "support"],
+      label: ["ai_coach", "market_research", "business_planning", "ai_images", "audio_creation", "video_creation", "job_postings", "marketing_calendar", "social_media", "image_editing", "candidate_matching", "email_templates", "blog_posts", "support"],
       values: [
-         ["Job Postings", "3 per month"],
-        ["AI Market Research Assistant", "Full access"],
-        ["AI Business Coach", "Full strategy, planning & execution support"],
-        ["AI-Generated Images", "50 per month"],
-        ["Bilingual Support", "English & Spanish"],
-        ["Moil AI Toolbox", "Full access to all tools"],
-        ["Support", "Priority email support"]
+        ["AI Business Coach", "✓ Unlimited"],
+        ["Market Research", "✓"],
+        ["Business Planning", "✓"],
+        ["AI Images/month", "200"],
+        ["Audio Creation", "60s clips (15 min)"],
+        ["Video Creation", "3/month (30s)"],
+        ["Job Postings", "10/month"],
+        ["Moil 360 Marketing Calendar", "X"],
+        ["Social Media Content", "X"],
+        ["AI Image Editing", "X"],
+        ["Candidate Matching", "X"],
+        ["Email Templates", "10/month"],
+        ["Blog Posts", "X"],
+        ["Support", "24hr email"]
+      ]
+    },
+    {
+      "pricing_header": {
+        plan: "MARKETING PRO",
+        price: {
+          monthly: 75,
+          annually: 675
+        },
+        percentage_off: 25,
+        cta: "Purchase",
+        flowId: {
+          monthly: nanoid() + nanoid() + '_marketing_pro_monthly',
+          annually: nanoid() + nanoid() + '_marketing_pro_yearly'
+        }
+      },
+      label: ["ai_coach", "market_research", "business_planning", "ai_images", "audio_creation", "video_creation", "job_postings", "marketing_calendar", "social_media", "image_editing", "candidate_matching", "email_templates", "blog_posts", "support"],
+      values: [
+        ["AI Business Coach", "✓ Unlimited"],
+        ["Market Research", "✓"],
+        ["Business Planning", "✓"],
+        ["AI Images/month", "Unlimited"],
+        ["Audio Creation", "2 min clips (30 min)"],
+        ["Video Creation", "15/month (60s)"],
+        ["Job Postings", "Unlimited"],
+        ["Moil 360 Marketing Calendar", "✓ 30-day automated"],
+        ["Social Media Content", "✓ Full month generated"],
+        ["AI Image Editing", "✓ Unlimited"],
+        ["Candidate Matching", "✓ AI-powered"],
+        ["Email Templates", "Unlimited"],
+        ["Blog Posts", "4/month"],
+        ["Support", "Same-day + Phone"]
       ]
     }
   ];
@@ -123,17 +209,17 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
 
 
   return (
-    <div className="xl:max-w-[1000px] xtraxl:max-w-[1200px]">
-      <table className="hidden md:table table-fixed w-full border-collapse border border-[#E6E9F5]">
+    <div className="w-full max-w-7xl mx-auto">
+      <table className="hidden lg:table table-fixed w-full border-collapse border border-[#E6E9F5] bg-white rounded-xl overflow-hidden shadow-lg">
         <thead>
-          <th className="w-[90%]">
-            <p className="text-[30px] font-[700] leading-[1.2] text-[#252430]">Annual Plans</p>
+          <th className="w-[90%] p-6">
+            <p className="text-2xl md:text-3xl font-bold leading-tight text-[#252430]">Features</p>
           </th>
 
           {
             pricingHeaders.map((head, index) => {
               return (
-                <th className={` ${head.plan === "PREMIUM" ? "w-[115%] bg-[#EEECF8]" : "w-full"} border border-[#E6E9F5]`}>
+                <th className={` ${head.plan === "PROFESSIONAL" ? "w-[115%] bg-gradient-to-br from-orange-50 to-orange-100/50" : "w-full bg-white"} border border-[#E6E9F5]`}>
                   <PricingHeaderForPringItem refQuery={refQuery} lgQuery={lgQuery} flowId={head.flowId} allShow={allShow} plan={head.plan} percentage_off={head.percentage_off} price={head.price} cta={head.cta} key={index} />
                 </th>
               )
@@ -147,17 +233,17 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
             pricingDetails.map((det, index) => {
               return (
                 <tr key={index}>
-                  <td className="border border-[#E6E9F5]">
-                    <div className="py-6 px-8">
-                      <p className="text-[18px] font-mdeium font-medium leading-[1.3] text-[#252430]">{det.label}</p>
+                  <td className="border border-[#E6E9F5] bg-gray-50/50">
+                    <div className="py-4 px-6">
+                      <p className="text-base md:text-lg font-semibold leading-snug text-[#252430]">{det.label}</p>
                     </div>
                   </td>
                   {
                     det.values.map((d, i) => {
                       return (
-                        <td className="border border-[#E6E9F5]">
-                          <div className="py-6 px-8">
-                            <p className="text-[14px] font-mdeium font-medium leading-[1.3] text-[#252430]">{d}</p>
+                        <td className="border border-[#E6E9F5] hover:bg-orange-50/30 transition-colors">
+                          <div className="py-4 px-6">
+                            <p className="text-sm md:text-base font-medium leading-snug text-[#374151]">{d}</p>
                           </div>
                         </td>
                       )
@@ -170,7 +256,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
         </tbody>
       </table>
 
-      <div className="md:hidden flex flex-col">
+      <div className="lg:hidden flex flex-col gap-6">
         {
           mobilePricingDetails.map((head, index) => {
             return (

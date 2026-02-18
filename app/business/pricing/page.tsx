@@ -43,27 +43,45 @@ export default function BusinessPricingPage() {
 	return (
 		<>
 			<BusinessNavigation refQuery={refQuery} page="pricing" lgQuery={queryLg} setQueryLg={setQueryLg} setShowLanguageModal={setShowLanguageModal} />
-			<div className="flex pt-8 flex-col gap-y-8">
-				<div className="px-6 sm:px-8  md:px-0">
-					<p className="font-[800] text-[32px] leading-normal text-center text-[#000000DE]">Choose the Right Plan for Your Hiring Needs</p>
-					<p className="text-base leading-normal text-center text-[#00000099]">Flexible plans designed to help you find the best blue-collar and skilled labor talent.</p>
+			<div className="relative min-h-screen bg-white overflow-hidden">
+				{/* Grid Pattern Background */}
+				<div className="absolute inset-0 opacity-10">
+					<div className="absolute inset-0" style={{
+						backgroundImage: `
+							linear-gradient(rgba(255, 102, 51, 0.35) 1px, transparent 1px),
+							linear-gradient(90deg, rgba(255, 102, 51, 0.35) 1px, transparent 1px)
+						`,
+						backgroundSize: '50px 50px'
+					}} />
 				</div>
 
-				<div className="px-6 sm:px-8  md:px-0 flex flex-col gap-y-2">
-					<div className="flex item-center justify-center gap-x-4">
-						<button onClick={() => setAllShow("monthly")}
-							className={`${allShow === "monthly" ? "bg-[#FF6633] text-white text-[#252430]" : "border_05 border-[#858BA0]"} py-[10px] px-[20px] rounded-[22px]  text-center leading-normal text-base`}>Monthly Plans</button>
-						<button onClick={() => setAllShow("annually")}
-							className={`${allShow === "annually" ? "bg-[#FF6633] text-white text-[#252430]" : "border_05 border-[#858BA0]"} py-[10px] px-[20px] rounded-[24px]  text-center leading-normal text-base`}>See Annual Plans</button>
+				{/* Decorative Gradient Orbs */}
+				<div className="absolute top-20 left-10 w-72 h-72 bg-orange-500/20 rounded-full blur-3xl" />
+				<div className="absolute bottom-20 right-10 w-96 h-96 bg-orange-400/15 rounded-full blur-3xl" />
+				<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-orange-200/20 to-orange-400/10 rounded-full blur-3xl" />
+
+				<div className="relative flex pt-24 md:pt-32 lg:pt-36 pb-16 flex-col gap-y-8">
+					<div className="px-6 sm:px-8 md:px-0">
+						<p className="font-[800] text-[32px] md:text-[40px] lg:text-[48px] leading-tight text-center text-[#252430]">Choose the Right Plan for Your Business</p>
+						<p className="text-base md:text-lg leading-normal text-center text-[#6B7280] mt-4 max-w-3xl mx-auto">Flexible plans designed to help you grow your business with AI-powered tools and smart hiring solutions.</p>
 					</div>
-					<p className="text-[#FF6633] text-sm leading-normal font-medium text-center">Save up to 25% when you purchase an annual plan.</p>
-				</div>
 
-				<div className="px-6 sm:px-8 md:px-0 flex justify-center">
-					<DetailedPricinSection refQuery={refQuery} lgQuery={queryLg} allShow={allShow} />
+					<div className="px-6 sm:px-8 md:px-0 flex flex-col gap-y-2">
+						<div className="flex item-center justify-center gap-x-4">
+							<button onClick={() => setAllShow("monthly")}
+								className={`${allShow === "monthly" ? "bg-[#FF6633] text-white" : "bg-white border-2 border-[#E5E7EB] text-[#374151]"} py-[10px] px-[20px] rounded-[22px] text-center leading-normal text-base font-medium transition-all duration-300 hover:scale-105 shadow-sm`}>Monthly Plans</button>
+							<button onClick={() => setAllShow("annually")}
+								className={`${allShow === "annually" ? "bg-[#FF6633] text-white" : "bg-white border-2 border-[#E5E7EB] text-[#374151]"} py-[10px] px-[20px] rounded-[24px] text-center leading-normal text-base font-medium transition-all duration-300 hover:scale-105 shadow-sm`}>See Annual Plans</button>
+						</div>
+						<p className="text-[#FF6633] text-sm leading-normal font-medium text-center bg-orange-50 rounded-full py-2 px-4 inline-block mx-auto border border-orange-200">Save up to 25% when you purchase an annual plan.</p>
+					</div>
+
+					<div className="px-6 sm:px-8 md:px-0 flex justify-center">
+						<DetailedPricinSection refQuery={refQuery} lgQuery={queryLg} allShow={allShow} />
+					</div>
 				</div>
-				<FAQSection />
 			</div>
+			<FAQSection />
 			<FooterSection refQuery={refQuery} lgQuery={queryLg} />
 			{showModal}
 

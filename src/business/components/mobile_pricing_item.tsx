@@ -47,7 +47,7 @@ export default function MobilePricingItem({ flowId, plan, percentage_off, cta, p
         </div>
       </div>
 
-      <table>
+      <table className="w-full">
         <tbody>
           {values.map((items, i) => {
             return (
