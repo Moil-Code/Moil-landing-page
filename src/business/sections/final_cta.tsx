@@ -14,7 +14,7 @@ export default function FinalCTA({ refQuery, lgQuery }: FinalCTAProps) {
 
   const handleSeeDemo = () => {
     // Link to video demo
-    window.open('https://www.youtube.com/watch?v=demo', '_blank');
+    window.open('https://youtu.be/JBZrJjiXk78', '_blank');
   };
 
   return (

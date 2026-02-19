@@ -9,9 +9,13 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
       plan: "STARTER",
       price: {
         monthly: 15,
-        annually: 135
+        annually: 150
       },
-      percentage_off: 25,
+      originalPrice: {
+        monthly: 15,
+        annually: 180
+      },
+      limitedOffer: "May 1st",
       cta: "Purchase",
       flowId: {
         monthly: nanoid() + nanoid() + '_starter_monthly',
@@ -22,9 +26,12 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
       plan: "PROFESSIONAL",
       price: {
         monthly: 25,
-        annually: 225
+        annually: 240
       },
-      percentage_off: 25,
+      originalPrice: {
+        monthly: 25,
+        annually: 300
+      },
       cta: "Purchase",
       tag: "Best Value",
       flowId: {
@@ -36,9 +43,12 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
       plan: "MARKETING PRO",
       price: {
         monthly: 75,
-        annually: 675
+        annually: 700
       },
-      percentage_off: 25,
+      originalPrice: {
+        monthly: 75,
+        annually: 900
+      },
       cta: "Purchase",
       flowId: {
         monthly: nanoid() + nanoid() + '_marketing_pro_monthly',
@@ -112,9 +122,13 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
         plan: "STARTER",
         price: {
           monthly: 15,
-          annually: 135
+          annually: 150
         },
-        percentage_off: 25,
+        originalPrice: {
+          monthly: 15,
+          annually: 180
+        },
+        limitedOffer: "May 1st",
         cta: "Purchase",
         flowId: {
           monthly: nanoid() + nanoid() + '_starter_monthly',
@@ -144,9 +158,12 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
         plan: "PROFESSIONAL",
         price: {
           monthly: 25,
-          annually: 225
+          annually: 240
         },
-        percentage_off: 25,
+        originalPrice: {
+          monthly: 25,
+          annually: 300
+        },
         cta: "Purchase",
         tag: "Best Value",
         flowId: {
@@ -177,9 +194,12 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
         plan: "MARKETING PRO",
         price: {
           monthly: 75,
-          annually: 675
+          annually: 700
         },
-        percentage_off: 25,
+        originalPrice: {
+          monthly: 75,
+          annually: 900
+        },
         cta: "Purchase",
         flowId: {
           monthly: nanoid() + nanoid() + '_marketing_pro_monthly',
@@ -220,7 +240,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
             pricingHeaders.map((head, index) => {
               return (
                 <th className={` ${head.plan === "PROFESSIONAL" ? "w-[115%] bg-gradient-to-br from-orange-50 to-orange-100/50" : "w-full bg-white"} border border-[#E6E9F5]`}>
-                  <PricingHeaderForPringItem refQuery={refQuery} lgQuery={lgQuery} flowId={head.flowId} allShow={allShow} plan={head.plan} percentage_off={head.percentage_off} price={head.price} cta={head.cta} key={index} />
+                  <PricingHeaderForPringItem refQuery={refQuery} lgQuery={lgQuery} flowId={head.flowId} allShow={allShow} plan={head.plan} originalPrice={head.originalPrice} limitedOffer={head.limitedOffer} price={head.price} cta={head.cta} key={index} />
                 </th>
               )
             })
@@ -260,7 +280,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
         {
           mobilePricingDetails.map((head, index) => {
             return (
-              <MobilePricingItem flowId={head.pricing_header.flowId} values={head.values} allShow={allShow} plan={head.pricing_header.plan} percentage_off={head.pricing_header.percentage_off} price={head.pricing_header.price} cta={head.pricing_header.cta} refQuery={refQuery} lgQuery={lgQuery} key={index} />
+              <MobilePricingItem flowId={head.pricing_header.flowId} values={head.values} allShow={allShow} plan={head.pricing_header.plan} originalPrice={head.pricing_header.originalPrice} limitedOffer={head.pricing_header.limitedOffer} price={head.pricing_header.price} cta={head.pricing_header.cta} refQuery={refQuery} lgQuery={lgQuery} key={index} />
             )
           })
         }

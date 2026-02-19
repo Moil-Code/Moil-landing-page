@@ -5,7 +5,7 @@ import { safeWindow } from "../../../utils/safe_window";
 import { businessBaseUrl } from "../../common/constants/baseUrl";
 import { buildBusinessRegisterUrl } from "../utils/urlBuilder";
 
-export default function MobilePricingItem({ flowId, plan, percentage_off, cta, price, allShow, values, refQuery, lgQuery }: { flowId: any, plan: string, percentage_off: number, cta: string, price: { monthly: number, annually: number }, allShow: string, values: string[][], refQuery?: string, lgQuery?: string }) {
+export default function MobilePricingItem({ flowId, plan, originalPrice, limitedOffer, cta, price, allShow, values, refQuery, lgQuery }: { flowId: any, plan: string, originalPrice?: { monthly: number, annually: number }, limitedOffer?: string, cta: string, price: { monthly: number, annually: number }, allShow: string, values: string[][], refQuery?: string, lgQuery?: string }) {
   const [oneShow, setOneShow] = useState(allShow);
 
   useEffect(() => {
@@ -32,8 +32,13 @@ export default function MobilePricingItem({ flowId, plan, percentage_off, cta, p
 
         <p className={`text-[20px] lg:text-[24px] ${plan === "STANDARD" && "mt-[30px]"} text-center leading-[1.2] font-medium`}>{plan}</p>
         <div>
-          <p className="text-[#858BA0] text-center text-sm leading-normal"><span className="text-[#252430] text-[40px] font-[700]">{`$${allShow === "monthly" || oneShow === "monthly" ? price.monthly : price.annually} `}</span>/Month</p>
-          {(allShow === "annually" && oneShow === "annually" || allShow === "monthly" && oneShow === "annually") && <p className="text-[#FF6633] text-sm leading-normal font-medium text-center">{percentage_off}% Off</p>}
+          {(oneShow === "annually") && originalPrice && (
+            <p className="text-[#858BA0] text-center text-xs leading-normal line-through mb-1">
+              ${originalPrice.annually}/Year
+            </p>
+          )}
+          <p className="text-[#858BA0] text-center text-sm leading-normal"><span className="text-[#252430] text-[40px] font-[700]">{`$${allShow === "monthly" || oneShow === "monthly" ? price.monthly : price.annually} `}</span>/{oneShow === "monthly" ? "Month" : "Year"}</p>
+          {(oneShow === "annually") && limitedOffer && <p className="text-[#FF6633] text-xs leading-normal font-medium text-center mt-1">Limited offer until {limitedOffer}</p>}
         </div>
         <button onClick={handleClick} className={`py-4 rounded-[4px] whitespace-nowrap px-6 text-center w-full ${plan === "STANDARD" ? "bg-[#5843BD] text-[#E6E9F5]" : "text-[#5843BD] bg-[#EEECF8]"} text-sm md:text-xs lg:text-sm leading-normal`}>{cta}</button>
 

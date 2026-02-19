@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 import SelectLanguage from "../src/common/components/selectLanguage";
+import CustomizeModal from "../src/common/components/CustomizeModal";
 import FooterSection from "../src/common/sections/footer";
 
 // Candidate Components
@@ -22,6 +23,7 @@ export default function CandidatePage() {
   const [refQuery, setRefQuery] = useState<string | null>(null);
   const [queryLg, setQueryLg] = useState("");
   const [showLanguageModal, setShowLanguageModal] = useState(false);
+  const [showCustomizeModal, setShowCustomizeModal] = useState(false);
 
   useEffect(() => {
     // Get URL parameters on client side
@@ -56,21 +58,16 @@ export default function CandidatePage() {
 
     console.log('Page load - URL:', window.location.href, 'tlang:', tlang, 'lgParam:', lgParam, 'effective:', effectiveLang);
     
-    // Show language modal on every homepage visit, but not immediately after language selection
+    // Show customize modal on first visit to homepage
     const currentPath = window.location.pathname;
     const isHomePage = currentPath === '/' || currentPath === '';
-    const justSelectedLanguage = sessionStorage.getItem('justSelectedLanguage');
+    const customizeModalShown = sessionStorage.getItem('customizeModalShown');
     
-    if (isHomePage && !justSelectedLanguage && !effectiveLang) {
-      // Only show modal if no language is set yet
+    if (isHomePage && !customizeModalShown) {
+      // Show customize modal on first visit to homepage
       setTimeout(() => {
-        setShowLanguageModal(true);
-      }, 50);
-    }
-    
-    // Clear the flag after checking
-    if (justSelectedLanguage) {
-      sessionStorage.removeItem('justSelectedLanguage');
+        setShowCustomizeModal(true);
+      }, 500);
     }
   }, []);
 
@@ -126,6 +123,9 @@ export default function CandidatePage() {
         <FooterSection refQuery={refQuery} lgQuery={queryLg} />
         {showModal}
       </div>
+
+      {/* Customize Modal */}
+      <CustomizeModal isOpen={showCustomizeModal} onClose={() => setShowCustomizeModal(false)} />
 
       {/* Modal Container */}
       <div id="modal"></div>

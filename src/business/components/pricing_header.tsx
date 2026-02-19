@@ -4,7 +4,7 @@ import { businessBaseUrl } from "../../common/constants/baseUrl";
 import { safeWindow } from "../../../utils/safe_window";
 import { buildBusinessRegisterUrl } from "../utils/urlBuilder";
 
-export default function PricingHeaderForPringItem({ flowId, plan, percentage_off, cta, price, allShow, refQuery, lgQuery }: { flowId: any, plan: string, percentage_off: number, cta: string, price: { monthly: number, annually: number }, allShow: string, refQuery: string, lgQuery?: string }) {
+export default function PricingHeaderForPringItem({ flowId, plan, originalPrice, limitedOffer, cta, price, allShow, refQuery, lgQuery }: { flowId: any, plan: string, originalPrice?: { monthly: number, annually: number }, limitedOffer?: string, cta: string, price: { monthly: number, annually: number }, allShow: string, refQuery: string, lgQuery?: string }) {
 
 	const handleClick = () => {
 		const url = buildBusinessRegisterUrl({
@@ -25,8 +25,13 @@ export default function PricingHeaderForPringItem({ flowId, plan, percentage_off
 
 			<p className={`text-[20px] lg:text-[24px] ${plan === "STANDARD" && "mt-[30px]"} text-center leading-[1.2] font-medium`}>{plan}</p>
 			<div>
+				{allShow === "annually" && originalPrice && (
+					<p className="text-[#858BA0] text-center text-xs leading-normal line-through mb-1">
+						${originalPrice.annually}/Year
+					</p>
+				)}
 				<p className="text-[#858BA0] text-center text-sm leading-normal"><span className="text-[#252430] text-[40px] font-[700]">{`$${allShow === "monthly" ? price.monthly : price.annually} `}</span>/{allShow === "monthly" ? "Month" : "Year"}</p>
-				{allShow === "annually" && <p className="text-[#FF6633] text-sm leading-normal font-medium text-center">{percentage_off}% Off</p>}
+				{allShow === "annually" && limitedOffer && <p className="text-[#FF6633] text-xs leading-normal font-medium text-center mt-1">Limited offer until {limitedOffer}</p>}
 			</div>
 			<button onClick={handleClick} className={`py-4 rounded-[4px] whitespace-nowrap px-6 text-center w-full ${plan === "STANDARD" ? "bg-[#5843BD] text-[#E6E9F5]" : "text-[#5843BD] bg-[#EEECF8]"} text-sm md:text-xs lg:text-sm leading-normal`}>{cta}</button>
 		</div>
