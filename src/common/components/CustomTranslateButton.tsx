@@ -68,7 +68,7 @@ const CustomTranslateButton: React.FC<CustomTranslateButtonProps> = ({
   const [currentLang, setCurrentLang] = useState<'en' | 'es'>('en');
   const [isTranslating, setIsTranslating] = useState(false);
   const [scriptLoaded, setScriptLoaded] = useState(false);
-  const hasTriggeredTranslation = useRef(false);
+  const lastTriggeredLang = useRef<'en' | 'es' | null>(null);
 
   // Determine the current language from multiple sources (priority order)
   useEffect(() => {
@@ -145,15 +145,21 @@ const CustomTranslateButton: React.FC<CustomTranslateButtonProps> = ({
     };
   }, []);
 
-  // Trigger translation when script is loaded and language is Spanish
+  // Trigger translation when script is loaded
   useEffect(() => {
-    if (!scriptLoaded || hasTriggeredTranslation.current) return;
-    
-    const targetLang = lgQuery || localStorage.getItem('tlang');
-    
-    if (targetLang === 'es') {
-      hasTriggeredTranslation.current = true;
-      triggerGoogleTranslate('es');
+    if (!scriptLoaded) return;
+
+    const pendingLang = sessionStorage.getItem('pendingTranslate') as 'en' | 'es' | null;
+    const targetLang = (pendingLang || lgQuery || localStorage.getItem('tlang')) as 'en' | 'es' | null;
+
+    if (!targetLang) return;
+    if (lastTriggeredLang.current === targetLang) return;
+
+    lastTriggeredLang.current = targetLang;
+    triggerGoogleTranslate(targetLang);
+
+    if (pendingLang) {
+      sessionStorage.removeItem('pendingTranslate');
     }
   }, [scriptLoaded, lgQuery]);
 

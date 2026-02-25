@@ -43,6 +43,7 @@ export default function CustomizeModal({ isOpen, onClose }: CustomizeModalProps)
     
     // Set session flag to prevent modal from showing again
     sessionStorage.setItem('customizeModalShown', 'true');
+    sessionStorage.setItem('pendingTranslate', selectedLanguage);
 
     // Navigate to selected page with language parameter
     const targetPath = selectedPage === 'candidate' ? '/' : '/business';
