@@ -72,7 +72,7 @@ export default function CustomizeModal({ isOpen, onClose }: CustomizeModalProps)
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md p-4"
+          className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center bg-black/60 backdrop-blur-md p-4 sm:p-6 overflow-y-auto"
           onClick={onClose}
         >
           <motion.div
@@ -80,7 +80,7 @@ export default function CustomizeModal({ isOpen, onClose }: CustomizeModalProps)
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
             transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
-            className="relative bg-white rounded-3xl shadow-2xl max-w-2xl w-full overflow-hidden border border-white/20"
+            className="relative bg-white rounded-3xl shadow-2xl max-w-2xl w-full border border-white/20 max-h-[90vh] sm:max-h-[85vh] md:max-h-none overflow-y-auto overscroll-contain"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
