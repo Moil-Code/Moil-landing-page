@@ -107,7 +107,7 @@ export default function BusinessNavigation({ page, refQuery, lgQuery, setQueryLg
             <button
               className="px-3 py-2 rounded-full text-xs font-medium transition-all duration-300 bg-white text-[#5843BE] shadow-sm"
             >
-              Want to hire
+               Want to build your business
             </button>
           </nav>
 

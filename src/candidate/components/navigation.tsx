@@ -62,7 +62,7 @@ export default function CandidateNavigation({
                   : "text-gray-600 hover:text-[#5843BE] hover:bg-white/50"
                 }`}
             >
-              Want to hire
+            Want to build your business
             </Link>
           </nav>
 
