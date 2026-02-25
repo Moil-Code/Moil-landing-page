@@ -2,8 +2,28 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "next/navigation";
-import { setCookie } from 'cookies-next';
+import { deleteCookie } from "cookies-next";
+
+const setGoogleTranslateCookie = (langCode: 'en' | 'es') => {
+  const cookieValue = langCode === 'en' ? '/auto/en' : '/auto/es';
+
+  deleteCookie('googtrans', { path: '/' });
+  deleteCookie('googtrans', { path: '/', domain: window.location.hostname });
+
+  const hostname = window.location.hostname;
+  const domainParts = hostname.split('.');
+  if (domainParts.length > 2) {
+    const parentDomain = '.' + domainParts.slice(-2).join('.');
+    deleteCookie('googtrans', { path: '/', domain: parentDomain });
+  }
+
+  document.cookie = `googtrans=${cookieValue}; path=/`;
+
+  if (domainParts.length > 2) {
+    const parentDomain = '.' + domainParts.slice(-2).join('.');
+    document.cookie = `googtrans=${cookieValue}; path=/; domain=${parentDomain}`;
+  }
+};
 
 interface CustomizeModalProps {
   isOpen: boolean;
@@ -11,7 +31,6 @@ interface CustomizeModalProps {
 }
 
 export default function CustomizeModal({ isOpen, onClose }: CustomizeModalProps) {
-  const router = useRouter();
   const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'es' | null>(null);
   const [selectedPage, setSelectedPage] = useState<'candidate' | 'business' | null>(null);
 
@@ -20,16 +39,29 @@ export default function CustomizeModal({ isOpen, onClose }: CustomizeModalProps)
 
     // Set language in localStorage and cookie
     localStorage.setItem('tlang', selectedLanguage);
-    document.cookie = `googtrans=${selectedLanguage === 'en' ? '/auto/en' : '/auto/es'}; path=/`;
+    setGoogleTranslateCookie(selectedLanguage);
     
     // Set session flag to prevent modal from showing again
     sessionStorage.setItem('customizeModalShown', 'true');
 
     // Navigate to selected page with language parameter
     const targetPath = selectedPage === 'candidate' ? '/' : '/business';
-    router.push(`${targetPath}?lg=${selectedLanguage}`);
-    
-    onClose();
+    const targetUrl = `${targetPath}?lg=${selectedLanguage}`;
+
+    // If on home and selecting Advance Career (candidate), translate only.
+    if (window.location.pathname === '/' && targetPath === '/') {
+      const url = new URL(window.location.href);
+      url.searchParams.set('lg', selectedLanguage);
+      window.history.replaceState({}, "", url.toString());
+      onClose();
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+      return;
+    }
+
+    // Force a full reload on route so Google Translate renders correctly.
+    window.location.href = targetUrl;
   };
 
   return (
@@ -149,7 +181,7 @@ export default function CustomizeModal({ isOpen, onClose }: CustomizeModalProps)
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors ${selectedPage === 'business' ? 'bg-[#5843BD] text-white' : 'bg-gray-100 text-gray-500 group-hover:bg-[#5843BD]/10 group-hover:text-[#5843BD]'}`}>
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
                     </div>
-                    <p className={`font-bold text-md mb-1 ${selectedPage === 'business' ? 'text-[#5843BD]' : 'text-gray-900'}`}>Want to build Your Business</p>
+                    <p className={`font-bold text-md mb-1 ${selectedPage === 'business' ? 'text-[#5843BD]' : 'text-gray-900'}`}>Build Your Business</p>
                     <p className="text-sm text-gray-500 leading-relaxed">Create a business profile and use the business tools Moil offers.</p>
                   </button>
                 </div>

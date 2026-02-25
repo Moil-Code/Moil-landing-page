@@ -224,7 +224,7 @@ export default function BusinessNavigation({ page, refQuery, lgQuery, setQueryLg
                     setIsOpen(false);
                   }}
                 >
-                  I want to hire workers
+                  Want to build your business
                 </button>
               </div>
 

@@ -162,7 +162,7 @@ export default function CandidateNavigation({
                     }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  I want to hire workers
+                  Want to build your business
                 </Link>
               </div>
 

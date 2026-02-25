@@ -25,7 +25,7 @@ interface CustomTranslateButtonProps {
 }
 
 // Helper to trigger Google Translate programmatically
-const triggerGoogleTranslate = (langCode: string) => {
+export const triggerGoogleTranslate = (langCode: 'en' | 'es') => {
   const maxAttempts = 20;
   let attempts = 0;
   
