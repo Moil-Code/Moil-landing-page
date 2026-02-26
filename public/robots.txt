@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://moil-business-nextjs-landing.vercel.app/sitemap.xml
+Sitemap: https://moilapp.com/sitemap.xml
 
 # Crawl-delay for better server performance
 Crawl-delay: 1

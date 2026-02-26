@@ -43,7 +43,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
       plan: "MARKETING PRO",
       price: {
         monthly: 75,
-        annually: 700
+        annually: 720
       },
       originalPrice: {
         monthly: 75,
@@ -194,7 +194,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
         plan: "MARKETING PRO",
         price: {
           monthly: 75,
-          annually: 700
+          annually: 720
         },
         originalPrice: {
           monthly: 75,
