@@ -383,7 +383,7 @@ export default function BusinessPage() {
           <div>
             <div className="section-tag rv">Your AI Co-Founder</div>
             <h2 className="section-headline rv">
-              The Smartest Hire
+              The Smartest Hire.
               <br />You&apos;ll <span style={{ color: 'var(--orange)' }}>Never Pay</span>
               <br />
               <span style={{ color: 'var(--purple-light)' }}>A Salary.</span>
