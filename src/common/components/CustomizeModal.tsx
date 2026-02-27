@@ -80,7 +80,7 @@ export default function CustomizeModal({ isOpen, onClose }: CustomizeModalProps)
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
             transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
-            className="relative bg-white rounded-3xl shadow-2xl max-w-2xl w-full border border-white/20 max-h-[90vh] sm:max-h-[85vh] md:max-h-none overflow-y-auto overscroll-contain"
+            className="relative bg-white rounded-3xl shadow-2xl max-w-2xl w-full border border-white/20 max-h-[calc(100vh-2rem)] sm:max-h-[calc(100vh-3rem)] md:max-h-[85vh] overflow-y-auto overscroll-contain"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -120,7 +120,9 @@ export default function CustomizeModal({ isOpen, onClose }: CustomizeModalProps)
                         : 'border-gray-100 hover:border-gray-200 hover:bg-gray-50'
                     }`}
                   >
-                    <span className="text-3xl filter drop-shadow-sm group-hover:scale-110 transition-transform duration-300">🇺🇸</span>
+                    <span className="text-3xl filter drop-shadow-sm group-hover:scale-110 transition-transform duration-300">
+                      <img src="https://res.cloudinary.com/drlcisipo/image/upload/v1714663084/English_1_z3fa77.png" alt="" />
+                    </span>
                     <div className="text-left">
                       <p className={`font-semibold text-lg ${selectedLanguage === 'en' ? 'text-[#5843BD]' : 'text-gray-900'}`}>English</p>
                     </div>
@@ -139,7 +141,9 @@ export default function CustomizeModal({ isOpen, onClose }: CustomizeModalProps)
                         : 'border-gray-100 hover:border-gray-200 hover:bg-gray-50'
                     }`}
                   >
-                    <span className="text-3xl filter drop-shadow-sm group-hover:scale-110 transition-transform duration-300">🇪🇸</span>
+                    <span className="text-3xl filter drop-shadow-sm group-hover:scale-110 transition-transform duration-300">
+                      <img src="https://res.cloudinary.com/drlcisipo/image/upload/v1713288601/Website%20images/Spanish_2_oaawih.svg" alt="" />
+                    </span>
                     <div className="text-left">
                       <p className={`font-semibold text-lg ${selectedLanguage === 'es' ? 'text-[#5843BD]' : 'text-gray-900'}`}>Español</p>
                     </div>
