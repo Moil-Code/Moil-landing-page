@@ -1,6 +1,5 @@
 `use client`
 
-import { businessBaseUrl } from "../../common/constants/baseUrl";
 import { safeWindow } from "../../../utils/safe_window";
 import { buildBusinessRegisterUrl } from "../utils/urlBuilder";
 
@@ -15,25 +14,99 @@ export default function PricingHeaderForPringItem({ flowId, plan, originalPrice,
 		safeWindow?.open(url, '_blank');
 	};
 
-	return (
-		<div className={`flex relative  flex-col ${plan === "STANDARD" ? "gap-y-6" : "gap-y-10"} p-6`}>
-			{plan === "STANDARD" &&
-				<div className="text-white absolute top-0 left-0 w-full py-2 text-center bg-[#FF6633] ">
-					Recommended
-				</div>
-			}
+	const isFeatured = plan === "PROFESSIONAL";
+	const currentPrice = allShow === "monthly" ? price.monthly : price.annually;
+	const origPrice = allShow === "monthly" ? originalPrice?.monthly : originalPrice?.annually;
+	const period = allShow === "monthly" ? "month" : "year";
+	const hasDiscount = origPrice && origPrice > currentPrice;
 
-			<p className={`text-[20px] lg:text-[24px] ${plan === "STANDARD" && "mt-[30px]"} text-center leading-[1.2] font-medium`}>{plan}</p>
-			<div>
-				{allShow === "annually" && originalPrice && (
-					<p className="text-[#858BA0] text-center text-xs leading-normal line-through mb-1">
-						${originalPrice.annually}/Year
-					</p>
-				)}
-				<p className="text-[#858BA0] text-center text-sm leading-normal"><span className="text-[#252430] text-[40px] font-[700]">{`$${allShow === "monthly" ? price.monthly : price.annually} `}</span>/{allShow === "monthly" ? "Month" : "Year"}</p>
-				{allShow === "annually" && limitedOffer && <p className="text-[#FF6633] text-xs leading-normal font-medium text-center mt-1">Limited offer until {limitedOffer}</p>}
+	return (
+		<div style={{
+			display: "flex",
+			flexDirection: "column",
+			gap: 8,
+			padding: "24px 20px",
+			position: "relative",
+			fontFamily: "'DM Sans', sans-serif"
+		}}>
+			{isFeatured && (
+				<span style={{
+					position: "absolute",
+					top: 16,
+					right: 16,
+					background: "#FF5C1A",
+					color: "white",
+					fontFamily: "'JetBrains Mono', monospace",
+					fontSize: 8,
+					fontWeight: 700,
+					padding: "3px 8px",
+					borderRadius: 4,
+					letterSpacing: 1,
+					textTransform: "uppercase"
+				}}>⭐ BEST VALUE</span>
+			)}
+
+			<p style={{
+				fontFamily: "'Bebas Neue', sans-serif",
+				fontSize: 28,
+				letterSpacing: 2,
+				textTransform: "uppercase",
+				color: "#EEF2FF",
+				marginBottom: 4
+			}}>{plan}</p>
+
+			{hasDiscount && (
+				<p style={{
+					fontFamily: "'JetBrains Mono', monospace",
+					fontSize: 11,
+					color: "#4A5368",
+					textDecoration: "line-through"
+				}}>${origPrice}/{period}</p>
+			)}
+
+			<div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 2 }}>
+				<span style={{
+					fontFamily: "'Bebas Neue', sans-serif",
+					fontSize: "clamp(44px,5vw,60px)",
+					lineHeight: 1,
+					color: isFeatured ? "#FF5C1A" : "#EEF2FF"
+				}}>${currentPrice}</span>
+				<span style={{
+					fontFamily: "'JetBrains Mono', monospace",
+					fontSize: 12,
+					color: "#4A5368"
+				}}>/{period}</span>
 			</div>
-			<button onClick={handleClick} className={`py-4 rounded-[4px] whitespace-nowrap px-6 text-center w-full ${plan === "STANDARD" ? "bg-[#5843BD] text-[#E6E9F5]" : "text-[#5843BD] bg-[#EEECF8]"} text-sm md:text-xs lg:text-sm leading-normal`}>{cta}</button>
+
+			{allShow === "annually" && limitedOffer && (
+				<p style={{
+					fontFamily: "'JetBrains Mono', monospace",
+					fontSize: 9,
+					color: "#FF5C1A",
+					letterSpacing: 1
+				}}>Limited offer until {limitedOffer}</p>
+			)}
+
+			<div style={{ height: 1, background: "#1A1F30", margin: "12px 0" }} />
+
+			<button
+				onClick={handleClick}
+				style={{
+					display: "block",
+					width: "100%",
+					padding: "12px",
+					borderRadius: 8,
+					fontFamily: "'DM Sans', sans-serif",
+					fontSize: 14,
+					fontWeight: 700,
+					textAlign: "center",
+					cursor: "pointer",
+					transition: "all 0.25s",
+					border: isFeatured ? "none" : "1px solid #222840",
+					background: isFeatured ? "#FF5C1A" : "transparent",
+					color: isFeatured ? "white" : "#8892AA"
+				}}
+			>{cta} →</button>
 		</div>
 	)
 }

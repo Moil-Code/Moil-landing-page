@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { safeWindow } from "../../../utils/safe_window";
-import { businessBaseUrl } from "../../common/constants/baseUrl";
 import { buildBusinessRegisterUrl } from "../utils/urlBuilder";
 
 export default function MobilePricingItem({ flowId, plan, originalPrice, limitedOffer, cta, price, allShow, values, refQuery, lgQuery }: { flowId: any, plan: string, originalPrice?: { monthly: number, annually: number }, limitedOffer?: string, cta: string, price: { monthly: number, annually: number }, allShow: string, values: string[][], refQuery?: string, lgQuery?: string }) {
@@ -21,57 +20,173 @@ export default function MobilePricingItem({ flowId, plan, originalPrice, limited
     safeWindow?.open(url, '_blank');
   };
 
+  const isFeatured = plan === "PROFESSIONAL";
+  const currentPrice = oneShow === "monthly" ? price.monthly : price.annually;
+  const origPrice = oneShow === "monthly" ? originalPrice?.monthly : originalPrice?.annually;
+  const period = oneShow === "monthly" ? "month" : "year";
+  const hasDiscount = origPrice && origPrice > currentPrice;
+
   return (
-    <div className="border my-2 border-[#E6E9F5]">
-      <div className={`flex relative flex-col ${plan === "STANDARD" ? "gap-y-6" : "gap-y-10"} p-6`}>
-        {plan === "STANDARD" &&
-          <div className="text-white absolute top-0 left-0 w-full py-2 text-center bg-[#FF6633] ">
-            Recommended
-          </div>
-        }
+    <div style={{
+      background: isFeatured
+        ? "linear-gradient(135deg, rgba(255,92,26,0.05), rgba(124,58,237,0.04), #0B0E18)"
+        : "#0B0E18",
+      border: isFeatured ? "1px solid #FF5C1A" : "1px solid #222840",
+      borderRadius: 22,
+      overflow: "hidden",
+      boxShadow: isFeatured ? "0 0 0 1px rgba(255,92,26,0.2), 0 32px 80px rgba(255,92,26,0.06)" : "none",
+      fontFamily: "'DM Sans', sans-serif"
+    }}>
+      {/* Card header */}
+      <div style={{ padding: "28px 24px 20px", position: "relative" }}>
+        {isFeatured && (
+          <span style={{
+            position: "absolute",
+            top: 20,
+            right: 20,
+            background: "#FF5C1A",
+            color: "white",
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 8,
+            fontWeight: 700,
+            padding: "3px 8px",
+            borderRadius: 4,
+            letterSpacing: 1,
+            textTransform: "uppercase"
+          }}>⭐ BEST VALUE</span>
+        )}
 
-        <p className={`text-[20px] lg:text-[24px] ${plan === "STANDARD" && "mt-[30px]"} text-center leading-[1.2] font-medium`}>{plan}</p>
-        <div>
-          {(oneShow === "annually") && originalPrice && (
-            <p className="text-[#858BA0] text-center text-xs leading-normal line-through mb-1">
-              ${originalPrice.annually}/Year
-            </p>
-          )}
-          <p className="text-[#858BA0] text-center text-sm leading-normal"><span className="text-[#252430] text-[40px] font-[700]">{`$${allShow === "monthly" || oneShow === "monthly" ? price.monthly : price.annually} `}</span>/{oneShow === "monthly" ? "Month" : "Year"}</p>
-          {(oneShow === "annually") && limitedOffer && <p className="text-[#FF6633] text-xs leading-normal font-medium text-center mt-1">Limited offer until {limitedOffer}</p>}
+        <p style={{
+          fontFamily: "'Bebas Neue', sans-serif",
+          fontSize: 28,
+          letterSpacing: 2,
+          textTransform: "uppercase",
+          color: "#EEF2FF",
+          marginBottom: 12
+        }}>{plan}</p>
+
+        {hasDiscount && (
+          <p style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 11,
+            color: "#4A5368",
+            textDecoration: "line-through",
+            marginBottom: 2
+          }}>${origPrice}/{period}</p>
+        )}
+
+        <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 4 }}>
+          <span style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: 52,
+            lineHeight: 1,
+            color: isFeatured ? "#FF5C1A" : "#EEF2FF"
+          }}>${currentPrice}</span>
+          <span style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 12,
+            color: "#4A5368"
+          }}>/{period}</span>
         </div>
-        <button onClick={handleClick} className={`py-4 rounded-[4px] whitespace-nowrap px-6 text-center w-full ${plan === "STANDARD" ? "bg-[#5843BD] text-[#E6E9F5]" : "text-[#5843BD] bg-[#EEECF8]"} text-sm md:text-xs lg:text-sm leading-normal`}>{cta}</button>
 
-        <div className="flex item-center justify-center gap-x-4">
+        {oneShow === "annually" && limitedOffer && (
+          <p style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: 9,
+            color: "#FF5C1A",
+            letterSpacing: 1,
+            marginBottom: 8
+          }}>Limited offer until {limitedOffer}</p>
+        )}
+
+        {/* Toggle buttons */}
+        <div style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 4,
+          background: "#10141F",
+          border: "1px solid #222840",
+          borderRadius: 100,
+          padding: 4,
+          marginBottom: 16
+        }}>
           <button
             onClick={() => setOneShow("monthly")}
-            className={`${oneShow === "monthly" && allShow === "monthly" ? "bg-[#FF6633] text-white text-[#252430]" : allShow === "annually" && oneShow === "monthly" ? "bg-[#FF6633] text-white text-[#252430]" : "border_05 border-[#858BA0]"} py-[10px] px-[20px] rounded-[22px] text-center leading-normal text-xs`}>Monthly Plans</button>
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 12,
+              fontWeight: 500,
+              padding: "7px 18px",
+              borderRadius: 100,
+              border: "none",
+              cursor: "pointer",
+              transition: "all 0.25s",
+              background: oneShow === "monthly" ? "#FF5C1A" : "transparent",
+              color: oneShow === "monthly" ? "#fff" : "#8892AA"
+            }}
+          >Monthly Plans</button>
           <button
             onClick={() => setOneShow("annually")}
-            className={`${oneShow === "annually" && allShow === "annually" ? "bg-[#FF6633] text-white text-[#252430]" : allShow === "monthly" && oneShow === "annually" ? "bg-[#FF6633] text-white text-[#252430]" : "border_05 border-[#858BA0]"} py-[10px] px-[20px] rounded-[24px] text-center leading-normal text-xs`}>See Annual Plans</button>
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 12,
+              fontWeight: 500,
+              padding: "7px 18px",
+              borderRadius: 100,
+              border: "none",
+              cursor: "pointer",
+              transition: "all 0.25s",
+              background: oneShow === "annually" ? "#FF5C1A" : "transparent",
+              color: oneShow === "annually" ? "#fff" : "#8892AA"
+            }}
+          >See Annual Plans</button>
         </div>
+
+        <button
+          onClick={handleClick}
+          style={{
+            display: "block",
+            width: "100%",
+            padding: "13px",
+            borderRadius: 8,
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 14,
+            fontWeight: 700,
+            textAlign: "center",
+            cursor: "pointer",
+            transition: "all 0.25s",
+            border: isFeatured ? "none" : "1px solid #222840",
+            background: isFeatured ? "#FF5C1A" : "transparent",
+            color: isFeatured ? "white" : "#8892AA"
+          }}
+        >{cta} →</button>
       </div>
 
-      <table className="w-full">
+      {/* Feature table */}
+      <table style={{ width: "100%", borderCollapse: "collapse" }}>
         <tbody>
-          {values.map((items, i) => {
-            return (
-              <tr key={i}>
-                <td className="border border-[#E6E9F5] max-w-[150px]">
-                  <div className="p-4">
-                    <p className="text-xs font-medium leading-[1.3] text-[#252430]">{items[0]}</p>
-                  </div>
-                </td>
-                <td className={`border border-[#E6E9F5] ${plan === "STANDARD" && "bg-[#EEECF8]"}`}>
-                  <div className="p-4">
-                    <p className={`text-base font-medium leading-[1.3] text-[#252430]`}>{items[1]}</p>
-                  </div>
-                </td>
-              </tr>
-            )
-          })}
+          {values.map((items, i) => (
+            <tr key={i}>
+              <td style={{
+                borderTop: "1px solid #1A1F30",
+                padding: "12px 16px",
+                maxWidth: 160,
+                color: "#EEF2FF",
+                fontSize: 12,
+                fontWeight: 500
+              }}>{items[0]}</td>
+              <td style={{
+                borderTop: "1px solid #1A1F30",
+                padding: "12px 16px",
+                background: isFeatured ? "rgba(255,92,26,0.04)" : "transparent",
+                color: items[1] === "X" ? "#4A5368" : isFeatured ? "#FF5C1A" : "#10B981",
+                fontSize: 13,
+                fontWeight: items[1] !== "X" ? 500 : 400
+              }}>{items[1]}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
-  )
+  );
 }
