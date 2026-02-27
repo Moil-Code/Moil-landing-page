@@ -630,7 +630,7 @@ export default function Page360() {
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 6 }}>
                     {[["01","cm-edu","📊"],["02","cm-promo","⚡",true],["03","cm-eng","💬"],["04","cm-bts","🔧"],["05","cm-edu","📈"],
                       ["06","cm-promo","🎯",true],["07","cm-eng","🗣️"],["08","cm-edu","💡"],["09","cm-bts","👀"],["10","cm-promo","🔥",true]].map(([num,type,emoji,hasVid])=>(
-                      <div className="p360-cal-mini" key={num}>
+                      <div className="p360-cal-mini" key={num as string}>
                         <div className="p360-cm-num">{num}</div>
                         <div className={`p360-cm-type ${type}`}>{(type as string).replace("cm-","").charAt(0).toUpperCase()+(type as string).replace("cm-","").slice(1)}</div>
                         <div className="p360-cm-img">{emoji}{hasVid && <div className="p360-cm-vid">▶</div>}</div>
