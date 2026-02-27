@@ -72,7 +72,7 @@ export default function BusinessPricingPage() {
 
         <div className="hero-ctas">
           <a className="btn-primary" href="https://business.moilapp.com/register" target="_blank" rel="noreferrer">
-            🚀 Start Free Now <span>→</span>
+            🚀 Start Now <span>→</span>
           </a>
           <a className="btn-secondary" href="#pricing">
             ▶ See Plans
