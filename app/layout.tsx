@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
+import { Bebas_Neue } from 'next/font/google';
+
 import './globals.css';
 import Analytics from '../src/common/components/analytics';
 import { baseURL1 } from '../src/common/constants/baseUrl';
 
-const poppins = Poppins({ weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'], subsets: ['latin'] });
+const bebas = Bebas_Neue({ weight: ['400'], subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
@@ -186,7 +187,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${poppins.className} antialiased`} suppressHydrationWarning={true}>
+      <body className={`${bebas.className} antialiased`} suppressHydrationWarning={true}>
         <Analytics />
         <div id="modal"></div>
         <div className="flex flex-col min-h-screen">

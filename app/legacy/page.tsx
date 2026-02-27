@@ -3,40 +3,36 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
+import FAQSection from "../../src/business/sections/FAQ_section";
 import SelectLanguage from "../../src/common/components/selectLanguage";
-import CustomizeModal from "../../src/common/components/CustomizeModal";
 import FooterSection from "../../src/common/sections/footer";
 
-// Candidate Components
-import CandidateNavigation from "../../src/candidate/components/navigation";
-import CandidateHero from "../../src/candidate/sections/hero";
-import AIResumeSection from "../../src/candidate/sections/ai_resume";
-import VoiceAssistantSection from "../../src/candidate/sections/voice_assistant";
-import BilingualSection from "../../src/candidate/sections/bilingual";
-import StatsSection from "../../src/candidate/sections/stats";
-import TestimonialsSection from "../../src/candidate/sections/testimonial_section";
-import FAQSection from "../../src/candidate/sections/FAQ_section";
-import NewsletterSection from "../../src/candidate/sections/newsletter";
-import { baseURL1 } from "../../src/common/constants/baseUrl";
+// New Enhanced Business Components
+import BusinessNavigation from "../../src/business/components/navigation";
+import EnhancedHero from "../../src/business/sections/enhanced_hero";
+import ServicesShowcase from "../../src/business/sections/services_showcase";
+import MarketResearch from "../../src/business/sections/market_research";
+import SmartHiring from "../../src/business/sections/smart_hiring";
+import FinalCTA from "../../src/business/sections/final_cta";
+import TestimonialsSection from "../../src/business/sections/testimonial_section";
 
-export default function CandidatePage() {
+export default function BusinessPage() {
   const [refQuery, setRefQuery] = useState<string | null>(null);
   const [queryLg, setQueryLg] = useState("");
   const [showLanguageModal, setShowLanguageModal] = useState(false);
-  const [showCustomizeModal, setShowCustomizeModal] = useState(false);
 
   useEffect(() => {
     // Get URL parameters on client side
     const url = new URL(window.location.href);
     const searchParams = new URLSearchParams(url.search);
     setRefQuery(searchParams.get('ref'));
-
+    
     // Get lg parameter from URL first (highest priority)
     const lgParam = searchParams.get('lg');
-
+    
     // Get stored language from localStorage
     const tlang = localStorage.getItem("tlang");
-
+    
     // Determine the language to use (URL param takes priority, then localStorage)
     let effectiveLang = '';
     if (lgParam && (lgParam === 'en' || lgParam === 'es')) {
@@ -51,31 +47,30 @@ export default function CandidatePage() {
       url.searchParams.set('lg', tlang);
       window.history.replaceState({}, '', url.toString());
     }
-
+    
     if (effectiveLang) {
       setQueryLg(effectiveLang);
     }
 
-    console.log('Page load - URL:', window.location.href, 'tlang:', tlang, 'lgParam:', lgParam, 'effective:', effectiveLang);
-
-    // Show customize modal on first visit to homepage
-    const currentPath = window.location.pathname;
-    const isHomePage = currentPath === '/' || currentPath === '' || currentPath === '/candidate';
-    const customizeModalShown = sessionStorage.getItem('customizeModalShown');
-
-    if (isHomePage && !customizeModalShown) {
-      // Show customize modal on first visit to homepage
+    console.log('Business page load - URL:', window.location.href, 'tlang:', tlang, 'lgParam:', lgParam, 'effective:', effectiveLang);
+    
+    // Show language modal only if no language is set yet
+    const justSelectedLanguage = sessionStorage.getItem('justSelectedLanguage');
+    if (!effectiveLang && !justSelectedLanguage) {
       setTimeout(() => {
-        setShowCustomizeModal(true);
-      }, 500);
+        setShowLanguageModal(true);
+      }, 50);
+    }
+    
+    // Clear the flag after checking
+    if (justSelectedLanguage) {
+      sessionStorage.removeItem('justSelectedLanguage');
     }
   }, []);
 
-  console.log(baseURL1);
-
   const handleGetStarted = () => {
-    // Scroll to job search section or handle signup
-    document.getElementById('job-search')?.scrollIntoView({ behavior: 'smooth' });
+    // Scroll to pricing section or handle signup
+    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const showModal = showLanguageModal ? createPortal(
@@ -92,40 +87,30 @@ export default function CandidatePage() {
   return (
     <>
       <div className="bg-white">
-        {/* Enhanced Candidate Landing Page */}
-        <CandidateNavigation
+        {/* Enhanced Business Landing Page */}
+        <BusinessNavigation
           page="home"
           refQuery={refQuery}
           lgQuery={queryLg}
           setQueryLg={setQueryLg}
           setShowLanguageModal={setShowLanguageModal}
         />
-        <CandidateHero onGetStarted={handleGetStarted} refQuery={refQuery || undefined} lgQuery={queryLg} />
-        <div id="ai-resume">
-          <AIResumeSection refQuery={refQuery || undefined} lgQuery={queryLg} />
+        <EnhancedHero onGetStarted={handleGetStarted} refQuery={refQuery || undefined} lgQuery={queryLg} />
+        <div id="services">
+          <ServicesShowcase refQuery={refQuery || undefined} lgQuery={queryLg} />
         </div>
-        <div id="voice-assistant">
-          <VoiceAssistantSection refQuery={refQuery || undefined} lgQuery={queryLg} />
+        <div id="features">
+          <MarketResearch refQuery={refQuery || undefined} lgQuery={queryLg} />
         </div>
-        <div id="bilingual">
-          <BilingualSection refQuery={refQuery || undefined} lgQuery={queryLg} />
-        </div>
-        <div id="stats">
-          <StatsSection refQuery={refQuery || undefined} lgQuery={queryLg} />
-        </div>
+        <SmartHiring refQuery={refQuery || undefined} lgQuery={queryLg} />
         <div id="testimonials">
-          <TestimonialsSection />
+          <TestimonialsSection refQuery={refQuery || undefined} lgQuery={queryLg} />
         </div>
-        <div id="faq">
-          <FAQSection />
-        </div>
-        <NewsletterSection />
+        <FAQSection />
+        <FinalCTA refQuery={refQuery || undefined} lgQuery={queryLg} />
         <FooterSection refQuery={refQuery} lgQuery={queryLg} />
         {showModal}
       </div>
-
-      {/* Customize Modal */}
-      <CustomizeModal isOpen={showCustomizeModal} onClose={() => setShowCustomizeModal(false)} />
 
       {/* Modal Container */}
       <div id="modal"></div>

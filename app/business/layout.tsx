@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import './business.css';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
 
 export const metadata: Metadata = {
