@@ -7,44 +7,51 @@ import { BusinessMobileMenu } from '../components/BusinessMobileMenu';
 import { BusinessNav, type NavItem } from '../components/BusinessNav';
 import { BusinessPricingSection } from '../components/BusinessPricingSection';
 import { useBusinessUi } from '../hooks/useBusinessUi';
+import { I18nProvider, useLanguageContext } from '../../../src/common/components/I18nProvider';
+import { appendLangToUrl } from '../utils/appendLangToUrl';
 
-const navItems: NavItem[] = [
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'FAQ', href: '#faq' },
-  { label: 'Get Started', href: '#final' },
-  { label: 'Blog', href: 'https://blog.moilapp.com', external: true },
-];
-
-const mobileItems: NavItem[] = [
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'FAQ', href: '#faq' },
-  { label: 'Get Started', href: '#final' },
-  { label: 'Blog', href: 'https://blog.moilapp.com', external: true },
-];
-
-export default function BusinessPricingPage() {
+function BusinessPricingPageContent() {
   const { theme, toggleTheme, menuOpen, setMenuOpen, scrolled } = useBusinessUi();
+  const { t, lang: currentLang, setLang } = useLanguageContext();
+
+  const handleLanguageChange = (lang: 'en' | 'es') => {
+    setLang(lang);
+  };
+
+  const navItems: NavItem[] = [
+    { label: t.business.nav.pricing, href: '#pricing' },
+    { label: t.common.faq, href: '#faq' },
+    { label: t.common.getStarted, href: '#final' },
+    { label: t.common.blog, href: 'https://blog.moilapp.com', external: true },
+  ];
+
+  const mobileItems: NavItem[] = [
+    { label: t.business.nav.pricing, href: '#pricing' },
+    { label: t.common.faq, href: '#faq' },
+    { label: t.common.getStarted, href: '#final' },
+    { label: t.common.blog, href: 'https://blog.moilapp.com', external: true },
+  ];
 
   return (
-    <div>
-      <div className="cursor" id="cur"></div>
-      <div className="cursor-ring" id="curR"></div>
+      <div>
+        <div className="cursor" id="cur"></div>
+        <div className="cursor-ring" id="curR"></div>
 
-      <BusinessMobileMenu
-        open={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        onToggleTheme={toggleTheme}
-        theme={theme}
-        items={mobileItems}
-      />
-      <BusinessNav
-        scrolled={scrolled}
-        menuOpen={menuOpen}
-        onToggleMenu={() => setMenuOpen((prev) => !prev)}
-        onToggleTheme={toggleTheme}
-        theme={theme}
-        items={navItems}
-      />
+        <BusinessMobileMenu
+          open={menuOpen}
+          onClose={() => setMenuOpen(false)}
+          onToggleTheme={toggleTheme}
+          theme={theme}
+          items={mobileItems}
+        />
+        <BusinessNav
+          scrolled={scrolled}
+          menuOpen={menuOpen}
+          onToggleMenu={() => setMenuOpen((prev) => !prev)}
+          onToggleTheme={toggleTheme}
+          theme={theme}
+          items={navItems}
+        />
 
       <section id="hero">
         <div className="hero-grid"></div>
@@ -54,46 +61,45 @@ export default function BusinessPricingPage() {
 
         <div className="hero-eyebrow pricing-hero-eyebrow">
           <span className="eyebrow-pulse"></span>
-          💸 Simple, transparent pricing for small businesses
+          {t.business.pricingPage.heroEyebrow}
         </div>
 
         <h1 className="hero-headline">
-          Pricing That <span className="hl-o">Scales</span>
+          {t.business.pricingPage.heroHeadline} <span className="hl-o">{t.business.pricingPage.heroHighlight1}</span>
           <br />
-          With Your Business
+          {t.business.pricingPage.heroMiddle}
           <br />
-          <span className="hl-p">Not Against It.</span>
+          <span className="hl-p">{t.business.pricingPage.heroHighlight2}</span>
         </h1>
 
         <p className="hero-sub">
-          Pick the plan that fits your stage. Upgrade as you grow, cancel anytime, and keep your AI co-founder working
-          24/7.
+          {t.business.pricingPage.heroSub}
         </p>
 
         <div className="hero-ctas">
-          <a className="btn-primary" href="https://business.moilapp.com/register" target="_blank" rel="noreferrer">
-            🚀 Start Free Now <span>→</span>
+          <a className="btn-primary" href={appendLangToUrl("https://business.moilapp.com/register", currentLang)} target="_blank" rel="noreferrer">
+            {t.business.pricingPage.heroCta} <span>→</span>
           </a>
           <a className="btn-secondary" href="#pricing">
-            ▶ See Plans
+            {t.business.pricingPage.heroCtaSecondary}
           </a>
         </div>
 
         <div className="hero-trust">
           <div className="trust-pill">
-            <span className="dot dot-g"></span> 30-Day Guarantee
+            <span className="dot dot-g"></span> {t.business.pricingPage.trust30Day}
           </div>
           <div className="trust-pill">
-            <span className="dot dot-o"></span> No Setup Fees
+            <span className="dot dot-o"></span> {t.business.pricingPage.trustNoSetup}
           </div>
           <div className="trust-pill">
-            <span className="dot dot-p"></span> Cancel Anytime
+            <span className="dot dot-p"></span> {t.business.pricingPage.trustCancel}
           </div>
           <div className="trust-pill">
-            <span className="dot dot-g"></span> Bilingual EN/ES
+            <span className="dot dot-g"></span> {t.business.pricingPage.trustBilingual}
           </div>
           <div className="trust-pill">
-            <span className="dot dot-o"></span> From $15/month
+            <span className="dot dot-o"></span> {t.business.pricingPage.trustPrice}
           </div>
         </div>
       </section>
@@ -110,7 +116,15 @@ export default function BusinessPricingPage() {
 
       <BusinessFinalCta />
 
-      <BusinessFooter theme={theme} onToggleTheme={toggleTheme} />
-    </div>
+      <BusinessFooter theme={theme} onToggleTheme={toggleTheme} onLanguageChange={handleLanguageChange} currentLang={currentLang} />
+      </div>
+  );
+}
+
+export default function BusinessPricingPage() {
+  return (
+    <I18nProvider>
+      <BusinessPricingPageContent />
+    </I18nProvider>
   );
 }

@@ -1,25 +1,29 @@
 'use client';
 
+import { appendLangToUrl } from '../utils/appendLangToUrl';
+import { useLanguageContext } from '../../../src/common/components/I18nProvider';
+
 export function BusinessFinalCta() {
+  const { t, lang } = useLanguageContext();
+
   return (
     <section id="final">
       <div className="final-bg"></div>
       <div className="final-grid-lines"></div>
-      <p className="final-tag rv">Your Competitors Are Using AI Right Now</p>
+      <p className="final-tag rv">{t.business.finalCta.tag}</p>
       <h2 className="final-headline rv">
-        Stop Running<br />Your Business<br />
-        <span className="fl-p">Alone.</span>
+        {t.business.finalCta.headline}<br />{t.business.finalCta.headlineMiddle}<br />
+        <span className="fl-p">{t.business.finalCta.headlineHighlight}</span>
       </h2>
       <p className="final-sub rv">
-        Join 500+ Texas businesses with an AI co-founder in their corner. Market research, business plan, 30-day content
-        strategy, AI visuals, and smart hiring — all in one conversation. Starting at $15/month.
+        {t.business.finalCta.subheadline}
       </p>
-      <a className="final-btn rv" href="https://business.moilapp.com/register" target="_blank" rel="noreferrer">
-        🚀 Meet Your AI Co-Founder — Free <span>→</span>
+      <a className="final-btn rv" href={appendLangToUrl("https://business.moilapp.com/register", lang)} target="_blank" rel="noreferrer">
+        {t.business.finalCta.cta} <span>→</span>
       </a>
       <div className="final-trust rv">
-        {['Free to start', '30-Day Guarantee', 'No Credit Card Needed', 'SOC 2 Compliant', 'Bilingual EN/ES'].map((item) => (
-          <div className="ft-item" key={item}>
+        {t.business.finalCta.trust.map((item, index) => (
+          <div className="ft-item" key={`final-trust-${index}`}>
             <span className="gc">✓</span> {item}
           </div>
         ))}
@@ -35,7 +39,7 @@ export function BusinessFinalCta() {
             marginBottom: '8px',
           }}
         >
-          Trusted by 500+ businesses
+          {t.business.finalCta.trustedBy}
         </div>
         <div style={{ color: 'var(--purple-light)', fontSize: '18px', letterSpacing: '3px' }}>★★★★★</div>
         <div
@@ -46,7 +50,7 @@ export function BusinessFinalCta() {
             marginTop: '6px',
           }}
         >
-          5,000+ jobs posted · 94% interview success · $850 avg cost per hire
+          {t.business.finalCta.statsLine}
         </div>
       </div>
     </section>

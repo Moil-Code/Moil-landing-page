@@ -3,18 +3,18 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
-import FAQSection from "../../src/business/sections/FAQ_section";
+import FAQSection from "../../src/legacy/sections/FAQ_section";
 import SelectLanguage from "../../src/common/components/selectLanguage";
 import FooterSection from "../../src/common/sections/footer";
 
 // New Enhanced Business Components
-import BusinessNavigation from "../../src/business/components/navigation";
-import EnhancedHero from "../../src/business/sections/enhanced_hero";
-import ServicesShowcase from "../../src/business/sections/services_showcase";
-import MarketResearch from "../../src/business/sections/market_research";
-import SmartHiring from "../../src/business/sections/smart_hiring";
-import FinalCTA from "../../src/business/sections/final_cta";
-import TestimonialsSection from "../../src/business/sections/testimonial_section";
+import BusinessNavigation from "../../src/legacy/components/navigation";
+import EnhancedHero from "../../src/legacy/sections/enhanced_hero";
+import ServicesShowcase from "../../src/legacy/sections/services_showcase";
+import MarketResearch from "../../src/legacy/sections/market_research";
+import SmartHiring from "../../src/legacy/sections/smart_hiring";
+import FinalCTA from "../../src/legacy/sections/final_cta";
+import TestimonialsSection from "../../src/legacy/sections/testimonial_section";
 
 export default function BusinessPage() {
   const [refQuery, setRefQuery] = useState<string | null>(null);

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateAudienceAnalysis } from '../../../../src/business/utils/geminiApi';
+import { generateAudienceAnalysis } from '../../../../src/legacy/utils/geminiApi';
 
 export async function POST(request: NextRequest) {
   try {

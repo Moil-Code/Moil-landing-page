@@ -1,4 +1,4 @@
-import { StarSvg } from "../../business/components/svgs";
+import { StarSvg } from "../../legacy/components/svgs";
 
 export default function TestimonialItem({ testimonialImage, testimonialName, testimonial }: { testimonialImage: string, testimonialName: string, testimonial: string }) {
 	return (

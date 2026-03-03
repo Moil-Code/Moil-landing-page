@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import SelectLanguage from "../../src/common/components/selectLanguage";
 import CustomizeModal from "../../src/common/components/CustomizeModal";
 import FooterSection from "../../src/common/sections/footer";
+import { I18nProvider, useLanguageContext } from "../../src/common/components/I18nProvider";
 
 // Candidate Components
 import CandidateNavigation from "../../src/candidate/components/navigation";
@@ -19,11 +20,24 @@ import FAQSection from "../../src/candidate/sections/FAQ_section";
 import NewsletterSection from "../../src/candidate/sections/newsletter";
 import { baseURL1 } from "../../src/common/constants/baseUrl";
 
-export default function CandidatePage() {
+function CandidatePageContent() {
+  const { t, lang: currentLang, setLang } = useLanguageContext();
   const [refQuery, setRefQuery] = useState<string | null>(null);
   const [queryLg, setQueryLg] = useState("");
   const [showLanguageModal, setShowLanguageModal] = useState(false);
   const [showCustomizeModal, setShowCustomizeModal] = useState(false);
+
+  const handleLanguageChange = (lang: 'en' | 'es') => {
+    setLang(lang);
+    setQueryLg(lang);
+  };
+
+  // Sync queryLg with currentLang from context
+  useEffect(() => {
+    if (currentLang) {
+      setQueryLg(currentLang);
+    }
+  }, [currentLang]);
 
   useEffect(() => {
     // Get URL parameters on client side
@@ -56,25 +70,19 @@ export default function CandidatePage() {
       setQueryLg(effectiveLang);
     }
 
-    console.log('Page load - URL:', window.location.href, 'tlang:', tlang, 'lgParam:', lgParam, 'effective:', effectiveLang);
-
     // Show customize modal on first visit to homepage
     const currentPath = window.location.pathname;
     const isHomePage = currentPath === '/' || currentPath === '' || currentPath === '/candidate';
     const customizeModalShown = sessionStorage.getItem('customizeModalShown');
 
     if (isHomePage && !customizeModalShown) {
-      // Show customize modal on first visit to homepage
       setTimeout(() => {
         setShowCustomizeModal(true);
       }, 500);
     }
   }, []);
 
-  console.log(baseURL1);
-
   const handleGetStarted = () => {
-    // Scroll to job search section or handle signup
     document.getElementById('job-search')?.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -130,5 +138,13 @@ export default function CandidatePage() {
       {/* Modal Container */}
       <div id="modal"></div>
     </>
+  );
+}
+
+export default function CandidatePage() {
+  return (
+    <I18nProvider>
+      <CandidatePageContent />
+    </I18nProvider>
   );
 }

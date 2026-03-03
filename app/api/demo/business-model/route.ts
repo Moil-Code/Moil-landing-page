@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateBusinessModel } from '../../../../src/business/utils/geminiApi';
+import { generateBusinessModel } from '../../../../src/legacy/utils/geminiApi';
 
 export async function POST(request: NextRequest) {
   try {
