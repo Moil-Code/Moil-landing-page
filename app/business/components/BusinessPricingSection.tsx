@@ -5,6 +5,7 @@ import { useLanguageContext } from '../../../src/common/components/I18nProvider'
 
 export function BusinessPricingSection() {
   const { t, lang } = useLanguageContext();
+  const pricingPage = typeof window !== 'undefined' && window.location.pathname.includes('/pricing');
 
   const plans = [
     {
@@ -127,6 +128,17 @@ export function BusinessPricingSection() {
           </div>
         ))}
       </div>
+
+
+      {!pricingPage && (<div style={{ textAlign: 'center', marginTop: '40px' }} className="rv">
+        <a
+          href={`/business/pricing?lg=${lang}`}
+          className="btn-secondary"
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+        >
+          {t.business.pricing.seeDetailed}
+        </a>
+      </div>)}
     </section>
   );
 }

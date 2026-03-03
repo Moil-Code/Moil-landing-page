@@ -19,17 +19,22 @@ function BusinessPricingPageContent() {
   };
 
   const navItems: NavItem[] = [
+    { label: t.business.nav.features, href: '/business#capabilities' },
+    { label: t.business.nav.howItWorks, href: '/business#journey' },
+    { label: t.business.nav.hiring, href: '/business#hiring' },
     { label: t.business.nav.pricing, href: '#pricing' },
-    { label: t.common.faq, href: '#faq' },
-    { label: t.common.getStarted, href: '#final' },
     { label: t.common.blog, href: 'https://blog.moilapp.com', external: true },
+    { label: t.common.switchToCandidate, href: '/candidate' },
   ];
 
   const mobileItems: NavItem[] = [
+    { label: t.common.whatIsMoil, href: '/business#identity' },
+    { label: t.business.nav.features, href: '/business#capabilities' },
+    { label: t.business.nav.howItWorks, href: '/business#journey' },
+    { label: t.common.smartHiring, href: '/business#hiring' },
     { label: t.business.nav.pricing, href: '#pricing' },
-    { label: t.common.faq, href: '#faq' },
-    { label: t.common.getStarted, href: '#final' },
     { label: t.common.blog, href: 'https://blog.moilapp.com', external: true },
+    { label: t.common.switchToCandidate, href: '/candidate' },
   ];
 
   return (
