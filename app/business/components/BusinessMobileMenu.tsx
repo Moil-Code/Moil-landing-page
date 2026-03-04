@@ -21,7 +21,7 @@ export function BusinessMobileMenu({
   onToggleTheme,
   theme,
   items,
-  ctaLabel = '🚀 Get Started Free',
+  ctaLabel = '🚀 Get Started',
   ctaHref = 'https://business.moilapp.com/register',
   currentLang,
 }: BusinessMobileMenuProps) {

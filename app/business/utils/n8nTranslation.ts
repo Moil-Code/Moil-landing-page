@@ -208,7 +208,7 @@ export const staticTranslations: Record<SupportedLanguage, Record<string, string
     'nav.pricing': 'Pricing',
     'nav.blog': 'Blog',
     'nav.switchToCandidate': 'Switch to Candidate',
-    'nav.getStarted': 'Get Started Free',
+    'nav.getStarted': 'Get Started',
     'nav.login': 'Log In',
 
     // Hero

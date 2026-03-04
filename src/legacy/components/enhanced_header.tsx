@@ -54,7 +54,7 @@ export default function EnhancedHeader({ onLanguageClick }: EnhancedHeaderProps)
               EN
             </button>
             <button className="header-cta">
-              Get Started Free
+              Get Started
             </button>
           </div>
 
@@ -89,7 +89,7 @@ export default function EnhancedHeader({ onLanguageClick }: EnhancedHeaderProps)
                 Contact
               </Link>
               <button className="header-cta mt-4 w-full">
-                Get Started Free
+                Get Started
               </button>
             </nav>
           </div>

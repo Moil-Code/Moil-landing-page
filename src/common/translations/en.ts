@@ -2,7 +2,7 @@ export const en = {
   // Common
   common: {
     getStarted: 'Get Started',
-    getStartedFree: 'Get Started Free',
+    getStartedFree: 'Get Started',
     learnMore: 'Learn More',
     seeDetailedPricing: 'See Detailed Pricing',
     switchToCandidate: 'Switch to Candidate',
@@ -107,7 +107,7 @@ export const en = {
     },
     identity: {
       tag: 'Your AI Co-Founder',
-      headline: 'The Smartest Hire',
+      headline: 'The Smartest Hire.',
       headlineHighlight1: 'Never Pay',
       headlineHighlight2: 'A Salary.',
       quote: 'Running a small business means wearing every hat — CEO, marketer, recruiter, strategist — all at once.',
@@ -168,7 +168,7 @@ export const en = {
         'AI images, video, 30-day calendar included',
         'Bilingual English & Spanish',
       ],
-      moilCta: 'Start Free With Your AI Co-Founder →',
+      moilCta: 'Start With Your AI Co-Founder →',
       moilTrust: 'Secure · 30-day guarantee · No setup fees',
     },
     capabilities: {
@@ -358,7 +358,7 @@ export const en = {
         ['Document Creation', '✓ Unlimited', '✓ Expensive', '✗'],
         ['Monthly Price', '$15–$75/mo', '$5,000+/project', '$50–$200/mo'],
       ],
-      cta: '🚀 Start Free — Experience The Difference →',
+      cta: '🚀 Start — Experience The Difference →',
     },
     bilingualSection: {
       tag: 'Built for the America That Exists',
@@ -522,7 +522,7 @@ export const en = {
       heroMiddle: 'With Your Business',
       heroHighlight2: 'Not Against It.',
       heroSub: 'Pick the plan that fits your stage. Upgrade as you grow, cancel anytime, and keep your AI co-founder working 24/7.',
-      heroCta: '🚀 Start Free Now',
+      heroCta: '🚀 Start Now',
       heroCtaSecondary: '▶ See Plans',
       trust30Day: '30-Day Guarantee',
       trustNoSetup: 'No Setup Fees',

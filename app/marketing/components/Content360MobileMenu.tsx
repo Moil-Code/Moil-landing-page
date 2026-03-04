@@ -29,7 +29,7 @@ export function Content360MobileMenu({
         </a>
       ))}
       <button className="mmenu-cta" type="button" onClick={handleCtaClick}>
-        🚀 Get Started Free
+        🚀 Get Started
       </button>
       <div className="mobile-menu-footer">
         <span className="mmenu-theme-label">Theme</span>
