@@ -99,7 +99,7 @@ function CandidatePageContent() {
 
   return (
     <>
-      <div className="bg-white">
+      <div className="bg-white" data-page="candidate">
         {/* Enhanced Candidate Landing Page */}
         <CandidateNavigation
           page="home"

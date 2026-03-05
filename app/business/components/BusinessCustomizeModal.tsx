@@ -22,14 +22,14 @@ export function BusinessCustomizeModal({ isOpen, onClose }: BusinessCustomizeMod
 
     const targetPath = selectedPage === 'candidate' ? '/' : '/business';
     router.push(`${targetPath}?lg=${selectedLanguage}`);
-    
+
     onClose();
   };
 
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       className="customize-modal-overlay"
       onClick={onClose}
       style={{
@@ -44,7 +44,7 @@ export function BusinessCustomizeModal({ isOpen, onClose }: BusinessCustomizeMod
         padding: '16px',
       }}
     >
-      <div 
+      <div
         className="customize-modal"
         onClick={(e) => e.stopPropagation()}
         style={{
@@ -167,14 +167,14 @@ export function BusinessCustomizeModal({ isOpen, onClose }: BusinessCustomizeMod
                 }}
               >
                 <svg width="28" height="20" viewBox="0 0 28 20" style={{ borderRadius: '4px', flexShrink: 0 }}>
-                  <rect width="28" height="20" fill="#B22234"/>
-                  <rect y="1.54" width="28" height="1.54" fill="white"/>
-                  <rect y="4.62" width="28" height="1.54" fill="white"/>
-                  <rect y="7.69" width="28" height="1.54" fill="white"/>
-                  <rect y="10.77" width="28" height="1.54" fill="white"/>
-                  <rect y="13.85" width="28" height="1.54" fill="white"/>
-                  <rect y="16.92" width="28" height="1.54" fill="white"/>
-                  <rect width="11.2" height="10.77" fill="#3C3B6E"/>
+                  <rect width="28" height="20" fill="#B22234" />
+                  <rect y="1.54" width="28" height="1.54" fill="white" />
+                  <rect y="4.62" width="28" height="1.54" fill="white" />
+                  <rect y="7.69" width="28" height="1.54" fill="white" />
+                  <rect y="10.77" width="28" height="1.54" fill="white" />
+                  <rect y="13.85" width="28" height="1.54" fill="white" />
+                  <rect y="16.92" width="28" height="1.54" fill="white" />
+                  <rect width="11.2" height="10.77" fill="#3C3B6E" />
                 </svg>
                 <span style={{
                   fontWeight: 600,
@@ -204,8 +204,8 @@ export function BusinessCustomizeModal({ isOpen, onClose }: BusinessCustomizeMod
                 }}
               >
                 <svg width="28" height="20" viewBox="0 0 28 20" style={{ borderRadius: '4px', flexShrink: 0 }}>
-                  <rect width="28" height="20" fill="#AA151B"/>
-                  <rect y="5" width="28" height="10" fill="#F1BF00"/>
+                  <rect width="28" height="20" fill="#AA151B" />
+                  <rect y="5" width="28" height="10" fill="#F1BF00" />
                 </svg>
                 <span style={{
                   fontWeight: 600,
@@ -270,10 +270,10 @@ export function BusinessCustomizeModal({ isOpen, onClose }: BusinessCustomizeMod
                   color: selectedPage === 'candidate' ? 'var(--orange)' : 'var(--text)',
                   marginBottom: '4px',
                 }}>
-                  Find a Job
+                  Advance Your Career
                 </p>
                 <p style={{ fontSize: '12px', color: 'var(--text3)', lineHeight: 1.4 }}>
-                  Browse opportunities and get hired
+                  Strengthen your resume, practice interviews, and improve your job readiness with AI-powered tools.
                 </p>
               </button>
               <button
@@ -315,10 +315,10 @@ export function BusinessCustomizeModal({ isOpen, onClose }: BusinessCustomizeMod
                   color: selectedPage === 'business' ? 'var(--purple)' : 'var(--text)',
                   marginBottom: '4px',
                 }}>
-                  Hire Talent
+                  Build Your Business
                 </p>
                 <p style={{ fontSize: '12px', color: 'var(--text3)', lineHeight: 1.4 }}>
-                  Post jobs and find the best candidates
+                  Create a business profile and use the business tools Moil offers.
                 </p>
               </button>
             </div>
@@ -333,7 +333,7 @@ export function BusinessCustomizeModal({ isOpen, onClose }: BusinessCustomizeMod
               padding: '16px 24px',
               borderRadius: '14px',
               border: 'none',
-              background: selectedLanguage && selectedPage 
+              background: selectedLanguage && selectedPage
                 ? 'linear-gradient(135deg, var(--purple) 0%, var(--purple-light) 100%)'
                 : 'var(--surface3)',
               color: selectedLanguage && selectedPage ? 'white' : 'var(--text3)',
@@ -341,7 +341,7 @@ export function BusinessCustomizeModal({ isOpen, onClose }: BusinessCustomizeMod
               fontSize: '16px',
               cursor: selectedLanguage && selectedPage ? 'pointer' : 'not-allowed',
               transition: 'all 0.3s',
-              boxShadow: selectedLanguage && selectedPage 
+              boxShadow: selectedLanguage && selectedPage
                 ? '0 10px 30px -10px rgba(124, 58, 237, 0.5)'
                 : 'none',
             }}
