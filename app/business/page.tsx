@@ -80,7 +80,6 @@ function BusinessPageContent() {
     { label: t.business.nav.hiring, href: '#hiring' },
     { label: t.business.nav.pricing, href: '#pricing' },
     { label: t.common.blog, href: 'https://blog.moilapp.com', external: true },
-    { label: t.common.switchToCandidate, href: '/candidate' },
   ];
 
   const mobileItems: NavItem[] = [

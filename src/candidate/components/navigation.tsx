@@ -57,9 +57,9 @@ export default function CandidateNavigation({
             </button>
             <Link
               href={`/business?lg=${lgQuery}`}
-              className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${activeTab === "hire"
+              className={`for-businesses-tab px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${activeTab === "hire"
                   ? "bg-white text-[#5843BE] shadow-md ring-1 ring-[#5843BE]/20"
-                  : "text-gray-500 hover:text-[#5843BE] hover:bg-white/70"
+                  : "text-[#FF6633] bg-orange-50 border border-[#FF6633]/40 hover:bg-orange-100 hover:border-[#FF6633]/70 hover:scale-105"
                 }`}
             >
               🏢 For Businesses

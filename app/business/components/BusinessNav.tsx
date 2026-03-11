@@ -121,8 +121,8 @@ export function BusinessNav({
         )}
       </a>
 
-      {/* Page Switcher Tabs */}
-      <div style={{
+      {/* Page Switcher Tabs - hidden on mobile, shown in mobile menu */}
+      <div className="page-switcher" style={{
         display: 'flex',
         alignItems: 'center',
         background: theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
@@ -133,17 +133,17 @@ export function BusinessNav({
       }}>
         <a
           href="/candidate"
+          className="switcher-breathe"
           style={{
-            display: 'flex',
             alignItems: 'center',
-            gap: '6px',
-            padding: '8px 18px',
+            gap: '5px',
+            padding: '6px 14px',
             borderRadius: '999px',
-            fontSize: '13px',
+            fontSize: '12px',
             fontWeight: 600,
+            whiteSpace: 'nowrap',
             color: theme === 'dark' ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)',
             textDecoration: 'none',
-            transition: 'all 0.2s',
           }}
           onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.7)'; }}
           onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'; }}
@@ -153,11 +153,12 @@ export function BusinessNav({
         <span style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '6px',
-          padding: '8px 18px',
+          gap: '5px',
+          padding: '6px 14px',
           borderRadius: '999px',
-          fontSize: '13px',
+          fontSize: '12px',
           fontWeight: 700,
+          whiteSpace: 'nowrap',
           background: '#FF6633',
           color: 'white',
           boxShadow: '0 2px 8px rgba(255,102,51,0.35)',

@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes switcherGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,102,51,0); transform: scale(1); }
+  50% { box-shadow: 0 0 12px 3px rgba(255,102,51,0.3); transform: scale(1.03); }
+}
+
+.for-businesses-tab {
+  animation: switcherGlow 2.4s ease-in-out infinite;
+}
+
 * {
   margin: 0;
   padding: 0;
