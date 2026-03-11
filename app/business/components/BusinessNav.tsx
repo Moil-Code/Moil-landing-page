@@ -108,18 +108,64 @@ export function BusinessNav({
     <nav id="nav" className={scrolled ? 'scrolled' : ''}>
       <a href={logoHref} className="nav-logo">
         {logo ?? (
-          <img 
-            src="https://res.cloudinary.com/drlcisipo/image/upload/v1705704261/Website%20images/logo_gox0fw.png" 
-            alt="Moil Logo" 
+          <img
+            src="https://res.cloudinary.com/drlcisipo/image/upload/v1705704261/Website%20images/logo_gox0fw.png"
+            alt="Moil Logo"
             className="nav-logo-img"
-            style={{ 
-              height: '32px', 
+            style={{
+              height: '32px',
               width: 'auto',
               filter: theme === 'dark' ? 'brightness(0) invert(1)' : 'none'
             }}
           />
         )}
       </a>
+
+      {/* Page Switcher Tabs */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        background: theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
+        borderRadius: '999px',
+        padding: '5px',
+        border: theme === 'dark' ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(0,0,0,0.1)',
+        gap: '2px',
+      }}>
+        <a
+          href="/candidate"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            padding: '8px 18px',
+            borderRadius: '999px',
+            fontSize: '13px',
+            fontWeight: 600,
+            color: theme === 'dark' ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)',
+            textDecoration: 'none',
+            transition: 'all 0.2s',
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.7)'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'; }}
+        >
+          <span>👤</span> For Job Seekers
+        </a>
+        <span style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px',
+          padding: '8px 18px',
+          borderRadius: '999px',
+          fontSize: '13px',
+          fontWeight: 700,
+          background: '#FF6633',
+          color: 'white',
+          boxShadow: '0 2px 8px rgba(255,102,51,0.35)',
+        }}>
+          <span>🏢</span> For Businesses
+        </span>
+      </div>
+
       <ul className="nav-links">
         {items.map((item) => (
           <li key={item.href + item.label}>

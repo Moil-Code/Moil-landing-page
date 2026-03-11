@@ -65,13 +65,13 @@ function BusinessPageContent() {
     setLang(lang);
   };
 
-  // Show customize modal on first visit
-  useEffect(() => {
-    const customizeModalShown = sessionStorage.getItem('customizeModalShown');
-    if (!customizeModalShown) {
-      setTimeout(() => setShowCustomizeModal(true), 500);
-    }
-  }, []);
+  // Show customize modal on first visit (commented out)
+  // useEffect(() => {
+  //   const customizeModalShown = sessionStorage.getItem('customizeModalShown');
+  //   if (!customizeModalShown) {
+  //     setTimeout(() => setShowCustomizeModal(true), 500);
+  //   }
+  // }, []);
 
   // Translated data arrays
   const navItems: NavItem[] = [
@@ -1016,8 +1016,8 @@ function BusinessPageContent() {
 
       <BusinessFooter theme={theme} onToggleTheme={toggleTheme} onLanguageChange={handleLanguageChange} currentLang={currentLang} />
 
-      {/* Customize Modal */}
-      <BusinessCustomizeModal isOpen={showCustomizeModal} onClose={() => setShowCustomizeModal(false)} />
+      {/* Customize Modal (commented out) */}
+      {/* <BusinessCustomizeModal isOpen={showCustomizeModal} onClose={() => setShowCustomizeModal(false)} /> */}
       </div>
   );
 }
