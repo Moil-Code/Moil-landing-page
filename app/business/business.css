@@ -170,16 +170,27 @@ nav.scrolled {
   transition: all 0.2s;
 }
 .nav-cta:hover { background: #FF7A40; transform: translateY(-1px); box-shadow: 0 6px 24px var(--orange-glow); }
-@keyframes switcherBreathe {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); }
-  50% { transform: scale(1.06); box-shadow: 0 0 10px 2px rgba(255,255,255,0.12); }
+@keyframes switcherRippleDark {
+  0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.45), 0 0 0 0 rgba(255,255,255,0.2); }
+  45% { box-shadow: 0 0 0 8px rgba(255,255,255,0.08), 0 0 0 0 rgba(255,255,255,0.2); }
+  65% { box-shadow: 0 0 0 12px rgba(255,255,255,0), 0 0 0 6px rgba(255,255,255,0.08); }
+  100% { box-shadow: 0 0 0 14px rgba(255,255,255,0), 0 0 0 12px rgba(255,255,255,0); }
+}
+@keyframes switcherRippleLight {
+  0% { box-shadow: 0 0 0 0 rgba(0,0,0,0.22), 0 0 0 0 rgba(0,0,0,0.1); }
+  45% { box-shadow: 0 0 0 8px rgba(0,0,0,0.04), 0 0 0 0 rgba(0,0,0,0.1); }
+  65% { box-shadow: 0 0 0 12px rgba(0,0,0,0), 0 0 0 6px rgba(0,0,0,0.04); }
+  100% { box-shadow: 0 0 0 14px rgba(0,0,0,0), 0 0 0 12px rgba(0,0,0,0); }
 }
 .switcher-breathe {
-  animation: switcherBreathe 2.2s ease-in-out infinite;
+  animation: switcherRippleDark 2.4s ease-out infinite;
   display: inline-flex;
 }
 .switcher-breathe:hover {
   animation-play-state: paused;
+}
+[data-theme="light"] .switcher-breathe {
+  animation-name: switcherRippleLight;
 }
 
 .hamburger {
