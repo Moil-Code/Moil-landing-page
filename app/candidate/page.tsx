@@ -70,16 +70,13 @@ function CandidatePageContent() {
       setQueryLg(effectiveLang);
     }
 
-    // Show customize modal on first visit to homepage
-    const currentPath = window.location.pathname;
-    const isHomePage = currentPath === '/' || currentPath === '' || currentPath === '/candidate';
-    const customizeModalShown = sessionStorage.getItem('customizeModalShown');
-
-    if (isHomePage && !customizeModalShown) {
-      setTimeout(() => {
-        setShowCustomizeModal(true);
-      }, 500);
-    }
+    // Show customize modal on first visit to homepage (commented out)
+    // const currentPath = window.location.pathname;
+    // const isHomePage = currentPath === '/' || currentPath === '' || currentPath === '/candidate';
+    // const customizeModalShown = sessionStorage.getItem('customizeModalShown');
+    // if (isHomePage && !customizeModalShown) {
+    //   setTimeout(() => { setShowCustomizeModal(true); }, 500);
+    // }
   }, []);
 
   const handleGetStarted = () => {
@@ -132,8 +129,8 @@ function CandidatePageContent() {
         {showModal}
       </div>
 
-      {/* Customize Modal */}
-      <CustomizeModal isOpen={showCustomizeModal} onClose={() => setShowCustomizeModal(false)} />
+      {/* Customize Modal (commented out) */}
+      {/* <CustomizeModal isOpen={showCustomizeModal} onClose={() => setShowCustomizeModal(false)} /> */}
 
       {/* Modal Container */}
       <div id="modal"></div>

@@ -45,24 +45,24 @@ export default function CandidateNavigation({
           </Link>
 
           {/* Navigation Tabs - Desktop */}
-          <nav className="hidden lg:flex items-center space-x-1 bg-gray-100/80 rounded-full p-1">
+          <nav className="hidden lg:flex items-center bg-gray-100 rounded-full p-1.5 border border-gray-200 shadow-sm">
             <button
-              className={`px-3 py-2 rounded-full text-xs font-medium transition-all duration-300 ${activeTab === "jobs"
-                  ? "bg-white text-[#5843BE] shadow-sm"
-                  : "text-gray-600 hover:text-[#5843BE] hover:bg-white/50"
+              className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${activeTab === "jobs"
+                  ? "bg-white text-[#5843BE] shadow-md ring-1 ring-[#5843BE]/20"
+                  : "text-gray-500 hover:text-[#5843BE] hover:bg-white/70"
                 }`}
               onClick={() => setActiveTab("jobs")}
             >
-              Looking for jobs
+              👤 For Job Seekers
             </button>
             <Link
               href={`/business?lg=${lgQuery}`}
-              className={`px-3 py-2 rounded-full text-xs font-medium transition-all duration-300 ${activeTab === "hire"
-                  ? "bg-white text-[#5843BE] shadow-sm"
-                  : "text-gray-600 hover:text-[#5843BE] hover:bg-white/50"
+              className={`for-businesses-tab px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${activeTab === "hire"
+                  ? "bg-white text-[#5843BE] shadow-md ring-1 ring-[#5843BE]/20"
+                  : "text-[#FF6633] bg-orange-50 border border-[#FF6633]/40 hover:bg-orange-100 hover:border-[#FF6633]/70 hover:scale-105"
                 }`}
             >
-            Want to build your business
+              🏢 For Businesses
             </Link>
           </nav>
 
@@ -141,28 +141,29 @@ export default function CandidateNavigation({
           <div className="lg:hidden border-t border-gray-200/50 bg-white/95 backdrop-blur-lg">
             <div className="px-4 py-4 space-y-1">
               {/* Mobile Navigation Tabs */}
-              <div className="space-y-1 mb-4">
+              <div className="space-y-2 mb-4">
+                <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 px-1 mb-2">Switch Page</p>
                 <button
-                  className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 ${activeTab === "jobs"
-                      ? "bg-[#5843BE] text-white"
-                      : "text-gray-600 hover:bg-gray-100/50"
+                  className={`w-full text-left px-4 py-3.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2 ${activeTab === "jobs"
+                      ? "bg-[#5843BE] text-white shadow-md"
+                      : "text-gray-600 bg-gray-50 hover:bg-gray-100 border border-gray-200"
                     }`}
                   onClick={() => {
                     setActiveTab("jobs");
                     setIsMobileMenuOpen(false);
                   }}
                 >
-                  I am looking for jobs
+                  <span>👤</span> For Job Seekers
                 </button>
                 <Link
                   href={`/business?lg=${lgQuery}`}
-                  className={`block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 ${activeTab === "hire"
-                      ? "bg-[#5843BE] text-white"
-                      : "text-gray-600 hover:bg-gray-100/50"
+                  className={`flex items-center gap-2 w-full text-left px-4 py-3.5 rounded-xl text-sm font-semibold transition-all duration-300 ${activeTab === "hire"
+                      ? "bg-[#5843BE] text-white shadow-md"
+                      : "text-gray-600 bg-gray-50 hover:bg-gray-100 border border-gray-200"
                     }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Want to build your business
+                  <span>🏢</span> For Businesses
                 </Link>
               </div>
 

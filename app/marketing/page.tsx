@@ -3,7 +3,6 @@
 import { Content360Footer } from './components/Content360Footer';
 import { Content360MobileMenu } from './components/Content360MobileMenu';
 import { Content360Nav } from './components/Content360Nav';
-import { Content360Styles } from './components/Content360Styles';
 import {
   ComparisonSection,
   FeaturesSection,
@@ -25,7 +24,6 @@ export default function Content360Page() {
 
   return (
     <div className="content360-shell" data-theme={theme}>
-      <Content360Styles />
       <div className="cursor" id="cursor" data-hoverable />
       <div className="cursor-ring" id="cursorRing" data-hoverable />
 
