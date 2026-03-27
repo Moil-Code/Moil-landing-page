@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     siteName: 'Moil',
     images: [
       {
-        url: '/og_image.png',
+        url: '/og_image_v2.png',
         width: 1200,
         height: 630,
         alt: 'Moil - AI-Powered Business Growth Platform',
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Moil | AI-Powered Business Growth Platform & Job Marketplace',
     description: 'Complete AI-powered platform for business growth and talent acquisition. Market research, business planning, smart hiring, and job search all in one place.',
-    images: ['/og_image.png'],
+    images: ['/og_image_v2.png'],
     creator: '@MoilApp',
     site: '@MoilApp',
   },
@@ -126,7 +126,7 @@ export default function RootLayout({
               "name": "Moil",
               "alternateName": "Moil Enterprise Inc.",
               "url": baseURL1,
-              "logo": `${baseURL1}/og_image.png`,
+              "logo": `${baseURL1}/og_image_v2.png`,
               "description": "AI-powered business growth platform and job marketplace. Complete solution for market research, business planning, smart hiring, and talent acquisition.",
               "foundingDate": "2023",
               "industry": "Business Software",
