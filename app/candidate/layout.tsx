@@ -120,7 +120,7 @@ export default function CandidateLayout({
                 "name": "Is Moil free for job seekers?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Yes, Moil is completely free for candidates. You can search jobs, build your AI resume, use the voice interview assistant, and apply to positions at no cost."
+                  "text": "Yes, Moil's job search and career tools are free for candidates. You can search jobs, build your AI resume, use the voice interview assistant, and apply to positions at no cost. Paid plans are for businesses that want to post jobs and access AI growth tools."
                 }
               },
               {

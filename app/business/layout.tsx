@@ -131,7 +131,7 @@ export default function BusinessLayout({
                 "name": "How much does Moil cost?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Moil starts at $15/month. A free trial is available. See our pricing page at moilapp.com/business/pricing for full details on all plans and features."
+                  "text": "Moil plans start at $15/month (Starter), $25/month (Professional), or $75/month (Market Pro). All plans include a 30-day money-back guarantee and no setup fees. Your first AI co-founder conversation requires no credit card. See full details at moilapp.com/business/pricing."
                 }
               },
               {
@@ -173,6 +173,62 @@ export default function BusinessLayout({
                   "@type": "Answer",
                   "text": "Traditional business consultants charge $5,000–$15,000 per engagement and take 2–4 weeks to deliver. Moil delivers market research, a business plan, content strategy, and hiring setup in minutes — for as little as $15/month."
                 }
+              }
+            ]
+          })
+        }}
+      />
+      {/* HowTo structured data — "21 questions to full business plan" process */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            "name": "How to Create a Complete Business Plan with AI in Under 30 Minutes",
+            "description": "Use Moil's AI co-founder to generate a full business plan, market research, content calendar, and hiring pipeline in one guided session.",
+            "totalTime": "PT30M",
+            "estimatedCost": {
+              "@type": "MonetaryAmount",
+              "currency": "USD",
+              "value": "15"
+            },
+            "step": [
+              {
+                "@type": "HowToStep",
+                "position": 1,
+                "name": "Answer 21 Strategic Questions",
+                "text": "Answer 21 questions about your business by voice or text — in English or Spanish. Moil's AI learns your business model, market, goals, and gaps in 5–10 minutes."
+              },
+              {
+                "@type": "HowToStep",
+                "position": 2,
+                "name": "Receive 20–30 Pages of Market Research",
+                "text": "Moil automatically generates deep market research using your answers: TAM/SAM/SOM, competitive landscape, customer personas, opportunity scoring, and 8–10 authoritative sources."
+              },
+              {
+                "@type": "HowToStep",
+                "position": 3,
+                "name": "Get Your Investor-Ready Business Plan",
+                "text": "With one click, receive a polished PDF business plan with 5-year financial projections, go-to-market strategy, operational roadmap, and funding requirements."
+              },
+              {
+                "@type": "HowToStep",
+                "position": 4,
+                "name": "Build Your 30-Day Content Marketing Calendar",
+                "text": "Content360 generates 30 days of content: researched topics, captions, hashtags, CTAs, AI images, and AI video — ready to post across all platforms."
+              },
+              {
+                "@type": "HowToStep",
+                "position": 5,
+                "name": "Activate Smart Hiring",
+                "text": "Post a job once and Moil distributes it to 10+ platforms automatically. AI scores and ranks every candidate with 95% accuracy. Average time to hire: 11 days."
+              },
+              {
+                "@type": "HowToStep",
+                "position": 6,
+                "name": "Access Your 24/7 AI Business Coach",
+                "text": "Your AI co-founder is always available for cash flow guidance, marketing refinements, retention tactics, and scaling advice — and gets smarter the more you use it."
               }
             ]
           })
