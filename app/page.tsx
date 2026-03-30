@@ -1,7 +1,7 @@
-import './business/business.css';
+import { redirect } from 'next/navigation';
 
-import BusinessPage from './business/page';
-
+// Redirect root to /business — consolidates all SEO authority to the
+// canonical business landing page and eliminates duplicate content.
 export default function Page() {
-  return <BusinessPage />;
+  redirect('/business');
 }

@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL(baseURL1),
   alternates: {
-    canonical: '/',
+    canonical: `${baseURL1}/business`,
   },
   openGraph: {
     title: 'Moil | AI Co-Founder for Small Business — Business Plan, Hiring & Growth',
@@ -195,14 +195,14 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               "name": "Moil",
-              "url": baseURL1,
-              "description": "AI-powered business growth platform and job marketplace",
+              "url": "https://moilapp.com",
+              "description": "AI co-founder platform for small businesses — business plan, market research, content calendar, smart hiring, and 24/7 AI coaching.",
               "potentialAction": [
                 {
                   "@type": "SearchAction",
                   "target": {
                     "@type": "EntryPoint",
-                    "urlTemplate": `${baseURL1}/candidate/searchjob?title={search_term_string}`
+                    "urlTemplate": "https://moilapp.com/candidate/searchjob?title={search_term_string}"
                   },
                   "query-input": "required name=search_term_string"
                 }
