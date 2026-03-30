@@ -1,5 +1,6 @@
 'use client';
 
+import { I18nProvider } from '@/src/common/components/I18nProvider';
 import { Content360Footer } from './components/Content360Footer';
 import { Content360MobileMenu } from './components/Content360MobileMenu';
 import { Content360Nav } from './components/Content360Nav';
@@ -15,7 +16,6 @@ import {
   StatsSection,
   TestimonialsSection,
 } from './components/sections';
-import { navLinks } from './data';
 import { useContent360Ui } from './hooks/useContent360Ui';
 
 export default function Content360Page() {
@@ -23,12 +23,12 @@ export default function Content360Page() {
   const themeEmoji = theme === 'dark' ? '🌙' : '☀️';
 
   return (
+    <I18nProvider>
     <div className="content360-shell" data-theme={theme}>
       <div className="cursor" id="cursor" data-hoverable />
       <div className="cursor-ring" id="cursorRing" data-hoverable />
 
       <Content360Nav
-        links={navLinks}
         scrolled={navScrolled}
         menuOpen={menuOpen}
         onToggleTheme={toggleTheme}
@@ -36,7 +36,6 @@ export default function Content360Page() {
         onToggleMenu={() => setMenuOpen((prev) => !prev)}
       />
       <Content360MobileMenu
-        links={navLinks}
         isOpen={menuOpen}
         onClose={() => setMenuOpen(false)}
         onToggleTheme={toggleTheme}
@@ -64,5 +63,6 @@ export default function Content360Page() {
       <FinalCtaSection />
       <Content360Footer themeEmoji={themeEmoji} onToggleTheme={toggleTheme} />
     </div>
+    </I18nProvider>
   );
 }
