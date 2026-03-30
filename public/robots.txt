@@ -20,7 +20,7 @@ Allow: /
 User-agent: DuckDuckBot
 Allow: /
 
-# Block unwanted bots
+# Block SEO harvesting bots
 User-agent: AhrefsBot
 Disallow: /
 

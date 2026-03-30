@@ -9,26 +9,31 @@ const bebas = Bebas_Neue({ weight: ['400'], subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    default: 'Moil | AI-Powered Business Growth Platform & Job Marketplace',
+    default: 'Moil | AI Co-Founder for Small Business — Business Plan, Hiring & Growth',
     template: '%s | Moil'
   },
-  description: 'Moil is the complete AI-powered platform for business growth and talent acquisition. Get market research, business planning, smart hiring tools, and access to thousands of jobs. Trusted by 500+ businesses.',
+  description: 'Moil is the AI co-founder every small business deserves. Generate a business plan, run market research, build a content calendar, and hire top talent — all in one platform. Trusted by 500+ businesses.',
   keywords: [
-    'AI business platform',
-    'business growth tools',
-    'market research AI',
-    'business planning software',
-    'smart hiring platform',
+    'AI business plan generator',
+    'AI co-founder small business',
+    'AI tools for small business',
+    'business plan software',
+    'AI market research tool',
+    'small business growth platform',
+    'smart hiring software',
+    'AI recruiting tool',
+    'content calendar AI',
+    'competitor analysis tool',
+    'AI business coach',
+    'bilingual business platform',
+    'SMB AI platform',
     'job marketplace',
-    'talent acquisition',
-    'business automation',
-    'AI market analysis',
-    'startup tools',
-    'SMB growth platform',
-    'hiring software',
-    'job search platform',
-    'business intelligence',
-    'workforce solutions'
+    'free business plan generator',
+    'AI financial projections',
+    'small business software Texas',
+    'business automation tools',
+    'AI workforce solutions',
+    'startup tools'
   ],
   authors: [{ name: 'Moil Enterprise Inc.', url: 'https://moilapp.com' }],
   creator: 'Moil Enterprise Inc.',
@@ -43,8 +48,8 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'Moil | AI-Powered Business Growth Platform & Job Marketplace',
-    description: 'Complete AI-powered platform for business growth and talent acquisition. Market research, business planning, smart hiring, and job search all in one place.',
+    title: 'Moil | AI Co-Founder for Small Business — Business Plan, Hiring & Growth',
+    description: 'The AI co-founder every small business deserves. Business plan, market research, content calendar, smart hiring — all in one platform. Trusted by 500+ SMBs.',
     url: baseURL1,
     siteName: 'Moil',
     images: [
@@ -52,7 +57,7 @@ export const metadata: Metadata = {
         url: '/og_image_v2.png',
         width: 1200,
         height: 630,
-        alt: 'Moil - AI-Powered Business Growth Platform',
+        alt: 'Moil - AI Co-Founder for Small Business',
       },
     ],
     locale: 'en_US',
@@ -60,8 +65,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Moil | AI-Powered Business Growth Platform & Job Marketplace',
-    description: 'Complete AI-powered platform for business growth and talent acquisition. Market research, business planning, smart hiring, and job search all in one place.',
+    title: 'Moil | AI Co-Founder for Small Business — Business Plan, Hiring & Growth',
+    description: 'The AI co-founder every small business deserves. Business plan, market research, content calendar, smart hiring — all in one platform. Trusted by 500+ SMBs.',
     images: ['/og_image_v2.png'],
     creator: '@MoilApp',
     site: '@MoilApp',
@@ -90,11 +95,11 @@ export const metadata: Metadata = {
     ],
   },
   manifest: '/site.webmanifest',
-  verification: {
-    google: 'your-google-verification-code',
-    yandex: 'your-yandex-verification-code',
-    yahoo: 'your-yahoo-verification-code',
-  },
+  // TODO: Replace with real codes from Google Search Console, Yandex Webmaster
+  // verification: {
+  //   google: 'REPLACE_WITH_GOOGLE_SEARCH_CONSOLE_CODE',
+  //   yandex: 'REPLACE_WITH_YANDEX_CODE',
+  // },
   category: 'business',
   classification: 'AI Business Growth Platform',
 };
@@ -116,7 +121,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="format-detection" content="telephone=no" />
         
-        {/* Structured Data */}
+        {/* Organization Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -125,21 +130,28 @@ export default function RootLayout({
               "@type": "Organization",
               "name": "Moil",
               "alternateName": "Moil Enterprise Inc.",
-              "url": baseURL1,
-              "logo": `${baseURL1}/og_image_v2.png`,
-              "description": "AI-powered business growth platform and job marketplace. Complete solution for market research, business planning, smart hiring, and talent acquisition.",
+              "url": "https://moilapp.com",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://moilapp.com/og_image_v2.png",
+                "width": 1200,
+                "height": 630
+              },
+              "description": "AI co-founder platform for small businesses. Generate business plans, run market research, build a 30-day content calendar, and hire top talent — all powered by AI.",
               "foundingDate": "2023",
               "industry": "Business Software",
               "numberOfEmployees": "11-50",
               "address": {
                 "@type": "PostalAddress",
-                "addressCountry": "US",
-                "addressRegion": "Texas"
+                "addressLocality": "Austin",
+                "addressRegion": "TX",
+                "addressCountry": "US"
               },
               "contactPoint": {
                 "@type": "ContactPoint",
                 "contactType": "customer service",
-                "url": baseURL1
+                "email": "contacto@moilapp.com",
+                "url": "https://moilapp.com"
               },
               "sameAs": [
                 "https://twitter.com/MoilApp",
@@ -148,14 +160,24 @@ export default function RootLayout({
               "offers": [
                 {
                   "@type": "Offer",
-                  "name": "Business Growth Platform",
-                  "description": "AI-powered tools for market research, business planning, and smart hiring",
+                  "name": "Moil Business Growth Platform",
+                  "description": "AI-powered tools for market research, business plan generation, content marketing, and smart hiring. Starting at $15/month.",
+                  "price": "15",
+                  "priceCurrency": "USD",
+                  "priceSpecification": {
+                    "@type": "UnitPriceSpecification",
+                    "price": "15",
+                    "priceCurrency": "USD",
+                    "billingDuration": "P1M"
+                  },
                   "category": "Business Software"
                 },
                 {
-                  "@type": "Offer", 
-                  "name": "Job Marketplace",
-                  "description": "Connect with thousands of job opportunities and top talent",
+                  "@type": "Offer",
+                  "name": "Moil Job Marketplace",
+                  "description": "Free job search platform connecting candidates with top employers",
+                  "price": "0",
+                  "priceCurrency": "USD",
                   "category": "Employment Platform"
                 }
               ]
