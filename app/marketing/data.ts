@@ -417,3 +417,268 @@ export const terminalLines: TerminalLine[] = [
     statusClass: 'accent',
   },
 ];
+
+// ─── SPANISH (ES) DATA ────────────────────────────────────────────────────────
+
+const navLinksEs: NavLink[] = [
+  { label: 'Cómo Funciona', href: '#how' },
+  { label: 'Características', href: '#features' },
+  { label: 'Precios', href: '#pricing' },
+  { label: 'Comparar', href: '#comparison' },
+];
+
+const journeyStepsEs: JourneyStep[] = [
+  {
+    number: '01',
+    time: '5–10 MIN',
+    title: '21 Preguntas Estratégicas',
+    description:
+      'Responde 21 preguntas por voz o texto — en inglés o español. Tu co-fundador IA aprende todo: tu modelo, tu mercado, tus metas, tus brechas.',
+    outputs: ['Análisis del Modelo', 'Identificación de Brechas', 'Mapeo de Fortalezas', 'Bilingüe EN/ES'],
+  },
+  {
+    number: '02',
+    time: 'AUTOMATIZADO',
+    title: '20–30 Páginas de Investigación de Mercado Real',
+    description:
+      'Análisis profundo usando tus respuestas. TAM/SAM/SOM. Panorama competitivo. Perfiles de clientes. Puntuación de oportunidades. 8–10 fuentes autorizadas. Datos reales. Sin suposiciones.',
+    outputs: ['TAM/SAM/SOM', 'Análisis Competitivo', 'Perfiles de Clientes', 'Reporte de Validación'],
+  },
+  {
+    number: '03',
+    time: 'UN CLIC',
+    title: 'Plan de Negocio Listo para Inversores',
+    description:
+      'PDF pulido para inversores, bancos o socios. Proyecciones financieras a 5 años, estrategia de entrada al mercado, hoja de ruta operativa, requisitos de financiamiento. Minutos, no meses.',
+    outputs: ['Proyecciones 5 Años', 'Modelos de Ingresos', 'Entrada al Mercado', 'Análisis Financiero'],
+  },
+  {
+    number: '04',
+    time: '⭐ CONTENT360',
+    badge: 'highlight',
+    title: 'Tu Motor Completo de Marketing de 30 Días',
+    description:
+      '30 días de temas investigados, hooks optimizados, textos completos por tipo de contenido, CTAs, hashtags, imágenes IA y video IA para tus días de mayor impacto — todo listo.',
+    outputs: ['Calendario de 30 Días', 'Imágenes IA', 'Video IA', 'Puntuación Estratégica'],
+  },
+  {
+    number: '05',
+    time: '2 MIN PARA PUBLICAR',
+    title: 'Contratación Inteligente y Construcción de Equipo',
+    description:
+      'Publica una vez, llega a 10+ plataformas automáticamente. La IA evalúa cada candidato por habilidades, ubicación, experiencia e idioma. 95% de precisión. 11 días promedio para contratar.',
+    outputs: ['10+ Plataformas', '95% de Precisión', 'Matching Bilingüe', 'Preselección Automática'],
+  },
+  {
+    number: '06',
+    time: '24/7',
+    title: 'Coach de Negocios IA Continuo',
+    description:
+      'Cuanto más lo usas, mejor conoce tu negocio. Orientación de flujo de caja. Ajustes de marketing. Tácticas de retención. Estrategia de escalamiento. Un co-fundador IA que nunca duerme.',
+    outputs: ['Estrategia de Crecimiento', 'Flujo de Caja', 'Tácticas de Retención', 'Alertas de Industria'],
+  },
+];
+
+const featureCardsEs: FeatureCard[] = [
+  {
+    icon: '📅',
+    title: 'El Calendario de 30 Días',
+    description:
+      'Cada día tiene un tema investigado, un hook probado, texto completo calibrado por tipo de contenido, CTA y hashtags optimizados. Educativo: 250–400 palabras. Promocional: 100–200. Interacción: 150–300.',
+    tags: [
+      { label: '30 Días', className: 'f-tag f-tag-o' },
+      { label: '6 Tipos de Contenido', className: 'f-tag f-tag-b' },
+      { label: 'Estrategia de Plataforma', className: 'f-tag f-tag-g' },
+      { label: 'Mejores Horarios', className: 'f-tag f-tag-a' },
+    ],
+  },
+  {
+    icon: '🎨',
+    title: 'Visuales IA + Video',
+    description:
+      'No son fotos de stock. Imágenes hiper-literales y específicas del tema que muestran exactamente de qué habla tu publicación. Video IA asignado automáticamente a tus días de mayor impacto. Sin cámara. Sin diseñador. Sin excusas.',
+    tags: [
+      { label: '30 Imágenes Personalizadas', className: 'f-tag f-tag-o' },
+      { label: '5+ Días de Video', className: 'f-tag f-tag-b' },
+      { label: 'Alineado a tu Marca', className: 'f-tag f-tag-g' },
+      { label: 'Listo para Reels', className: 'f-tag f-tag-a' },
+    ],
+  },
+  {
+    icon: '🧬',
+    title: 'ADN de Marca',
+    description:
+      'Tus colores de marca, tono de voz, palabras negativas — bloqueados. Content360 no crea contenido genérico. Crea TU contenido, con tu personalidad, tu energía, tus estándares.',
+    tags: [
+      { label: 'Sistema de Colores', className: 'f-tag f-tag-o' },
+      { label: 'Perfil de Tono', className: 'f-tag f-tag-b' },
+      { label: 'Bloqueo de Voz', className: 'f-tag f-tag-g' },
+    ],
+  },
+  {
+    icon: '🔄',
+    title: 'Motor de Crecimiento Recursivo',
+    description:
+      'Aliméntalo con los resultados del mes pasado. Lee todo tu historial y no repetirá ni un solo tema, ángulo o hook. Tu contenido se multiplica. Fundación → Expansión → Autoridad → Dominio.',
+    tags: [
+      { label: 'Cero Repetición', className: 'f-tag f-tag-o' },
+      { label: 'Evolución de Historia', className: 'f-tag f-tag-a' },
+      { label: 'Se Multiplica Mensualmente', className: 'f-tag f-tag-g' },
+    ],
+  },
+  {
+    icon: '🌎',
+    title: 'Inteligencia Bilingüe',
+    description:
+      'Cada publicación, cada texto, cada estrategia — en inglés y español. Un clic para traducir. Construido para la América que realmente existe. Alcanza 58% más clientes bilingües que los competidores.',
+    tags: [
+      { label: 'Inglés', className: 'f-tag f-tag-o' },
+      { label: 'Español', className: 'f-tag f-tag-b' },
+      { label: 'Cambio en Un Clic', className: 'f-tag f-tag-g' },
+      { label: '58% Más Alcance', className: 'f-tag f-tag-a' },
+    ],
+    variant: 'large',
+  },
+];
+
+const pricingPlansEs: PricingPlan[] = [
+  {
+    tier: 'Inicial',
+    price: '$15',
+    period: '/mes',
+    tagline: 'Perfecto para pequeños negocios que quieren acceso completo a las herramientas IA de Moil.',
+    features: [
+      { icon: 'check', text: 'Asistente de Investigación de Mercado IA' },
+      { icon: 'check', text: 'Coach de Negocios IA' },
+      { icon: 'check', text: 'Hasta 3 publicaciones de empleo/mes' },
+      { icon: 'check', text: '75 imágenes generadas por IA' },
+      { icon: 'check', text: '75 ediciones de imagen IA' },
+      { icon: 'check', text: '5 min de generación de audio' },
+      { icon: 'check', text: 'Caja de herramientas IA de Moil completa' },
+      { icon: 'check', text: 'Bilingüe: Inglés y Español' },
+      { icon: 'check', text: 'Analíticas avanzadas' },
+    ],
+    ctaLabel: 'Comenzar →',
+    ctaHref: 'https://moilapp.com/business',
+    ctaClass: 'price-cta-secondary',
+  },
+  {
+    tier: 'Profesional',
+    price: '$25',
+    period: '/mes',
+    tagline: 'Ideal para negocios en crecimiento con necesidades regulares de contratación y contenido.',
+    features: [
+      { icon: 'check', text: '10 publicaciones de empleo/mes' },
+      { icon: 'check', text: '200 imágenes generadas por IA' },
+      { icon: 'check', text: '200 ediciones de imagen IA' },
+      { icon: 'check', text: '15 min de generación de audio' },
+      { icon: 'check', text: 'Coach de Negocios e Investigación IA' },
+      { icon: 'check', text: 'Analíticas premium + seguimiento' },
+      { icon: 'check', text: 'Soporte prioritario por email y teléfono' },
+    ],
+    ctaLabel: 'Comenzar →',
+    ctaHref: 'https://moilapp.com/business',
+    ctaClass: 'price-cta-secondary',
+  },
+  {
+    tier: 'Market Pro',
+    price: '$75',
+    period: '/mes',
+    tagline: 'Acceso ilimitado y máximo poder de marketing.',
+    featured: true,
+    features: [
+      { icon: 'star', text: 'Publicaciones de empleo ilimitadas' },
+      { icon: 'star', text: 'Imágenes y ediciones IA ilimitadas' },
+      { icon: 'star', text: '30 min de generación de audio' },
+      { icon: 'star', text: '15 créditos de video/mes' },
+      { icon: 'star', text: 'Acceso Completo a Content360' },
+      { icon: 'star', text: 'Suite Market Pro' },
+      { icon: 'star', text: 'Coach IA e Investigación de Mercado' },
+      { icon: 'star', text: 'Soporte de cuenta dedicado' },
+    ],
+    ctaLabel: 'Actualizar a Market Pro →',
+    ctaHref: 'https://moilapp.com/business',
+    ctaClass: 'price-cta-primary',
+  },
+];
+
+const comparisonRowsEs: ComparisonRow[] = [
+  { feature: 'Investigación de Mercado (20–30 páginas)', moil: 'check', consultant: 'check ($5K+)', aiTool: 'x' },
+  { feature: 'Calendario de Contenido de 30 Días', moil: 'check', consultant: 'x', aiTool: 'partial' },
+  { feature: 'Imágenes Generadas por IA', moil: 'check', consultant: 'x', aiTool: 'x' },
+  { feature: 'Generación de Video IA', moil: 'check', consultant: 'x', aiTool: 'x' },
+  { feature: 'Contratación Inteligente (10+ Plataformas)', moil: 'check', consultant: 'x', aiTool: 'x' },
+  { feature: 'Plan de Negocio Listo para Inversores', moil: 'check', consultant: 'check ($15K)', aiTool: 'x' },
+  { feature: 'Bilingüe (Inglés y Español)', moil: 'check', consultant: 'partial', aiTool: 'x' },
+  { feature: 'Coach de Negocios IA 24/7', moil: 'check', consultant: 'x', aiTool: 'partial' },
+  { feature: 'Sistema ADN de Marca', moil: 'check', consultant: 'x', aiTool: 'x' },
+  { feature: 'Precio Mensual', moil: '$15–$75/mes', consultant: '$5,000+', aiTool: '$50–$200/mes', moilHighlight: true },
+];
+
+const statsEs = [
+  { target: 500, suffix: '+', label: 'Negocios Confían en Moil' },
+  { target: 5000, suffix: '+', label: 'Empleos Publicados Mensualmente' },
+  { target: 94, suffix: '%', label: 'Tasa de Éxito en Entrevistas' },
+  { target: 11, suffix: '', label: 'Días Promedio para Contratar' },
+  { target: 91, suffix: '%', label: 'Retención de Empleados a 90 Días' },
+  { prefix: '$', target: 15, suffix: '', label: 'Precio de Inicio por Mes' },
+];
+
+const terminalLinesEs: TerminalLine[] = [
+  {
+    key: 'NEGOCIO:',
+    value: 'Austin HVAC Pros · Objetivo: Propietarios 30–55 · Mercado: Centro de Texas',
+    status: '✓ CARGADO',
+  },
+  {
+    key: 'INVESTIGACIÓN:',
+    value: 'Escaneando 8 fuentes en vivo — tendencias HVAC, demanda estacional, brechas de competidores...',
+    status: '● EN CURSO',
+    statusClass: 'running',
+  },
+  {
+    key: 'ADN DE MARCA:',
+    value: 'Colores #1E40AF/#FF5C1A · Tono: Experto y Confiable · Voz: Directa',
+    status: '✓ BLOQUEADO',
+  },
+  {
+    key: 'INSIGHTS:',
+    value: '"Demanda AC sube 34% en Feb · Contenido bilingüe +58% alcance · Días de video: mejor rendimiento"',
+    status: '✓ FUNDAMENTADO',
+  },
+  {
+    key: 'CALENDARIO:',
+    value: 'Generando 30 días · 6 tipos de contenido · 5 días de video · Hooks + textos personalizados...',
+    status: '● CONSTRUYENDO',
+    statusClass: 'running',
+  },
+  {
+    key: 'VISUALES IA:',
+    value: '30 imágenes personalizadas generadas · Representación literal del tema · Alineadas a la marca',
+    status: '✓ RENDERIZADO',
+  },
+  {
+    key: 'PUNTUACIÓN ESTRATÉGICA:',
+    value: 'Analizando calidad, variedad, alineación de mercado, consistencia de marca...',
+    status: '⚡ PUNTUANDO',
+    statusClass: 'accent',
+  },
+];
+
+/** Returns all locale-sensitive data for the marketing page. */
+export function getLocaleData(lang: 'en' | 'es') {
+  if (lang === 'es') {
+    return {
+      heroDayData,
+      navLinks: navLinksEs,
+      journeySteps: journeyStepsEs,
+      featureCards: featureCardsEs,
+      pricingPlans: pricingPlansEs,
+      comparisonRows: comparisonRowsEs,
+      stats: statsEs,
+      terminalLines: terminalLinesEs,
+      testimonials, // real reviews — kept in original language
+    };
+  }
+  return { heroDayData, navLinks, journeySteps, featureCards, pricingPlans, comparisonRows, stats, terminalLines, testimonials };
+}

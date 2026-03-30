@@ -1,15 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import {
-  comparisonRows,
-  featureCards,
-  heroDayData,
-  journeySteps,
-  pricingPlans,
-  stats,
-  terminalLines,
-  testimonials,
-} from '../data';
+import { useContent360Translation } from '../hooks/useContent360Translation';
 
 const heroTypeClass: Record<string, string> = {
   edu: 'type-edu',
@@ -27,44 +18,26 @@ const heroTypeLabel: Record<string, string> = {
   ent: 'Entmt',
 };
 
-// Featured video posts that rotate in the live preview panel
-const featuredPosts = [
-  {
-    day: 7,  type: 'promo', emoji: '🎯',
-    platform: 'Instagram', handle: '@yourbusiness',
-    caption: "Big news — we just crossed a milestone. Here's what we built for you this month →",
-    tags: '#SmallBiz #AI #Milestone',
-    likes: '847', comments: '32',
-  },
-  {
-    day: 10, type: 'promo', emoji: '🔥',
-    platform: 'LinkedIn', handle: '@yourbusiness',
-    caption: "This one change saved our team 8 hours last week. Want to know what it is? 👇",
-    tags: '#Productivity #BusinessGrowth',
-    likes: '1.2K', comments: '67',
-  },
-  {
-    day: 15, type: 'ent', emoji: '🎉',
-    platform: 'Instagram', handle: '@yourbusiness',
-    caption: "POV: You finally stop doing everything manually 😅 Thank you to our 500+ community!",
-    tags: '#ContentCreator #Community',
-    likes: '2.1K', comments: '94',
-  },
-  {
-    day: 21, type: 'promo', emoji: '🚀',
-    platform: 'LinkedIn', handle: '@yourbusiness',
-    caption: "The AI that runs your content while you run your business. Real results. 📊",
-    tags: '#AI #Content360 #SmallBusiness',
-    likes: '934', comments: '45',
-  },
-];
-
 // Platform assignment per day (IG-heavy, realistic distribution)
 const DAY_PLATFORMS = ['IG','IG','FB','LI','IG','LI','IG','FB','LI','IG','LI','FB','FB','IG','IG','FB','IG','LI','LI','FB','IG','FB','LI','IG','IG','FB','LI','IG','LI','IG'];
 
 export function HeroSection() {
+  const { t, lang, data } = useContent360Translation();
+  const h = t.hero;
   const [heroScore, setHeroScore] = useState(0);
   const [activePost, setActivePost] = useState(0);
+
+  // Rebuild featured posts when language changes
+  const featuredPosts = [
+    { day: 7,  type: 'promo', emoji: '🎯', platform: lang === 'es' ? 'Instagram' : 'Instagram',
+      handle: h.postHandle, caption: h.post1Caption, tags: h.post1Tags, likes: '847',  comments: '32' },
+    { day: 10, type: 'promo', emoji: '🔥', platform: 'LinkedIn',
+      handle: h.postHandle, caption: h.post2Caption, tags: h.post2Tags, likes: '1.2K', comments: '67' },
+    { day: 15, type: 'ent',   emoji: '🎉', platform: 'Instagram',
+      handle: h.postHandle, caption: h.post3Caption, tags: h.post3Tags, likes: '2.1K', comments: '94' },
+    { day: 21, type: 'promo', emoji: '🚀', platform: 'LinkedIn',
+      handle: h.postHandle, caption: h.post4Caption, tags: h.post4Tags, likes: '934',  comments: '45' },
+  ];
 
   useEffect(() => {
     const timer = window.setTimeout(() => setHeroScore(94), 1200);
@@ -76,7 +49,8 @@ export function HeroSection() {
       setActivePost((p) => (p + 1) % featuredPosts.length);
     }, 3500);
     return () => window.clearInterval(interval);
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang]);
 
   const handleSecondaryClick = () => {
     document.getElementById('how')?.scrollIntoView({ behavior: 'smooth' });
@@ -97,30 +71,27 @@ export function HeroSection() {
 
       <div className="hero-eyebrow">
         <span className="eyebrow-dot" />
-        ⚡ Powered by Moil AI — Trusted by 500+ Businesses in Texas
+        {h.eyebrow}
       </div>
 
       <h1 className="hero-headline">
-        Your Entire Month
+        {h.line1}
         <br />
-        of Marketing.
+        {h.line2}
         <br />
-        <span className="hl-orange">Built by AI.</span>
+        <span className="hl-orange">{h.line3}</span>
         <br />
-        <span className="hl-purple">Ready in Minutes.</span>
+        <span className="hl-purple">{h.line4}</span>
       </h1>
 
-      <p className="hero-sub">
-        Stop guessing. Content360 researches your market, writes every post, generates your visuals, creates AI video — and
-        assembles your complete 30-day content calendar automatically.
-      </p>
+      <p className="hero-sub">{h.sub}</p>
 
       <div className="hero-ctas">
         <button className="btn-primary" type="button" onClick={openCta}>
-          🚀 Get My Content Strategy <span>→</span>
+          {h.cta} <span>→</span>
         </button>
         <button className="btn-secondary" type="button" onClick={handleSecondaryClick}>
-          ▶ See How It Works
+          {h.ctaSecondary}
         </button>
       </div>
 
@@ -131,7 +102,7 @@ export function HeroSection() {
             <span className="dot dot-r" />
             <span className="dot dot-y" />
             <span className="dot dot-g" />
-            <span className="dashboard-title">CONTENT360 — 30-DAY STRATEGY ENGINE</span>
+            <span className="dashboard-title">{h.dashboardTitle}</span>
             <div className="dashboard-bar-tags">
               <span className="bar-tag type-edu">EDU</span>
               <span className="bar-tag type-promo">PROMO</span>
@@ -149,15 +120,15 @@ export function HeroSection() {
             <div className="score-panel">
               {/* Top: strategy score */}
               <div className="score-left">
-                <div className="score-label">STRATEGY SCORE</div>
+                <div className="score-label">{h.scoreLabel}</div>
                 <div className="score-value">{heroScore}%</div>
                 <div className="score-bar">
                   <div className="score-fill" style={{ width: `${heroScore}%` }} />
                 </div>
                 <div className="score-chips">
-                  <span className="score-chip">30 posts</span>
-                  <span className="score-chip">EN / ES</span>
-                  <span className="score-chip">6 types</span>
+                  <span className="score-chip">{h.chip30Posts}</span>
+                  <span className="score-chip">{h.chipLang}</span>
+                  <span className="score-chip">{h.chip6Types}</span>
                 </div>
               </div>
 
@@ -170,7 +141,7 @@ export function HeroSection() {
                       <span className="post-handle">{post.handle}</span>
                       <span className="post-platform-label">{post.platform}</span>
                     </div>
-                    <span className="post-day-badge">Day {post.day}</span>
+                    <span className="post-day-badge">{h.dayBadgePrefix} {post.day}</span>
                   </div>
                   <div className={`post-img post-img-${post.type}`}>
                     <span className="post-big-emoji">{post.emoji}</span>
@@ -198,7 +169,7 @@ export function HeroSection() {
             </div>
 
             {/* 30 enhanced day-card thumbnails */}
-            {heroDayData.map((day, index) => {
+            {data.heroDayData.map((day, index) => {
               const plat = DAY_PLATFORMS[index] || 'IG';
               return (
                 <div
@@ -226,24 +197,26 @@ export function HeroSection() {
 }
 
 export function ProblemSection() {
+  const { t } = useContent360Translation();
+  const p = t.problem;
+
   return (
     <div id="problem">
       <div className="reveal">
-        <div className="section-tag">The Reality</div>
+        <div className="section-tag">{p.sectionTag}</div>
         <h2 className="section-headline">
-          You're Running
+          {p.headLine1}
           <br />
-          a Business.
+          {p.headLine2}
           <br />
-          Not an <span style={{ color: 'var(--orange)' }}>Agency.</span>
+          {p.headLine3} <span style={{ color: 'var(--orange)' }}>{p.headLine3Highlight}</span>
         </h2>
         <p className="problem-quote">
-          "Every Monday you tell yourself this week will be different — then a customer calls, a job runs late, and{' '}
-          <em>marketing falls through the cracks again.</em>"
+          &ldquo;{p.quoteBody}{' '}
+          <em>{p.quoteEmphasis}</em>&rdquo;
         </p>
         <p style={{ fontSize: 15, color: 'var(--text2)', lineHeight: 1.75 }}>
-          You're posting inconsistently. Using recycled captions. Guessing at what works. While competitors with marketing
-          teams show up every single day — building trust, building brand, building revenue.
+          {p.body}
         </p>
         <br />
         <div
@@ -256,84 +229,44 @@ export function ProblemSection() {
           }}
         />
         <p style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--orange)', letterSpacing: 2, textTransform: 'uppercase' }}>
-          There is a better way →
+          {p.betterWay}
         </p>
       </div>
       <div className="reveal reveal-delay-2">
         <div className="chaos-calendar">
           <div className="chaos-title">
-            <span>YOUR CURRENT MONTH</span>
-            <span style={{ color: '#EF4444', fontSize: 9 }}>● 8 missed days</span>
+            <span>{p.calendarTitle}</span>
+            <span style={{ color: '#EF4444', fontSize: 9 }}>{p.missedDays}</span>
           </div>
           <div className="chaos-grid">
             <div className="chaos-day empty" />
-            <div className="chaos-day done">
-              <span>1</span>
-              <span className="chaos-label">✓</span>
-            </div>
-            <div className="chaos-day missed">
-              <span>2</span>
-              <span className="chaos-x">✗</span>
-            </div>
-            <div className="chaos-day missed">
-              <span>3</span>
-              <span className="chaos-x">✗</span>
-            </div>
+            <div className="chaos-day done"><span>1</span><span className="chaos-label">✓</span></div>
+            <div className="chaos-day missed"><span>2</span><span className="chaos-x">✗</span></div>
+            <div className="chaos-day missed"><span>3</span><span className="chaos-x">✗</span></div>
             <div className="chaos-day late">
               <span>4</span>
-              <span className="chaos-label" style={{ color: 'var(--purple-light)' }}>
-                11pm
-              </span>
+              <span className="chaos-label" style={{ color: 'var(--purple-light)' }}>11pm</span>
             </div>
-            <div className="chaos-day missed">
-              <span>5</span>
-              <span className="chaos-x">✗</span>
-            </div>
-            <div className="chaos-day missed">
-              <span>6</span>
-              <span className="chaos-x">✗</span>
-            </div>
-            <div className="chaos-day done">
-              <span>7</span>
-              <span className="chaos-label">✓</span>
-            </div>
-            <div className="chaos-day missed">
-              <span>8</span>
-              <span className="chaos-x">✗</span>
-            </div>
+            <div className="chaos-day missed"><span>5</span><span className="chaos-x">✗</span></div>
+            <div className="chaos-day missed"><span>6</span><span className="chaos-x">✗</span></div>
+            <div className="chaos-day done"><span>7</span><span className="chaos-label">✓</span></div>
+            <div className="chaos-day missed"><span>8</span><span className="chaos-x">✗</span></div>
             <div className="chaos-day late">
               <span>9</span>
-              <span className="chaos-label" style={{ color: 'var(--purple-light)' }}>
-                reused
-              </span>
+              <span className="chaos-label" style={{ color: 'var(--purple-light)' }}>{p.reuseLabel}</span>
             </div>
-            <div className="chaos-day done">
-              <span>10</span>
-              <span className="chaos-label">✓</span>
-            </div>
-            <div className="chaos-day missed">
-              <span>11</span>
-              <span className="chaos-x">✗</span>
-            </div>
-            <div className="chaos-day missed">
-              <span>12</span>
-              <span className="chaos-x">✗</span>
-            </div>
-            <div className="chaos-day missed">
-              <span>13</span>
-              <span className="chaos-x">✗</span>
-            </div>
-            <div className="chaos-day done">
-              <span>14</span>
-              <span className="chaos-label">✓</span>
-            </div>
+            <div className="chaos-day done"><span>10</span><span className="chaos-label">✓</span></div>
+            <div className="chaos-day missed"><span>11</span><span className="chaos-x">✗</span></div>
+            <div className="chaos-day missed"><span>12</span><span className="chaos-x">✗</span></div>
+            <div className="chaos-day missed"><span>13</span><span className="chaos-x">✗</span></div>
+            <div className="chaos-day done"><span>14</span><span className="chaos-label">✓</span></div>
             <div className="chaos-day empty" />
             <div className="chaos-day empty" />
             <div className="chaos-day empty" />
             <div className="chaos-day empty" />
             <div className="chaos-day empty" />
           </div>
-          <div className="chaos-note">⚠ Last post was 11 days ago. Engagement down 67%.</div>
+          <div className="chaos-note">{p.calendarNote}</div>
         </div>
       </div>
     </div>
@@ -341,6 +274,8 @@ export function ProblemSection() {
 }
 
 export function SolutionSection() {
+  const { t, data } = useContent360Translation();
+  const s = t.solution;
   const [activeLines, setActiveLines] = useState(0);
   const [progressActive, setProgressActive] = useState(false);
   const [progressScore, setProgressScore] = useState(0);
@@ -356,13 +291,13 @@ export function SolutionSection() {
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
-          terminalLines.forEach((_, idx) => {
+          data.terminalLines.forEach((_, idx) => {
             const timer = window.setTimeout(() => {
               setActiveLines(idx + 1);
             }, idx * 380);
             timeoutIds.current.push(timer);
           });
-          const progressDelay = terminalLines.length * 380 + 400;
+          const progressDelay = data.terminalLines.length * 380 + 400;
           const progressTimer = window.setTimeout(() => {
             setProgressActive(true);
             let current = 0;
@@ -392,20 +327,21 @@ export function SolutionSection() {
       timeoutIds.current = [];
       intervalIds.current = [];
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <section id="solution" style={{ textAlign: 'center' }}>
       <div className="reveal section-tag" style={{ justifyContent: 'center' }}>
-        The Solution
+        {s.sectionTag}
       </div>
       <h2 className="section-headline reveal">
-        Meet Your <span style={{ color: 'var(--orange)' }}>AI Marketing</span>
+        {s.headLine1} <span style={{ color: 'var(--orange)' }}>{s.headLine1Highlight}</span>
         <br />
-        Department.
+        {s.headLine2}
       </h2>
       <p className="section-sub reveal" style={{ margin: '0 auto', textAlign: 'center' }}>
-        Watch Content360 assemble a real 30-day strategy — live — based on your actual business and real market data.
+        {s.sub}
       </p>
 
       <div className="ai-terminal reveal" ref={terminalRef}>
@@ -413,10 +349,10 @@ export function SolutionSection() {
           <span className="dot dot-r" />
           <span className="dot dot-y" />
           <span className="dot dot-g" />
-          <span className="terminal-title">CONTENT360 VANGUARD ENGINE — STRATEGY ASSEMBLY IN PROGRESS</span>
+          <span className="terminal-title">{s.terminalTitle}</span>
         </div>
         <div className="terminal-body">
-          {terminalLines.map((line, idx) => (
+          {data.terminalLines.map((line, idx) => (
             <div key={line.key} className={`terminal-line ${activeLines > idx ? 'active' : ''}`}>
               <span className="t-prompt">▶</span>
               <span className="t-key">{line.key}</span>
@@ -427,7 +363,7 @@ export function SolutionSection() {
             </div>
           ))}
           <div className={`progress-bar-wrap ${progressActive ? 'active' : ''}`}>
-            <span className="progress-label">STRATEGY HEALTH</span>
+            <span className="progress-label">{s.progressLabel}</span>
             <div className="progress-track">
               <div className="progress-fill" style={{ width: progressActive ? '94%' : 0 }} />
             </div>
@@ -440,20 +376,21 @@ export function SolutionSection() {
 }
 
 export function JourneySection() {
+  const { t, data } = useContent360Translation();
+  const j = t.journey;
+
   return (
     <section id="how">
-      <div className="section-tag reveal">Your Journey</div>
+      <div className="section-tag reveal">{j.sectionTag}</div>
       <h2 className="section-headline reveal">
-        From 21 Questions
+        {j.headLine1}
         <br />
-        to <span style={{ color: 'var(--orange)' }}>Total Domination.</span>
+        {j.headLine2} <span style={{ color: 'var(--orange)' }}>{j.headLine2Highlight}</span>
       </h2>
-      <p className="section-sub reveal">
-        Every step automated. Every output professional. Every decision backed by real market data — not gut feelings.
-      </p>
+      <p className="section-sub reveal">{j.sub}</p>
 
       <div className="steps-timeline">
-        {journeySteps.map((step, idx) => (
+        {data.journeySteps.map((step, idx) => (
           <div key={step.number} className={`step-item reveal ${idx ? 'reveal-delay-1' : ''}`}>
             <div className="step-num">{step.number}</div>
             <div>
@@ -490,19 +427,26 @@ const esPost =
   '🔧 <strong>El Técnico de $200/Hora</strong><br><br>Tu técnico de HVAC no solo repara unidades de AC — está manejando un centro de ganancias sobre ruedas.<br><br>Así es como los negocios de servicio establecen su nivel premium...<br><br>#HVAC #NegociosDeServicio #Austin';
 
 export function FeaturesSection() {
-  const [lang, setLang] = useState<'en' | 'es'>('en');
+  const { t, lang, data } = useContent360Translation();
+  const f = t.features;
+  const [postLang, setPostLang] = useState<'en' | 'es'>('en');
+
+  // Sync the post preview lang with the global lang when it changes
+  useEffect(() => {
+    setPostLang(lang as 'en' | 'es');
+  }, [lang]);
 
   return (
     <section id="features">
-      <div className="section-tag reveal">Content360 Deep Dive</div>
+      <div className="section-tag reveal">{f.sectionTag}</div>
       <h2 className="section-headline reveal">
-        Every Feature.
+        {f.headLine1}
         <br />
-        <span style={{ color: 'var(--orange)' }}>Done Right.</span>
+        <span style={{ color: 'var(--orange)' }}>{f.headLine1Highlight}</span>
       </h2>
 
       <div className="features-grid">
-        {featureCards.map((card) => {
+        {data.featureCards.map((card) => {
           if (card.variant === 'large') {
             return (
               <div key={card.title} className="feature-card large reveal">
@@ -534,20 +478,20 @@ export function FeaturesSection() {
                         alignItems: 'center',
                       }}
                     >
-                      <span>POST PREVIEW</span>
+                      <span>{f.postPreviewLabel}</span>
                       <div style={{ display: 'flex', gap: 3 }}>
                         <button
-                          className={`lang-btn ${lang === 'en' ? 'active' : ''}`}
+                          className={`lang-btn ${postLang === 'en' ? 'active' : ''}`}
                           type="button"
-                          onClick={() => setLang('en')}
+                          onClick={() => setPostLang('en')}
                           style={{ cursor: 'pointer', borderRadius: 4 }}
                         >
                           EN
                         </button>
                         <button
-                          className={`lang-btn ${lang === 'es' ? 'active' : ''}`}
+                          className={`lang-btn ${postLang === 'es' ? 'active' : ''}`}
                           type="button"
-                          onClick={() => setLang('es')}
+                          onClick={() => setPostLang('es')}
                           style={{ cursor: 'pointer', borderRadius: 4 }}
                         >
                           ES
@@ -557,7 +501,7 @@ export function FeaturesSection() {
                     <div style={{ padding: 16 }}>
                       <p
                         style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.65 }}
-                        dangerouslySetInnerHTML={{ __html: lang === 'en' ? enPost : esPost }}
+                        dangerouslySetInnerHTML={{ __html: postLang === 'en' ? enPost : esPost }}
                       />
                     </div>
                   </div>
@@ -578,7 +522,7 @@ export function FeaturesSection() {
                   </span>
                 ))}
               </div>
-              {card.title === 'The 30-Day Calendar' ? (
+              {card.title === data.featureCards[0].title ? (
                 <div className="mini-calendar-demo">
                   {['Edu', 'Promo', 'Engage', 'BTS', 'Entmt'].map((label, idx) => (
                     <div key={label} className="mini-cal-card">
@@ -619,7 +563,7 @@ export function FeaturesSection() {
                   ))}
                 </div>
               ) : null}
-              {card.title === 'AI Visuals + Video' ? (
+              {card.icon === '🎨' ? (
                 <div
                   style={{
                     marginTop: 18,
@@ -634,14 +578,9 @@ export function FeaturesSection() {
                 >
                   <div
                     style={{
-                      flex: 1,
-                      height: 56,
-                      borderRadius: 6,
+                      flex: 1, height: 56, borderRadius: 6,
                       background: 'linear-gradient(135deg,var(--orange-dim),var(--purple-dim))',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: 22,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22,
                     }}
                   >
                     🔧
@@ -649,18 +588,10 @@ export function FeaturesSection() {
                   <div style={{ fontSize: 10, color: 'var(--text3)', fontFamily: 'var(--mono)' }}>→</div>
                   <div
                     style={{
-                      flex: 1,
-                      height: 56,
-                      borderRadius: 6,
+                      flex: 1, height: 56, borderRadius: 6,
                       background: 'linear-gradient(135deg,var(--blue-dim),rgba(16,185,129,0.15))',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: 10,
-                      color: 'var(--text2)',
-                      fontFamily: 'var(--mono)',
-                      textAlign: 'center',
-                      padding: 4,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: 10, color: 'var(--text2)', fontFamily: 'var(--mono)', textAlign: 'center', padding: 4,
                     }}
                   >
                     AI VISUAL
@@ -678,19 +609,22 @@ export function FeaturesSection() {
 }
 
 export function StatsSection() {
+  const { t, data } = useContent360Translation();
+  const s = t.stats;
+
   return (
     <div id="stats">
       <div className="stats-inner">
         <div style={{ textAlign: 'center', marginBottom: 44 }}>
           <div className="section-tag reveal" style={{ justifyContent: 'center' }}>
-            Proven Results
+            {s.sectionTag}
           </div>
           <h2 className="section-headline reveal" style={{ fontSize: 'clamp(32px,5vw,56px)' }}>
-            Numbers Don't Lie.
+            {s.headLine}
           </h2>
         </div>
         <div className="stats-grid">
-          {stats.map((stat, idx) => (
+          {data.stats.map((stat, idx) => (
             <div key={stat.label} className={`stat-item reveal ${idx ? `reveal-delay-${Math.min(idx, 4)}` : ''}`}>
               <div
                 className="stat-value"
@@ -710,29 +644,31 @@ export function StatsSection() {
 }
 
 export function PricingSection() {
+  const { t, data } = useContent360Translation();
+  const p = t.pricing;
+
   return (
     <section id="pricing" style={{ textAlign: 'center' }}>
       <div className="section-tag reveal" style={{ justifyContent: 'center' }}>
-        Simple Pricing
+        {p.sectionTag}
       </div>
       <h2 className="section-headline reveal">
-        A Full Marketing Team.
+        {p.headLine1}
         <br />
-        <span style={{ color: 'var(--orange)' }}>For Less Than Netflix.</span>
+        <span style={{ color: 'var(--orange)' }}>{p.headLine1Highlight}</span>
       </h2>
       <p className="pricing-intro reveal">
-        "A marketing agency, a business consultant, a recruiter, and a 24/7 AI coach — <strong>all in one platform</strong>,
-        starting at fifteen dollars a month."
+        <strong dangerouslySetInnerHTML={{ __html: p.intro }} />
       </p>
-      <div className="annual-badge reveal">✓ Save up to 25% with annual billing</div>
+      <div className="annual-badge reveal">{p.annualBadge}</div>
 
       <div className="pricing-grid">
-        {pricingPlans.map((plan, idx) => (
+        {data.pricingPlans.map((plan, idx) => (
           <div
             key={plan.tier}
             className={`price-card reveal ${plan.featured ? 'featured' : ''} ${idx ? `reveal-delay-${idx}` : ''}`}
           >
-            {plan.featured ? <span className="featured-badge">⭐ BEST VALUE</span> : null}
+            {plan.featured ? <span className="featured-badge">{p.featuredBadge}</span> : null}
             <div className="price-tier">{plan.tier}</div>
             <p className="price-tagline">{plan.tagline}</p>
             <div className="price-amount">
@@ -750,12 +686,7 @@ export function PricingSection() {
                 </li>
               ))}
             </ul>
-            <a
-              href={plan.ctaHref}
-              target="_blank"
-              rel="noreferrer"
-              className={`price-cta ${plan.ctaClass}`}
-            >
+            <a href={plan.ctaHref} target="_blank" rel="noreferrer" className={`price-cta ${plan.ctaClass}`}>
               {plan.ctaLabel}
             </a>
           </div>
@@ -763,7 +694,7 @@ export function PricingSection() {
       </div>
 
       <div className="trust-row" style={{ marginTop: 40 }}>
-        {['30-Day Guarantee', 'No Setup Fees', 'Cancel Anytime', 'SOC 2 Compliant', 'Bilingual EN/ES'].map((item) => (
+        {p.trust.map((item) => (
           <div key={item} className="trust-item">
             <span className="tick">✓</span> {item}
           </div>
@@ -774,33 +705,34 @@ export function PricingSection() {
 }
 
 export function ComparisonSection() {
+  const { t, data } = useContent360Translation();
+  const c = t.comparison;
+
   return (
     <section id="comparison">
-      <div className="section-tag reveal">The Real Comparison</div>
+      <div className="section-tag reveal">{c.sectionTag}</div>
       <h2 className="section-headline reveal">
-        Moil vs.
+        {c.headLine1}
         <br />
-        <span style={{ color: 'var(--orange)' }}>Everything Else.</span>
+        <span style={{ color: 'var(--orange)' }}>{c.headLine1Highlight}</span>
       </h2>
-      <p className="section-sub reveal">
-        Traditional consultants and generic AI tools both fall short of what Moil delivers — for a fraction of the price.
-      </p>
+      <p className="section-sub reveal">{c.sub}</p>
       <div className="table-wrap reveal">
         <table className="compare-table">
           <thead>
             <tr>
-              <th>Feature</th>
+              <th>{c.colFeature}</th>
               <th className="moil-col">
                 <div className="compare-header-moil">
-                  MOIL <span className="moil-best-badge">BEST</span>
+                  {c.colMoil} <span className="moil-best-badge">{c.moilBest}</span>
                 </div>
               </th>
-              <th>Traditional Consultant</th>
-              <th>Generic AI Tool</th>
+              <th>{c.colConsultant}</th>
+              <th>{c.colAiTool}</th>
             </tr>
           </thead>
           <tbody>
-            {comparisonRows.map((row) => (
+            {data.comparisonRows.map((row) => (
               <tr key={row.feature}>
                 <td>{row.feature}</td>
                 <td className={`moil-col ${row.moilHighlight ? 'highlight' : ''}`}>
@@ -839,21 +771,24 @@ export function ComparisonSection() {
 }
 
 export function TestimonialsSection() {
+  const { t, data } = useContent360Translation();
+  const ts = t.testimonials;
+
   return (
     <section id="testimonials" style={{ textAlign: 'center' }}>
       <div className="section-tag reveal" style={{ justifyContent: 'center' }}>
-        Real Businesses. Real Results.
+        {ts.sectionTag}
       </div>
       <h2 className="section-headline reveal">
-        500+ Businesses
+        {ts.headLine1}
         <br />
-        <span style={{ color: 'var(--orange)' }}>Can't Be Wrong.</span>
+        <span style={{ color: 'var(--orange)' }}>{ts.headLine1Highlight}</span>
       </h2>
 
       <div className="testimonials-grid">
-        {testimonials.map((testimonial, idx) => (
+        {data.testimonials.map((testimonial, idx) => (
           <div key={testimonial.name} className={`testimonial-card reveal ${idx ? `reveal-delay-${idx}` : ''}`}>
-            <span className="t-quote-mark">"</span>
+            <span className="t-quote-mark">&ldquo;</span>
             <div className="t-stars">★★★★★</div>
             <p className="t-text">{testimonial.text}</p>
             <div className="t-divider" />
@@ -874,6 +809,9 @@ export function TestimonialsSection() {
 }
 
 export function FinalCtaSection() {
+  const { t } = useContent360Translation();
+  const f = t.finalCta;
+
   const openCta = () => {
     window.open('https://moilapp.com/business', '_blank', 'noopener,noreferrer');
   };
@@ -896,23 +834,20 @@ export function FinalCtaSection() {
     >
       <div className="final-bg" />
       <div className="final-grid" />
-      <p className="final-eyebrow reveal">While you're reading this...</p>
+      <p className="final-eyebrow reveal">{f.eyebrow}</p>
       <h2 className="final-headline reveal">
-        Your Competitors
+        {f.headLine1}
         <br />
-        Are Posting
+        {f.headLine2}
         <br />
-        <span className="line-purple">Right Now.</span>
+        <span className="line-purple">{f.headLine2Highlight}</span>
       </h2>
-      <p className="final-sub reveal">
-        Another business just got their 30-day strategy, their AI visuals, and their hiring pipeline — all in one session. Data-backed.
-        Brand-aligned. Done.
-      </p>
+      <p className="final-sub reveal">{f.sub}</p>
       <button className="final-cta-btn reveal" type="button" onClick={openCta}>
-        🚀 Start Your AI Strategy — Free <span>→</span>
+        {f.cta}
       </button>
       <div className="trust-row reveal reveal-delay-1">
-        {['🔒 Secure', '30-Day Guarantee', 'No Setup Fees', 'Cancel Anytime'].map((item) => (
+        {f.trust.map((item) => (
           <div key={item} className="trust-item">
             <span className="tick">✓</span> {item}
           </div>
@@ -920,11 +855,11 @@ export function FinalCtaSection() {
       </div>
       <div style={{ marginTop: 60, position: 'relative', textAlign: 'center' }}>
         <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: 3, marginBottom: 8 }}>
-          Trusted by 500+ businesses
+          {f.trustedBy}
         </div>
         <div style={{ color: 'var(--purple-light)', fontSize: 16, letterSpacing: 2 }}>★★★★★</div>
         <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--text3)', marginTop: 6 }}>
-          5,000+ jobs posted · 94% interview success
+          {f.statsLine}
         </div>
       </div>
     </section>
