@@ -366,45 +366,143 @@ nav.scrolled {
 .status-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: blink 2s infinite; }
 .dashboard-body { padding: 16px; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; gap: 6px; }
 
+/* ---- Score panel: spans 2 cols × 2 rows, stacked vertically ---- */
 .score-panel {
   grid-column: span 2;
+  grid-row: span 2;
   background: linear-gradient(135deg, var(--orange-dim), var(--purple-dim));
   border: 1px solid rgba(255,92,26,0.2); border-radius: 8px;
-  padding: 14px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px;
+  padding: 12px; display: flex; flex-direction: column; gap: 8px;
 }
+
+/* Top portion: score number + bar + chips */
+.score-left { display: flex; flex-direction: column; gap: 6px; }
 .score-label { font-family: var(--mono); font-size: 8px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; }
-.score-value { font-family: var(--mono); font-size: 40px; font-weight: 700; color: var(--orange); line-height: 1; }
+.score-value { font-family: var(--mono); font-size: 36px; font-weight: 700; color: var(--orange); line-height: 1; }
 .score-bar { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
 .score-fill { height: 100%; background: linear-gradient(90deg, var(--orange), var(--purple-light)); border-radius: 2px; width: 0; transition: width 2s ease; }
+.score-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.score-chip {
+  font-family: var(--mono); font-size: 7px; padding: 2px 5px;
+  border-radius: 3px; background: rgba(255,255,255,0.07); color: var(--text2);
+  border: 1px solid var(--border2);
+}
 
+/* Bottom portion: rotating social post preview */
+.post-preview {
+  flex: 1; display: flex; flex-direction: column; justify-content: space-between;
+  min-height: 0;
+}
+.post-preview-inner {
+  background: var(--surface); border: 1px solid var(--border2); border-radius: 6px;
+  padding: 8px; display: flex; flex-direction: column; gap: 5px;
+  animation: postFadeIn 0.45s ease forwards;
+}
+.post-preview-top { display: flex; align-items: center; gap: 6px; }
+.post-avatar {
+  width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--orange), var(--purple-light));
+}
+.post-meta { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.post-handle { font-family: var(--mono); font-size: 7px; color: var(--text); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.post-platform-label { font-family: var(--mono); font-size: 6px; color: var(--text3); }
+.post-day-badge {
+  font-family: var(--mono); font-size: 6px; padding: 2px 4px;
+  background: var(--orange-dim); color: var(--orange); border-radius: 3px; white-space: nowrap;
+}
+
+/* Post image block */
+.post-img {
+  width: 100%; height: 44px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.post-img-promo { background: linear-gradient(135deg, #7C1D0A 0%, #BF3A0D 50%, #7B1FA2 100%); }
+.post-img-ent   { background: linear-gradient(135deg, #4A1060 0%, #7B1FA2 50%, #FF6EC7 100%); }
+.post-img-edu   { background: linear-gradient(135deg, #0A1F6B 0%, #1565C0 50%, #0D47A1 100%); }
+.post-img-eng   { background: linear-gradient(135deg, #0B4027 0%, #1B7A4A 50%, #00BCD4 100%); }
+.post-img-bts   { background: linear-gradient(135deg, #1A0A3D 0%, #4527A0 50%, #7C3AED 100%); }
+.post-big-emoji { font-size: 22px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); }
+.post-img-corner {
+  position: absolute; bottom: 3px; right: 4px;
+  font-family: var(--mono); font-size: 6px; font-weight: 700;
+  color: rgba(255,255,255,0.7); letter-spacing: 0.5px;
+}
+
+/* Post caption / engagement */
+.post-caption-text { font-size: 7px; color: var(--text2); line-height: 1.5; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.post-tags-text { font-family: var(--mono); font-size: 6px; color: var(--purple-light); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.post-stats { display: flex; gap: 8px; }
+.post-stat { display: flex; align-items: center; gap: 3px; }
+.post-stat-icon { font-size: 8px; color: var(--orange); }
+.post-stat-val { font-family: var(--mono); font-size: 7px; color: var(--text2); font-weight: 700; }
+
+/* Carousel indicator dots */
+.post-dots { display: flex; justify-content: center; gap: 4px; padding-top: 4px; }
+.post-dot {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--border2); transition: background 0.3s, width 0.3s;
+}
+.post-dot.active { background: var(--orange); width: 10px; border-radius: 2px; }
+
+@keyframes postFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* ---- Legend chips in dashboard bar ---- */
+.dashboard-bar-tags { display: flex; align-items: center; gap: 4px; margin-left: 12px; }
+.bar-tag {
+  font-size: 6px; font-weight: 700; padding: 2px 5px;
+  border-radius: 3px; text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+/* ---- Day cards ---- */
 .day-card {
   background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 7px; padding: 8px 5px; text-align: center;
+  border-radius: 7px; padding: 6px 4px; text-align: center;
   transition: all 0.3s;
   animation: dayCardIn 0.4s ease forwards; opacity: 0;
 }
 .day-card:hover { border-color: var(--orange); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,92,26,0.12); }
-.day-num { font-family: var(--mono); font-size: 9px; color: var(--text3); margin-bottom: 4px; }
+
+/* Card header: day number + platform badge side by side */
+.day-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
+.day-num { font-family: var(--mono); font-size: 8px; color: var(--text3); }
+.day-plat {
+  font-family: var(--mono); font-size: 6px; font-weight: 700;
+  padding: 1px 3px; border-radius: 2px; text-transform: uppercase;
+}
+.day-plat-ig  { background: rgba(228,64,95,0.18);  color: #E4405F; }
+.day-plat-fb  { background: rgba(24,119,242,0.18); color: #1877F2; }
+.day-plat-li  { background: rgba(10,102,194,0.18); color: #0A66C2; }
+
 .day-type {
   font-size: 7px; font-weight: 700; padding: 2px 5px;
   border-radius: 3px; text-transform: uppercase; letter-spacing: 0.5px;
-  margin-bottom: 5px; display: inline-block;
+  margin-bottom: 4px; display: inline-block;
 }
-.type-edu { background: var(--blue-dim); color: #60A5FA; }
-.type-promo { background: var(--orange-dim); color: var(--orange); }
-.type-eng { background: rgba(16,185,129,0.15); color: #34D399; }
-.type-bts { background: var(--purple-dim); color: var(--purple-light); }
-.type-ent { background: rgba(168,85,247,0.15); color: #C084FC; }
+.type-edu  { background: var(--blue-dim);              color: #60A5FA; }
+.type-promo{ background: var(--orange-dim);            color: var(--orange); }
+.type-eng  { background: rgba(16,185,129,0.15);        color: #34D399; }
+.type-bts  { background: var(--purple-dim);            color: var(--purple-light); }
+.type-ent  { background: rgba(168,85,247,0.15);        color: #C084FC; }
+
+/* Day image thumbnail — type-specific rich gradients */
 .day-img {
-  width: 100%; height: 30px; border-radius: 4px;
-  background: linear-gradient(135deg, var(--border), var(--border2));
-  display: flex; align-items: center; justify-content: center; font-size: 13px;
+  width: 100%; height: 38px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
   position: relative; overflow: hidden;
 }
+.day-img-edu   { background: linear-gradient(135deg, #0D1B4B 0%, #1565C0 100%); }
+.day-img-promo { background: linear-gradient(135deg, #5C1200 0%, #C0390D 100%); }
+.day-img-eng   { background: linear-gradient(135deg, #083020 0%, #16714A 100%); }
+.day-img-bts   { background: linear-gradient(135deg, #150830 0%, #4527A0 100%); }
+.day-img-ent   { background: linear-gradient(135deg, #3A0050 0%, #8E24AA 100%); }
+.day-emoji { font-size: 14px; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.6)); }
 .day-video-badge {
   position: absolute; bottom: 2px; right: 2px;
   background: var(--orange); width: 11px; height: 11px;
-  border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 6px; color: white;
+  border-radius: 2px; display: flex; align-items: center; justify-content: center;
+  font-size: 6px; color: white;
+  box-shadow: 0 1px 4px rgba(255,92,26,0.5);
 }
 @keyframes dayCardIn { from{opacity:0;transform:translateY(8px) scale(0.95);} to{opacity:1;transform:none;} }
 

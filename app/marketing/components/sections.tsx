@@ -27,14 +27,55 @@ const heroTypeLabel: Record<string, string> = {
   ent: 'Entmt',
 };
 
+// Featured video posts that rotate in the live preview panel
+const featuredPosts = [
+  {
+    day: 7,  type: 'promo', emoji: '🎯',
+    platform: 'Instagram', handle: '@yourbusiness',
+    caption: "Big news — we just crossed a milestone. Here's what we built for you this month →",
+    tags: '#SmallBiz #AI #Milestone',
+    likes: '847', comments: '32',
+  },
+  {
+    day: 10, type: 'promo', emoji: '🔥',
+    platform: 'LinkedIn', handle: '@yourbusiness',
+    caption: "This one change saved our team 8 hours last week. Want to know what it is? 👇",
+    tags: '#Productivity #BusinessGrowth',
+    likes: '1.2K', comments: '67',
+  },
+  {
+    day: 15, type: 'ent', emoji: '🎉',
+    platform: 'Instagram', handle: '@yourbusiness',
+    caption: "POV: You finally stop doing everything manually 😅 Thank you to our 500+ community!",
+    tags: '#ContentCreator #Community',
+    likes: '2.1K', comments: '94',
+  },
+  {
+    day: 21, type: 'promo', emoji: '🚀',
+    platform: 'LinkedIn', handle: '@yourbusiness',
+    caption: "The AI that runs your content while you run your business. Real results. 📊",
+    tags: '#AI #Content360 #SmallBusiness',
+    likes: '934', comments: '45',
+  },
+];
+
+// Platform assignment per day (IG-heavy, realistic distribution)
+const DAY_PLATFORMS = ['IG','IG','FB','LI','IG','LI','IG','FB','LI','IG','LI','FB','FB','IG','IG','FB','IG','LI','LI','FB','IG','FB','LI','IG','IG','FB','LI','IG','LI','IG'];
+
 export function HeroSection() {
   const [heroScore, setHeroScore] = useState(0);
+  const [activePost, setActivePost] = useState(0);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setHeroScore(94);
-    }, 1200);
+    const timer = window.setTimeout(() => setHeroScore(94), 1200);
     return () => window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActivePost((p) => (p + 1) % featuredPosts.length);
+    }, 3500);
+    return () => window.clearInterval(interval);
   }, []);
 
   const handleSecondaryClick = () => {
@@ -44,6 +85,8 @@ export function HeroSection() {
   const openCta = () => {
     window.open('https://moilapp.com/business', '_blank', 'noopener,noreferrer');
   };
+
+  const post = featuredPosts[activePost];
 
   return (
     <section id="hero">
@@ -74,7 +117,7 @@ export function HeroSection() {
 
       <div className="hero-ctas">
         <button className="btn-primary" type="button" onClick={openCta}>
-          🚀 Get My Free Strategy <span>→</span>
+          🚀 Get My Content Strategy <span>→</span>
         </button>
         <button className="btn-secondary" type="button" onClick={handleSecondaryClick}>
           ▶ See How It Works
@@ -83,37 +126,98 @@ export function HeroSection() {
 
       <div className="hero-dashboard">
         <div className="dashboard-frame">
+          {/* Bar: traffic-light dots · title · content-type legend · LIVE badge */}
           <div className="dashboard-bar">
             <span className="dot dot-r" />
             <span className="dot dot-y" />
             <span className="dot dot-g" />
             <span className="dashboard-title">CONTENT360 — 30-DAY STRATEGY ENGINE</span>
+            <div className="dashboard-bar-tags">
+              <span className="bar-tag type-edu">EDU</span>
+              <span className="bar-tag type-promo">PROMO</span>
+              <span className="bar-tag type-eng">ENGAGE</span>
+              <span className="bar-tag type-bts">BTS</span>
+              <span className="bar-tag type-ent">ENTMT</span>
+            </div>
             <div className="dashboard-status">
               <span className="status-dot" /> LIVE
             </div>
           </div>
+
           <div className="dashboard-body">
+            {/* Score + Live Post Preview — spans 2 cols × 2 rows */}
             <div className="score-panel">
-              <div className="score-label">STRATEGY SCORE</div>
-              <div className="score-value">{heroScore}%</div>
-              <div className="score-bar">
-                <div className="score-fill" style={{ width: `${heroScore}%` }} />
-              </div>
-            </div>
-            {heroDayData.map((day, index) => (
-              <div
-                key={`${day.type}-${index}`}
-                className="day-card"
-                style={{ animationDelay: `${index * 0.035}s` }}
-              >
-                <div className="day-num">{String(index + 1).padStart(2, '0')}</div>
-                <div className={`day-type ${heroTypeClass[day.type]}`}>{heroTypeLabel[day.type]}</div>
-                <div className="day-img">
-                  {day.emoji}
-                  {day.video ? <div className="day-video-badge">▶</div> : null}
+              {/* Top: strategy score */}
+              <div className="score-left">
+                <div className="score-label">STRATEGY SCORE</div>
+                <div className="score-value">{heroScore}%</div>
+                <div className="score-bar">
+                  <div className="score-fill" style={{ width: `${heroScore}%` }} />
+                </div>
+                <div className="score-chips">
+                  <span className="score-chip">30 posts</span>
+                  <span className="score-chip">EN / ES</span>
+                  <span className="score-chip">6 types</span>
                 </div>
               </div>
-            ))}
+
+              {/* Bottom: rotating live post preview */}
+              <div className="post-preview">
+                <div key={activePost} className="post-preview-inner">
+                  <div className="post-preview-top">
+                    <div className="post-avatar" />
+                    <div className="post-meta">
+                      <span className="post-handle">{post.handle}</span>
+                      <span className="post-platform-label">{post.platform}</span>
+                    </div>
+                    <span className="post-day-badge">Day {post.day}</span>
+                  </div>
+                  <div className={`post-img post-img-${post.type}`}>
+                    <span className="post-big-emoji">{post.emoji}</span>
+                    <span className="post-img-corner">{post.type.toUpperCase()}</span>
+                  </div>
+                  <p className="post-caption-text">{post.caption}</p>
+                  <p className="post-tags-text">{post.tags}</p>
+                  <div className="post-stats">
+                    <span className="post-stat">
+                      <span className="post-stat-icon">♥</span>
+                      <span className="post-stat-val">{post.likes}</span>
+                    </span>
+                    <span className="post-stat">
+                      <span className="post-stat-icon">💬</span>
+                      <span className="post-stat-val">{post.comments}</span>
+                    </span>
+                  </div>
+                </div>
+                <div className="post-dots">
+                  {featuredPosts.map((_, i) => (
+                    <span key={i} className={`post-dot${i === activePost ? ' active' : ''}`} />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* 30 enhanced day-card thumbnails */}
+            {heroDayData.map((day, index) => {
+              const plat = DAY_PLATFORMS[index] || 'IG';
+              return (
+                <div
+                  key={`${day.type}-${index}`}
+                  className="day-card"
+                  style={{ animationDelay: `${index * 0.035}s` }}
+                >
+                  <div className="day-card-top">
+                    <span className="day-num">{String(index + 1).padStart(2, '0')}</span>
+                    <span className={`day-plat day-plat-${plat.toLowerCase()}`}>{plat}</span>
+                  </div>
+                  <div className={`day-type ${heroTypeClass[day.type]}`}>{heroTypeLabel[day.type]}</div>
+                  <div className={`day-img day-img-${day.type}`}>
+                    <span className="day-emoji">{day.emoji}</span>
+                    {day.video && <div className="day-video-badge">▶</div>}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
