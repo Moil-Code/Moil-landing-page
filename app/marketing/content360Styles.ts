@@ -824,9 +824,12 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
 .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
 .footer-links a { font-family: var(--mono); font-size: 10px; color: var(--text3); text-decoration: none; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; }
 .footer-links a:hover { color: var(--orange); }
-.lang-toggle { display: flex; gap: 2px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
-.lang-btn { padding: 6px 12px; font-family: var(--mono); font-size: 10px; cursor: pointer; border: none; background: transparent; color: var(--text3); letter-spacing: 1px; transition: all 0.2s; }
-.lang-btn.active { background: var(--orange); color: white; }
+.nav-lang-wrap { display: flex; align-items: center; gap: 6px; }
+.nav-lang-icon { font-size: 14px; opacity: 0.7; }
+.lang-toggle { display: flex; gap: 0; background: var(--surface3); border: 1px solid var(--border2); border-radius: 6px; overflow: hidden; padding: 2px; }
+.lang-btn { padding: 5px 11px; font-family: var(--mono); font-size: 10px; cursor: pointer; border: none; background: transparent; color: var(--text2); letter-spacing: 1px; transition: all 0.2s; border-radius: 4px; min-width: 34px; text-align: center; font-weight: 600; }
+.lang-btn.active { background: var(--orange); color: white; box-shadow: 0 2px 8px var(--orange-glow); }
+.lang-btn:hover:not(.active) { color: var(--text); background: var(--surface2); }
 
 /* ============================================================
    MOBILE RESPONSIVE

@@ -46,23 +46,26 @@ export function Content360Nav({
         ))}
       </ul>
       <div className="nav-right">
-        <div className="lang-toggle">
-          <button
-            className={`lang-btn ${lang === 'en' ? 'active' : ''}`}
-            type="button"
-            onClick={() => setLang('en')}
-            aria-label="Switch to English"
-          >
-            EN
-          </button>
-          <button
-            className={`lang-btn ${lang === 'es' ? 'active' : ''}`}
-            type="button"
-            onClick={() => setLang('es')}
-            aria-label="Cambiar a Español"
-          >
-            ES
-          </button>
+        <div className="nav-lang-wrap">
+          <span className="nav-lang-icon">🌐</span>
+          <div className="lang-toggle">
+            <button
+              className={`lang-btn ${lang === 'en' ? 'active' : ''}`}
+              type="button"
+              onClick={() => setLang('en')}
+              aria-label="Switch to English"
+            >
+              EN
+            </button>
+            <button
+              className={`lang-btn ${lang === 'es' ? 'active' : ''}`}
+              type="button"
+              onClick={() => setLang('es')}
+              aria-label="Cambiar a Español"
+            >
+              ES
+            </button>
+          </div>
         </div>
         <button
           className="theme-toggle"

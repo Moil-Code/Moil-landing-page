@@ -16,29 +16,39 @@ const translations: Record<Language, TranslationKeys> = { en, es };
 
 const LanguageContext = createContext<LanguageContextType | null>(null);
 
-export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Language>('en');
-  const [isLoading, setIsLoading] = useState(true);
+/** Read language from URL ?lg= or localStorage synchronously (client-only). */
+function detectInitialLang(): Language {
+  if (typeof window === 'undefined') return 'en';
+  try {
+    const lg = new URLSearchParams(window.location.search).get('lg');
+    if (lg === 'en' || lg === 'es') return lg;
+    const stored = localStorage.getItem('tlang');
+    if (stored === 'en' || stored === 'es') return stored as Language;
+  } catch {}
+  return 'en';
+}
 
+export function I18nProvider({ children }: { children: ReactNode }) {
+  // Initialised synchronously on the client so there is no flash of English
+  // when the page loads with ?lg=es or a persisted language in localStorage.
+  // On the server (SSR) detectInitialLang() returns 'en' — the hydration
+  // mismatch is suppressed on the html element via suppressHydrationWarning.
+  const [lang, setLangState] = useState<Language>(detectInitialLang);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Persist URL param on first mount if missing, without blocking render
   useEffect(() => {
     if (typeof window === 'undefined') return;
-
     const url = new URL(window.location.href);
-    const lgParam = url.searchParams.get('lg') as Language | null;
-    const storedLang = localStorage.getItem('tlang') as Language | null;
-
-    let effectiveLang: Language = 'en';
-
-    if (lgParam && (lgParam === 'en' || lgParam === 'es')) {
-      effectiveLang = lgParam;
-      localStorage.setItem('tlang', lgParam);
-    } else if (storedLang && (storedLang === 'en' || storedLang === 'es')) {
-      effectiveLang = storedLang;
-      url.searchParams.set('lg', storedLang);
-      window.history.replaceState({}, '', url.toString());
+    if (!url.searchParams.get('lg')) {
+      try {
+        const stored = localStorage.getItem('tlang');
+        if (stored === 'en' || stored === 'es') {
+          url.searchParams.set('lg', stored);
+          window.history.replaceState({}, '', url.toString());
+        }
+      } catch {}
     }
-
-    setLangState(effectiveLang);
     setIsLoading(false);
   }, []);
 
