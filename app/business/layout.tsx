@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     url: `${baseURL1}/business`,
     images: [
       {
-        url: '/hero-business.jpg',
+        url: '/og_image_v2.jpg',
         width: 1200,
         height: 630,
         alt: 'Moil AI Business Growth Platform for Small Business',
@@ -72,7 +72,7 @@ export default function BusinessLayout({
             "operatingSystem": "Web",
             "description": "AI-powered business growth platform for small businesses. Generates business plans, market research, content calendars, and manages smart hiring — all in one platform.",
             "url": `${baseURL1}/business`,
-            "screenshot": `${baseURL1}/hero-business.jpg`,
+            "screenshot": `${baseURL1}/og_image_v2.jpg`,
             "offers": {
               "@type": "Offer",
               "price": "15",
