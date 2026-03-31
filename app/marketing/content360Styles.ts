@@ -839,6 +839,7 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
   nav { padding: 14px 20px; }
   .nav-links { display: none; }
   .nav-cta { display: none; }
+  .nav-lang-wrap { display: none; }
   .hamburger { display: flex; }
 
   /* Typography */

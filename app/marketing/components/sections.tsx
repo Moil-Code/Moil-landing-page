@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef, useState } from 'react';
 
 import { useContent360Translation } from '../hooks/useContent360Translation';
