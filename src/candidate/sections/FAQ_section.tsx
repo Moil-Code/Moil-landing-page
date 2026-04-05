@@ -10,7 +10,7 @@ export default function FAQSection() {
   const FAQ = [
     {
       question: "What is Moil?",
-      answer: "Moil is a platform designed to connect skilled professionals, such as carpenters, plumbers, and painters, with job opportunities. It uses AI-powered technology to match skilled workers with on-demand jobs."
+      answer: "Moil is a platform that connects skilled professionals — including tradespeople, service workers, hospitality staff, logistics workers, and more — with job opportunities. Our AI matches workers with roles that fit their skills, location, and experience, across a wide range of industries and small businesses."
     },
     {
       question: "How does Moil work?",

@@ -25,7 +25,12 @@ export const metadata: Metadata = {
     'AI co-founder',
     'market research software',
     'startup business tools',
-    'investor ready business plan'
+    'investor ready business plan',
+    'service business software',
+    'home services business tools',
+    'trade business management',
+    'HVAC business software',
+    'small business AI tools'
   ],
   openGraph: {
     title: 'AI Business Plan Generator & Smart Hiring for Small Business | Moil',

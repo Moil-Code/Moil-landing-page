@@ -24,7 +24,11 @@ export const metadata: Metadata = {
     'Spanish English jobs',
     'job marketplace free',
     'voice interview assistant',
-    'professional resume AI'
+    'professional resume AI',
+    'skilled trades jobs',
+    'service worker jobs',
+    'skilled worker jobs near me',
+    'trade jobs hiring now'
   ],
   openGraph: {
     title: 'Find Jobs Fast | AI Resume Builder & Bilingual Job Search | Moil',
