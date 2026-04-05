@@ -56,7 +56,7 @@ export default function FooterSection({ refQuery, lgQuery }: any) {
             <ul className="space-y-3">
               <li>
                 <Link href={`/business${queryString}`} className="text-white/70 hover:text-white transition-colors text-sm">
-                  Hire Employees
+                  Moil Business
                 </Link>
               </li>
               <li>
