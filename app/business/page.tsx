@@ -165,11 +165,11 @@ function BusinessPageContent() {
   ];
 
   const hiringStats = [
-    { label: t.business.hiring.stats.fasterThanIndeed, target: 5, suffix: '×' },
-    { label: t.business.hiring.stats.interviewSuccess, target: 94, suffix: '%' },
-    { label: t.business.hiring.stats.retention90, target: 91, suffix: '%' },
+    { label: t.business.hiring.stats.fasterThanIndeed, target: 2, suffix: ' Min' },
+    { label: t.business.hiring.stats.interviewSuccess, target: 10, suffix: '+' },
     { label: t.business.hiring.stats.avgDaysToHire, target: 11 },
     { label: t.business.hiring.stats.avgCostPerHire, target: 850, prefix: '$' },
+    { label: t.business.hiring.stats.retention90, target: 2400, prefix: '$' },
     { label: t.business.hiring.stats.bilingualReach, target: 58, suffix: '%' },
   ];
 
@@ -182,9 +182,9 @@ function BusinessPageContent() {
   const stats = [
     { label: t.business.statsSection.stats.businessesTrusting, target: 500, suffix: '+' },
     { label: t.business.statsSection.stats.jobsPostedMonthly, target: 5000, suffix: '+' },
-    { label: t.business.statsSection.stats.interviewSuccessRate, target: 94, suffix: '%' },
+    { label: t.business.statsSection.stats.interviewSuccessRate, target: 2, suffix: ' Min' },
     { label: t.business.statsSection.stats.avgCostPerHire, target: 850, prefix: '$' },
-    { label: t.business.statsSection.stats.retention90, target: 91, suffix: '%' },
+    { label: t.business.statsSection.stats.retention90, target: 11 },
     { label: t.business.statsSection.stats.startingPrice, target: 15, prefix: '$' },
   ];
 
