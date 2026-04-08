@@ -13,6 +13,27 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 3600,
   },
+  async redirects() {
+    return [
+      // Fix 2.6: 301 redirects for dead pages that are actively linked internally
+      // and appear in GSC as 404 crawl errors
+      {
+        source: '/home',
+        destination: '/business',
+        permanent: true,
+      },
+      {
+        source: '/en',
+        destination: '/business',
+        permanent: true,
+      },
+      {
+        source: '/en/',
+        destination: '/business',
+        permanent: true,
+      },
+    ]
+  },
   async headers() {
     return [
       {
