@@ -3,8 +3,8 @@ import { baseURL1 } from '../../src/common/constants/baseUrl';
 import { content360Styles } from './content360Styles';
 
 export const metadata: Metadata = {
-  title: 'Content360 by Moil — Your Entire Month of Marketing. Built by AI. | Moil',
-  description: 'Stop guessing. Content360 researches your market, writes every post, generates AI images and video, and builds your complete 30-day content calendar automatically. Starts at $15/month.',
+  title: 'AI Marketing for Small Business',
+  description: 'Stop guessing. Content360 researches your market, writes every post, generates AI images and video, and builds your complete 30-day content calendar automatically. From $25/month.',
   keywords: [
     'AI content calendar',
     'content marketing calendar tool',
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
     'small business social media AI'
   ],
   openGraph: {
-    title: 'Content360 by Moil — Your Entire Month of Marketing. Built by AI.',
-    description: 'Content360 researches your market, writes every post, generates AI images and video, and builds your complete 30-day content calendar — automatically. From $15/month.',
+    title: 'AI Marketing for Small Business | Moil',
+    description: '30-day content calendar, AI-generated posts, images and video — all built around your specific business. No agency needed. From $25/mo.',
     url: `${baseURL1}/marketing`,
     siteName: 'Moil',
     images: [
@@ -45,8 +45,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Content360 by Moil — Your Entire Month of Marketing. Built by AI.',
-    description: 'Content360 researches your market, writes every post, generates AI images and video, and builds your complete 30-day calendar — automatically. From $15/month.',
+    title: 'AI Marketing for Small Business | Moil',
+    description: '30-day content calendar, AI-generated posts, images and video — all built around your specific business. No agency needed. From $25/mo.',
     images: ['/og_image_v2.png'],
     creator: '@MoilApp',
     site: '@MoilApp',
@@ -75,19 +75,6 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
             "description": "AI-powered content marketing calendar generator. Creates a complete 30-day social media plan with captions, hashtags, AI images, and video — customized to your brand. Trusted by 500+ businesses.",
             "url": `${baseURL1}/marketing`,
             "offers": [
-              {
-                "@type": "Offer",
-                "name": "Starter",
-                "price": "15",
-                "priceCurrency": "USD",
-                "priceSpecification": {
-                  "@type": "UnitPriceSpecification",
-                  "price": "15",
-                  "priceCurrency": "USD",
-                  "billingDuration": "P1M"
-                },
-                "description": "Full AI toolbox for businesses just getting started. 75 AI images, 3 job postings/month."
-              },
               {
                 "@type": "Offer",
                 "name": "Professional",
@@ -143,7 +130,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
             "estimatedCost": {
               "@type": "MonetaryAmount",
               "currency": "USD",
-              "value": "15"
+              "value": "25"
             },
             "step": [
               {
@@ -208,7 +195,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
                 "name": "How much does Content360 cost?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Content360 is included in Moil's plans starting at $15/month (Starter), $25/month (Professional), and $75/month (Market Pro with full Content360 access). All plans include a 30-day money-back guarantee. No setup fees."
+                  "text": "Content360 is included in Moil's plans starting at $25/month (Professional) and $75/month (Market Pro with full Content360 access). All plans include a 30-day money-back guarantee. No setup fees."
                 }
               },
               {
