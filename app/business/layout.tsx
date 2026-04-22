@@ -3,8 +3,8 @@ import './business.css';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
 
 export const metadata: Metadata = {
-  title: 'AI Business Plan Generator & Smart Hiring for Small Business | Moil',
-  description: 'Generate a complete business plan in minutes with AI. Moil gives small businesses market research, financial projections, a 30-day content calendar, and smart hiring — starting at $15/month. Trusted by 500+ SMBs.',
+  title: 'AI Co-Founder for Small Business — Business Plans, Hiring & Marketing',
+  description: 'Moil gives small businesses an AI co-founder that writes your business plan, runs your marketing, and hires your team. 500+ businesses growing. Try free. From $25/mo.',
   keywords: [
     'AI business plan generator',
     'free business plan generator',
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
     'small business AI tools'
   ],
   openGraph: {
-    title: 'AI Business Plan Generator & Smart Hiring for Small Business | Moil',
-    description: 'Generate a complete business plan in minutes. Market research, content calendar, financial projections & smart hiring — all in one AI platform. From $15/month.',
+    title: 'AI Co-Founder for Small Business — Business Plans, Hiring & Marketing',
+    description: 'Business plan, hiring, content marketing & AI coaching — all in one platform. 500+ small businesses growing. Try free. From $25/mo.',
     url: `${baseURL1}/business`,
     images: [
       {
@@ -46,14 +46,14 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    title: 'AI Business Plan Generator & Smart Hiring for Small Business | Moil',
-    description: 'Generate a complete business plan in minutes. Market research, content calendar, financial projections & smart hiring — all in one AI platform. From $15/month.',
+    title: 'AI Co-Founder for Small Business — Business Plans, Hiring & Marketing',
+    description: 'Business plan, hiring, content marketing & AI coaching — all in one platform. 500+ small businesses growing. Try free. From $25/mo.',
   },
   alternates: {
     canonical: `${baseURL1}/business`,
     languages: {
       'en': `${baseURL1}/business`,
-      'es': `${baseURL1}/business?lg=es`,
+      'x-default': `${baseURL1}/business`,
     },
   },
 };
@@ -80,16 +80,16 @@ export default function BusinessLayout({
             "screenshot": `${baseURL1}/og_image_v2.jpg`,
             "offers": {
               "@type": "Offer",
-              "price": "15",
+              "price": "25",
               "priceCurrency": "USD",
               "priceSpecification": {
                 "@type": "UnitPriceSpecification",
-                "price": "15",
+                "price": "25",
                 "priceCurrency": "USD",
                 "billingDuration": "P1M",
                 "description": "Starting price per month"
               },
-              "description": "From $15/month. Free trial available."
+              "description": "From $25/month. Free trial available."
             },
             "aggregateRating": {
               "@type": "AggregateRating",
@@ -136,7 +136,7 @@ export default function BusinessLayout({
                 "name": "How much does Moil cost?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Moil plans start at $15/month (Starter), $25/month (Professional), or $75/month (Market Pro). All plans include a 30-day money-back guarantee and no setup fees. Your first AI co-founder conversation requires no credit card. See full details at moilapp.com/business/pricing."
+                  "text": "Moil plans start at $25/month (Professional) or $75/month (Market Pro). All plans include a 30-day money-back guarantee and no setup fees. Your first AI co-founder conversation requires no credit card. See full details at moilapp.com/business/pricing."
                 }
               },
               {
@@ -176,7 +176,7 @@ export default function BusinessLayout({
                 "name": "How is Moil different from hiring a business consultant?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Traditional business consultants charge $5,000–$15,000 per engagement and take 2–4 weeks to deliver. Moil delivers market research, a business plan, content strategy, and hiring setup in minutes — for as little as $15/month."
+                  "text": "Traditional business consultants charge $5,000–$15,000 per engagement and take 2–4 weeks to deliver. Moil delivers market research, a business plan, content strategy, and hiring setup in minutes — for as little as $25/month."
                 }
               }
             ]
@@ -196,7 +196,7 @@ export default function BusinessLayout({
             "estimatedCost": {
               "@type": "MonetaryAmount",
               "currency": "USD",
-              "value": "15"
+              "value": "25"
             },
             "step": [
               {
