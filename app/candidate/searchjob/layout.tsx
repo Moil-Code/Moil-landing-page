@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
 
 export const metadata: Metadata = {
-  title: 'Search Jobs | Bilingual Job Opportunities Near You | Moil',
+  title: 'Search Jobs — Bilingual Job Opportunities Near You',
   description: 'Search thousands of job opportunities with Moil\'s AI-powered job search. Filter by location, industry, and language. Find bilingual jobs (English/Spanish) and apply in minutes. Free for candidates.',
   keywords: [
     'search jobs',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     'job board'
   ],
   openGraph: {
-    title: 'Search Jobs | Bilingual Job Opportunities Near You | Moil',
+    title: 'Search Jobs — Bilingual Job Opportunities Near You',
     description: 'Search thousands of bilingual job opportunities. AI-powered matching connects you with the right employer. Free for candidates.',
     url: `${baseURL1}/candidate/searchjob`,
     images: [
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    title: 'Search Jobs | Bilingual Job Opportunities Near You | Moil',
+    title: 'Search Jobs — Bilingual Job Opportunities Near You',
     description: 'Search thousands of bilingual job opportunities with AI matching. Free for candidates.',
   },
   alternates: {

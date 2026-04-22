@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
 
 export const metadata: Metadata = {
-  title: 'Find Jobs Fast | AI Resume Builder & Bilingual Job Search | Moil',
-  description: 'Find your next job faster with Moil\'s AI job matching. Build a professional resume in minutes, practice interviews with AI, and access thousands of bilingual job opportunities. Free for candidates.',
+  title: 'Find Trade & Blue-Collar Jobs',
+  description: 'Browse local job openings for trades, construction, maintenance & more. Apply in 2 minutes. AI-powered matching finds your best fit. Free for candidates. Powered by Moil.',
   keywords: [
     'AI job search',
     'AI resume builder',
@@ -31,8 +31,8 @@ export const metadata: Metadata = {
     'trade jobs hiring now'
   ],
   openGraph: {
-    title: 'Find Jobs Fast | AI Resume Builder & Bilingual Job Search | Moil',
-    description: 'Find your next job faster with AI job matching. Build a resume in minutes, practice interviews, and access thousands of bilingual opportunities. Free for candidates.',
+    title: 'Find Trade & Blue-Collar Jobs | Moil',
+    description: 'Browse local job openings for trades, construction, maintenance & more. Apply in 2 minutes. AI-powered matching. Free for candidates.',
     url: `${baseURL1}/candidate`,
     images: [
       {
@@ -44,14 +44,14 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    title: 'Find Jobs Fast | AI Resume Builder & Bilingual Job Search | Moil',
-    description: 'Find your next job faster with AI job matching. Build a resume in minutes, practice interviews, and access thousands of bilingual opportunities. Free for candidates.',
+    title: 'Find Trade & Blue-Collar Jobs | Moil',
+    description: 'Browse local job openings for trades, construction, maintenance & more. Apply in 2 minutes. Free for candidates.',
   },
   alternates: {
     canonical: `${baseURL1}/candidate`,
     languages: {
       'en': `${baseURL1}/candidate`,
-      'es': `${baseURL1}/candidate?lg=es`,
+      'x-default': `${baseURL1}/candidate`,
     },
   },
 };

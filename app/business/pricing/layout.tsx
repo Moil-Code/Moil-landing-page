@@ -2,14 +2,14 @@ import type { Metadata } from 'next';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
 
 export const metadata: Metadata = {
-  title: 'Pricing | AI Business Platform Plans Starting at $15/month | Moil',
-  description: 'Simple, affordable pricing for Moil\'s AI business platform. Plans starting at $15/month include AI business plan generation, market research, content calendar, and smart hiring. No setup fees. Free trial available.',
+  title: 'Moil Pricing — From $25/mo for AI Business Tools',
+  description: 'One platform for business planning, smart hiring, and AI marketing. Cheaper than a single consultant hour. No contracts. 30-day money-back guarantee. Plans from $25/mo.',
   keywords: [
     'AI business platform pricing',
     'business plan software pricing',
     'affordable AI tools small business',
     'small business software cost',
-    'AI tools $15 per month',
+    'AI tools $25 per month',
     'business growth platform plans',
     'SMB software pricing',
     'AI hiring software cost',
@@ -17,8 +17,8 @@ export const metadata: Metadata = {
     'cheap AI business tools'
   ],
   openGraph: {
-    title: 'Pricing | AI Business Platform Plans Starting at $15/month | Moil',
-    description: 'Affordable AI business tools starting at $15/month. Business plan, market research, content calendar, and smart hiring. Free trial available.',
+    title: 'Moil Pricing — From $25/mo for AI Business Tools',
+    description: 'One platform for business planning, smart hiring, and AI marketing. No contracts. 30-day money-back guarantee. From $25/mo.',
     url: `${baseURL1}/business/pricing`,
     images: [
       {
@@ -30,8 +30,8 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    title: 'Pricing | AI Business Platform Plans Starting at $15/month | Moil',
-    description: 'Affordable AI business tools starting at $15/month. Business plan, market research, content calendar, and smart hiring. Free trial available.',
+    title: 'Moil Pricing — From $25/mo for AI Business Tools',
+    description: 'One platform for business planning, smart hiring, and AI marketing. No contracts. 30-day guarantee. From $25/mo.',
   },
   alternates: {
     canonical: `${baseURL1}/business/pricing`,
