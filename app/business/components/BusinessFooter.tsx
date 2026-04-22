@@ -124,7 +124,6 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
             <a href={appendLangToUrl("https://moilapp.com/business", lang)} target="_blank" rel="noreferrer">
               {t.footer.getStartedLinks.login}
             </a>
-            <a href="#pricing">{t.business.pricing.starter.name} — $15/mo</a>
             <a href="#pricing">{t.business.pricing.professional.name} — $25/mo</a>
             <a href="#pricing">{t.business.pricing.marketPro.name} — $75/mo</a>
           </div>

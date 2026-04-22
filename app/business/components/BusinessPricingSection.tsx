@@ -11,17 +11,6 @@ export function BusinessPricingSection() {
 
   const plans = [
     {
-      id: 'starter',
-      tier: t.business.pricing.starter.name,
-      tagline: t.business.pricing.starter.tagline,
-      price: billingCycle === 'monthly' ? t.business.pricing.starter.monthlyPrice : t.business.pricing.starter.annualPrice,
-      originalPrice: billingCycle === 'annual' ? t.business.pricing.starter.annualOriginalPrice : undefined,
-      per: billingCycle === 'monthly' ? t.business.pricing.perMonth : t.business.pricing.perYear,
-      features: t.business.pricing.starter.features,
-      cta: t.business.pricing.starter.cta,
-      ctaClass: 'pbtn-sec',
-    },
-    {
       id: 'professional',
       tier: t.business.pricing.professional.name,
       tagline: t.business.pricing.professional.tagline,
