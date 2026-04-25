@@ -1,0 +1,14 @@
+{
+    "$schema": "https://json.schemastore.org/claude-code-settings.json",
+    "extraKnownMarketplaces": {
+        "nowork-studio": {
+            "source": {
+                "source": "github",
+                "repo": "nowork-studio/toprank"
+            }
+        }
+    },
+    "enabledPlugins": {
+        "toprank@nowork-studio": true
+    }
+}
