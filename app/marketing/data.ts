@@ -187,7 +187,7 @@ export const stats = [
   { target: 94, suffix: '%', label: 'Interview Success Rate' },
   { target: 11, suffix: '', label: 'Days Avg Time to Hire' },
   { target: 91, suffix: '%', label: 'Employee Retention at 90 Days' },
-  { prefix: '$', target: 15, suffix: '', label: 'Starting Price Per Month' },
+  { prefix: '$', target: 25, suffix: '', label: 'Starting Price Per Month' },
 ];
 
 export type PricingPlan = {
@@ -203,26 +203,6 @@ export type PricingPlan = {
 };
 
 export const pricingPlans: PricingPlan[] = [
-  {
-    tier: 'Starter',
-    price: '$15',
-    period: '/month',
-    tagline: "Perfect for small businesses that want full access to Moil's AI tools.",
-    features: [
-      { icon: 'check', text: 'AI Market Research Assistant' },
-      { icon: 'check', text: 'AI Business Coach' },
-      { icon: 'check', text: 'Up to 3 job postings/month' },
-      { icon: 'check', text: '75 AI-generated images' },
-      { icon: 'check', text: '75 AI image edits' },
-      { icon: 'check', text: '5 min audio generation' },
-      { icon: 'check', text: 'Full Moil AI toolbox' },
-      { icon: 'check', text: 'Bilingual: English & Spanish' },
-      { icon: 'check', text: 'Advanced analytics' },
-    ],
-    ctaLabel: 'Get Started →',
-    ctaHref: 'https://moilapp.com/business',
-    ctaClass: 'price-cta-secondary',
-  },
   {
     tier: 'Professional',
     price: '$25',
@@ -328,7 +308,7 @@ export const comparisonRows: ComparisonRow[] = [
   },
   {
     feature: 'Monthly Price',
-    moil: '$15–$75/mo',
+    moil: '$25–$75/mo',
     consultant: '$5,000+',
     aiTool: '$50–$200/mo',
     moilHighlight: true,
@@ -543,26 +523,6 @@ const featureCardsEs: FeatureCard[] = [
 
 const pricingPlansEs: PricingPlan[] = [
   {
-    tier: 'Inicial',
-    price: '$15',
-    period: '/mes',
-    tagline: 'Perfecto para pequeños negocios que quieren acceso completo a las herramientas IA de Moil.',
-    features: [
-      { icon: 'check', text: 'Asistente de Investigación de Mercado IA' },
-      { icon: 'check', text: 'Coach de Negocios IA' },
-      { icon: 'check', text: 'Hasta 3 publicaciones de empleo/mes' },
-      { icon: 'check', text: '75 imágenes generadas por IA' },
-      { icon: 'check', text: '75 ediciones de imagen IA' },
-      { icon: 'check', text: '5 min de generación de audio' },
-      { icon: 'check', text: 'Caja de herramientas IA de Moil completa' },
-      { icon: 'check', text: 'Bilingüe: Inglés y Español' },
-      { icon: 'check', text: 'Analíticas avanzadas' },
-    ],
-    ctaLabel: 'Comenzar →',
-    ctaHref: 'https://moilapp.com/business',
-    ctaClass: 'price-cta-secondary',
-  },
-  {
     tier: 'Profesional',
     price: '$25',
     period: '/mes',
@@ -612,7 +572,7 @@ const comparisonRowsEs: ComparisonRow[] = [
   { feature: 'Bilingüe (Inglés y Español)', moil: 'check', consultant: 'partial', aiTool: 'x' },
   { feature: 'Coach de Negocios IA 24/7', moil: 'check', consultant: 'x', aiTool: 'partial' },
   { feature: 'Sistema ADN de Marca', moil: 'check', consultant: 'x', aiTool: 'x' },
-  { feature: 'Precio Mensual', moil: '$15–$75/mes', consultant: '$5,000+', aiTool: '$50–$200/mes', moilHighlight: true },
+  { feature: 'Precio Mensual', moil: '$25–$75/mes', consultant: '$5,000+', aiTool: '$50–$200/mes', moilHighlight: true },
 ];
 
 const statsEs = [
@@ -621,7 +581,7 @@ const statsEs = [
   { target: 94, suffix: '%', label: 'Tasa de Éxito en Entrevistas' },
   { target: 11, suffix: '', label: 'Días Promedio para Contratar' },
   { target: 91, suffix: '%', label: 'Retención de Empleados a 90 Días' },
-  { prefix: '$', target: 15, suffix: '', label: 'Precio de Inicio por Mes' },
+  { prefix: '$', target: 25, suffix: '', label: 'Precio de Inicio por Mes' },
 ];
 
 const terminalLinesEs: TerminalLine[] = [
@@ -677,7 +637,7 @@ export function getLocaleData(lang: 'en' | 'es') {
       comparisonRows: comparisonRowsEs,
       stats: statsEs,
       terminalLines: terminalLinesEs,
-      testimonials, // real reviews — kept in original language
+      testimonials,
     };
   }
   return { heroDayData, navLinks, journeySteps, featureCards, pricingPlans, comparisonRows, stats, terminalLines, testimonials };
