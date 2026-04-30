@@ -1,29 +1,43 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+/**
+ * Middleware — language cookie management ONLY. Does NOT redirect on `?lg=`.
+ *
+ * History: a previous version stripped `?lg=en|es` from every URL with a 301,
+ * storing the language in a cookie. That broke Spanish indexability — Google
+ * had no Spanish URL to index because every `?lg=es` request 301'd to the
+ * clean URL before content rendered. Result: zero non-English search surface
+ * on a fully bilingual product.
+ *
+ * Current behavior:
+ *   - If `?lg=en|es` is present, set the cookie and continue. The URL is
+ *     preserved so Google can index `/business?lg=es` as a canonical Spanish
+ *     page (with hreflang alternates pointing to/from `/business`).
+ *   - If no cookie is set, infer from Accept-Language and write the cookie.
+ *     No redirect — Google sees clean URLs by default.
+ *   - Tracking params (`?ref=`, `?utm_*`, `?fbclid=`, `?gclid=`) are NOT
+ *     touched here; they're handled at the metadata layer (canonical strips
+ *     them) and at the robots layer (disallow patterns).
+ *
+ * Architectural followup (Phase 4 — see MOIL SEO/IMPLEMENTATION_PLAN.md):
+ * migrate Spanish from `?lg=es` query-string to `/es/*` path prefix. Cleaner
+ * URLs, better cache keys, easier hreflang. Defer until Phases 1–3 complete.
+ */
 export function middleware(request: NextRequest) {
-  const { pathname, searchParams } = request.nextUrl
+  const lgParam = request.nextUrl.searchParams.get('lg')
 
-  // Fix 1.1: Strip ?lg= parameter — 301 redirect to clean URL, store preference in cookie.
-  // Root cause of duplicate content: browser language detection was appending ?lg=en or ?lg=es
-  // to every URL, creating hundreds of duplicate 'homepage' variants in Google's index.
-  if (searchParams.has('lg')) {
-    const lang = searchParams.get('lg') || 'en'
-    const cleanUrl = new URL(pathname, request.url)
-    // Preserve any other query params (except 'lg')
-    searchParams.forEach((value, key) => {
-      if (key !== 'lg') cleanUrl.searchParams.set(key, value)
-    })
-    const response = NextResponse.redirect(cleanUrl, { status: 301 })
-    response.cookies.set('lang', lang, {
+  // Path A — `?lg=` present: persist as cookie, continue (NO redirect).
+  if (lgParam === 'en' || lgParam === 'es') {
+    const response = NextResponse.next()
+    response.cookies.set('lang', lgParam, {
       path: '/',
-      maxAge: 60 * 60 * 24 * 365,
+      maxAge: 60 * 60 * 24 * 365, // 1 year
       sameSite: 'lax',
     })
     return response
   }
 
-  // If no lang cookie yet, detect from Accept-Language header — set cookie only, no redirect.
-  // Google sees clean canonical URLs; human visitors still get the right language via cookie.
+  // Path B — no cookie yet: infer from Accept-Language, set cookie, continue.
   if (!request.cookies.get('lang')) {
     const acceptLang = request.headers.get('accept-language') || ''
     const lang = acceptLang.toLowerCase().startsWith('es') ? 'es' : 'en'
@@ -41,5 +55,5 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   // Match all routes except Next.js internals and static file extensions
-  matcher: ['/((?!api|_next/static|_next/image|favicon|.*\..*).*)'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon|.*\\..*).*)'],
 }
