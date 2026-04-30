@@ -4,6 +4,7 @@ import Script from 'next/script';
 
 import './globals.css';
 import Analytics from '../src/common/components/analytics';
+import { SiteFooter } from '../src/common/components/SiteFooter';
 import { baseURL1 } from '../src/common/constants/baseUrl';
 
 const bebas = Bebas_Neue({ weight: ['400'], subsets: ['latin'] });
@@ -45,9 +46,11 @@ export const metadata: Metadata = {
     telephone: false,
   },
   metadataBase: new URL(baseURL1),
-  alternates: {
-    canonical: `${baseURL1}/business`,
-  },
+  // NOTE: no `alternates.canonical` here — every leaf page (`/`, `/business`,
+  // `/candidate`, `/marketing`, `/privacy`, `/business/pricing`) declares its
+  // own self-canonical via its own metadata. A root canonical here would
+  // override every page that doesn't override it, which is exactly the bug
+  // that consolidated the homepage's SEO authority into /business.
   openGraph: {
     title: 'Moil | AI Co-Founder for Small Business — Business Plan, Hiring & Growth',
     description: 'The AI co-founder every small business deserves. Business plan, market research, content calendar, smart hiring — all in one platform. Trusted by 500+ SMBs.',
@@ -154,9 +157,17 @@ export default function RootLayout({
                 "email": "contacto@moilapp.com",
                 "url": "https://moilapp.com"
               },
+              // sameAs MUST exactly match the canonical URLs Google has indexed
+              // for each profile (verified Apr 2026). A typo (e.g. /moil-app vs
+              // /moilapp on LinkedIn) breaks the entity-disambiguation signal
+              // and lets Google confuse Moil with namesake brands.
+              // Mirror this list in src/common/components/SiteFooter.tsx.
               "sameAs": [
-                "https://twitter.com/MoilApp",
-                "https://linkedin.com/company/moil-app"
+                "https://www.linkedin.com/company/moilapp",
+                "https://x.com/MoilApp",
+                "https://www.instagram.com/themoilapp/",
+                "https://www.tiktok.com/@moilapp",
+                "https://www.facebook.com/MoilWorks/"
               ],
               "offers": [
                 {
@@ -239,6 +250,11 @@ export default function RootLayout({
           <main className="flex-grow">
             {children}
           </main>
+          {/* Global SiteFooter — emits social rel="me" links on every page,
+              the cheapest brand-identity SEO signal we have. /business has
+              its own rich BusinessFooter that stacks above this one for now;
+              visual consolidation is a Phase 2 polish task. */}
+          <SiteFooter />
         </div>
       </body>
     </html>
