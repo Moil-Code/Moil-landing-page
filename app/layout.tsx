@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     'AI workforce solutions',
     'startup tools'
   ],
-  authors: [{ name: 'Moil Enterprise Inc.', url: 'https://moilapp.com' }],
+  authors: [{ name: 'Moil Enterprise Inc.', url: 'https://www.moilapp.com' }],
   creator: 'Moil Enterprise Inc.',
   publisher: 'Moil Enterprise Inc.',
   formatDetection: {
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     siteName: 'Moil',
     images: [
       {
-        url: '/og_image_v2.png',
+        url: '/og_image_v2.jpg',
         width: 1200,
         height: 630,
         alt: 'Moil - AI Co-Founder for Small Business',
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Moil | AI Co-Founder for Small Business — Business Plan, Hiring & Growth',
     description: 'The AI co-founder every small business deserves. Business plan, market research, content calendar, smart hiring — all in one platform. Trusted by 500+ SMBs.',
-    images: ['/og_image_v2.png'],
+    images: ['/og_image_v2.jpg'],
     creator: '@MoilApp',
     site: '@MoilApp',
   },
@@ -87,12 +87,10 @@ export const metadata: Metadata = {
     icon: [
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/moil-196.png', sizes: '196x196', type: 'image/png' },
     ],
     apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
-    other: [
-      { rel: 'mask-icon', url: '/safari-pinned-tab.svg', color: '#5843BE' },
+      { url: '/moil-196.png', sizes: '180x180', type: 'image/png' },
     ],
   },
   manifest: '/site.webmanifest',
@@ -113,15 +111,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#5843BE" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="format-detection" content="telephone=no" />
-        
+
         {/* Organization Structured Data */}
         <script
           type="application/ld+json"
@@ -131,10 +125,10 @@ export default function RootLayout({
               "@type": "Organization",
               "name": "Moil",
               "alternateName": "Moil Enterprise Inc.",
-              "url": "https://moilapp.com",
+              "url": "https://www.moilapp.com",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://moilapp.com/og_image_v2.png",
+                "url": "https://www.moilapp.com/og_image_v2.jpg",
                 "width": 1200,
                 "height": 630
               },
@@ -152,7 +146,7 @@ export default function RootLayout({
                 "@type": "ContactPoint",
                 "contactType": "customer service",
                 "email": "contacto@moilapp.com",
-                "url": "https://moilapp.com"
+                "url": "https://www.moilapp.com"
               },
               "sameAs": [
                 "https://twitter.com/MoilApp",
@@ -195,14 +189,14 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               "name": "Moil",
-              "url": "https://moilapp.com",
+              "url": "https://www.moilapp.com",
               "description": "AI co-founder platform for small businesses — business plan, market research, content calendar, smart hiring, and 24/7 AI coaching.",
               "potentialAction": [
                 {
                   "@type": "SearchAction",
                   "target": {
                     "@type": "EntryPoint",
-                    "urlTemplate": "https://moilapp.com/candidate/searchjob?title={search_term_string}"
+                    "urlTemplate": "https://www.moilapp.com/candidate/searchjob?title={search_term_string}"
                   },
                   "query-input": "required name=search_term_string"
                 }
