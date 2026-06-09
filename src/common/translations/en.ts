@@ -173,7 +173,7 @@ export const en = {
         'AI images, video, 30-day calendar included',
         'Bilingual English & Spanish',
       ],
-      moilCta: 'Start With Your AI Co-Founder →',
+      moilCta: 'Start free — no credit card',
       moilTrust: 'Secure · 30-day guarantee · No setup fees',
     },
     capabilities: {
@@ -283,7 +283,7 @@ export const en = {
         '3 candidates pre-scored — top match: 97% fit, Austin',
         '📄 Business plan PDF — 5-year projections included',
       ],
-      journeyCta: '🚀 Start Your AI-Powered Journey →',
+      journeyCta: 'Start free — no credit card',
       journeyCtaSub: 'Free to start · No credit card required',
     },
     hiring: {
@@ -327,7 +327,7 @@ export const en = {
       withMoil: 'With Moil',
       avgCostPerHire: 'avg cost per hire',
       industryAvg: 'Industry Avg',
-      startHiringCta: 'Start Hiring With AI →',
+      startHiringCta: 'Start free — no credit card',
     },
     statsSection: {
       tag: 'Built for Results',

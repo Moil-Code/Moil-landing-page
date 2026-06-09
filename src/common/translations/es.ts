@@ -175,7 +175,7 @@ export const es: TranslationKeys = {
         'Imágenes IA, video, calendario de 30 días incluidos',
         'Bilingüe inglés y español',
       ],
-      moilCta: 'Comienza Gratis con Tu Co-Fundador IA →',
+      moilCta: 'Empieza gratis — sin tarjeta',
       moilTrust: 'Seguro · Garantía de 30 días · Sin tarifas de configuración',
     },
     capabilities: {
@@ -285,7 +285,7 @@ export const es: TranslationKeys = {
         '3 candidatos pre-calificados — mejor coincidencia: 97%, Austin',
         '📄 PDF del plan de negocios — proyecciones a 5 años incluidas',
       ],
-      journeyCta: '🚀 Comienza Tu Viaje Impulsado por IA →',
+      journeyCta: 'Empieza gratis — sin tarjeta',
       journeyCtaSub: 'Gratis para comenzar · Sin tarjeta de crédito requerida',
     },
     hiring: {
@@ -329,7 +329,7 @@ export const es: TranslationKeys = {
       withMoil: 'Con Moil',
       avgCostPerHire: 'costo promedio por contratación',
       industryAvg: 'Promedio de la Industria',
-      startHiringCta: 'Comienza a Contratar con IA →',
+      startHiringCta: 'Empieza gratis — sin tarjeta',
     },
     statsSection: {
       tag: 'Construido para Resultados',

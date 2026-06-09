@@ -795,8 +795,11 @@ function BusinessPageContent() {
           <div className="stats-grid-inner">
             {stats.map((stat, index) => (
               <div key={`stat-${index}`} className={`stat-box rv ${index === 1 ? 'd1' : ''} ${index === 2 ? 'd2' : ''} ${index === 3 ? 'd3' : ''} ${index === 4 ? 'd4' : ''}`}>
+                {/* Server-render the final value so crawlers without JS see the real number
+                    (previously rendered as "0", indexing each stat as zero). The JS counter
+                    in useBusinessUi will overwrite this with the animated count from 0. */}
                 <div className="stat-val" data-target={stat.target} data-prefix={stat.prefix} data-suffix={stat.suffix}>
-                  0
+                  {stat.prefix}{stat.target.toLocaleString()}{stat.suffix}
                 </div>
                 <div className="stat-lbl">{stat.label}</div>
               </div>
