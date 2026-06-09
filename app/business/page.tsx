@@ -252,10 +252,10 @@ function BusinessPageContent() {
         </p>
 
         <div className="hero-ctas">
-          <a className="btn-primary" href={appendLangToUrl("https://business.moilapp.com/register", currentLang)} target="_blank" rel="noreferrer">
-            <span style={{ display: 'inline-flex', alignItems: 'center', marginRight: '6px' }}>{IconMap.rocket}</span> {t.business.hero.cta} <span>→</span>
+          <a className="btn-primary" href={appendLangToUrl("https://business.moilapp.com/register", currentLang)} rel="noreferrer">
+            {t.business.hero.cta} <span>→</span>
           </a>
-          <a className="btn-secondary" href="https://www.youtube.com/@MoilApp" target="_blank" rel="noreferrer">
+          <a className="btn-secondary" href="#journey">
             <span style={{ display: 'inline-flex', alignItems: 'center', marginRight: '6px' }}>{IconMap.play}</span> {t.business.hero.ctaSecondary}
           </a>
         </div>
@@ -350,7 +350,7 @@ function BusinessPageContent() {
           </div>
           <h2 className="section-headline rv" style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto 12px' }}>
             {t.business.problem.headline}
-            <br />Prices for <span style={{ color: 'var(--orange)' }}>{t.business.problem.headlineHighlight}</span> {t.business.problem.headlineEnd}
+            <br /><span style={{ color: 'var(--orange)' }}>{t.business.problem.headlineHighlight}</span>{t.business.problem.headlineEnd}
           </h2>
           <p
             className="rv"
