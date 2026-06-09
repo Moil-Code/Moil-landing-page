@@ -91,6 +91,11 @@ export const en = {
       trustBilingual: 'Bilingual EN/ES',
       trustPrice: 'Hire in 11 days vs. 83 industry avg',
     },
+    aeoAnswer: {
+      label: 'What is Moil?',
+      body: 'Moil is an AI co-founder for small businesses. In one guided session it writes your business plan, runs market research, builds a 30-day content marketing calendar, and posts your job to 10+ hiring platforms — fully bilingual in English and Spanish. Plans start at $25 a month. Trusted by 500+ small businesses, with EDC and Chamber of Commerce partnerships.',
+      lastUpdated: 'Last updated: June 2026',
+    },
     ticker: {
       marketResearch: 'Market Research',
       businessPlan: 'Business Plan Generator',
@@ -156,11 +161,11 @@ export const en = {
       ],
       moilBadge: 'Moil AI Co-Founder',
       moilTitle: 'Your AI Co-Founder',
-      moilPrice: '$15',
+      moilPrice: '$25',
       moilPeriod: 'Per month · Instant access · No setup fees',
       moilList: [
         'Instant AI coaching & insights — now',
-        'Starts at just $15/month',
+        'Starts at just $25/month',
         'Personalized to YOUR business, always',
         'Unlimited conversations & revisions',
         'Integrated: research → plan → content → hiring',

@@ -292,57 +292,50 @@ function BusinessPageContent() {
 
       <div className="divider"></div>
 
-      {/* IDENTITY */}
-      <section id="identity">
-        <div className="identity-grid">
-          <div>
-            <div className="section-tag rv">{t.business.identity.tag}</div>
-            <h2 className="section-headline rv">
-              {t.business.identity.headline}
-              <br />You&apos;ll <span style={{ color: 'var(--orange)' }}>{t.business.identity.headlineHighlight1}</span>
-              <br />
-              <span style={{ color: 'var(--purple-light)' }}>{t.business.identity.headlineHighlight2}</span>
-            </h2>
-            <p className="identity-quote rv">
-              &ldquo;{t.business.identity.quote}
-              <em>{t.business.identity.quoteEmphasis}</em>&rdquo;
-            </p>
-            <p className="identity-body rv">
-              {t.business.identity.description}
-            </p>
-            <p className="rv" style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '2px' }}>
-              {t.business.identity.footnote}
-            </p>
-          </div>
-          <div className="rv d2">
-            <div className="cofounder-card">
-              <div className="cf-header">
-                <div className="cf-avatar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{IconMap.bot}</div>
-                <div>
-                  <div className="cf-title">{t.business.identity.cardTitle}</div>
-                  <div className="cf-sub">{t.business.identity.cardSub}</div>
-                </div>
-              </div>
-              <div className="cf-capabilities">
-                {cofounderCapabilities.map((cap, idx) => (
-                  <div className="cf-cap" key={`cf-cap-${idx}`}>
-                    <span className="cf-cap-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{IconMap[cap.icon]}</span>
-                    <div className="cf-cap-text">
-                      <div className="cf-cap-title">{cap.title}</div>
-                      <div className="cf-cap-sub">{cap.sub}</div>
-                    </div>
-                    <span className={`cf-cap-badge ${cap.badgeClass}`}>{cap.badge}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+      {/* AEO DIRECT-ANSWER BLOCK — first 150 words is where ~55% of AI Overview citations come from */}
+      <section
+        id="what-is-moil"
+        aria-labelledby="what-is-moil-label"
+        style={{ padding: '64px 24px 32px', maxWidth: '820px', margin: '0 auto', textAlign: 'center' }}
+      >
+        <div
+          id="what-is-moil-label"
+          className="section-tag rv"
+          style={{ justifyContent: 'center', marginBottom: '14px' }}
+        >
+          {t.business.aeoAnswer.label}
         </div>
+        <p
+          className="rv"
+          style={{
+            fontSize: '18px',
+            lineHeight: 1.6,
+            color: 'var(--text2)',
+            fontWeight: 300,
+            margin: '0 auto',
+            maxWidth: '720px',
+          }}
+        >
+          {t.business.aeoAnswer.body}
+        </p>
+        <p
+          className="rv"
+          style={{
+            marginTop: '20px',
+            fontFamily: 'var(--mono)',
+            fontSize: '10px',
+            color: 'var(--text3)',
+            textTransform: 'uppercase',
+            letterSpacing: '2px',
+          }}
+        >
+          {t.business.aeoAnswer.lastUpdated}
+        </p>
       </section>
 
       <div className="divider"></div>
 
-      {/* PROBLEM / VS */}
+      {/* PROBLEM / VS — moved above IDENTITY: it's the page's strongest hook ($5K consultant vs $25 Moil) and was previously buried below an abstract section */}
       <section id="problem">
         <div className="problem-inner">
           <div className="section-tag rv" style={{ justifyContent: 'center' }}>
@@ -439,6 +432,56 @@ function BusinessPageContent() {
                 >
                   <span style={{ display: 'inline-flex', alignItems: 'center', marginRight: '4px' }}>{IconMap.lock}</span> {t.business.problem.moilTrust}
                 </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="divider"></div>
+
+      {/* IDENTITY — demoted from above-the-fold to mid-page proof, since the VS pricing reveal is the stronger hook */}
+      <section id="identity">
+        <div className="identity-grid">
+          <div>
+            <div className="section-tag rv">{t.business.identity.tag}</div>
+            <h2 className="section-headline rv">
+              {t.business.identity.headline}
+              <br />You&apos;ll <span style={{ color: 'var(--orange)' }}>{t.business.identity.headlineHighlight1}</span>
+              <br />
+              <span style={{ color: 'var(--purple-light)' }}>{t.business.identity.headlineHighlight2}</span>
+            </h2>
+            <p className="identity-quote rv">
+              &ldquo;{t.business.identity.quote}
+              <em>{t.business.identity.quoteEmphasis}</em>&rdquo;
+            </p>
+            <p className="identity-body rv">
+              {t.business.identity.description}
+            </p>
+            <p className="rv" style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '2px' }}>
+              {t.business.identity.footnote}
+            </p>
+          </div>
+          <div className="rv d2">
+            <div className="cofounder-card">
+              <div className="cf-header">
+                <div className="cf-avatar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{IconMap.bot}</div>
+                <div>
+                  <div className="cf-title">{t.business.identity.cardTitle}</div>
+                  <div className="cf-sub">{t.business.identity.cardSub}</div>
+                </div>
+              </div>
+              <div className="cf-capabilities">
+                {cofounderCapabilities.map((cap, idx) => (
+                  <div className="cf-cap" key={`cf-cap-${idx}`}>
+                    <span className="cf-cap-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{IconMap[cap.icon]}</span>
+                    <div className="cf-cap-text">
+                      <div className="cf-cap-title">{cap.title}</div>
+                      <div className="cf-cap-sub">{cap.sub}</div>
+                    </div>
+                    <span className={`cf-cap-badge ${cap.badgeClass}`}>{cap.badge}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
