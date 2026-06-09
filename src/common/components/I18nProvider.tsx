@@ -28,12 +28,12 @@ function detectInitialLang(): Language {
   return 'en';
 }
 
-export function I18nProvider({ children }: { children: ReactNode }) {
-  // Initialised synchronously on the client so there is no flash of English
-  // when the page loads with ?lg=es or a persisted language in localStorage.
-  // On the server (SSR) detectInitialLang() returns 'en' — the hydration
-  // mismatch is suppressed on the html element via suppressHydrationWarning.
-  const [lang, setLangState] = useState<Language>(detectInitialLang);
+export function I18nProvider({ children, initialLang }: { children: ReactNode; initialLang?: Language }) {
+  // initialLang forces a language for the entire subtree — used by
+  // /es/* routes so server-rendered HTML matches the URL's locale and
+  // crawlers see Spanish content at the Spanish URL. When omitted, we
+  // fall back to client-side detection (URL ?lg= → localStorage).
+  const [lang, setLangState] = useState<Language>(initialLang ?? detectInitialLang);
   const [isLoading, setIsLoading] = useState(false);
 
   // Persist URL param on first mount if missing, without blocking render

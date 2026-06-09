@@ -13,6 +13,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: today,
       changeFrequency: 'weekly',
       priority: 1,
+      alternates: {
+        languages: {
+          en: `${baseUrl}/business`,
+          es: `${baseUrl}/es/business`,
+        },
+      },
+    },
+    {
+      // Spanish counterpart of /business — bilingual SEO entry point
+      url: `${baseUrl}/es/business`,
+      lastModified: today,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+      alternates: {
+        languages: {
+          en: `${baseUrl}/business`,
+          es: `${baseUrl}/es/business`,
+        },
+      },
     },
     {
       url: `${baseUrl}/business/pricing`,

@@ -1064,6 +1064,11 @@ function BusinessPageContent() {
   );
 }
 
+// Exported so /es/business can re-wrap the same content with a forced
+// Spanish locale, giving Google a crawlable /es/business URL with
+// server-rendered Spanish copy.
+export { BusinessPageContent };
+
 export default function BusinessPage() {
   return (
     <I18nProvider>

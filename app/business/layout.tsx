@@ -53,6 +53,7 @@ export const metadata: Metadata = {
     canonical: `${baseURL1}/business`,
     languages: {
       'en': `${baseURL1}/business`,
+      'es': `${baseURL1}/es/business`,
       'x-default': `${baseURL1}/business`,
     },
   },
