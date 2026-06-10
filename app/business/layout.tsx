@@ -190,26 +190,26 @@ export default function BusinessLayout({
               },
               {
                 "@type": "Question",
-                "name": "Moil vs HubSpot — which is right for a small business?",
+                "name": "Moil vs LivePlan, Bizway, or Upmetrics — which is best for business planning?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "HubSpot is a powerful CRM and marketing platform, but it’s built for sales teams. Reviewers commonly call it overkill for solo operators and unreasonably priced for smaller organizations — going one contact over a tier auto-upgrades your subscription. Moil is built for the owner who wears every hat: it writes your business plan, runs your marketing calendar, and handles your hiring in one platform, starting at $25/month with no contact-tier traps. Pick HubSpot if you have a sales team to feed it. Pick Moil if you’re trying to grow a business without one."
+                  "text": "LivePlan, Bizway, and Upmetrics all produce business plans, and all three do that well. The difference: Moil treats the business plan as the start, not the end. After your plan generates, the same session also produces 20–30 pages of market research, your 30-day content calendar (Content360), and your hiring pipeline. The planning tools hand you a PDF; Moil hands you a plan plus the work for the next 90 days. Moil is also fully bilingual EN/ES, where most planning tools are English-only."
                 }
               },
               {
                 "@type": "Question",
-                "name": "Moil vs Durable — what’s the difference?",
+                "name": "Moil vs ZipRecruiter, Workable, or Indeed Smart Sourcing — which is best for hiring?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Durable is an AI website builder for solopreneurs — type three things, get a site in 30 seconds. Moil is an AI co-founder that covers the rest of the business: market research, business plan, content calendar, and smart hiring across 10+ platforms. They solve different problems. Many SMBs use a Durable-style site for their web presence and Moil for everything that has to happen behind it — strategy, content, and team."
+                  "text": "ZipRecruiter, Workable, and Indeed Smart Sourcing are dedicated hiring platforms — they do hiring well, but only hiring, and most start at $299/month or more once you need multi-channel posting and candidate matching. Moil includes Smart Hiring as one feature in a larger platform: post once, distribute to 10+ job boards, score candidates with 95% AI accuracy, and average 11 days to hire vs. the SMB benchmark of 83.5 days (SHRM 2025). All for $25–$75/month total — and bilingual EN/ES, which most ATS tools aren’t."
                 }
               },
               {
                 "@type": "Question",
-                "name": "Moil vs LivePlan or Bizway — which is best for business planning?",
+                "name": "Moil vs Buffer, Later, or Hootsuite — which is best for content marketing?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "LivePlan and Bizway both produce business plans, and both are good at that. The difference: Moil treats the business plan as the start, not the end. After your plan generates, the same session also produces 20–30 pages of market research, your 30-day content calendar (Content360), and your hiring pipeline. LivePlan/Bizway hand you a PDF; Moil hands you a plan plus the work for the next 90 days. Moil is also fully bilingual EN/ES, where most planning tools are English-only."
+                  "text": "Buffer, Later, and Hootsuite are great scheduling tools — you bring the content, they post it. Their AI add-ons help with captions, but you still start from a blank calendar. Moil’s Content360 generates the entire 30-day calendar for you: researched topics tied to your business plan and market research, full captions, hashtags, AI-generated images, and AI video for your highest-impact days. Schedulers solve distribution; Content360 solves the strategy and creation. Many SMBs use both — Content360 for what to post, a scheduler for when."
                 }
               },
               {

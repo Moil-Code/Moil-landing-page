@@ -17,11 +17,31 @@ real hiring moat.
 AI tools and are tired of (a) paying agencies $3K–$8K/mo, (b) wearing every
 hat, and (c) waiting 80+ days to make a hire.
 
-**Defensible differentiators (none of our 6 audited competitors do all three):**
+**Defensible differentiators:**
 1. Full SMB lifecycle in one product (plan + market research + content + smart
-   hiring + coach). Every competitor owns ONE slice; Moil owns the chain.
-2. Smart Hiring as a hero feature. Zero competitors mention hiring.
-3. Bilingual EN/ES with real `/es/*` URLs. Every competitor is English-only.
+   hiring + coach). Every category competitor owns ONE slice; Moil owns the
+   chain — and is priced like a single tool, not the stack.
+2. Smart Hiring inside the same platform as planning and content. Dedicated
+   ATS tools (ZipRecruiter, Workable) start at $299/mo and only do hiring;
+   Moil's entire platform starts at $25/mo.
+3. Bilingual EN/ES with real `/es/*` URLs. Almost every category competitor
+   is English-only US-centric.
+
+**Real competitor set (by category — corrected from earlier draft):**
+
+| What Moil does | Real competitors | Avoid as "competitor" |
+|---|---|---|
+| Business plan + market research | LivePlan ($20–$40/mo), Bizway ($19+), Upmetrics ($7–$29) | Generic "consultant" (cost anchor, not a SaaS competitor) |
+| Content calendar + AI assets | Buffer, Later, Hootsuite (with AI add-ons), Predis.ai | Durable (it's a website builder, different problem) |
+| Smart hiring + matching | ZipRecruiter ($299+), Workable ($149+), Indeed Smart Sourcing, Manatal | LinkedIn Recruiter (enterprise, wrong segment) |
+| General AI baseline | ChatGPT, Claude, Perplexity Pro | — |
+| Economic alternative | Marketing agency ($3K–$8K/mo), business consultant ($5K–$15K/project) | HubSpot (sales CRM — different problem entirely) |
+
+**Why not HubSpot / Durable as competitors:** HubSpot is a sales CRM for
+companies that already have a sales motion — Moil doesn't compete in CRM.
+Durable is an AI website builder — Moil doesn't build websites. Comparing
+to either makes Moil look unfocused and confuses the buyer about what Moil
+actually replaces.
 
 ---
 

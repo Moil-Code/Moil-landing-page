@@ -448,9 +448,8 @@ function BusinessPageContent() {
             <div className="section-tag rv">{t.business.identity.tag}</div>
             <h2 className="section-headline rv">
               {t.business.identity.headline}
-              <br />You&apos;ll <span style={{ color: 'var(--orange)' }}>{t.business.identity.headlineHighlight1}</span>
-              <br />
-              <span style={{ color: 'var(--purple-light)' }}>{t.business.identity.headlineHighlight2}</span>
+              <br /><span style={{ color: 'var(--orange)' }}>{t.business.identity.headlineHighlight1}</span>
+              <br /><span style={{ color: 'var(--purple-light)' }}>{t.business.identity.headlineHighlight2}</span>
             </h2>
             <p className="identity-quote rv">
               &ldquo;{t.business.identity.quote}
