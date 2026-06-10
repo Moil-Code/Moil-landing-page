@@ -12,6 +12,15 @@ const nextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 3600,
+    // Testimonial headshots are served from Cloudinary — allow next/image
+    // to optimize them (AVIF/WebP, responsive sizing, lazy loading).
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        pathname: '/**',
+      },
+    ],
   },
   async redirects() {
     return [

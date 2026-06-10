@@ -541,6 +541,18 @@ export const en = {
           answer: 'Generic AI tools are blank slates — every session starts from zero, you’re the integrator, and outputs are rough drafts. Moil is purpose-built for small business owners. It learns your specific business through structured onboarding, maintains context across sessions, integrates real market data, generates actual marketing assets (images and video), connects to 10+ hiring platforms, and delivers finished, ready-to-use outputs.',
         },
         {
+          question: 'Moil vs HubSpot — which is right for a small business?',
+          answer: 'HubSpot is a powerful CRM and marketing platform, but it’s built for sales teams. Reviewers commonly call it "overkill for solo operators" and "unreasonably priced for smaller organizations" — going one contact over a tier auto-upgrades your subscription. Moil is built for the owner who wears every hat: it writes your business plan, runs your marketing calendar, and handles your hiring in one platform, starting at $25/month with no contact-tier traps. Pick HubSpot if you have a sales team to feed it. Pick Moil if you’re trying to grow a business without one.',
+        },
+        {
+          question: 'Moil vs Durable — what’s the difference?',
+          answer: 'Durable is an AI website builder for solopreneurs — type three things, get a site in 30 seconds. Moil is an AI co-founder that covers the rest of the business: market research, business plan, content calendar, and smart hiring across 10+ platforms. They solve different problems. Many SMBs use a Durable-style site for their web presence and Moil for everything that has to happen behind it — strategy, content, and team.',
+        },
+        {
+          question: 'Moil vs LivePlan or Bizway — which is best for business planning?',
+          answer: 'LivePlan and Bizway both produce business plans, and both are good at that. The difference: Moil treats the business plan as the start, not the end. After your plan generates, the same session also produces 20–30 pages of market research, your 30-day content calendar (Content360), and your hiring pipeline. LivePlan/Bizway hand you a PDF; Moil hands you a plan plus the work for the next 90 days. Moil is also fully bilingual EN/ES, where most planning tools are English-only.',
+        },
+        {
           question: 'How is Moil different from hiring a business consultant?',
           answer: 'A traditional business consultant charges $5,000–$15,000 per engagement and takes 2–4 weeks to deliver. Moil delivers market research, a business plan, content strategy, and hiring setup in one session — for $25–$75 a month. A consultant goes dark between engagements; Moil is on 24/7 and remembers everything about your business.',
         },

@@ -543,6 +543,18 @@ export const es: TranslationKeys = {
           answer: 'Las herramientas de IA genéricas son lienzos en blanco — cada sesión empieza de cero, tú eres quien integra todo, y los resultados son borradores. Moil está diseñado específicamente para dueños de pequeños negocios. Aprende tu negocio a través de una incorporación estructurada, mantiene contexto entre sesiones, integra datos reales de mercado, genera activos de marketing reales (imágenes y video), se conecta a 10+ plataformas de contratación y entrega resultados terminados, listos para usar.',
         },
         {
+          question: 'Moil vs HubSpot — ¿cuál es mejor para un pequeño negocio?',
+          answer: 'HubSpot es un CRM y plataforma de marketing poderosa, pero está hecha para equipos de ventas. Los usuarios suelen decir que es "demasiado para un operador solo" y "con un precio injusto para organizaciones pequeñas" — pasarse por un contacto del tu nivel actualiza tu suscripción automáticamente. Moil está hecho para el dueño que usa mil sombreros: redacta tu plan de negocios, dirige tu calendario de marketing y maneja tu contratación en una sola plataforma, desde $25 al mes y sin trampas de niveles de contactos. Elige HubSpot si tienes un equipo de ventas que alimentar. Elige Moil si estás creciendo un negocio sin uno.',
+        },
+        {
+          question: 'Moil vs Durable — ¿qué los diferencia?',
+          answer: 'Durable es un creador de sitios con IA para emprendedores solo — escribe tres cosas y obtienes un sitio en 30 segundos. Moil es un co-fundador con IA que cubre el resto del negocio: investigación de mercado, plan de negocios, calendario de contenido y contratación inteligente en 10+ plataformas. Resuelven problemas diferentes. Muchos pequeños negocios usan un sitio tipo Durable para su presencia web y Moil para todo lo que tiene que pasar detrás — estrategia, contenido y equipo.',
+        },
+        {
+          question: 'Moil vs LivePlan o Bizway — ¿cuál es mejor para planificación de negocios?',
+          answer: 'LivePlan y Bizway ambos producen planes de negocios, y ambos lo hacen bien. La diferencia: Moil trata el plan de negocios como el comienzo, no el final. Después de que se genera tu plan, la misma sesión también produce 20–30 páginas de investigación de mercado, tu calendario de contenido de 30 días (Content360) y tu pipeline de contratación. LivePlan/Bizway te entregan un PDF; Moil te entrega un plan más el trabajo de los próximos 90 días. Moil también es totalmente bilingüe EN/ES, mientras que la mayoría de herramientas de planificación solo son en inglés.',
+        },
+        {
           question: '¿En qué se diferencia Moil de contratar un consultor de negocios?',
           answer: 'Un consultor de negocios tradicional cobra entre $5,000 y $15,000 por proyecto y toma 2–4 semanas en entregar. Moil entrega investigación de mercado, plan de negocios, estrategia de contenido y configuración de contratación en una sola sesión — por $25–$75 al mes. Un consultor desaparece entre proyectos; Moil está activo 24/7 y recuerda todo de tu negocio.',
         },

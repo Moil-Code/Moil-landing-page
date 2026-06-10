@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, JSX } from 'react';
+import Image from 'next/image';
 import { BusinessFaqSection } from './components/BusinessFaqSection';
 import { BusinessFinalCta } from './components/BusinessFinalCta';
 import { BusinessFooter } from './components/BusinessFooter';
@@ -503,7 +504,7 @@ function BusinessPageContent() {
           {capabilityCards.map((card, index) => (
             <div key={`cap-card-${index}`} className={`cap-card rv ${index === 1 ? 'd1' : ''} ${index === 2 ? 'd2' : ''}`}>
               <span className="cap-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{IconMap[card.icon]}</span>
-              <div className="cap-title">{card.title}</div>
+              <h3 className="cap-title">{card.title}</h3>
               <p className="cap-desc">{card.desc}</p>
               <div className="cap-tags">
                 {card.tags.map((tag, tagIdx) => (
@@ -521,7 +522,7 @@ function BusinessPageContent() {
             <div className="featured-inner">
               <div>
                 <span className="cap-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{IconMap.calendar}</span>
-                <div className="cap-title">{t.business.capabilities.content360.title}</div>
+                <h3 className="cap-title">{t.business.capabilities.content360.title}</h3>
                 <p className="cap-desc">
                   {t.business.capabilities.content360.description}
                 </p>
@@ -564,7 +565,7 @@ function BusinessPageContent() {
 
           <div className="cap-card rv d1" style={{ display: 'flex', flexDirection: 'column' }}>
             <span className="cap-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{IconMap.document}</span>
-            <div className="cap-title">{t.business.capabilities.documents.title}</div>
+            <h3 className="cap-title">{t.business.capabilities.documents.title}</h3>
             <p className="cap-desc" style={{ flex: 1 }}>
               {t.business.capabilities.documents.description}
             </p>
@@ -1029,16 +1030,19 @@ function BusinessPageContent() {
               <p className="t-text">{item.testimonial}</p>
               <div className="t-divider"></div>
               <div className="t-author">
-                <img 
-                  src={item.testimonialImage} 
+                <Image
+                  src={item.testimonialImage}
                   alt={item.testimonialName}
+                  width={48}
+                  height={48}
+                  loading="lazy"
                   className="t-av-img"
-                  style={{ 
-                    width: '48px', 
-                    height: '48px', 
-                    borderRadius: '50%', 
+                  style={{
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: '50%',
                     objectFit: 'cover',
-                    border: '2px solid var(--border2)'
+                    border: '2px solid var(--border2)',
                   }}
                 />
                 <div>
