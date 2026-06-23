@@ -577,7 +577,7 @@ export const es: TranslationKeys = {
       trustNoSetup: 'Sin Tarifas de Configuración',
       trustCancel: 'Cancela en Cualquier Momento',
       trustBilingual: 'Bilingüe EN/ES',
-      trustPrice: 'Desde $15/mes',
+      trustPrice: 'Desde $25/mes',
     },
     finalCta: {
       tag: '75% de los pequeños negocios ya usan IA (Salesforce, 2025)',

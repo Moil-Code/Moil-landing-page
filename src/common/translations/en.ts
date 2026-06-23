@@ -575,7 +575,7 @@ export const en = {
       trustNoSetup: 'No Setup Fees',
       trustCancel: 'Cancel Anytime',
       trustBilingual: 'Bilingual EN/ES',
-      trustPrice: 'From $15/month',
+      trustPrice: 'From $25/month',
     },
     finalCta: {
       tag: '75% of SMBs are already using AI (Salesforce, 2025)',
