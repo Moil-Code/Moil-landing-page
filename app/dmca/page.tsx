@@ -33,8 +33,8 @@ export default function DmcaPage() {
       text: "We may, in appropriate circumstances, suspend or terminate accounts of users who are repeat infringers.",
     },
     {
-      heading: "5. Designated Agent",
-      text: `Send DMCA notices to ${COMPANY_NAME}, Copyright Agent, ${COMPANY_ADDRESS}, or by email to ${CONTACT_EMAIL} with the subject line "DMCA Notice".`,
+      heading: "5. Designated Agent & Registration",
+      text: `Send DMCA notices to our Designated Copyright Agent: ${COMPANY_NAME}, Attn: Copyright Agent, ${COMPANY_ADDRESS}; or by email to ${CONTACT_EMAIL} with the subject line "DMCA Notice".\n\nImportant: Our Designated Copyright Agent is (or will be) registered with the U.S. Copyright Office. For the most current registered-agent details, visit copyright.gov/dmca-directory or contact us directly. Registration is required to fully benefit from DMCA safe-harbor protections.`,
     },
   ];
 

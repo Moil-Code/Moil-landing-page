@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import CandidateNavigation from "~~/src/candidate/components/navigation";
+import { COMPANY_NAME, COMPANY_ADDRESS, CONTACT_EMAIL } from "~~/src/common/constants/company";
 
 
 export default function TermsPage() {
@@ -10,7 +11,7 @@ export default function TermsPage() {
   const terms = [
     {
       "heading": "1. Agreement to These Terms",
-      "text": "These Terms and Conditions (\"Terms\") form a binding agreement between you and Moil Enterprise Inc. (\"Moil\", \"we\", \"us\"), headquartered in Austin, TX, and govern your access to and use of our websites, applications, and services available at www.moilapp.com and its subdomains (the \"Services\"). By creating an account, clicking \"I agree\", or otherwise accessing or using the Services, you accept these Terms and our Privacy Policy, which is incorporated by reference. If you do not agree, do not use the Services. If you use the Services on behalf of a business or other organization, you represent that you are authorized to bind that organization to these Terms."
+      "text": "These Terms and Conditions (\"Terms\") form a binding agreement between you and Moil Enterprise Inc. (\"Moil\", \"we\", \"us\"), with its principal place of business at " + COMPANY_ADDRESS + ", and govern your access to and use of our websites, applications, and services available at www.moilapp.com and its subdomains (the \"Services\"). By creating an account, clicking \"I agree\", or otherwise accessing or using the Services, you accept these Terms and our Privacy Policy, which is incorporated by reference. If you do not agree, do not use the Services. If you use the Services on behalf of a business or other organization, you represent that you are authorized to bind that organization to these Terms."
     },
     {
       "heading": "2. Eligibility",
@@ -26,7 +27,7 @@ export default function TermsPage() {
     },
     {
       "heading": "5. Subscriptions, Billing & Auto-Renewal",
-      "text": "Certain features require a paid subscription. Prices are stated at the point of purchase. Paid plans are billed in advance on a recurring basis (for example, monthly) and AUTOMATICALLY RENEW for successive periods at the then-current price until you cancel. By subscribing, you authorize us and our payment processor (Stripe) to charge your payment method for each renewal until you cancel. We do not store full card numbers; payments are processed by Stripe under its own terms. We may change prices or plan features on a going-forward basis; we will give you advance notice, and changes take effect at your next renewal."
+      "text": "Certain features require a paid subscription. Prices are stated at the point of purchase. Paid plans are billed in advance on a recurring basis (for example, monthly) and automatically renew for successive periods at the then-current price until you cancel. By subscribing, you authorize us and our payment processor (Stripe) to charge your payment method for each renewal until you cancel. We do not store full card numbers; payments are processed by Stripe under its own terms. We may change prices or plan features on a going-forward basis; we will give you advance notice, and changes take effect at your next renewal."
     },
     {
       "heading": "6. Cancellations & Refunds",
@@ -102,7 +103,7 @@ export default function TermsPage() {
     },
     {
       "heading": "24. Contact Us",
-      "text": "Questions about these Terms? Contact Moil Enterprise Inc. at contacto@moilapp.com."
+      "text": "Questions about these Terms? Contact " + COMPANY_NAME + " at " + CONTACT_EMAIL + " or " + COMPANY_ADDRESS + "."
     }
   ];
 

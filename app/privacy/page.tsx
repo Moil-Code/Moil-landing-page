@@ -16,7 +16,7 @@ export default function PrivacyPage() {
   const sections = [
     {
       heading: "1. Introduction",
-      text: `This Privacy Policy explains how ${COMPANY_NAME} ("Moil", "we", "us"), headquartered in Austin, TX, collects, uses, shares, and protects personal information when you use our websites, applications, and services at www.moilapp.com and its subdomains (the "Services"). By using the Services you agree to this Policy. It should be read together with our Terms and Conditions.`,
+      text: `This Privacy Policy explains how ${COMPANY_NAME} ("Moil", "we", "us"), with its principal place of business at ${COMPANY_ADDRESS}, collects, uses, shares, and protects personal information when you use our websites, applications, and services at www.moilapp.com and its subdomains (the "Services"). By using the Services you agree to this Policy. It should be read together with our Terms and Conditions.`,
     },
     {
       heading: "2. Information We Collect",
@@ -42,7 +42,7 @@ export default function PrivacyPage() {
     {
       heading: "5. How We Share Information",
       text:
-        "We share personal information with: service providers and subprocessors who process data on our behalf (hosting, storage, payments, AI, analytics, email); other users where the Services are designed to do so (e.g., an employer and a candidate in the job marketplace, or a social platform when you direct us to publish); authorities or others when required by law or to protect rights and safety; and a successor entity in a merger, acquisition, or sale of assets. We do NOT sell your personal information.",
+        "We share personal information with: service providers and subprocessors who process data on our behalf (hosting, storage, payments, AI, analytics, email); other users where the Services are designed to do so (e.g., an employer and a candidate in the job marketplace, or a social platform when you direct us to publish); authorities or others when required by law or to protect rights and safety; and a successor entity in a merger, acquisition, or sale of assets. We do not sell your personal information.",
     },
     {
       heading: "6. Cookies and Tracking",
@@ -69,7 +69,7 @@ export default function PrivacyPage() {
     {
       heading: "10. U.S. State Privacy Rights (including California)",
       text:
-        "Residents of California and other U.S. states with privacy laws have additional rights, including the right to know, delete, and correct personal information, and to opt out of any sale or sharing of personal information. We do not sell personal information and do not share it for cross-context behavioral advertising in a way that requires opt-out, but you can still submit choices on our Your Privacy Choices page.",
+        "Residents of California and other U.S. states with privacy laws have additional rights, including the right to know, delete, and correct personal information, and to opt out of any sale or sharing of personal information. We do not sell personal information and do not share it for cross-context behavioral advertising in a way that requires an opt-out, but you can still submit choices on our Your Privacy Choices page.",
     },
     {
       heading: "11. International Data Transfers",
@@ -88,7 +88,7 @@ export default function PrivacyPage() {
     },
     {
       heading: "14. Contact Us",
-      text: `For privacy questions or requests, contact ${COMPANY_NAME} at ${CONTACT_EMAIL}, ${COMPANY_ADDRESS}.`,
+      text: `For privacy questions or requests, contact ${COMPANY_NAME} at ${CONTACT_EMAIL} or ${COMPANY_ADDRESS}.`,
     },
   ];
 

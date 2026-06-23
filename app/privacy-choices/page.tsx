@@ -20,8 +20,8 @@ export default function PrivacyChoicesPage() {
         "Depending on where you live (including California under the CCPA/CPRA and other U.S. states), you may have the right to: know what personal information we collect and how we use it; access or receive a copy of it; correct inaccurate information; delete it; and opt out of any sale or sharing of personal information. You will not be discriminated against for exercising these rights.",
     },
     {
-      heading: "2. We Do Not Sell Your Information",
-      text: "We do not sell your personal information, and we do not share it for cross-context behavioral advertising in a way that requires an opt-out. You can still submit a request below to record your preference.",
+      heading: "2. We Do Not Sell or Share Your Information for Behavioral Advertising",
+      text: "Moil does not sell personal information as defined under applicable U.S. state privacy laws. We also do not share personal information for cross-context behavioral advertising purposes in a manner that would require an opt-out under such laws. You can still submit a request below to record your preference.",
     },
     {
       heading: "3. How to Submit a Request",
