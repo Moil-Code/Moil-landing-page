@@ -45,6 +45,46 @@ export default function robots(): MetadataRoute.Robots {
           '/*?*gclid=',
         ],
       },
+      // AI answer engines — explicit welcome (AEO).
+      // Being crawled and cited by ChatGPT, Perplexity, Google AI Overviews,
+      // Gemini and Claude IS the strategy, so we enumerate the major answer/
+      // citation agents with their own allow rule. The `*` group above already
+      // permits them by default; stating it here makes the intent durable — a
+      // future blanket "block AI" change has to consciously delete this — and
+      // scopes each agent to public content only (no auth/api/tracking).
+      // Add new engines here as they emerge.
+      {
+        userAgent: [
+          'GPTBot',             // OpenAI — training corpus
+          'OAI-SearchBot',      // OpenAI — ChatGPT Search index
+          'ChatGPT-User',       // OpenAI — ChatGPT user-triggered browsing
+          'Google-Extended',    // Google — Gemini / AI Overviews grounding (does NOT affect Google Search ranking)
+          'PerplexityBot',      // Perplexity — search index
+          'Perplexity-User',    // Perplexity — user-triggered fetch
+          'ClaudeBot',          // Anthropic — crawler
+          'Claude-SearchBot',   // Anthropic — search retrieval
+          'Claude-User',        // Anthropic — user-triggered fetch
+          'anthropic-ai',       // Anthropic — legacy UA
+          'CCBot',              // Common Crawl — feeds many open LLMs
+          'Applebot-Extended',  // Apple Intelligence
+          'Meta-ExternalAgent', // Meta AI
+          'Amazonbot',          // Amazon / Alexa+
+          'DuckAssistBot',      // DuckDuckGo AI
+          'cohere-ai',          // Cohere
+        ],
+        allow: '/',
+        disallow: [
+          '/api/',
+          '/legacy',
+          '/login',
+          '/register',
+          '/authenticate/',
+          '/*?*ref=',
+          '/*?*trk=',
+          '/*?*fbclid=',
+          '/*?*gclid=',
+        ],
+      },
       {
         userAgent: ['AhrefsBot', 'MJ12bot', 'DotBot', 'SemrushBot'],
         disallow: '/',
