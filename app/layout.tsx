@@ -97,11 +97,13 @@ export const metadata: Metadata = {
     ],
   },
   manifest: '/site.webmanifest',
-  // TODO: Replace with real codes from Google Search Console, Yandex Webmaster
-  // verification: {
-  //   google: 'REPLACE_WITH_GOOGLE_SEARCH_CONSOLE_CODE',
-  //   yandex: 'REPLACE_WITH_YANDEX_CODE',
-  // },
+  // Google Search Console verification. Set NEXT_PUBLIC_GSC_VERIFICATION in the
+  // environment (GSC → Settings → Ownership verification → HTML tag → the
+  // `content` value) and the meta tag is emitted automatically on next build.
+  // Unset → no tag rendered. No code change needed to activate.
+  verification: {
+    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION,
+  },
   category: 'business',
   classification: 'AI Business Growth Platform',
 };
