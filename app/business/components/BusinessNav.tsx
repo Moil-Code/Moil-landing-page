@@ -83,17 +83,26 @@ export function BusinessNav({
     if (onLanguageChange) {
       onLanguageChange(selectedLang);
     }
-    // Store in localStorage for persistence
     if (typeof window !== 'undefined') {
       localStorage.setItem('tlang', selectedLang);
-      // Update URL with language parameter and reload to apply Google Translate
-      const url = new URL(window.location.href);
-      url.searchParams.set('lg', selectedLang);
-      // Set Google Translate cookie
       document.cookie = `googtrans=${selectedLang === 'en' ? '/auto/en' : '/auto/es'}; path=/`;
-      // Dispatch event for other components to sync
       window.dispatchEvent(new CustomEvent('languageChange', { detail: { lang: selectedLang } }));
-      // Reload page to apply translation
+
+      // Map between the EN canonical URL and its /es/* counterpart when one
+      // exists. Keeps the hreflang signal consistent — users land on the
+      // same URL Google indexes for their locale.
+      const localeRouteMap: Record<'en' | 'es', Record<string, string>> = {
+        es: { '/business': '/es/business' },
+        en: { '/es/business': '/business' },
+      };
+      const url = new URL(window.location.href);
+      const mappedPath = localeRouteMap[selectedLang][url.pathname];
+      if (mappedPath) {
+        url.pathname = mappedPath;
+        url.searchParams.delete('lg');
+      } else {
+        url.searchParams.set('lg', selectedLang);
+      }
       window.location.href = url.toString();
     }
   };

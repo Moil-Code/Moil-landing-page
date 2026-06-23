@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     siteName: 'Moil',
     images: [
       {
-        url: '/og_image_v2.png',
+        url: '/og_image_v2.jpg',
         width: 1200,
         height: 630,
         alt: 'Content360 by Moil — AI Content Marketing Calendar for Small Business',
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'AI Marketing for Small Business | Moil',
     description: '30-day content calendar, AI-generated posts, images and video — all built around your specific business. No agency needed. From $25/mo.',
-    images: ['/og_image_v2.png'],
+    images: ['/og_image_v2.jpg'],
     creator: '@MoilApp',
     site: '@MoilApp',
   },
@@ -148,8 +148,8 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
               {
                 "@type": "HowToStep",
                 "position": 3,
-                "name": "Receive Your Investor-Ready Business Plan",
-                "text": "Get a complete business plan with 5-year financial projections — ready for investors, banks, or partners."
+                "name": "Define Your Brand DNA",
+                "text": "Content360 builds a brand DNA profile from your answers — voice, values, visual style, and target customer — so every post matches how your business actually sounds."
               },
               {
                 "@type": "HowToStep",
@@ -160,8 +160,8 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
               {
                 "@type": "HowToStep",
                 "position": 5,
-                "name": "Smart Hiring Activates Automatically",
-                "text": "Post a job once and reach 10+ platforms. AI matches candidates with 95% accuracy. Average time to hire is 11 days."
+                "name": "Generate AI Images and Video",
+                "text": "Content360 produces custom AI images for every post and AI video for your highest-impact days — no designer, no stock photos, no agency."
               },
               {
                 "@type": "HowToStep",

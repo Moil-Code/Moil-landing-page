@@ -18,7 +18,7 @@ export function BusinessFinalCta() {
       <p className="final-sub rv">
         {t.business.finalCta.subheadline}
       </p>
-      <a className="final-btn rv" href={appendLangToUrl("https://business.moilapp.com/register", lang)} target="_blank" rel="noreferrer">
+      <a className="final-btn rv" href={appendLangToUrl("https://business.moilapp.com/register", lang)} rel="noreferrer">
         {t.business.finalCta.cta} <span>→</span>
       </a>
       <div className="final-trust rv">
