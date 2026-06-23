@@ -44,49 +44,6 @@ export default function PrivacyPage() {
     }
   ]
 
-  const termOfService = [
-    {
-      "heading": "1. Introduction",
-      "text": "Welcome to Moil, provided by Moil Enterprise Inc. These Terms of Service govern your use of our services via www.moilapp.com."
-    },
-    {
-      "heading": "2. User Accounts",
-      "text": "You must provide accurate information when creating an account and maintain the confidentiality of your login credentials."
-    },
-    {
-      "heading": "3. Service Usage",
-      "text": "Our services are intended for career-related purposes only. Misuse or unauthorized use of our platform is prohibited."
-    },
-    {
-      "heading": "4. Intellectual Property",
-      "text": "All content on Moil, including text, graphics, logos, and software, is the property of Moil Enterprise Inc."
-    },
-    {
-      "heading": "5. Disclaimers and Limitations of Liability",
-      "text": "Moil is not responsible for the accuracy of job matches or user-generated content. Our liability is limited to the fullest extent permitted by law."
-    },
-    {
-      "heading": "6. User Responsibilities",
-      "text": "You are responsible for all activities under your account and must comply with all applicable laws."
-    },
-    {
-      "heading": "7. Termination of Use",
-      "text": "We may terminate or suspend your access to Moil for any violation of these terms."
-    },
-    {
-      "heading": "8. Governing Law and Dispute Resolution",
-      "text": "These terms are governed by the laws of the State of Texas, USA. Any disputes will be resolved in the courts of Travis County, Texas."
-    },
-    {
-      "heading": "9. Amendments to Terms",
-      "text": "We reserve the right to modify these terms at any time. Your continued use of Moil constitutes acceptance of these changes."
-    },
-    {
-      "heading": "10. Contact Information",
-      "text": "For questions about these terms, please email contacto@moilapp.com."
-    }
-  ]
-
 
   return (
     <>
@@ -115,18 +72,10 @@ export default function PrivacyPage() {
               })}
             </div>
 
-            <p className="text-[24px] md:text-[40px] font-[800] tetx-[#22263A] leading-normal">Moil Terms of Service</p>
-
-            <div className="flex flex-col gap-y-6">
-              {termOfService.map((term, i) => {
-                return (
-                  <div className="text-base leading-normal font-medium">
-                    <p className="font-[700]">{term.heading}</p>
-                    <p>{term.text}</p>
-                  </div>
-                )
-              })}
-            </div>
+            <p className="text-sm text-[#5C6178]">
+              Looking for our terms? Read the full{" "}
+              <Link href="/terms" className="text-[#FF6633] underline">Moil Terms and Conditions</Link>.
+            </p>
           </div>
         </div>
       </div>

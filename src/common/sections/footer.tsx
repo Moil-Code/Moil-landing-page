@@ -146,8 +146,13 @@ export default function FooterSection({ refQuery, lgQuery }: any) {
                 </Link>
               </li>
               <li>
-                <Link href={`/business${queryString}`} className="text-white/70 hover:text-white transition-colors text-sm">
+                <Link href={`/privacy${queryString}`} className="text-white/70 hover:text-white transition-colors text-sm">
                   Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href={`/terms${queryString}`} className="text-white/70 hover:text-white transition-colors text-sm">
+                  Terms of Service
                 </Link>
               </li>
             </ul>

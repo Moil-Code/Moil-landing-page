@@ -706,6 +706,7 @@ export const en = {
       aboutUs: 'About Us',
       contact: 'Contact',
       privacyPolicy: 'Privacy Policy',
+      termsOfService: 'Terms of Service',
       forJobSeekers: 'For Job Seekers',
     },
     getStarted: 'Get Started',

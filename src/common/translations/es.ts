@@ -708,6 +708,7 @@ export const es: TranslationKeys = {
       aboutUs: 'Sobre Nosotros',
       contact: 'Contacto',
       privacyPolicy: 'Política de Privacidad',
+      termsOfService: 'Términos del Servicio',
       forJobSeekers: 'Para Buscadores de Empleo',
     },
     getStarted: 'Comenzar',
