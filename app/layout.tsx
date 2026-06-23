@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     siteName: 'Moil',
     images: [
       {
-        url: '/og_image_v2.jpg',
+        url: '/og-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Moil - AI Co-Founder for Small Business',
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Moil | AI Co-Founder for Small Business — Business Plan, Hiring & Growth',
     description: 'The AI co-founder every small business deserves. Business plan, market research, content calendar, smart hiring — all in one platform. Trusted by 500+ SMBs.',
-    images: ['/og_image_v2.jpg'],
+    images: ['/og-home.jpg'],
     creator: '@MoilApp',
     site: '@MoilApp',
   },
@@ -131,9 +131,9 @@ export default function RootLayout({
               "url": "https://www.moilapp.com",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://www.moilapp.com/og_image_v2.jpg",
-                "width": 1200,
-                "height": 630
+                "url": "https://www.moilapp.com/moil-512.png",
+                "width": 512,
+                "height": 512
               },
               "description": "AI co-founder platform for small businesses. Generate business plans, run market research, build a 30-day content calendar, and hire top talent — all powered by AI.",
               "foundingDate": "2023",
