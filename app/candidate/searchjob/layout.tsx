@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     url: `${baseURL1}/candidate/searchjob`,
     images: [
       {
-        url: '/og_image.png',
+        url: '/og-candidate.jpg',
         width: 1200,
         height: 630,
         alt: 'Moil Job Search — Find Bilingual Job Opportunities',
@@ -40,6 +40,11 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: `${baseURL1}/candidate/searchjob`,
+    languages: {
+      'en': `${baseURL1}/candidate/searchjob`,
+      'es': `${baseURL1}/candidate/searchjob?lg=es`,
+      'x-default': `${baseURL1}/candidate/searchjob`,
+    },
   },
 };
 

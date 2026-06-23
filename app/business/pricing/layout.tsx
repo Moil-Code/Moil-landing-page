@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     url: `${baseURL1}/business/pricing`,
     images: [
       {
-        url: '/hero-business.jpg',
+        url: '/og-pricing.jpg',
         width: 1200,
         height: 630,
         alt: 'Moil Pricing — AI Business Platform Plans',

@@ -1,7 +1,8 @@
 import { redirect } from 'next/navigation';
 
-// Redirect root to /business — consolidates all SEO authority to the
-// canonical business landing page and eliminates duplicate content.
+// moilapp.com (/) serves the primary "Stop Wearing Every Hat" business landing
+// page. Root redirects to /business so there is one canonical home, and all
+// homepage authority consolidates onto the business page.
 export default function Page() {
   redirect('/business');
 }

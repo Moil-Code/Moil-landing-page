@@ -1,0 +1,26 @@
+# Moil
+
+> Moil is an AI co-founder for small businesses. In one guided session it writes your business plan, runs market research, builds a 30-day content marketing calendar, and posts your job to 10+ hiring platforms — fully bilingual in English and Spanish. Plans start at $25/month and the first AI co-founder conversation is free. Trusted by 500+ small businesses, with Economic Development Corporation and Chamber of Commerce partnerships.
+
+## Core pages
+- [For Business](https://www.moilapp.com/business): AI business-plan generation, market research, Content360 marketing, and smart hiring for small-business owners.
+- [Pricing](https://www.moilapp.com/business/pricing): Professional ($25/mo) and Market Pro ($75/mo). 30-day money-back guarantee, no setup fees.
+- [Para Empresas (Español)](https://www.moilapp.com/es/business): Spanish-language version of the business product.
+- [Content360 — Marketing](https://www.moilapp.com/marketing): AI content marketing — 30-day calendars, AI images and AI video.
+- [For Candidates](https://www.moilapp.com/candidate): Free, bilingual job marketplace.
+- [Search Jobs](https://www.moilapp.com/candidate/searchjob): Browse open roles.
+
+## What Moil replaces
+- A business consultant ($5,000–$15,000 per engagement) — Moil delivers a plan plus the next 90 days of work.
+- A marketing agency retainer ($3,000–$8,000/month) — Content360 generates the calendar and the assets.
+- A standalone applicant tracking system (ZipRecruiter, Workable; $299+/month) — Smart Hiring posts to 10+ boards and ranks candidates; average time-to-hire is 11 days vs. the 83.5-day SMB benchmark (SHRM, 2025).
+
+## Key facts
+- Pricing: from $25/month (Professional); $75/month (Market Pro). First AI conversation free, no credit card required.
+- Languages: English and Spanish (fully bilingual end to end).
+- Audience: small-business owners (1–20 employees), including the 5M+ Hispanic-owned U.S. businesses (SBA, 2024).
+- Company: Moil Enterprise Inc., founded 2023, Austin, Texas, USA.
+
+## More
+- [Privacy Policy](https://www.moilapp.com/privacy)
+- [Blog](https://blog.moilapp.com)

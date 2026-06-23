@@ -4,6 +4,7 @@ import Script from 'next/script';
 
 import './globals.css';
 import Analytics from '../src/common/components/analytics';
+import { SiteFooter } from '../src/common/components/SiteFooter';
 import CookieConsent from '../src/common/components/CookieConsent';
 import { baseURL1 } from '../src/common/constants/baseUrl';
 
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
     'AI workforce solutions',
     'startup tools'
   ],
-  authors: [{ name: 'Moil Enterprise Inc.', url: 'https://moilapp.com' }],
+  authors: [{ name: 'Moil Enterprise Inc.', url: 'https://www.moilapp.com' }],
   creator: 'Moil Enterprise Inc.',
   publisher: 'Moil Enterprise Inc.',
   formatDetection: {
@@ -46,9 +47,11 @@ export const metadata: Metadata = {
     telephone: false,
   },
   metadataBase: new URL(baseURL1),
-  alternates: {
-    canonical: `${baseURL1}/business`,
-  },
+  // NOTE: no `alternates.canonical` here — every leaf page (`/`, `/business`,
+  // `/candidate`, `/marketing`, `/privacy`, `/business/pricing`) declares its
+  // own self-canonical via its own metadata. A root canonical here would
+  // override every page that doesn't override it, which is exactly the bug
+  // that consolidated the homepage's SEO authority into /business.
   openGraph: {
     title: 'Moil | AI Co-Founder for Small Business — Business Plan, Hiring & Growth',
     description: 'The AI co-founder every small business deserves. Business plan, market research, content calendar, smart hiring — all in one platform. Trusted by 500+ SMBs.',
@@ -56,7 +59,7 @@ export const metadata: Metadata = {
     siteName: 'Moil',
     images: [
       {
-        url: '/og_image_v2.png',
+        url: '/og-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Moil - AI Co-Founder for Small Business',
@@ -69,7 +72,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Moil | AI Co-Founder for Small Business — Business Plan, Hiring & Growth',
     description: 'The AI co-founder every small business deserves. Business plan, market research, content calendar, smart hiring — all in one platform. Trusted by 500+ SMBs.',
-    images: ['/og_image_v2.png'],
+    images: ['/og-home.jpg'],
     creator: '@MoilApp',
     site: '@MoilApp',
   },
@@ -88,20 +91,20 @@ export const metadata: Metadata = {
     icon: [
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/moil-196.png', sizes: '196x196', type: 'image/png' },
     ],
     apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
-    other: [
-      { rel: 'mask-icon', url: '/safari-pinned-tab.svg', color: '#5843BE' },
+      { url: '/moil-196.png', sizes: '180x180', type: 'image/png' },
     ],
   },
   manifest: '/site.webmanifest',
-  // TODO: Replace with real codes from Google Search Console, Yandex Webmaster
-  // verification: {
-  //   google: 'REPLACE_WITH_GOOGLE_SEARCH_CONSOLE_CODE',
-  //   yandex: 'REPLACE_WITH_YANDEX_CODE',
-  // },
+  // Google Search Console verification. Set NEXT_PUBLIC_GSC_VERIFICATION in the
+  // environment (GSC → Settings → Ownership verification → HTML tag → the
+  // `content` value) and the meta tag is emitted automatically on next build.
+  // Unset → no tag rendered. No code change needed to activate.
+  verification: {
+    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION,
+  },
   category: 'business',
   classification: 'AI Business Growth Platform',
 };
@@ -114,15 +117,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#5843BE" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="format-detection" content="telephone=no" />
-        
+
         {/* Organization Structured Data */}
         <script
           type="application/ld+json"
@@ -132,12 +131,12 @@ export default function RootLayout({
               "@type": "Organization",
               "name": "Moil",
               "alternateName": "Moil Enterprise Inc.",
-              "url": "https://moilapp.com",
+              "url": "https://www.moilapp.com",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://moilapp.com/og_image_v2.png",
-                "width": 1200,
-                "height": 630
+                "url": "https://www.moilapp.com/moil-512.png",
+                "width": 512,
+                "height": 512
               },
               "description": "AI co-founder platform for small businesses. Generate business plans, run market research, build a 30-day content calendar, and hire top talent — all powered by AI.",
               "foundingDate": "2023",
@@ -153,22 +152,30 @@ export default function RootLayout({
                 "@type": "ContactPoint",
                 "contactType": "customer service",
                 "email": "contacto@moilapp.com",
-                "url": "https://moilapp.com"
+                "url": "https://www.moilapp.com"
               },
+              // sameAs MUST exactly match the canonical URLs Google has indexed
+              // for each profile (verified Apr 2026). A typo (e.g. /moil-app vs
+              // /moilapp on LinkedIn) breaks the entity-disambiguation signal
+              // and lets Google confuse Moil with namesake brands.
+              // Mirror this list in src/common/components/SiteFooter.tsx.
               "sameAs": [
-                "https://twitter.com/MoilApp",
-                "https://linkedin.com/company/moil-app"
+                "https://www.linkedin.com/company/moilapp",
+                "https://x.com/MoilApp",
+                "https://www.instagram.com/themoilapp/",
+                "https://www.tiktok.com/@moilapp",
+                "https://www.facebook.com/MoilWorks/"
               ],
               "offers": [
                 {
                   "@type": "Offer",
                   "name": "Moil Business Growth Platform",
-                  "description": "AI-powered tools for market research, business plan generation, content marketing, and smart hiring. Starting at $15/month.",
-                  "price": "15",
+                  "description": "AI-powered tools for market research, business plan generation, content marketing, and smart hiring. Starting at $25/month.",
+                  "price": "25",
                   "priceCurrency": "USD",
                   "priceSpecification": {
                     "@type": "UnitPriceSpecification",
-                    "price": "15",
+                    "price": "25",
                     "priceCurrency": "USD",
                     "billingDuration": "P1M"
                   },
@@ -196,14 +203,14 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               "name": "Moil",
-              "url": "https://moilapp.com",
+              "url": "https://www.moilapp.com",
               "description": "AI co-founder platform for small businesses — business plan, market research, content calendar, smart hiring, and 24/7 AI coaching.",
               "potentialAction": [
                 {
                   "@type": "SearchAction",
                   "target": {
                     "@type": "EntryPoint",
-                    "urlTemplate": "https://moilapp.com/candidate/searchjob?title={search_term_string}"
+                    "urlTemplate": "https://www.moilapp.com/candidate/searchjob?title={search_term_string}"
                   },
                   "query-input": "required name=search_term_string"
                 }
@@ -240,6 +247,11 @@ export default function RootLayout({
           <main className="flex-grow">
             {children}
           </main>
+          {/* Global SiteFooter — emits social rel="me" links on every page,
+              the cheapest brand-identity SEO signal we have. /business has
+              its own rich BusinessFooter that stacks above this one for now;
+              visual consolidation is a Phase 2 polish task. */}
+          <SiteFooter />
         </div>
         <CookieConsent />
       </body>

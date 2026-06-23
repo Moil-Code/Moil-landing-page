@@ -8,11 +8,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     {
-      // Primary business landing page — root (/) redirects here
+      // Primary business landing page — moilapp.com (/) redirects here
       url: `${baseUrl}/business`,
       lastModified: today,
       changeFrequency: 'weekly',
       priority: 1,
+      alternates: {
+        languages: {
+          en: `${baseUrl}/business`,
+          es: `${baseUrl}/es/business`,
+        },
+      },
+    },
+    {
+      // Spanish counterpart of /business — bilingual SEO entry point
+      url: `${baseUrl}/es/business`,
+      lastModified: today,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+      alternates: {
+        languages: {
+          en: `${baseUrl}/business`,
+          es: `${baseUrl}/es/business`,
+        },
+      },
     },
     {
       url: `${baseUrl}/business/pricing`,

@@ -2008,3 +2008,18 @@ font.VIpgJd-yAWNEb-VIpgJd-fmcmS-sn54Q  {
 .for-businesses-tab:hover {
   animation-play-state: paused;
 }
+
+/* Accessibility: honor the OS "reduce motion" preference (WCAG 2.3.3).
+   For visitors who opt out of motion, neutralize animations/transitions and
+   smooth scroll site-wide — covers CSS animations (animate-pulse, grid-float,
+   the ripple above) and most transitions. No effect for everyone else. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

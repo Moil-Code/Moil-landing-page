@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     url: `${baseURL1}/candidate`,
     images: [
       {
-        url: '/og_image_candidate.png',
+        url: '/og-candidate.jpg',
         width: 1200,
         height: 630,
         alt: 'Moil AI-Powered Job Search and Career Platform',
@@ -51,6 +51,7 @@ export const metadata: Metadata = {
     canonical: `${baseURL1}/candidate`,
     languages: {
       'en': `${baseURL1}/candidate`,
+      'es': `${baseURL1}/candidate?lg=es`,
       'x-default': `${baseURL1}/candidate`,
     },
   },
@@ -75,7 +76,7 @@ export default function CandidateLayout({
             "operatingSystem": "Web",
             "description": "AI-powered job search platform for bilingual candidates. AI job matching, resume builder, voice interview assistant, and career coaching — free for candidates.",
             "url": `${baseURL1}/candidate`, 
-            "screenshot": `${baseURL1}/og_image_candidate.png`,
+            "screenshot": `${baseURL1}/og-candidate.jpg`,
             "offers": {
               "@type": "Offer",
               "price": "0",
@@ -159,6 +160,21 @@ export default function CandidateLayout({
                   "text": "Moil's voice interview assistant lets you practice real interview questions using your voice. The AI analyzes your answers and gives real-time feedback to help you improve your interview performance."
                 }
               }
+            ]
+          })
+        }}
+      />
+
+      {/* Breadcrumb structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": baseURL1 },
+              { "@type": "ListItem", "position": 2, "name": "For Candidates", "item": `${baseURL1}/candidate` }
             ]
           })
         }}

@@ -100,7 +100,7 @@ export default function CandidateHero({ onGetStarted, refQuery, lgQuery }: Candi
         
         {/* Subtitle */}
         <p className="text-sm md:text-base font-medium md:font-semibold leading-relaxed text-center text-white max-w-2xl mx-auto">
-          Beyond job matching - master interviews with voice coaching, build resumes in 5 minutes, and find your perfect career path with AI guidance
+          Beyond job matching — master interviews with voice coaching, build a resume in 5 minutes, and find your path with AI. Free, in English &amp; Spanish.
         </p>
 
         {/* Search Component */}
