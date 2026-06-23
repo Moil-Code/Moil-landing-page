@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     url: `${baseURL1}/candidate`,
     images: [
       {
-        url: '/og_image_candidate.png',
+        url: '/og-candidate.jpg',
         width: 1200,
         height: 630,
         alt: 'Moil AI-Powered Job Search and Career Platform',
@@ -75,7 +75,7 @@ export default function CandidateLayout({
             "operatingSystem": "Web",
             "description": "AI-powered job search platform for bilingual candidates. AI job matching, resume builder, voice interview assistant, and career coaching — free for candidates.",
             "url": `${baseURL1}/candidate`, 
-            "screenshot": `${baseURL1}/og_image_candidate.png`,
+            "screenshot": `${baseURL1}/og-candidate.jpg`,
             "offers": {
               "@type": "Offer",
               "price": "0",

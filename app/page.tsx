@@ -17,6 +17,7 @@
 
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { baseURL1 } from '../src/common/constants/baseUrl';
 
 export const metadata: Metadata = {
@@ -80,32 +81,47 @@ export default function HomePage() {
   return (
     <div className="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
       {/* Hero */}
-      <section className="mx-auto max-w-6xl px-4 py-20 text-center md:py-32">
-        <h1 className="mx-auto max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
-          AI for small business — your co-founder has arrived.
-        </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-600 dark:text-gray-300 md:text-xl">
-          Moil is the bilingual AI co-founder for small business owners. Generate a complete
-          business plan, run your marketing, and hire your team — all in one platform.
-          Trusted by 500+ businesses. Available in English and Spanish.
-        </p>
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link
-            href="/business"
-            className="inline-flex items-center justify-center rounded-md bg-[#5843BE] px-6 py-3 text-base font-semibold text-white transition hover:bg-[#4836a3]"
-          >
-            Get started free
-          </Link>
-          <Link
-            href="/business/pricing"
-            className="inline-flex items-center justify-center rounded-md border border-gray-300 px-6 py-3 text-base font-semibold text-gray-900 transition hover:border-gray-900 dark:border-gray-700 dark:text-gray-100 dark:hover:border-gray-100"
-          >
-            See pricing
-          </Link>
+      <section className="mx-auto max-w-6xl px-4 py-16 md:py-24">
+        <div className="grid items-center gap-10 md:grid-cols-2">
+          <div className="text-center md:text-left">
+            <h1 className="text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
+              AI for small business — your co-founder has arrived.
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg text-gray-600 dark:text-gray-300 md:text-xl">
+              Moil is the bilingual AI co-founder for small business owners. Generate a complete
+              business plan, run your marketing, and hire your team — all in one platform.
+              Trusted by 500+ businesses. Available in English and Spanish.
+            </p>
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row md:justify-start">
+              <Link
+                href="/business"
+                className="inline-flex items-center justify-center rounded-md bg-[#5843BE] px-6 py-3 text-base font-semibold text-white transition hover:bg-[#4836a3]"
+              >
+                Get started free
+              </Link>
+              <Link
+                href="/business/pricing"
+                className="inline-flex items-center justify-center rounded-md border border-gray-300 px-6 py-3 text-base font-semibold text-gray-900 transition hover:border-gray-900 dark:border-gray-700 dark:text-gray-100 dark:hover:border-gray-100"
+              >
+                See pricing
+              </Link>
+            </div>
+            <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
+              From $25/month · 30-day money-back guarantee · No credit card to start
+            </p>
+          </div>
+          <div>
+            <Image
+              src="/home-hero.jpg"
+              alt="A small business owner using Moil's AI co-founder"
+              width={1024}
+              height={1024}
+              priority
+              sizes="(max-width: 768px) 90vw, 45vw"
+              className="mx-auto w-full max-w-sm rounded-2xl shadow-xl md:max-w-none"
+            />
+          </div>
         </div>
-        <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-          From $25/month · 30-day money-back guarantee · No credit card to start
-        </p>
       </section>
 
       {/* Three product cards — internal links into deep pages */}
