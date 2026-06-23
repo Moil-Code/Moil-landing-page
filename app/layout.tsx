@@ -4,7 +4,6 @@ import Script from 'next/script';
 
 import './globals.css';
 import Analytics from '../src/common/components/analytics';
-import CookieConsent from '../src/common/components/CookieConsent';
 import { baseURL1 } from '../src/common/constants/baseUrl';
 
 const bebas = Bebas_Neue({ weight: ['400'], subsets: ['latin'] });
@@ -241,7 +240,6 @@ export default function RootLayout({
             {children}
           </main>
         </div>
-        <CookieConsent />
       </body>
     </html>
   );
