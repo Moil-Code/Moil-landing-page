@@ -8,11 +8,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     {
-      // Primary business landing page — root (/) redirects here
-      url: `${baseUrl}/business`,
+      // Homepage (/) — broad-SMB landing page; self-canonical now, no longer
+      // redirects to /business (see app/page.tsx). Must be in the sitemap so
+      // Google indexes it as its own non-brand-intent entry point.
+      url: `${baseUrl}/`,
       lastModified: today,
       changeFrequency: 'weekly',
       priority: 1,
+    },
+    {
+      // Primary business landing page — deep "AI business plan" intent
+      url: `${baseUrl}/business`,
+      lastModified: today,
+      changeFrequency: 'weekly',
+      priority: 0.9,
       alternates: {
         languages: {
           en: `${baseUrl}/business`,

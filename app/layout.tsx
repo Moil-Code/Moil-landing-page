@@ -167,12 +167,12 @@ export default function RootLayout({
                 {
                   "@type": "Offer",
                   "name": "Moil Business Growth Platform",
-                  "description": "AI-powered tools for market research, business plan generation, content marketing, and smart hiring. Starting at $15/month.",
-                  "price": "15",
+                  "description": "AI-powered tools for market research, business plan generation, content marketing, and smart hiring. Starting at $25/month.",
+                  "price": "25",
                   "priceCurrency": "USD",
                   "priceSpecification": {
                     "@type": "UnitPriceSpecification",
-                    "price": "15",
+                    "price": "25",
                     "priceCurrency": "USD",
                     "billingDuration": "P1M"
                   },
