@@ -5,6 +5,7 @@ import Script from 'next/script';
 import './globals.css';
 import Analytics from '../src/common/components/analytics';
 import { SiteFooter } from '../src/common/components/SiteFooter';
+import CookieConsent from '../src/common/components/CookieConsent';
 import { baseURL1 } from '../src/common/constants/baseUrl';
 
 const bebas = Bebas_Neue({ weight: ['400'], subsets: ['latin'] });
@@ -252,6 +253,7 @@ export default function RootLayout({
               visual consolidation is a Phase 2 polish task. */}
           <SiteFooter />
         </div>
+        <CookieConsent />
       </body>
     </html>
   );
