@@ -40,6 +40,11 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: `${baseURL1}/candidate/searchjob`,
+    languages: {
+      'en': `${baseURL1}/candidate/searchjob`,
+      'es': `${baseURL1}/candidate/searchjob?lg=es`,
+      'x-default': `${baseURL1}/candidate/searchjob`,
+    },
   },
 };
 

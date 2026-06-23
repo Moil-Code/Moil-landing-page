@@ -51,6 +51,7 @@ export const metadata: Metadata = {
     canonical: `${baseURL1}/candidate`,
     languages: {
       'en': `${baseURL1}/candidate`,
+      'es': `${baseURL1}/candidate?lg=es`,
       'x-default': `${baseURL1}/candidate`,
     },
   },
