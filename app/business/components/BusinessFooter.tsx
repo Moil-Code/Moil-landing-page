@@ -109,8 +109,11 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
             <a href={appendLangToUrl("https://moilapp.com/business", lang)} target="_blank" rel="noreferrer">
               {t.footer.resourceLinks.contact}
             </a>
-            <a href={appendLangToUrl("https://moilapp.com/business", lang)} target="_blank" rel="noreferrer">
+            <a href="/privacy">
               {t.footer.resourceLinks.privacyPolicy}
+            </a>
+            <a href="/privacy">
+              {lang === 'es' ? 'Términos de Servicio' : 'Terms of Service'}
             </a>
             <a href={`/candidate?lg=${lang}`}>{t.footer.resourceLinks.forJobSeekers}</a>
           </div>

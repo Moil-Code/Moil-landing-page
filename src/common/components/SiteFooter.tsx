@@ -1,46 +1,31 @@
+'use client';
+
 /**
  * SiteFooter — global footer mounted in root app/layout.tsx.
  *
- * Dark-themed by design: the business pages render dark via business.css
- * (CSS variables), NOT Tailwind's class-based dark mode, so Tailwind `dark:`
- * variants never fire there. A permanently dark footer sits correctly under
- * every page (dark or light) instead of flashing a white block.
+ * Renders ONLY on pages that don't ship their own footer (e.g. /privacy,
+ * /legacy). The section pages each have a richer, theme-aware footer
+ * (BusinessFooter, Content360Footer, the candidate FooterSection), so this
+ * one is hidden there to avoid a stacked double-footer. The brand-entity
+ * signal those pages would otherwise lose is already covered by the JSON-LD
+ * `sameAs` array in app/layout.tsx (present on every page).
  *
- * Two SEO-critical elements MUST stay intact when editing:
- *   1. `rel="me"` on every social link — entity-disambiguation microformat
- *      that ties these profiles to moilapp.com in Google's Knowledge Graph.
- *   2. The SOCIAL_LINKS URLs MUST match the `sameAs` array in the JSON-LD
- *      Organization block in app/layout.tsx.
+ * Dark-themed so it sits correctly under dark pages (the business pages are
+ * dark via CSS variables, not Tailwind class-based dark mode).
  *
- * Server component (no 'use client') so Googlebot sees the links in SSR HTML.
+ * SEO-critical when editing:
+ *   1. `rel="me"` on every social link — entity-disambiguation microformat.
+ *   2. SOCIAL_LINKS URLs MUST match the `sameAs` array in app/layout.tsx.
  */
 
+import { usePathname } from 'next/navigation';
+
 const SOCIAL_LINKS = [
-  {
-    name: 'LinkedIn',
-    href: 'https://www.linkedin.com/company/moilapp',
-    label: 'Moil on LinkedIn',
-  },
-  {
-    name: 'X',
-    href: 'https://x.com/MoilApp',
-    label: 'Moil on X (Twitter)',
-  },
-  {
-    name: 'Instagram',
-    href: 'https://www.instagram.com/themoilapp/',
-    label: 'Moil on Instagram',
-  },
-  {
-    name: 'TikTok',
-    href: 'https://www.tiktok.com/@moilapp',
-    label: 'Moil on TikTok',
-  },
-  {
-    name: 'Facebook',
-    href: 'https://www.facebook.com/MoilWorks/',
-    label: 'Moil on Facebook',
-  },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/company/moilapp', label: 'Moil on LinkedIn' },
+  { name: 'X', href: 'https://x.com/MoilApp', label: 'Moil on X (Twitter)' },
+  { name: 'Instagram', href: 'https://www.instagram.com/themoilapp/', label: 'Moil on Instagram' },
+  { name: 'TikTok', href: 'https://www.tiktok.com/@moilapp', label: 'Moil on TikTok' },
+  { name: 'Facebook', href: 'https://www.facebook.com/MoilWorks/', label: 'Moil on Facebook' },
 ] as const;
 
 type NavLink = { label: string; href: string; external?: boolean };
@@ -61,7 +46,16 @@ const LEGAL_LINKS: readonly NavLink[] = [
   { label: 'Privacy Policy', href: '/privacy' },
 ];
 
+// Section routes that ship their own footer — hide the global one there.
+const OWN_FOOTER_PREFIXES = ['/business', '/es/business', '/candidate', '/marketing'];
+
 export function SiteFooter() {
+  const pathname = usePathname() || '/';
+  const hasOwnFooter = OWN_FOOTER_PREFIXES.some(
+    (p) => pathname === p || pathname.startsWith(p + '/'),
+  );
+  if (hasOwnFooter) return null;
+
   const year = new Date().getFullYear();
 
   return (
@@ -96,9 +90,7 @@ export function SiteFooter() {
 
         {/* Social — rel="me" is the SEO signal */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-white">
-            Follow Moil
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-white">Follow Moil</p>
           <ul className="mt-3 flex gap-3">
             {SOCIAL_LINKS.map(({ name, href, label }) => (
               <li key={name}>
@@ -109,7 +101,6 @@ export function SiteFooter() {
                   aria-label={label}
                   className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-gray-700 text-xs font-medium text-gray-300 transition hover:border-white hover:text-white"
                 >
-                  {/* Single-letter glyph keeps the footer dependency-free. */}
                   {name === 'X' ? '𝕏' : name[0]}
                 </a>
               </li>
