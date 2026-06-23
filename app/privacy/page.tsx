@@ -1,84 +1,107 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
-import CandidateNavigation from "~~/src/candidate/components/navigation";
+import LegalPage from "~~/src/common/components/LegalPage";
+import { baseURL1 } from "~~/src/common/constants/baseUrl";
+import { COMPANY_NAME, COMPANY_ADDRESS, CONTACT_EMAIL } from "~~/src/common/constants/company";
 
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "How Moil Enterprise Inc. collects, uses, shares, and protects your personal information across our AI business platform, content tools, and job marketplace.",
+  alternates: { canonical: `${baseURL1}/privacy` },
+  robots: { index: true, follow: false },
+};
 
 export default function PrivacyPage() {
-  const privacyAgreement = [
+  const sections = [
     {
-      "heading": "1. Introduction",
-      "text": "Welcome to Moil. This Privacy Policy explains how Moil Enterprise Inc., headquartered in Austin, TX, collects, uses, and shares your personal information when you use our services via our website www.moilapp.com."
+      heading: "1. Introduction",
+      text: `This Privacy Policy explains how ${COMPANY_NAME} ("Moil", "we", "us"), headquartered in Austin, TX, collects, uses, shares, and protects personal information when you use our websites, applications, and services at www.moilapp.com and its subdomains (the "Services"). By using the Services you agree to this Policy. It should be read together with our Terms and Conditions.`,
     },
     {
-      "heading": "2. Information Collection and Use",
-      "text": "Moil collects personal information like names, contact details, and employment history when you create an account or use our services. This information is used to provide and improve our AI-driven resume builder, personalized job matching, and other career-related services."
+      heading: "2. Information We Collect",
+      text:
+        "• Account information: name, email, password, and authentication data (including via Google sign-in).\n" +
+        "• Profile and career data: for job seekers, this can include employment history, resumes/CVs, skills, and other details you provide.\n" +
+        "• Business and brand data: business name, industry, plans, brand colors, logos, and content you create or upload.\n" +
+        "• Content and prompts: messages, files, and instructions you submit to the AI coach and content tools.\n" +
+        "• Payment information: processed by our payment processor (Stripe). We do not store full card numbers.\n" +
+        "• Connected accounts: when you link a social account (e.g., Facebook/Instagram via Meta), we receive tokens and account details needed to publish on your behalf.\n" +
+        "• Usage and device data: log data, IP address, device/browser type, pages viewed, and interactions, collected via cookies and similar technologies.",
     },
     {
-      "heading": "3. Data Sharing and Disclosure",
-      "text": "We may share your information with potential employers or as legally required. We do not sell your personal data."
+      heading: "3. How We Use Information",
+      text:
+        "We use personal information to: provide, maintain, and improve the Services; power AI features (coaching, business plans, content, images, and job matching); personalize your experience; process payments and manage subscriptions; communicate with you (including service and, with your consent where required, marketing messages); ensure security and prevent fraud or abuse; and comply with legal obligations.",
     },
     {
-      "heading": "4. Data Security",
-      "text": "We implement appropriate security measures to protect your data against unauthorized access, alteration, or destruction."
+      heading: "4. AI Processing of Your Data",
+      text:
+        "To generate output, your prompts and relevant content are processed by AI providers we use as service providers (see our Subprocessors page). We do not permit these providers to use your content to train their general, publicly-available models except as configured for the Services, and we may use de-identified or aggregated data to operate, secure, and improve the Services. AI output may be inaccurate — see our Terms and Conditions for important disclaimers.",
     },
     {
-      "heading": "5. User Rights and Choices",
-      "text": "You have the right to access, update, or request deletion of your personal information. Please contact contacto@moilapp.com for such requests."
+      heading: "5. How We Share Information",
+      text:
+        "We share personal information with: service providers and subprocessors who process data on our behalf (hosting, storage, payments, AI, analytics, email); other users where the Services are designed to do so (e.g., an employer and a candidate in the job marketplace, or a social platform when you direct us to publish); authorities or others when required by law or to protect rights and safety; and a successor entity in a merger, acquisition, or sale of assets. We do NOT sell your personal information.",
     },
     {
-      "heading": "6. Cookies and Tracking Technologies",
-      "text": "We use cookies and similar technologies for website functionality and analytics."
+      heading: "6. Cookies and Tracking",
+      text:
+        "We use strictly necessary, preference, and analytics cookies and similar technologies. You can manage non-essential cookies through our cookie banner and your browser settings. See our Cookie Policy for details.",
     },
     {
-      "heading": "7. International Data Transfers",
-      "text": "Your information may be transferred to and maintained on computers located outside your state or country where the data protection laws may differ from those of your jurisdiction."
+      heading: "7. Data Retention",
+      text:
+        "We keep personal information for as long as your account is active and as needed to provide the Services, then retain it only as required to comply with legal obligations, resolve disputes, and enforce agreements. You can ask us to delete your account and associated data as described below.",
     },
     {
-      "heading": "8. Policy Changes",
-      "text": "We may update this policy and will notify you of any changes by posting the new policy on this page."
+      heading: "8. Data Security",
+      text:
+        "We use administrative, technical, and organizational safeguards designed to protect personal information, including encryption in transit and access controls. No method of transmission or storage is 100% secure, so we cannot guarantee absolute security.",
     },
     {
-      "heading": "9. Contact Information",
-      "text": "For any privacy-related questions or concerns, please email contacto@moilapp.com."
-    }
-  ]
-
+      heading: "9. Your Rights and Choices",
+      text:
+        "Depending on where you live, you may have rights to access, correct, delete, or port your personal information, to object to or restrict certain processing, and to withdraw consent. To exercise any right, email " +
+        CONTACT_EMAIL +
+        ". We will verify your request and respond within the time required by applicable law. You will not be discriminated against for exercising your rights.",
+    },
+    {
+      heading: "10. U.S. State Privacy Rights (including California)",
+      text:
+        "Residents of California and other U.S. states with privacy laws have additional rights, including the right to know, delete, and correct personal information, and to opt out of any sale or sharing of personal information. We do not sell personal information and do not share it for cross-context behavioral advertising in a way that requires opt-out, but you can still submit choices on our Your Privacy Choices page.",
+    },
+    {
+      heading: "11. International Data Transfers",
+      text:
+        "We are based in the United States and may process and store information in the U.S. and other countries where our providers operate. Where required, we use appropriate safeguards (such as Standard Contractual Clauses) for cross-border transfers.",
+    },
+    {
+      heading: "12. Children's Privacy",
+      text:
+        "The Services are not directed to children, and we do not knowingly collect personal information from anyone under 18. If you believe a child has provided us information, contact us and we will delete it.",
+    },
+    {
+      heading: "13. Changes to This Policy",
+      text:
+        "We may update this Policy from time to time. We will update the \"Last updated\" date and, for material changes, may provide additional notice. Your continued use of the Services after changes take effect constitutes acceptance.",
+    },
+    {
+      heading: "14. Contact Us",
+      text: `For privacy questions or requests, contact ${COMPANY_NAME} at ${CONTACT_EMAIL}, ${COMPANY_ADDRESS}.`,
+    },
+  ];
 
   return (
-    <>
-      <div className="bg-[#F7F8FC]">
-        <CandidateNavigation refQuery="" lgQuery="" setQueryLg={() => { }} page="privacy" setShowLanguageModal={() => { }} />
-        <div className="py-4 flex justify-center items-center">
-          <div className="flex flex-col gap-y-6 md:max-w-[700px] lg:max-w-[750px] px-6 py-6 md:py-10">
-            <Link className="w-max flex items-center gap-x-1" href="/">
-              <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7.65625 16.4062H29.5312C29.8213 16.4062 30.0995 16.5215 30.3046 16.7266C30.5098 16.9317 30.625 17.2099 30.625 17.5C30.625 17.7901 30.5098 18.0683 30.3046 18.2734C30.0995 18.4785 29.8213 18.5938 29.5312 18.5938H7.65625C7.36617 18.5938 7.08797 18.4785 6.88285 18.2734C6.67773 18.0683 6.5625 17.7901 6.5625 17.5C6.5625 17.2099 6.67773 16.9317 6.88285 16.7266C7.08797 16.5215 7.36617 16.4062 7.65625 16.4062Z" fill="#FF6633" />
-                <path d="M8.10906 17.4994L17.1806 26.5688C17.386 26.7742 17.5014 27.0527 17.5014 27.3432C17.5014 27.6336 17.386 27.9122 17.1806 28.1176C16.9753 28.3229 16.6967 28.4383 16.4063 28.4383C16.1158 28.4383 15.8373 28.3229 15.6319 28.1176L5.78813 18.2738C5.68627 18.1722 5.60546 18.0515 5.55032 17.9186C5.49518 17.7857 5.4668 17.6433 5.4668 17.4994C5.4668 17.3556 5.49518 17.2131 5.55032 17.0802C5.60546 16.9474 5.68627 16.8267 5.78813 16.7251L15.6319 6.8813C15.8373 6.67593 16.1158 6.56055 16.4063 6.56055C16.6967 6.56055 16.9753 6.67593 17.1806 6.8813C17.386 7.08668 17.5014 7.36523 17.5014 7.65568C17.5014 7.94613 17.386 8.22468 17.1806 8.43005L8.10906 17.4994Z" fill="#FF6633" />
-              </svg>
-              <span className="text-[#FF6633] text-base leading-normal text-center">Back</span>
-            </Link>
-
-            <p className="text-[24px] md:text-[40px] font-[800] tetx-[#22263A] leading-normal">Moil Privacy Agreement</p>
-
-            <div className="flex flex-col gap-y-6">
-              {privacyAgreement.map((agg, i) => {
-                return (
-                  <div className="text-base leading-normal font-medium">
-                    <p className="font-[700]">{agg.heading}</p>
-                    <p>{agg.text}</p>
-                  </div>
-                )
-              })}
-            </div>
-
-            <p className="text-sm text-[#5C6178]">
-              Looking for our terms? Read the full{" "}
-              <Link href="/terms" className="text-[#FF6633] underline">Moil Terms and Conditions</Link>.
-            </p>
-          </div>
-        </div>
-      </div>
-    </>
-  )
+    <LegalPage title="Moil Privacy Policy" lastUpdated="June 23, 2026" page="privacy" sections={sections}>
+      <p className="text-sm text-[#5C6178]">
+        Related:{" "}
+        <Link href="/cookies" className="text-[#FF6633] underline">Cookie Policy</Link>,{" "}
+        <Link href="/subprocessors" className="text-[#FF6633] underline">Subprocessors</Link>,{" "}
+        <Link href="/privacy-choices" className="text-[#FF6633] underline">Your Privacy Choices</Link>,{" "}
+        <Link href="/dpa" className="text-[#FF6633] underline">Data Processing Addendum</Link>, and{" "}
+        <Link href="/terms" className="text-[#FF6633] underline">Terms and Conditions</Link>.
+      </p>
+    </LegalPage>
+  );
 }

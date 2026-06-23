@@ -1,0 +1,75 @@
+"use client";
+
+import Link from "next/link";
+import CandidateNavigation from "~~/src/candidate/components/navigation";
+
+export type LegalSection = {
+  heading: string;
+  /** Plain text, or inline JSX (e.g. with <Link>s). Newlines in strings are preserved. */
+  text: React.ReactNode;
+};
+
+type LegalPageProps = {
+  title: string;
+  lastUpdated?: string;
+  /** Value passed to the shared nav for active-state purposes. */
+  page: string;
+  /** Optional lead paragraph rendered above the numbered sections. */
+  intro?: React.ReactNode;
+  sections?: LegalSection[];
+  /** Optional custom content rendered after the sections (tables, link lists, etc.). */
+  children?: React.ReactNode;
+};
+
+/**
+ * Shared shell for all legal / compliance pages (privacy, terms, cookies,
+ * subprocessors, DMCA, accessibility, DPA, privacy choices). Keeps the nav,
+ * back link, title, and section styling consistent in one place.
+ */
+export default function LegalPage({
+  title,
+  lastUpdated,
+  page,
+  intro,
+  sections,
+  children,
+}: LegalPageProps) {
+  return (
+    <div className="bg-[#F7F8FC]">
+      <CandidateNavigation refQuery="" lgQuery="" setQueryLg={() => { }} page={page} setShowLanguageModal={() => { }} />
+      <div className="py-4 flex justify-center items-center">
+        <div className="flex flex-col gap-y-6 md:max-w-[700px] lg:max-w-[750px] px-6 py-6 md:py-10">
+          <Link className="w-max flex items-center gap-x-1" href="/">
+            <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.65625 16.4062H29.5312C29.8213 16.4062 30.0995 16.5215 30.3046 16.7266C30.5098 16.9317 30.625 17.2099 30.625 17.5C30.625 17.7901 30.5098 18.0683 30.3046 18.2734C30.0995 18.4785 29.8213 18.5938 29.5312 18.5938H7.65625C7.36617 18.5938 7.08797 18.4785 6.88285 18.2734C6.67773 18.0683 6.5625 17.7901 6.5625 17.5C6.5625 17.2099 6.67773 16.9317 6.88285 16.7266C7.08797 16.5215 7.36617 16.4062 7.65625 16.4062Z" fill="#FF6633" />
+              <path d="M8.10906 17.4994L17.1806 26.5688C17.386 26.7742 17.5014 27.0527 17.5014 27.3432C17.5014 27.6336 17.386 27.9122 17.1806 28.1176C16.9753 28.3229 16.6967 28.4383 16.4063 28.4383C16.1158 28.4383 15.8373 28.3229 15.6319 28.1176L5.78813 18.2738C5.68627 18.1722 5.60546 18.0515 5.55032 17.9186C5.49518 17.7857 5.4668 17.6433 5.4668 17.4994C5.4668 17.3556 5.49518 17.2131 5.55032 17.0802C5.60546 16.9474 5.68627 16.8267 5.78813 16.7251L15.6319 6.8813C15.8373 6.67593 16.1158 6.56055 16.4063 6.56055C16.6967 6.56055 16.9753 6.67593 17.1806 6.8813C17.386 7.08668 17.5014 7.36523 17.5014 7.65568C17.5014 7.94613 17.386 8.22468 17.1806 8.43005L8.10906 17.4994Z" fill="#FF6633" />
+            </svg>
+            <span className="text-[#FF6633] text-base leading-normal text-center">Back</span>
+          </Link>
+
+          <div className="flex flex-col gap-y-2">
+            <p className="text-[24px] md:text-[40px] font-[800] text-[#22263A] leading-normal">{title}</p>
+            {lastUpdated && <p className="text-sm text-[#5C6178]">Last updated: {lastUpdated}</p>}
+          </div>
+
+          {intro && (
+            <p className="text-base leading-normal font-medium text-[#22263A]">{intro}</p>
+          )}
+
+          {sections && (
+            <div className="flex flex-col gap-y-6">
+              {sections.map((s, i) => (
+                <div key={i} className="text-base leading-normal font-medium">
+                  <p className="font-[700]">{s.heading}</p>
+                  <p className="whitespace-pre-line">{s.text}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}
