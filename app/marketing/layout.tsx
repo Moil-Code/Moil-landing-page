@@ -226,6 +226,21 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
           })
         }}
       />
+
+      {/* Breadcrumb structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": baseURL1 },
+              { "@type": "ListItem", "position": 2, "name": "Marketing — Content360", "item": `${baseURL1}/marketing` }
+            ]
+          })
+        }}
+      />
       {children}
     </>
   );
