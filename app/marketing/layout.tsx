@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     siteName: 'Moil',
     images: [
       {
-        url: '/og_image_v2.jpg',
+        url: '/og-marketing.jpg',
         width: 1200,
         height: 630,
         alt: 'Content360 by Moil — AI Content Marketing Calendar for Small Business',
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'AI Marketing for Small Business | Moil',
     description: '30-day content calendar, AI-generated posts, images and video — all built around your specific business. No agency needed. From $25/mo.',
-    images: ['/og_image_v2.jpg'],
+    images: ['/og-marketing.jpg'],
     creator: '@MoilApp',
     site: '@MoilApp',
   },

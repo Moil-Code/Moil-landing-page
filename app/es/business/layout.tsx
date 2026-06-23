@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     locale: 'es_US',
     images: [
       {
-        url: '/og_image_v2.jpg',
+        url: '/og-business-es.jpg',
         width: 1200,
         height: 630,
         alt: 'Moil — Co-fundador con IA para pequeños negocios',

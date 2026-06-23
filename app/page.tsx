@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     url: `${baseURL1}/`,
     images: [
       {
-        url: '/og_image_v2.jpg',
+        url: '/og-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Moil — AI Co-Founder for Small Business',
