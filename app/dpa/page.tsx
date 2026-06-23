@@ -58,7 +58,7 @@ export default function DpaPage() {
 
   return (
     <LegalPage
-      title="Data Processing Addendum"
+      title="Data Processing Addendum (Summary for Business Customers)"
       lastUpdated="June 23, 2026"
       page="dpa"
       intro="This is a plain-language summary for business customers and is not a substitute for the signed Data Processing Addendum, which governs in the event of any conflict."

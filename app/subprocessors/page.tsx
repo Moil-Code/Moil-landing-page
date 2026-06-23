@@ -32,7 +32,7 @@ export default function SubprocessorsPage() {
       title="Moil Subprocessors"
       lastUpdated="June 23, 2026"
       page="subprocessors"
-      intro="Moil uses the third-party providers below to help deliver the Services. They may process personal data on our behalf under contracts that require appropriate confidentiality and security. This list is representative and may change; contact us for the current version."
+      intro="Moil uses the third-party providers below to help deliver the Services. They may process personal data on our behalf under contracts that require appropriate confidentiality and security. This list is representative and current as of the date above; it may change as we add, remove, or replace service providers. Contact us for the most current list."
     >
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-sm">
