@@ -66,7 +66,7 @@ const stats = [
   { number: "94%", label: "Interview success rate" },
   { number: "91%", label: "Retention at 90 days" },
   { number: "58%", label: "Bilingual candidates (vs. 22% avg)" },
-  { number: "$850", label: "Avg cost per hire (vs. $2,400)" },
+  { number: "$75", label: "Avg cost per hire (vs. $2,400)" },
   { number: "11 days", label: "Avg time to hire (vs. 32 days)" },
   { number: "5,000+", label: "Jobs posted monthly" },
   { number: "500+", label: "Businesses hiring with confidence" }
