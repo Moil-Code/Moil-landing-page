@@ -281,7 +281,7 @@ export const es: TranslationKeys = {
       convoResult2Items: [
         'Calendario Content360 de 30 días: completo',
         '🖼 30 imágenes IA generadas — alineadas con la marca',
-        'Empleo publicado en Indeed, ZipRecruiter + 8 más',
+        'Empleo publicado en 2 min — IA buscando candidatos ahora',
         '3 candidatos pre-calificados — mejor coincidencia: 97%, Austin',
         '📄 PDF del plan de negocios — proyecciones a 5 años incluidas',
       ],
@@ -298,11 +298,11 @@ export const es: TranslationKeys = {
       steps: {
         step1: {
           title: 'Dile a Tu Co-Fundador IA Lo Que Necesitas',
-          desc: 'Describe el puesto en lenguaje simple. La IA genera una descripción de trabajo completa, requisitos, evaluación de habilidades, recomendaciones salariales y copia optimizada para plataformas.',
+          desc: 'Describe el puesto en lenguaje simple. La IA genera una descripción de trabajo completa, requisitos, evaluación de habilidades, recomendaciones salariales y copia lista para publicar.',
         },
         step2: {
           title: 'Publica un Puesto en 2 Minutos',
-          desc: 'Indeed · ZipRecruiter · Austin Jobs · Round Rock Hiring · Cedar Park · Grupos de Trabajo en Español · Redes de Oficios Locales · Grupos de Facebook · +3 más. Todo a la vez.',
+          desc: 'Tu empleo se publica en unos dos minutos. La IA de Moil empieza a encontrar candidatos calificados de inmediato — sin reclutador, sin agencia, sin configuración manual.',
         },
         step3: {
           title: 'La IA Califica a Cada Candidato Automáticamente',
@@ -326,6 +326,7 @@ export const es: TranslationKeys = {
       candidate2Detail: '5 años experiencia · Round Rock · EN',
       candidate3Detail: '6 años experiencia · Cedar Park · EN/ES ✓',
       postedTo: 'Clasificado por IA en Cada Señal',
+      matchSignals: ['Habilidades', 'Experiencia', 'Ubicación', 'Idioma EN/ES', 'Disponibilidad', 'Ajuste Salarial'],
       withMoil: 'Con Moil',
       avgCostPerHire: 'costo promedio por contratación',
       industryAvg: 'Promedio de la Industria',
@@ -359,7 +360,7 @@ export const es: TranslationKeys = {
         ['Imágenes Generadas por IA (30/mes)', '✓ Incluido', '✗', '✗'],
         ['Generación de Video IA', '✓ Incluido', '✗', '✗'],
         ['Plan de Negocios para Inversores', '✓ Un clic', '✓ $15,000+', '✗'],
-        ['Contratación Inteligente (IA Matching)', '✓ Publica en 2 min', '✗', '✗'],
+        ['Contratación Inteligente (Matching IA)', '✓ Publica en 2 min', '✗', '✗'],
         ['Coincidencia de Candidatos IA (95%)', '✓ Instantáneo', '✗', '✗'],
         ['Coaching de Negocios 24/7', '✓ Siempre activo', '✗', 'Limitado'],
         ['Sistema de ADN de Marca', '✓ Integrado', '✗', '✗'],

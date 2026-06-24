@@ -279,7 +279,7 @@ export const en = {
       convoResult2Items: [
         '30-day Content360 calendar: complete',
         '🖼 30 AI images generated — brand-aligned',
-        'Job posted to Indeed, ZipRecruiter + 8 more',
+        'Job live in 2 min — AI matching candidates now',
         '3 candidates pre-scored — top match: 97% fit, Austin',
         '📄 Business plan PDF — 5-year projections included',
       ],
@@ -296,11 +296,11 @@ export const en = {
       steps: {
         step1: {
           title: 'Tell Your AI Co-Founder What You Need',
-          desc: 'Describe the role in plain language. AI generates a complete job description, requirements, skills assessment, salary recommendations, and platform-optimized posting copy.',
+          desc: 'Describe the role in plain language. AI generates a complete job description, requirements, skills assessment, salary recommendations, and ready-to-post job copy.',
         },
         step2: {
           title: 'Post a Job in 2 Minutes',
-          desc: 'Indeed · ZipRecruiter · Austin Jobs · Round Rock Hiring · Cedar Park · Spanish Job Groups · Local Trade Networks · Facebook Groups · +3 more. All at once.',
+          desc: 'Your job goes live in about two minutes. Moil’s AI starts matching qualified candidates immediately — no recruiter, no agency, no manual job-board setup.',
         },
         step3: {
           title: 'AI Scores Every Candidate Automatically',
@@ -324,6 +324,7 @@ export const en = {
       candidate2Detail: '5 yrs experience · Round Rock · EN',
       candidate3Detail: '6 yrs experience · Cedar Park · EN/ES ✓',
       postedTo: 'Ranked by AI on Every Signal',
+      matchSignals: ['Skills', 'Experience', 'Location', 'Language EN/ES', 'Availability', 'Salary Fit'],
       withMoil: 'With Moil',
       avgCostPerHire: 'avg cost per hire',
       industryAvg: 'Industry Avg',

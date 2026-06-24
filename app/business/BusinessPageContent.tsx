@@ -753,7 +753,7 @@ export function BusinessPageContent() {
                 {t.business.hiring.postedTo}
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                {['Skills', 'Experience', 'Location', 'Language EN/ES', 'Availability', 'Salary Fit'].map((item, index) => (
+                {t.business.hiring.matchSignals.map((item, index) => (
                   <span key={item} className={`tag ${index < 2 ? 'tag-o' : index < 4 ? 'tag-p' : index === 4 ? 'tag-b' : 'tag-g'}`}>
                     {item}
                   </span>
