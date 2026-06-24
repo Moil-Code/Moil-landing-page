@@ -556,7 +556,7 @@ export const es: TranslationKeys = {
         },
         {
           question: '¿En qué se diferencia Moil de contratar un consultor de negocios?',
-          answer: 'Un consultor de negocios tradicional cobra entre $5,000 y $15,000 por proyecto y toma 2–4 semanas en entregar. Moil entrega investigación de mercado, plan de negocios, estrategia de contenido y configuración de contratación en una sola sesión — por $25–$75 al mes. Un consultor desaparece entre proyectos; Moil está activo 24/7 y recuerda todo de tu negocio.',
+          answer: 'Un consultor de negocios tradicional cobra entre $5,000 y $15,000 por proyecto y toma 2–4 semanas en entregar. Moil entrega investigación de mercado, plan de negocios, estrategia de contenido y configuración de contratación en una sola plataforma — por $25–$75 al mes. Un consultor desaparece entre proyectos; Moil está activo 24/7 y recuerda todo de tu negocio.',
         },
         {
           question: '¿Mis datos de negocio están seguros?',
@@ -584,7 +584,7 @@ export const es: TranslationKeys = {
       headline: 'Deja de dirigir',
       headlineMiddle: 'tu negocio',
       headlineHighlight: 'solo.',
-      subheadline: 'Únete a 500+ pequeños negocios con un co-fundador IA de su lado. Plan de negocios, investigación de mercado, calendario de contenido de 30 días y contratación inteligente — en una sola sesión. Desde $25/mes.',
+      subheadline: 'Únete a 500+ pequeños negocios con un co-fundador IA de su lado. Plan de negocios, investigación de mercado, calendario de contenido de 30 días y contratación inteligente — en una sola plataforma. Desde $25/mes.',
       cta: 'Empieza gratis — sin tarjeta',
       trust: ['Gratis para comenzar', 'Garantía de 30 días', 'Sin tarjeta de crédito', 'Cumple con SOC 2', 'Bilingüe EN/ES'],
       trustedBy: 'Confiado por 500+ pequeños negocios · Aliado EDC + Cámara',

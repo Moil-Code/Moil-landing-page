@@ -217,7 +217,7 @@ export default function BusinessLayout({
                 "name": "How is Moil different from hiring a business consultant?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "A traditional business consultant charges $5,000–$15,000 per engagement and takes 2–4 weeks to deliver. Moil delivers market research, a business plan, content strategy, and hiring setup in one session — for $25–$75 a month. A consultant goes dark between engagements; Moil is on 24/7 and remembers everything about your business."
+                  "text": "A traditional business consultant charges $5,000–$15,000 per engagement and takes 2–4 weeks to deliver. Moil delivers market research, a business plan, content strategy, and hiring setup in one platform — for $25–$75 a month. A consultant goes dark between engagements; Moil is on 24/7 and remembers everything about your business."
                 }
               },
               {
