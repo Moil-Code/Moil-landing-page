@@ -167,7 +167,7 @@ export function BusinessPageContent() {
 
   const hiringStats = [
     { label: t.business.hiring.stats.fasterThanIndeed, target: 2, suffix: ' Min' },
-    { label: t.business.hiring.stats.interviewSuccess, target: 10, suffix: '+' },
+    { label: t.business.hiring.stats.interviewSuccess, target: 95, suffix: '%' },
     { label: t.business.hiring.stats.avgDaysToHire, target: 11 },
     { label: t.business.hiring.stats.avgCostPerHire, target: 75, prefix: '$' },
     { label: t.business.hiring.stats.retention90, target: 2400, prefix: '$' },
@@ -753,7 +753,7 @@ export function BusinessPageContent() {
                 {t.business.hiring.postedTo}
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                {['Indeed', 'ZipRecruiter', 'Austin Jobs', 'Spanish Groups', 'Facebook Groups', '+5 more'].map((item, index) => (
+                {['Skills', 'Experience', 'Location', 'Language EN/ES', 'Availability', 'Salary Fit'].map((item, index) => (
                   <span key={item} className={`tag ${index < 2 ? 'tag-o' : index < 4 ? 'tag-p' : index === 4 ? 'tag-b' : 'tag-g'}`}>
                     {item}
                   </span>
@@ -897,7 +897,7 @@ export function BusinessPageContent() {
             </thead>
             <tbody>
               {comparisonRows.map((row, index) => {
-                const moilColor = row[1].startsWith('✓') ? 'var(--green)' : row[1].startsWith('$15') ? 'var(--orange)' : 'var(--text)';
+                const moilColor = row[1].startsWith('✓') ? 'var(--green)' : row[1].startsWith('$25') ? 'var(--orange)' : 'var(--text)';
                 const consColor = row[2] === '✗' ? 'var(--text3)' : 'var(--text2)';
                 const genColor = row[3] === '✗' ? 'var(--text3)' : 'var(--text2)';
                 return (

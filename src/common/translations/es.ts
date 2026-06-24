@@ -84,7 +84,7 @@ export const es: TranslationKeys = {
       headlineHighlight1: 'mil sombreros.',
       headlineMiddle: 'Planifica, contrata y haz marketing para tu negocio',
       headlineHighlight2: 'por $25 al mes.',
-      subheadline: 'Moil es tu co-fundador con IA — una sola plataforma para crear un plan de negocios, investigar tu mercado, publicar empleos en 10+ plataformas y lanzar un calendario de contenido de 30 días. Totalmente bilingüe inglés y español.',
+      subheadline: 'Moil es tu co-fundador con IA — un cerebro que aprende tu marca y tu negocio y te lleva de una idea desordenada a la ejecución: investigación de mercado, contenido, estrategia, documentos y un coach 24/7. Totalmente bilingüe inglés y español.',
       cta: 'Empieza gratis — sin tarjeta',
       ctaSecondary: 'Prueba al co-fundador IA',
       trust500: '500+ pequeños negocios',
@@ -95,7 +95,7 @@ export const es: TranslationKeys = {
     },
     aeoAnswer: {
       label: '¿Qué es Moil?',
-      body: 'Moil es un co-fundador con IA para pequeños negocios — una plataforma bilingüe (inglés y español) para planear, hacer marketing y contratar. Úsalo para redactar tu plan de negocios, investigar tu mercado, armar un calendario de marketing de contenido de 30 días y publicar tu empleo en 10+ plataformas de contratación. Los planes empiezan en $25 al mes. Más de 500 pequeños negocios confían en Moil, con alianzas con EDC y Cámaras de Comercio.',
+      body: 'Moil es un co-fundador con IA para pequeños negocios — un cerebro que aprende tu marca y tu negocio y te lleva de una idea desordenada a la ejecución. Realiza tu investigación de mercado, crea tu contenido, construye tu estrategia y tus documentos, y te asesora 24/7 mientras haces crecer tu negocio. Totalmente bilingüe en inglés y español, desde $25 al mes. Más de 500 pequeños negocios confían en Moil, con alianzas con EDC y Cámaras de Comercio.',
       lastUpdated: 'Última actualización: junio 2026',
     },
     ticker: {
@@ -104,7 +104,7 @@ export const es: TranslationKeys = {
       content360: 'Content360 — Calendario de 30 Días',
       aiImage: 'Generación de Imágenes con IA',
       aiVideo: 'Generación de Video con IA',
-      smartHiring: 'Contratación Inteligente — 10+ Plataformas',
+      smartHiring: 'Contratación Inteligente — Publica en 2 Minutos',
       candidateMatch: 'Coincidencia de Candidatos IA 95%',
       coach: 'Coach de Negocios IA 24/7',
       documents: 'Creación de Documentos',
@@ -134,7 +134,7 @@ export const es: TranslationKeys = {
         content360Sub: 'Calendario de 30 días · Imágenes IA · Video IA',
         content360Badge: 'Auto',
         smartHiring: 'Contratación Inteligente',
-        smartHiringSub: 'Publica una vez → 10+ plataformas → Candidatos con IA',
+        smartHiringSub: 'Publica en 2 minutos → Candidatos con IA',
         smartHiringBadge: '95% Coincidencia',
         coach: 'Coach de Negocios 24/7',
         coachSub: 'Estrategia, flujo de caja, crecimiento — siempre disponible',
@@ -255,7 +255,7 @@ export const es: TranslationKeys = {
         step5: {
           time: '2 Minutos para Publicar',
           title: 'Contratación Inteligente y Formación de Equipo',
-          desc: 'Una descripción de puesto → publicada automáticamente en 10+ plataformas. La IA califica a cada candidato en habilidades, ubicación, experiencia e idioma. 95% de precisión. 11 días promedio para contratar.',
+          desc: 'Publica un puesto en unos 2 minutos. La IA califica a cada candidato en habilidades, ubicación, experiencia e idioma. 95% de precisión. 11 días promedio para contratar.',
         },
         step6: {
           time: '24/7 — Siempre Activo',
@@ -276,7 +276,7 @@ export const es: TranslationKeys = {
         '📄 Reporte de 24 páginas listo para descargar →',
       ],
       convoUser2: 'Construye la estrategia de contenido de 30 días e inicia el pipeline de contratación para 3 técnicos HVAC.',
-      convoAi2: 'En ello. Construyendo tu calendario Content360 + abriendo contratación en 10+ plataformas ahora.',
+      convoAi2: 'En ello. Construyendo tu calendario Content360 + publicando tu puesto en 2 minutos ahora.',
       convoResult2Title: '✓ Todos los Sistemas Activos',
       convoResult2Items: [
         'Calendario Content360 de 30 días: completo',
@@ -294,14 +294,14 @@ export const es: TranslationKeys = {
       headlineHighlight1: '5× Más Rápido',
       headlineMiddle: 'Que',
       headlineHighlight2: 'Cualquier Otro.',
-      subheadline: 'Publica una vez. Alcanza 10+ plataformas automáticamente. Obtén candidatos coincidentes con IA con 95% de precisión. Tiempo promedio para contratar: 11 días.',
+      subheadline: 'Publica un puesto en 2 minutos. Obtén candidatos coincidentes con IA con 95% de precisión. Tiempo promedio para contratar: 11 días.',
       steps: {
         step1: {
           title: 'Dile a Tu Co-Fundador IA Lo Que Necesitas',
           desc: 'Describe el puesto en lenguaje simple. La IA genera una descripción de trabajo completa, requisitos, evaluación de habilidades, recomendaciones salariales y copia optimizada para plataformas.',
         },
         step2: {
-          title: 'Publicado Automáticamente en 10+ Plataformas en 2 Minutos',
+          title: 'Publica un Puesto en 2 Minutos',
           desc: 'Indeed · ZipRecruiter · Austin Jobs · Round Rock Hiring · Cedar Park · Grupos de Trabajo en Español · Redes de Oficios Locales · Grupos de Facebook · +3 más. Todo a la vez.',
         },
         step3: {
@@ -315,7 +315,7 @@ export const es: TranslationKeys = {
       },
       stats: {
         fasterThanIndeed: 'Minutos para Publicar un Empleo',
-        interviewSuccess: 'Plataformas Alcanzadas al Instante',
+        interviewSuccess: 'Precisión de Matching IA',
         retention90: 'Costo Promedio por Contratación (Industria)',
         avgDaysToHire: 'Días Promedio para Contratar',
         avgCostPerHire: 'Tu Costo por Contratación con Moil',
@@ -325,7 +325,7 @@ export const es: TranslationKeys = {
       candidate1Detail: '8 años experiencia · Austin · EN/ES ✓',
       candidate2Detail: '5 años experiencia · Round Rock · EN',
       candidate3Detail: '6 años experiencia · Cedar Park · EN/ES ✓',
-      postedTo: '✓ Publicado en 10+ Plataformas',
+      postedTo: 'Clasificado por IA en Cada Señal',
       withMoil: 'Con Moil',
       avgCostPerHire: 'costo promedio por contratación',
       industryAvg: 'Promedio de la Industria',
@@ -359,7 +359,7 @@ export const es: TranslationKeys = {
         ['Imágenes Generadas por IA (30/mes)', '✓ Incluido', '✗', '✗'],
         ['Generación de Video IA', '✓ Incluido', '✗', '✗'],
         ['Plan de Negocios para Inversores', '✓ Un clic', '✓ $15,000+', '✗'],
-        ['Contratación Inteligente (10+ Plataformas)', '✓ Auto-publicar', '✗', '✗'],
+        ['Contratación Inteligente (IA Matching)', '✓ Publica en 2 min', '✗', '✗'],
         ['Coincidencia de Candidatos IA (95%)', '✓ Instantáneo', '✗', '✗'],
         ['Coaching de Negocios 24/7', '✓ Siempre activo', '✗', 'Limitado'],
         ['Sistema de ADN de Marca', '✓ Integrado', '✗', '✗'],
@@ -420,24 +420,6 @@ export const es: TranslationKeys = {
       billed: 'Facturado',
       billedAnnually: 'Facturado anualmente',
       save: 'Ahorra',
-      starter: {
-        name: 'Inicial',
-        tagline: 'Caja de herramientas IA completa para negocios que recién comienzan.',
-        cta: 'Comenzar →',
-        monthlyPrice: '$15',
-        annualPrice: '$150',
-        annualOriginalPrice: '$180',
-        features: [
-          'Coach de Negocios IA e Investigación de Mercado',
-          'Hasta 3 publicaciones de empleo/mes',
-          '75 imágenes generadas por IA',
-          '75 ediciones de imágenes IA',
-          '5 min de generación de audio',
-          'Caja de herramientas IA completa de Moil',
-          'Bilingüe: Inglés y Español',
-          'Analíticas avanzadas',
-        ],
-      },
       professional: {
         name: 'Profesional',
         tagline: 'Más capacidad para negocios en crecimiento con necesidades activas de contratación y contenido.',
@@ -512,7 +494,7 @@ export const es: TranslationKeys = {
       items: [
         {
           question: '¿Qué hace Moil por los pequeños negocios?',
-          answer: 'Moil es un co-fundador con IA para pequeños negocios — una plataforma bilingüe (inglés y español) para planear, hacer marketing y contratar. Úsalo para redactar tu plan de negocios, investigar tu mercado, armar un calendario de marketing de contenido de 30 días y publicar tu vacante en 10+ plataformas de contratación. Empieza en $25 al mes, y más de 500 pequeños negocios confían en Moil, con alianzas con EDC y Cámaras de Comercio.',
+          answer: 'Moil es un co-fundador con IA para pequeños negocios — un cerebro que aprende tu marca y tu negocio y te lleva de una idea desordenada a la ejecución. Realiza tu investigación de mercado, crea tu contenido, construye tu estrategia y tus documentos (desde el plan de negocios hasta lo que necesites), y te asesora 24/7 mientras haces crecer tu negocio. Es bilingüe en inglés y español, empieza en $25 al mes, y más de 500 pequeños negocios confían en Moil, con alianzas con EDC y Cámaras de Comercio.',
         },
         {
           question: '¿Cuánto cuesta Moil?',
@@ -524,7 +506,7 @@ export const es: TranslationKeys = {
         },
         {
           question: '¿Cómo funciona la contratación inteligente en Moil?',
-          answer: 'Publicas una vacante una vez y Moil la distribuye en 10+ plataformas de contratación automáticamente. Después, la IA de Moil puntúa y clasifica a cada candidato con 95% de precisión en habilidades, experiencia, ubicación e idioma. El tiempo promedio para contratar en Moil es de 11 días, comparado con el promedio de pequeños negocios de 83.5 días (SHRM 2025 Recruiting Benchmarking Report) — aproximadamente 87% más rápido.',
+          answer: 'Publicas una vacante en unos dos minutos, y la IA de Moil puntúa y clasifica a cada candidato con 95% de precisión en habilidades, experiencia, ubicación e idioma. El tiempo promedio para contratar en Moil es de 11 días, comparado con el promedio de pequeños negocios de 83.5 días (SHRM 2025 Recruiting Benchmarking Report) — aproximadamente 87% más rápido.',
         },
         {
           question: '¿Qué tan precisa es la coincidencia de candidatos con IA de Moil?',
@@ -540,7 +522,7 @@ export const es: TranslationKeys = {
         },
         {
           question: '¿En qué se diferencia Moil de ChatGPT u otras IAs genéricas?',
-          answer: 'Las herramientas de IA genéricas son lienzos en blanco — cada sesión empieza de cero, tú eres quien integra todo, y los resultados son borradores. Moil está diseñado específicamente para dueños de pequeños negocios. Aprende tu negocio a través de una incorporación estructurada, mantiene contexto entre sesiones, integra datos reales de mercado, genera activos de marketing reales (imágenes y video), se conecta a 10+ plataformas de contratación y entrega resultados terminados, listos para usar.',
+          answer: 'Las herramientas de IA genéricas son lienzos en blanco — cada sesión empieza de cero, tú eres quien integra todo, y los resultados son borradores. Moil está diseñado específicamente para dueños de pequeños negocios. Aprende tu negocio a través de una incorporación estructurada, mantiene contexto entre sesiones, integra datos reales de mercado, genera activos de marketing reales (imágenes y video), incluye publicación de empleos en 2 minutos con matching de candidatos por IA y entrega resultados terminados, listos para usar.',
         },
         {
           question: 'Moil vs LivePlan, Bizway o Upmetrics — ¿cuál es mejor para planificación de negocios?',
@@ -548,7 +530,7 @@ export const es: TranslationKeys = {
         },
         {
           question: 'Moil vs ZipRecruiter, Workable o Indeed Smart Sourcing — ¿cuál es mejor para contratar?',
-          answer: 'ZipRecruiter, Workable e Indeed Smart Sourcing son plataformas dedicadas a contratación — hacen contratación bien, pero solo contratación, y la mayoría empiezan en $299/mes o más cuando necesitas publicación multi-canal y matching de candidatos. Moil incluye Contratación Inteligente como una función dentro de una plataforma más amplia: publica una vez, distribuye en 10+ portales de empleo, puntúa candidatos con 95% de precisión, y promedia 11 días para contratar vs. el benchmark de pequeños negocios de 83.5 días (SHRM 2025). Todo por $25–$75/mes total — y bilingüe EN/ES, algo que la mayoría de ATS no son.',
+          answer: 'ZipRecruiter, Workable e Indeed Smart Sourcing son plataformas dedicadas a contratación — hacen contratación bien, pero solo contratación, y la mayoría empiezan en $299/mes o más cuando necesitas publicación multi-canal y matching de candidatos. Moil incluye Contratación Inteligente como una función dentro de una plataforma más amplia: publica un puesto en unos dos minutos, puntúa candidatos con 95% de precisión, y promedia 11 días para contratar vs. el benchmark de pequeños negocios de 83.5 días (SHRM 2025). Todo por $25–$75/mes total — y bilingüe EN/ES, algo que la mayoría de ATS no son.',
         },
         {
           question: 'Moil vs Buffer, Later o Hootsuite — ¿cuál es mejor para marketing de contenido?',

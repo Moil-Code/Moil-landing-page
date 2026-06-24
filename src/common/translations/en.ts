@@ -82,7 +82,7 @@ export const en = {
       headlineHighlight1: 'every hat.',
       headlineMiddle: 'Plan, hire, and market your business',
       headlineHighlight2: 'for $25 a month.',
-      subheadline: 'Moil is your AI co-founder — one platform to build a business plan, run market research, post jobs to 10+ platforms, and ship a 30-day content calendar. Bilingual English & Spanish.',
+      subheadline: 'Moil is your AI co-founder — a brain that learns your brand and business and takes you from a messy idea to execution: market research, content, strategy, documents, and a 24/7 coach. Bilingual English & Spanish.',
       cta: 'Start free — no credit card',
       ctaSecondary: 'Try the AI co-founder',
       trust500: '500+ small businesses',
@@ -93,7 +93,7 @@ export const en = {
     },
     aeoAnswer: {
       label: 'What is Moil?',
-      body: 'Moil is an AI co-founder for small businesses — one bilingual (English & Spanish) platform to plan, market, and hire. Use it to write a business plan, run market research, build a 30-day content marketing calendar, and post your job to 10+ hiring platforms. Plans start at $25 a month. Trusted by 500+ small businesses, with EDC and Chamber of Commerce partnerships.',
+      body: 'Moil is an AI co-founder for small businesses — a brain that learns your brand and business and takes you from a messy idea to execution. It runs your market research, creates your content, builds your strategy and documents, and coaches you 24/7 as you run and grow your business. Fully bilingual in English and Spanish, from $25 a month. Trusted by 500+ small businesses, with EDC and Chamber of Commerce partnerships.',
       lastUpdated: 'Last updated: June 2026',
     },
     ticker: {
@@ -102,7 +102,7 @@ export const en = {
       content360: 'Content360 — 30-Day Calendar',
       aiImage: 'AI Image Generation',
       aiVideo: 'AI Video Generation',
-      smartHiring: 'Smart Hiring — 10+ Platforms',
+      smartHiring: 'Smart Hiring — 2-Minute Job Posts',
       candidateMatch: 'Candidate AI Matching 95%',
       coach: '24/7 AI Business Coach',
       documents: 'Document Creation',
@@ -132,7 +132,7 @@ export const en = {
         content360Sub: '30-day calendar · AI images · AI video',
         content360Badge: 'Auto',
         smartHiring: 'Smart Hiring',
-        smartHiringSub: 'Post once → 10+ platforms → AI-matched candidates',
+        smartHiringSub: 'Post a job in 2 minutes → AI-matched candidates',
         smartHiringBadge: '95% Match',
         coach: '24/7 Business Coach',
         coachSub: 'Strategy, cash flow, growth — always available',
@@ -253,7 +253,7 @@ export const en = {
         step5: {
           time: '2 Minutes to Post',
           title: 'Smart Hiring & Team Building',
-          desc: 'One job description → auto-posted to 10+ platforms. AI scores every candidate on skills, location, experience, and language fit. 95% match accuracy. 11-day average to hire.',
+          desc: 'Post a job in about 2 minutes. AI scores every candidate on skills, location, experience, and language fit. 95% match accuracy. 11-day average to hire.',
         },
         step6: {
           time: '24/7 — Always On',
@@ -274,7 +274,7 @@ export const en = {
         '📄 24-page report ready to download →',
       ],
       convoUser2: 'Build me the 30-day content strategy and start the hiring pipeline for 3 HVAC techs.',
-      convoAi2: 'On it. Building your Content360 calendar + opening hiring on 10+ platforms now.',
+      convoAi2: 'On it. Building your Content360 calendar + posting your job in 2 minutes now.',
       convoResult2Title: '✓ All Systems Active',
       convoResult2Items: [
         '30-day Content360 calendar: complete',
@@ -292,14 +292,14 @@ export const en = {
       headlineHighlight1: '5× Faster',
       headlineMiddle: 'Than',
       headlineHighlight2: 'Anyone Else.',
-      subheadline: 'Post once. Reach 10+ platforms automatically. Get AI-matched candidates with 95% accuracy. Average time to hire: 11 days.',
+      subheadline: 'Post a job in 2 minutes. Get AI-matched candidates with 95% accuracy. Average time to hire: 11 days.',
       steps: {
         step1: {
           title: 'Tell Your AI Co-Founder What You Need',
           desc: 'Describe the role in plain language. AI generates a complete job description, requirements, skills assessment, salary recommendations, and platform-optimized posting copy.',
         },
         step2: {
-          title: 'Auto-Posted to 10+ Platforms in 2 Minutes',
+          title: 'Post a Job in 2 Minutes',
           desc: 'Indeed · ZipRecruiter · Austin Jobs · Round Rock Hiring · Cedar Park · Spanish Job Groups · Local Trade Networks · Facebook Groups · +3 more. All at once.',
         },
         step3: {
@@ -313,7 +313,7 @@ export const en = {
       },
       stats: {
         fasterThanIndeed: 'Minutes to Post a Job',
-        interviewSuccess: 'Platforms Reached Instantly',
+        interviewSuccess: 'AI Match Accuracy',
         retention90: 'Industry Avg Cost Per Hire',
         avgDaysToHire: 'Days to Hire on Average',
         avgCostPerHire: 'Your Cost Per Hire with Moil',
@@ -323,7 +323,7 @@ export const en = {
       candidate1Detail: '8 yrs experience · Austin · EN/ES ✓',
       candidate2Detail: '5 yrs experience · Round Rock · EN',
       candidate3Detail: '6 yrs experience · Cedar Park · EN/ES ✓',
-      postedTo: '✓ Posted to 10+ Platforms',
+      postedTo: 'Ranked by AI on Every Signal',
       withMoil: 'With Moil',
       avgCostPerHire: 'avg cost per hire',
       industryAvg: 'Industry Avg',
@@ -357,7 +357,7 @@ export const en = {
         ['AI-Generated Images (30/month)', '✓ Included', '✗', '✗'],
         ['AI Video Generation', '✓ Included', '✗', '✗'],
         ['Investor-Ready Business Plan', '✓ One click', '✓ $15,000+', '✗'],
-        ['Smart Hiring (10+ Platforms)', '✓ Auto-post', '✗', '✗'],
+        ['Smart Hiring (AI Matching)', '✓ 2-min post', '✗', '✗'],
         ['Candidate AI Matching (95%)', '✓ Instant', '✗', '✗'],
         ['24/7 Business Coaching', '✓ Always on', '✗', 'Limited'],
         ['Brand DNA System', '✓ Built-in', '✗', '✗'],
@@ -418,24 +418,6 @@ export const en = {
       billed: 'Billed',
       billedAnnually: 'Billed annually',
       save: 'Save',
-      starter: {
-        name: 'Starter',
-        tagline: 'Full AI toolbox for businesses just getting started.',
-        cta: 'Get Started →',
-        monthlyPrice: '$15',
-        annualPrice: '$150',
-        annualOriginalPrice: '$180',
-        features: [
-          'AI Business Coach & Market Research',
-          'Up to 3 job postings/month',
-          '75 AI-generated images',
-          '75 AI image edits',
-          '5 min audio generation',
-          'Full Moil AI toolbox',
-          'Bilingual: English & Spanish',
-          'Advanced analytics',
-        ],
-      },
       professional: {
         name: 'Professional',
         tagline: 'More capacity for growing businesses with active hiring and content needs.',
@@ -510,7 +492,7 @@ export const en = {
       items: [
         {
           question: 'What does Moil do for small businesses?',
-          answer: 'Moil is an AI co-founder for small businesses — one bilingual (English & Spanish) platform to plan, market, and hire. Use it to write a business plan, run market research, build a 30-day content marketing calendar, and post your job to 10+ hiring platforms. It starts at $25 a month and is trusted by 500+ small businesses with EDC and Chamber of Commerce partnerships.',
+          answer: 'Moil is an AI co-founder for small businesses — a brain that learns your brand and business and takes you from a messy idea to execution. It runs your market research, creates your content, builds your strategy and documents (from a business plan to whatever you need), and coaches you 24/7 as you run and grow. It is bilingual in English and Spanish, starts at $25 a month, and is trusted by 500+ small businesses with EDC and Chamber of Commerce partnerships.',
         },
         {
           question: 'How much does Moil cost?',
@@ -522,7 +504,7 @@ export const en = {
         },
         {
           question: 'How does smart hiring work on Moil?',
-          answer: 'You post a job once and Moil distributes it to 10+ hiring platforms automatically. Moil’s AI then scores and ranks every candidate with 95% accuracy across skills, experience, location, and language. Average time to hire on Moil is 11 days, compared to the SMB benchmark of 83.5 days (SHRM 2025 Recruiting Benchmarking Report) — roughly 87% faster.',
+          answer: 'You post a job in about two minutes, and Moil’s AI then scores and ranks every candidate with 95% accuracy across skills, experience, location, and language. Average time to hire on Moil is 11 days, compared to the SMB benchmark of 83.5 days (SHRM 2025 Recruiting Benchmarking Report) — roughly 87% faster.',
         },
         {
           question: 'How accurate is Moil’s AI candidate matching?',
@@ -538,7 +520,7 @@ export const en = {
         },
         {
           question: 'How is Moil different from ChatGPT or other generic AI tools?',
-          answer: 'Generic AI tools are blank slates — every session starts from zero, you’re the integrator, and outputs are rough drafts. Moil is purpose-built for small business owners. It learns your specific business through structured onboarding, maintains context across sessions, integrates real market data, generates actual marketing assets (images and video), connects to 10+ hiring platforms, and delivers finished, ready-to-use outputs.',
+          answer: 'Generic AI tools are blank slates — every session starts from zero, you’re the integrator, and outputs are rough drafts. Moil is purpose-built for small business owners. It learns your specific business through structured onboarding, maintains context across sessions, integrates real market data, generates actual marketing assets (images and video), includes 2-minute job posting with AI candidate matching, and delivers finished, ready-to-use outputs.',
         },
         {
           question: 'Moil vs LivePlan, Bizway, or Upmetrics — which is best for business planning?',
@@ -546,7 +528,7 @@ export const en = {
         },
         {
           question: 'Moil vs ZipRecruiter, Workable, or Indeed Smart Sourcing — which is best for hiring?',
-          answer: 'ZipRecruiter, Workable, and Indeed Smart Sourcing are dedicated hiring platforms — they do hiring well, but only hiring, and most start at $299/month or more once you need multi-channel posting and candidate matching. Moil includes Smart Hiring as one feature in a larger platform: post once, distribute to 10+ job boards, score candidates with 95% AI accuracy, and average 11 days to hire vs. the SMB benchmark of 83.5 days (SHRM 2025). All for $25–$75/month total — and bilingual EN/ES, which most ATS tools aren’t.',
+          answer: 'ZipRecruiter, Workable, and Indeed Smart Sourcing are dedicated hiring platforms — they do hiring well, but only hiring, and most start at $299/month or more once you need multi-channel posting and candidate matching. Moil includes Smart Hiring as one feature in a larger platform: post a job in about two minutes, score candidates with 95% AI accuracy, and average 11 days to hire vs. the SMB benchmark of 83.5 days (SHRM 2025). All for $25–$75/month total — and bilingual EN/ES, which most ATS tools aren’t.',
         },
         {
           question: 'Moil vs Buffer, Later, or Hootsuite — which is best for content marketing?',
