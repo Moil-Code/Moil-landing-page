@@ -82,7 +82,7 @@ export const en = {
       headlineHighlight1: 'every hat.',
       headlineMiddle: 'Plan, hire, and market your business',
       headlineHighlight2: 'for $25 a month.',
-      subheadline: 'Moil is your AI co-founder. Build a business plan, run market research, post jobs to 10+ platforms, and ship a 30-day content calendar — in one session. Bilingual English & Spanish.',
+      subheadline: 'Moil is your AI co-founder — one platform to build a business plan, run market research, post jobs to 10+ platforms, and ship a 30-day content calendar. Bilingual English & Spanish.',
       cta: 'Start free — no credit card',
       ctaSecondary: 'Try the AI co-founder',
       trust500: '500+ small businesses',
@@ -93,7 +93,7 @@ export const en = {
     },
     aeoAnswer: {
       label: 'What is Moil?',
-      body: 'Moil is an AI co-founder for small businesses. In one guided session it writes your business plan, runs market research, builds a 30-day content marketing calendar, and posts your job to 10+ hiring platforms — fully bilingual in English and Spanish. Plans start at $25 a month. Trusted by 500+ small businesses, with EDC and Chamber of Commerce partnerships.',
+      body: 'Moil is an AI co-founder for small businesses — one bilingual (English & Spanish) platform to plan, market, and hire. Use it to write a business plan, run market research, build a 30-day content marketing calendar, and post your job to 10+ hiring platforms. Plans start at $25 a month. Trusted by 500+ small businesses, with EDC and Chamber of Commerce partnerships.',
       lastUpdated: 'Last updated: June 2026',
     },
     ticker: {
@@ -510,7 +510,7 @@ export const en = {
       items: [
         {
           question: 'What does Moil do for small businesses?',
-          answer: 'Moil is an AI co-founder for small businesses. In one guided session it writes your business plan, runs market research, builds a 30-day content marketing calendar, and posts your job to 10+ hiring platforms. It’s fully bilingual in English and Spanish, starts at $25 a month, and is trusted by 500+ small businesses with EDC and Chamber of Commerce partnerships.',
+          answer: 'Moil is an AI co-founder for small businesses — one bilingual (English & Spanish) platform to plan, market, and hire. Use it to write a business plan, run market research, build a 30-day content marketing calendar, and post your job to 10+ hiring platforms. It starts at $25 a month and is trusted by 500+ small businesses with EDC and Chamber of Commerce partnerships.',
         },
         {
           question: 'How much does Moil cost?',

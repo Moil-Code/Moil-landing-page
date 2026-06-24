@@ -129,7 +129,7 @@ export default function BusinessLayout({
                 "name": "What does Moil do for small businesses?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Moil is an AI co-founder for small businesses. In one guided session it writes your business plan, runs market research, builds a 30-day content marketing calendar, and posts your job to 10+ hiring platforms. It’s fully bilingual in English and Spanish, starts at $25 a month, and is trusted by 500+ small businesses with EDC and Chamber of Commerce partnerships."
+                  "text": "Moil is an AI co-founder for small businesses — one bilingual (English & Spanish) platform to plan, market, and hire. Use it to write a business plan, run market research, build a 30-day content marketing calendar, and post your job to 10+ hiring platforms. It starts at $25 a month and is trusted by 500+ small businesses with EDC and Chamber of Commerce partnerships."
                 }
               },
               {
@@ -321,7 +321,7 @@ export default function BusinessLayout({
             "@context": "https://schema.org",
             "@type": "HowTo",
             "name": "How to Create a Complete Business Plan with AI in Under 30 Minutes",
-            "description": "Use Moil's AI co-founder to generate a full business plan, market research, content calendar, and hiring pipeline in one guided session.",
+            "description": "Use Moil's AI co-founder to generate a business plan, market research, a 30-day content calendar, and a hiring pipeline.",
             "totalTime": "PT30M",
             "estimatedCost": {
               "@type": "MonetaryAmount",

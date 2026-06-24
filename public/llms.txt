@@ -1,6 +1,6 @@
 # Moil
 
-> Moil is an AI co-founder for small businesses. In one guided session it writes your business plan, runs market research, builds a 30-day content marketing calendar, and posts your job to 10+ hiring platforms — fully bilingual in English and Spanish. Plans start at $25/month and the first AI co-founder conversation is free. Trusted by 500+ small businesses, with Economic Development Corporation and Chamber of Commerce partnerships.
+> Moil is an AI co-founder for small businesses — one bilingual (English & Spanish) platform to plan, market, and hire. Use it to write a business plan, run market research, build a 30-day content marketing calendar, and post your job to 10+ hiring platforms. Plans start at $25/month and the first AI co-founder conversation is free. Trusted by 500+ small businesses, with Economic Development Corporation and Chamber of Commerce partnerships.
 
 ## Core pages
 - [For Business](https://www.moilapp.com/business): AI business-plan generation, market research, Content360 marketing, and smart hiring for small-business owners.

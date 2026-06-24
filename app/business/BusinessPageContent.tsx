@@ -169,7 +169,7 @@ export function BusinessPageContent() {
     { label: t.business.hiring.stats.fasterThanIndeed, target: 2, suffix: ' Min' },
     { label: t.business.hiring.stats.interviewSuccess, target: 10, suffix: '+' },
     { label: t.business.hiring.stats.avgDaysToHire, target: 11 },
-    { label: t.business.hiring.stats.avgCostPerHire, target: 850, prefix: '$' },
+    { label: t.business.hiring.stats.avgCostPerHire, target: 75, prefix: '$' },
     { label: t.business.hiring.stats.retention90, target: 2400, prefix: '$' },
     { label: t.business.hiring.stats.bilingualReach, target: 58, suffix: '%' },
   ];
@@ -184,9 +184,9 @@ export function BusinessPageContent() {
     { label: t.business.statsSection.stats.businessesTrusting, target: 500, suffix: '+' },
     { label: t.business.statsSection.stats.jobsPostedMonthly, target: 5000, suffix: '+' },
     { label: t.business.statsSection.stats.interviewSuccessRate, target: 2, suffix: ' Min' },
-    { label: t.business.statsSection.stats.avgCostPerHire, target: 850, prefix: '$' },
+    { label: t.business.statsSection.stats.avgCostPerHire, target: 75, prefix: '$' },
     { label: t.business.statsSection.stats.retention90, target: 11 },
-    { label: t.business.statsSection.stats.startingPrice, target: 15, prefix: '$' },
+    { label: t.business.statsSection.stats.startingPrice, target: 25, prefix: '$' },
   ];
 
   const comparisonRows = t.business.compare.rows;
@@ -764,7 +764,7 @@ export function BusinessPageContent() {
             <div style={{ marginTop: '10px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               <div style={{ padding: '16px', background: 'var(--orange-dim)', border: '1px solid rgba(255,92,26,0.2)', borderRadius: '10px', textAlign: 'center' }}>
                 <div style={{ fontFamily: 'var(--mono)', fontSize: '9px', color: 'var(--orange)', textTransform: 'uppercase', marginBottom: '6px' }}>{t.business.hiring.withMoil}</div>
-                <div style={{ fontFamily: 'var(--mono)', fontSize: '22px', fontWeight: 700, color: 'var(--orange)' }}>$850</div>
+                <div style={{ fontFamily: 'var(--mono)', fontSize: '22px', fontWeight: 700, color: 'var(--orange)' }}>$75</div>
                 <div style={{ fontSize: '10px', color: 'var(--text3)' }}>{t.business.hiring.avgCostPerHire}</div>
               </div>
               <div style={{ padding: '16px', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '10px', textAlign: 'center' }}>

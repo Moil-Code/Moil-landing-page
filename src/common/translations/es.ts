@@ -84,7 +84,7 @@ export const es: TranslationKeys = {
       headlineHighlight1: 'mil sombreros.',
       headlineMiddle: 'Planifica, contrata y haz marketing para tu negocio',
       headlineHighlight2: 'por $25 al mes.',
-      subheadline: 'Moil es tu co-fundador con IA. Crea un plan de negocios, investiga tu mercado, publica empleos en 10+ plataformas y lanza un calendario de contenido de 30 días — en una sola sesión. Totalmente bilingüe inglés y español.',
+      subheadline: 'Moil es tu co-fundador con IA — una sola plataforma para crear un plan de negocios, investigar tu mercado, publicar empleos en 10+ plataformas y lanzar un calendario de contenido de 30 días. Totalmente bilingüe inglés y español.',
       cta: 'Empieza gratis — sin tarjeta',
       ctaSecondary: 'Prueba al co-fundador IA',
       trust500: '500+ pequeños negocios',
@@ -95,7 +95,7 @@ export const es: TranslationKeys = {
     },
     aeoAnswer: {
       label: '¿Qué es Moil?',
-      body: 'Moil es un co-fundador con IA para pequeños negocios. En una sola sesión guiada redacta tu plan de negocios, realiza investigación de mercado, arma un calendario de marketing de contenido de 30 días y publica tu empleo en 10+ plataformas de contratación — totalmente bilingüe en inglés y español. Los planes empiezan en $25 al mes. Más de 500 pequeños negocios confían en Moil, con alianzas con EDC y Cámaras de Comercio.',
+      body: 'Moil es un co-fundador con IA para pequeños negocios — una plataforma bilingüe (inglés y español) para planear, hacer marketing y contratar. Úsalo para redactar tu plan de negocios, investigar tu mercado, armar un calendario de marketing de contenido de 30 días y publicar tu empleo en 10+ plataformas de contratación. Los planes empiezan en $25 al mes. Más de 500 pequeños negocios confían en Moil, con alianzas con EDC y Cámaras de Comercio.',
       lastUpdated: 'Última actualización: junio 2026',
     },
     ticker: {
@@ -512,7 +512,7 @@ export const es: TranslationKeys = {
       items: [
         {
           question: '¿Qué hace Moil por los pequeños negocios?',
-          answer: 'Moil es un co-fundador con IA para pequeños negocios. En una sesión guiada redacta tu plan de negocios, realiza investigación de mercado, arma un calendario de marketing de contenido de 30 días y publica tu vacante en 10+ plataformas de contratación. Es totalmente bilingüe en inglés y español, empieza en $25 al mes, y más de 500 pequeños negocios confían en Moil, con alianzas con EDC y Cámaras de Comercio.',
+          answer: 'Moil es un co-fundador con IA para pequeños negocios — una plataforma bilingüe (inglés y español) para planear, hacer marketing y contratar. Úsalo para redactar tu plan de negocios, investigar tu mercado, armar un calendario de marketing de contenido de 30 días y publicar tu vacante en 10+ plataformas de contratación. Empieza en $25 al mes, y más de 500 pequeños negocios confían en Moil, con alianzas con EDC y Cámaras de Comercio.',
         },
         {
           question: '¿Cuánto cuesta Moil?',
