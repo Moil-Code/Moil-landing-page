@@ -25,8 +25,8 @@ const hiringSteps = [
   },
   {
     step: "3",
-    title: "Auto-Posts to 10+ Platforms",
-    platforms: "Austin Jobs • Round Rock Hiring • Cedar Park Opportunities • Spanish Job Groups • Local Trade Networks • 5+ more targeted groups",
+    title: "AI-Matches Qualified Candidates",
+    platforms: "Scored on skills • experience • location • language fit • availability • 95% match accuracy",
     distribution: [
       { day: "Monday", action: "Initial post with AI-optimized copy" },
       { day: "Wednesday", action: "Skills highlight and benefits" },
@@ -66,7 +66,7 @@ const stats = [
   { number: "94%", label: "Interview success rate" },
   { number: "91%", label: "Retention at 90 days" },
   { number: "58%", label: "Bilingual candidates (vs. 22% avg)" },
-  { number: "$850", label: "Avg cost per hire (vs. $2,400)" },
+  { number: "$75", label: "Avg cost per hire (vs. $2,400)" },
   { number: "11 days", label: "Avg time to hire (vs. 32 days)" },
   { number: "5,000+", label: "Jobs posted monthly" },
   { number: "500+", label: "Businesses hiring with confidence" }
@@ -107,8 +107,8 @@ export default function SmartHiring({ refQuery, lgQuery }: SmartHiringProps) {
             <span className="bg-gradient-to-r from-[#FF6633] via-orange-500 to-[#FF6633] bg-clip-text text-transparent">5x Faster</span>
           </h2>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed px-4">
-            Your AI Coach doesn&apos;t just plan your business—it helps you build your team. Post once,
-            reach 10+ platforms, and get matched with qualified candidates automatically.
+            Your AI Coach doesn&apos;t just plan your business—it helps you build your team. Post a job
+            in about 2 minutes and get matched with qualified candidates automatically.
           </p>
         </div>
 

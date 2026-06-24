@@ -98,8 +98,8 @@ export const journeySteps: JourneyStep[] = [
     time: '2 MIN TO POST',
     title: 'Smart Hiring & Team Building',
     description:
-      'Post once, reach 10+ platforms automatically. AI scores every candidate on skills, location, experience, and language fit. 95% accuracy. 11-day average time to hire.',
-    outputs: ['10+ Platforms', '95% Accuracy', 'Bilingual Matching', 'Auto-Screening'],
+      'Post a job in about 2 minutes. AI scores every candidate on skills, location, experience, and language fit. 95% accuracy. 11-day average time to hire.',
+    outputs: ['2-Min Job Post', '95% Accuracy', 'Bilingual Matching', 'Auto-Screening'],
   },
   {
     number: '06',
@@ -277,7 +277,7 @@ export const comparisonRows: ComparisonRow[] = [
     aiTool: 'x',
   },
   {
-    feature: 'Smart Hiring (10+ Platforms)',
+    feature: 'Smart Hiring (AI Matching)',
     moil: 'check',
     consultant: 'x',
     aiTool: 'x',
@@ -446,8 +446,8 @@ const journeyStepsEs: JourneyStep[] = [
     time: '2 MIN PARA PUBLICAR',
     title: 'Contratación Inteligente y Construcción de Equipo',
     description:
-      'Publica una vez, llega a 10+ plataformas automáticamente. La IA evalúa cada candidato por habilidades, ubicación, experiencia e idioma. 95% de precisión. 11 días promedio para contratar.',
-    outputs: ['10+ Plataformas', '95% de Precisión', 'Matching Bilingüe', 'Preselección Automática'],
+      'Publica un puesto en unos 2 minutos. La IA evalúa cada candidato por habilidades, ubicación, experiencia e idioma. 95% de precisión. 11 días promedio para contratar.',
+    outputs: ['Publica en 2 Min', '95% de Precisión', 'Matching Bilingüe', 'Preselección Automática'],
   },
   {
     number: '06',
@@ -567,7 +567,7 @@ const comparisonRowsEs: ComparisonRow[] = [
   { feature: 'Calendario de Contenido de 30 Días', moil: 'check', consultant: 'x', aiTool: 'partial' },
   { feature: 'Imágenes Generadas por IA', moil: 'check', consultant: 'x', aiTool: 'x' },
   { feature: 'Generación de Video IA', moil: 'check', consultant: 'x', aiTool: 'x' },
-  { feature: 'Contratación Inteligente (10+ Plataformas)', moil: 'check', consultant: 'x', aiTool: 'x' },
+  { feature: 'Contratación Inteligente (IA Matching)', moil: 'check', consultant: 'x', aiTool: 'x' },
   { feature: 'Plan de Negocio Listo para Inversores', moil: 'check', consultant: 'check ($15K)', aiTool: 'x' },
   { feature: 'Bilingüe (Inglés y Español)', moil: 'check', consultant: 'partial', aiTool: 'x' },
   { feature: 'Coach de Negocios IA 24/7', moil: 'check', consultant: 'x', aiTool: 'partial' },

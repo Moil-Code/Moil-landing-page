@@ -56,7 +56,7 @@ const capabilities = [
   {
     id: "smart-hiring",
     title: "Smart Hiring & Matching",
-    description: "Post jobs to 10+ platforms automatically, get AI-matched candidates with 95% accuracy, and streamline your entire hiring process.",
+    description: "Post a job in about 2 minutes, get AI-matched candidates with 95% accuracy, and streamline your entire hiring process.",
     icon: <Users className="w-6 h-6" />,
     color: "from-[#FF6633] to-[#e55a2b]"
   }

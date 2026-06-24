@@ -76,7 +76,7 @@ export default function BusinessLayout({
             "name": "Moil Business Growth Platform",
             "applicationCategory": "BusinessApplication",
             "operatingSystem": "Web",
-            "description": "AI-powered business growth platform for small businesses. Generates business plans, market research, content calendars, and manages smart hiring — all in one platform.",
+            "description": "AI co-founder for small businesses — a brain that learns your brand and business to run market research, create content, build strategy and documents, and coach you 24/7 as you grow.",
             "url": `${baseURL1}/business`,
             "screenshot": `${baseURL1}/og_image_v2.jpg`,
             "offers": {
@@ -104,7 +104,7 @@ export default function BusinessLayout({
               "AI Market Research (20-30 pages)",
               "30-Day Content Marketing Calendar",
               "AI Image & Video Generation",
-              "Smart Hiring — Post to 10+ Platforms",
+              "Smart Hiring — Post a Job in 2 Minutes + AI Matching",
               "AI Candidate Matching (95% accuracy)",
               "Competitor Analysis",
               "Financial Projections",
@@ -129,7 +129,7 @@ export default function BusinessLayout({
                 "name": "What does Moil do for small businesses?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Moil is an AI co-founder for small businesses. In one guided session it writes your business plan, runs market research, builds a 30-day content marketing calendar, and posts your job to 10+ hiring platforms. It’s fully bilingual in English and Spanish, starts at $25 a month, and is trusted by 500+ small businesses with EDC and Chamber of Commerce partnerships."
+                  "text": "Moil is an AI co-founder for small businesses — a brain that learns your brand and business and takes you from a messy idea to execution. It runs your market research, creates your content, builds your strategy and documents (from a business plan to whatever you need), and coaches you 24/7 as you run and grow. It is bilingual in English and Spanish, starts at $25 a month, and is trusted by 500+ small businesses with EDC and Chamber of Commerce partnerships."
                 }
               },
               {
@@ -153,7 +153,7 @@ export default function BusinessLayout({
                 "name": "How does smart hiring work on Moil?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "You post a job once and Moil distributes it to 10+ hiring platforms automatically. Moil’s AI then scores and ranks every candidate with 95% accuracy across skills, experience, location, and language. Average time to hire on Moil is 11 days, compared to the SMB benchmark of 83.5 days (SHRM 2025 Recruiting Benchmarking Report) — roughly 87% faster."
+                  "text": "You post a job in about two minutes, and Moil’s AI scores and ranks every candidate with 95% accuracy across skills, experience, location, and language. Average time to hire on Moil is 11 days, compared to the SMB benchmark of 83.5 days (SHRM 2025 Recruiting Benchmarking Report) — roughly 87% faster."
                 }
               },
               {
@@ -185,7 +185,7 @@ export default function BusinessLayout({
                 "name": "How is Moil different from ChatGPT or other generic AI tools?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Generic AI tools are blank slates — every session starts from zero, you’re the integrator, and outputs are rough drafts. Moil is purpose-built for small business owners. It learns your specific business through structured onboarding, maintains context across sessions, integrates real market data, generates actual marketing assets (images and video), connects to 10+ hiring platforms, and delivers finished, ready-to-use outputs."
+                  "text": "Generic AI tools are blank slates — every session starts from zero, you’re the integrator, and outputs are rough drafts. Moil is purpose-built for small business owners. It learns your specific business through structured onboarding, maintains context across sessions, integrates real market data, generates actual marketing assets (images and video), includes 2-minute job posting with AI candidate matching, and delivers finished, ready-to-use outputs."
                 }
               },
               {
@@ -201,7 +201,7 @@ export default function BusinessLayout({
                 "name": "Moil vs ZipRecruiter, Workable, or Indeed Smart Sourcing — which is best for hiring?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "ZipRecruiter, Workable, and Indeed Smart Sourcing are dedicated hiring platforms — they do hiring well, but only hiring, and most start at $299/month or more once you need multi-channel posting and candidate matching. Moil includes Smart Hiring as one feature in a larger platform: post once, distribute to 10+ job boards, score candidates with 95% AI accuracy, and average 11 days to hire vs. the SMB benchmark of 83.5 days (SHRM 2025). All for $25–$75/month total — and bilingual EN/ES, which most ATS tools aren’t."
+                  "text": "ZipRecruiter, Workable, and Indeed Smart Sourcing are dedicated hiring platforms — they do hiring well, but only hiring, and most start at $299/month or more once you need multi-channel posting and candidate matching. Moil includes Smart Hiring as one feature in a larger platform: post a job in about two minutes, score candidates with 95% AI accuracy, and average 11 days to hire vs. the SMB benchmark of 83.5 days (SHRM 2025). All for $25–$75/month total — and bilingual EN/ES, which most ATS tools aren’t."
                 }
               },
               {
@@ -217,7 +217,7 @@ export default function BusinessLayout({
                 "name": "How is Moil different from hiring a business consultant?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "A traditional business consultant charges $5,000–$15,000 per engagement and takes 2–4 weeks to deliver. Moil delivers market research, a business plan, content strategy, and hiring setup in one session — for $25–$75 a month. A consultant goes dark between engagements; Moil is on 24/7 and remembers everything about your business."
+                  "text": "A traditional business consultant charges $5,000–$15,000 per engagement and takes 2–4 weeks to deliver. Moil delivers market research, a business plan, content strategy, and hiring setup in one platform — for $25–$75 a month. A consultant goes dark between engagements; Moil is on 24/7 and remembers everything about your business."
                 }
               },
               {
@@ -241,7 +241,7 @@ export default function BusinessLayout({
             "@context": "https://schema.org",
             "@type": "Article",
             "headline": "Moil — AI Co-Founder for Small Business: Plan, Hire, Market, and Grow for $25/month",
-            "description": "Comprehensive overview of Moil, the AI co-founder platform for small businesses: business plan generation, market research, 30-day content calendar, smart hiring across 10+ platforms, and 24/7 AI coaching. Bilingual English and Spanish.",
+            "description": "Comprehensive overview of Moil, the AI co-founder for small businesses: a brain that learns your brand and business to run market research, create content, build strategy and documents, and coach you 24/7 as you grow. Bilingual English and Spanish.",
             "url": `${baseURL1}/business`,
             "datePublished": "2025-01-15",
             "dateModified": "2026-06-09",
@@ -321,7 +321,7 @@ export default function BusinessLayout({
             "@context": "https://schema.org",
             "@type": "HowTo",
             "name": "How to Create a Complete Business Plan with AI in Under 30 Minutes",
-            "description": "Use Moil's AI co-founder to generate a full business plan, market research, content calendar, and hiring pipeline in one guided session.",
+            "description": "Use Moil's AI co-founder to generate a business plan, market research, a 30-day content calendar, and a hiring pipeline.",
             "totalTime": "PT30M",
             "estimatedCost": {
               "@type": "MonetaryAmount",
@@ -357,7 +357,7 @@ export default function BusinessLayout({
                 "@type": "HowToStep",
                 "position": 5,
                 "name": "Activate Smart Hiring",
-                "text": "Post a job once and Moil distributes it to 10+ platforms automatically. AI scores and ranks every candidate with 95% accuracy. Average time to hire: 11 days."
+                "text": "Post a job in about two minutes. Moil's AI then scores and ranks every candidate with 95% accuracy. Average time to hire: 11 days."
               },
               {
                 "@type": "HowToStep",

@@ -73,7 +73,7 @@ const journeySteps = [
     step: "STEP 5",
     title: "Smart Hiring & Team Building",
     duration: "2 min to post + ongoing",
-    description: "Scale confidently with AI hiring tools that craft optimized job descriptions, auto-post to 10+ platforms (incl. local Facebook groups), and deliver 95% accurate candidate matching.",
+    description: "Scale confidently with AI hiring tools that craft optimized job descriptions, post a job in about 2 minutes, and deliver 95% accurate candidate matching.",
     valueDelivered: [
       "Skills/location/experience scoring",
       "Interview questions generation",
