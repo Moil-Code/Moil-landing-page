@@ -166,10 +166,10 @@ export default function BusinessLayout({
               },
               {
                 "@type": "Question",
-                "name": "What is Content360?",
+                "name": "What is Moil360?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Content360 is Moil’s AI-powered content marketing engine. It generates a complete 30-day content calendar with researched topics, captions, hashtags, AI-generated images, and AI video — all customized to your brand and industry. Includes 6 content types (Educational, Promotional, Engagement, Behind-the-Scenes, Entertainment) and is available in the Market Pro plan."
+                  "text": "Moil360 is Moil’s AI-powered content marketing engine. It generates a complete 30-day content calendar with researched topics, captions, hashtags, AI-generated images, and AI video — all customized to your brand and industry. Includes 6 content types (Educational, Promotional, Engagement, Behind-the-Scenes, Entertainment) and is available in the Market Pro plan."
                 }
               },
               {
@@ -193,7 +193,7 @@ export default function BusinessLayout({
                 "name": "Moil vs LivePlan, Bizway, or Upmetrics — which is best for business planning?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "LivePlan, Bizway, and Upmetrics all produce business plans, and all three do that well. The difference: Moil treats the business plan as the start, not the end. After your plan generates, the same session also produces 20–30 pages of market research, your 30-day content calendar (Content360), and your hiring pipeline. The planning tools hand you a PDF; Moil hands you a plan plus the work for the next 90 days. Moil is also fully bilingual EN/ES, where most planning tools are English-only."
+                  "text": "LivePlan, Bizway, and Upmetrics all produce business plans, and all three do that well. The difference: Moil treats the business plan as the start, not the end. After your plan generates, the same session also produces 20–30 pages of market research, your 30-day content calendar (Moil360), and your hiring pipeline. The planning tools hand you a PDF; Moil hands you a plan plus the work for the next 90 days. Moil is also fully bilingual EN/ES, where most planning tools are English-only."
                 }
               },
               {
@@ -209,7 +209,7 @@ export default function BusinessLayout({
                 "name": "Moil vs Buffer, Later, or Hootsuite — which is best for content marketing?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Buffer, Later, and Hootsuite are great scheduling tools — you bring the content, they post it. Their AI add-ons help with captions, but you still start from a blank calendar. Moil’s Content360 generates the entire 30-day calendar for you: researched topics tied to your business plan and market research, full captions, hashtags, AI-generated images, and AI video for your highest-impact days. Schedulers solve distribution; Content360 solves the strategy and creation. Many SMBs use both — Content360 for what to post, a scheduler for when."
+                  "text": "Buffer, Later, and Hootsuite are great scheduling tools — you bring the content, they post it. Their AI add-ons help with captions, but you still start from a blank calendar. Moil’s Moil360 generates the entire 30-day calendar for you: researched topics tied to your business plan and market research, full captions, hashtags, AI-generated images, and AI video for your highest-impact days. Schedulers solve distribution; Moil360 solves the strategy and creation. Many SMBs use both — Moil360 for what to post, a scheduler for when."
                 }
               },
               {
@@ -351,7 +351,7 @@ export default function BusinessLayout({
                 "@type": "HowToStep",
                 "position": 4,
                 "name": "Build Your 30-Day Content Marketing Calendar",
-                "text": "Content360 generates 30 days of content: researched topics, captions, hashtags, CTAs, AI images, and AI video — ready to post across all platforms."
+                "text": "Moil360 generates 30 days of content: researched topics, captions, hashtags, CTAs, AI images, and AI video — ready to post across all platforms."
               },
               {
                 "@type": "HowToStep",

@@ -101,7 +101,7 @@ export const es: TranslationKeys = {
     ticker: {
       marketResearch: 'Investigación de Mercado',
       businessPlan: 'Generador de Plan de Negocios',
-      content360: 'Content360 — Calendario de 30 Días',
+      content360: 'Moil360 — Calendario de 30 Días',
       aiImage: 'Generación de Imágenes con IA',
       aiVideo: 'Generación de Video con IA',
       smartHiring: 'Contratación Inteligente — Publica en 2 Minutos',
@@ -130,7 +130,7 @@ export const es: TranslationKeys = {
         businessPlan: 'Plan de Negocios',
         businessPlanSub: 'PDF listo para inversores con proyecciones a 5 años',
         businessPlanBadge: '1 Clic',
-        content360: 'Content360',
+        content360: 'Moil360',
         content360Sub: 'Calendario de 30 días · Imágenes IA · Video IA',
         content360Badge: 'Auto',
         smartHiring: 'Contratación Inteligente',
@@ -206,13 +206,13 @@ export const es: TranslationKeys = {
         tag3: 'Alineado con la Marca',
       },
       content360: {
-        title: 'Content360 — Tu Motor de Marketing de 30 Días',
+        title: 'Moil360 — Tu Motor de Marketing de 30 Días',
         description: 'Tu departamento de contenido mensual completo, construido por IA. 30 días de temas investigados, ganchos probados, subtítulos completos por tipo, CTAs, hashtags, imágenes generadas por IA y video IA para tus días de mayor impacto.',
         tag1: 'Calendario de 30 Días',
         tag2: 'Imágenes IA',
         tag3: 'Video IA',
         tag4: 'ADN de Marca',
-        exploreCta: 'Explorar Content360 →',
+        exploreCta: 'Explorar Moil360 →',
         previewTitle: 'Vista Previa de 30 Días',
         previewFootnote: '10 de 30 días mostrados · Cada día completo',
       },
@@ -248,7 +248,7 @@ export const es: TranslationKeys = {
           desc: 'Proyecciones a 5 años, modelos de ingresos, estrategia go-to-market, hoja de ruta operativa. Descarga un PDF pulido listo para inversores, bancos o socios. Minutos, no meses.',
         },
         step4: {
-          time: 'Content360',
+          time: 'Moil360',
           title: 'Motor de Marketing de Contenido de 30 Días',
           desc: 'Calendario completo con temas investigados, ganchos probados, subtítulos calibrados, CTAs, hashtags, 30 imágenes IA y video IA para tus días de mayor impacto.',
         },
@@ -276,10 +276,10 @@ export const es: TranslationKeys = {
         '📄 Reporte de 24 páginas listo para descargar →',
       ],
       convoUser2: 'Construye la estrategia de contenido de 30 días e inicia el pipeline de contratación para 3 técnicos HVAC.',
-      convoAi2: 'En ello. Construyendo tu calendario Content360 + publicando tu puesto en 2 minutos ahora.',
+      convoAi2: 'En ello. Construyendo tu calendario Moil360 + publicando tu puesto en 2 minutos ahora.',
       convoResult2Title: '✓ Todos los Sistemas Activos',
       convoResult2Items: [
-        'Calendario Content360 de 30 días: completo',
+        'Calendario Moil360 de 30 días: completo',
         '🖼 30 imágenes IA generadas — alineadas con la marca',
         'Empleo publicado en 2 min — IA buscando candidatos ahora',
         '3 candidatos pre-calificados — mejor coincidencia: 97%, Austin',
@@ -356,7 +356,7 @@ export const es: TranslationKeys = {
       genericCol: 'ChatGPT / IA por tu cuenta',
       rows: [
         ['Investigación de Mercado (20–30 páginas)', '✓ Instantáneo', '✓ $5,000+', '✗'],
-        ['Calendario de Contenido de 30 Días (Content360)', '✓ Automatizado', '✗', 'Parcial'],
+        ['Calendario de Contenido de 30 Días (Moil360)', '✓ Automatizado', '✗', 'Parcial'],
         ['Imágenes Generadas por IA (30/mes)', '✓ Incluido', '✗', '✗'],
         ['Generación de Video IA', '✓ Incluido', '✗', '✗'],
         ['Plan de Negocios para Inversores', '✓ Un clic', '✓ $15,000+', '✗'],
@@ -389,12 +389,12 @@ export const es: TranslationKeys = {
           badge: 'Ambos',
         },
         content: {
-          title: 'Content360 en Ambos Idiomas',
+          title: 'Moil360 en Ambos Idiomas',
           desc: 'Cada subtítulo, gancho y hashtag — traducción con un clic',
           badge: '1 Clic',
         },
       },
-      previewTitle: 'Vista Previa de Publicación Content360',
+      previewTitle: 'Vista Previa de Publicación Moil360',
       enLabel: 'EN · English',
       esLabel: 'ES · Español',
       enPostTitle: 'From $0 to Booked Solid',
@@ -440,7 +440,7 @@ export const es: TranslationKeys = {
       },
       marketPro: {
         name: 'Market Pro',
-        tagline: 'Poder ilimitado. Acceso completo a Content360. Máxima IA.',
+        tagline: 'Poder ilimitado. Acceso completo a Moil360. Máxima IA.',
         cta: 'Iniciar Market Pro →',
         badge: '⭐ MEJOR VALOR',
         monthlyPrice: '$75',
@@ -451,7 +451,7 @@ export const es: TranslationKeys = {
           'Imágenes y ediciones IA ilimitadas',
           '30 min de generación de audio',
           '15 créditos de video/mes',
-          'Acceso Completo a Content360',
+          'Acceso Completo a Moil360',
           'Suite Market Pro',
           'Coach IA e investigación profunda de mercado',
           'Soporte de cuenta dedicado',
@@ -514,8 +514,8 @@ export const es: TranslationKeys = {
           answer: 'La IA de Moil logra un 95% de precisión en coincidencia de habilidades, ubicación, nivel de experiencia y requisitos de idioma. Los negocios en Moil reportan una tasa de éxito en entrevistas del 94% y retención de empleados del 91% a los 90 días.',
         },
         {
-          question: '¿Qué es Content360?',
-          answer: 'Content360 es el motor de marketing de contenido con IA de Moil. Genera un calendario completo de 30 días con temas investigados, captions, hashtags, imágenes generadas por IA y video con IA — todo personalizado a tu marca e industria. Incluye 6 tipos de contenido (Educativo, Promocional, Engagement, Detrás de Cámaras, Entretenimiento) y está disponible en el plan Market Pro.',
+          question: '¿Qué es Moil360?',
+          answer: 'Moil360 es el motor de marketing de contenido con IA de Moil. Genera un calendario completo de 30 días con temas investigados, captions, hashtags, imágenes generadas por IA y video con IA — todo personalizado a tu marca e industria. Incluye 6 tipos de contenido (Educativo, Promocional, Engagement, Detrás de Cámaras, Entretenimiento) y está disponible en el plan Market Pro.',
         },
         {
           question: '¿Moil es bilingüe (español)?',
@@ -527,7 +527,7 @@ export const es: TranslationKeys = {
         },
         {
           question: 'Moil vs LivePlan, Bizway o Upmetrics — ¿cuál es mejor para planificación de negocios?',
-          answer: 'LivePlan, Bizway y Upmetrics producen planes de negocios, y los tres lo hacen bien. La diferencia: Moil trata el plan de negocios como el comienzo, no el final. Después de que se genera tu plan, la misma sesión también produce 20–30 páginas de investigación de mercado, tu calendario de contenido de 30 días (Content360) y tu pipeline de contratación. Las herramientas de planificación te entregan un PDF; Moil te entrega un plan más el trabajo de los próximos 90 días. Moil también es totalmente bilingüe EN/ES, mientras que la mayoría de herramientas de planificación solo son en inglés.',
+          answer: 'LivePlan, Bizway y Upmetrics producen planes de negocios, y los tres lo hacen bien. La diferencia: Moil trata el plan de negocios como el comienzo, no el final. Después de que se genera tu plan, la misma sesión también produce 20–30 páginas de investigación de mercado, tu calendario de contenido de 30 días (Moil360) y tu pipeline de contratación. Las herramientas de planificación te entregan un PDF; Moil te entrega un plan más el trabajo de los próximos 90 días. Moil también es totalmente bilingüe EN/ES, mientras que la mayoría de herramientas de planificación solo son en inglés.',
         },
         {
           question: 'Moil vs ZipRecruiter, Workable o Indeed Smart Sourcing — ¿cuál es mejor para contratar?',
@@ -535,7 +535,7 @@ export const es: TranslationKeys = {
         },
         {
           question: 'Moil vs Buffer, Later o Hootsuite — ¿cuál es mejor para marketing de contenido?',
-          answer: 'Buffer, Later y Hootsuite son excelentes herramientas de programación — tú traes el contenido, ellos lo publican. Sus complementos de IA ayudan con captions, pero aún empiezas desde un calendario en blanco. Content360 de Moil genera el calendario completo de 30 días por ti: temas investigados conectados a tu plan de negocios e investigación de mercado, captions completos, hashtags, imágenes generadas por IA y video con IA para tus días de mayor impacto. Los programadores resuelven distribución; Content360 resuelve estrategia y creación. Muchos pequeños negocios usan ambos — Content360 para qué publicar, un programador para cuándo.',
+          answer: 'Buffer, Later y Hootsuite son excelentes herramientas de programación — tú traes el contenido, ellos lo publican. Sus complementos de IA ayudan con captions, pero aún empiezas desde un calendario en blanco. Moil360 de Moil genera el calendario completo de 30 días por ti: temas investigados conectados a tu plan de negocios e investigación de mercado, captions completos, hashtags, imágenes generadas por IA y video con IA para tus días de mayor impacto. Los programadores resuelven distribución; Moil360 resuelve estrategia y creación. Muchos pequeños negocios usan ambos — Moil360 para qué publicar, un programador para cuándo.',
         },
         {
           question: '¿En qué se diferencia Moil de contratar un consultor de negocios?',
@@ -575,7 +575,7 @@ export const es: TranslationKeys = {
     },
   },
 
-  // Content360 Marketing Page
+  // Moil360 Marketing Page
   marketing: {
     nav: {
       howItWorks: 'Cómo Funciona',
@@ -592,7 +592,7 @@ export const es: TranslationKeys = {
       line2: 'de Marketing.',
       line3: 'Creado por IA.',
       line4: 'Listo en Minutos.',
-      sub: 'Deja de adivinar. Content360 investiga tu mercado, escribe cada publicación, genera tus visuales, crea video con IA — y arma tu calendario completo de 30 días automáticamente.',
+      sub: 'Deja de adivinar. Moil360 investiga tu mercado, escribe cada publicación, genera tus visuales, crea video con IA — y arma tu calendario completo de 30 días automáticamente.',
       cta: '🚀 Obtén Mi Estrategia de Contenido',
       ctaSecondary: '▶ Ver Cómo Funciona',
       dashboardTitle: 'CONTENT360 — MOTOR DE ESTRATEGIA DE 30 DÍAS',
@@ -609,7 +609,7 @@ export const es: TranslationKeys = {
       post3Caption: 'POV: Por fin dejas de hacer todo manualmente 😅 ¡Gracias a nuestra comunidad de 500+!',
       post3Tags: '#CreadorDeContenido #Comunidad',
       post4Caption: 'La IA que gestiona tu contenido mientras tú diriges tu negocio. Resultados reales. 📊',
-      post4Tags: '#IA #Content360 #PequeñoNegocio',
+      post4Tags: '#IA #Moil360 #PequeñoNegocio',
     },
     problem: {
       sectionTag: 'La Realidad',
@@ -631,7 +631,7 @@ export const es: TranslationKeys = {
       headLine1: 'Conoce Tu',
       headLine1Highlight: 'Departamento',
       headLine2: 'de Marketing IA.',
-      sub: 'Observa cómo Content360 arma una estrategia real de 30 días — en vivo — basada en tu negocio y datos reales del mercado.',
+      sub: 'Observa cómo Moil360 arma una estrategia real de 30 días — en vivo — basada en tu negocio y datos reales del mercado.',
       terminalTitle: 'MOTOR VANGUARDIA CONTENT360 — ENSAMBLAJE DE ESTRATEGIA EN PROGRESO',
       progressLabel: 'SALUD DE LA ESTRATEGIA',
     },
@@ -643,7 +643,7 @@ export const es: TranslationKeys = {
       sub: 'Cada paso automatizado. Cada resultado profesional. Cada decisión respaldada por datos reales del mercado — no suposiciones.',
     },
     features: {
-      sectionTag: 'Content360 en Profundidad',
+      sectionTag: 'Moil360 en Profundidad',
       headLine1: 'Cada Función.',
       headLine1Highlight: 'Bien Hecha.',
       postPreviewLabel: 'VISTA PREVIA',

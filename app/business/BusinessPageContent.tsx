@@ -2,6 +2,10 @@
 
 import { useState, useEffect, JSX } from 'react';
 import Image from 'next/image';
+import { ProductShot } from './components/ProductShot';
+import { BilingualSlider } from './components/BilingualSlider';
+import { JourneyVisual } from './components/JourneyVisual';
+import { productShots } from './productShots';
 import { BusinessFaqSection } from './components/BusinessFaqSection';
 import { BusinessFinalCta } from './components/BusinessFinalCta';
 import { BusinessFooter } from './components/BusinessFooter';
@@ -108,13 +112,6 @@ export function BusinessPageContent() {
     t.business.ticker.investorReady,
   ];
 
-  const cofounderCapabilities = [
-    { icon: 'chart', title: t.business.identity.cofounder.marketResearch, sub: t.business.identity.cofounder.marketResearchSub, badge: t.business.identity.cofounder.marketResearchBadge, badgeClass: 'badge-o' },
-    { icon: 'clipboard', title: t.business.identity.cofounder.businessPlan, sub: t.business.identity.cofounder.businessPlanSub, badge: t.business.identity.cofounder.businessPlanBadge, badgeClass: 'badge-p' },
-    { icon: 'calendar', title: t.business.identity.cofounder.content360, sub: t.business.identity.cofounder.content360Sub, badge: t.business.identity.cofounder.content360Badge, badgeClass: 'badge-o' },
-    { icon: 'target', title: t.business.identity.cofounder.smartHiring, sub: t.business.identity.cofounder.smartHiringSub, badge: t.business.identity.cofounder.smartHiringBadge, badgeClass: 'badge-g' },
-    { icon: 'message', title: t.business.identity.cofounder.coach, sub: t.business.identity.cofounder.coachSub, badge: t.business.identity.cofounder.coachBadge, badgeClass: 'badge-p' },
-  ];
 
   const capabilityCards = [
     {
@@ -174,12 +171,6 @@ export function BusinessPageContent() {
     { label: t.business.hiring.stats.bilingualReach, target: 58, suffix: '%' },
   ];
 
-  const candidates = [
-    { initial: 'J', name: 'Jose M.', detail: t.business.hiring.candidate1Detail, score: '95%', scoreColor: 'var(--green)', badgeGradient: 'linear-gradient(135deg,var(--orange-dim),var(--purple-dim))', badgeColor: 'var(--orange)' },
-    { initial: 'M', name: 'Marcus T.', detail: t.business.hiring.candidate2Detail, score: '87%', scoreColor: 'var(--orange)', badgeGradient: 'linear-gradient(135deg,var(--purple-dim),var(--blue-dim))', badgeColor: 'var(--purple-light)' },
-    { initial: 'A', name: 'Ana R.', detail: t.business.hiring.candidate3Detail, score: '82%', scoreColor: 'var(--purple-light)', badgeGradient: 'linear-gradient(135deg,var(--green-dim),var(--orange-dim))', badgeColor: 'var(--green)' },
-  ];
-
   const stats = [
     { label: t.business.statsSection.stats.businessesTrusting, target: 500, suffix: '+' },
     { label: t.business.statsSection.stats.jobsPostedMonthly, target: 5000, suffix: '+' },
@@ -230,6 +221,16 @@ export function BusinessPageContent() {
 
       {/* HERO */}
       <section id="hero">
+        <div className="hero-bg" aria-hidden="true">
+          <Image
+            src="/hero_bg.jpg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="hero-bg__img"
+          />
+        </div>
         <div className="hero-grid"></div>
         <div className="hero-orb orb1"></div>
         <div className="hero-orb orb2"></div>
@@ -337,7 +338,7 @@ export function BusinessPageContent() {
       <div className="divider"></div>
 
       {/* PROBLEM / VS — moved above IDENTITY: it's the page's strongest hook ($5K consultant vs $25 Moil) and was previously buried below an abstract section */}
-      <section id="problem">
+      <section id="problem" className="has-footer-1">
         <div className="problem-inner">
           <div className="section-tag rv" style={{ justifyContent: 'center' }}>
             {t.business.problem.tag}
@@ -361,7 +362,7 @@ export function BusinessPageContent() {
           </p>
 
           <div className="vs-grid-wrap" style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: '32px', alignItems: 'stretch' }}>
-            <div className="cost-card old rv" style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className="cost-card old wave-old rv" style={{ display: 'flex', flexDirection: 'column' }}>
               <div className="cost-badge old-b">{t.business.problem.oldMethod}</div>
               <div className="cost-title">{t.business.problem.oldTitle}</div>
               <div className="cost-price strike">{t.business.problem.oldPrice}</div>
@@ -398,7 +399,7 @@ export function BusinessPageContent() {
               <div style={{ width: '1px', flex: 1, background: 'linear-gradient(180deg,transparent,var(--border2),transparent)', minHeight: '60px' }}></div>
             </div>
 
-            <div className="cost-card new rv d2" style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className="cost-card new wave-new rv d2" style={{ display: 'flex', flexDirection: 'column' }}>
               <div className="cost-badge new-b" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>{IconMap.star} {t.business.problem.moilBadge}</div>
               <div className="cost-title">{t.business.problem.moilTitle}</div>
               <div className="cost-price moil-price">{t.business.problem.moilPrice}</div>
@@ -443,47 +444,36 @@ export function BusinessPageContent() {
 
       {/* IDENTITY — demoted from above-the-fold to mid-page proof, since the VS pricing reveal is the stronger hook */}
       <section id="identity">
-        <div className="identity-grid">
-          <div>
-            <div className="section-tag rv">{t.business.identity.tag}</div>
-            <h2 className="section-headline rv">
-              {t.business.identity.headline}
-              <br /><span style={{ color: 'var(--orange)' }}>{t.business.identity.headlineHighlight1}</span>
-              <br /><span style={{ color: 'var(--purple-light)' }}>{t.business.identity.headlineHighlight2}</span>
+        <div className="identity-linear">
+          <div className="identity-head">
+            <div className="section-tag rv" style={{ justifyContent: 'center' }}>{t.business.identity.tag}</div>
+            <h2 className="section-headline rv" style={{ textAlign: 'center' }}>
+              {t.business.identity.headline}{' '}
+              <span style={{ color: 'var(--orange)' }}>{t.business.identity.headlineHighlight1}</span>{' '}
+              <span style={{ color: 'var(--purple-light)' }}>{t.business.identity.headlineHighlight2}</span>
             </h2>
-            <p className="identity-quote rv">
+            <p className="identity-quote rv" style={{ textAlign: 'center', maxWidth: '760px', margin: '24px auto 24px' }}>
               &ldquo;{t.business.identity.quote}
               <em>{t.business.identity.quoteEmphasis}</em>&rdquo;
             </p>
-            <p className="identity-body rv">
-              {t.business.identity.description}
-            </p>
-            <p className="rv" style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '2px' }}>
+            <p className="rv" style={{ fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '2px', textAlign: 'center' }}>
               {t.business.identity.footnote}
             </p>
           </div>
-          <div className="rv d2">
-            <div className="cofounder-card">
-              <div className="cf-header">
-                <div className="cf-avatar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{IconMap.bot}</div>
-                <div>
-                  <div className="cf-title">{t.business.identity.cardTitle}</div>
-                  <div className="cf-sub">{t.business.identity.cardSub}</div>
-                </div>
-              </div>
-              <div className="cf-capabilities">
-                {cofounderCapabilities.map((cap, idx) => (
-                  <div className="cf-cap" key={`cf-cap-${idx}`}>
-                    <span className="cf-cap-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{IconMap[cap.icon]}</span>
-                    <div className="cf-cap-text">
-                      <div className="cf-cap-title">{cap.title}</div>
-                      <div className="cf-cap-sub">{cap.sub}</div>
-                    </div>
-                    <span className={`cf-cap-badge ${cap.badgeClass}`}>{cap.badge}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+
+          <div className="identity-shots rv d2">
+            <ProductShot
+              source={productShots.identityResearch}
+              alt={`Moil — ${t.business.identity.cofounder.marketResearch}`}
+              theme={theme}
+              placeholderLabel="Market research"
+            />
+            <ProductShot
+              source={productShots.identityPlan}
+              alt={`Moil — ${t.business.identity.cofounder.businessPlan}`}
+              theme={theme}
+              placeholderLabel="Business plan"
+            />
           </div>
         </div>
       </section>
@@ -491,7 +481,7 @@ export function BusinessPageContent() {
       <div className="divider"></div>
 
       {/* CAPABILITIES */}
-      <section id="capabilities">
+      <section id="capabilities" className="has-footer-2">
         <div className="section-tag rv">{t.business.capabilities.tag}</div>
         <h2 className="section-headline rv">
           {t.business.capabilities.headline}
@@ -501,16 +491,17 @@ export function BusinessPageContent() {
 
         <div className="cap-row-1">
           {capabilityCards.map((card, index) => (
-            <div key={`cap-card-${index}`} className={`cap-card rv ${index === 1 ? 'd1' : ''} ${index === 2 ? 'd2' : ''}`}>
-              <span className="cap-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{IconMap[card.icon]}</span>
-              <h3 className="cap-title">{card.title}</h3>
-              <p className="cap-desc">{card.desc}</p>
-              <div className="cap-tags">
-                {card.tags.map((tag, tagIdx) => (
-                  <span key={`tag-${index}-${tagIdx}`} className={`tag ${tag.className}`}>
-                    {tag.label}
-                  </span>
-                ))}
+            <div key={`cap-card-${index}`} className={`cap-card cap-card--wave cap-card--w${index + 1} rv ${index === 1 ? 'd1' : ''} ${index === 2 ? 'd2' : ''}`}>
+              <div className="cap-card__body">
+                <h3 className="cap-title">{card.title}</h3>
+                <p className="cap-desc">{card.desc}</p>
+                <div className="cap-tags">
+                  {card.tags.map((tag, tagIdx) => (
+                    <span key={`tag-${index}-${tagIdx}`} className={`tag ${tag.className}`}>
+                      {tag.label}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           ))}
@@ -531,11 +522,14 @@ export function BusinessPageContent() {
                   <span className="tag tag-b">{t.business.capabilities.content360.tag3}</span>
                   <span className="tag tag-g">{t.business.capabilities.content360.tag4}</span>
                 </div>
-                <a className="btn-secondary" style={{ fontSize: '13px', padding: '10px 22px' }} href={appendLangToUrl("https://business.moilapp.com/register", currentLang)} target="_blank" rel="noreferrer">
-                  {t.business.capabilities.content360.exploreCta}
-                </a>
               </div>
               <div>
+                <ProductShot
+                  source={productShots.content360}
+                  alt={`Moil — ${t.business.capabilities.content360.title}`}
+                  theme={theme}
+                  placeholderLabel="Moil360 — content calendar"
+                >
                 <div style={{ background: 'var(--surface)', border: '1px solid var(--border2)', borderRadius: '12px', padding: '16px' }}>
                   <div style={{ fontFamily: 'var(--mono)', fontSize: '9px', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px', textAlign: 'center' }}>
                     {t.business.capabilities.content360.previewTitle}
@@ -558,21 +552,26 @@ export function BusinessPageContent() {
                     {t.business.capabilities.content360.previewFootnote}
                   </p>
                 </div>
+                </ProductShot>
+                <a className="btn-secondary btn-wave" style={{ marginTop: '18px', width: '100%', justifyContent: 'center' }} href={appendLangToUrl("https://business.moilapp.com/register", currentLang)} target="_blank" rel="noreferrer">
+                  {t.business.capabilities.content360.exploreCta}
+                </a>
               </div>
             </div>
           </div>
 
-          <div className="cap-card rv d1" style={{ display: 'flex', flexDirection: 'column' }}>
-            <span className="cap-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{IconMap.document}</span>
-            <h3 className="cap-title">{t.business.capabilities.documents.title}</h3>
-            <p className="cap-desc" style={{ flex: 1 }}>
-              {t.business.capabilities.documents.description}
-            </p>
-            <div className="cap-tags">
-              <span className="tag tag-p">{t.business.capabilities.documents.tag1}</span>
-              <span className="tag tag-o">{t.business.capabilities.documents.tag2}</span>
-              <span className="tag tag-b">{t.business.capabilities.documents.tag3}</span>
-              <span className="tag tag-g">{t.business.capabilities.documents.tag4}</span>
+          <div className="cap-card cap-card--document rv d1">
+            <div className="cap-card__body">
+              <h3 className="cap-title">{t.business.capabilities.documents.title}</h3>
+              <p className="cap-desc">
+                {t.business.capabilities.documents.description}
+              </p>
+              <div className="cap-tags">
+                <span className="tag tag-p">{t.business.capabilities.documents.tag1}</span>
+                <span className="tag tag-o">{t.business.capabilities.documents.tag2}</span>
+                <span className="tag tag-b">{t.business.capabilities.documents.tag3}</span>
+                <span className="tag tag-g">{t.business.capabilities.documents.tag4}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -610,72 +609,25 @@ export function BusinessPageContent() {
               })}
             </div>
 
-            <div className="ai-convo rv d2">
-              <div className="convo-header">
-                <div className="convo-dots">
-                  <div className="convo-dot" style={{ background: '#FF5F56' }}></div>
-                  <div className="convo-dot" style={{ background: '#FFBD2E' }}></div>
-                  <div className="convo-dot" style={{ background: '#27C93F' }}></div>
-                </div>
-                <span className="convo-title">{t.business.journey.convoTitle}</span>
-                <div className="convo-status">
-                  <div className="convo-blink"></div> {t.business.journey.convoActive}
-                </div>
-              </div>
-              <div className="convo-body">
-                <div className="msg msg-user" style={{ animationDelay: '0.2s' }}>
-                  <div className="msg-bubble">
-                    {t.business.journey.convoUser1}
-                  </div>
-                </div>
-                <div className="msg msg-ai" style={{ animationDelay: '0.8s' }}>
-                  <div className="msg-ai-label"><span style={{ display: 'inline-flex', marginRight: '4px', color: 'var(--orange)' }}>{IconMap.bot}</span> {t.business.journey.convoTitle}</div>
-                  <div className="msg-bubble">
-                    {t.business.journey.convoAi1}
-                  </div>
-                  <div className="msg-result">
-                    <div className="mr-title">{t.business.journey.convoResult1Title}</div>
-                    <div className="mr-items">
-                      {t.business.journey.convoResult1Items.map((item, idx) => (
-                        <div className="mr-item" key={`convo1-${idx}`}>
-                          <span className="mr-dot"></span>{item}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="msg msg-user" style={{ animationDelay: '1.6s' }}>
-                  <div className="msg-bubble">{t.business.journey.convoUser2}</div>
-                </div>
-                <div className="msg msg-ai" style={{ animationDelay: '2.4s' }}>
-                  <div className="msg-ai-label"><span style={{ display: 'inline-flex', marginRight: '4px', color: 'var(--orange)' }}>{IconMap.bot}</span> {t.business.journey.convoTitle}</div>
-                  <div className="msg-bubble">{t.business.journey.convoAi2}</div>
-                  <div className="msg-result">
-                    <div className="mr-title">{t.business.journey.convoResult2Title}</div>
-                    <div className="mr-items">
-                      {t.business.journey.convoResult2Items.map((item, idx) => (
-                        <div className="mr-item" key={`convo2-${idx}`}>
-                          <span className="mr-dot"></span>{item}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="msg msg-ai" style={{ animationDelay: '3.2s' }}>
-                  <div className="msg-ai-label"><span style={{ display: 'inline-flex', marginRight: '4px', color: 'var(--orange)' }}>{IconMap.bot}</span> {t.business.journey.convoTitle}</div>
-                  <div className="msg-bubble" style={{ background: 'var(--surface3)' }}>
-                    <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-                      <span style={{ display: 'block', width: '7px', height: '7px', background: 'var(--text3)', borderRadius: '50%', animation: 'td 1.4s infinite' }}></span>
-                      <span style={{ display: 'block', width: '7px', height: '7px', background: 'var(--text3)', borderRadius: '50%', animation: 'td 1.4s 0.2s infinite' }}></span>
-                      <span style={{ display: 'block', width: '7px', height: '7px', background: 'var(--text3)', borderRadius: '50%', animation: 'td 1.4s 0.4s infinite' }}></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <JourneyVisual
+              startAlt={`Moil — ${t.business.journey.convoTitle}`}
+              chatAlt={`Moil — ${t.business.journey.convoTitle}`}
+            />
           </div>
 
-          <div style={{ textAlign: 'center', marginTop: '64px' }} className="rv">
+          <div style={{ textAlign: 'center', marginTop: '40px' }} className="rv">
+            <div className="journey-arrow" aria-hidden="true">
+              <svg viewBox="0 0 84 100" width="64" height="80" fill="none">
+                <path d="M56 8 C 72 28, 32 30, 44 56 C 49 68, 44 80, 37 88" stroke="url(#jArrow)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M37 88 L 23 79 M37 88 L 52 82" stroke="url(#jArrow)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                <defs>
+                  <linearGradient id="jArrow" x1="0" y1="0" x2="0" y2="1">
+                    <stop stopColor="#FF5C1A" />
+                    <stop offset="1" stopColor="#9D6EF8" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
             <a className="btn-primary" href={appendLangToUrl("https://business.moilapp.com/register", currentLang)} target="_blank" rel="noreferrer">
               {t.business.journey.journeyCta}
             </a>
@@ -700,11 +652,20 @@ export function BusinessPageContent() {
         </h2>
         <p className="section-sub rv">{t.business.hiring.subheadline}</p>
 
-        <div className="hiring-inner-grid">
-          <div>
-            <div className="hiring-steps">
+        <div className="hiring-linear">
+          <div className="hiring-two-col">
+            <div className="hiring-shot rv d1">
+              <ProductShot
+                source={productShots.hiringCandidates}
+                alt={`Moil — ${t.business.hiring.candidateHeader}`}
+                theme={theme}
+                placeholderLabel="Hiring — candidate matches"
+              />
+            </div>
+
+            <div className="hiring-steps-col">
               {hiringSteps.map((step, index) => (
-                <div key={`hstep-${index}`} className={`hstep rv ${index === 1 ? 'd1' : ''} ${index === 2 ? 'd2' : ''} ${index === 3 ? 'd3' : ''}`}>
+                <div key={`hstep-${index}`} className={`hstep hstep--wave rv ${index === 1 ? 'd1' : ''} ${index === 2 ? 'd2' : ''} ${index === 3 ? 'd3' : ''}`}>
                   <div className="hnum">{step.num}</div>
                   <div>
                     <div className="hstep-title">{step.title}</div>
@@ -713,68 +674,21 @@ export function BusinessPageContent() {
                 </div>
               ))}
             </div>
-
-            <div className="hiring-stats rv">
-              {hiringStats.map((stat, idx) => (
-                <div className="h-stat" key={`hstat-${idx}`}>
-                  <div className="h-stat-val" data-target={stat.target} data-prefix={stat.prefix} data-suffix={stat.suffix}>
-                    0
-                  </div>
-                  <div className="h-stat-lbl">{stat.label}</div>
-                </div>
-              ))}
-            </div>
           </div>
 
-          <div className="rv d2">
-            <div style={{ fontFamily: 'var(--mono)', fontSize: '9px', color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '14px' }}>
-              {t.business.hiring.candidateHeader}
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {candidates.map((candidate, idx) => (
-                <div className="cand-card" key={`cand-${idx}`}>
-                  <div className="cand-avatar" style={{ background: candidate.badgeGradient, color: candidate.badgeColor, fontFamily: 'var(--display)', fontSize: '20px' }}>
-                    {candidate.initial}
-                  </div>
-                  <div className="cand-info">
-                    <div className="cand-name">{candidate.name}</div>
-                    <div className="cand-detail">{candidate.detail}</div>
-                  </div>
-                  <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontFamily: 'var(--mono)', fontSize: '24px', fontWeight: 700, color: candidate.scoreColor }}>{candidate.score}</div>
-                    <div style={{ fontSize: '9px', color: 'var(--text3)', fontFamily: 'var(--mono)', textTransform: 'uppercase' }}>{t.common.match}</div>
-                  </div>
+          <div className="hiring-stats rv">
+            {hiringStats.map((stat, idx) => (
+              <div className="h-stat" key={`hstat-${idx}`}>
+                <div className="h-stat-val" data-target={stat.target} data-prefix={stat.prefix} data-suffix={stat.suffix}>
+                  0
                 </div>
-              ))}
-            </div>
+                <div className="h-stat-lbl">{stat.label}</div>
+              </div>
+            ))}
+          </div>
 
-            <div style={{ marginTop: '14px', padding: '16px', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '12px' }}>
-              <div style={{ fontFamily: 'var(--mono)', fontSize: '9px', color: 'var(--green)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>
-                {t.business.hiring.postedTo}
-              </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                {t.business.hiring.matchSignals.map((item, index) => (
-                  <span key={item} className={`tag ${index < 2 ? 'tag-o' : index < 4 ? 'tag-p' : index === 4 ? 'tag-b' : 'tag-g'}`}>
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div style={{ marginTop: '10px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-              <div style={{ padding: '16px', background: 'var(--orange-dim)', border: '1px solid rgba(255,92,26,0.2)', borderRadius: '10px', textAlign: 'center' }}>
-                <div style={{ fontFamily: 'var(--mono)', fontSize: '9px', color: 'var(--orange)', textTransform: 'uppercase', marginBottom: '6px' }}>{t.business.hiring.withMoil}</div>
-                <div style={{ fontFamily: 'var(--mono)', fontSize: '22px', fontWeight: 700, color: 'var(--orange)' }}>$75</div>
-                <div style={{ fontSize: '10px', color: 'var(--text3)' }}>{t.business.hiring.avgCostPerHire}</div>
-              </div>
-              <div style={{ padding: '16px', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '10px', textAlign: 'center' }}>
-                <div style={{ fontFamily: 'var(--mono)', fontSize: '9px', color: 'var(--text3)', textTransform: 'uppercase', marginBottom: '6px' }}>{t.business.hiring.industryAvg}</div>
-                <div style={{ fontFamily: 'var(--mono)', fontSize: '22px', fontWeight: 700, color: 'var(--text3)', textDecoration: 'line-through' }}>$2,400</div>
-                <div style={{ fontSize: '10px', color: 'var(--text3)' }}>{t.business.hiring.avgCostPerHire}</div>
-              </div>
-            </div>
-
-            <a className="btn-primary" style={{ width: '100%', justifyContent: 'center', marginTop: '16px' }} href={appendLangToUrl("https://business.moilapp.com/register", currentLang)} target="_blank" rel="noreferrer">
+          <div className="rv" style={{ textAlign: 'center', marginTop: '48px' }}>
+            <a className="btn-primary" href={appendLangToUrl("https://business.moilapp.com/register", currentLang)} target="_blank" rel="noreferrer">
               {t.business.hiring.startHiringCta}
             </a>
           </div>
@@ -811,7 +725,7 @@ export function BusinessPageContent() {
       <div className="divider"></div>
 
       {/* COMPARISON */}
-      <section id="compare" className="section-wrap">
+      <section id="compare" className="section-wrap has-footer-3">
         <div className="section-tag rv" style={{ justifyContent: 'center' }}>
           {t.business.compare.tag}
         </div>
@@ -933,81 +847,52 @@ export function BusinessPageContent() {
 
       <div className="divider"></div>
 
-      {/* BILINGUAL */}
+      {/* BILINGUAL — linear layout: centered heading, full-width EN/ES slider, highlights below */}
       <section className="section-wrap">
-        <div className="bilingual-grid">
-          <div>
-            <div className="section-tag rv">{t.business.bilingualSection.tag}</div>
-            <h2 className="section-headline rv">
+        <div className="bilingual-linear">
+          <div className="bilingual-head">
+            <div className="section-tag rv" style={{ justifyContent: 'center' }}>{t.business.bilingualSection.tag}</div>
+            <h2 className="section-headline rv" style={{ textAlign: 'center' }}>
               {t.business.bilingualSection.headline} <span style={{ color: 'var(--orange)' }}>{t.business.bilingualSection.headlineHighlight1}</span>
               <br />{t.business.bilingualSection.headlineMiddle} <span style={{ color: 'var(--purple-light)' }}>{t.business.bilingualSection.headlineHighlight2}</span>
             </h2>
-            <p className="rv" style={{ fontSize: '16px', color: 'var(--text2)', lineHeight: 1.8, margin: '20px 0 32px', fontWeight: 300 }}>
+            <p className="rv" style={{ fontSize: '16px', color: 'var(--text2)', lineHeight: 1.8, margin: '20px auto 0', maxWidth: '640px', fontWeight: 300, textAlign: 'center' }}>
               {t.business.bilingualSection.description}
             </p>
-            <div className="rv d1" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {bilingualHighlights.map((item, idx) => (
-                <div className="bilingual-card" key={`bilingual-${idx}`}>
-                  <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, width: '40px', height: '40px', borderRadius: '10px', background: 'var(--purple-dim)', color: 'var(--purple)' }}>{IconMap[item.icon]}</span>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 600, fontSize: '14px', marginBottom: '3px' }}>{item.title}</div>
-                    <div style={{ fontSize: '12px', color: 'var(--text3)' }}>{item.desc}</div>
-                  </div>
-                  <span className={`cf-cap-badge ${item.badgeClass}`}>{item.badge}</span>
-                </div>
-              ))}
-            </div>
           </div>
-          <div className="rv d2">
-            <div style={{ background: 'var(--surface)', border: '1px solid var(--border2)', borderRadius: '20px', overflow: 'hidden' }}>
-              <div style={{ background: 'var(--surface2)', padding: '14px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ fontFamily: 'var(--mono)', fontSize: '9px', color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '2px' }}>
-                  {t.business.bilingualSection.previewTitle}
-                </span>
-                <div style={{ marginLeft: 'auto', display: 'flex', gap: '6px' }}>
-                  <span className="tag tag-o">EN</span>
-                  <span className="tag tag-p">ES</span>
+
+          <div className="rv d2 bilingual-slider-slot">
+            <BilingualSlider
+              beforeSrc="/English.jpg"
+              afterSrc="/spanish.jpg"
+              beforeAlt={`Moil — ${t.business.bilingualSection.enLabel}`}
+              afterAlt={`Moil — ${t.business.bilingualSection.esLabel}`}
+              beforeLabel="EN"
+              afterLabel="ES"
+              width={3020}
+              height={1510}
+              hint="EN ←→ ES"
+            />
+          </div>
+
+          <div className="bilingual-highlights rv d1">
+            {bilingualHighlights.map((item, idx) => (
+              <div className="bilingual-card" key={`bilingual-${idx}`}>
+                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, width: '40px', height: '40px', borderRadius: '10px', background: 'var(--purple-dim)', color: 'var(--purple)' }}>{IconMap[item.icon]}</span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 600, fontSize: '14px', marginBottom: '3px' }}>{item.title}</div>
+                  <div style={{ fontSize: '12px', color: 'var(--text3)' }}>{item.desc}</div>
                 </div>
+                <span className={`cf-cap-badge ${item.badgeClass}`}>{item.badge}</span>
               </div>
-              <div style={{ padding: '22px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                <div style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '12px', padding: '16px' }}>
-                  <div style={{ fontFamily: 'var(--mono)', fontSize: '8px', color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>
-                    {t.business.bilingualSection.enLabel}
-                  </div>
-                  <div style={{ fontSize: '13px', color: 'var(--text)', lineHeight: 1.6, marginBottom: '10px' }}>
-                    <strong>{t.business.bilingualSection.enPostTitle}</strong>
-                    <br />
-                    <br />
-                    {t.business.bilingualSection.enPostBody}
-                  </div>
-                  <div style={{ fontSize: '11px', color: 'var(--purple-light)' }}>{t.business.bilingualSection.enPostTags}</div>
-                </div>
-                <div style={{ background: 'var(--surface2)', border: '1px solid rgba(124,58,237,0.2)', borderRadius: '12px', padding: '16px' }}>
-                  <div style={{ fontFamily: 'var(--mono)', fontSize: '8px', color: 'var(--purple-light)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>
-                    {t.business.bilingualSection.esLabel}
-                  </div>
-                  <div style={{ fontSize: '13px', color: 'var(--text)', lineHeight: 1.6, marginBottom: '10px' }}>
-                    <strong>{t.business.bilingualSection.esPostTitle}</strong>
-                    <br />
-                    <br />
-                    {t.business.bilingualSection.esPostBody}
-                  </div>
-                  <div style={{ fontSize: '11px', color: 'var(--purple-light)' }}>{t.business.bilingualSection.esPostTags}</div>
-                </div>
-              </div>
-              <div style={{ padding: '0 22px 18px' }}>
-                <div style={{ fontFamily: 'var(--mono)', fontSize: '9px', color: 'var(--green)' }}>
-                  {t.business.bilingualSection.previewFootnote}
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
       <div className="divider"></div>
 
-      <BusinessPricingSection />
+      <div className="has-footer-4"><BusinessPricingSection /></div>
 
       <div className="divider"></div>
 
@@ -1021,42 +906,38 @@ export function BusinessPageContent() {
           <br />
           <span style={{ color: 'var(--orange)' }}>{t.business.testimonials.headlineHighlight}</span>
         </h2>
-        <div className="testi-inner-grid">
-          {testimonials.map((item, index) => (
-            <div className={`t-card rv ${index === 1 ? 'd1' : ''} ${index === 2 ? 'd2' : ''}`} key={`testimonial-${index}`}>
-              <span className="t-qmark">&ldquo;</span>
-              <div className="t-stars">★★★★★</div>
-              <p className="t-text">{item.testimonial}</p>
-              <div className="t-divider"></div>
-              <div className="t-author">
-                <Image
-                  src={item.testimonialImage}
-                  alt={item.testimonialName}
-                  width={48}
-                  height={48}
-                  loading="lazy"
-                  className="t-av-img"
-                  style={{
-                    width: '48px',
-                    height: '48px',
-                    borderRadius: '50%',
-                    objectFit: 'cover',
-                    border: '2px solid var(--border2)',
-                  }}
-                />
-                <div>
-                  <div className="t-name">{item.testimonialName}</div>
-                  <div className="t-role">{item.role}</div>
+        <div className="testi-marquee rv">
+          <div className="testi-track">
+            {[...testimonials, ...testimonials, ...testimonials, ...testimonials].map((item, index) => (
+              <div className="testi-card2" key={`testimonial-${index}`}>
+                <div className="testi-card2__body">
+                  <div className="t-stars">★★★★★</div>
+                  <p className="testi-card2__text">{item.testimonial}</p>
+                  <div className="t-author">
+                    <Image
+                      src={item.testimonialImage}
+                      alt={item.testimonialName}
+                      width={44}
+                      height={44}
+                      loading="lazy"
+                      className="t-av-img"
+                      style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border2)' }}
+                    />
+                    <div>
+                      <div className="t-name">{item.testimonialName}</div>
+                      <div className="t-role">{item.role}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       <div className="divider"></div>
 
-      <BusinessFaqSection />
+      <div className="has-footer-1"><BusinessFaqSection /></div>
 
       <div className="divider"></div>
 

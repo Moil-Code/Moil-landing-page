@@ -99,7 +99,7 @@ export const en = {
     ticker: {
       marketResearch: 'Market Research',
       businessPlan: 'Business Plan Generator',
-      content360: 'Content360 — 30-Day Calendar',
+      content360: 'Moil360 — 30-Day Calendar',
       aiImage: 'AI Image Generation',
       aiVideo: 'AI Video Generation',
       smartHiring: 'Smart Hiring — 2-Minute Job Posts',
@@ -128,7 +128,7 @@ export const en = {
         businessPlan: 'Business Plan',
         businessPlanSub: 'Investor-ready PDF with 5-year projections',
         businessPlanBadge: '1 Click',
-        content360: 'Content360',
+        content360: 'Moil360',
         content360Sub: '30-day calendar · AI images · AI video',
         content360Badge: 'Auto',
         smartHiring: 'Smart Hiring',
@@ -204,13 +204,13 @@ export const en = {
         tag3: 'Brand Aligned',
       },
       content360: {
-        title: 'Content360 — Your 30-Day Marketing Engine',
+        title: 'Moil360 — Your 30-Day Marketing Engine',
         description: 'Your complete monthly content department, built by AI. 30 days of researched topics, tested hooks, full captions by type, CTAs, hashtags, AI-generated images, and AI video for your highest-impact days.',
         tag1: '30-Day Calendar',
         tag2: 'AI Images',
         tag3: 'AI Video',
         tag4: 'Brand DNA',
-        exploreCta: 'Explore Content360 →',
+        exploreCta: 'Explore Moil360 →',
         previewTitle: '30-Day Preview',
         previewFootnote: '10 of 30 days shown · Every day complete',
       },
@@ -246,7 +246,7 @@ export const en = {
           desc: '5-year projections, revenue models, go-to-market strategy, operational roadmap. Download a polished PDF ready for investors, banks, or partners. Minutes, not months.',
         },
         step4: {
-          time: 'Content360',
+          time: 'Moil360',
           title: '30-Day Content Marketing Engine',
           desc: 'Complete calendar with researched topics, tested hooks, calibrated captions, CTAs, hashtags, 30 AI images, and AI video for your highest-impact days.',
         },
@@ -274,10 +274,10 @@ export const en = {
         '📄 24-page report ready to download →',
       ],
       convoUser2: 'Build me the 30-day content strategy and start the hiring pipeline for 3 HVAC techs.',
-      convoAi2: 'On it. Building your Content360 calendar + posting your job in 2 minutes now.',
+      convoAi2: 'On it. Building your Moil360 calendar + posting your job in 2 minutes now.',
       convoResult2Title: '✓ All Systems Active',
       convoResult2Items: [
-        '30-day Content360 calendar: complete',
+        '30-day Moil360 calendar: complete',
         '🖼 30 AI images generated — brand-aligned',
         'Job live in 2 min — AI matching candidates now',
         '3 candidates pre-scored — top match: 97% fit, Austin',
@@ -354,7 +354,7 @@ export const en = {
       genericCol: 'ChatGPT / DIY AI',
       rows: [
         ['Market Research (20–30 pages)', '✓ Instant', '✓ $5,000+', '✗'],
-        ['30-Day Content Calendar (Content360)', '✓ Automated', '✗', 'Partial'],
+        ['30-Day Content Calendar (Moil360)', '✓ Automated', '✗', 'Partial'],
         ['AI-Generated Images (30/month)', '✓ Included', '✗', '✗'],
         ['AI Video Generation', '✓ Included', '✗', '✗'],
         ['Investor-Ready Business Plan', '✓ One click', '✓ $15,000+', '✗'],
@@ -387,12 +387,12 @@ export const en = {
           badge: 'Both',
         },
         content: {
-          title: 'Content360 in Both Languages',
+          title: 'Moil360 in Both Languages',
           desc: 'Every caption, hook, and hashtag — one-click translate',
           badge: '1 Click',
         },
       },
-      previewTitle: 'Content360 Post Preview',
+      previewTitle: 'Moil360 Post Preview',
       enLabel: 'EN · English',
       esLabel: 'ES · Español',
       enPostTitle: 'From $0 to Booked Solid',
@@ -438,7 +438,7 @@ export const en = {
       },
       marketPro: {
         name: 'Market Pro',
-        tagline: 'Unlimited power. Full Content360 access. Maximum AI.',
+        tagline: 'Unlimited power. Full Moil360 access. Maximum AI.',
         cta: 'Start Market Pro →',
         badge: '⭐ BEST VALUE',
         monthlyPrice: '$75',
@@ -449,7 +449,7 @@ export const en = {
           'Unlimited AI images & edits',
           '30 min audio generation',
           '15 video credits/month',
-          'Content360 Full Access',
+          'Moil360 Full Access',
           'Market Pro suite',
           'AI Coach & deep market research',
           'Dedicated account support',
@@ -512,8 +512,8 @@ export const en = {
           answer: 'Moil’s AI scoring achieves 95% accuracy across skills, location, experience level, and language requirements. Businesses on Moil report a 94% interview success rate and 91% employee retention at 90 days.',
         },
         {
-          question: 'What is Content360?',
-          answer: 'Content360 is Moil’s AI-powered content marketing engine. It generates a complete 30-day content calendar with researched topics, captions, hashtags, AI-generated images, and AI video — all customized to your brand and industry. Includes 6 content types (Educational, Promotional, Engagement, Behind-the-Scenes, Entertainment) and is available in the Market Pro plan.',
+          question: 'What is Moil360?',
+          answer: 'Moil360 is Moil’s AI-powered content marketing engine. It generates a complete 30-day content calendar with researched topics, captions, hashtags, AI-generated images, and AI video — all customized to your brand and industry. Includes 6 content types (Educational, Promotional, Engagement, Behind-the-Scenes, Entertainment) and is available in the Market Pro plan.',
         },
         {
           question: 'Does Moil support Spanish (bilingual)?',
@@ -525,7 +525,7 @@ export const en = {
         },
         {
           question: 'Moil vs LivePlan, Bizway, or Upmetrics — which is best for business planning?',
-          answer: 'LivePlan, Bizway, and Upmetrics all produce business plans, and all three do that well. The difference: Moil treats the business plan as the start, not the end. After your plan generates, the same session also produces 20–30 pages of market research, your 30-day content calendar (Content360), and your hiring pipeline. The planning tools hand you a PDF; Moil hands you a plan plus the work for the next 90 days. Moil is also fully bilingual EN/ES, where most planning tools are English-only.',
+          answer: 'LivePlan, Bizway, and Upmetrics all produce business plans, and all three do that well. The difference: Moil treats the business plan as the start, not the end. After your plan generates, the same session also produces 20–30 pages of market research, your 30-day content calendar (Moil360), and your hiring pipeline. The planning tools hand you a PDF; Moil hands you a plan plus the work for the next 90 days. Moil is also fully bilingual EN/ES, where most planning tools are English-only.',
         },
         {
           question: 'Moil vs ZipRecruiter, Workable, or Indeed Smart Sourcing — which is best for hiring?',
@@ -533,7 +533,7 @@ export const en = {
         },
         {
           question: 'Moil vs Buffer, Later, or Hootsuite — which is best for content marketing?',
-          answer: 'Buffer, Later, and Hootsuite are great scheduling tools — you bring the content, they post it. Their AI add-ons help with captions, but you still start from a blank calendar. Moil’s Content360 generates the entire 30-day calendar for you: researched topics tied to your business plan and market research, full captions, hashtags, AI-generated images, and AI video for your highest-impact days. Schedulers solve distribution; Content360 solves the strategy and creation. Many SMBs use both — Content360 for what to post, a scheduler for when.',
+          answer: 'Buffer, Later, and Hootsuite are great scheduling tools — you bring the content, they post it. Their AI add-ons help with captions, but you still start from a blank calendar. Moil’s Moil360 generates the entire 30-day calendar for you: researched topics tied to your business plan and market research, full captions, hashtags, AI-generated images, and AI video for your highest-impact days. Schedulers solve distribution; Moil360 solves the strategy and creation. Many SMBs use both — Moil360 for what to post, a scheduler for when.',
         },
         {
           question: 'How is Moil different from hiring a business consultant?',
@@ -573,7 +573,7 @@ export const en = {
     },
   },
 
-  // Content360 Marketing Page
+  // Moil360 Marketing Page
   marketing: {
     nav: {
       howItWorks: 'How It Works',
@@ -590,7 +590,7 @@ export const en = {
       line2: 'of Marketing.',
       line3: 'Built by AI.',
       line4: 'Ready in Minutes.',
-      sub: 'Stop guessing. Content360 researches your market, writes every post, generates your visuals, creates AI video — and assembles your complete 30-day content calendar automatically.',
+      sub: 'Stop guessing. Moil360 researches your market, writes every post, generates your visuals, creates AI video — and assembles your complete 30-day content calendar automatically.',
       cta: '🚀 Get My Content Strategy',
       ctaSecondary: '▶ See How It Works',
       dashboardTitle: 'CONTENT360 — 30-DAY STRATEGY ENGINE',
@@ -607,7 +607,7 @@ export const en = {
       post3Caption: 'POV: You finally stop doing everything manually 😅 Thank you to our 500+ community!',
       post3Tags: '#ContentCreator #Community',
       post4Caption: 'The AI that runs your content while you run your business. Real results. 📊',
-      post4Tags: '#AI #Content360 #SmallBusiness',
+      post4Tags: '#AI #Moil360 #SmallBusiness',
     },
     problem: {
       sectionTag: 'The Reality',
@@ -629,7 +629,7 @@ export const en = {
       headLine1: 'Meet Your',
       headLine1Highlight: 'AI Marketing',
       headLine2: 'Department.',
-      sub: 'Watch Content360 assemble a real 30-day strategy — live — based on your actual business and real market data.',
+      sub: 'Watch Moil360 assemble a real 30-day strategy — live — based on your actual business and real market data.',
       terminalTitle: 'CONTENT360 VANGUARD ENGINE — STRATEGY ASSEMBLY IN PROGRESS',
       progressLabel: 'STRATEGY HEALTH',
     },
@@ -641,7 +641,7 @@ export const en = {
       sub: 'Every step automated. Every output professional. Every decision backed by real market data — not gut feelings.',
     },
     features: {
-      sectionTag: 'Content360 Deep Dive',
+      sectionTag: 'Moil360 Deep Dive',
       headLine1: 'Every Feature.',
       headLine1Highlight: 'Done Right.',
       postPreviewLabel: 'POST PREVIEW',

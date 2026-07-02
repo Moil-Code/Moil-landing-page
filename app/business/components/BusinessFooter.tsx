@@ -62,7 +62,7 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
   };
 
   return (
-    <footer>
+    <footer className="has-footer-2">
       <div className="footer-grid">
         <div>
           <a href="/business" className="footer-brand-logo">
