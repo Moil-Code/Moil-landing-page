@@ -481,7 +481,7 @@ export function BusinessPageContent() {
       <div className="divider"></div>
 
       {/* CAPABILITIES */}
-      <section id="capabilities" className="has-footer-2">
+      <section id="capabilities" className="has-footer-2 has-footer-blend">
         <div className="section-tag rv">{t.business.capabilities.tag}</div>
         <h2 className="section-headline rv">
           {t.business.capabilities.headline}
@@ -577,17 +577,16 @@ export function BusinessPageContent() {
         </div>
       </section>
 
-      <div className="divider"></div>
+      <div className="divider divider-seamless"></div>
 
       {/* JOURNEY */}
-      <section id="journey">
+      <section id="journey" className="has-head has-head-blend">
         <div className="journey-inner">
           <div className="section-tag rv">{t.business.journey.tag}</div>
           <h2 className="section-headline rv">
             {t.business.journey.headline}
             <br />
-            <span style={{ color: 'var(--orange)' }}>{t.business.journey.headlineHighlight1}</span>
-            <br />
+            <span style={{ color: 'var(--orange)' }}>{t.business.journey.headlineHighlight1}</span>{' '}
             <span style={{ color: 'var(--purple-light)' }}>{t.business.journey.headlineHighlight2}</span>
           </h2>
           <p className="section-sub rv">{t.business.journey.subheadline}</p>
@@ -617,9 +616,9 @@ export function BusinessPageContent() {
 
           <div style={{ textAlign: 'center', marginTop: '40px' }} className="rv">
             <div className="journey-arrow" aria-hidden="true">
-              <svg viewBox="0 0 84 100" width="64" height="80" fill="none">
-                <path d="M56 8 C 72 28, 32 30, 44 56 C 49 68, 44 80, 37 88" stroke="url(#jArrow)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M37 88 L 23 79 M37 88 L 52 82" stroke="url(#jArrow)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              <svg viewBox="0 0 110 120" width="76" height="88" fill="none">
+                <path d="M96 30 C 70 14, 44 28, 50 46 C 55 61, 76 57, 72 42 C 69 30, 54 33, 47 51 C 39 71, 37 91, 40 106" stroke="url(#jArrow)" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M40 106 L 27 91 M40 106 L 54 93" stroke="url(#jArrow)" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
                 <defs>
                   <linearGradient id="jArrow" x1="0" y1="0" x2="0" y2="1">
                     <stop stopColor="#FF5C1A" />
@@ -641,13 +640,12 @@ export function BusinessPageContent() {
       <div className="divider"></div>
 
       {/* HIRING */}
-      <section id="hiring">
+      <section id="hiring" className="has-head">
         <div className="section-tag rv">{t.business.hiring.tag}</div>
         <h2 className="section-headline rv">
           {t.business.hiring.headline}
           <br />
-          <span style={{ color: 'var(--orange)' }}>{t.business.hiring.headlineHighlight1}</span> {t.business.hiring.headlineMiddle}
-          <br />
+          <span style={{ color: 'var(--orange)' }}>{t.business.hiring.headlineHighlight1}</span> {t.business.hiring.headlineMiddle}{' '}
           <span style={{ color: 'var(--purple-light)' }}>{t.business.hiring.headlineHighlight2}</span>
         </h2>
         <p className="section-sub rv">{t.business.hiring.subheadline}</p>
@@ -892,12 +890,12 @@ export function BusinessPageContent() {
 
       <div className="divider"></div>
 
-      <div className="has-footer-4"><BusinessPricingSection /></div>
+      <div className="has-footer-4 has-footer-blend"><BusinessPricingSection /></div>
 
-      <div className="divider"></div>
+      <div className="divider divider-seamless"></div>
 
       {/* TESTIMONIALS */}
-      <section id="testimonials" style={{ textAlign: 'center' }}>
+      <section id="testimonials" className="has-head has-head-blend" style={{ textAlign: 'center' }}>
         <div className="section-tag rv" style={{ justifyContent: 'center' }}>
           {t.business.testimonials.tag}
         </div>

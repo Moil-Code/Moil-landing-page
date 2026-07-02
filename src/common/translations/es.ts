@@ -513,6 +513,7 @@ export const es: TranslationKeys = {
           question: '¿Qué tan precisa es la coincidencia de candidatos con IA de Moil?',
           answer: 'La IA de Moil logra un 95% de precisión en coincidencia de habilidades, ubicación, nivel de experiencia y requisitos de idioma. Los negocios en Moil reportan una tasa de éxito en entrevistas del 94% y retención de empleados del 91% a los 90 días.',
         },
+        /* FAQs adicionales ocultas por ahora — se mostrarán a través del asistente de IA más adelante.
         {
           question: '¿Qué es Moil360?',
           answer: 'Moil360 es el motor de marketing de contenido con IA de Moil. Genera un calendario completo de 30 días con temas investigados, captions, hashtags, imágenes generadas por IA y video con IA — todo personalizado a tu marca e industria. Incluye 6 tipos de contenido (Educativo, Promocional, Engagement, Detrás de Cámaras, Entretenimiento) y está disponible en el plan Market Pro.',
@@ -545,6 +546,7 @@ export const es: TranslationKeys = {
           question: '¿Mis datos de negocio están seguros?',
           answer: 'Sí. Moil cumple con SOC 2 con encriptación de nivel bancario. Tus datos de negocio, investigación de mercado e información de candidatos están protegidos y nunca se comparten con terceros. Moil es la opción de confianza de 500+ pequeños negocios y mantiene alianzas con Corporaciones de Desarrollo Económico y Cámaras de Comercio.',
         },
+        */
       ],
     },
     pricingPage: {

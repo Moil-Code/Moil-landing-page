@@ -381,14 +381,19 @@ nav.scrolled {
   font-family: var(--mono); font-size: 10px; color: var(--orange);
   text-transform: uppercase; letter-spacing: 3px;
   margin-bottom: 18px; display: flex; align-items: center; gap: 10px;
+  justify-content: center;
 }
 .section-tag::before { content: ''; display: block; width: 18px; height: 1px; background: var(--orange); flex-shrink: 0; }
 .section-headline {
   font-family: var(--display); font-size: clamp(40px, 6vw, 88px);
   line-height: 0.93; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 22px;
+  text-align: center;
 }
-.section-sub { font-size: 16px; font-weight: 300; color: var(--text2); max-width: 540px; line-height: 1.8; }
+.section-sub { font-size: 16px; font-weight: 300; color: var(--text2); max-width: 540px; line-height: 1.8; text-align: center; margin-left: auto; margin-right: auto; }
 .divider { width: 100%; height: 1px; background: var(--border); transition: background 0.4s; }
+/* Where a footer wave meets a header wave, hide the hard divider line so the
+   two full-bleed bands blend into each other instead of showing a seam. */
+.divider-seamless { background: transparent; }
 
 /* Scroll reveal */
 .rv { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
@@ -540,7 +545,7 @@ nav.scrolled {
 /* ===================================================
    JOURNEY — 6 STEPS
    =================================================== */
-#journey { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); transition: background 0.4s; }
+#journey { background: var(--surface); border-bottom: 1px solid var(--border); transition: background 0.4s; }
 .journey-inner { max-width: 1280px; margin: 0 auto; padding: 110px 52px; }
 .journey-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 64px; }
 .journey-steps { display: flex; flex-direction: column; gap: 0; position: relative; }
@@ -1361,11 +1366,54 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
   background-repeat: no-repeat;
   pointer-events: none;
   z-index: 0;
+  /* Fade the near-black top edge of the wave image into the section
+     background so there's no visible horizontal seam / demarcation. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 45%);
+          mask-image: linear-gradient(to bottom, transparent 0%, #000 45%);
 }
 .has-footer-1::after { background-image: url('/footer_1.jpg'); }
 .has-footer-2::after { background-image: url('/footer_2.jpg'); }
 .has-footer-3::after { background-image: url('/footer_3.jpg'); }
 .has-footer-4::after { background-image: url('/footer_4.jpg'); }
+
+/* ─── Header banner ───────────────────────────────────────────────────────────
+   Full-bleed glow banner (head_bg.png) anchored to a section's top edge, for
+   sections that don't carry a footer wave. Mirror of .has-footer-*: rendered as
+   a 100vw ::before and faded out at the bottom so it blends into the section. */
+.has-head { position: relative; }
+.has-head > * { position: relative; z-index: 1; }
+.has-head::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  aspect-ratio: 1672 / 941;
+  background-image: url('/head_bg.png');
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 0;
+  /* Fade the bottom edge into the section background so there's no seam. */
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 45%);
+          mask-image: linear-gradient(to top, transparent 0%, #000 45%);
+}
+
+/* ─── Footer → header blend ───────────────────────────────────────────────────
+   Where a footer wave is immediately followed by a header wave, also fade the
+   *inner* edges (footer's bottom, header's top) so the two full-bleed bands melt
+   into each other instead of butting at a hard seam. Applied per-boundary so it
+   doesn't dim header flares on sections that don't follow a footer wave. */
+.has-footer-blend::after {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 42%, #000 80%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0%, #000 42%, #000 80%, transparent 100%);
+}
+.has-head-blend::before {
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 42%, #000 82%, transparent 100%);
+          mask-image: linear-gradient(to top, transparent 0%, #000 42%, #000 82%, transparent 100%);
+}
 
 /* ─── Hiring — linear layout ──────────────────────────────────────────────────
    Centered heading → real candidate-match screenshot → steps row → stats → CTA. */

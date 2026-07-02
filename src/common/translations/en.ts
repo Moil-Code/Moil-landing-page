@@ -511,6 +511,7 @@ export const en = {
           question: 'How accurate is Moil’s AI candidate matching?',
           answer: 'Moil’s AI scoring achieves 95% accuracy across skills, location, experience level, and language requirements. Businesses on Moil report a 94% interview success rate and 91% employee retention at 90 days.',
         },
+        /* Additional FAQs hidden for now — will be surfaced via the AI assistant later.
         {
           question: 'What is Moil360?',
           answer: 'Moil360 is Moil’s AI-powered content marketing engine. It generates a complete 30-day content calendar with researched topics, captions, hashtags, AI-generated images, and AI video — all customized to your brand and industry. Includes 6 content types (Educational, Promotional, Engagement, Behind-the-Scenes, Entertainment) and is available in the Market Pro plan.',
@@ -543,6 +544,7 @@ export const en = {
           question: 'Is my business data secure?',
           answer: 'Yes. Moil is SOC 2 compliant with bank-level encryption. Your business data, market research, and candidate information are protected and never shared with third parties. Moil is trusted by 500+ small businesses and partners with Economic Development Corporations and Chambers of Commerce.',
         },
+        */
       ],
     },
     pricingPage: {
