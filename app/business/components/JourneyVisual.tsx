@@ -13,9 +13,11 @@ interface JourneyVisualProps {
 }
 
 /**
- * Sticky coach visual for the journey section. As the steps scroll past, a GSAP
- * ScrollTrigger scrub crossfades the two real screens: the "new chat" start
- * screen → the ongoing AI coach conversation.
+ * Journey section visual. Two real coach screens are stacked so the right column
+ * fills the full height of the steps column beside it — no dead space. Screen 1
+ * (the "new chat" start) shows first; as the steps scroll past, screen 2 (the
+ * ongoing conversation) rises and fades in to fill the space below, cued by a
+ * down arrow between them.
  */
 export function JourneyVisual({ startAlt, chatAlt }: JourneyVisualProps) {
   const root = useRef<HTMLDivElement>(null);
@@ -25,29 +27,34 @@ export function JourneyVisual({ startAlt, chatAlt }: JourneyVisualProps) {
     if (!el) return;
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
-      // Scrub crossfade start → conversation across the section's scroll.
-      gsap
-        .timeline({
-          scrollTrigger: { trigger: el, start: 'top 72%', end: 'bottom 45%', scrub: 1 },
-        })
-        .to('.jv-img-1', { opacity: 0, scale: 0.97, ease: 'none' })
-        .to('.jv-img-2', { opacity: 1, scale: 1, ease: 'none' }, '<');
-
-      // Soft intro lift.
-      gsap.from('.jv-frame', {
+      // Soft intro lift for the first screen.
+      gsap.from('.jv-frame-1', {
         opacity: 0,
         y: 34,
         duration: 0.8,
         ease: 'power2.out',
         scrollTrigger: { trigger: el, start: 'top 85%' },
       });
+
+      // Screen 2 rises + fades in as the section scrolls, filling the space.
+      gsap.fromTo(
+        ['.jv-arrow', '.jv-frame-2'],
+        { opacity: 0, y: 48 },
+        {
+          opacity: 1,
+          y: 0,
+          ease: 'none',
+          stagger: 0.05,
+          scrollTrigger: { trigger: el, start: 'top 70%', end: 'center 40%', scrub: 1 },
+        },
+      );
     }, root);
     return () => ctx.revert();
   }, []);
 
   return (
     <div className="jv" ref={root}>
-      <div className="jv-frame">
+      <div className="jv-frame jv-frame-1">
         <div className="jv-bar">
           <span className="jv-dot" style={{ background: '#FF5F56' }} />
           <span className="jv-dot" style={{ background: '#FFBD2E' }} />
@@ -61,6 +68,22 @@ export function JourneyVisual({ startAlt, chatAlt }: JourneyVisualProps) {
             fill
             sizes="(max-width: 900px) 100vw, 560px"
           />
+        </div>
+      </div>
+
+      <div className="jv-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 5v14M5 12l7 7 7-7" />
+        </svg>
+      </div>
+
+      <div className="jv-frame jv-frame-2">
+        <div className="jv-bar">
+          <span className="jv-dot" style={{ background: '#FF5F56' }} />
+          <span className="jv-dot" style={{ background: '#FFBD2E' }} />
+          <span className="jv-dot" style={{ background: '#27C93F' }} />
+        </div>
+        <div className="jv-stage">
           <Image
             className="jv-img jv-img-2"
             src="/Business_coach_chat.jpg"

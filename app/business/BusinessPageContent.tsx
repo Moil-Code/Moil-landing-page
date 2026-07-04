@@ -1,64 +1,21 @@
 'use client';
 
-import { useState, useEffect, JSX } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { ProductShot } from './components/ProductShot';
 import { BilingualSlider } from './components/BilingualSlider';
 import { JourneyVisual } from './components/JourneyVisual';
 import { productShots } from './productShots';
 import { BusinessFaqSection } from './components/BusinessFaqSection';
-import { BusinessFinalCta } from './components/BusinessFinalCta';
 import { BusinessFooter } from './components/BusinessFooter';
 import { BusinessMobileMenu } from './components/BusinessMobileMenu';
 import { BusinessNav, type NavItem } from './components/BusinessNav';
 import { BusinessPricingSection } from './components/BusinessPricingSection';
 import { useBusinessUi } from './hooks/useBusinessUi';
-import { BusinessCustomizeModal } from './components/BusinessCustomizeModal';
 import { useLanguageContext } from '../../src/common/components/I18nProvider';
 import { appendLangToUrl } from './utils/appendLangToUrl';
-import {
-  BarChart3,
-  ClipboardList,
-  Calendar,
-  Target,
-  MessageSquare,
-  Palette,
-  Globe,
-  Mic,
-  Edit3,
-  Rocket,
-  Star,
-  Bot,
-  FileText,
-  Play,
-  Lock,
-  ArrowRight,
-} from 'lucide-react';
-
-const IconMap: Record<string, JSX.Element> = {
-  chart: <BarChart3 size={24} />,
-  clipboard: <ClipboardList size={24} />,
-  calendar: <Calendar size={24} />,
-  target: <Target size={24} />,
-  message: <MessageSquare size={24} />,
-  palette: <Palette size={24} />,
-  globe: <Globe size={24} />,
-  mic: <Mic size={24} />,
-  edit: <Edit3 size={24} />,
-  rocket: <Rocket size={24} />,
-  star: <Star size={24} fill="currentColor" />,
-  bot: <Bot size={24} />,
-  document: <FileText size={24} />,
-  play: <Play size={24} fill="currentColor" />,
-  lock: <Lock size={16} />,
-  arrowRight: <ArrowRight size={16} />,
-};
-
-const testimonialImages = [
-  "https://res.cloudinary.com/drlcisipo/image/upload/v1721818529/Website%20images/Luis_Vives_pleeyc.jpg",
-  "https://res.cloudinary.com/drlcisipo/image/upload/v1721818532/Website%20images/Liliana_Cervantes_g2gb0v.jpg",
-  "https://res.cloudinary.com/drlcisipo/image/upload/v1721818530/Website%20images/Miguel_Bustos_aktvri.jpg",
-];
+import { IconMap, testimonialImages } from './sections/iconMap';
+import { HeroSection } from './sections/HeroSection';
 
 export function BusinessPageContent() {
   const { theme, toggleTheme, menuOpen, setMenuOpen, scrolled } = useBusinessUi();
@@ -219,67 +176,8 @@ export function BusinessPageContent() {
         setShowLanguageModal={setShowLanguageModal}
       />
 
-      {/* HERO */}
-      <section id="hero">
-        <div className="hero-bg" aria-hidden="true">
-          <Image
-            src="/hero_bg.jpg"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="hero-bg__img"
-          />
-        </div>
-        <div className="hero-grid"></div>
-        <div className="hero-orb orb1"></div>
-        <div className="hero-orb orb2"></div>
-        <div className="hero-orb orb3"></div>
-
-        <div className="hero-eyebrow">
-          <span className="eyebrow-pulse"></span>
-          <span style={{ display: 'inline-flex', alignItems: 'center', marginRight: '6px' }}>{IconMap.rocket}</span> {t.business.hero.eyebrow}
-        </div>
-
-        <h1 className="hero-headline">
-          {t.business.hero.headline} <span className="hl-o">{t.business.hero.headlineHighlight1}</span>
-          <br />
-          {t.business.hero.headlineMiddle}
-          <br />
-          <span className="hl-p">{t.business.hero.headlineHighlight2}</span>
-        </h1>
-
-        <p className="hero-sub">
-          {t.business.hero.subheadline}
-        </p>
-
-        <div className="hero-ctas">
-          <a className="btn-primary" href={appendLangToUrl("https://business.moilapp.com/register", currentLang)} rel="noreferrer">
-            {t.business.hero.cta} <span>→</span>
-          </a>
-          <a className="btn-secondary" href="#journey">
-            <span style={{ display: 'inline-flex', alignItems: 'center', marginRight: '6px' }}>{IconMap.play}</span> {t.business.hero.ctaSecondary}
-          </a>
-        </div>
-
-        <div className="hero-trust">
-          <div className="trust-pill">
-            <span className="dot dot-g"></span> {t.business.hero.trust500}
-          </div>
-          <div className="trust-pill">
-            <span className="dot dot-o"></span> {t.business.hero.trust5000}
-          </div>
-          <div className="trust-pill">
-            <span className="dot dot-p"></span> {t.business.hero.trust94}
-          </div>
-          <div className="trust-pill">
-            <span className="dot dot-g"></span> {t.business.hero.trustBilingual}
-          </div>
-          <div className="trust-pill">
-            <span className="dot dot-o"></span> {t.business.hero.trustPrice}
-          </div>
-        </div>
-      </section>
+      {/* HERO — extracted to sections/HeroSection.tsx (Tailwind + GSAP) */}
+      <HeroSection />
 
       {/* TICKER */}
       <div className="capabilities-bar">
@@ -614,11 +512,29 @@ export function BusinessPageContent() {
             />
           </div>
 
-          <div style={{ textAlign: 'center', marginTop: '40px' }} className="rv">
+          <div className="rv journey-cta">
             <div className="journey-arrow" aria-hidden="true">
-              <svg viewBox="0 0 110 120" width="76" height="88" fill="none">
-                <path d="M96 30 C 70 14, 44 28, 50 46 C 55 61, 76 57, 72 42 C 69 30, 54 33, 47 51 C 39 71, 37 91, 40 106" stroke="url(#jArrow)" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M40 106 L 27 91 M40 106 L 54 93" stroke="url(#jArrow)" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
+              {/* Curly arrow that sweeps from under the second coach screen (upper
+                  right) down to the CTA button, drawn on scroll via .rv.in. */}
+              <svg className="ja-svg" viewBox="0 0 300 130" fill="none">
+                <path
+                  className="ja-path"
+                  pathLength={1}
+                  d="M288 16 C 210 2, 150 10, 150 50 C 150 74, 182 78, 178 54 C 175 38, 146 42, 128 66 C 104 98, 74 110, 48 118"
+                  stroke="url(#jArrow)"
+                  strokeWidth="3.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  className="ja-head"
+                  pathLength={1}
+                  d="M48 118 L 36 98 M48 118 L 68 108"
+                  stroke="url(#jArrow)"
+                  strokeWidth="3.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
                 <defs>
                   <linearGradient id="jArrow" x1="0" y1="0" x2="0" y2="1">
                     <stop stopColor="#FF5C1A" />
@@ -935,11 +851,7 @@ export function BusinessPageContent() {
 
       <div className="divider"></div>
 
-      <div className="has-footer-1"><BusinessFaqSection /></div>
-
-      <div className="divider"></div>
-
-      <BusinessFinalCta />
+      <BusinessFaqSection />
 
       <BusinessFooter theme={theme} onToggleTheme={toggleTheme} onLanguageChange={handleLanguageChange} currentLang={currentLang} />
 

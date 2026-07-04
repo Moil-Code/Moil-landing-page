@@ -145,7 +145,7 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
         <span className="footer-copy">{t.footer.copyright}</span>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
           <div className="lang-toggle" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Globe size={14} style={{ color: 'var(--text3)', marginRight: '4px' }} />
+            <Globe size={14} style={{ color: 'rgba(255,255,255,0.72)', marginRight: '4px' }} />
             <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => handleLangChange('en')}>
               EN
             </button>
@@ -158,7 +158,7 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
               style={{
                 fontFamily: 'var(--mono)',
                 fontSize: '10px',
-                color: 'var(--text3)',
+                color: 'rgba(255,255,255,0.72)',
                 textTransform: 'uppercase',
                 letterSpacing: '1px',
               }}
