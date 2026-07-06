@@ -137,8 +137,6 @@ export function BusinessPageContent() {
     { label: t.business.statsSection.stats.startingPrice, target: 25, prefix: '$' },
   ];
 
-  const comparisonRows = t.business.compare.rows;
-
   const bilingualHighlights = [
     { icon: 'globe', title: t.business.bilingualSection.highlights.reach.title, desc: t.business.bilingualSection.highlights.reach.desc, badge: t.business.bilingualSection.highlights.reach.badge, badgeClass: 'badge-g' },
     { icon: 'mic', title: t.business.bilingualSection.highlights.voice.title, desc: t.business.bilingualSection.highlights.voice.desc, badge: t.business.bilingualSection.highlights.voice.badge, badgeClass: 'badge-o' },
@@ -516,22 +514,22 @@ export function BusinessPageContent() {
             <div className="journey-arrow" aria-hidden="true">
               {/* Curly arrow that sweeps from under the second coach screen (upper
                   right) down to the CTA button, drawn on scroll via .rv.in. */}
-              <svg className="ja-svg" viewBox="0 0 300 130" fill="none">
+              <svg className="ja-svg" viewBox="0 0 300 300" fill="none">
                 <path
                   className="ja-path"
                   pathLength={1}
-                  d="M288 16 C 210 2, 150 10, 150 50 C 150 74, 182 78, 178 54 C 175 38, 146 42, 128 66 C 104 98, 74 110, 48 118"
+                  d="M288 20 C 205 6, 150 24, 150 78 C 150 108, 186 114, 180 84 C 175 60, 142 66, 128 102 C 106 156, 78 226, 48 286"
                   stroke="url(#jArrow)"
-                  strokeWidth="3.2"
+                  strokeWidth="2.6"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
                 <path
                   className="ja-head"
                   pathLength={1}
-                  d="M48 118 L 36 98 M48 118 L 68 108"
+                  d="M48 286 L 34 262 M48 286 L 72 274"
                   stroke="url(#jArrow)"
-                  strokeWidth="3.2"
+                  strokeWidth="2.6"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
@@ -635,129 +633,6 @@ export function BusinessPageContent() {
           </div>
         </div>
       </div>
-
-      <div className="divider"></div>
-
-      {/* COMPARISON */}
-      <section id="compare" className="section-wrap has-footer-3">
-        <div className="section-tag rv" style={{ justifyContent: 'center' }}>
-          {t.business.compare.tag}
-        </div>
-        <h2 className="section-headline rv" style={{ textAlign: 'center' }}>
-          {t.business.compare.headline}<br />
-          <span style={{ color: 'var(--orange)' }}>{t.business.compare.headlineHighlight1}</span> {t.business.compare.headlineMiddle}<br />
-          <span style={{ color: 'var(--purple-light)' }}>{t.business.compare.headlineHighlight2}</span>
-        </h2>
-        <p
-          className="rv"
-          style={{ textAlign: 'center', fontSize: '16px', color: 'var(--text2)', maxWidth: '580px', margin: '16px auto 52px', fontWeight: 300 }}
-        >
-          {t.business.compare.subheadline}
-        </p>
-
-        <div className="rv" style={{ overflowX: 'auto', borderRadius: '18px', border: '1px solid var(--border2)' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px', minWidth: '640px' }}>
-            <thead>
-              <tr>
-                <th
-                  style={{
-                    padding: '20px 28px',
-                    textAlign: 'left',
-                    fontFamily: 'var(--mono)',
-                    fontSize: '10px',
-                    letterSpacing: '2px',
-                    textTransform: 'uppercase',
-                    color: 'var(--text3)',
-                    background: 'var(--surface2)',
-                    borderBottom: '1px solid var(--border)',
-                  }}
-                >
-                  {t.business.compare.featureCol}
-                </th>
-                <th
-                  style={{
-                    padding: '20px 24px',
-                    textAlign: 'center',
-                    fontFamily: 'var(--display)',
-                    fontSize: '20px',
-                    letterSpacing: '2px',
-                    background: 'linear-gradient(135deg,rgba(255,92,26,0.1),rgba(124,58,237,0.07))',
-                    borderBottom: '2px solid var(--orange)',
-                    color: 'var(--orange)',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  MOIL <span style={{ display: 'inline-flex', marginLeft: '4px', color: 'var(--orange)' }}>{IconMap.star}</span>
-                </th>
-                <th
-                  style={{
-                    padding: '20px 24px',
-                    textAlign: 'center',
-                    fontFamily: 'var(--mono)',
-                    fontSize: '10px',
-                    letterSpacing: '1px',
-                    textTransform: 'uppercase',
-                    color: 'var(--text3)',
-                    background: 'var(--surface2)',
-                    borderBottom: '1px solid var(--border)',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {t.business.compare.consultantCol}
-                </th>
-                <th
-                  style={{
-                    padding: '20px 24px',
-                    textAlign: 'center',
-                    fontFamily: 'var(--mono)',
-                    fontSize: '10px',
-                    letterSpacing: '1px',
-                    textTransform: 'uppercase',
-                    color: 'var(--text3)',
-                    background: 'var(--surface2)',
-                    borderBottom: '1px solid var(--border)',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {t.business.compare.genericCol}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {comparisonRows.map((row, index) => {
-                const moilColor = row[1].startsWith('✓') ? 'var(--green)' : row[1].startsWith('$25') ? 'var(--orange)' : 'var(--text)';
-                const consColor = row[2] === '✗' ? 'var(--text3)' : 'var(--text2)';
-                const genColor = row[3] === '✗' ? 'var(--text3)' : 'var(--text2)';
-                return (
-                  <tr key={`compare-row-${index}`} style={{ borderBottom: index === comparisonRows.length - 1 ? 'none' : '1px solid var(--border)', transition: 'background 0.2s' }}>
-                    <td style={{ padding: '16px 28px', color: 'var(--text)', fontWeight: 500, fontSize: '13px' }}>{row[0]}</td>
-                    <td
-                      style={{
-                        padding: '16px 24px',
-                        textAlign: 'center',
-                        fontWeight: 700,
-                        color: moilColor,
-                        background: 'linear-gradient(135deg,rgba(255,92,26,0.04),rgba(124,58,237,0.02))',
-                        fontSize: '13px',
-                      }}
-                    >
-                      {row[1]}
-                    </td>
-                    <td style={{ padding: '16px 24px', textAlign: 'center', color: consColor, fontSize: '13px' }}>{row[2]}</td>
-                    <td style={{ padding: '16px 24px', textAlign: 'center', color: genColor, fontSize: '13px' }}>{row[3]}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-
-        <div style={{ textAlign: 'center', marginTop: '44px' }} className="rv">
-          <a className="btn-primary" href={appendLangToUrl("https://business.moilapp.com/register", currentLang)} target="_blank" rel="noreferrer">
-            {t.business.compare.cta}
-          </a>
-        </div>
-      </section>
 
       <div className="divider"></div>
 

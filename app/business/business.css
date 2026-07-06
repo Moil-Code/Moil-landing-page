@@ -80,13 +80,15 @@ body {
   font-family: var(--body) !important; overflow-x: hidden; cursor: none;
   transition: background 0.4s, color 0.4s;
 }
+/* Film-grain noise overlay fully disabled. It was only dimmed on the
+   theme-scoped rules, so before JS set data-theme on load it rendered at full
+   opacity — reading as a hazy "loading" grain. opacity:0 on the base rule keeps
+   it off in every state. */
 body::before {
   content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9997;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0;
   transition: opacity 0.4s;
 }
-[data-theme="dark"] body::before { opacity: 0.022; }
-[data-theme="light"] body::before { opacity: 0.01; }
 
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
@@ -927,7 +929,7 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
 }
 
 /* Comparison hover */
-#compare table tbody tr:hover { background: var(--surface2); }
+#compare table tbody tr:hover, #problem table tbody tr:hover { background: var(--surface2); }
 /* ===================================================
    LAYOUT HELPERS (extracted from inline styles)
    =================================================== */
@@ -1248,7 +1250,7 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
   padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   overflow: hidden;
 }
 .cap-card--wave .cap-card__body {
@@ -1609,7 +1611,9 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
 }
 .journey-arrow {
   position: absolute;
-  top: 0;
+  /* Lifted up so the tail starts just under the second coach screen; the taller
+     SVG keeps the arrowhead landing on the button below. */
+  top: -230px;
   left: 50%;
   transform: translateX(-61px);
   width: 381px;

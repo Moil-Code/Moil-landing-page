@@ -1,6 +1,6 @@
 const NotFoundPage = () => {
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
+    <div className="w-screen h-screen flex justify-center items-center" style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
         <div className="relative w-full h-screen overflow-hidden">
       <img
         src="https://res.cloudinary.com/drlcisipo/image/upload/v1721755770/Error_404_ye4ium.png"
