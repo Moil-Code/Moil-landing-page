@@ -1307,7 +1307,7 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
     url('/card_bg_3.jpg') center / cover;
 }
 
-/* ─── Document Creation — full redesign over document_bg ──────────────────────
+/* ─── Document Creation — full redesign over comment_bg ───────────────────────
    The wave art (with its document icon) fills the card; content is anchored at
    the bottom under a bottom-heavy scrim so the icon + wave show up top. */
 .cap-card--document {
