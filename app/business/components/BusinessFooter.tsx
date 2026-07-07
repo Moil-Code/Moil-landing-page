@@ -61,30 +61,23 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
     }
   };
 
+  const SOCIAL_LINKS = [
+    { name: 'in', href: 'https://www.linkedin.com/company/moilapp', label: 'Moil on LinkedIn' },
+    { name: '𝕏', href: 'https://x.com/MoilApp', label: 'Moil on X' },
+    { name: 'ig', href: 'https://www.instagram.com/themoilapp/', label: 'Moil on Instagram' },
+    { name: 'tt', href: 'https://www.tiktok.com/@moilapp', label: 'Moil on TikTok' },
+    { name: 'fb', href: 'https://www.facebook.com/MoilWorks/', label: 'Moil on Facebook' },
+  ];
+
   return (
     <footer className="has-footer-2">
+      {/* Large italic tagline — Manus-style */}
+      <div className="footer-hero-tagline">
+        One platform.<br />Every tool your<br />business needs.
+      </div>
+
+      {/* Nav columns */}
       <div className="footer-grid">
-        <div>
-          <a href="/business" className="footer-brand-logo">
-            <img 
-              src="https://res.cloudinary.com/drlcisipo/image/upload/v1705704261/Website%20images/logo_gox0fw.png" 
-              alt="Moil Logo" 
-              style={{ 
-                height: '40px', 
-                width: 'auto',
-                filter: theme === 'dark' ? 'brightness(0) invert(1)' : 'none'
-              }}
-            />
-          </a>
-          <p className="footer-tagline">
-            {t.footer.tagline}
-          </p>
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '8px' }}>
-            <span className="f-badge fb-g">{t.footer.badges.aiPowered}</span>
-            <span className="f-badge fb-p">{t.footer.badges.bilingual}</span>
-            <span className="f-badge fb-o">{t.footer.badges.businesses}</span>
-          </div>
-        </div>
         <div>
           <div className="footer-col-title">{t.footer.platform}</div>
           <div className="footer-links">
@@ -95,36 +88,25 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
             <a href={appendLangToUrl("https://business.moilapp.com/register", lang)} target="_blank" rel="noreferrer">
               {t.footer.platformLinks.postAJob}
             </a>
+            <a href={`/candidate?lg=${lang}`}>{t.footer.resourceLinks.forJobSeekers}</a>
           </div>
         </div>
         <div>
           <div className="footer-col-title">{t.footer.resources}</div>
           <div className="footer-links">
-            <a href="https://blog.moilapp.com" target="_blank" rel="noreferrer">
-              {t.footer.resourceLinks.blog}
-            </a>
-            <a href={appendLangToUrl("https://moilapp.com/business", lang)} target="_blank" rel="noreferrer">
-              {t.footer.resourceLinks.aboutUs}
-            </a>
-            <a href={appendLangToUrl("https://moilapp.com/contact", lang)} target="_blank" rel="noreferrer">
-              {t.footer.resourceLinks.contact}
-            </a>
-            <a href={appendLangToUrl("https://moilapp.com/privacy", lang)} target="_blank" rel="noreferrer">
-              {t.footer.resourceLinks.privacyPolicy}
-            </a>
-            <a href={appendLangToUrl("https://moilapp.com/terms", lang)} target="_blank" rel="noreferrer">
-              {t.footer.resourceLinks.termsOfService}
-            </a>
-            <a href={appendLangToUrl("https://moilapp.com/cookies", lang)} target="_blank" rel="noreferrer">
-              {t.footer.resourceLinks.cookiePolicy}
-            </a>
-            <a href={appendLangToUrl("https://moilapp.com/privacy-choices", lang)} target="_blank" rel="noreferrer">
-              {t.footer.resourceLinks.privacyChoices}
-            </a>
-            <a href={appendLangToUrl("https://moilapp.com/accessibility", lang)} target="_blank" rel="noreferrer">
-              {t.footer.resourceLinks.accessibility}
-            </a>
-            <a href={`/candidate?lg=${lang}`}>{t.footer.resourceLinks.forJobSeekers}</a>
+            <a href="https://blog.moilapp.com" target="_blank" rel="noreferrer">{t.footer.resourceLinks.blog}</a>
+            <a href={appendLangToUrl("https://moilapp.com/business", lang)} target="_blank" rel="noreferrer">{t.footer.resourceLinks.aboutUs}</a>
+            <a href={appendLangToUrl("https://moilapp.com/contact", lang)} target="_blank" rel="noreferrer">{t.footer.resourceLinks.contact}</a>
+            <a href="/privacy">{t.footer.resourceLinks.privacyPolicy}</a>
+            <a href="/terms">{t.footer.resourceLinks.termsOfService}</a>
+            <a href="/cookies">{t.footer.resourceLinks.cookiePolicy}</a>
+          </div>
+        </div>
+        <div>
+          <div className="footer-col-title">Compare</div>
+          <div className="footer-links">
+            <a href="/compare/moil-vs-chatgpt">Moil vs ChatGPT</a>
+            <a href="/compare/moil-vs-claude">Moil vs Claude</a>
           </div>
         </div>
         <div>
@@ -141,41 +123,43 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
           </div>
         </div>
       </div>
+
+      {/* Bottom bar: logo | copyright | controls + socials */}
       <div className="footer-bottom">
-        <span className="footer-copy">{t.footer.copyright}</span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
-          <div className="lang-toggle" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Globe size={14} style={{ color: 'rgba(255,255,255,0.72)', marginRight: '4px' }} />
-            <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => handleLangChange('en')}>
-              EN
-            </button>
-            <button className={`lang-btn ${lang === 'es' ? 'active' : ''}`} onClick={() => handleLangChange('es')}>
-              ES
-            </button>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span
-              style={{
-                fontFamily: 'var(--mono)',
-                fontSize: '10px',
-                color: 'rgba(255,255,255,0.72)',
-                textTransform: 'uppercase',
-                letterSpacing: '1px',
-              }}
-            >
-              Theme
-            </span>
-            <button className="theme-toggle" onClick={onToggleTheme} aria-label="Toggle theme">
-              <div className="toggle-knob">
-                {theme === 'dark' ? <Moon size={14} /> : <Sun size={14} />}
-              </div>
-            </button>
-          </div>
+        {/* Logo */}
+        <div className="footer-bottom-logo">
+          <a href="/business">
+            <img
+              src="https://res.cloudinary.com/drlcisipo/image/upload/v1705704261/Website%20images/logo_gox0fw.png"
+              alt="Moil Logo"
+              style={{ height: '32px', width: 'auto', filter: theme === 'dark' ? 'brightness(0) invert(1)' : 'none' }}
+            />
+          </a>
         </div>
-        <div className="footer-badges">
-          <span className="f-badge fb-g">SOC 2</span>
-          <span className="f-badge fb-p">EN/ES</span>
-          <span className="f-badge fb-o">{t.business.pricing.trust.guarantee}</span>
+
+        {/* Copyright */}
+        <span className="footer-copy">{t.footer.copyright}</span>
+
+        {/* Controls + social icons */}
+        <div className="footer-bottom-right">
+          {/* Lang toggle */}
+          <div className="lang-toggle" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <Globe size={13} style={{ color: 'rgba(255,255,255,0.5)', marginRight: '2px' }} />
+            <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => handleLangChange('en')}>EN</button>
+            <button className={`lang-btn ${lang === 'es' ? 'active' : ''}`} onClick={() => handleLangChange('es')}>ES</button>
+          </div>
+          {/* Theme toggle */}
+          <button className="theme-toggle" onClick={onToggleTheme} aria-label="Toggle theme">
+            <div className="toggle-knob">
+              {theme === 'dark' ? <Moon size={14} /> : <Sun size={14} />}
+            </div>
+          </button>
+          {/* Badges */}
+          <div className="footer-badges">
+            <span className="f-badge fb-g">{t.footer.badges.aiPowered}</span>
+            <span className="f-badge fb-p">{t.footer.badges.bilingual}</span>
+            <span className="f-badge fb-o">{t.footer.badges.businesses}</span>
+          </div>
         </div>
       </div>
     </footer>

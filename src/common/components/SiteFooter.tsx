@@ -39,6 +39,11 @@ const NAV_LINKS: readonly NavLink[] = [
   { label: 'Blog', href: 'https://blog.moilapp.com', external: true },
 ];
 
+const COMPARE_LINKS: readonly NavLink[] = [
+  { label: 'Moil vs ChatGPT', href: '/compare/moil-vs-chatgpt' },
+  { label: 'Moil vs Claude', href: '/compare/moil-vs-claude' },
+];
+
 // Legal lives in the footer (organized), never the header. Both point to the
 // combined Terms-of-Service + Privacy page at /privacy.
 const LEGAL_LINKS: readonly NavLink[] = [
@@ -47,7 +52,7 @@ const LEGAL_LINKS: readonly NavLink[] = [
 ];
 
 // Section routes that ship their own footer — hide the global one there.
-const OWN_FOOTER_PREFIXES = ['/business', '/es/business', '/candidate', '/marketing'];
+const OWN_FOOTER_PREFIXES = ['/business', '/es/business', '/candidate', '/marketing', '/compare'];
 
 export function SiteFooter() {
   const pathname = usePathname() || '/';
@@ -87,6 +92,22 @@ export function SiteFooter() {
             </a>
           ))}
         </nav>
+
+        {/* Compare links */}
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wide text-white mb-3">Compare</p>
+          <div className="flex flex-col gap-2">
+            {COMPARE_LINKS.map(({ label, href }) => (
+              <a
+                key={href}
+                href={href}
+                className="text-xs text-gray-400 transition hover:text-white hover:underline"
+              >
+                {label}
+              </a>
+            ))}
+          </div>
+        </div>
 
         {/* Social — rel="me" is the SEO signal */}
         <div>
