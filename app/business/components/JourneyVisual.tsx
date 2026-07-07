@@ -63,7 +63,7 @@ export function JourneyVisual({ startAlt, chatAlt }: JourneyVisualProps) {
         <div className="jv-stage">
           <Image
             className="jv-img jv-img-1"
-            src="/new_chat_business_coach.jpg"
+            src="https://res.cloudinary.com/daudj5isi/image/upload/v1783393117/new_chat_business_coach_nfqhh2.jpg"
             alt={startAlt}
             fill
             sizes="(max-width: 900px) 100vw, 560px"
@@ -86,7 +86,7 @@ export function JourneyVisual({ startAlt, chatAlt }: JourneyVisualProps) {
         <div className="jv-stage">
           <Image
             className="jv-img jv-img-2"
-            src="/Business_coach_chat.jpg"
+            src="https://res.cloudinary.com/daudj5isi/image/upload/v1783393117/Business_coach_chat_pmmtbm.jpg"
             alt={chatAlt}
             fill
             sizes="(max-width: 900px) 100vw, 560px"

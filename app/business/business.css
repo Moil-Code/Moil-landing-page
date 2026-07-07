@@ -1246,11 +1246,11 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
    scrim hides the baked line-icon and keeps text crisp, while the colored wave
    glows through toward the bottom (behind the tags). */
 .cap-card--wave {
-  min-height: 380px;
+  min-height: 550px;
   padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   overflow: hidden;
 }
 .cap-card--wave .cap-card__body {
@@ -1258,12 +1258,12 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
 }
 .cap-card--w1 { background: linear-gradient(to top, rgba(6,8,13,0.96) 0%, rgba(6,8,13,0.82) 30%, rgba(6,8,13,0.32) 60%, transparent 86%), url('/chart.jpg') center top / cover; }
 .cap-card--w2 { background: linear-gradient(to top, rgba(6,8,13,0.96) 0%, rgba(6,8,13,0.82) 30%, rgba(6,8,13,0.32) 60%, transparent 86%), url('/document.jpg') center top / cover; }
-.cap-card--w3 { background: linear-gradient(to top, rgba(6,8,13,0.96) 0%, rgba(6,8,13,0.82) 30%, rgba(6,8,13,0.32) 60%, transparent 86%), url('/canvas.jpg') center top / cover; }
+.cap-card--w3 { background: linear-gradient(to top, rgba(6,8,13,0.96) 0%, rgba(6,8,13,0.82) 30%, rgba(6,8,13,0.32) 60%, transparent 86%), url('https://res.cloudinary.com/daudj5isi/image/upload/v1783393118/canvas_vepl0c.png') center top / cover; }
 
 /* Light theme scrims. */
 [data-theme="light"] .cap-card--w1 { background: linear-gradient(to top, rgba(249,248,255,0.96) 0%, rgba(249,248,255,0.82) 30%, rgba(249,248,255,0.38) 60%, transparent 86%), url('/chart.jpg') center top / cover; }
 [data-theme="light"] .cap-card--w2 { background: linear-gradient(to top, rgba(249,248,255,0.96) 0%, rgba(249,248,255,0.82) 30%, rgba(249,248,255,0.38) 60%, transparent 86%), url('/document.jpg') center top / cover; }
-[data-theme="light"] .cap-card--w3 { background: linear-gradient(to top, rgba(249,248,255,0.96) 0%, rgba(249,248,255,0.82) 30%, rgba(249,248,255,0.38) 60%, transparent 86%), url('/canvas.jpg') center top / cover; }
+[data-theme="light"] .cap-card--w3 { background: linear-gradient(to top, rgba(249,248,255,0.96) 0%, rgba(249,248,255,0.82) 30%, rgba(249,248,255,0.38) 60%, transparent 86%), url('https://res.cloudinary.com/daudj5isi/image/upload/v1783393118/canvas_vepl0c.png') center top / cover; }
 
 /* ─── Identity / co-founder — linear layout ──────────────────────────────────
    Centered heading + pull-quote, then real product screenshots (was a 2-column
@@ -1311,7 +1311,7 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
    The wave art (with its document icon) fills the card; content is anchored at
    the bottom under a bottom-heavy scrim so the icon + wave show up top. */
 .cap-card--document {
-  min-height: 460px;
+  min-height: 550px;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -1319,7 +1319,7 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
   overflow: hidden;
   background:
     linear-gradient(to top, rgba(6,8,13,0.97) 0%, rgba(6,8,13,0.86) 28%, rgba(6,8,13,0.36) 58%, transparent 84%),
-    url('/document_bg.jpg') center top / cover;
+    url('/comment_bg.jpg') center top / cover;
   border-color: rgba(124, 58, 237, 0.25);
 }
 .cap-card--document .cap-card__body {
@@ -1328,7 +1328,7 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
 [data-theme="light"] .cap-card--document {
   background:
     linear-gradient(to top, rgba(249,248,255,0.97) 0%, rgba(249,248,255,0.86) 28%, rgba(249,248,255,0.4) 58%, transparent 84%),
-    url('/document_bg.jpg') center top / cover;
+    url('/comment_bg.jpg') center top / cover;
 }
 
 /* ─── Wave button ────────────────────────────────────────────────────────────

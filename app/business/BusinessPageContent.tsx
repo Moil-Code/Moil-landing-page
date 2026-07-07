@@ -652,8 +652,8 @@ export function BusinessPageContent() {
 
           <div className="rv d2 bilingual-slider-slot">
             <BilingualSlider
-              beforeSrc="/English.jpg"
-              afterSrc="/spanish.jpg"
+              beforeSrc="https://res.cloudinary.com/daudj5isi/image/upload/v1783393116/English_qf2g4a.png"
+              afterSrc="https://res.cloudinary.com/daudj5isi/image/upload/v1783393116/Spanish_ocrzla.png"
               beforeAlt={`Moil — ${t.business.bilingualSection.enLabel}`}
               afterAlt={`Moil — ${t.business.bilingualSection.esLabel}`}
               beforeLabel="EN"
