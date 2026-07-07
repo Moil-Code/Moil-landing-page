@@ -76,7 +76,14 @@ export function HeroSection() {
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[68%] [mask-image:linear-gradient(to_top,#000_60%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_top,#000_60%,transparent_100%)]"
       >
-        <Image src="/hero_bg.jpg" alt="" fill priority sizes="100vw" className="object-cover object-[center_bottom]" />
+        <Image src="/hero_bg.jpg" alt="" fill priority sizes="100vw" className="hero-bg-dark object-cover object-[center_bottom]" />
+        <Image
+          src="https://res.cloudinary.com/daudj5isi/image/upload/v1783442089/hero_bg_light_eeeazi.png"
+          alt=""
+          fill
+          sizes="100vw"
+          className="hero-bg-light object-cover object-[center_bottom]"
+        />
       </div>
 
       {/* Faint grid overlay, radially masked to the centre. */}

@@ -30,17 +30,17 @@ export interface ProductShotSource {
 
 export const productShots: Record<string, ProductShotSource> = {
   // CAPABILITIES → Moil360 — the content calendar with real posts/thumbnails.
-  content360: { srcLight: 'https://res.cloudinary.com/daudj5isi/image/upload/v1783393116/Moil-360-top_ollvds.png', width: 3010, height: 1470 },
+  content360: { srcLight: 'https://res.cloudinary.com/daudj5isi/image/upload/v1783460801/Moil_360_light_mzwasc.png', srcDark: 'https://res.cloudinary.com/daudj5isi/image/upload/v1783393116/Moil-360-top_ollvds.png', width: 3010, height: 1470 },
 
   // JOURNEY — an actual AI conversation producing a market-research result.
-  journeyChat: { srcLight: 'https://res.cloudinary.com/daudj5isi/image/upload/v1783393117/Business_coach_chat_pmmtbm.jpg', width: 3024, height: 1508 },
+  journeyChat: { srcLight: 'https://res.cloudinary.com/daudj5isi/image/upload/v1783460387/business_coach_chat_light_tsrksk.png', srcDark: 'https://res.cloudinary.com/daudj5isi/image/upload/v1783393117/Business_coach_chat_pmmtbm.jpg', width: 3024, height: 1508 },
 
   // HIRING — the candidate-matching screen with real match scores.
-  hiringCandidates: { srcLight: 'https://res.cloudinary.com/daudj5isi/image/upload/v1783393117/job_post_gggtan.jpg', width: 1120, height: 1186 },
+  hiringCandidates: { srcLight: 'https://res.cloudinary.com/daudj5isi/image/upload/v1783461176/job_post_light_mdqaou.png', srcDark: 'https://res.cloudinary.com/daudj5isi/image/upload/v1783393117/job_post_gggtan.jpg', width: 1120, height: 1186 },
 
   // IDENTITY / AI co-founder — real product screens: market research + business plan.
-  identityResearch: { srcLight: 'https://res.cloudinary.com/daudj5isi/image/upload/v1783393117/Market_insight_k2znqt.png', width: 3022, height: 1506 },
-  identityPlan: { srcLight: 'https://res.cloudinary.com/daudj5isi/image/upload/v1783393119/Business_plan_sk8l1p.png', width: 3024, height: 1494 },
+  identityResearch: { srcLight: 'https://res.cloudinary.com/daudj5isi/image/upload/v1783460385/Market_insight_light_kw8i7w.png', srcDark: 'https://res.cloudinary.com/daudj5isi/image/upload/v1783393117/Market_insight_k2znqt.png', width: 3022, height: 1506 },
+  identityPlan: { srcLight: 'https://res.cloudinary.com/daudj5isi/image/upload/v1783460386/Business_plan_light_vswzyt.png', srcDark: 'https://res.cloudinary.com/daudj5isi/image/upload/v1783393119/Business_plan_sk8l1p.png', width: 3024, height: 1494 },
 
   // NOTE: the BILINGUAL section uses a bespoke before/after slider
   // (components/BilingualSlider.tsx) with the hosted English/Spanish captures,

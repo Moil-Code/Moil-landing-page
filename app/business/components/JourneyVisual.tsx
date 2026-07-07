@@ -10,7 +10,16 @@ interface JourneyVisualProps {
   startAlt: string;
   /** Alt for the ongoing coach conversation screen. */
   chatAlt: string;
+  /** Current UI theme; selects the light-mode captures when not 'dark'. */
+  theme?: string;
 }
+
+// Dark and light captures for each coach screen. The dark UI shots are used in
+// dark theme; dedicated light-mode shots render otherwise.
+const START_DARK = 'https://res.cloudinary.com/daudj5isi/image/upload/v1783393117/new_chat_business_coach_nfqhh2.jpg';
+const START_LIGHT = 'https://res.cloudinary.com/daudj5isi/image/upload/v1783460391/new_chat_business_coach_light_ovwgmy.png';
+const CHAT_DARK = 'https://res.cloudinary.com/daudj5isi/image/upload/v1783393117/Business_coach_chat_pmmtbm.jpg';
+const CHAT_LIGHT = 'https://res.cloudinary.com/daudj5isi/image/upload/v1783460387/business_coach_chat_light_tsrksk.png';
 
 /**
  * Journey section visual. Two real coach screens are stacked so the right column
@@ -19,8 +28,10 @@ interface JourneyVisualProps {
  * ongoing conversation) rises and fades in to fill the space below, cued by a
  * down arrow between them.
  */
-export function JourneyVisual({ startAlt, chatAlt }: JourneyVisualProps) {
+export function JourneyVisual({ startAlt, chatAlt, theme }: JourneyVisualProps) {
   const root = useRef<HTMLDivElement>(null);
+  const startSrc = theme === 'dark' ? START_DARK : START_LIGHT;
+  const chatSrc = theme === 'dark' ? CHAT_DARK : CHAT_LIGHT;
 
   useEffect(() => {
     const el = root.current;
@@ -63,7 +74,7 @@ export function JourneyVisual({ startAlt, chatAlt }: JourneyVisualProps) {
         <div className="jv-stage">
           <Image
             className="jv-img jv-img-1"
-            src="https://res.cloudinary.com/daudj5isi/image/upload/v1783393117/new_chat_business_coach_nfqhh2.jpg"
+            src={startSrc}
             alt={startAlt}
             fill
             sizes="(max-width: 900px) 100vw, 560px"
@@ -86,7 +97,7 @@ export function JourneyVisual({ startAlt, chatAlt }: JourneyVisualProps) {
         <div className="jv-stage">
           <Image
             className="jv-img jv-img-2"
-            src="https://res.cloudinary.com/daudj5isi/image/upload/v1783393117/Business_coach_chat_pmmtbm.jpg"
+            src={chatSrc}
             alt={chatAlt}
             fill
             sizes="(max-width: 900px) 100vw, 560px"

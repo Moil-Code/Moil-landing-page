@@ -1020,12 +1020,25 @@ footer {
   gap: 20px;
   margin-top: 20px;
 }
+/* The featured Moil360 card stretches to match the tall Document card beside it.
+   Center its content block vertically so it sits in the middle of the box rather
+   than pinned to the top. */
+.cap-card:has(> .featured-inner) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .featured-inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 36px;
-  align-items: start;
+  align-items: center;
 }
+/* Center the Moil360 featured card's text block (icon, title, description, tags)
+   within its column so everything sits centered in the box. */
+.featured-inner .cap-title,
+.featured-inner .cap-desc { text-align: center; }
+.featured-inner .cap-tags { justify-content: center; }
 .journey-inner-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1277,6 +1290,11 @@ footer {
   object-position: center bottom;
 }
 
+/* Swap the hero wave art per theme (both are rendered; only one shows). */
+.hero-bg-light { display: none; }
+[data-theme="light"] .hero-bg-dark { display: none; }
+[data-theme="light"] .hero-bg-light { display: block; }
+
 @keyframes heroBgDrift {
   0%   { transform: scale(1.04) translateX(-1.6%); }
   100% { transform: scale(1.11) translateX(1.6%); }
@@ -1335,10 +1353,12 @@ footer {
 .cap-card--w2 { background: linear-gradient(to top, rgba(6,8,13,0.96) 0%, rgba(6,8,13,0.82) 30%, rgba(6,8,13,0.32) 60%, transparent 86%), url('/document.jpg') center top / cover; }
 .cap-card--w3 { background: linear-gradient(to top, rgba(6,8,13,0.96) 0%, rgba(6,8,13,0.82) 30%, rgba(6,8,13,0.32) 60%, transparent 86%), url('https://res.cloudinary.com/daudj5isi/image/upload/v1783393118/canvas_vepl0c.png') center top / cover; }
 
-/* Light theme scrims. */
-[data-theme="light"] .cap-card--w1 { background: linear-gradient(to top, rgba(249,248,255,0.96) 0%, rgba(249,248,255,0.82) 30%, rgba(249,248,255,0.38) 60%, transparent 86%), url('/chart.jpg') center top / cover; }
-[data-theme="light"] .cap-card--w2 { background: linear-gradient(to top, rgba(249,248,255,0.96) 0%, rgba(249,248,255,0.82) 30%, rgba(249,248,255,0.38) 60%, transparent 86%), url('/document.jpg') center top / cover; }
-[data-theme="light"] .cap-card--w3 { background: linear-gradient(to top, rgba(249,248,255,0.96) 0%, rgba(249,248,255,0.82) 30%, rgba(249,248,255,0.38) 60%, transparent 86%), url('https://res.cloudinary.com/daudj5isi/image/upload/v1783393118/canvas_vepl0c.png') center top / cover; }
+/* Light theme scrims — dedicated light-mode wave art. Because the art is already
+   bright, the scrim is a soft bottom-anchored wash (keeps the dark card text
+   legible) that lets the wave show through the upper two-thirds of the card. */
+[data-theme="light"] .cap-card--w1 { background: linear-gradient(to top, rgba(249,248,255,0.97) 0%, rgba(249,248,255,0.72) 26%, rgba(249,248,255,0.18) 56%, transparent 88%), url('https://res.cloudinary.com/daudj5isi/image/upload/v1783442089/chart_light_ozwbl8.png') center top / cover; }
+[data-theme="light"] .cap-card--w2 { background: linear-gradient(to top, rgba(249,248,255,0.97) 0%, rgba(249,248,255,0.72) 26%, rgba(249,248,255,0.18) 56%, transparent 88%), url('https://res.cloudinary.com/daudj5isi/image/upload/v1783442088/document_light_t3o6rb.png') center top / cover; }
+[data-theme="light"] .cap-card--w3 { background: linear-gradient(to top, rgba(249,248,255,0.97) 0%, rgba(249,248,255,0.72) 26%, rgba(249,248,255,0.18) 56%, transparent 88%), url('https://res.cloudinary.com/daudj5isi/image/upload/v1783458527/canvas_light_zubaw1.png') center top / cover; }
 
 /* ─── Identity / co-founder — linear layout ──────────────────────────────────
    Centered heading + pull-quote, then real product screenshots (was a 2-column
@@ -1373,13 +1393,13 @@ footer {
 }
 [data-theme="light"] .cost-card.wave-old {
   background:
-    linear-gradient(to bottom, rgba(249,248,255,0.95), rgba(249,248,255,0.9) 55%, rgba(249,248,255,0.78)),
-    url('/card_bg_1.jpg') center / cover;
+    linear-gradient(to bottom, rgba(249,248,255,0.86), rgba(249,248,255,0.8) 55%, rgba(249,248,255,0.66)),
+    url('https://res.cloudinary.com/daudj5isi/image/upload/v1783442088/card_bg_1_light_zr3jvk.png') center / cover;
 }
 [data-theme="light"] .cost-card.wave-new {
   background:
-    linear-gradient(to bottom, rgba(249,248,255,0.9), rgba(249,248,255,0.82) 50%, rgba(249,248,255,0.58)),
-    url('/card_bg_3.jpg') center / cover;
+    linear-gradient(to bottom, rgba(249,248,255,0.82), rgba(249,248,255,0.74) 50%, rgba(249,248,255,0.5)),
+    url('https://res.cloudinary.com/daudj5isi/image/upload/v1783442088/card_bg_1_light_zr3jvk.png') center / cover;
 }
 
 /* ─── Document Creation — full redesign over comment_bg ───────────────────────
@@ -1402,8 +1422,8 @@ footer {
 }
 [data-theme="light"] .cap-card--document {
   background:
-    linear-gradient(to top, rgba(249,248,255,0.97) 0%, rgba(249,248,255,0.86) 28%, rgba(249,248,255,0.4) 58%, transparent 84%),
-    url('/comment_bg.jpg') center top / cover;
+    linear-gradient(to top, rgba(249,248,255,0.97) 0%, rgba(249,248,255,0.74) 28%, rgba(249,248,255,0.22) 58%, transparent 86%),
+    url('https://res.cloudinary.com/daudj5isi/image/upload/v1783442088/comment_bg_light_ppipey.png') center top / cover;
 }
 
 /* ─── Wave button ────────────────────────────────────────────────────────────
@@ -1470,6 +1490,18 @@ footer {
 .has-footer-3::after,
 .has-footer-4::after { opacity: 0.45; }
 
+/* Light theme — dedicated light-mode footer waves. They read as soft brand
+   glows on the pale background, so they can sit a touch stronger than the dark
+   set without fighting the text above them. */
+[data-theme="light"] .has-footer-1::after { background-image: url('/footer_1_light.png'); }
+[data-theme="light"] .has-footer-2::after { background-image: url('/footer_2_light.png'); }
+[data-theme="light"] .has-footer-3::after { background-image: url('/footer_3_light.png'); }
+[data-theme="light"] .has-footer-4::after { background-image: url('/footer_4_light.png'); }
+[data-theme="light"] .has-footer-1::after,
+[data-theme="light"] .has-footer-2::after,
+[data-theme="light"] .has-footer-3::after,
+[data-theme="light"] .has-footer-4::after { opacity: 0.7; }
+
 /* ─── Header banner ───────────────────────────────────────────────────────────
    Full-bleed glow banner (head_bg.png) anchored to a section's top edge, for
    sections that don't carry a footer wave. Mirror of .has-footer-*: rendered as
@@ -1486,6 +1518,7 @@ footer {
   aspect-ratio: 1672 / 941;
   background-image: url('/head_bg.png');
   background-position: center top;
+  /* light override applied below */
   background-size: cover;
   background-repeat: no-repeat;
   pointer-events: none;
@@ -1494,6 +1527,9 @@ footer {
      melts into the section above, the bottom edge into the section below. */
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 58%, transparent 100%);
           mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 58%, transparent 100%);
+}
+[data-theme="light"] .has-head::before {
+  background-image: url('https://res.cloudinary.com/daudj5isi/image/upload/v1783442089/head_bg_light_thaton.png');
 }
 
 /* ─── Footer → header blend ───────────────────────────────────────────────────
@@ -1581,8 +1617,8 @@ footer {
 }
 [data-theme="light"] .testi-card2 {
   background:
-    linear-gradient(to top, rgba(249,248,255,0.96) 0%, rgba(249,248,255,0.72) 42%, rgba(249,248,255,0.28) 100%),
-    url('/comment_bg.jpg') center / cover;
+    linear-gradient(to top, rgba(249,248,255,0.95) 0%, rgba(249,248,255,0.62) 42%, rgba(249,248,255,0.2) 100%),
+    url('https://res.cloudinary.com/daudj5isi/image/upload/v1783442088/comment_bg_light_ppipey.png') center / cover;
 }
 @media (prefers-reduced-motion: reduce) { .testi-track { animation: none; } }
 

@@ -507,6 +507,7 @@ export function BusinessPageContent() {
             <JourneyVisual
               startAlt={`Moil — ${t.business.journey.convoTitle}`}
               chatAlt={`Moil — ${t.business.journey.convoTitle}`}
+              theme={theme}
             />
           </div>
 
@@ -652,8 +653,12 @@ export function BusinessPageContent() {
 
           <div className="rv d2 bilingual-slider-slot">
             <BilingualSlider
-              beforeSrc="https://res.cloudinary.com/daudj5isi/image/upload/v1783393116/English_qf2g4a.png"
-              afterSrc="https://res.cloudinary.com/daudj5isi/image/upload/v1783393116/Spanish_ocrzla.png"
+              beforeSrc={theme === 'dark'
+                ? 'https://res.cloudinary.com/daudj5isi/image/upload/v1783393116/English_qf2g4a.png'
+                : 'https://res.cloudinary.com/daudj5isi/image/upload/v1783460393/English_light_tmwdsx.png'}
+              afterSrc={theme === 'dark'
+                ? 'https://res.cloudinary.com/daudj5isi/image/upload/v1783393116/Spanish_ocrzla.png'
+                : 'https://res.cloudinary.com/daudj5isi/image/upload/v1783460390/Spanish_light_tmvhbm.png'}
               beforeAlt={`Moil — ${t.business.bilingualSection.enLabel}`}
               afterAlt={`Moil — ${t.business.bilingualSection.esLabel}`}
               beforeLabel="EN"
