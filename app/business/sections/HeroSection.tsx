@@ -129,7 +129,7 @@ export function HeroSection() {
       {/* Headline */}
       <h1
         data-hero-item
-        className="relative z-[2] mb-7 max-w-[1200px] text-[clamp(42px,6.6vw,84px)] font-bold uppercase leading-[0.96] tracking-[-0.05em] [text-shadow:0_2px_40px_rgba(6,8,13,0.5)] max-[960px]:text-[clamp(36px,8vw,60px)] max-[480px]:text-[clamp(30px,10vw,46px)]"
+        className="relative z-[2] mb-7 max-w-[1200px] text-[clamp(42px,6.6vw,84px)] font-bold uppercase leading-[0.96] tracking-[-0.05em] max-[960px]:text-[clamp(36px,8vw,60px)] max-[480px]:text-[clamp(30px,10vw,46px)]"
       >
         {t.business.hero.headline} <span className="text-[var(--orange)]">{t.business.hero.headlineHighlight1}</span>
         <br />
@@ -141,7 +141,7 @@ export function HeroSection() {
       {/* Subheadline */}
       <p
         data-hero-item
-        className="relative z-[2] mb-11 max-w-[780px] text-[clamp(14px,2vw,18px)] font-light leading-[1.55] text-[var(--text)] [text-shadow:0_1px_24px_rgba(6,8,13,0.55)]"
+        className="relative z-[2] mb-11 max-w-[780px] text-[clamp(14px,2vw,18px)] font-light leading-[1.55] text-[var(--text)]"
       >
         {t.business.hero.subheadline}
       </p>
@@ -167,7 +167,7 @@ export function HeroSection() {
         ].map((pill, i) => (
           <div
             key={i}
-            className="flex items-center gap-2 text-[10px] uppercase tracking-[1px] text-[var(--text)] [text-shadow:0_1px_16px_rgba(6,8,13,0.6)]"
+            className="flex items-center gap-2 text-[10px] uppercase tracking-[1px] text-[var(--text)]"
           >
             <span className="h-[5px] w-[5px] rounded-full" style={{ background: pill.dot }} /> {pill.label}
           </div>
