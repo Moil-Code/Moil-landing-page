@@ -9,11 +9,11 @@ interface StatsSectionProps {
 
 export default function StatsSection({ refQuery, lgQuery }: StatsSectionProps) {
   return (
-    <section className="relative py-24 lg:py-32 overflow-hidden bg-gradient-to-br from-white via-orange-50 to-[#FF6633]/20">
+    <section className="relative py-24 lg:py-32 overflow-hidden bg-gradient-to-br from-white via-orange-50 to-[#FF6633]/20 dark:from-[#06080D] dark:via-[#0B0E18] dark:to-[#FF6633]/10">
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-10 left-10 w-72 h-72 bg-[#FF6633]/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-orange-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-orange-200/30 dark:bg-[#FF6633]/10 rounded-full blur-3xl"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[#FF6633]/5 rounded-full blur-3xl"></div>
       </div>
 
@@ -33,15 +33,15 @@ export default function StatsSection({ refQuery, lgQuery }: StatsSectionProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/80 backdrop-blur-lg rounded-full border border-[#FF6633]/20 shadow-lg mb-6">
+          <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/80 dark:bg-[#10141F]/80 backdrop-blur-lg rounded-full border border-[#FF6633]/20 dark:border-[#222840] shadow-lg mb-6">
             <div className="w-3 h-3 bg-[#FF6633] rounded-full animate-pulse"></div>
             <span className="text-[#FF6633] font-semibold">Platform Statistics</span>
           </div>
-          <h2 className="text-3xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
+          <h2 className="text-3xl lg:text-6xl font-bold text-gray-900 dark:text-[#EEF2FF] leading-tight mb-6">
             Proven Results That <br />
             <span className="text-[#FF6633] bg-gradient-to-r from-[#FF6633] to-[#ea580c] bg-clip-text text-transparent">Speak for Themselves</span>
           </h2>
-          <p className="text-lg lg:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-lg lg:text-xl text-gray-600 dark:text-[#8892AA] leading-relaxed max-w-3xl mx-auto">
             Join thousands of professionals who have transformed their careers with our AI-powered platform and advanced coaching tools
           </p>
         </div>
@@ -99,15 +99,15 @@ export default function StatsSection({ refQuery, lgQuery }: StatsSectionProps) {
             }
           ].map((stat, index) => (
             <div key={index} className="group relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#FF6633]/20 to-orange-200/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-              <div className="relative bg-white/80 backdrop-blur-lg rounded-3xl p-8 border border-white/50 hover:border-[#FF6633]/30 transition-all duration-300 hover:transform hover:scale-105 shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#FF6633]/20 to-orange-200/10 dark:to-[#FF6633]/5 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+              <div className="relative bg-white/80 dark:bg-[#10141F]/80 backdrop-blur-lg rounded-3xl p-8 border border-white/50 dark:border-[#222840] hover:border-[#FF6633]/30 dark:hover:border-[#FF6633]/30 transition-all duration-300 hover:transform hover:scale-105 shadow-2xl">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-gradient-to-br from-[#FF6633] to-[#ea580c] rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
                     {stat.icon}
                   </div>
-                  <div className="text-3xl lg:text-5xl font-bold text-gray-900 mb-2">{stat.number}</div>
-                  <div className="text-lg font-semibold text-gray-900 mb-2">{stat.title}</div>
-                  <div className="text-sm text-gray-600">
+                  <div className="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-[#EEF2FF] mb-2">{stat.number}</div>
+                  <div className="text-lg font-semibold text-gray-900 dark:text-[#EEF2FF] mb-2">{stat.title}</div>
+                  <div className="text-sm text-gray-600 dark:text-[#8892AA]">
                     {stat.desc}
                   </div>
                 </div>
@@ -122,8 +122,8 @@ export default function StatsSection({ refQuery, lgQuery }: StatsSectionProps) {
             <div className="w-2 h-2 bg-[#FF6633] rounded-full animate-pulse"></div>
             <span className="text-[#FF6633] text-sm font-medium">Join the Success</span>
           </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Transform Your Career?</h3>
-          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-[#EEF2FF] mb-4">Ready to Transform Your Career?</h3>
+          <p className="text-gray-600 dark:text-[#8892AA] mb-8 max-w-2xl mx-auto">
             Join thousands of professionals who have already accelerated their careers with our AI-powered platform
           </p>
           <button 

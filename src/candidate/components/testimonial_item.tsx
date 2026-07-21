@@ -2,12 +2,12 @@ import { StarSvg } from "../../legacy/components/svgs";
 
 export default function TestimonialItem({ testimonialImage, testimonialName, testimonial }: { testimonialImage: string, testimonialName: string, testimonial: string }) {
 	return (
-		<div className="lg:max-w-[450px] xl:min-w-[450px] carousel-item w-full h-full p-10 bg-white rounded-lg">
+		<div className="lg:max-w-[450px] xl:min-w-[450px] carousel-item w-full h-full p-10 bg-white dark:bg-[#10141F] rounded-lg">
 			<div className="flex flex-col gap-y-4">
 				<div className="flex gap-y-4 flex-col md:flex-row justify-between">
 					<div className="flex items-center gap-x-2">
 						<img className="w-[56px] h-[56px] rounded-lg" src={testimonialImage} />
-						<p className="text-[20px] leading-[1.2] text-black font-semibold">
+						<p className="text-[20px] leading-[1.2] text-black dark:text-[#EEF2FF] font-semibold">
 							{testimonialName}
 						</p>
 					</div>
@@ -22,7 +22,7 @@ export default function TestimonialItem({ testimonialImage, testimonialName, tes
 				</div>
 
 				<div>
-					<p className="text-base leading-[1.25] text-black font-normal">
+					<p className="text-base leading-[1.25] text-black dark:text-[#8892AA] font-normal">
 						{testimonial}
 					</p>
 				</div>

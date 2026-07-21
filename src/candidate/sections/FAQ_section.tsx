@@ -64,7 +64,7 @@ export default function FAQSection() {
     }
   }
   return (
-    <div className="relative py-20 bg-gradient-to-br from-slate-50 via-[#5843BE]/5 to-[#FF6633]/5 overflow-hidden">
+    <div className="relative py-20 bg-gradient-to-br from-slate-50 via-[#5843BE]/5 to-[#FF6633]/5 dark:from-[#06080D] dark:via-[#5843BE]/10 dark:to-[#FF6633]/10 overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute inset-0">
         <div className="absolute top-10 left-10 w-72 h-72 bg-[#5843BE]/10 rounded-full blur-3xl"></div>
@@ -76,10 +76,10 @@ export default function FAQSection() {
       {/* Content */}
       <div className="relative z-10 flex justify-center flex-col gap-y-12">
         <div className="text-center space-y-4">
-          <h2 className="font-bold text-3xl md:text-5xl lg:text-6xl text-[#5843BE]">
+          <h2 className="font-bold text-3xl md:text-5xl lg:text-6xl text-[#5843BE] dark:text-[#A99BF0]">
             Frequently Asked Questions
           </h2>
-          <p className="text-gray-700 text-lg md:text-xl max-w-2xl mx-auto px-4">
+          <p className="text-gray-700 dark:text-[#8892AA] text-lg md:text-xl max-w-2xl mx-auto px-4">
             Find answers to common questions about Moil and how our platform works
           </p>
         </div>

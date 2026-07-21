@@ -1,5 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  // `dark:` variants key off the same html[data-theme] attribute the business
+  // and marketing sections use, so one toggle + the shared `moil-theme`
+  // localStorage key theme the whole site consistently.
+  darkMode: ['selector', '[data-theme="dark"]'],
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',

@@ -117,6 +117,16 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
+        {/* Pre-paint theme restore — must be a plain blocking <script> so the
+            saved theme lands on <html> before first paint. Without it the
+            server-rendered dark default flashes before the client effect
+            applies the saved light theme. Path-gated: only business/compare/
+            marketing pages are themed; other routes never get data-theme. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{if(/^\\/(es\\/)?(business|compare|marketing|candidate)/.test(location.pathname)){var t=localStorage.getItem('moil-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark')}}catch(e){}})()`,
+          }}
+        />
         <meta name="theme-color" content="#5843BE" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />

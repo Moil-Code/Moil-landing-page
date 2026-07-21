@@ -58,14 +58,14 @@ export default function NewsletterSection() {
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
               <div className="flex-1 relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400 dark:text-[#4A5368]">
                     <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M22 6L12 13L2 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
                 <input
                   type="email"
-                  className="w-full pl-12 pr-4 py-4 bg-white rounded-2xl border border-gray-200 focus:border-[#5843BE] focus:ring-2 focus:ring-[#5843BE]/20 outline-none transition-all duration-300 text-gray-900 placeholder-gray-500"
+                  className="w-full pl-12 pr-4 py-4 bg-white dark:bg-[#10141F] rounded-2xl border border-gray-200 dark:border-[#222840] focus:border-[#5843BE] dark:focus:border-[#A99BF0] focus:ring-2 focus:ring-[#5843BE]/20 outline-none transition-all duration-300 text-gray-900 dark:text-[#EEF2FF] placeholder-gray-500 dark:placeholder-[#4A5368]"
                   placeholder="Enter your email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}

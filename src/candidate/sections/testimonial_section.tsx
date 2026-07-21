@@ -1,10 +1,19 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import TestimonialItem from "../components/testimonial_item";
 
 export default function BusinessTestimonialSection() {
+  // react-multi-carousel measures item widths on mount and rewrites their
+  // inline flex styles, which never matches the SSR markup and throws a
+  // hydration warning. Render a static list on the server / first paint and
+  // only mount the interactive carousel on the client. The testimonial text
+  // still ships in the SSR HTML for SEO.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const responsive = {
     desktop: {
       breakpoint: { max: 5000, min: 1024 },
@@ -58,8 +67,8 @@ export default function BusinessTestimonialSection() {
         >
           <svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="0.5" y="0.305664" width="40" height="40" rx="20" fill="white" />
-            <g clip-path="url(#clip0_9244_7652)">
-              <path d="M20.0925 28.1011L12.9334 20.942L20.0925 13.7829L21.7402 15.4165L17.415 19.7417H27.5499V22.1423H17.415L21.7402 26.4605L20.0925 28.1011Z" fill="black" fill-opacity="0.67" />
+            <g clipPath="url(#clip0_9244_7652)">
+              <path d="M20.0925 28.1011L12.9334 20.942L20.0925 13.7829L21.7402 15.4165L17.415 19.7417H27.5499V22.1423H17.415L21.7402 26.4605L20.0925 28.1011Z" fill="black" fillOpacity="0.67" />
             </g>
             <defs>
               <clipPath id="clip0_9244_7652">
@@ -79,8 +88,8 @@ export default function BusinessTestimonialSection() {
         >
           <svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="0.5" y="0.305664" width="40" height="40" rx="20" fill="white" />
-            <g clip-path="url(#clip0_9244_4770)">
-              <path d="M20.9164 28.1011L19.2686 26.4676L23.5939 22.1423H13.459V19.7417H23.5939L19.2686 15.4236L20.9164 13.7829L28.0755 20.942L20.9164 28.1011Z" fill="black" fill-opacity="0.67" />
+            <g clipPath="url(#clip0_9244_4770)">
+              <path d="M20.9164 28.1011L19.2686 26.4676L23.5939 22.1423H13.459V19.7417H23.5939L19.2686 15.4236L20.9164 13.7829L28.0755 20.942L20.9164 28.1011Z" fill="black" fillOpacity="0.67" />
             </g>
             <defs>
               <clipPath id="clip0_9244_4770">
@@ -100,35 +109,48 @@ export default function BusinessTestimonialSection() {
 
       <p className="text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl leading-[1.3] text-center font-medium px-4">What our users are saying</p>
 
-      <Carousel
-        swipeable={true}
-        renderButtonGroupOutside={true}
-        responsive={responsive}
-        ssr={true} // means to render carousel on server-side.
-        infinite={true}
-        autoPlay={typeof window !== 'undefined' && window.innerWidth < 500}
-        autoPlaySpeed={1000}
-        keyBoardControl={true}
-        customTransition="transform 0.8s ease"
-        transitionDuration={500}
-        containerClass="carousel-container"
-        removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
-        deviceType=
-        {typeof window !== 'undefined' && window.innerWidth < 500 ? 'mobile' :
-          typeof window !== 'undefined' && window.innerWidth < 1024 ? 'tablet' :
-            'desktop'
-        }
-        customButtonGroup={<ButtonGroup />}
-      >
-        {testimonials.map((testimonial, index) => (
-          <TestimonialItem
-            key={index}
-            testimonialImage={testimonial.testimonialImage}
-            testimonialName={testimonial.testimonialName}
-            testimonial={testimonial.testimonial}
-          />
-        ))}
-      </Carousel>
+      {mounted ? (
+        <Carousel
+          swipeable={true}
+          renderButtonGroupOutside={true}
+          responsive={responsive}
+          ssr={true}
+          infinite={true}
+          autoPlay={window.innerWidth < 500}
+          autoPlaySpeed={1000}
+          keyBoardControl={true}
+          customTransition="transform 0.8s ease"
+          transitionDuration={500}
+          containerClass="carousel-container"
+          removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
+          deviceType={
+            window.innerWidth < 500 ? 'mobile' :
+              window.innerWidth < 1024 ? 'tablet' :
+                'desktop'
+          }
+          customButtonGroup={<ButtonGroup />}
+        >
+          {testimonials.map((testimonial, index) => (
+            <TestimonialItem
+              key={index}
+              testimonialImage={testimonial.testimonialImage}
+              testimonialName={testimonial.testimonialName}
+              testimonial={testimonial.testimonial}
+            />
+          ))}
+        </Carousel>
+      ) : (
+        <div className="flex flex-wrap justify-center gap-4 w-full max-w-[960px]">
+          {testimonials.slice(0, 2).map((testimonial, index) => (
+            <TestimonialItem
+              key={index}
+              testimonialImage={testimonial.testimonialImage}
+              testimonialName={testimonial.testimonialName}
+              testimonial={testimonial.testimonial}
+            />
+          ))}
+        </div>
+      )}
 
 
     </div>

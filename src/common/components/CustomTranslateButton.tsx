@@ -42,7 +42,9 @@ export const triggerGoogleTranslate = (langCode: 'en' | 'es') => {
     
     if (attempts < maxAttempts) {
       setTimeout(tryTranslate, 200);
-    } else {
+    } else if (process.env.NODE_ENV === 'development') {
+      // Expected when the Google Translate widget hasn't injected its combo
+      // (e.g. base-language loads). Keep it as a dev-only hint, not prod noise.
       console.warn('Google Translate dropdown not found after', maxAttempts, 'attempts');
     }
     return false;

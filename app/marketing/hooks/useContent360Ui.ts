@@ -1,8 +1,13 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 type ThemeMode = 'dark' | 'light';
+
+// useLayoutEffect fires before paint so the saved theme is applied without a
+// visible dark→light flash; falls back to useEffect during SSR.
+const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 export function useContent360Ui() {
   const [theme, setTheme] = useState<ThemeMode>('dark');
@@ -11,7 +16,7 @@ export function useContent360Ui() {
 
   const previousThemeRef = useRef<string | null>(null);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     previousThemeRef.current = document.documentElement.getAttribute('data-theme');
     const saved = window.localStorage.getItem('moil-theme');
     const nextTheme: ThemeMode = saved === 'light' ? 'light' : 'dark';

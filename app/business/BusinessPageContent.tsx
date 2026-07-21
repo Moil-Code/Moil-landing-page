@@ -11,6 +11,7 @@ import { BusinessFooter } from './components/BusinessFooter';
 import { BusinessMobileMenu } from './components/BusinessMobileMenu';
 import { BusinessNav, type NavItem } from './components/BusinessNav';
 import { BusinessPricingSection } from './components/BusinessPricingSection';
+import { DemoVideoSection } from './components/DemoVideoSection';
 import { useBusinessUi } from './hooks/useBusinessUi';
 import { useLanguageContext } from '../../src/common/components/I18nProvider';
 import { appendLangToUrl } from './utils/appendLangToUrl';
@@ -45,7 +46,7 @@ export function BusinessPageContent() {
   ];
 
   const mobileItems: NavItem[] = [
-    { label: t.common.whatIsMoil, href: '#identity' },
+    { label: t.common.whatIsMoil, href: '#demo' },
     { label: t.business.nav.features, href: '#capabilities' },
     { label: t.business.nav.howItWorks, href: '#journey' },
     { label: t.common.smartHiring, href: '#hiring' },
@@ -190,46 +191,8 @@ export function BusinessPageContent() {
 
       <div className="divider"></div>
 
-      {/* AEO DIRECT-ANSWER BLOCK — first 150 words is where ~55% of AI Overview citations come from */}
-      <section
-        id="what-is-moil"
-        aria-labelledby="what-is-moil-label"
-        style={{ padding: '64px 24px 32px', maxWidth: '820px', margin: '0 auto', textAlign: 'center' }}
-      >
-        <div
-          id="what-is-moil-label"
-          className="section-tag rv"
-          style={{ justifyContent: 'center', marginBottom: '14px' }}
-        >
-          {t.business.aeoAnswer.label}
-        </div>
-        <p
-          className="rv"
-          style={{
-            fontSize: '18px',
-            lineHeight: 1.6,
-            color: 'var(--text2)',
-            fontWeight: 300,
-            margin: '0 auto',
-            maxWidth: '720px',
-          }}
-        >
-          {t.business.aeoAnswer.body}
-        </p>
-        <p
-          className="rv"
-          style={{
-            marginTop: '20px',
-            fontFamily: 'var(--mono)',
-            fontSize: '10px',
-            color: 'var(--text3)',
-            textTransform: 'uppercase',
-            letterSpacing: '2px',
-          }}
-        >
-          {t.business.aeoAnswer.lastUpdated}
-        </p>
-      </section>
+      {/* PRODUCT DEMO — scroll-triggered video showcase */}
+      <DemoVideoSection copy={t.business.demoVideo} />
 
       <div className="divider"></div>
 

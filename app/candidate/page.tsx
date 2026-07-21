@@ -10,6 +10,7 @@ import { I18nProvider, useLanguageContext } from "../../src/common/components/I1
 
 // Candidate Components
 import CandidateNavigation from "../../src/candidate/components/navigation";
+import { useCandidateTheme } from "../../src/candidate/hooks/useCandidateTheme";
 import CandidateHero from "../../src/candidate/sections/hero";
 import AIResumeSection from "../../src/candidate/sections/ai_resume";
 import VoiceAssistantSection from "../../src/candidate/sections/voice_assistant";
@@ -22,6 +23,7 @@ import { baseURL1 } from "../../src/common/constants/baseUrl";
 
 function CandidatePageContent() {
   const { t, lang: currentLang, setLang } = useLanguageContext();
+  const { theme, toggleTheme } = useCandidateTheme();
   const [refQuery, setRefQuery] = useState<string | null>(null);
   const [queryLg, setQueryLg] = useState("");
   const [showLanguageModal, setShowLanguageModal] = useState(false);
@@ -96,7 +98,7 @@ function CandidatePageContent() {
 
   return (
     <>
-      <div className="bg-white" data-page="candidate">
+      <div className="bg-white dark:bg-[#06080D]" data-page="candidate">
         {/* Enhanced Candidate Landing Page */}
         <CandidateNavigation
           page="home"
@@ -104,6 +106,8 @@ function CandidatePageContent() {
           lgQuery={queryLg}
           setQueryLg={setQueryLg}
           setShowLanguageModal={setShowLanguageModal}
+          theme={theme}
+          onToggleTheme={toggleTheme}
         />
         <CandidateHero onGetStarted={handleGetStarted} refQuery={refQuery || undefined} lgQuery={queryLg} />
         <div id="ai-resume">

@@ -9,7 +9,7 @@ interface VoiceAssistantSectionProps {
 
 export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssistantSectionProps) {
   return (
-    <section className="relative py-8 md:py-16 lg:py-24 xl:py-32 overflow-hidden bg-gradient-to-br from-white via-orange-50 to-[#FF6633]/20" id="voice-assistant">
+    <section className="relative py-8 md:py-16 lg:py-24 xl:py-32 overflow-hidden bg-gradient-to-br from-white via-orange-50 to-[#FF6633]/20 dark:from-[#06080D] dark:via-[#0B0E18] dark:to-[#FF6633]/10" id="voice-assistant">
       {/* Grid Overlay */}
       <div
         className="absolute inset-0 opacity-10"
@@ -26,15 +26,15 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header Section */}
         <div className="text-center mb-8 md:mb-12 lg:mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-white/80 backdrop-blur-lg rounded-full border border-[#FF6633]/20 shadow-lg mb-4 md:mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-white/80 dark:bg-[#10141F]/80 backdrop-blur-lg rounded-full border border-[#FF6633]/20 dark:border-[#222840] shadow-lg mb-4 md:mb-6">
             <div className="w-2 h-2 md:w-3 md:h-3 bg-[#FF6633] rounded-full animate-pulse"></div>
             <span className="text-[#FF6633] font-medium md:font-semibold text-sm md:text-base">AI Voice Interview Coach</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight mb-4 md:mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 dark:text-[#EEF2FF] leading-tight mb-4 md:mb-6">
             Master Interviews with <br className="hidden sm:block" />
             <span className="text-[#FF6633] bg-gradient-to-r from-[#FF6633] to-[#ea580c] bg-clip-text text-transparent">Voice AI Coaching</span>
           </h2>
-          <p className="text-sm md:text-base lg:text-lg xl:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-sm md:text-base lg:text-lg xl:text-xl text-gray-600 dark:text-[#8892AA] leading-relaxed max-w-3xl mx-auto">
             Transform your interview performance with real-time AI analysis of your speech patterns,
             confidence levels, and answer quality. Get personalized feedback to land your dream job.
           </p>
@@ -44,7 +44,7 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
         <div className="grid lg:grid-cols-2 gap-4 md:gap-6 lg:gap-8 items-start">
 
           {/* Left Column - Analysis Features */}
-          <div className="bg-white/80 backdrop-blur-lg rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 shadow-2xl border border-white/50 h-full">
+          <div className="bg-white/80 dark:bg-[#10141F]/80 backdrop-blur-lg rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 shadow-2xl border border-white/50 dark:border-[#222840] h-full">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-14 h-14 bg-gradient-to-br from-[#FF6633] to-[#ea580c] rounded-2xl flex items-center justify-center shadow-lg">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
@@ -52,8 +52,8 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
                 </svg>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-gray-900">Voice Analysis</h3>
-                <p className="text-gray-600">Real-time speech insights</p>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-[#EEF2FF]">Voice Analysis</h3>
+                <p className="text-gray-600 dark:text-[#8892AA]">Real-time speech insights</p>
               </div>
             </div>
 
@@ -91,15 +91,15 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
                   score: "95%"
                 }
               ].map((feature, index) => (
-                <div key={index} className="p-4 rounded-xl hover:bg-gray-50/50 transition-colors border border-gray-100">
+                <div key={index} className="p-4 rounded-xl hover:bg-gray-50/50 dark:hover:bg-[#161C2B]/50 transition-colors border border-gray-100 dark:border-[#1A1F30]">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-gradient-to-br from-[#FF6633]/10 to-[#ea580c]/10 rounded-xl flex items-center justify-center border border-[#FF6633]/20">
                         {feature.icon}
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-900">{feature.title}</div>
-                        <div className="text-sm text-gray-600">{feature.desc}</div>
+                        <div className="font-semibold text-gray-900 dark:text-[#EEF2FF]">{feature.title}</div>
+                        <div className="text-sm text-gray-600 dark:text-[#8892AA]">{feature.desc}</div>
                       </div>
                     </div>
                     <div className="text-[#FF6633] font-bold text-lg">{feature.score}</div>
@@ -110,7 +110,7 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
           </div>
 
           {/* Center Column - Live Coaching */}
-          <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/50 h-full relative">
+          <div className="bg-white/80 dark:bg-[#10141F]/80 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/50 dark:border-[#222840] h-full relative">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-14 h-14 bg-gradient-to-br from-[#FF6633] to-[#ea580c] rounded-2xl flex items-center justify-center shadow-lg">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
@@ -120,34 +120,34 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
                 </svg>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-gray-900">Live Coaching</h3>
-                <p className="text-gray-600">Interactive practice sessions</p>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-[#EEF2FF]">Live Coaching</h3>
+                <p className="text-gray-600 dark:text-[#8892AA]">Interactive practice sessions</p>
               </div>
             </div>
 
             {/* Interview Simulation */}
-            <div className="bg-gray-50 rounded-2xl p-6 space-y-4 mb-6">
+            <div className="bg-gray-50 dark:bg-[#161C2B] rounded-2xl p-6 space-y-4 mb-6">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-8 h-8 bg-[#FF6633] rounded-full flex items-center justify-center animate-pulse">
                   <div className="w-3 h-3 bg-white rounded-full"></div>
                 </div>
-                <div className="text-sm font-medium text-gray-700">Recording Interview Response...</div>
+                <div className="text-sm font-medium text-gray-700 dark:text-[#8892AA]">Recording Interview Response...</div>
               </div>
 
               <div className="space-y-3">
-                <div className="bg-white rounded-lg p-3">
-                  <div className="text-sm font-medium text-gray-900 mb-1">Current Question:</div>
-                  <div className="text-sm text-gray-600">"Tell me about your greatest professional achievement."</div>
+                <div className="bg-white dark:bg-[#10141F] rounded-lg p-3">
+                  <div className="text-sm font-medium text-gray-900 dark:text-[#EEF2FF] mb-1">Current Question:</div>
+                  <div className="text-sm text-gray-600 dark:text-[#8892AA]">"Tell me about your greatest professional achievement."</div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-white rounded-lg p-3 text-center">
+                  <div className="bg-white dark:bg-[#10141F] rounded-lg p-3 text-center">
                     <div className="text-lg font-bold text-[#FF6633]">2:34</div>
-                    <div className="text-xs text-gray-600">Response Time</div>
+                    <div className="text-xs text-gray-600 dark:text-[#8892AA]">Response Time</div>
                   </div>
-                  <div className="bg-white rounded-lg p-3 text-center">
+                  <div className="bg-white dark:bg-[#10141F] rounded-lg p-3 text-center">
                     <div className="text-lg font-bold text-[#FF6633]">A+</div>
-                    <div className="text-xs text-gray-600">Current Grade</div>
+                    <div className="text-xs text-gray-600 dark:text-[#8892AA]">Current Grade</div>
                   </div>
                 </div>
               </div>
@@ -155,19 +155,19 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
 
             {/* Real-time Feedback */}
             <div className="space-y-3">
-              <h4 className="font-semibold text-gray-900">Real-time Feedback</h4>
+              <h4 className="font-semibold text-gray-900 dark:text-[#EEF2FF]">Real-time Feedback</h4>
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-sm">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-gray-700">Great eye contact and posture</span>
+                  <span className="text-gray-700 dark:text-[#8892AA]">Great eye contact and posture</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                  <span className="text-gray-700">Try speaking slightly slower</span>
+                  <span className="text-gray-700 dark:text-[#8892AA]">Try speaking slightly slower</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-gray-700">Excellent use of specific examples</span>
+                  <span className="text-gray-700 dark:text-[#8892AA]">Excellent use of specific examples</span>
                 </div>
               </div>
             </div>
@@ -180,7 +180,7 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
         </div>
 
         {/* Bottom Section - Blue Collar Job Coaching CTA */}
-        <div className="mt-16 bg-white/80 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/50">
+        <div className="mt-16 bg-white/80 dark:bg-[#10141F]/80 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/50 dark:border-[#222840]">
           
           {/* Header */}
           <div className="text-center mb-8">
@@ -188,8 +188,8 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
               <div className="w-2 h-2 bg-[#FF6633] rounded-full animate-pulse"></div>
               <span className="text-[#FF6633] text-sm font-medium">Ready to Get Hired?</span>
             </div>
-            <h4 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Land Your Next Blue Collar Job</h4>
-            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+            <h4 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-[#EEF2FF] mb-3">Land Your Next Blue Collar Job</h4>
+            <p className="text-lg md:text-xl text-gray-600 dark:text-[#8892AA] max-w-2xl mx-auto">
               Practice interviews for skilled trades and blue collar positions with AI-powered coaching
             </p>
           </div>
@@ -209,30 +209,30 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
                     </svg>
                   </div>
                   <div>
-                    <h5 className="font-bold text-gray-900">Proven Success</h5>
-                    <p className="text-sm text-gray-600">Real workers, real results</p>
+                    <h5 className="font-bold text-gray-900 dark:text-[#EEF2FF]">Proven Success</h5>
+                    <p className="text-sm text-gray-600 dark:text-[#8892AA]">Real workers, real results</p>
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-3 gap-3">
                   <div className="text-center p-3 bg-gradient-to-br from-[#FF6633]/10 to-[#ea580c]/10 rounded-xl border border-[#FF6633]/20">
                     <div className="text-xl font-bold text-[#FF6633] mb-1">89%</div>
-                    <div className="text-xs text-gray-600">Job Success</div>
+                    <div className="text-xs text-gray-600 dark:text-[#8892AA]">Job Success</div>
                   </div>
                   <div className="text-center p-3 bg-gradient-to-br from-[#FF6633]/10 to-[#ea580c]/10 rounded-xl border border-[#FF6633]/20">
                     <div className="text-xl font-bold text-[#FF6633] mb-1">15K+</div>
-                    <div className="text-xs text-gray-600">Workers</div>
+                    <div className="text-xs text-gray-600 dark:text-[#8892AA]">Workers</div>
                   </div>
                   <div className="text-center p-3 bg-gradient-to-br from-[#FF6633]/10 to-[#ea580c]/10 rounded-xl border border-[#FF6633]/20">
                     <div className="text-xl font-bold text-[#FF6633] mb-1">4.7★</div>
-                    <div className="text-xs text-gray-600">Rating</div>
+                    <div className="text-xs text-gray-600 dark:text-[#8892AA]">Rating</div>
                   </div>
                 </div>
               </div>
 
               {/* Job Types */}
               <div>
-                <h5 className="font-semibold text-gray-900 mb-3">Industries We Cover</h5>
+                <h5 className="font-semibold text-gray-900 dark:text-[#EEF2FF] mb-3">Industries We Cover</h5>
                 <div className="grid grid-cols-2 gap-2">
                   {[
                     { 
@@ -285,9 +285,9 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
                       text: "Maintenance" 
                     }
                   ].map((item, index) => (
-                    <div key={index} className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
+                    <div key={index} className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-[#161C2B] rounded-lg">
                       <div className="flex-shrink-0">{item.icon}</div>
-                      <span className="text-sm text-gray-700 font-medium">{item.text}</span>
+                      <span className="text-sm text-gray-700 dark:text-[#8892AA] font-medium">{item.text}</span>
                     </div>
                   ))}
                 </div>
@@ -302,17 +302,17 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
                   <div className="flex text-[#FF6633] text-lg">
                     {"★".repeat(5)}
                   </div>
-                  <span className="text-sm font-semibold text-gray-900">4.7/5</span>
+                  <span className="text-sm font-semibold text-gray-900 dark:text-[#EEF2FF]">4.7/5</span>
                 </div>
-                <div className="text-base text-gray-700 italic mb-3">
+                <div className="text-base text-gray-700 dark:text-[#8892AA] italic mb-3">
                   "Got hired as a foreman after practicing with the AI coach. It helped me speak with confidence about my experience and handle tough questions."
                 </div>
-                <div className="text-sm text-gray-500">- Mike R., Construction Foreman</div>
+                <div className="text-sm text-gray-500 dark:text-[#8892AA]">- Mike R., Construction Foreman</div>
               </div>
 
               {/* What You'll Learn */}
               <div>
-                <h5 className="font-semibold text-gray-900 mb-3">What You'll Master</h5>
+                <h5 className="font-semibold text-gray-900 dark:text-[#EEF2FF] mb-3">What You'll Master</h5>
                 <div className="space-y-2">
                   {[
                     "Answer behavioral questions confidently",
@@ -322,7 +322,7 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
                   ].map((item, index) => (
                     <div key={index} className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-[#FF6633] rounded-full flex-shrink-0"></div>
-                      <span className="text-sm text-gray-700">{item}</span>
+                      <span className="text-sm text-gray-700 dark:text-[#8892AA]">{item}</span>
                     </div>
                   ))}
                 </div>
@@ -331,7 +331,7 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
           </div>
 
           {/* CTA Section */}
-          <div className="bg-gradient-to-r from-gray-50 to-[#FF6633]/5 rounded-2xl p-6 text-center">
+          <div className="bg-gradient-to-r from-gray-50 to-[#FF6633]/5 dark:from-[#161C2B] dark:to-[#FF6633]/10 rounded-2xl p-6 text-center">
             <div className="max-w-md mx-auto space-y-4">
               <button 
                 onClick={() => openCandidateApp({ ref: refQuery, lg: lgQuery })}
@@ -340,7 +340,7 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
                 Start Interview Practice Now
               </button>
               
-              <div className="grid grid-cols-1 gap-2 text-sm text-gray-600">
+              <div className="grid grid-cols-1 gap-2 text-sm text-gray-600 dark:text-[#8892AA]">
                 <div className="flex items-center justify-center gap-2">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-green-500">
                     <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

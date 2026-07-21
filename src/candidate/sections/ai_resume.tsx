@@ -9,7 +9,7 @@ interface AIResumeSectionProps {
 
 export default function AIResumeSection({ refQuery, lgQuery }: AIResumeSectionProps) {
   return (
-    <section className="relative py-8 md:py-16 lg:py-24 xl:py-32 overflow-hidden bg-gradient-to-br from-white via-purple-50 to-[#5843BE]/20" id="ai-resume">
+    <section className="relative py-8 md:py-16 lg:py-24 xl:py-32 overflow-hidden bg-gradient-to-br from-white via-purple-50 to-[#5843BE]/20 dark:from-[#06080D] dark:via-[#0B0E18] dark:to-[#5843BE]/10" id="ai-resume">
       {/* Grid Overlay */}
       <div 
         className="absolute inset-0 opacity-10"
@@ -26,15 +26,15 @@ export default function AIResumeSection({ refQuery, lgQuery }: AIResumeSectionPr
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header Section */}
         <div className="text-center mb-8 md:mb-12 lg:mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-white/80 backdrop-blur-lg rounded-full border border-[#5843BE]/20 shadow-lg mb-4 md:mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-white/80 dark:bg-[#10141F]/80 backdrop-blur-lg rounded-full border border-[#5843BE]/20 dark:border-[#222840] shadow-lg mb-4 md:mb-6">
             <div className="w-2 h-2 md:w-3 md:h-3 bg-[#5843BE] rounded-full animate-pulse"></div>
-            <span className="text-[#5843BE] font-medium md:font-semibold text-sm md:text-base">AI-Powered Resume Builder</span>
+            <span className="text-[#5843BE] dark:text-[#A99BF0] font-medium md:font-semibold text-sm md:text-base">AI-Powered Resume Builder</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight mb-4 md:mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 dark:text-[#EEF2FF] leading-tight mb-4 md:mb-6">
             Professional Resumes in <br className="hidden sm:block" />
             <span className="text-[#5843BE] bg-gradient-to-r from-[#5843BE] to-[#4a3ba0] bg-clip-text text-transparent">5 Minutes</span>
           </h2>
-          <p className="text-sm md:text-base lg:text-lg xl:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
+          <p className="text-sm md:text-base lg:text-lg xl:text-xl text-gray-600 dark:text-[#8892AA] leading-relaxed max-w-3xl mx-auto">
             Transform your career with AI-generated resumes. Use voice input or text to create ATS-optimized, 
             professional resumes that get you noticed by employers.
           </p>
@@ -44,7 +44,7 @@ export default function AIResumeSection({ refQuery, lgQuery }: AIResumeSectionPr
         <div className="grid lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 items-start">
           
           {/* Left Column - Features */}
-          <div className="bg-white/80 backdrop-blur-lg rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 shadow-2xl border border-white/50 h-full">
+          <div className="bg-white/80 dark:bg-[#10141F]/80 backdrop-blur-lg rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 shadow-2xl border border-white/50 dark:border-[#222840] h-full">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-14 h-14 bg-gradient-to-br from-[#5843BE] to-[#4a3ba0] rounded-2xl flex items-center justify-center shadow-lg">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
@@ -54,8 +54,8 @@ export default function AIResumeSection({ refQuery, lgQuery }: AIResumeSectionPr
                 </svg>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-gray-900">Smart Features</h3>
-                <p className="text-gray-600">Advanced AI capabilities</p>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-[#EEF2FF]">Smart Features</h3>
+                <p className="text-gray-600 dark:text-[#8892AA]">Advanced AI capabilities</p>
               </div>
             </div>
             
@@ -108,13 +108,13 @@ export default function AIResumeSection({ refQuery, lgQuery }: AIResumeSectionPr
                   desc: "Support for 20+ languages" 
                 }
               ].map((feature, index) => (
-                <div key={index} className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50/50 transition-colors">
+                <div key={index} className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50/50 dark:hover:bg-[#161C2B]/50 transition-colors">
                   <div className="w-10 h-10 bg-gradient-to-br from-[#5843BE]/10 to-[#4a3ba0]/10 rounded-xl flex items-center justify-center border border-[#5843BE]/20 flex-shrink-0">
                     {feature.icon}
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900">{feature.title}</div>
-                    <div className="text-sm text-gray-600">{feature.desc}</div>
+                    <div className="font-semibold text-gray-900 dark:text-[#EEF2FF]">{feature.title}</div>
+                    <div className="text-sm text-gray-600 dark:text-[#8892AA]">{feature.desc}</div>
                   </div>
                 </div>
               ))}
@@ -122,7 +122,7 @@ export default function AIResumeSection({ refQuery, lgQuery }: AIResumeSectionPr
           </div>
 
           {/* Center Column - Preview */}
-          <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/50 h-full relative">
+          <div className="bg-white/80 dark:bg-[#10141F]/80 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/50 dark:border-[#222840] h-full relative">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-14 h-14 bg-gradient-to-br from-[#5843BE] to-[#4a3ba0] rounded-2xl flex items-center justify-center shadow-lg">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
@@ -130,40 +130,40 @@ export default function AIResumeSection({ refQuery, lgQuery }: AIResumeSectionPr
                 </svg>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-gray-900">Live Preview</h3>
-                <p className="text-gray-600">See your resume in real-time</p>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-[#EEF2FF]">Live Preview</h3>
+                <p className="text-gray-600 dark:text-[#8892AA]">See your resume in real-time</p>
               </div>
             </div>
 
             {/* Resume Preview Mockup */}
-            <div className="bg-white rounded-2xl p-6 space-y-3 shadow-sm border">
-              <div className="text-center border-b pb-3">
-                <h3 className="text-lg font-bold text-gray-800">Sarah Johnson</h3>
-                <p className="text-sm text-gray-600">Software Developer</p>
-                <p className="text-xs text-gray-500">sarah.johnson@email.com | (555) 123-4567</p>
+            <div className="bg-white dark:bg-[#10141F] rounded-2xl p-6 space-y-3 shadow-sm border dark:border-[#222840]">
+              <div className="text-center border-b dark:border-[#222840] pb-3">
+                <h3 className="text-lg font-bold text-gray-800 dark:text-[#EEF2FF]">Sarah Johnson</h3>
+                <p className="text-sm text-gray-600 dark:text-[#8892AA]">Software Developer</p>
+                <p className="text-xs text-gray-500 dark:text-[#8892AA]">sarah.johnson@email.com | (555) 123-4567</p>
               </div>
               
               <div>
-                <h4 className="text-sm font-semibold text-[#5843BE] mb-1">Experience</h4>
-                <div className="text-xs text-gray-700">
+                <h4 className="text-sm font-semibold text-[#5843BE] dark:text-[#A99BF0] mb-1">Experience</h4>
+                <div className="text-xs text-gray-700 dark:text-[#8892AA]">
                   <p className="font-medium">Frontend Developer - Tech Corp</p>
-                  <p className="text-gray-600">2022 - Present</p>
+                  <p className="text-gray-600 dark:text-[#8892AA]">2022 - Present</p>
                 </div>
               </div>
               
               <div>
-                <h4 className="text-sm font-semibold text-[#5843BE] mb-1">Skills</h4>
-                <p className="text-xs text-gray-700">React, JavaScript, TypeScript, CSS</p>
+                <h4 className="text-sm font-semibold text-[#5843BE] dark:text-[#A99BF0] mb-1">Skills</h4>
+                <p className="text-xs text-gray-700 dark:text-[#8892AA]">React, JavaScript, TypeScript, CSS</p>
               </div>
             </div>
 
             {/* Progress Indicator */}
             <div className="mt-6 p-4 bg-gradient-to-r from-[#5843BE]/10 to-[#4a3ba0]/10 rounded-xl border border-[#5843BE]/20">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-gray-700 font-medium">Completion</span>
-                <span className="text-[#5843BE] font-bold">85%</span>
+                <span className="text-gray-700 dark:text-[#8892AA] font-medium">Completion</span>
+                <span className="text-[#5843BE] dark:text-[#A99BF0] font-bold">85%</span>
               </div>
-              <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div className="w-full h-2 bg-gray-200 dark:bg-[#222840] rounded-full overflow-hidden">
                 <div className="w-4/5 h-full bg-gradient-to-r from-[#5843BE] to-[#4a3ba0] rounded-full transition-all duration-1000"></div>
               </div>
             </div>
@@ -175,7 +175,7 @@ export default function AIResumeSection({ refQuery, lgQuery }: AIResumeSectionPr
           </div>
 
           {/* Right Column - Stats & CTA */}
-          <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/50 h-full">
+          <div className="bg-white/80 dark:bg-[#10141F]/80 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/50 dark:border-[#222840] h-full">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-14 h-14 bg-gradient-to-br from-[#5843BE] to-[#4a3ba0] rounded-2xl flex items-center justify-center shadow-lg">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
@@ -183,37 +183,37 @@ export default function AIResumeSection({ refQuery, lgQuery }: AIResumeSectionPr
                 </svg>
               </div>
               <div>
-                <h3 className="text-xl font-bold text-gray-900">Success Metrics</h3>
-                <p className="text-gray-600">Proven results</p>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-[#EEF2FF]">Success Metrics</h3>
+                <p className="text-gray-600 dark:text-[#8892AA]">Proven results</p>
               </div>
             </div>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-2 gap-4 mb-8">
               <div className="text-center p-4 bg-gradient-to-br from-[#5843BE]/10 to-[#4a3ba0]/10 rounded-xl border border-[#5843BE]/20">
-                <div className="text-3xl font-bold text-[#5843BE] mb-1">98%</div>
-                <div className="text-sm text-gray-600">ATS Pass Rate</div>
+                <div className="text-3xl font-bold text-[#5843BE] dark:text-[#A99BF0] mb-1">98%</div>
+                <div className="text-sm text-gray-600 dark:text-[#8892AA]">ATS Pass Rate</div>
               </div>
               <div className="text-center p-4 bg-gradient-to-br from-[#5843BE]/10 to-[#4a3ba0]/10 rounded-xl border border-[#5843BE]/20">
-                <div className="text-3xl font-bold text-[#5843BE] mb-1">5min</div>
-                <div className="text-sm text-gray-600">Avg. Time</div>
+                <div className="text-3xl font-bold text-[#5843BE] dark:text-[#A99BF0] mb-1">5min</div>
+                <div className="text-sm text-gray-600 dark:text-[#8892AA]">Avg. Time</div>
               </div>
               <div className="text-center p-4 bg-gradient-to-br from-[#5843BE]/10 to-[#4a3ba0]/10 rounded-xl border border-[#5843BE]/20">
-                <div className="text-3xl font-bold text-[#5843BE] mb-1">50K+</div>
-                <div className="text-sm text-gray-600">Resumes Created</div>
+                <div className="text-3xl font-bold text-[#5843BE] dark:text-[#A99BF0] mb-1">50K+</div>
+                <div className="text-sm text-gray-600 dark:text-[#8892AA]">Resumes Created</div>
               </div>
               <div className="text-center p-4 bg-gradient-to-br from-[#5843BE]/10 to-[#4a3ba0]/10 rounded-xl border border-[#5843BE]/20">
-                <div className="text-3xl font-bold text-[#5843BE] mb-1">4.9★</div>
-                <div className="text-sm text-gray-600">User Rating</div>
+                <div className="text-3xl font-bold text-[#5843BE] dark:text-[#A99BF0] mb-1">4.9★</div>
+                <div className="text-sm text-gray-600 dark:text-[#8892AA]">User Rating</div>
               </div>
             </div>
 
             {/* Testimonial */}
-            <div className="bg-gray-50 rounded-xl p-4 mb-8">
-              <div className="text-sm text-gray-600 italic mb-2">
+            <div className="bg-gray-50 dark:bg-[#161C2B] rounded-xl p-4 mb-8">
+              <div className="text-sm text-gray-600 dark:text-[#8892AA] italic mb-2">
                 "Got my dream job thanks to this AI resume builder. The voice input feature saved me hours!"
               </div>
-              <div className="text-xs text-gray-500">- Sarah M., Software Engineer</div>
+              <div className="text-xs text-gray-500 dark:text-[#8892AA]">- Sarah M., Software Engineer</div>
             </div>
 
             {/* CTA Button */}
@@ -224,7 +224,7 @@ export default function AIResumeSection({ refQuery, lgQuery }: AIResumeSectionPr
               Start Building Now
             </button>
             
-            <p className="text-xs text-gray-500 text-center mt-3">
+            <p className="text-xs text-gray-500 dark:text-[#8892AA] text-center mt-3">
               No credit card required • Free to start
             </p>
           </div>

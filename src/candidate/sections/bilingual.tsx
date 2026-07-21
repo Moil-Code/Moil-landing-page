@@ -9,7 +9,7 @@ interface BilingualSectionProps {
 
 export default function BilingualSection({ refQuery, lgQuery }: BilingualSectionProps) {
   return (
-    <section className="relative py-8 md:py-16 lg:py-24 xl:py-32 overflow-hidden bg-gradient-to-br from-white via-purple-50 to-[#5843BE]/20" id="bilingual">
+    <section className="relative py-8 md:py-16 lg:py-24 xl:py-32 overflow-hidden bg-gradient-to-br from-white via-purple-50 to-[#5843BE]/20 dark:from-[#06080D] dark:via-[#0B0E18] dark:to-[#5843BE]/10" id="bilingual">
       {/* Grid Overlay */}
       <div 
         className="absolute inset-0 opacity-10"
@@ -26,15 +26,15 @@ export default function BilingualSection({ refQuery, lgQuery }: BilingualSection
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Header Section */}
           <div className="text-center mb-8 md:mb-12 lg:mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-white/80 backdrop-blur-lg rounded-full border border-[#5843BE]/20 shadow-lg mb-4 md:mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-white/80 dark:bg-[#10141F]/80 backdrop-blur-lg rounded-full border border-[#5843BE]/20 dark:border-[#222840] shadow-lg mb-4 md:mb-6">
               <div className="w-2 h-2 md:w-3 md:h-3 bg-[#5843BE] rounded-full animate-pulse"></div>
-              <span className="text-[#5843BE] font-medium md:font-semibold text-sm md:text-base">Bilingual Voice Platform</span>
+              <span className="text-[#5843BE] dark:text-[#A99BF0] font-medium md:font-semibold text-sm md:text-base">Bilingual Voice Platform</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight mb-4 md:mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 dark:text-[#EEF2FF] leading-tight mb-4 md:mb-6">
               Speak Your Language, <br className="hidden sm:block" />
               <span className="text-[#5843BE] bg-gradient-to-r from-[#5843BE] to-[#4a3ba0] bg-clip-text text-transparent">Find Your Job</span>
             </h2>
-            <p className="text-sm md:text-base lg:text-lg xl:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
+            <p className="text-sm md:text-base lg:text-lg xl:text-xl text-gray-600 dark:text-[#8892AA] leading-relaxed max-w-3xl mx-auto">
               Navigate the entire platform using voice commands in English or Spanish. 
               Switch languages seamlessly and get personalized job recommendations in your preferred language.
             </p>
@@ -44,7 +44,7 @@ export default function BilingualSection({ refQuery, lgQuery }: BilingualSection
           <div className="grid lg:grid-cols-2 gap-4 md:gap-6 lg:gap-8 items-start">
 
             {/* Left Column - Voice Control Features */}
-            <div className="bg-white/80 backdrop-blur-lg rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 shadow-2xl border border-white/50 h-full">
+            <div className="bg-white/80 dark:bg-[#10141F]/80 backdrop-blur-lg rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 shadow-2xl border border-white/50 dark:border-[#222840] h-full">
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-14 h-14 bg-gradient-to-br from-[#5843BE] to-[#4a3ba0] rounded-2xl flex items-center justify-center shadow-lg">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
@@ -52,8 +52,8 @@ export default function BilingualSection({ refQuery, lgQuery }: BilingualSection
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900">Voice Commands</h3>
-                  <p className="text-gray-600">Hands-free navigation</p>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-[#EEF2FF]">Voice Commands</h3>
+                  <p className="text-gray-600 dark:text-[#8892AA]">Hands-free navigation</p>
                 </div>
               </div>
 
@@ -96,16 +96,16 @@ export default function BilingualSection({ refQuery, lgQuery }: BilingualSection
                     status: "Available"
                   }
                 ].map((item, index) => (
-                  <div key={index} className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
-                    <div className="flex-shrink-0 w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                  <div key={index} className="flex items-start gap-4 p-4 bg-gray-50 dark:bg-[#0B0E18] rounded-xl">
+                    <div className="flex-shrink-0 w-10 h-10 bg-white dark:bg-[#161C2B] rounded-lg flex items-center justify-center shadow-sm">
                       {item.icon}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-1">
-                        <h4 className="font-semibold text-gray-900">{item.title}</h4>
-                        <span className="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-full">{item.status}</span>
+                        <h4 className="font-semibold text-gray-900 dark:text-[#EEF2FF]">{item.title}</h4>
+                        <span className="text-xs text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-500/10 px-2 py-1 rounded-full">{item.status}</span>
                       </div>
-                      <p className="text-sm text-gray-600 italic">{item.desc}</p>
+                      <p className="text-sm text-gray-600 dark:text-[#8892AA] italic">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -113,7 +113,7 @@ export default function BilingualSection({ refQuery, lgQuery }: BilingualSection
             </div>
 
             {/* Right Column - Language Support */}
-            <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/50 h-full relative">
+            <div className="bg-white/80 dark:bg-[#10141F]/80 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/50 dark:border-[#222840] h-full relative">
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-14 h-14 bg-gradient-to-br from-[#5843BE] to-[#4a3ba0] rounded-2xl flex items-center justify-center shadow-lg">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
@@ -123,32 +123,32 @@ export default function BilingualSection({ refQuery, lgQuery }: BilingualSection
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900">Language Support</h3>
-                  <p className="text-gray-600">Bilingual experience</p>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-[#EEF2FF]">Language Support</h3>
+                  <p className="text-gray-600 dark:text-[#8892AA]">Bilingual experience</p>
                 </div>
               </div>
 
               <div className="space-y-6">
                 {/* Language Toggle */}
-                <div className="bg-gray-50 rounded-xl p-6">
-                  <h4 className="font-semibold text-gray-900 mb-4">Active Languages</h4>
+                <div className="bg-gray-50 dark:bg-[#0B0E18] rounded-xl p-6">
+                  <h4 className="font-semibold text-gray-900 dark:text-[#EEF2FF] mb-4">Active Languages</h4>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="bg-gradient-to-br from-[#5843BE]/10 to-[#4a3ba0]/10 border border-[#5843BE]/20 rounded-lg p-4 text-center">
                       <div className="text-2xl mb-2">🇺🇸</div>
-                      <div className="text-[#5843BE] font-semibold">English</div>
-                      <div className="text-xs text-gray-600 mt-1">Primary</div>
+                      <div className="text-[#5843BE] dark:text-[#A99BF0] font-semibold">English</div>
+                      <div className="text-xs text-gray-600 dark:text-[#8892AA] mt-1">Primary</div>
                     </div>
-                    <div className="bg-white border border-gray-200 rounded-lg p-4 text-center hover:bg-gray-50 cursor-pointer transition-colors">
+                    <div className="bg-white dark:bg-[#10141F] border border-gray-200 dark:border-[#222840] rounded-lg p-4 text-center hover:bg-gray-50 dark:hover:bg-[#161C2B] cursor-pointer transition-colors">
                       <div className="text-2xl mb-2">🇪🇸</div>
-                      <div className="text-gray-700 font-semibold">Español</div>
-                      <div className="text-xs text-gray-500 mt-1">Available</div>
+                      <div className="text-gray-700 font-semibold dark:text-[#EEF2FF]">Español</div>
+                      <div className="text-xs text-gray-500 mt-1 dark:text-[#8892AA]">Available</div>
                     </div>
                   </div>
                 </div>
 
                 {/* Features List */}
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-4">Bilingual Features</h4>
+                  <h4 className="font-semibold text-gray-900 dark:text-[#EEF2FF] mb-4">Bilingual Features</h4>
                   <div className="space-y-3">
                     {[
                       "Real-time language switching",
@@ -162,7 +162,7 @@ export default function BilingualSection({ refQuery, lgQuery }: BilingualSection
                             <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                         </div>
-                        <span className="text-gray-700 text-sm">{feature}</span>
+                        <span className="text-gray-700 dark:text-[#8892AA] text-sm">{feature}</span>
                       </div>
                     ))}
                   </div>
@@ -177,14 +177,14 @@ export default function BilingualSection({ refQuery, lgQuery }: BilingualSection
           </div>
 
           {/* Bottom Section - CTA */}
-          <div className="mt-16 bg-white/80 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/50">
+          <div className="mt-16 bg-white/80 dark:bg-[#10141F]/80 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/50 dark:border-[#222840]">
             <div className="text-center">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#5843BE]/10 rounded-full border border-[#5843BE]/20 mb-4">
                 <div className="w-2 h-2 bg-[#5843BE] rounded-full animate-pulse"></div>
-                <span className="text-[#5843BE] text-sm font-medium">Try Voice Commands</span>
+                <span className="text-[#5843BE] dark:text-[#A99BF0] text-sm font-medium">Try Voice Commands</span>
               </div>
-              <h4 className="text-2xl font-bold text-gray-900 mb-3">Experience Bilingual Voice Control</h4>
-              <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-8">
+              <h4 className="text-2xl font-bold text-gray-900 dark:text-[#EEF2FF] mb-3">Experience Bilingual Voice Control</h4>
+              <p className="text-lg md:text-xl text-gray-600 dark:text-[#8892AA] max-w-2xl mx-auto mb-8">
                 Start using voice commands in English or Spanish to navigate jobs, practice interviews, and apply to positions.
               </p>
               
@@ -195,7 +195,7 @@ export default function BilingualSection({ refQuery, lgQuery }: BilingualSection
                 >
                   Try Voice Features
                 </button>
-                <div className="flex items-center gap-4 text-sm text-gray-600">
+                <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-[#8892AA]">
                   <div className="flex items-center gap-2">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-green-500">
                       <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

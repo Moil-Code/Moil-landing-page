@@ -82,16 +82,16 @@ export default function SearchComponent({ lgQuery }: any) {
               <path
                 d="M9.88649 18.773C4.97838 18.773 1 14.7946 1 9.88649C1 4.97838 4.97838 1 9.88649 1C14.7946 1 18.773 4.97838 18.773 9.88649C18.773 14.7946 14.7946 18.773 9.88649 18.773Z"
                 stroke="#FF6633"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
                 d="M21.0001 21L16.5569 16.5568"
                 stroke="#FF6633"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
 
@@ -149,20 +149,20 @@ export default function SearchComponent({ lgQuery }: any) {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M6.99993 16.6572L7.60088 15.98C8.28279 15.1991 8.89612 14.4581 9.44184 13.7534L9.89231 13.1591C11.7733 10.6248 12.7142 8.61336 12.7142 7.1267C12.7142 3.95336 10.1561 1.38098 6.99993 1.38098C3.84374 1.38098 1.28564 3.95336 1.28564 7.1267C1.28564 8.61336 2.2266 10.6248 4.10755 13.1591L4.55803 13.7534C5.33654 14.7509 6.15104 15.7188 6.99993 16.6572Z"
                 stroke="#F24E1E"
-                stroke-width="1.14286"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.14286"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
                 d="M7.00009 9.4762C8.31506 9.4762 9.38105 8.41021 9.38105 7.09525C9.38105 5.78028 8.31506 4.71429 7.00009 4.71429C5.68513 4.71429 4.61914 5.78028 4.61914 7.09525C4.61914 8.41021 5.68513 9.4762 7.00009 9.4762Z"
                 stroke="#F24E1E"
-                stroke-width="1.14286"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.14286"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
 
