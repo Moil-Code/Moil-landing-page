@@ -41,6 +41,11 @@ const nextConfig = {
         destination: '/business',
         permanent: true,
       },
+      {
+        source: '/compare/moil-vs-chatgp',
+        destination: '/compare/moil-vs-chatgpt',
+        permanent: true,
+      },
       // SEO: crawlable login/register paths on the landing domain that
       // 301 to the actual apps on their subdomains
       {

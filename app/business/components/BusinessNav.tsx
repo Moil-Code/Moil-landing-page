@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import { Globe, Moon, Sun, Menu, X } from 'lucide-react';
+import { Building2, Globe, Moon, Sun, UserRound } from 'lucide-react';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
 import Image from 'next/image';
 
@@ -157,7 +157,7 @@ export function BusinessNav({
           onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.7)'; }}
           onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'; }}
         >
-          <span>👤</span> For Job Seekers
+          <UserRound size={14} aria-hidden="true" /> For Job Seekers
         </a>
         <span style={{
           display: 'flex',
@@ -172,7 +172,7 @@ export function BusinessNav({
           color: 'white',
           boxShadow: '0 2px 8px rgba(255,102,51,0.35)',
         }}>
-          <span>🏢</span> For Businesses
+          <Building2 size={14} aria-hidden="true" /> For Businesses
         </span>
       </div>
 

@@ -115,16 +115,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth" data-theme="light" suppressHydrationWarning>
       <head>
-        {/* Pre-paint theme restore — must be a plain blocking <script> so the
-            saved theme lands on <html> before first paint. Without it the
-            server-rendered dark default flashes before the client effect
-            applies the saved light theme. Path-gated: only business/compare/
-            marketing pages are themed; other routes never get data-theme. */}
+        {/* Pre-paint theme restore. The server starts in light mode, then this
+            blocking script applies a saved dark preference before the browser
+            paints. The attribute lives on <html> for the entire application so
+            client-side and full-page navigation share one stable theme. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{if(/^\\/(es\\/)?(business|compare|marketing|candidate)/.test(location.pathname)){var t=localStorage.getItem('moil-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark')}}catch(e){}})()`,
+            __html: `(function(){var d=document.documentElement;try{var t=localStorage.getItem('moil-theme');d.setAttribute('data-theme',t==='dark'?'dark':'light')}catch(e){d.setAttribute('data-theme','light')}})()`,
           }}
         />
         <meta name="theme-color" content="#5843BE" />

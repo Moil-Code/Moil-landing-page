@@ -2,6 +2,7 @@
 
 import { appendLangToUrl } from '../utils/appendLangToUrl';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
+import { ArrowRight, Check, Star } from 'lucide-react';
 
 export function BusinessFinalCta() {
   const { t, lang } = useLanguageContext();
@@ -19,12 +20,12 @@ export function BusinessFinalCta() {
         {t.business.finalCta.subheadline}
       </p>
       <a className="final-btn rv" href={appendLangToUrl("https://business.moilapp.com/register", lang)} rel="noreferrer">
-        {t.business.finalCta.cta} <span>→</span>
+        {t.business.finalCta.cta} <ArrowRight size={18} aria-hidden="true" />
       </a>
       <div className="final-trust rv">
         {t.business.finalCta.trust.map((item, index) => (
           <div className="ft-item" key={`final-trust-${index}`}>
-            <span className="gc">✓</span> {item}
+            <span className="gc"><Check size={14} aria-hidden="true" /></span> {item}
           </div>
         ))}
       </div>
@@ -41,7 +42,11 @@ export function BusinessFinalCta() {
         >
           {t.business.finalCta.trustedBy}
         </div>
-        <div style={{ color: 'var(--purple-light)', fontSize: '18px', letterSpacing: '3px' }}>★★★★★</div>
+        <div className="final-stars" aria-label="Five star rating">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <Star key={index} size={17} fill="currentColor" aria-hidden="true" />
+          ))}
+        </div>
         <div
           style={{
             fontFamily: 'var(--mono)',

@@ -1,42 +1,12 @@
 'use client';
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-
-type ThemeMode = 'dark' | 'light';
-
-// useLayoutEffect fires before paint so the saved theme is applied without a
-// visible dark→light flash; falls back to useEffect during SSR.
-const useIsomorphicLayoutEffect =
-  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+import { useEffect, useState } from 'react';
+import { usePersistentTheme } from '../../../src/common/hooks/usePersistentTheme';
 
 export function useBusinessUi() {
-  const [theme, setTheme] = useState<ThemeMode>('dark');
+  const { theme, toggleTheme } = usePersistentTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
-  const previousThemeRef = useRef<string | null>(null);
-
-  useIsomorphicLayoutEffect(() => {
-    previousThemeRef.current = document.documentElement.getAttribute('data-theme');
-    const saved = window.localStorage.getItem('moil-theme');
-    const nextTheme: ThemeMode = saved === 'light' ? 'light' : 'dark';
-    setTheme(nextTheme);
-    document.documentElement.setAttribute('data-theme', nextTheme);
-
-    return () => {
-      const previousTheme = previousThemeRef.current;
-      if (previousTheme) {
-        document.documentElement.setAttribute('data-theme', previousTheme);
-      } else {
-        document.documentElement.removeAttribute('data-theme');
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    window.localStorage.setItem('moil-theme', theme);
-  }, [theme]);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
@@ -172,10 +142,6 @@ export function useBusinessUi() {
       observer.disconnect();
       intervals.forEach((timer) => window.clearInterval(timer));
     };
-  }, []);
-
-  const toggleTheme = useCallback(() => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   }, []);
 
   return {

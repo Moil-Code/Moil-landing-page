@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { ArrowRight, Check, Sparkles } from 'lucide-react';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
 
@@ -129,13 +130,19 @@ export function BusinessPricingSection() {
           marginBottom: '52px',
         }}
       >
+        <Check size={14} strokeWidth={2.5} aria-hidden="true" />
         {t.business.pricing.annualSaving}
       </div>
 
       <div className="pricing-inner-grid">
         {plans.map((plan, index) => (
           <div key={plan.id} className={`price-card rv ${plan.featured ? 'star' : ''} ${index === 1 ? 'd1' : ''} ${index === 2 ? 'd2' : ''}`}>
-            {plan.featured && plan.badge && <span className="price-badge">{plan.badge}</span>}
+            {plan.featured && plan.badge && (
+              <span className="price-badge">
+                <Sparkles size={12} aria-hidden="true" />
+                {plan.badge}
+              </span>
+            )}
             <div className="price-tier">{plan.tier}</div>
             <p className="price-tagline">{plan.tagline}</p>
             <div className="price-amt">
@@ -168,7 +175,9 @@ export function BusinessPricingSection() {
             <ul className="price-list">
               {plan.features.map((feature, featureIndex) => (
                 <li key={`${plan.id}-feature-${featureIndex}`}>
-                  <span className={plan.featured ? 'li-star' : 'li-check'}>{plan.featured ? '★' : '✓'}</span>
+                  <span className={plan.featured ? 'li-star' : 'li-check'}>
+                    {plan.featured ? <Sparkles size={15} aria-hidden="true" /> : <Check size={15} aria-hidden="true" />}
+                  </span>
                   {plan.featured && highlightFeatures.includes(feature) ? (
                     <strong style={{ color: 'var(--orange)' }}>{feature}</strong>
                   ) : (
@@ -183,7 +192,7 @@ export function BusinessPricingSection() {
               rel="noreferrer"
               className={`price-btn ${plan.ctaClass}`}
             >
-              {plan.cta}
+              {plan.cta} <ArrowRight size={16} aria-hidden="true" />
             </a>
           </div>
         ))}
@@ -192,7 +201,7 @@ export function BusinessPricingSection() {
       <div className="price-trust rv">
         {trustItems.map((item, index) => (
           <div className="pt-item" key={`trust-${index}`}>
-            <span className="g">✓</span> {item}
+            <span className="g"><Check size={14} aria-hidden="true" /></span> {item}
           </div>
         ))}
       </div>

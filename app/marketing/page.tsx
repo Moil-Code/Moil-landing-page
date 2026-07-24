@@ -24,7 +24,7 @@ export default function Content360Page() {
 
   return (
     <I18nProvider>
-    <div className="content360-shell" data-theme={theme}>
+    <div className="content360-shell">
       <div className="cursor" id="cursor" data-hoverable />
       <div className="cursor-ring" id="cursorRing" data-hoverable />
 
