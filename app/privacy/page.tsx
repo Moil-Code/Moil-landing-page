@@ -40,60 +40,67 @@ export default function PrivacyPage() {
         "To generate output, your prompts and relevant content are processed by AI providers we use as service providers (see our Subprocessors page). We do not permit these providers to use your content to train their general, publicly-available models except as configured for the Services, and we may use de-identified or aggregated data to operate, secure, and improve the Services. AI output may be inaccurate — see our Terms and Conditions for important disclaimers.",
     },
     {
-      heading: "5. How We Share Information",
+      heading: "5. Google User Data",
+      text:
+        "If you sign in with Google or connect a Google account, we access only the data needed to provide the features you request, and we ask for the narrowest scopes required. Moil's use of information received from Google APIs will adhere to the Google API Services User Data Policy, including the Limited Use requirements. We do not transfer Google user data to third parties except as necessary to provide or improve the Services, comply with applicable law, or as part of a merger, acquisition, or sale of assets with your consent; we do not use Google user data for advertising; and we do not allow humans to read it unless we have your consent, it is necessary for security or to comply with applicable law, or the data is aggregated and de-identified. You can revoke Moil's access at any time in your Google account permissions, and you can ask us to delete Google user data we hold by emailing " +
+        CONTACT_EMAIL +
+        ".",
+    },
+    {
+      heading: "6. How We Share Information",
       text:
         "We share personal information with: service providers and subprocessors who process data on our behalf (hosting, storage, payments, AI, analytics, email); other users where the Services are designed to do so (e.g., an employer and a candidate in the job marketplace, or a social platform when you direct us to publish); authorities or others when required by law or to protect rights and safety; and a successor entity in a merger, acquisition, or sale of assets. We do not sell your personal information.",
     },
     {
-      heading: "6. Cookies and Tracking",
+      heading: "7. Cookies and Tracking",
       text:
         "We use strictly necessary, preference, and analytics cookies and similar technologies. You can manage non-essential cookies through our cookie banner and your browser settings. See our Cookie Policy for details.",
     },
     {
-      heading: "7. Data Retention",
+      heading: "8. Data Retention",
       text:
         "We keep personal information for as long as your account is active and as needed to provide the Services, then retain it only as required to comply with legal obligations, resolve disputes, and enforce agreements. You can ask us to delete your account and associated data as described below.",
     },
     {
-      heading: "8. Data Security",
+      heading: "9. Data Security",
       text:
         "We use administrative, technical, and organizational safeguards designed to protect personal information, including encryption in transit and access controls. No method of transmission or storage is 100% secure, so we cannot guarantee absolute security.",
     },
     {
-      heading: "9. Your Rights and Choices",
+      heading: "10. Your Rights and Choices",
       text:
         "Depending on where you live, you may have rights to access, correct, delete, or port your personal information, to object to or restrict certain processing, and to withdraw consent. To exercise any right, email " +
         CONTACT_EMAIL +
         ". We will verify your request and respond within the time required by applicable law. You will not be discriminated against for exercising your rights.",
     },
     {
-      heading: "10. U.S. State Privacy Rights (including California)",
+      heading: "11. U.S. State Privacy Rights (including California)",
       text:
         "Residents of California and other U.S. states with privacy laws have additional rights, including the right to know, delete, and correct personal information, and to opt out of any sale or sharing of personal information. We do not sell personal information and do not share it for cross-context behavioral advertising in a way that requires an opt-out, but you can still submit choices on our Your Privacy Choices page.",
     },
     {
-      heading: "11. International Data Transfers",
+      heading: "12. International Data Transfers",
       text:
         "We are based in the United States and may process and store information in the U.S. and other countries where our providers operate. Where required, we use appropriate safeguards (such as Standard Contractual Clauses) for cross-border transfers.",
     },
     {
-      heading: "12. Children's Privacy",
+      heading: "13. Children's Privacy",
       text:
         "The Services are not directed to children, and we do not knowingly collect personal information from anyone under 18. If you believe a child has provided us information, contact us and we will delete it.",
     },
     {
-      heading: "13. Changes to This Policy",
+      heading: "14. Changes to This Policy",
       text:
         "We may update this Policy from time to time. We will update the \"Last updated\" date and, for material changes, may provide additional notice. Your continued use of the Services after changes take effect constitutes acceptance.",
     },
     {
-      heading: "14. Contact Us",
+      heading: "15. Contact Us",
       text: `For privacy questions or requests, contact ${COMPANY_NAME} at ${CONTACT_EMAIL} or ${COMPANY_ADDRESS}.`,
     },
   ];
 
   return (
-    <LegalPage title="Moil Privacy Policy" lastUpdated="June 23, 2026" page="privacy" sections={sections}>
+    <LegalPage title="Moil Privacy Policy" lastUpdated="July 30, 2026" page="privacy" sections={sections}>
       <p className="text-sm text-[#5C6178]">
         Related:{" "}
         <Link href="/cookies" className="text-[#FF6633] underline">Cookie Policy</Link>,{" "}
