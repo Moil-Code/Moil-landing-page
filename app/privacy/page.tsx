@@ -40,11 +40,15 @@ export default function PrivacyPage() {
         "To generate output, your prompts and relevant content are processed by AI providers we use as service providers (see our Subprocessors page). We do not permit these providers to use your content to train their general, publicly-available models except as configured for the Services, and we may use de-identified or aggregated data to operate, secure, and improve the Services. AI output may be inaccurate — see our Terms and Conditions for important disclaimers.",
     },
     {
-      heading: "5. Google User Data",
+      heading: "5. GOOGLE USER DATA",
       text:
-        "If you sign in with Google or connect a Google account, we access only the data needed to provide the features you request, and we ask for the narrowest scopes required. Moil's use of information received from Google APIs will adhere to the Google API Services User Data Policy, including the Limited Use requirements. We do not transfer Google user data to third parties except as necessary to provide or improve the Services, comply with applicable law, or as part of a merger, acquisition, or sale of assets with your consent; we do not use Google user data for advertising; and we do not allow humans to read it unless we have your consent, it is necessary for security or to comply with applicable law, or the data is aggregated and de-identified. You can revoke Moil's access at any time in your Google account permissions, and you can ask us to delete Google user data we hold by emailing " +
-        CONTACT_EMAIL +
-        ".",
+        "If you connect a Google account, we access only the data needed to provide the features you request, and we ask for the narrowest scopes required. Moil requests send-only Gmail access (gmail.send) together with basic identity (openid, email, profile). Moil cannot read, search, modify or delete any message in your Gmail account. We use your Google account address only to show you which account is connected and to set the correct sender address on email you approve.\n" +
+        "Moil's use of information received from Google APIs will adhere to the Google API Services User Data Policy, including the Limited Use requirements. Specifically:\n" +
+        "• We do not use Google user data to develop, improve, or train generalized or non-personalized artificial intelligence or machine learning models, and we do not transfer Google user data to any third-party AI or ML service.\n" +
+        "• We do not transfer Google user data to third parties except as necessary to provide the services, comply with applicable law, or as part of a merger, acquisition or sale of assets with your consent.\n" +
+        "• We do not use Google user data for advertising.\n" +
+        "• We do not allow humans to read Google user data unless we have your consent, it is necessary for security or to comply with applicable law, or the data is aggregated and de-identified.\n" +
+        "You can revoke Moil's access at any time in your Google Account permissions, and you can ask us to delete Google user data we hold by emailing cs@moilapp.com.",
     },
     {
       heading: "6. How We Share Information",
