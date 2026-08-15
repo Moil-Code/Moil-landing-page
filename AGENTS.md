@@ -50,9 +50,30 @@ Custom i18n system layered on top of i18next:
 - Each section has a `useTranslation.ts` hook (e.g., `app/business/useTranslation.ts`) that selects the right subtree of translations
 - `src/common/components/I18nProvider.tsx` wraps the app and handles detection/persistence
 
-### AI demo endpoints
+### AI endpoints: this repo calls none, and that is the rule
 
-`app/api/demo/` contains serverless routes (business-plan, market-research, financial-projections, etc.) that all call Google Gemini via `src/legacy/utils/geminiApi`. These require `NEXT_PUBLIC_GOOGLE_API_KEY_1` and `NEXT_PUBLIC_GOOGLE_API_KEY_2` env vars (see `.env.example`).
+`app/api/demo/` used to hold six serverless routes (business-plan, market-research,
+financial-projections, business-model, audience-analysis, competitor-analysis) that
+each called Google Gemini directly via `src/legacy/utils/geminiApi`. **All seven files
+are deleted.** They had **no authentication, no rate limit, and no metering**, they
+passed caller-supplied free text (`businessName`, `industry`) straight into a model
+prompt, and they had **zero UI callers** — so the only traffic they could ever serve
+was somebody else's. A public unmetered model endpoint is a bill anyone on the
+internet can run up, and `middleware.ts` cannot help: its matcher excludes `/api`
+by design.
+
+**The rule going forward: the marketing site does not hold model credentials.**
+Anything AI-shaped is served by the Moil backend (`Business-plan-Staging`, mounted
+under `/plan`), which already owns the things a public AI surface needs and this repo
+does not — per-IP rate limiting, the daily and monthly spend ledgers, usage
+attribution, and one place to revoke a key. A route here would have to reimplement
+all four, and would be the copy that drifts.
+
+`NEXT_PUBLIC_GOOGLE_API_KEY_2` existed only for those routes and is gone from
+`.env.example`; **unset it in Vercel and revoke it at Google** — a key that is no
+longer read is not a key that is no longer valid. `NEXT_PUBLIC_GOOGLE_API_KEY_1`
+stays: it is the Places autocomplete widget in `src/candidate/`, a browser-side
+Maps key, and a different thing entirely. Restrict it by HTTP referrer.
 
 ### Styling
 
