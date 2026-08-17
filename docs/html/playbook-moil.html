@@ -1,0 +1,1435 @@
+<title>Moil SEO / SEM / AEO Playbook</title>
+<style>
+:root{
+  --violet:#5843BE; --violet-2:#7A63E0; --ember:#FF6633; --jade:#1FBE86; --amber:#E8A21C;
+  --bg:#FAF9FD; --surface:#FFFFFF; --surface-2:#F2F0FA;
+  --text:#16123A; --text-2:#4A4570; --text-3:#7C77A0;
+  --line:#E3E0F0; --line-2:#CFCAE6;
+  --accent:var(--violet); --accent-soft:#EDE9FC; --accent-line:#C9BEF5;
+  --code-bg:#F4F2FC;
+  --shadow:0 1px 2px rgba(22,18,58,.05), 0 8px 24px -12px rgba(22,18,58,.14);
+  --display:"Avenir Next","Avenir",Futura,"Segoe UI Variable Display",system-ui,sans-serif;
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#100E24; --surface:#191635; --surface-2:#221E45;
+    --text:#EEECF8; --text-2:#B9B4D6; --text-3:#8A85AE;
+    --line:#2C2856; --line-2:#3B3670;
+    --violet:#9B85F5; --ember:#FF7F4D; --jade:#3AD79C; --amber:#F0B849;
+    --accent:#9B85F5; --accent-soft:#241E4E; --accent-line:#4B3FA0;
+    --code-bg:#1C1940;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#100E24; --surface:#191635; --surface-2:#221E45;
+  --text:#EEECF8; --text-2:#B9B4D6; --text-3:#8A85AE;
+  --line:#2C2856; --line-2:#3B3670;
+  --violet:#9B85F5; --ember:#FF7F4D; --jade:#3AD79C; --amber:#F0B849;
+  --accent:var(--violet); --accent-soft:#241E4E; --accent-line:#4B3FA0;
+  --code-bg:#1C1940;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+}
+:root[data-theme="light"]{
+  --bg:#FAF9FD; --surface:#FFFFFF; --surface-2:#F2F0FA;
+  --text:#16123A; --text-2:#4A4570; --text-3:#7C77A0;
+  --line:#E3E0F0; --line-2:#CFCAE6;
+  --violet:#5843BE; --ember:#FF6633; --jade:#1FBE86; --amber:#E8A21C;
+  --accent:var(--violet); --accent-soft:#EDE9FC; --accent-line:#C9BEF5;
+  --code-bg:#F4F2FC;
+  --shadow:0 1px 2px rgba(22,18,58,.05), 0 8px 24px -12px rgba(22,18,58,.14);
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);
+  font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-line)}
+a:hover{border-bottom-color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+/* ---------- shell ---------- */
+.shell{display:grid;grid-template-columns:236px minmax(0,1fr);gap:0;max-width:1240px;margin:0 auto}
+.rail{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;
+  padding:36px 22px 48px;border-right:1px solid var(--line)}
+.rail-brand{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-3);margin-bottom:22px;line-height:1.5}
+.rail-brand b{color:var(--accent);font-weight:600}
+.rail a{display:flex;gap:9px;padding:5px 0;border:0;color:var(--text-2);font-size:13.5px;line-height:1.45}
+.rail a:hover{color:var(--accent)}
+.rail a.on{color:var(--text);font-weight:600}
+.rail a .n{font-family:var(--mono);font-size:11px;color:var(--text-3);min-width:16px;padding-top:3px;
+  font-variant-numeric:tabular-nums}
+.rail a.on .n{color:var(--accent)}
+main{padding:56px 44px 140px;min-width:0}
+.col{max-width:68ch}
+
+/* ---------- masthead ---------- */
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--display);font-size:clamp(2.15rem,4.6vw,3.15rem);line-height:1.04;
+  letter-spacing:-.024em;font-weight:600;margin:.35em 0 .5em;text-wrap:balance;max-width:22ch}
+.standfirst{font-size:19px;line-height:1.55;color:var(--text-2);max-width:56ch;margin:0 0 30px}
+.meta{display:flex;flex-wrap:wrap;gap:0 26px;font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.04em;color:var(--text-3);border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);padding:14px 0;margin-bottom:44px}
+.meta b{color:var(--text-2);font-weight:500}
+
+/* ---------- rules strip ---------- */
+.rules{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);
+  border-radius:3px;overflow:hidden;margin:0 0 56px}
+@media(min-width:720px){.rules{grid-template-columns:repeat(3,1fr)}}
+.rule{background:var(--surface);padding:18px 20px}
+.rule .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--accent);
+  text-transform:uppercase;display:block;margin-bottom:7px}
+.rule p{margin:0;font-size:14px;line-height:1.5;color:var(--text-2)}
+.rule b{color:var(--text);font-weight:600}
+
+/* ---------- sections ---------- */
+section{margin:0 0 72px;scroll-margin-top:24px}
+h2{font-family:var(--display);font-size:1.62rem;letter-spacing:-.016em;font-weight:600;
+  line-height:1.18;margin:0 0 6px;text-wrap:balance;display:flex;gap:14px;align-items:baseline}
+h2 .sn{font-family:var(--mono);font-size:.72em;font-weight:400;color:var(--accent);
+  font-variant-numeric:tabular-nums;flex:none}
+.dek{color:var(--text-2);font-size:15.5px;margin:0 0 26px;max-width:62ch}
+h3{font-family:var(--display);font-size:1.09rem;font-weight:600;letter-spacing:-.008em;
+  margin:38px 0 10px;color:var(--text)}
+h4{font-family:var(--mono);font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--text-3);font-weight:500;margin:30px 0 10px}
+p,ul,ol{margin:0 0 15px}
+ul,ol{padding-left:22px}
+li{margin-bottom:7px}
+li::marker{color:var(--text-3)}
+strong{font-weight:600;color:var(--text)}
+.hr{height:1px;background:var(--line);border:0;margin:52px 0}
+
+/* ---------- stat tiles ---------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden;margin:0 0 22px}
+.stat{background:var(--surface);padding:16px 16px 15px}
+.stat .v{font-family:var(--display);font-size:1.72rem;font-weight:600;letter-spacing:-.03em;
+  line-height:1;font-variant-numeric:tabular-nums;display:block;margin-bottom:7px}
+.stat .l{font-size:12.5px;line-height:1.4;color:var(--text-2);display:block}
+.stat .s{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--text-3);
+  display:block;margin-top:7px;text-transform:uppercase}
+.stat.neg .v{color:var(--ember)} .stat.pos .v{color:var(--jade)} .stat.neu .v{color:var(--accent)}
+
+/* ---------- callout ---------- */
+.note{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:0 3px 3px 0;padding:17px 20px;margin:24px 0}
+.note.warn{border-left-color:var(--ember)}
+.note.good{border-left-color:var(--jade)}
+.note .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text-3);display:block;margin-bottom:8px}
+.note p:last-child{margin-bottom:0}
+.note p{font-size:15px}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;margin:22px 0;border:1px solid var(--line);border-radius:3px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-3);text-align:left;font-weight:500;padding:11px 14px;
+  border-bottom:1px solid var(--line-2);white-space:nowrap;background:var(--surface-2)}
+td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--text-2);line-height:1.5}
+tr:last-child td{border-bottom:0}
+td strong{color:var(--text)}
+td.num,th.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tw.wide table{min-width:660px}
+
+/* ---------- chips ---------- */
+.chip{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;
+  text-transform:uppercase;padding:3px 7px;border-radius:2px;white-space:nowrap;
+  border:1px solid;font-weight:500}
+.chip.ok{color:var(--jade);border-color:color-mix(in srgb,var(--jade) 40%,transparent);
+  background:color-mix(in srgb,var(--jade) 9%,transparent)}
+.chip.gap{color:var(--ember);border-color:color-mix(in srgb,var(--ember) 40%,transparent);
+  background:color-mix(in srgb,var(--ember) 9%,transparent)}
+.chip.dec{color:var(--amber);border-color:color-mix(in srgb,var(--amber) 45%,transparent);
+  background:color-mix(in srgb,var(--amber) 10%,transparent)}
+.chip.n{color:var(--text-3);border-color:var(--line-2)}
+
+/* ---------- ranked gap list ---------- */
+.gaps{list-style:none;padding:0;margin:22px 0;counter-reset:g;display:grid;gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.gaps li{counter-increment:g;background:var(--surface);margin:0;padding:15px 18px 15px 52px;
+  position:relative;font-size:14.5px;line-height:1.55;color:var(--text-2)}
+.gaps li::before{content:counter(g);position:absolute;left:18px;top:15px;font-family:var(--mono);
+  font-size:12px;color:var(--accent);font-variant-numeric:tabular-nums}
+.gaps li b{color:var(--text)}
+
+/* ---------- code / spec block ---------- */
+pre{background:var(--code-bg);border:1px solid var(--line);border-radius:3px;padding:15px 17px;
+  overflow-x:auto;margin:20px 0;font-family:var(--mono);font-size:12.5px;line-height:1.62;
+  color:var(--text-2)}
+code{font-family:var(--mono);font-size:.885em;background:var(--code-bg);padding:1.5px 5px;
+  border-radius:2px;color:var(--text);border:1px solid var(--line)}
+pre code{background:0;border:0;padding:0;font-size:1em;color:inherit}
+.spec{background:var(--surface);border:1px solid var(--line-2);border-radius:3px;
+  padding:0;margin:22px 0;overflow:hidden}
+.spec-h{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text-3);padding:11px 17px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.spec dl{display:grid;grid-template-columns:auto 1fr;gap:0;margin:0;font-size:13.5px}
+.spec dt{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text-3);padding:9px 17px;border-bottom:1px solid var(--line);white-space:nowrap}
+.spec dd{margin:0;padding:9px 17px 9px 0;border-bottom:1px solid var(--line);color:var(--text-2)}
+.spec dl>:nth-last-child(1),.spec dl>:nth-last-child(2){border-bottom:0}
+
+/* ---------- checklist ---------- */
+.check{list-style:none;padding:0;margin:20px 0}
+.check li{position:relative;padding-left:30px;margin-bottom:11px;font-size:14.5px;line-height:1.55;
+  color:var(--text-2)}
+.check li::before{content:"";position:absolute;left:0;top:5px;width:14px;height:14px;
+  border:1.5px solid var(--line-2);border-radius:2px}
+.check li b{color:var(--text)}
+
+/* ---------- architecture tree ---------- */
+.tree{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:20px 22px;
+  margin:22px 0;display:grid;gap:14px}
+.tree-row{display:grid;grid-template-columns:130px 1fr;gap:16px;align-items:start;
+  padding-bottom:14px;border-bottom:1px solid var(--line)}
+.tree-row:last-child{border-bottom:0;padding-bottom:0}
+.tree-k{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);padding-top:3px}
+.tree-v{font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--text-2)}
+.tree-v em{font-style:normal;color:var(--text-3)}
+
+/* ---------- phase bands ---------- */
+.phase{margin:34px 0}
+.phase-h{display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;padding-bottom:10px;
+  border-bottom:2px solid var(--accent);margin-bottom:0}
+.phase-h .d{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);font-variant-numeric:tabular-nums}
+.phase-h .t{font-family:var(--display);font-size:1.06rem;font-weight:600;color:var(--text)}
+.phase-h .g{font-size:13px;color:var(--text-3);margin-left:auto}
+
+/* ---------- kpi tree ---------- */
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:3px;margin:22px 0;
+  overflow:hidden}
+.kpi-top{padding:14px 18px;border-bottom:1px solid var(--line-2);background:var(--accent-soft);
+  font-family:var(--display);font-weight:600;font-size:15px}
+.kpi-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:16px;
+  padding:11px 18px;border-bottom:1px solid var(--line);font-size:13.5px;align-items:baseline}
+.kpi-row:last-child{border-bottom:0}
+.kpi-row .m{color:var(--text)}
+.kpi-row .m::before{content:"\2514  ";font-family:var(--mono);color:var(--text-3)}
+.kpi-row .d{color:var(--text-3);font-size:12.5px}
+
+/* ---------- interactive checklist ---------- */
+details.pack{border:1px solid var(--line);border-radius:3px;background:var(--surface);margin:14px 0}
+details.pack>summary{cursor:pointer;padding:14px 18px;font-family:var(--display);font-weight:600;
+  font-size:15px;display:flex;gap:12px;align-items:center;list-style:none}
+details.pack>summary::-webkit-details-marker{display:none}
+details.pack>summary::before{content:"+";font-family:var(--mono);color:var(--accent);font-weight:400;
+  font-size:16px;line-height:1}
+details.pack[open]>summary::before{content:"\2212 "}
+details.pack>summary .cnt{margin-left:auto;font-family:var(--mono);font-size:11px;
+  letter-spacing:.08em;color:var(--text-3);font-variant-numeric:tabular-nums;font-weight:400}
+details.pack[open]>summary{border-bottom:1px solid var(--line)}
+.pack ul{list-style:none;padding:14px 18px 6px;margin:0}
+.pack li{margin-bottom:11px;font-size:14.5px;line-height:1.5}
+.pack label{display:flex;gap:11px;align-items:flex-start;cursor:pointer;color:var(--text-2)}
+.pack input[type=checkbox]{margin:4px 0 0;flex:none;width:15px;height:15px;accent-color:var(--accent)}
+.pack input:checked+span{color:var(--text-3);text-decoration:line-through;
+  text-decoration-color:var(--line-2)}
+.pack code{font-size:.85em}
+.pack .obj{display:block;font-size:12.5px;color:var(--text-3);margin-top:3px}
+.pack input:checked+span .obj{color:var(--text-3)}
+.progress{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;
+  background:var(--surface);border:1px solid var(--line-2);border-radius:3px;padding:16px 18px;
+  margin:22px 0}
+.progress .pct{font-family:var(--display);font-size:2.1rem;font-weight:600;letter-spacing:-.03em;
+  line-height:1;font-variant-numeric:tabular-nums;color:var(--accent)}
+.progress .pct em{font-style:normal;font-size:.42em;color:var(--text-3);font-weight:400}
+.progress .lbl{font-size:14px;color:var(--text-2)}
+.progress .lbl b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--text);margin-bottom:3px}
+.ptrack{height:5px;background:var(--line);border-radius:3px;overflow:hidden;margin-top:9px}
+.pfill{height:100%;background:var(--accent);width:0;transition:width .25s ease}
+.reset{background:0;border:1px solid var(--line-2);border-radius:2px;color:var(--text-3);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  padding:6px 11px;cursor:pointer}
+.reset:hover{color:var(--accent);border-color:var(--accent-line)}
+
+/* ---------- sources ---------- */
+.src{font-size:13.5px;line-height:1.6}
+.src h4{margin-top:26px}
+.src ul{list-style:none;padding:0}
+.src li{padding-left:14px;position:relative;color:var(--text-3);margin-bottom:6px}
+.src li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--line-2)}
+
+footer{border-top:1px solid var(--line);margin-top:80px;padding-top:22px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--text-3);
+  display:flex;flex-wrap:wrap;gap:8px 24px}
+
+/* ---------- mobile ---------- */
+@media(max-width:860px){
+  .shell{grid-template-columns:1fr}
+  .rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);
+    padding:24px 22px 20px}
+  .rail nav{display:flex;flex-wrap:wrap;gap:2px 16px}
+  .rail a{padding:3px 0}
+  main{padding:34px 22px 100px}
+  h2{gap:10px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="shell">
+<aside class="rail">
+  <div class="rail-brand"><b>Moil</b> &#183; Playbook 01<br>SEO / SEM / AEO</div>
+  <nav id="nav">
+    <a href="#reality"><span class="n">01</span><span>Search reality 2026</span></a>
+    <a href="#audit"><span class="n">02</span><span>Current-state audit</span></a>
+    <a href="#entity"><span class="n">03</span><span>Entity layer</span></a>
+    <a href="#queries"><span class="n">04</span><span>Personas &amp; their questions</span></a>
+    <a href="#pages"><span class="n">05</span><span>Page architecture</span></a>
+    <a href="#aeo"><span class="n">06</span><span>On-page AEO spec</span></a>
+    <a href="#offsite"><span class="n">07</span><span>Off-site citations</span></a>
+    <a href="#technical"><span class="n">08</span><span>Technical SEO</span></a>
+    <a href="#paid"><span class="n">09</span><span>Paid search</span></a>
+    <a href="#measure"><span class="n">10</span><span>Measurement</span></a>
+    <a href="#anti"><span class="n">11</span><span>Anti-patterns</span></a>
+    <a href="#roadmap"><span class="n">12</span><span>Roadmap</span></a>
+    <a href="#checklist"><span class="n">13</span><span>Implementation checklist</span></a>
+    <a href="#sources"><span class="n">14</span><span>Sources</span></a>
+  </nav>
+</aside>
+
+<main>
+<div class="col">
+  <span class="eyebrow">Playbook 01 &#183; Internal</span>
+  <h1>Moil's own SEO, SEM and AEO system</h1>
+  <p class="standfirst">How moilapp.com gets found, gets cited, and gets credited &#8212; across
+  classic search, paid search, and the AI answer engines that now intercept most of the click.</p>
+  <div class="meta">
+    <span><b>Scope</b> moilapp.com + all Moil-owned surfaces</span>
+    <span><b>Review</b> monthly</span>
+    <span><b>Updated</b> 2026-08-13</span>
+    <span><b>Owner</b> Taiwo</span>
+  </div>
+</div>
+
+<div class="col">
+<div class="note warn"><span class="k">Baseline reality &#183; from the Aug 11 team call</span>
+<p><strong>Roughly 99% of Moil&#8217;s customers today come from Andres personally meeting and
+onboarding them through cohorts. Almost none come from search.</strong> That single fact reframes
+everything in this document: search is a <em>net-new channel</em> being opened, not an existing
+channel being tuned. There is no traffic baseline to protect, no rankings to defend, and no reason
+to be cautious. It also means Analytics cannot guide the early work &#8212; it shows who already
+arrives, never why the people we want aren&#8217;t arriving.</p></div>
+</div>
+
+<div class="col">
+<div class="rules">
+  <div class="rule"><span class="k">Rule 01</span><p><b>One fact, one value, everywhere.</b>
+    Price, review count, time-to-hire, city. Contradiction across surfaces makes AI engines
+    decline to state the fact at all.</p></div>
+  <div class="rule"><span class="k">Rule 02</span><p><b>Extractability beats eloquence.</b>
+    A 45-word answer under a question-shaped H2 gets cited. A beautiful three-paragraph
+    build-up does not.</p></div>
+  <div class="rule"><span class="k">Rule 03</span><p><b>No claim without a source.</b>
+    Same discipline as the locked strategy doc &#8212; and the single biggest E-E-A-T lever
+    we control.</p></div>
+</div>
+
+<div class="note"><span class="k">Direction set on the Aug 11 call &#183; these override the defaults below</span>
+<p><strong>1. Questions, not keyword volume.</strong> SEO and AEO here are driven by answering the
+real questions our clients ask. Understand the personas and the problems Moil solves, then build
+Q&amp;As per page around those questions. The keyword-volume-first approach was explicitly corrected
+as backwards on the call &#8212; volume tells you how many people search a phrase, not which
+question closes a deal. Volume is a sanity check, never the starting point. This is why &#167;04
+opens with personas and only then reaches keywords.</p>
+<p><strong>2. Fix the main website before spinning up anything new.</strong> Multi-page structure,
+persona sections, per-page Q&amp;As and a link to the blog come first. Separate domains and
+subdomains come second, as campaign redirects.</p>
+<p><strong>3. No changes just to make changes.</strong> Every update must tie to a measurable
+objective &#8212; more of the right clients reaching the site. If a task on this page cannot name
+its objective, it does not ship.</p></div>
+
+<p style="font-size:14.5px;color:var(--text-3);margin-bottom:0">Structure adapted from the
+<a href="https://github.com/khasky/marketing-and-seo-playbook">khasky marketing-and-seo-playbook</a>
+sequence &#8212; research &#8594; positioning &#8594; trust &#8594; conversion &#8594; content &#8594; technical &#8594; AI search &#8594;
+measurement &#8212; and rewritten around Moil's actual product, stack and competitive set. Every
+recommendation is either verifiable in the repo or traceable to a cited 2026 source in &#167;13.
+Companion: <b>Playbook 02 &#8212; the client playbook</b>.</p>
+</div>
+
+<hr class="hr">
+
+<!-- 01 -->
+<section id="reality">
+<div class="col">
+  <h2><span class="sn">01</span>The 2026 search reality</h2>
+  <p class="dek">Why this playbook exists, in eleven numbers. These belong in every internal
+  deck that argues for the work.</p>
+</div>
+<div class="stats">
+  <div class="stat neg"><span class="v">&#8722;61%</span><span class="l">Organic CTR where an AI Overview appears (1.76% &#8594; 0.61%)</span><span class="s">Seer &#183; 2.43B impressions</span></div>
+  <div class="stat neg"><span class="v">&#8722;46.7%</span><span class="l">Relative click loss when an AI Overview appears</span><span class="s">Pew &#183; 68k queries</span></div>
+  <div class="stat neu"><span class="v">93%</span><span class="l">AI Mode searches ending with no click</span><span class="s">2026 zero-click data</span></div>
+  <div class="stat neu"><span class="v">83%</span><span class="l">AI-Overview searches ending with no click</span><span class="s">ibid.</span></div>
+  <div class="stat neu"><span class="v">48%</span><span class="l">Google queries now showing an AI Overview</span><span class="s">2026 trackers</span></div>
+  <div class="stat pos"><span class="v">+35%</span><span class="l">Organic clicks for brands cited <em>inside</em> an AI Overview</span><span class="s">Seer</span></div>
+  <div class="stat pos"><span class="v">+91%</span><span class="l">Paid clicks for those same cited brands</span><span class="s">Seer</span></div>
+  <div class="stat pos"><span class="v">15.9%</span><span class="l">ChatGPT-referred signup conversion</span><span class="s">2026 referral analyses</span></div>
+  <div class="stat pos"><span class="v">10.5%</span><span class="l">Perplexity-referred signup conversion</span><span class="s">ibid.</span></div>
+  <div class="stat pos"><span class="v">4.4&#215;</span><span class="l">AI search conversion vs. traditional organic</span><span class="s">ibid.</span></div>
+  <div class="stat neg"><span class="v">35&#8211;70%</span><span class="l">AI referrals arriving with no referrer &#8212; they land in Direct</span><span class="s">ibid.</span></div>
+  <div class="stat neu"><span class="v">~25%</span><span class="l">Global searches Gartner expects AI assistants to handle in 2026 (&gt;50% by 2028)</span><span class="s">Gartner</span></div>
+</div>
+<div class="col">
+  <div class="note"><span class="k">The strategic read</span>
+  <p>Rankings still matter, but ranking without being <strong>cited</strong> now loses most of the
+  click. Traffic will look flatter than it is, because a third to two-thirds of AI referrals hide
+  in Direct. So we optimize for <strong>citation share first, rank second, and measure
+  branded-search lift as the honest proxy</strong> for exposure we cannot see.</p></div>
+  <div class="note good"><span class="k">Why this suits Moil specifically</span>
+  <p>AI referral traffic converts at roughly 4.4&#215; organic, and Moil is a low-friction,
+  free-first-conversation product. High-intent, low-volume AI traffic suits us better than it
+  suits most SaaS.</p></div>
+</div>
+</section>
+
+<!-- 02 -->
+<section id="audit">
+<div class="col">
+  <h2><span class="sn">02</span>Current-state audit</h2>
+  <p class="dek">Verified against the codebase on 2026-08-13. This is the baseline that &#167;12
+  builds on &#8212; not a wish list.</p>
+  <h4>Shipped and working</h4>
+</div>
+<div class="tw wide"><table>
+<thead><tr><th>Asset</th><th>Location</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><strong>AI-crawler allowlist</strong>, 16 agents explicitly enumerated</td><td><code>app/robots.ts</code></td><td><span class="chip ok">Best in class</span></td></tr>
+<tr><td><code>llms.txt</code> canonical fact sheet</td><td><code>public/llms.txt</code></td><td><span class="chip ok">Accurate</span></td></tr>
+<tr><td>Self-canonicals per leaf page, no root override</td><td><code>app/layout.tsx:52</code></td><td><span class="chip ok">Commented</span></td></tr>
+<tr><td>hreflang EN/ES + <code>x-default</code>, pointing at <code>/es/business</code></td><td><code>app/business/layout.tsx:52</code></td><td><span class="chip ok">Correct</span></td></tr>
+<tr><td>Spanish path-prefix route (real indexable URL)</td><td><code>app/es/business/</code></td><td><span class="chip ok">Live</span></td></tr>
+<tr><td>Schema stack: 18 types incl. Article, Speakable, HowTo, FAQPage, BreadcrumbList, AggregateRating</td><td><code>app/business/layout.tsx</code></td><td><span class="chip ok">Unusually complete</span></td></tr>
+<tr><td>Comparison pages</td><td><code>app/compare/moil-vs-chatgpt</code>, <code>moil-vs-claude</code></td><td><span class="chip dec">2 of ~8</span></td></tr>
+<tr><td>Middleware no longer 301-strips <code>?lg=</code></td><td><code>middleware.ts</code></td><td><span class="chip ok">ES indexability fixed</span></td></tr>
+<tr><td>OG images per surface</td><td><code>public/og-*.jpg</code></td><td><span class="chip ok">Done</span></td></tr>
+</tbody></table></div>
+
+<div class="col">
+  <h4>Open gaps, ranked by leverage</h4>
+  <p style="font-size:14px;color:var(--text-3)">Gaps 1&#8211;5 were raised on the Aug 11 call and
+  outrank everything the code audit found on its own. They are architectural: the site does not
+  represent what Moil does, so no amount of on-page tuning can rescue it.</p>
+  <ol class="gaps">
+    <li><b>The site is effectively single-page, with no per-page Q&amp;As.</b> Moil builds strong
+      multi-page, Q&amp;A-rich sites <em>for clients</em> &#8212; and its own landing page is the
+      worst of the set at SEO and AEO. This is the root cause, and the first thing to fix. Every
+      other item is downstream of it.</li>
+    <li><b>Whole capability areas have no section or tab at all:</b> EDCs and chambers of commerce,
+      websites, and content creation. The site does not represent what Moil actually does, so
+      buyers in those segments find nothing to match against and answer engines have nothing to
+      cite.</li>
+    <li><b>The blog is orphaned.</b> It auto-publishes 5 articles every Monday, but nothing on the
+      landing page links to it and no section points at it. That is ~260 articles a year of
+      content earning close to zero &#8212; unlinked, uncrawled from our own pages, and invisible
+      to the site&#8217;s authority. See &#167;08.2, which now covers both the orphaning and the
+      subdomain split.</li>
+    <li><b>No campaign attribution.</b> There is no way to tell whether someone came from email,
+      social, or direct. Every channel decision is currently being made blind.</li>
+    <li><b>Inconsistent search identity.</b> &#8220;Moil app&#8221; and &#8220;Moil AI&#8221;
+      surface different results &#8212; websites versus LinkedIn &#8212; and the results vary by
+      location. Worth fixing, but explicitly <em>lower</em> priority than showing up for the
+      problems Moil solves: ranking for our own name matters less than ranking for the questions
+      buyers ask.</li>
+    <li><b>The sitemap covers 7 URLs.</b> <code>app/sitemap.ts</code> omits <code>/compare/*</code>,
+      <code>/contact</code>, <code>/terms</code>, <code>/cookies</code>, <code>/dmca</code>,
+      <code>/dpa</code>, <code>/accessibility</code>, <code>/privacy-choices</code>,
+      <code>/subprocessors</code> and every future <code>/es/*</code>. Comparison pages are the
+      highest-citation-value URLs we own and they are not in the sitemap.</li>
+    <li><b>The blog is also on a subdomain</b> &#8212; <code>blog.moilapp.com</code>. Google treats
+      subdomains as separate properties for authority consolidation, so the link equity pools
+      somewhere that does not lift <code>/business</code>. Same for <code>business.</code> and
+      <code>candidate.</code>. Combined with the orphaning above, the blog is currently the single
+      largest wasted asset we own: <code>robots.ts</code> cites 47 articles, and it grows by 5 every
+      Monday.</li>
+    <li><b><code>AhrefsBot</code> and <code>SemrushBot</code> are <code>Disallow: /</code>.</b>
+      Defensible as competitive hygiene, but it also breaks our own site audits on moilapp.com and
+      removes us from datasets some AI-visibility tools ingest. Needs a recorded decision (&#167;09.4).</li>
+    <li><b>No G2 or Capterra listing.</b> A ~3&#215; AEO citation multiplier, still out of scope in the
+      strategy doc. G2 is also the one B2B review site that appears in Perplexity citations. This is
+      the largest unclaimed lever we have.</li>
+    <li><b>No original research asset.</b> Original data is the strongest durable GEO lever available,
+      and we hold a data position nobody else has: 500+ SMBs, bilingual, hiring + planning + content
+      in one product.</li>
+    <li><b>Zero <code>/es/*</code> coverage beyond <code>/business</code>.</b> No Spanish pricing,
+      candidate, marketing or comparison pages &#8212; despite bilingual being differentiator #3.</li>
+    <li><b>No AI-citation measurement.</b> No prompt panel, no GA4 AI channel group, no share-of-voice
+      baseline. We cannot currently report on the thing this playbook optimizes.</li>
+    <li><b><code>?lg=</code> duplicates are now crawlable.</b> <code>robots.ts</code> intentionally
+      dropped <code>/*?*lg=</code> when Spanish lived on the query string. Spanish has since moved to
+      <code>/es/*</code>, so those variants are crawlable duplicates that canonical back to English.
+      Harmless but wasteful &#8212; low-priority cleanup.</li>
+  </ol>
+</div>
+</section>
+
+<!-- 03 -->
+<section id="entity">
+<div class="col">
+  <h2><span class="sn">03</span>Entity layer</h2>
+  <p class="dek">AI systems answer about entities, not pages. Do this before optimizing any page:
+  make "Moil" unambiguous.</p>
+
+  <div class="spec">
+    <div class="spec-h">Canonical fact block &#183; single source of truth &#183; mirrors public/llms.txt</div>
+    <dl>
+      <dt>Name</dt><dd>Moil (product) / Moil Enterprise Inc. (company)</dd>
+      <dt>Category</dt><dd>AI co-founder / AI business platform for small business</dd>
+      <dt>Founded</dt><dd>2023</dd>
+      <dt>HQ</dt><dd>Austin, Texas, USA</dd>
+      <dt>Pricing</dt><dd>Professional $25/mo &#183; Market Pro $75/mo &#183; first AI conversation free, no card</dd>
+      <dt>Languages</dt><dd>English + Spanish, fully bilingual end to end</dd>
+      <dt>Audience</dt><dd>SMB owners, 1&#8211;20 employees</dd>
+      <dt>Proof</dt><dd>500+ businesses onboarded &#183; 4.8&#9733; &#183; EDC + Chamber of Commerce partnerships</dd>
+      <dt>Hiring</dt><dd>11-day average time-to-hire vs. 83.5-day SMB benchmark (SHRM 2025) &#183; 95% match accuracy</dd>
+      <dt>Replaces</dt><dd>consultant ($5&#8211;15k/engagement) &#183; agency retainer ($3&#8211;8k/mo) &#183; standalone ATS ($299+/mo)</dd>
+    </dl>
+  </div>
+
+  <div class="note warn"><span class="k">Change control</span>
+  <p>Changing any value above is a cross-surface change ticket, not a copy edit. The checklist:
+  site copy &#8594; <code>en.ts</code>/<code>es.ts</code> &#8594; <code>llms.txt</code> &#8594; all JSON-LD &#8594;
+  G2/Capterra &#8594; LinkedIn &#8594; Crunchbase &#8594; blog boilerplate &#8594; sales deck.</p></div>
+
+  <h3>Entity graph to build, in order</h3>
+</div>
+<div class="tw wide"><table>
+<thead><tr><th>Surface</th><th>Why it matters</th><th class="num">Effort</th></tr></thead>
+<tbody>
+<tr><td><strong>Crunchbase</strong> &#8212; complete, funding, founders</td><td>Feeds Wikidata and most entity resolvers</td><td class="num">S</td></tr>
+<tr><td><strong>LinkedIn</strong> &#8212; keyword-true tagline, weekly posts</td><td>Top-5 cited domain across AI engines</td><td class="num">S</td></tr>
+<tr><td><strong>G2</strong> &#8212; listing + 20 seeded reviews</td><td>~3&#215; citation multiplier; the review site Perplexity cites</td><td class="num">M</td></tr>
+<tr><td><strong>Capterra / GetApp / Software Advice</strong></td><td>Category presence for "AI business plan software"</td><td class="num">M</td></tr>
+<tr><td><strong>Wikidata</strong> item for Moil Enterprise Inc.</td><td>Machine-readable entity anchor; feeds Wikipedia-adjacent retrieval</td><td class="num">M</td></tr>
+<tr><td><strong>Product Hunt</strong> launch or Content360 re-launch</td><td>Durable backlink + review corpus</td><td class="num">M</td></tr>
+<tr><td><strong>EDC + Chamber</strong> partner pages linking to moilapp.com</td><td>Real local authority &#8212; we already have the relationships</td><td class="num">S</td></tr>
+<tr><td><strong>Wikipedia</strong> &#8212; only once independent press exists</td><td>Highest-value citation source in ChatGPT</td><td class="num">L</td></tr>
+</tbody></table></div>
+<div class="col">
+  <p><code>sameAs</code> every one of these from the <code>Organization</code> schema in
+  <code>app/layout.tsx</code> once live.</p>
+  <h3>Consistency audit &#8212; monthly, 15 minutes</h3>
+  <p>Ask each engine verbatim and log the answer: <em>"What is Moil?"</em>,
+  <em>"How much does Moil cost?"</em>, <em>"Where is Moil based?"</em>,
+  <em>"Is Moil bilingual?"</em> Any wrong or hedged answer is an entity-consistency bug &#8212; trace it
+  to the surface stating the wrong thing.</p>
+
+  <h3>The brand-name split (gap #5)</h3>
+  <p>&#8220;Moil app&#8221; and &#8220;Moil AI&#8221; return different results &#8212; websites versus
+  LinkedIn &#8212; and they vary by location. That is a single entity being read as two, which is
+  exactly what the fact block above exists to prevent.</p>
+  <div class="note"><span class="k">Retest protocol</span>
+  <p>Test both phrases in a <strong>clean browser, incognito, and from at least two locations</strong>
+  &#8212; personalized and localized results make a logged-in test worthless. Log what ranks for each
+  phrase, then fix the cause: one consistent name in the <code>Organization</code> schema, the same
+  name on LinkedIn and every profile in the entity graph, and <code>sameAs</code> wiring them
+  together so the engines can collapse the two into one entity.</p>
+  <p><strong>Priority: deliberately low.</strong> Per the call, ranking for our own name matters less
+  than ranking for the problems Moil solves. Fix it, but never ahead of &#167;04 and &#167;05.</p></div>
+</div>
+</section>
+
+<!-- 04 -->
+<section id="queries">
+<div class="col">
+  <h2><span class="sn">04</span>Personas, their questions, and only then keywords</h2>
+  <p class="dek">The order of this section is the point. Personas first, the real questions each one
+  asks second, page structure third, and search volume last as a sanity check. Reversing that order
+  was the specific mistake corrected on the Aug 11 call.</p>
+
+  <div class="note"><span class="k">Why volume-first fails here</span>
+  <p>Keyword volume tells you how many people type a phrase. It cannot tell you which question makes
+  an EDC director book a call, and it systematically under-counts the questions that matter most
+  &#8212; long, specific, high-intent ones asked in a chat window rather than a search box. With
+  ~99% of customers currently arriving through cohorts, we also have no traffic data to mine.
+  Analytics describes who already comes; it is silent on why the people we want don&#8217;t. So we
+  start from the personas we already know intimately from cohort work, write down the questions they
+  actually ask, and answer those on a page.</p></div>
+
+  <h3>The four personas</h3>
+  <p>Three of these currently have no section on the site at all. That is gap #2 in &#167;02.</p>
+</div>
+
+<div class="tw wide"><table>
+<thead><tr><th>Persona</th><th>What they actually want to know</th><th>Page</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><strong>SMB owner</strong><br>1&#8211;20 employees</td><td>Can one tool replace my consultant, my agency and my ATS? What does it cost? Will it work in Spanish?</td><td><code>/business</code>, <code>/for/smbs</code></td><td><span class="chip ok">Exists</span></td></tr>
+<tr><td><strong>EDC</strong><br>economic development corp</td><td>How does Moil help me serve the small businesses in my region at scale? What do I report to my board? What does onboarding a cohort look like?</td><td><code>/for/edcs</code></td><td><span class="chip gap">Missing</span></td></tr>
+<tr><td><strong>Chamber of Commerce</strong></td><td>What do my members get? Is this a member benefit I can offer bilingually? How do we co-brand it?</td><td><code>/for/chambers</code></td><td><span class="chip gap">Missing</span></td></tr>
+<tr><td><strong>Job seeker</strong></td><td>Where are bilingual jobs near me?</td><td><code>/candidate</code></td><td><span class="chip ok">Exists</span></td></tr>
+</tbody></table></div>
+
+<div class="col">
+  <h3>The two unrepresented capabilities</h3>
+  <p>Also raised on the call: <strong>websites</strong> and <strong>content creation</strong> have no
+  section, so the site under-sells what Moil does. Content creation maps to Content360 and needs a
+  proper capability page plus Q&amp;As.</p>
+  <div class="note dec" style="border-left-color:var(--amber)"><span class="k">Flag &#8212; needs Andres to settle</span>
+  <p>&#8220;Websites&#8221; as a listed Moil capability <strong>contradicts</strong>
+  <code>research/strategy.md</code> &#167;1, which states Moil does not build websites and uses that
+  as the reason not to compare against Durable. The Aug 11 call is the newer input, so I have
+  treated it as current and scoped a page for it below &#8212; but the two documents disagree and
+  the comparison-page strategy depends on which is right. If Moil does build websites, the
+  Moil-vs-Durable exclusion in &#167;05 should be revisited. <strong>Do not ship a websites page
+  until this is confirmed.</strong></p></div>
+
+  <h3>Building the Q&amp;A bank</h3>
+  <p>This is the actual production process, and it is the same one Moil already runs successfully for
+  clients. Per persona:</p>
+  <ol>
+    <li><strong>Harvest real questions</strong> from cohort sessions, onboarding calls, support
+      threads and sales objections. These are already in the team&#8217;s heads &#8212; write them
+      down verbatim, in the asker&#8217;s words.</li>
+    <li><strong>Group into 8&#8211;12 questions per page.</strong> One page per persona or
+      capability, never one page for all of them.</li>
+    <li><strong>Answer each in 40&#8211;80 words</strong> under a question-shaped
+      <code>&lt;h2&gt;</code>, self-contained enough to be lifted out of context.</li>
+    <li><strong>Reconcile with <code>FAQPage</code> schema</strong> &#8212; one source of truth
+      between the visible Q&amp;A and the JSON-LD.</li>
+    <li><strong>Only now check volume</strong>, to pick the phrasing among two equally true ways of
+      asking the same thing. Never to decide whether the question earns a place.</li>
+  </ol>
+  <p>Seed questions raised directly on the call: <em>how Moil supports EDCs and chambers of
+  commerce</em>, and <em>AI tools for small businesses</em>.</p>
+
+  <h3>Keyword sets &#8212; the sanity-check layer</h3>
+  <p>Everything below is secondary to the Q&amp;A bank above. Use it to choose phrasing and to catch
+  demand we hadn&#8217;t thought to answer, not to set the agenda.</p>
+  <h4>Pool A &#8212; business owner (revenue)</h4>
+</div>
+<div class="tw wide"><table>
+<thead><tr><th>Intent tier</th><th>Example queries</th><th>Page type</th></tr></thead>
+<tbody>
+<tr><td><strong>Category / high commercial</strong></td><td><code>ai business plan generator</code>, <code>business plan software</code>, <code>ai tools for small business</code></td><td>Money page + pillar</td></tr>
+<tr><td><strong>Comparison</strong></td><td><code>liveplan alternatives</code>, <code>bizway vs upmetrics</code>, <code>ziprecruiter alternative for small business</code></td><td><code>/compare/*</code></td></tr>
+<tr><td><strong>Job-to-be-done</strong></td><td><code>how to write a business plan for an hvac company</code>, <code>30 day content calendar template</code></td><td>Blog cluster + free tool</td></tr>
+<tr><td><strong>Price-led</strong></td><td><code>cheap business plan software</code>, <code>ai marketing tools under $50</code></td><td>Pricing + comparison</td></tr>
+<tr><td><strong>Bilingual</strong></td><td><code>software plan de negocios</code>, <code>herramientas de ia para peque&#241;as empresas</code></td><td><code>/es/*</code></td></tr>
+</tbody></table></div>
+<div class="col">
+  <h4>Pool B &#8212; job seeker (marketplace supply)</h4>
+  <p><code>bilingual jobs near me</code>, <code>spanish speaking jobs</code>,
+  <code>hvac technician jobs [city]</code>, <code>trabajos en espa&#241;ol</code>. High volume, low direct
+  commercial value &#8212; but candidate liquidity <em>is</em> the hiring product. Route to
+  <code>/candidate/searchjob</code> and programmatic job pages, never to <code>/business</code>.</p>
+
+  <h4>Pool C &#8212; AI prompts (the AEO target list)</h4>
+  <p>Not keywords &#8212; the prompts a buyer actually types into ChatGPT or Gemini. Track ~40, starting
+  with the 10 already defined in the strategy doc plus these:</p>
+  <ul>
+    <li>"What's the cheapest way to get a business plan and market research done?"</li>
+    <li>"I run a 12-person HVAC company and I'm doing everything myself &#8212; what software should I use?"</li>
+    <li>"Best AI tools for a Latino-owned small business that works in English and Spanish"</li>
+    <li>"How do small businesses hire faster than 80 days?"</li>
+    <li>"Alternatives to hiring a marketing agency for a small business"</li>
+    <li>"Is there one tool that does business planning, marketing, and hiring?"</li>
+    <li>"Best AI tool for small business 2026"</li>
+    <li>"ZipRecruiter is too expensive &#8212; what else can I use to hire?"</li>
+  </ul>
+  <div class="note"><span class="k">Baseline protocol</span>
+  <p>Run all 40 across ChatGPT, Gemini, Perplexity, Claude and Google AI Mode. Record: does Moil
+  appear, position in the answer, are we cited <em>with a link</em>, and which competitors are named.
+  That table is the AEO scoreboard. Re-run monthly &#8212; same prompts, same order.</p></div>
+</div>
+</section>
+
+<!-- 05 -->
+<section id="pages">
+<div class="col">
+  <h2><span class="sn">05</span>Page architecture</h2>
+  <p class="dek">Five page classes now. The persona layer is new, and per the Aug 11 call it comes
+  before everything except the money pages &#8212; a single page cannot serve an SMB owner, an EDC
+  director and a chamber membership manager at once.</p>
+  <div class="note"><span class="k">The one structural rule</span>
+  <p><strong>Every page in every class below carries its own 8&#8211;12 question Q&amp;A block</strong>,
+  built from the &#167;04 process and reconciled with <code>FAQPage</code> schema. That is what
+  &#8220;multi-page, Q&amp;A-rich&#8221; means, and it is what Moil already builds for clients but
+  not for itself.</p></div>
+</div>
+<div class="tree">
+  <div class="tree-row"><div class="tree-k">Money pages</div><div class="tree-v">/business &#183; /business/pricing &#183; /marketing &#183; /candidate<br><em>&#8593; internal links from every class below</em></div></div>
+  <div class="tree-row"><div class="tree-k">Persona <span style="color:var(--ember)">new</span></div><div class="tree-v">/for/smbs &#183; /for/edcs &#183; /for/chambers<br><em>one page per buyer, each with its own Q&amp;A bank</em></div></div>
+  <div class="tree-row"><div class="tree-k">Capability <span style="color:var(--ember)">new</span></div><div class="tree-v">/capabilities/content-creation <em>(Content360)</em><br>/capabilities/websites <em>&#8212; blocked pending the &#167;04 flag</em></div></div>
+  <div class="tree-row"><div class="tree-k">Comparison</div><div class="tree-v">/compare/moil-vs-&lt;competitor&gt; <em>&#8212; decision stage, highest citation value</em><br>/compare/&lt;competitor&gt;-alternatives <em>&#8212; competitor-brand demand</em></div></div>
+  <div class="tree-row"><div class="tree-k">Use case</div><div class="tree-v">/solutions/&lt;job&gt; <em>e.g. /solutions/business-plan</em><br>/industries/&lt;vertical&gt; <em>e.g. /industries/hvac</em></div></div>
+  <div class="tree-row"><div class="tree-k">Content</div><div class="tree-v">/blog/&lt;pillar&gt; + spokes <em>&#8212; topical authority, link acquisition</em></div></div>
+  <div class="tree-row"><div class="tree-k">Free tools</div><div class="tree-v">/tools/&lt;tool&gt; <em>&#8212; links, top of funnel, live product demo</em></div></div>
+</div>
+<div class="col">
+  <h3>Comparison pages &#8212; build these next</h3>
+  <p>Two exist. Build the rest against the <em>real</em> competitor set from the strategy doc &#8212; and
+  keep honoring its rule: <strong>do not</strong> publish Moil-vs-HubSpot or Moil-vs-Durable.
+  Comparing to a CRM or a website builder makes us look unfocused and confuses the buyer about
+  what Moil actually replaces.</p>
+</div>
+<div class="tw"><table>
+<thead><tr><th class="num">#</th><th>URL</th><th>Targets</th></tr></thead>
+<tbody>
+<tr><td class="num">1</td><td><code>/compare/moil-vs-liveplan</code></td><td>Category leader, $20&#8211;40/mo</td></tr>
+<tr><td class="num">2</td><td><code>/compare/liveplan-alternatives</code></td><td>Competitor-brand demand</td></tr>
+<tr><td class="num">3</td><td><code>/compare/moil-vs-ziprecruiter</code></td><td>$299/mo anchor &#8212; our strongest price story</td></tr>
+<tr><td class="num">4</td><td><code>/compare/moil-vs-bizway</code></td><td>Direct AI-native rival</td></tr>
+<tr><td class="num">5</td><td><code>/compare/moil-vs-upmetrics</code></td><td>Long-tail category</td></tr>
+<tr><td class="num">6</td><td><code>/compare/marketing-agency-vs-ai</code></td><td>The $3&#8211;8k/mo economic alternative</td></tr>
+<tr><td class="num">7</td><td><code>/compare/moil-vs-workable</code></td><td>ATS long-tail</td></tr>
+<tr><td class="num">8</td><td><code>/es/compare/moil-vs-chatgpt</code></td><td>Spanish mirror of our best performer</td></tr>
+</tbody></table></div>
+<div class="col">
+  <h4>Comparison page template &#8212; use for every one</h4>
+  <ol>
+    <li>H1: <code>Moil vs {Competitor}: {honest one-line verdict}</code></li>
+    <li><strong>40&#8211;60 word direct answer</strong> immediately under H1 &#8212; the single most-extracted
+      block on the page.</li>
+    <li>Comparison table: price, coverage, bilingual, hiring included, time-to-value. Real numbers,
+      dated, with a "verified {Month Year}" stamp.</li>
+    <li><strong>"Choose {Competitor} if&#8230;"</strong> &#8212; a genuine section naming cases where they win.
+      This is what makes the page citable rather than promotional; LLMs demote one-sided comparisons.</li>
+    <li><strong>"Choose Moil if&#8230;"</strong></li>
+    <li>Migration and switching steps.</li>
+    <li>FAQ, 5 questions, reconciled 1:1 with <code>FAQPage</code> schema &#8212; one source of truth.</li>
+    <li><code>last reviewed</code> date, refreshed quarterly.</li>
+  </ol>
+
+  <h3>Industry pages &#8212; the vertical play we deferred</h3>
+  <p>The strategy doc punted these pending <code>/business</code> lift. They are now the clearest
+  expansion path, because one page serves search intent, AI prompts ("software for HVAC business")
+  and our real proof base at once.</p>
+  <p>Ship four: <code>/industries/hvac</code>, <code>/industries/landscaping</code>,
+  <code>/industries/cleaning-services</code>, <code>/industries/restaurants</code>. Each needs
+  genuine vertical substance &#8212; real hiring roles, real seasonal calendar examples, real margin math.
+  <strong>Four hand-built pages beat forty templated ones;</strong> thin templated verticals are the
+  classic programmatic-SEO failure and Google's helpful-content systems target exactly that pattern.</p>
+
+  <h3>Free tools &#8212; link magnets that double as product demos</h3>
+  <p>We already have working Gemini endpoints in <code>app/api/demo/*</code>. Wrap them as
+  standalone indexable tools.</p>
+</div>
+<div class="tw"><table>
+<thead><tr><th>Tool</th><th>URL</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>Business plan outline generator</td><td><code>/tools/business-plan-generator</code></td><td>Highest-volume category term</td></tr>
+<tr><td>Time-to-hire / cost-per-hire calculator</td><td><code>/tools/cost-per-hire-calculator</code></td><td>Uses SHRM benchmarks &#8212; citable and linkable</td></tr>
+<tr><td>Content calendar generator, 30 days</td><td><code>/tools/content-calendar-generator</code></td><td>Content360 demo</td></tr>
+<tr><td>Job description writer</td><td><code>/tools/job-description-generator</code></td><td>Feeds both sides of the marketplace</td></tr>
+</tbody></table></div>
+<div class="col">
+  <p>Each one: own URL, fast LCP, no signup to see the first output, one primary CTA, and a
+  "how this works" methodology section so the tool itself is citable.</p>
+
+  <h3>Blog clusters</h3>
+  <p>Three pillars, spokes linking up and back with descriptive anchors:</p>
+  <ol>
+    <li><strong>How to run a small business with AI</strong> &#8594; plan, market research, content,
+      hiring, pricing, coaching.</li>
+    <li><strong>Hiring for small service businesses</strong> &#8594; the 83.5-day benchmark, job
+      descriptions, bilingual hiring, trade-specific roles, interview scorecards.</li>
+    <li><strong>Bilingual business growth / Negocios biling&#252;es</strong> &#8594; spokes in both languages.
+      Almost uncontested: 5M+ Hispanic-owned US businesses, 35% growth 2019&#8211;2024.</li>
+  </ol>
+  <p>Per khasky's content chapter: fewer, deeper guides first. Only after 25&#8211;50 posts with traction
+  do lighter timely posts earn their place.</p>
+</div>
+</section>
+
+<!-- 06 -->
+<section id="aeo">
+<div class="col">
+  <h2><span class="sn">06</span>On-page AEO spec</h2>
+  <p class="dek">The checklist for every new page. It encodes what cited pages have in common.</p>
+  <ul class="check">
+    <li><b>Direct-answer block, 40&#8211;60 words, inside the first 150 words of visible HTML.</b>
+      ~55% of LLM citations come from the opening block. Server-rendered, not animated in.</li>
+    <li><b>Question-shaped H2s</b> matching real prompts, each followed by a self-contained
+      40&#8211;80 word answer that still makes sense lifted out of context.</li>
+    <li><b>200&#8211;300 word chunks</b> under clear headers. Retrieval operates on chunks; a 900-word
+      undifferentiated section is one bad chunk.</li>
+    <li><b>One verifiable claim per sentence.</b> Kill hedges ("may help you potentially&#8230;").
+      Hedged sentences are uncitable.</li>
+    <li><b>Named-entity density.</b> Name competitors, tools, standards, cities and job titles
+      explicitly. Pronouns and "our platform" don't resolve to entities.</li>
+    <li><b>A number with a source in every major section.</b> Sourced statistics are the
+      most-extracted content type on the web.</li>
+    <li><b>Real <code>&lt;h2&gt;</code>/<code>&lt;h3&gt;</code> tags</b> for card and comparison
+      titles &#8212; not styled <code>&lt;div&gt;</code>s.</li>
+    <li><b>Tables and lists</b> for anything comparative. Tables are extracted near-verbatim.</li>
+    <li><b>Visible <code>Last updated: {date}</code></b>, top and bottom, refreshed monthly.
+      Recency is a retrieval signal.</li>
+    <li><b>~2,000&#8211;3,000 words on money pages.</b> Sub-800-word pages get ~37% fewer citations.</li>
+    <li><b>Everything above server-rendered.</b> If it needs JS to appear, assume no AI crawler sees
+      it &#8212; which is why server-rendering the stats' final values instead of animating from "0"
+      matters more than it looks.</li>
+    <li><b>Schema:</b> <code>WebPage</code> + <code>FAQPage</code> + <code>BreadcrumbList</code>
+      minimum; <code>Article</code> with <code>author</code>, <code>datePublished</code>,
+      <code>dateModified</code> on content; <code>SoftwareApplication</code> + <code>Offer</code> on
+      money pages; <code>Speakable</code> on the direct-answer block. Only mark up what is visibly
+      on the page.</li>
+  </ul>
+
+  <h3>Direct-answer block &#8212; worked example</h3>
+  <div class="note good"><span class="k">What is Moil?</span>
+  <p>Moil is an AI co-founder for small businesses. In one guided session it writes your business
+  plan, runs market research, builds a 30-day content calendar, and posts your job to 10+ hiring
+  platforms &#8212; fully bilingual in English and Spanish. Plans start at $25/month; the first
+  conversation is free. 500+ small businesses have onboarded.</p></div>
+  <p>61 words. Names the category, the four jobs, the differentiator, the price and the proof. Every
+  fact matches <code>llms.txt</code>. This is the shape to copy on every page, swapping in that
+  page's specifics.</p>
+</div>
+</section>
+
+<!-- 07 -->
+<section id="offsite">
+<div class="col">
+  <h2><span class="sn">07</span>Off-site citation surfaces</h2>
+  <p class="dek">On-page work makes us citable. Off-site presence makes us retrieved. Per the 30M-citation
+  Peec AI analysis, Reddit is the most-cited domain across ChatGPT, Google AI Mode, Gemini, Perplexity
+  and AI Overviews combined; Wikipedia dominates ChatGPT; YouTube dominates Gemini; G2 appears in
+  Perplexity. No single domain exceeds ~5% of citations &#8212; so the play is presence across many, not
+  one big win.</p>
+</div>
+<div class="tw wide"><table>
+<thead><tr><th>Surface</th><th>Moil play</th><th>Multiplier / note</th></tr></thead>
+<tbody>
+<tr><td><strong>Reddit</strong> &#8212; r/smallbusiness, r/Entrepreneur, r/HVAC, r/sweatystartup, r/EmpleosUSA</td><td>Founder account, genuinely helpful answers, disclosed affiliation, no link-drops</td><td>~4&#215; multiplier; most-cited domain overall</td></tr>
+<tr><td><strong>G2 / Capterra</strong></td><td>Listing + 20 seeded reviews + category presence</td><td>~3&#215; multiplier; the B2B review site Perplexity cites</td></tr>
+<tr><td><strong>YouTube</strong></td><td>10 screen-recorded walkthroughs, EN + ES, transcripts published on-site</td><td>Owns Gemini citations</td></tr>
+<tr><td><strong>LinkedIn</strong></td><td>Founder + company posting original data weekly</td><td>Top-5 cited domain</td></tr>
+<tr><td><strong>Original research</strong></td><td>The Moil SMB AI Index &#8212; see below</td><td>Creates net-new citable facts</td></tr>
+<tr><td><strong>Podcasts</strong></td><td>SMB, trades and Latino-business shows; 12/year</td><td>Transcripts are dense entity text</td></tr>
+<tr><td><strong>Digital PR</strong></td><td>Pitch the research to SMB and Texas business press</td><td>Path to Wikipedia eligibility</td></tr>
+<tr><td><strong>Directories</strong></td><td>EDC, Chamber, SBA resource pages, Hispanic chambers</td><td>Real local authority we already have access to</td></tr>
+<tr><td><strong>Guest posts</strong></td><td>Original frameworks only; relevance over DA; varied anchors</td><td>khasky content chapter</td></tr>
+</tbody></table></div>
+<div class="col">
+  <h3>The Moil SMB AI Index &#8212; build this</h3>
+  <p>Summarizing other people's statistics makes us a downstream source. Publishing our own makes us
+  the upstream one. We have data nobody else has.</p>
+  <p><strong>Proposal:</strong> an annual, quarterly-updated report from anonymized, aggregated
+  platform data &#8212;</p>
+  <ul>
+    <li>Average time-to-hire by trade among Moil users vs. the 83.5-day SHRM benchmark.</li>
+    <li>Which business-plan sections SMB owners actually revise most.</li>
+    <li>English vs. Spanish content-engagement differences for the same business.</li>
+    <li>Cost-per-hire distribution vs. the $5,475 SHRM benchmark.</li>
+  </ul>
+  <p>Ship it as an HTML report page with a table per finding &#8212; not a gated PDF &#8212; plus a methodology
+  section, a <code>Dataset</code> schema block, an explicit CC-BY-style "cite this as" line, and a
+  downloadable CSV. Then pitch it. Every citation of a Moil statistic is a citation of Moil, and it
+  is defensible because it is true.</p>
+  <div class="note warn"><span class="k">Prerequisite</span>
+  <p>Privacy and legal review of the aggregation and disclosure approach before any data leaves the
+  platform. Route it through the same review that governs <code>/privacy</code> and
+  <code>/dpa</code>.</p></div>
+</div>
+</section>
+
+<!-- 08 -->
+<section id="technical">
+<div class="col">
+  <h2><span class="sn">08</span>Technical SEO &#8212; Next.js specifics</h2>
+  <p class="dek">Five changes, roughly in order of leverage. Two of them are one-file edits.</p>
+
+  <h3>8.1 Fix the sitemap &#8212; this week</h3>
+  <p><code>app/sitemap.ts</code> returns 7 URLs. Make it exhaustive, keeping the <code>alternates</code>
+  pattern already used for <code>/business</code>.</p>
+<pre><code>// add, at minimum:
+/compare/moil-vs-chatgpt        priority 0.8   weekly
+/compare/moil-vs-claude         priority 0.8   weekly
+/contact                        priority 0.5   monthly
+/terms /cookies /dpa
+/accessibility /privacy-choices /subprocessors   priority 0.3   yearly
+// then every /compare/*, /industries/*, /solutions/*, /tools/*, /es/* as they ship</code></pre>
+  <p>Two hygiene notes. <code>lastModified: new Date()</code> stamps <em>today</em> on every entry on
+  every deploy, which trains Google to ignore our <code>lastmod</code> values &#8212; use real per-page
+  content dates. And avoid <code>priority</code> theater: Google largely ignores it, so keep it coarse.</p>
+
+  <h3>8.2 Rescue the blog &#8212; link it, then consolidate it</h3>
+  <p>The highest-leverage technical change available, and it has two independent halves. Do them in
+  this order, because the first is an afternoon and the second is a project.</p>
+
+  <h4>Half one: stop orphaning it</h4>
+  <p>The blog auto-publishes 5 articles every Monday and <strong>nothing on the landing page links to
+  it</strong>. Unlinked pages get almost none of the site&#8217;s authority and are discovered only
+  via the sitemap, so ~260 articles a year are being produced for close to nothing. Fix:</p>
+  <ul>
+    <li>A real <strong>Resources / Blog</strong> entry in the primary nav and the footer.</li>
+    <li>A blog section on <code>/business</code> surfacing the 3 most recent relevant posts.</li>
+    <li>Contextual links from each persona and capability page into the posts that answer that
+      persona&#8217;s questions &#8212; and back from each post to its persona page. This is the
+      hub-and-spoke pattern in &#167;05, and it is what turns 260 orphaned posts into topical
+      authority.</li>
+  </ul>
+  <div class="note warn"><span class="k">Audit before amplifying</span>
+  <p>Five auto-published articles a week is a volume machine, and khasky&#8217;s anti-pattern list
+  warns specifically against volume before pillar assets. Before linking it prominently, sample 15
+  posts and check they are genuinely useful and on-persona. If they are thin, linking them
+  <em>hurts</em> &#8212; fix the generator&#8217;s brief first, then link. Turning the volume down
+  and the quality up is a legitimate outcome of this audit.</p></div>
+
+  <h4>Half two: move it onto the apex domain</h4>
+  <p><code>blog.</code>, <code>business.</code> and <code>candidate.</code> subdomains each accumulate
+  authority separately from the apex. Move the blog to a path on the main domain via a rewrite in
+  <code>next.config.js</code>:</p>
+<pre><code>async rewrites() {
+  return [{ source: '/blog/:path*', destination: 'https://blog.moilapp.com/:path*' }]
+}</code></pre>
+  <p>Then 301 the subdomain to the path, update internal links and <code>robots.ts</code>, and
+  resubmit. 47 articles of link equity begin lifting <code>/business</code> instead of a sibling
+  property. Sequence this carefully with whoever owns the blog platform &#8212; it is the one change here
+  that can lose traffic if botched.</p>
+
+  <h3>8.3 Core Web Vitals</h3>
+  <p>Targets from the strategy doc stand: Lighthouse mobile &#8805;90 performance, 100 SEO, &#8805;95
+  accessibility. LCP &lt; 2.5s, INP &lt; 200ms, CLS &lt; 0.1 &#8212; <strong>field</strong> data in Search
+  Console, not lab scores. The specifics already identified: <code>next/image</code> for Cloudinary
+  testimonial images with explicit dimensions, <code>prefers-reduced-motion</code> gates on the
+  counter interval and IntersectionObserver, hero preload, and a Bebas Neue subset audit (it currently
+  loads sitewide from <code>app/layout.tsx</code>).</p>
+  <div class="note"><span class="k">Why mobile specifically</span>
+  <p>81% of AI Overview queries happen on mobile. Mobile field vitals are the ones that count.</p></div>
+
+  <h3>8.4 Crawl and indexation hygiene</h3>
+  <ul>
+    <li>Verify all four properties in Search Console &#8212; apex plus three subdomains &#8212; and submit each
+      sitemap.</li>
+    <li>Keep the khasky rule: to keep a page out of the index, <strong>allow</strong> crawling and
+      serve <code>noindex</code>. <code>Disallow</code> + <code>noindex</code> silently cancels the
+      <code>noindex</code>.</li>
+    <li>Re-add <code>/*?*lg=</code> to the <code>*</code> disallow group now that Spanish lives at
+      <code>/es/*</code>. The self-canonical already handles it, so this is crawl-budget cleanup, not
+      a bug fix &#8212; and update the comment block in <code>robots.ts</code> to record the new reasoning.</li>
+    <li>Audit the <code>/</code> &#8594; <code>/business</code> hop: it must be a single 301.</li>
+    <li>Monthly Screaming Frog or Sitebulb crawl. Note that our own AhrefsBot/SemrushBot blocks limit
+      those vendors' site-audit features on moilapp.com (&#167;09.4).</li>
+  </ul>
+
+  <h3>8.5 Bilingual expansion</h3>
+  <p>Reciprocal hreflang is correct today on <code>/business</code> &#8596; <code>/es/business</code> with
+  <code>x-default</code> &#8594; English. Extend the same pattern as each Spanish page ships, in this order:
+  <code>/es/business/pricing</code> &#8594; <code>/es/candidate</code> &#8594; <code>/es/marketing</code> &#8594;
+  <code>/es/compare/*</code>.</p>
+  <p>Translate, don't machine-mirror. Spanish keyword research is separate work
+  (<code>plan de negocios</code>, <code>herramientas de IA para peque&#241;as empresas</code>), and
+  <code>es.ts</code> key parity must land in lockstep with <code>en.ts</code>.</p>
+
+  <h3>8.6 llms.txt &#8212; decision recorded</h3>
+  <div class="note good"><span class="k">Resolution: keep it</span>
+  <p>The strategy doc said don't ship it, citing no measurable lift. It has since shipped at
+  <code>public/llms.txt</code> and is accurate and well written. <strong>Keep it</strong> &#8212; not
+  because it drives traffic (the evidence still says it doesn't) but because it is now our most
+  compact canonical fact sheet, costs ~zero to maintain, and gives every human and agent one
+  unambiguous place to read Moil's facts. Treat it as an entity-consistency artifact, hold it to the
+  &#167;03 change checklist, and never credit it with traffic in reporting.</p></div>
+</div>
+</section>
+
+<!-- 09 -->
+<section id="paid">
+<div class="col">
+  <h2><span class="sn">09</span>Paid search and paid media</h2>
+  <p class="dek">SEM here complements the AEO thesis; it is not a separate program.</p>
+
+  <h3>Where paid earns its place</h3>
+  <ol>
+    <li><strong>Brand defense.</strong> Competitors bid on "Moil" and AI answers increasingly name
+      alternatives. Cheap, high-ROAS, non-negotiable.</li>
+    <li><strong>Comparison-term coverage while the organic pages age.</strong> Bid
+      <code>liveplan alternatives</code> and <code>ziprecruiter alternative</code> into the matching
+      <code>/compare/*</code> page. The ad buys traffic now, the page earns citations later, and paid
+      CTR data tells us which comparison page to build next.</li>
+    <li><strong>The AI-Overview arbitrage.</strong> Cited brands see <strong>+91% paid clicks</strong>
+      on AI-Overview SERPs. Where we are organically cited, raise paid bids on the same query &#8212; the
+      two multiply.</li>
+    <li><strong>Spanish-language paid.</strong> Materially less competition than English. Test early.</li>
+  </ol>
+
+  <h3>Where not to spend</h3>
+  <p>Don't buy broad head terms (<code>small business software</code>) to compensate for a thin page &#8212;
+  khasky's anti-pattern list names this directly, and at 83% zero-click those SERPs are expensive.
+  Don't run remarketing to paper over an activation problem; fix onboarding first.</p>
+
+  <h3>UTM discipline &#8212; and the attribution blind spot</h3>
+  <div class="note warn"><span class="k">Gap #4 from &#167;02</span>
+  <p>There is currently <strong>no way to tell whether a visitor came from email, social or
+  direct</strong>. Until that is fixed, every channel decision is a guess, and the "measurable
+  objective" rule at the top of this page cannot be honoured. This is the cheapest high-value fix in
+  the document: a naming convention plus a GA4 channel group, no code.</p></div>
+<pre><code>?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=compare-liveplan&amp;utm_content=headline-b
+?utm_source=chamber&amp;utm_medium=referral&amp;utm_campaign=partner-directory
+?utm_source=newsletter&amp;utm_medium=email&amp;utm_campaign=2026-09-cohort&amp;utm_content=cta-footer
+?utm_source=linkedin&amp;utm_medium=social&amp;utm_campaign=edc-launch&amp;utm_content=carousel-a</code></pre>
+  <p>Standardize on the five-parameter scheme, write it in one place the whole team uses, and align it
+  with the GA4 custom channel group in &#167;10. Every email send and every social post gets tagged,
+  with no exceptions &#8212; one untagged campaign poisons the comparison for the whole month. Keep
+  <code>?ref=</code>, <code>?trk=</code>, <code>?fbclid=</code> and <code>?gclid=</code> disallowed in
+  <code>robots.ts</code> as they are today.</p>
+
+  <h3>Campaign domains and subdomains &#8212; reconciled</h3>
+  <p>The call set the direction: after the main site is fixed, stand up separate domains or subdomains
+  as redirects (for example <code>/SMBs</code>, <code>/EDCs</code>) that double as per-campaign
+  tracking links. That goal is right; the mechanism needs one adjustment, because &#167;08.2 is
+  simultaneously arguing to <em>collapse</em> subdomains.</p>
+  <p>Both hold at once if we separate the two jobs:</p>
+  <div class="tw"><table>
+  <thead><tr><th>Job</th><th>Mechanism</th><th>Why</th></tr></thead>
+  <tbody>
+  <tr><td><strong>Rank and get cited</strong></td><td>Real <em>paths</em> on the apex: <code>moilapp.com/for/edcs</code></td><td>Keeps all authority on one domain; a redirect can never rank</td></tr>
+  <tr><td><strong>Be memorable in a campaign</strong></td><td>Short vanity domain or subdomain, 301 into the path: <code>moilforedcs.com</code> &#8594; <code>/for/edcs</code></td><td>Speakable on a call, printable on a flyer</td></tr>
+  <tr><td><strong>Attribute the campaign</strong></td><td>UTMs preserved through the 301, or appended by the redirect rule</td><td>This is the actual tracking mechanism &#8212; not the domain itself</td></tr>
+  </tbody></table></div>
+  <div class="note"><span class="k">The one thing to get right</span>
+  <p>A 301 must <strong>preserve the query string</strong>, or the UTMs die at the redirect and the
+  campaign becomes untrackable &#8212; the exact problem we are trying to solve. Test each vanity
+  domain with a tagged URL before it goes on any flyer. And keep the destination a real indexable
+  path: the redirect is for humans and attribution, never for SEO.</p></div>
+
+  <h3>9.4 Decision needed &#8212; unblock Ahrefs and Semrush?</h3>
+  <div class="note dec" style="border-left-color:var(--amber)"><span class="k">Owner decision</span>
+  <p><strong>Current:</strong> <code>Disallow: /</code> for <code>AhrefsBot</code>,
+  <code>SemrushBot</code>, <code>MJ12bot</code>, <code>DotBot</code>.</p>
+  <p><strong>Cost:</strong> we cannot run their site audits on our own domain, we are absent from
+  datasets some AI-visibility tools ingest, and competitors still see our backlinks anyway &#8212; those
+  are discovered from <em>other</em> sites' pages, not ours.</p>
+  <p><strong>Recommendation:</strong> unblock <code>AhrefsBot</code> and <code>SemrushBot</code>,
+  keep <code>MJ12bot</code> and <code>DotBot</code> blocked. The diagnostic value to us exceeds the
+  intel value to competitors, who can already see most of it. Record the decision in the
+  <code>robots.ts</code> comment block either way.</p></div>
+</div>
+</section>
+
+<!-- 10 -->
+<section id="measure">
+<div class="col">
+  <h2><span class="sn">10</span>Measurement</h2>
+  <p class="dek">Three instruments: GA4 for the traffic we can see, a prompt scoreboard for the
+  citations we can't, and branded search as the proxy for everything invisible.</p>
+
+  <h3>10.1 GA4 setup</h3>
+  <p>GA4 added a native <strong>AI Assistant</strong> channel to the Default Channel Group on
+  2026-05-13. It covers ChatGPT and Gemini but <strong>excludes Perplexity</strong> and every
+  referrer-less session &#8212; so still build a custom channel group:</p>
+<pre><code>Channel name: AI Surfaces
+Condition:    Source matches regex
+
+chatgpt\.com|chat\.openai\.com|perplexity\.ai|claude\.ai|gemini\.google\.com|
+copilot\.microsoft\.com|bard\.google\.com|meta\.ai|you\.com|bing\.com/chat</code></pre>
+  <p>Then mark <code>start_free_trial</code>, <code>demo_started</code> and
+  <code>register_click</code> as key events, add a hidden <code>first_touch_source</code> field on the
+  signup form so attribution survives into CRM, and segment by language to see whether
+  <code>/es/*</code> pulls its weight.</p>
+
+  <h4>And the channels we currently cannot see at all</h4>
+  <p>Before the AI-surfaces work, close gap #4: we cannot separate email from social from direct.
+  Add these channel groups alongside AI Surfaces, and they only work if &#167;09&#8217;s UTM
+  discipline is actually applied to every send and every post.</p>
+  <div class="tw"><table>
+  <thead><tr><th>Channel group</th><th>Matches</th><th>Answers</th></tr></thead>
+  <tbody>
+  <tr><td><strong>Email &#8212; campaign</strong></td><td><code>utm_medium = email</code></td><td>Which sends actually drive signups</td></tr>
+  <tr><td><strong>Social &#8212; organic</strong></td><td><code>utm_medium = social</code>, no <code>utm_source=*paid*</code></td><td>Whether posting is worth the hours</td></tr>
+  <tr><td><strong>Social &#8212; paid</strong></td><td><code>utm_medium</code> in <code>cpc, paid_social</code></td><td>Ad ROAS by campaign</td></tr>
+  <tr><td><strong>Partner &#8212; EDC / chamber</strong></td><td><code>utm_source</code> in the partner list</td><td>Which partnerships send real traffic &#8212; the persona pages in &#167;05 depend on this</td></tr>
+  <tr><td><strong>AI Surfaces</strong></td><td>the regex above</td><td>Citation-driven traffic</td></tr>
+  </tbody></table></div>
+  <p>Report all of them against one denominator &#8212; signups &#8212; so channels can be compared
+  rather than admired separately.</p>
+  <div class="note warn"><span class="k">State this in every report</span>
+  <p>35&#8211;70% of AI referrals arrive with no referrer and land in Direct. Any "AI traffic" number we
+  publish is a floor, not a measurement.</p></div>
+
+  <h3>10.2 The AEO scoreboard</h3>
+  <p>The number that matters most. Monthly, the same 40 prompts from &#167;04, across ChatGPT, Gemini,
+  Perplexity, Claude and Google AI Mode.</p>
+</div>
+<div class="tw wide"><table>
+<thead><tr><th>Metric</th><th>Definition</th><th class="num">Target, month 6</th></tr></thead>
+<tbody>
+<tr><td><strong>Citation rate</strong></td><td>% of prompts where Moil appears</td><td class="num">35%</td></tr>
+<tr><td><strong>Linked-citation rate</strong></td><td>% where we appear <em>with</em> a link</td><td class="num">20%</td></tr>
+<tr><td><strong>Share of voice</strong></td><td>Moil mentions &#247; all vendor mentions</td><td class="num">15%</td></tr>
+<tr><td><strong>Fact accuracy</strong></td><td>% of appearances stating price and features correctly</td><td class="num">95%</td></tr>
+<tr><td><strong>Competitor set</strong></td><td>Which rivals get named alongside us</td><td class="num">tracked</td></tr>
+</tbody></table></div>
+<div class="col">
+  <p>Do this manually to start &#8212; a spreadsheet and an hour a month. Only buy a tool (Profound, Peec,
+  Otterly, AthenaHQ) once the manual version proves we will act on the data.</p>
+
+  <h3>10.3 Branded-search lift</h3>
+  <p>Search Console &#8594; Performance &#8594; queries containing "moil". Most AI exposure produces no click at
+  all: people read the answer, then search the brand later. Branded impressions and clicks are the
+  honest proxy for AI recommendation volume. Track the trend, not the absolute.</p>
+
+  <h3>10.4 KPI tree</h3>
+  <div class="kpi">
+    <div class="kpi-top">Trials started &#8212; from organic + AI surfaces</div>
+    <div class="kpi-row"><span class="m">AI-surface sessions</span><span class="d">AEO scoreboard &#183; entity graph &#183; off-site presence</span></div>
+    <div class="kpi-row"><span class="m">Non-branded organic clicks</span><span class="d">comparison + industry + tool pages &#183; technical health</span></div>
+    <div class="kpi-row"><span class="m">Branded organic clicks</span><span class="d">AI exposure proxy &#183; PR &#183; research asset</span></div>
+    <div class="kpi-row"><span class="m">Conversion rate by surface</span><span class="d">direct-answer clarity &#183; pricing page &#183; demo friction</span></div>
+  </div>
+
+  <h3>10.5 Cadence</h3>
+</div>
+<div class="tw wide"><table>
+<thead><tr><th>Rhythm</th><th>Work</th></tr></thead>
+<tbody>
+<tr><td><strong>Weekly</strong></td><td>GSC impressions/clicks delta &#183; CWV field check on <code>/business</code> &#183; competitor homepage-and-hero diff &#183; publish per calendar</td></tr>
+<tr><td><strong>Monthly</strong></td><td>40-prompt AEO scoreboard &#183; entity consistency audit &#183; refresh <code>Last updated</code> stamps &#183; sitemap diff vs. routes &#183; GA4 AI-surfaces review</td></tr>
+<tr><td><strong>Quarterly</strong></td><td>Comparison-page fact refresh + <code>verified</code> stamps &#183; full technical crawl &#183; keyword and prompt list refresh &#183; research-asset update &#183; roadmap re-prioritization</td></tr>
+<tr><td><strong>Annually</strong></td><td>SMB AI Index full edition &#183; competitive-set review &#183; schema audit against current spec</td></tr>
+</tbody></table></div>
+<div class="col">
+  <p>Wire the weekly and monthly items into the existing <code>/loop</code> cadence from the
+  strategy doc.</p>
+</div>
+</section>
+
+<!-- 11 -->
+<section id="anti">
+<div class="col">
+  <h2><span class="sn">11</span>Anti-patterns</h2>
+  <p class="dek">Adapted from khasky's list, made Moil-specific. Each one is a mistake we are
+  currently in a position to make.</p>
+  <ol class="gaps">
+    <li><b>Scaling paid before /business converts.</b> The conversion sprint precedes any spend increase.</li>
+    <li><b>Publishing thin verticals at volume.</b> Four real industry pages, not forty templated ones.</li>
+    <li><b>Treating SEO as keywords only.</b> At 83% zero-click on AI-Overview SERPs, entity and
+      citation work <em>is</em> the SEO work.</li>
+    <li><b>Trusting attribution reports as ground truth.</b> Up to 70% of AI referrals are invisible.
+      Report floors and proxies, and say so out loud.</li>
+    <li><b>Volume content before pillar assets.</b> Deep guides first; light posts after 25&#8211;50 posts
+      of traction.</li>
+    <li><b>Comparing to the wrong competitors.</b> No Moil-vs-HubSpot, no Moil-vs-Durable &#8212; and that
+      applies to <code>/compare/*</code> as much as to the homepage.</li>
+    <li><b>Inconsistent facts across surfaces.</b> Price on the pricing page &#8800; price in
+      <code>llms.txt</code> means AI engines stop stating our price at all.</li>
+    <li><b>Animated or client-only key content.</b> Stats animating from "0" means bots read "0".</li>
+    <li><b>Measuring signups without activation.</b> A trial that never generates a plan is not a win.</li>
+    <li><b>One-sided comparison pages.</b> No honest "choose them if&#8230;" section means the page reads
+      as an ad and doesn't get cited.</li>
+  </ol>
+</div>
+</section>
+
+<!-- 12 -->
+<section id="roadmap">
+<div class="col">
+  <h2><span class="sn">12</span>Roadmap</h2>
+  <p class="dek">Re-cut against the Aug 11 call. Tranche 0 is the 2&#8211;4 week window Andres works
+  in and contains only what the call directed; the 30/60/90 phases follow. Each row is one ticket.</p>
+</div>
+
+<div class="phase">
+  <div class="col"><div class="phase-h"><span class="d">Tranche 0 &#183; weeks 1&#8211;4</span><span class="t">What the call directed</span><span class="g">Fix the main website first</span></div></div>
+  <div class="tw wide"><table>
+  <thead><tr><th class="num">#</th><th>Task</th><th>Objective it serves</th><th class="num">Effort</th></tr></thead>
+  <tbody>
+  <tr><td class="num">0.1</td><td>Harvest the real questions per persona from cohort and onboarding sessions (&#167;04)</td><td>Everything downstream depends on this list</td><td class="num">M</td></tr>
+  <tr><td class="num">0.2</td><td>Link the blog: nav + footer + a section on <code>/business</code></td><td>Recovers ~260 articles/yr from orphaning</td><td class="num">S</td></tr>
+  <tr><td class="num">0.3</td><td>Sample-audit 15 auto-published posts before amplifying them</td><td>Avoids linking thin content</td><td class="num">S</td></tr>
+  <tr><td class="num">0.4</td><td>UTM convention written down; every email and social post tagged</td><td>Closes the attribution blind spot</td><td class="num">S</td></tr>
+  <tr><td class="num">0.5</td><td>GA4 channel groups: email, social, partner, AI surfaces</td><td>Makes channels comparable</td><td class="num">S</td></tr>
+  <tr><td class="num">0.6</td><td><code>/for/edcs</code> with its own 8&#8211;12 Q&amp;A block</td><td>A named buyer with no page today</td><td class="num">M</td></tr>
+  <tr><td class="num">0.7</td><td><code>/for/chambers</code> with its own Q&amp;A block</td><td>Same</td><td class="num">M</td></tr>
+  <tr><td class="num">0.8</td><td><code>/capabilities/content-creation</code> with Q&amp;A block</td><td>Site under-sells Content360</td><td class="num">M</td></tr>
+  <tr><td class="num">0.9</td><td>Retest &#8220;Moil app&#8221; vs &#8220;Moil AI&#8221; in clean browsers, incognito, 2+ locations; log results</td><td>Diagnoses the split identity</td><td class="num">S</td></tr>
+  <tr><td class="num">0.10</td><td>Confirm with Andres whether websites is a Moil capability (&#167;04 flag)</td><td>Unblocks a page and the Durable comparison call</td><td class="num">S</td></tr>
+  </tbody></table></div>
+  <div class="col"><div class="note"><span class="k">Deliberately not in Tranche 0</span>
+  <p>Campaign domains and subdomains. The call was explicit that they come <em>after</em> the main
+  website is fixed, and &#167;09 explains why they cannot rank on their own anyway.</p></div></div>
+</div>
+
+<div class="phase">
+  <div class="col"><div class="phase-h"><span class="d">Days 1&#8211;30</span><span class="t">Foundation and measurement</span><span class="g">Runs alongside Tranche 0</span></div></div>
+  <div class="tw wide"><table>
+  <thead><tr><th class="num">#</th><th>Task</th><th>Files / surface</th><th class="num">Effort</th></tr></thead>
+  <tbody>
+  <tr><td class="num">1</td><td>Exhaustive sitemap with real <code>lastModified</code> dates</td><td><code>app/sitemap.ts</code></td><td class="num">S</td></tr>
+  <tr><td class="num">2</td><td>GA4 AI-Surfaces channel group + key events + hidden form field</td><td>GA4</td><td class="num">S</td></tr>
+  <tr><td class="num">3</td><td>40-prompt AEO baseline across 5 engines</td><td>spreadsheet</td><td class="num">M</td></tr>
+  <tr><td class="num">4</td><td>Entity fact block locked; audit every surface against &#167;03</td><td>all</td><td class="num">S</td></tr>
+  <tr><td class="num">5</td><td>Crunchbase + LinkedIn + Wikidata complete, <code>sameAs</code> wired</td><td><code>app/layout.tsx</code></td><td class="num">M</td></tr>
+  <tr><td class="num">6</td><td>G2 + Capterra listings live; first 20 review requests sent</td><td>off-site</td><td class="num">M</td></tr>
+  <tr><td class="num">7</td><td>Ahrefs/Semrush robots decision recorded</td><td><code>app/robots.ts</code></td><td class="num">S</td></tr>
+  <tr><td class="num">8</td><td>Verify 4 GSC properties, submit all sitemaps</td><td>GSC</td><td class="num">S</td></tr>
+  <tr><td class="num">9</td><td>CWV pass on <code>/business</code> + <code>/es/business</code></td><td><code>page.tsx</code>, images, fonts</td><td class="num">M</td></tr>
+  </tbody></table></div>
+</div>
+
+<div class="phase">
+  <div class="col"><div class="phase-h"><span class="d">Days 31&#8211;60</span><span class="t">Pages that earn citations</span><span class="g">Comparison + industry layer</span></div></div>
+  <div class="tw wide"><table>
+  <thead><tr><th class="num">#</th><th>Task</th><th class="num">Effort</th></tr></thead>
+  <tbody>
+  <tr><td class="num">10</td><td><code>/compare/moil-vs-liveplan</code> + <code>/compare/liveplan-alternatives</code></td><td class="num">M</td></tr>
+  <tr><td class="num">11</td><td><code>/compare/moil-vs-ziprecruiter</code> + <code>/compare/marketing-agency-vs-ai</code></td><td class="num">M</td></tr>
+  <tr><td class="num">12</td><td>Retrofit the &#167;06 AEO spec onto both existing <code>/compare</code> pages</td><td class="num">S</td></tr>
+  <tr><td class="num">13</td><td><code>/industries/hvac</code> + <code>/industries/cleaning-services</code>, real vertical substance</td><td class="num">L</td></tr>
+  <tr><td class="num">14</td><td>Blog &#8594; <code>/blog</code> consolidation: rewrite, 301, internal links, robots</td><td class="num">L</td></tr>
+  <tr><td class="num">15</td><td><code>/es/business/pricing</code> + hreflang + sitemap</td><td class="num">M</td></tr>
+  <tr><td class="num">16</td><td><code>/tools/cost-per-hire-calculator</code>, SHRM-benchmarked and citable</td><td class="num">M</td></tr>
+  </tbody></table></div>
+</div>
+
+<div class="phase">
+  <div class="col"><div class="phase-h"><span class="d">Days 61&#8211;90</span><span class="t">Compounding assets</span><span class="g">The part competitors can't copy quickly</span></div></div>
+  <div class="tw wide"><table>
+  <thead><tr><th class="num">#</th><th>Task</th><th class="num">Effort</th></tr></thead>
+  <tbody>
+  <tr><td class="num">17</td><td><strong>Moil SMB AI Index v1</strong> &#8212; report page, <code>Dataset</code> schema, CSV, "cite this as" (after privacy review)</td><td class="num">L</td></tr>
+  <tr><td class="num">18</td><td>Digital PR push on the Index; 5 SMB / Texas / Latino-business outlets</td><td class="num">M</td></tr>
+  <tr><td class="num">19</td><td>10 YouTube walkthroughs, EN + ES, transcripts published on-site</td><td class="num">L</td></tr>
+  <tr><td class="num">20</td><td>Reddit presence: 3 subreddits, disclosed, genuinely useful, 8 weeks in</td><td class="num">M</td></tr>
+  <tr><td class="num">21</td><td>Remaining 4 comparison pages</td><td class="num">M</td></tr>
+  <tr><td class="num">22</td><td><code>/industries/landscaping</code> + <code>/industries/restaurants</code></td><td class="num">M</td></tr>
+  <tr><td class="num">23</td><td>Brand-defense + comparison-term paid campaigns live with &#167;09 UTMs</td><td class="num">M</td></tr>
+  <tr><td class="num">24</td><td>Month-3 AEO scoreboard vs. baseline; re-prioritize from the delta</td><td class="num">S</td></tr>
+  </tbody></table></div>
+</div>
+
+<div class="col">
+  <div class="note good"><span class="k">Success criteria at day 90</span>
+  <p>Citation rate &#8805;20% up from baseline &#183; all money pages meeting the &#167;06 spec &#183; blog consolidated
+  onto the apex &#183; G2 live with 20+ reviews &#183; Index v1 published and pitched &#183; and a scoreboard we
+  actually run every month.</p></div>
+</div>
+</section>
+
+<!-- 13 -->
+<section id="checklist">
+<div class="col">
+  <h2><span class="sn">13</span>Implementation checklist</h2>
+  <p class="dek">Every item carries the objective it serves, because per the Aug 11 call an update
+  without a measurable objective does not ship. Ticks are saved in this browser, so this is a working
+  tracker &#8212; not a printout.</p>
+
+  <div class="progress">
+    <div class="pct"><span id="pct">0</span><em>%</em></div>
+    <div class="lbl"><b id="plabel">Nothing started</b><span id="pnote">0 of 0 items complete</span>
+      <div class="ptrack"><div class="pfill" id="pfill"></div></div></div>
+  </div>
+  <p style="margin-top:-8px"><button class="reset" id="resetBtn" type="button">Reset all ticks</button></p>
+
+<details class="pack" open>
+  <summary>Tranche 0 &#183; weeks 1&#8211;4 &#8212; what the call directed <span class="cnt" data-count>0/10</span></summary>
+  <ul>
+    <li><label><input type="checkbox"><span>Harvest the real questions per persona from cohort and onboarding sessions, verbatim <span class="obj">Objective: the source list everything downstream is built from</span></span></label></li>
+    <li><label><input type="checkbox"><span>Blog linked from nav, footer, and a section on <code>/business</code> <span class="obj">Objective: recover ~260 articles/yr from orphaning</span></span></label></li>
+    <li><label><input type="checkbox"><span>Sample-audit 15 auto-published posts for quality and persona fit <span class="obj">Objective: avoid amplifying thin content</span></span></label></li>
+    <li><label><input type="checkbox"><span>UTM convention written down in one shared place <span class="obj">Objective: close the email-vs-social-vs-direct blind spot</span></span></label></li>
+    <li><label><input type="checkbox"><span>Every email send and social post tagged, no exceptions <span class="obj">Objective: one untagged campaign poisons the month</span></span></label></li>
+    <li><label><input type="checkbox"><span>GA4 channel groups live: email, social organic, social paid, partner, AI surfaces <span class="obj">Objective: compare channels against one denominator</span></span></label></li>
+    <li><label><input type="checkbox"><span><code>/for/edcs</code> live with its own 8&#8211;12 question Q&amp;A block <span class="obj">Objective: a named buyer that has no page today</span></span></label></li>
+    <li><label><input type="checkbox"><span><code>/for/chambers</code> live with its own Q&amp;A block <span class="obj">Objective: same</span></span></label></li>
+    <li><label><input type="checkbox"><span><code>/capabilities/content-creation</code> live with Q&amp;A block <span class="obj">Objective: site currently under-sells Content360</span></span></label></li>
+    <li><label><input type="checkbox"><span>Confirm with Andres whether <b>websites</b> is a Moil capability <span class="obj">Objective: unblocks a page and the Durable comparison decision</span></span></label></li>
+  </ul>
+</details>
+
+<details class="pack">
+  <summary>Days 1&#8211;30 &#8212; foundation and measurement <span class="cnt" data-count>0/9</span></summary>
+  <ul>
+    <li><label><input type="checkbox"><span>Exhaustive sitemap with real <code>lastModified</code> dates <span class="obj">Objective: get the comparison and persona pages discovered at all</span></span></label></li>
+    <li><label><input type="checkbox"><span>Key events marked in GA4 + hidden <code>first_touch_source</code> on the signup form <span class="obj">Objective: attribution survives into CRM</span></span></label></li>
+    <li><label><input type="checkbox"><span>40-prompt AEO baseline across 5 engines, recorded <span class="obj">Objective: a number to improve against</span></span></label></li>
+    <li><label><input type="checkbox"><span>Entity fact block locked; every surface audited against &#167;03 <span class="obj">Objective: stop engines refusing to state our price</span></span></label></li>
+    <li><label><input type="checkbox"><span>Retest &#8220;Moil app&#8221; vs &#8220;Moil AI&#8221; &#8212; clean browser, incognito, 2+ locations <span class="obj">Objective: diagnose the split identity (low priority, do not front-run &#167;04)</span></span></label></li>
+    <li><label><input type="checkbox"><span>Crunchbase + LinkedIn + Wikidata complete, <code>sameAs</code> wired <span class="obj">Objective: collapse two brand identities into one entity</span></span></label></li>
+    <li><label><input type="checkbox"><span>G2 + Capterra listings live; first 20 review requests sent <span class="obj">Objective: ~3x citation multiplier</span></span></label></li>
+    <li><label><input type="checkbox"><span>Ahrefs / Semrush robots decision recorded in <code>robots.ts</code> <span class="obj">Objective: regain our own site-audit tooling</span></span></label></li>
+    <li><label><input type="checkbox"><span>All 4 GSC properties verified, every sitemap submitted <span class="obj">Objective: see indexation, not guess at it</span></span></label></li>
+  </ul>
+</details>
+
+<details class="pack">
+  <summary>Days 31&#8211;60 &#8212; pages that earn citations <span class="cnt" data-count>0/8</span></summary>
+  <ul>
+    <li><label><input type="checkbox"><span>Q&amp;A blocks retrofitted onto <code>/business</code> and both existing <code>/compare</code> pages <span class="obj">Objective: the &#167;06 spec applied to what already exists</span></span></label></li>
+    <li><label><input type="checkbox"><span><code>/compare/moil-vs-liveplan</code> + <code>/compare/liveplan-alternatives</code> <span class="obj">Objective: decision-stage demand</span></span></label></li>
+    <li><label><input type="checkbox"><span><code>/compare/moil-vs-ziprecruiter</code> + <code>/compare/marketing-agency-vs-ai</code> <span class="obj">Objective: our strongest price story</span></span></label></li>
+    <li><label><input type="checkbox"><span><code>/industries/hvac</code> + <code>/industries/cleaning-services</code>, real vertical substance <span class="obj">Objective: match AI prompts naming a trade</span></span></label></li>
+    <li><label><input type="checkbox"><span>Blog moved to <code>/blog</code>: rewrite, 301, internal links, robots updated <span class="obj">Objective: consolidate authority onto the apex</span></span></label></li>
+    <li><label><input type="checkbox"><span>CWV pass on <code>/business</code> and <code>/es/business</code> <span class="obj">Objective: 81% of AI Overview queries are mobile</span></span></label></li>
+    <li><label><input type="checkbox"><span><code>/es/business/pricing</code> + hreflang + sitemap <span class="obj">Objective: bilingual is differentiator #3 and has one page</span></span></label></li>
+    <li><label><input type="checkbox"><span><code>/tools/cost-per-hire-calculator</code>, SHRM-benchmarked <span class="obj">Objective: a citable, linkable asset</span></span></label></li>
+  </ul>
+</details>
+
+<details class="pack">
+  <summary>Days 61&#8211;90 &#8212; compounding assets <span class="cnt" data-count>0/8</span></summary>
+  <ul>
+    <li><label><input type="checkbox"><span>Moil SMB AI Index v1 published &#8212; report page, <code>Dataset</code> schema, CSV, cite-this-as <span class="obj">Objective: become an upstream source, not a downstream one</span></span></label></li>
+    <li><label><input type="checkbox"><span>Privacy and legal review of the Index aggregation, completed before publish <span class="obj">Objective: hard prerequisite, not a formality</span></span></label></li>
+    <li><label><input type="checkbox"><span>Digital PR push on the Index &#8212; 5 SMB / Texas / Latino-business outlets <span class="obj">Objective: independent coverage, the path to Wikipedia eligibility</span></span></label></li>
+    <li><label><input type="checkbox"><span>10 YouTube walkthroughs, EN + ES, transcripts published on-site <span class="obj">Objective: YouTube dominates Gemini citations</span></span></label></li>
+    <li><label><input type="checkbox"><span>Reddit presence in 3 subreddits, disclosed, 8 weeks sustained <span class="obj">Objective: ~4x multiplier; most-cited domain overall</span></span></label></li>
+    <li><label><input type="checkbox"><span>Campaign vanity domains 301&#8217;ing into real paths, query string preserved and tested <span class="obj">Objective: memorable in campaigns without splitting authority</span></span></label></li>
+    <li><label><input type="checkbox"><span>Remaining comparison pages + <code>/industries/landscaping</code> and <code>/restaurants</code> <span class="obj">Objective: breadth across the vertical prompt set</span></span></label></li>
+    <li><label><input type="checkbox"><span>Month-3 AEO scoreboard vs. baseline; roadmap re-prioritized from the delta <span class="obj">Objective: the loop that keeps this document honest</span></span></label></li>
+  </ul>
+</details>
+</div>
+</section>
+
+<!-- 14 -->
+<section id="sources">
+<div class="col src">
+  <h2><span class="sn">14</span>Sources</h2>
+
+  <h4>Repo and internal</h4>
+  <ul>
+    <li><a href="https://github.com/khasky/marketing-and-seo-playbook">khasky/marketing-and-seo-playbook</a> &#8212; structural model; chapters on technical SEO, content and link building, AI search &amp; GEO, marketing pages &amp; attribution, keywords &amp; tools</li>
+    <li><code>research/strategy.md</code> &#8212; Moil positioning, defensible facts, AEO decisions</li>
+    <li><code>app/robots.ts</code>, <code>app/sitemap.ts</code>, <code>public/llms.txt</code>, <code>middleware.ts</code>, <code>app/business/layout.tsx</code></li>
+  </ul>
+
+  <h4>AI search impact and zero-click</h4>
+  <ul>
+    <li><a href="https://www.digitalapplied.com/blog/zero-click-search-statistics-2026-complete-data">Zero-Click Search Statistics 2026 &#8212; DigitalApplied</a></li>
+    <li><a href="https://wordsatscale.com/ai-overviews-ctr-statistics-2026/">AI Overviews CTR Statistics 2026 &#8212; WordsAtScale</a></li>
+    <li><a href="https://www.dataslayer.ai/blog/google-ai-overviews-the-end-of-traditional-ctr-and-how-to-adapt-in-2025">AI Overviews Killed CTR 61% &#8212; Dataslayer</a></li>
+    <li><a href="https://pasqualepillitteri.it/en/news/811/google-ai-mode-zero-click-seo-2026-en">Google AI Mode and Zero-Click</a></li>
+    <li><a href="https://thestacc.com/blog/google-ai-overview-statistics/">AI Overviews in 2026: 48% of Searches &#8212; Stacc</a></li>
+    <li><a href="https://www.omnibound.ai/blog/ai-seo-statistics">AI SEO Statistics 2026 &#8212; Omnibound</a></li>
+  </ul>
+
+  <h4>AEO / GEO practice and research</h4>
+  <ul>
+    <li><a href="https://arxiv.org/pdf/2311.09735">GEO: Generative Engine Optimization &#8212; Princeton, arXiv 2311.09735</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/Generative_engine_optimization">Generative engine optimization &#8212; Wikipedia</a></li>
+    <li><a href="https://llmpulse.ai/blog/geo-guide/">GEO: The Complete Guide for 2026 &#8212; LLM Pulse</a></li>
+    <li><a href="https://writer.com/blog/geo-aeo-optimization/">GEO, AEO and SEO in 2026 &#8212; WRITER</a></li>
+    <li><a href="https://www.airops.com/blog/aeo-answer-engine-optimization">AEO: Complete Guide 2026 &#8212; AirOps</a></li>
+    <li><a href="https://www.frase.io/blog/what-is-answer-engine-optimization-the-complete-guide-to-getting-cited-by-ai">AEO Complete Guide 2026 &#8212; Frase</a></li>
+    <li><a href="https://www.position.digital/blog/answer-engine-optimization-best-practices/">AEO: 6 Best Practices for 2026 &#8212; Position Digital</a></li>
+  </ul>
+
+  <h4>Citation source distribution</h4>
+  <ul>
+    <li><a href="https://peec.ai/blog/top-domains-cited-by-ai-search-analysis-based-on-30m-sources">Top domains cited by AI search: 30M sources &#8212; Peec AI</a></li>
+    <li><a href="https://www.semrush.com/blog/most-cited-domains-ai/">The Most-Cited Domains in AI: A 3-Month Study &#8212; Semrush</a></li>
+    <li><a href="https://contently.com/2026/04/29/top-sources-llms-cite/">Top 10 Sources LLMs Cite Most in 2026 &#8212; Contently</a></li>
+    <li><a href="https://quickseo.ai/blog/how-reddit-affects-ai-visibility-2026">How Reddit Affects AI Visibility in 2026</a></li>
+  </ul>
+
+  <h4>Measurement</h4>
+  <ul>
+    <li><a href="https://insightland.org/blog/how-to-track-chatgpt-perplexity-and-gemini-traffic-in-ga4-a-complete-2026-setup-guide/">Tracking ChatGPT, Perplexity and Gemini in GA4 (2026) &#8212; Insightland</a></li>
+    <li><a href="https://authoritytech.io/blog/ai-traffic-attribution-how-to-track-chatgpt-perplexity-gemini">AI Traffic Attribution &#8212; AuthorityTech</a></li>
+    <li><a href="https://organikpi.com/blog/technical-seo/ga4-ai-search-referral-attribution/">GA4 AI Search Referral Attribution &#8212; OrganikPI</a></li>
+  </ul>
+
+  <h4>Carried forward from research/strategy.md</h4>
+  <ul>
+    <li>Salesforce SMB Trends Report, 6th ed. (2025) &#183; SHRM 2025 Recruiting Benchmarking Report &#183;
+      SBA Office of Advocacy + Stanford SLEI &#183; UCLA Latino Policy &amp; Politics Institute</li>
+  </ul>
+
+  <h4>Internal &#8212; direction and constraints</h4>
+  <ul>
+    <li><strong>Moil team call, August 11 2026</strong> (Andres, Jacob, Taiwo; 48m) &#8212; source for
+      the questions-not-volume doctrine, the EDC and chamber personas, the websites and
+      content-creation gaps, the orphaned blog, the missing campaign attribution, the brand-name
+      split, the fix-the-main-site-first sequencing, and the ~99%-from-cohorts baseline. Where this
+      call and <code>research/strategy.md</code> (2026-06-09) disagree, the call is newer and treated
+      as current &#8212; with the one unresolved conflict flagged in &#167;04.</li>
+  </ul>
+</div>
+
+<div class="col">
+<footer>
+  <span>Moil Playbook 01 &#183; SEO / SEM / AEO</span>
+  <span>Internal &#183; review monthly</span>
+  <span>Last updated 2026-08-13</span>
+</footer>
+</div>
+</section>
+</main>
+</div>
+
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('#nav a'));
+  var secs = links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  function mark(){
+    var y = window.scrollY + 140, best = 0;
+    for (var i = 0; i < secs.length; i++){
+      if (secs[i] && secs[i].offsetTop <= y) best = i;
+    }
+    links.forEach(function(a, i){ a.classList.toggle('on', i === best); });
+  }
+  var queued = false;
+  window.addEventListener('scroll', function(){
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(function(){ mark(); queued = false; });
+  }, {passive:true});
+  mark();
+
+  /* ---- implementation checklist ---- */
+  var CKEY = 'moil-impl-checklist';
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(CKEY) || '{}'); } catch (e) {}
+  var packs = Array.prototype.slice.call(document.querySelectorAll('details.pack'));
+  var allBoxes = [];
+  var pctEl = document.getElementById('pct');
+  var fillEl = document.getElementById('pfill');
+  var labelEl = document.getElementById('plabel');
+  var noteEl = document.getElementById('pnote');
+
+  function save(){
+    try { localStorage.setItem(CKEY, JSON.stringify(state)); } catch (e) {}
+  }
+  function overall(){
+    var done = allBoxes.filter(function(b){ return b.checked; }).length;
+    var total = allBoxes.length;
+    var pct = total ? Math.round(done / total * 100) : 0;
+    pctEl.textContent = pct;
+    fillEl.style.width = pct + '%';
+    noteEl.textContent = done + ' of ' + total + ' items complete';
+    labelEl.textContent = done === 0 ? 'Nothing started'
+      : done === total ? 'All items complete'
+      : pct < 34 ? 'Tranche 0 in progress'
+      : pct < 67 ? 'Foundation landing'
+      : 'Compounding phase';
+  }
+  packs.forEach(function(pack, pi){
+    var boxes = Array.prototype.slice.call(pack.querySelectorAll('input[type=checkbox]'));
+    var counter = pack.querySelector('[data-count]');
+    function sync(){
+      counter.textContent = boxes.filter(function(b){ return b.checked; }).length + '/' + boxes.length;
+    }
+    boxes.forEach(function(box, bi){
+      var id = pi + ':' + bi;
+      box.dataset.key = id;
+      if (state[id]) box.checked = true;
+      allBoxes.push(box);
+      box.addEventListener('change', function(){
+        state[id] = box.checked;
+        save();
+        sync();
+        overall();
+      });
+    });
+    pack._sync = sync;
+    sync();
+  });
+  overall();
+
+  var resetBtn = document.getElementById('resetBtn');
+  if (resetBtn) resetBtn.addEventListener('click', function(){
+    allBoxes.forEach(function(b){ b.checked = false; state[b.dataset.key] = false; });
+    save();
+    packs.forEach(function(p){ p._sync(); });
+    overall();
+  });
+})();
+</script>

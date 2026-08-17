@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 const DEMO_VIDEO_URL =
-  'https://moilapp-my.sharepoint.com/:v:/p/ablad/IQBBjjLycVvTTbVRKZ9loSE3AXC7nN_1EZyHBsbVkoBIHPI?download=1';
+  'https://moilapp-my.sharepoint.com/:v:/p/ablad/IQBUHWBwEXlGTpqlygmar6rVAQcZEIzw-mqiOQSHO3aGxYI?download=1';
 
 type DemoVideoCopy = {
   tag: string;
@@ -63,8 +63,9 @@ export function DemoVideoSection({ copy }: DemoVideoSectionProps) {
   const frameRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const isInViewRef = useRef(false);
+  const hasInteractedRef = useRef(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
@@ -72,16 +73,25 @@ export function DemoVideoSection({ copy }: DemoVideoSectionProps) {
     const video = videoRef.current;
     if (!video) return;
 
-    // Request audible playback. Browsers may block this until the visitor's
-    // first interaction; in that case the video remains paused instead of
-    // silently playing and resumes with sound on that first interaction.
-    video.muted = false;
-    video.volume = 0.9;
-    setIsMuted(false);
+    // Autoplay with sound is blocked on mobile (and in most desktop browsers)
+    // until the visitor interacts with the page, so stay muted until then and
+    // fall back to muted playback if an audible play() is rejected.
+    if (hasInteractedRef.current) {
+      video.muted = false;
+      video.volume = 0.9;
+      setIsMuted(false);
+    }
+
     try {
       await video.play();
     } catch {
-      setIsPlaying(false);
+      video.muted = true;
+      setIsMuted(true);
+      try {
+        await video.play();
+      } catch {
+        setIsPlaying(false);
+      }
     }
   }, []);
 
@@ -89,6 +99,9 @@ export function DemoVideoSection({ copy }: DemoVideoSectionProps) {
     const frame = frameRef.current;
     const video = videoRef.current;
     if (!frame || !video) return;
+
+    // Mobile browsers only allow inline autoplay while muted.
+    video.muted = true;
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const observer = new IntersectionObserver(
@@ -113,7 +126,19 @@ export function DemoVideoSection({ copy }: DemoVideoSectionProps) {
       }
     };
 
-    const handleUserActivation = () => {
+    const handleUserActivation = (event: Event) => {
+      hasInteractedRef.current = true;
+
+      // Taps on the player's own controls are handled by those controls; acting
+      // on them here would start playback before the click handler runs and
+      // make the play button read as a pause.
+      if (event.target instanceof Node && frame.contains(event.target)) return;
+
+      if (video.muted) {
+        video.muted = false;
+        video.volume = 0.9;
+        setIsMuted(false);
+      }
       if (isInViewRef.current && video.paused) void playVideo();
     };
 
@@ -134,11 +159,9 @@ export function DemoVideoSection({ copy }: DemoVideoSectionProps) {
   const togglePlayback = () => {
     const video = videoRef.current;
     if (!video) return;
+    hasInteractedRef.current = true;
     if (video.paused) {
-      video.muted = false;
-      video.volume = 0.9;
-      setIsMuted(false);
-      void video.play().catch(() => setIsPlaying(false));
+      void playVideo();
     } else {
       video.pause();
     }
@@ -147,13 +170,24 @@ export function DemoVideoSection({ copy }: DemoVideoSectionProps) {
   const toggleMute = () => {
     const video = videoRef.current;
     if (!video) return;
+    hasInteractedRef.current = true;
     video.muted = !video.muted;
+    if (!video.muted) video.volume = 0.9;
     setIsMuted(video.muted);
   };
 
   const enterFullscreen = () => {
     const frame = frameRef.current;
-    if (frame?.requestFullscreen) void frame.requestFullscreen();
+    const video = videoRef.current as
+      | (HTMLVideoElement & { webkitEnterFullscreen?: () => void })
+      | null;
+
+    if (frame?.requestFullscreen) {
+      void frame.requestFullscreen().catch(() => video?.webkitEnterFullscreen?.());
+      return;
+    }
+    // iOS Safari can only fullscreen the video element itself.
+    video?.webkitEnterFullscreen?.();
   };
 
   const seek = (value: string) => {

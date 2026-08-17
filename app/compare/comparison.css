@@ -491,13 +491,13 @@
   border-radius: 24px;
   background:
     linear-gradient(to top, rgba(6,8,13,0.97), rgba(6,8,13,0.78) 58%, rgba(6,8,13,0.36)),
-    url('/comment_bg.jpg') center / cover;
+    url('/comment_bg.webp') center / cover;
 }
 
 [data-theme="light"] .comparison-difference-grid article {
   background:
     linear-gradient(to top, rgba(249,248,255,0.98), rgba(249,248,255,0.8) 58%, rgba(249,248,255,0.34)),
-    url('https://res.cloudinary.com/daudj5isi/image/upload/v1783442088/comment_bg_light_ppipey.png') center / cover;
+    url('https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1600/v1783442088/comment_bg_light_ppipey.png') center / cover;
 }
 
 .comparison-difference-grid article.is-moil {

@@ -12,10 +12,10 @@ const FeatureItem = ({ header, text, icon }: FeatureItemProps) => {
       <div className="p-5 shadow feature_shadow rounded-full">
         {icon} {/* Render the icon component here */}
       </div>
-      <div className="text-slate-900 text-base font-medium font-Poppins">
+      <div className="text-slate-900 text-base font-medium font-poppins">
         {header}
       </div>
-      <div className="text-center text-neutral-500 text-sm font-normal font-Poppins leading-[16.80px]">
+      <div className="text-center text-neutral-500 text-sm font-normal font-poppins leading-[16.80px]">
         {text}
       </div>
     </div>

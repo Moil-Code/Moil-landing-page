@@ -1,0 +1,1138 @@
+<title>Moil Client SEO / AEO Playbook</title>
+<style>
+:root{
+  --violet:#5843BE; --ember:#E8551F; --ember-2:#FF6633; --jade:#1FA97A; --amber:#C98108;
+  --bg:#FCFAF8; --surface:#FFFFFF; --surface-2:#F6F2EE;
+  --text:#241505; --text-2:#5A4634; --text-3:#8C7861;
+  --line:#EBE3DA; --line-2:#D9CDC0;
+  --accent:var(--ember); --accent-soft:#FCEFE8; --accent-line:#F0C4AC;
+  --code-bg:#F7F2EE;
+  --display:"Avenir Next","Avenir",Futura,"Segoe UI Variable Display",system-ui,sans-serif;
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#1A1208; --surface:#241A0F; --surface-2:#2F2216;
+    --text:#F6EEE5; --text-2:#CFBCA8; --text-3:#9C8974;
+    --line:#3A2B1C; --line-2:#4E3B26;
+    --violet:#9B85F5; --ember:#FF8A56; --ember-2:#FF7A40; --jade:#42CC9A; --amber:#EDB447;
+    --accent:#FF8A56; --accent-soft:#33200F; --accent-line:#6B4224;
+    --code-bg:#2A1D11;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1A1208; --surface:#241A0F; --surface-2:#2F2216;
+  --text:#F6EEE5; --text-2:#CFBCA8; --text-3:#9C8974;
+  --line:#3A2B1C; --line-2:#4E3B26;
+  --violet:#9B85F5; --ember:#FF8A56; --ember-2:#FF7A40; --jade:#42CC9A; --amber:#EDB447;
+  --accent:#FF8A56; --accent-soft:#33200F; --accent-line:#6B4224;
+  --code-bg:#2A1D11;
+}
+:root[data-theme="light"]{
+  --bg:#FCFAF8; --surface:#FFFFFF; --surface-2:#F6F2EE;
+  --text:#241505; --text-2:#5A4634; --text-3:#8C7861;
+  --line:#EBE3DA; --line-2:#D9CDC0;
+  --violet:#5843BE; --ember:#E8551F; --ember-2:#FF6633; --jade:#1FA97A; --amber:#C98108;
+  --accent:#E8551F; --accent-soft:#FCEFE8; --accent-line:#F0C4AC;
+  --code-bg:#F7F2EE;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);
+  font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-line)}
+a:hover{border-bottom-color:var(--accent)}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{
+  outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+.shell{display:grid;grid-template-columns:236px minmax(0,1fr);max-width:1240px;margin:0 auto}
+.rail{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;
+  padding:36px 22px 48px;border-right:1px solid var(--line)}
+.rail-brand{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-3);margin-bottom:22px;line-height:1.5}
+.rail-brand b{color:var(--accent);font-weight:600}
+.rail a{display:flex;gap:9px;padding:5px 0;border:0;color:var(--text-2);font-size:13.5px;line-height:1.45}
+.rail a:hover{color:var(--accent)}
+.rail a.on{color:var(--text);font-weight:600}
+.rail a .n{font-family:var(--mono);font-size:11px;color:var(--text-3);min-width:16px;padding-top:3px;
+  font-variant-numeric:tabular-nums}
+.rail a.on .n{color:var(--accent)}
+main{padding:56px 44px 140px;min-width:0}
+.col{max-width:68ch}
+
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--display);font-size:clamp(2.15rem,4.6vw,3.15rem);line-height:1.04;
+  letter-spacing:-.024em;font-weight:600;margin:.35em 0 .5em;text-wrap:balance;max-width:22ch}
+.standfirst{font-size:19px;line-height:1.55;color:var(--text-2);max-width:56ch;margin:0 0 30px}
+.meta{display:flex;flex-wrap:wrap;gap:0 26px;font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.04em;color:var(--text-3);border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);padding:14px 0;margin-bottom:44px}
+.meta b{color:var(--text-2);font-weight:500}
+
+section{margin:0 0 72px;scroll-margin-top:24px}
+h2{font-family:var(--display);font-size:1.62rem;letter-spacing:-.016em;font-weight:600;
+  line-height:1.18;margin:0 0 6px;text-wrap:balance;display:flex;gap:14px;align-items:baseline}
+h2 .sn{font-family:var(--mono);font-size:.72em;font-weight:400;color:var(--accent);
+  font-variant-numeric:tabular-nums;flex:none}
+.dek{color:var(--text-2);font-size:15.5px;margin:0 0 26px;max-width:62ch}
+h3{font-family:var(--display);font-size:1.09rem;font-weight:600;letter-spacing:-.008em;
+  margin:38px 0 10px;color:var(--text)}
+h4{font-family:var(--mono);font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--text-3);font-weight:500;margin:30px 0 10px}
+p,ul,ol{margin:0 0 15px}
+ul,ol{padding-left:22px}
+li{margin-bottom:7px}
+li::marker{color:var(--text-3)}
+strong{font-weight:600;color:var(--text)}
+.hr{height:1px;background:var(--line);border:0;margin:52px 0}
+
+.note{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:0 3px 3px 0;padding:17px 20px;margin:24px 0}
+.note.warn{border-left-color:var(--amber)}
+.note.good{border-left-color:var(--jade)}
+.note.no{border-left-color:#C4341C}
+.note .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text-3);display:block;margin-bottom:8px}
+.note p{font-size:15px}
+.note p:last-child{margin-bottom:0}
+
+.tw{overflow-x:auto;margin:22px 0;border:1px solid var(--line);border-radius:3px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-3);text-align:left;font-weight:500;padding:11px 14px;
+  border-bottom:1px solid var(--line-2);white-space:nowrap;background:var(--surface-2)}
+td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--text-2);line-height:1.5}
+tr:last-child td{border-bottom:0}
+td strong{color:var(--text)}
+td.num,th.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tw.wide table{min-width:660px}
+
+/* ---------- ranking-weight bar (real data viz) ---------- */
+.weights{margin:26px 0}
+.wbar{display:flex;height:34px;border-radius:3px;overflow:hidden;border:1px solid var(--line-2)}
+.wbar span{display:block;height:100%}
+.wkey{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:9px 18px;
+  margin-top:15px;font-size:13px}
+.wkey div{display:flex;gap:9px;align-items:baseline;color:var(--text-2)}
+.wkey i{width:10px;height:10px;border-radius:2px;flex:none;transform:translateY(1px)}
+.wkey b{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--text);font-weight:600;
+  margin-left:auto;padding-left:8px}
+.w1{background:var(--ember)} .w2{background:var(--amber)} .w3{background:var(--jade)}
+.w4{background:var(--violet)} .w5{background:var(--text-3)} .w6{background:var(--line-2)}
+
+/* ---------- stat tiles ---------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden;margin:0 0 22px}
+.stat{background:var(--surface);padding:16px}
+.stat .v{font-family:var(--display);font-size:1.72rem;font-weight:600;letter-spacing:-.03em;
+  line-height:1;font-variant-numeric:tabular-nums;display:block;margin-bottom:7px;color:var(--accent)}
+.stat .l{font-size:12.5px;line-height:1.4;color:var(--text-2);display:block}
+.stat.neg .v{color:#C4341C} .stat.pos .v{color:var(--jade)}
+
+/* ---------- scorecard tool ---------- */
+.card-tool{background:var(--surface);border:1px solid var(--line-2);border-radius:3px;
+  margin:24px 0;overflow:hidden}
+.ct-h{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;padding:14px 18px;
+  border-bottom:1px solid var(--line-2);background:var(--surface-2)}
+.ct-h .t{font-family:var(--display);font-weight:600;font-size:15px}
+.ct-h .s{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-3);margin-left:auto}
+.ct-row{display:grid;grid-template-columns:1fr 96px;gap:14px;align-items:center;
+  padding:11px 18px;border-bottom:1px solid var(--line)}
+.ct-row .lab{font-size:14px;color:var(--text-2)}
+.ct-row .lab b{color:var(--text);display:block;font-weight:600;font-size:14.5px}
+.ct-row .lab span{font-size:12.5px;color:var(--text-3);display:block;line-height:1.45;margin-top:2px}
+.ct-in{display:flex;align-items:baseline;gap:5px;justify-content:flex-end;font-family:var(--mono);
+  font-variant-numeric:tabular-nums}
+.ct-in input{width:52px;padding:6px 8px;text-align:right;font-family:var(--mono);font-size:14px;
+  border:1px solid var(--line-2);border-radius:2px;background:var(--bg);color:var(--text)}
+.ct-in em{font-style:normal;color:var(--text-3);font-size:12.5px}
+.ct-out{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;padding:16px 18px;
+  background:var(--accent-soft);border-top:1px solid var(--line-2)}
+.ct-out .tot{font-family:var(--display);font-size:2.1rem;font-weight:600;letter-spacing:-.03em;
+  line-height:1;font-variant-numeric:tabular-nums;color:var(--accent)}
+.ct-out .tot em{font-style:normal;font-size:.46em;color:var(--text-3);font-weight:400}
+.ct-out .band{font-size:14px;color:var(--text-2)}
+.ct-out .band b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--text);margin-bottom:3px}
+.ct-track{height:5px;background:var(--line);border-radius:3px;overflow:hidden;margin-top:9px}
+.ct-fill{height:100%;background:var(--accent);width:0;transition:width .25s ease}
+
+/* ---------- phase timeline ---------- */
+.phase{margin:34px 0}
+.phase-h{display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;padding-bottom:10px;
+  border-bottom:2px solid var(--accent)}
+.phase-h .d{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);font-variant-numeric:tabular-nums}
+.phase-h .t{font-family:var(--display);font-size:1.06rem;font-weight:600;color:var(--text)}
+.phase-h .g{font-size:13px;color:var(--text-3);margin-left:auto}
+
+/* ---------- interactive checklist ---------- */
+details.pack{border:1px solid var(--line);border-radius:3px;background:var(--surface);margin:14px 0}
+details.pack>summary{cursor:pointer;padding:14px 18px;font-family:var(--display);font-weight:600;
+  font-size:15px;display:flex;gap:12px;align-items:center;list-style:none}
+details.pack>summary::-webkit-details-marker{display:none}
+details.pack>summary::before{content:"+";font-family:var(--mono);color:var(--accent);font-weight:400;
+  font-size:16px;line-height:1}
+details.pack[open]>summary::before{content:"\2212 "}
+details.pack>summary .cnt{margin-left:auto;font-family:var(--mono);font-size:11px;
+  letter-spacing:.08em;color:var(--text-3);font-variant-numeric:tabular-nums;font-weight:400}
+details.pack[open]>summary{border-bottom:1px solid var(--line)}
+.pack ul{list-style:none;padding:14px 18px 6px;margin:0}
+.pack li{margin-bottom:11px;font-size:14.5px;line-height:1.5}
+.pack label{display:flex;gap:11px;align-items:flex-start;cursor:pointer;color:var(--text-2)}
+.pack input[type=checkbox]{margin:4px 0 0;flex:none;width:15px;height:15px;accent-color:var(--accent)}
+.pack input:checked+span{color:var(--text-3);text-decoration:line-through;
+  text-decoration-color:var(--line-2)}
+.pack code{font-size:.85em}
+
+/* ---------- overall progress ---------- */
+.progress{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;
+  background:var(--surface);border:1px solid var(--line-2);border-radius:3px;padding:16px 18px;
+  margin:22px 0}
+.progress .pct{font-family:var(--display);font-size:2.1rem;font-weight:600;letter-spacing:-.03em;
+  line-height:1;font-variant-numeric:tabular-nums;color:var(--accent)}
+.progress .pct em{font-style:normal;font-size:.42em;color:var(--text-3);font-weight:400}
+.progress .lbl{font-size:14px;color:var(--text-2)}
+.progress .lbl b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--text);margin-bottom:3px}
+.ptrack{height:5px;background:var(--line);border-radius:3px;overflow:hidden;margin-top:9px}
+.pfill{height:100%;background:var(--accent);width:0;transition:width .25s ease}
+.reset{background:0;border:1px solid var(--line-2);border-radius:2px;color:var(--text-3);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  padding:6px 11px;cursor:pointer}
+.reset:hover{color:var(--accent);border-color:var(--accent-line)}
+.pack .obj{display:block;font-size:12.5px;color:var(--text-3);margin-top:3px}
+
+/* ---------- ranked / numbered list ---------- */
+.gaps{list-style:none;padding:0;margin:22px 0;counter-reset:g;display:grid;gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.gaps li{counter-increment:g;background:var(--surface);margin:0;padding:15px 18px 15px 52px;
+  position:relative;font-size:14.5px;line-height:1.55;color:var(--text-2)}
+.gaps li::before{content:counter(g);position:absolute;left:18px;top:15px;font-family:var(--mono);
+  font-size:12px;color:var(--accent);font-variant-numeric:tabular-nums}
+.gaps li b{color:var(--text)}
+
+pre{background:var(--code-bg);border:1px solid var(--line);border-radius:3px;padding:15px 17px;
+  overflow-x:auto;margin:20px 0;font-family:var(--mono);font-size:12.5px;line-height:1.62;
+  color:var(--text-2)}
+code{font-family:var(--mono);font-size:.885em;background:var(--code-bg);padding:1.5px 5px;
+  border-radius:2px;color:var(--text);border:1px solid var(--line)}
+pre code{background:0;border:0;padding:0;font-size:1em;color:inherit}
+
+.src{font-size:13.5px;line-height:1.6}
+.src h4{margin-top:26px}
+.src ul{list-style:none;padding:0}
+.src li{padding-left:14px;position:relative;color:var(--text-3);margin-bottom:6px}
+.src li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:1px;background:var(--line-2)}
+
+footer{border-top:1px solid var(--line);margin-top:80px;padding-top:22px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--text-3);
+  display:flex;flex-wrap:wrap;gap:8px 24px}
+
+@media(max-width:860px){
+  .shell{grid-template-columns:1fr}
+  .rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);
+    padding:24px 22px 20px}
+  .rail nav{display:flex;flex-wrap:wrap;gap:2px 16px}
+  .rail a{padding:3px 0}
+  main{padding:34px 22px 100px}
+  h2{gap:10px}
+  .ct-row{grid-template-columns:1fr 84px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="shell">
+<aside class="rail">
+  <div class="rail-brand"><b>Moil</b> &#183; Playbook 02<br>Client delivery</div>
+  <nav id="nav">
+    <a href="#local"><span class="n">01</span><span>Local search reality</span></a>
+    <a href="#intake"><span class="n">02</span><span>Intake &amp; scorecard</span></a>
+    <a href="#foundation"><span class="n">03</span><span>Foundation &#183; days 1&#8211;30</span></a>
+    <a href="#momentum"><span class="n">04</span><span>Momentum &#183; days 31&#8211;90</span></a>
+    <a href="#compound"><span class="n">05</span><span>Compounding &#183; 91&#8211;365</span></a>
+    <a href="#bilingual"><span class="n">06</span><span>Bilingual delivery</span></a>
+    <a href="#report"><span class="n">07</span><span>Reporting</span></a>
+    <a href="#packaging"><span class="n">08</span><span>Packaging</span></a>
+    <a href="#checklist"><span class="n">09</span><span>Delivery checklist</span></a>
+    <a href="#anti"><span class="n">10</span><span>What we won't do</span></a>
+    <a href="#verticals"><span class="n">11</span><span>Vertical annexes</span></a>
+    <a href="#sources"><span class="n">12</span><span>Sources</span></a>
+  </nav>
+</aside>
+
+<main>
+<div class="col">
+  <span class="eyebrow">Playbook 02 &#183; Client delivery</span>
+  <h1>The Moil client SEO and AEO playbook</h1>
+  <p class="standfirst">A repeatable 90-day system for small local and service businesses &#8212; run by
+  the owner, in 45 minutes a week, against competitors who never claimed the free profile that
+  decides a third of the outcome.</p>
+  <div class="meta">
+    <span><b>For</b> Moil delivery team + SMB clients</span>
+    <span><b>Review</b> quarterly</span>
+    <span><b>Updated</b> 2026-08-13</span>
+  </div>
+
+  <h3 style="margin-top:0">What separates this from Playbook 01</h3>
+  <p>Playbook 01 optimizes one B2B SaaS site for national and bilingual demand. This is a
+  <strong>delivery system</strong>: the same sequence, run over and over, for clients who are
+  typically 1&#8211;20-person local service businesses &#8212; HVAC, plumbing, electrical, landscaping, cleaning,
+  restaurants, salons, auto, home services &#8212; often bilingual, often Hispanic-owned, and almost always
+  with no marketing plan at all. The gap between the two playbooks is one word: <strong>local</strong>.</p>
+</div>
+
+<div class="tw wide"><table>
+<thead><tr><th></th><th>Playbook 01 &#8212; Moil</th><th>Playbook 02 &#8212; clients</th></tr></thead>
+<tbody>
+<tr><td><strong>Battlefield</strong></td><td>National SERPs + AI answers</td><td>Local Pack + Google Business Profile + AI local answers</td></tr>
+<tr><td><strong>Biggest lever</strong></td><td>Original research + comparison pages</td><td>Google Business Profile + reviews</td></tr>
+<tr><td><strong>GBP signal share</strong></td><td>n/a</td><td><strong>~32%</strong> of local ranking signals</td></tr>
+<tr><td><strong>Content volume</strong></td><td>High &#8212; clusters, 47+ posts</td><td>Low &#8212; 8&#8211;15 pages, done properly</td></tr>
+<tr><td><strong>Time to first result</strong></td><td>3&#8211;6 months</td><td><strong>2&#8211;8 weeks</strong> &#8212; GBP moves fast</td></tr>
+<tr><td><strong>Who executes</strong></td><td>Moil growth team</td><td>The owner, with Moil + a Moil coach</td></tr>
+<tr><td><strong>Success metric</strong></td><td>Citation share, trials</td><td>Calls, form fills, booked jobs</td></tr>
+</tbody></table></div>
+
+<div class="col">
+<div class="note"><span class="k">Design constraint</span>
+<p>The client is the owner, and the owner has 45 minutes a week. Every deliverable below either runs
+inside Moil &#8212; Content360, the plan, the coach, Smart Hiring &#8212; or is a one-page checklist. If a step
+needs an agency to execute, it does not belong in this playbook. That is the whole point of the
+$25/mo versus $3,000&#8211;$8,000/mo story.</p></div>
+</div>
+
+<hr class="hr">
+
+<!-- 01 -->
+<section id="local">
+<div class="col">
+  <h2><span class="sn">01</span>The local search reality in 2026</h2>
+  <p class="dek">Give clients these numbers at kickoff. They reframe the work from "get me to #1 on
+  Google" into something achievable and measurable.</p>
+
+  <h4>What actually decides a Local Pack ranking</h4>
+  <div class="weights">
+    <div class="wbar" role="img" aria-label="Local ranking signal weights: Google Business Profile 32 percent, on-page 19 percent, reviews 16 percent, links 15 percent, behavioral 8 percent, citations 7 percent">
+      <span class="w1" style="width:32.99%"></span>
+      <span class="w2" style="width:19.59%"></span>
+      <span class="w3" style="width:16.49%"></span>
+      <span class="w4" style="width:15.46%"></span>
+      <span class="w5" style="width:8.25%"></span>
+      <span class="w6" style="width:7.22%"></span>
+    </div>
+    <div class="wkey">
+      <div><i class="w1"></i>Google Business Profile<b>32%</b></div>
+      <div><i class="w2"></i>On-page signals<b>19%</b></div>
+      <div><i class="w3"></i>Review signals<b>16%</b></div>
+      <div><i class="w4"></i>Link signals<b>15%</b></div>
+      <div><i class="w5"></i>Behavioral signals<b>8%</b></div>
+      <div><i class="w6"></i>Citation / NAP signals<b>7%</b></div>
+    </div>
+    <p style="font-size:12.5px;color:var(--text-3);margin:13px 0 0">Labels are the figures as
+    published; they sum to 97% from rounding in the source report, so bar widths are normalized to
+    fill. Source: Whitespark 2026 Local Search Ranking Factors.</p>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><span class="v">46%</span><span class="l">Google searches carrying local intent</span></div>
+  <div class="stat"><span class="v">&gt;40%</span><span class="l">Local queries now triggering an AI Overview</span></div>
+  <div class="stat"><span class="v">#1</span><span class="l">Primary GBP category &#8212; the top individual Local Pack factor</span></div>
+  <div class="stat neg"><span class="v">150</span><span class="l">Reviews per location below which AI assistants rarely name a business</span></div>
+  <div class="stat neg"><span class="v">&#8722;61%</span><span class="l">Organic CTR where AI Overviews appear</span></div>
+  <div class="stat neg"><span class="v">~50%</span><span class="l">Small businesses with no marketing plan at all</span></div>
+</div>
+
+<div class="col">
+  <div class="note good"><span class="k">How to say it to an owner</span>
+  <p>"Roughly a third of what decides whether you show up in the map results is one free Google
+  profile you already own &#8212; and the single biggest factor inside it is which category you picked. We
+  fix that in week one. Most of your competitors never did."</p></div>
+</div>
+</section>
+
+<!-- 02 -->
+<section id="intake">
+<div class="col">
+  <h2><span class="sn">02</span>Intake and diagnostic</h2>
+  <p class="dek">Week 0. Nothing gets built until these ten things are known and the baseline is
+  scored.</p>
+
+  <h3>Data to collect before anything else</h3>
+  <ul>
+    <li>Legal business name, exact address, phone, hours &#8212; this becomes the NAP standard</li>
+    <li>Google Business Profile: claimed? verified? who has the login?</li>
+    <li>Website URL, platform, who can edit it</li>
+    <li>Service area: cities, ZIPs, radius</li>
+    <li>Top 3 services <strong>by profit</strong>, not by volume</li>
+    <li>Top 3 local competitors by name</li>
+    <li>Current review count and average rating, per platform</li>
+    <li>Languages the business actually serves customers in</li>
+    <li>Existing analytics: GA4, Search Console, call tracking &#8212; anything</li>
+    <li><strong>What a job is worth</strong> (average ticket) and what closes (lead &#8594; job rate)</li>
+  </ul>
+  <div class="note warn"><span class="k">Non-negotiable</span>
+  <p>That last item. Without average ticket and close rate we cannot report in dollars, and SMB
+  owners rightly disengage from reports denominated in impressions.</p></div>
+
+  <h3>The 100-point Local Visibility Scorecard</h3>
+  <p>Score at intake, re-score at day 30, 60 and 90. This is the client's progress bar and our QA
+  gate. Enter scores below &#8212; it totals and bands live.</p>
+</div>
+
+<div class="col">
+<div class="card-tool">
+  <div class="ct-h"><span class="t">Local Visibility Scorecard</span><span class="s">saves in this browser</span></div>
+
+  <div class="ct-row"><div class="lab"><b>Google Business Profile</b>
+    <span>Claimed &amp; verified (5) &#183; correct primary category (8) &#183; secondary categories (4) &#183;
+    all services listed with descriptions (5) &#183; 10+ real photos (4) &#183; hours incl. holidays (2) &#183;
+    service areas set (3) &#183; products/menu where relevant (2)</span></div>
+    <div class="ct-in"><input type="number" min="0" max="33" step="1" data-max="33" id="s1" aria-label="Google Business Profile score out of 33"><em>/33</em></div></div>
+
+  <div class="ct-row"><div class="lab"><b>Reviews</b>
+    <span>Count vs. the 150 threshold (8) &#183; rating &#8805;4.5 (5) &#183; owner responds to all (4) &#183;
+    recency, &#8805;2 per month (3)</span></div>
+    <div class="ct-in"><input type="number" min="0" max="20" step="1" data-max="20" id="s2" aria-label="Reviews score out of 20"><em>/20</em></div></div>
+
+  <div class="ct-row"><div class="lab"><b>On-page</b>
+    <span>Homepage names city + service in H1 (4) &#183; one page per core service (5) &#183; NAP in footer
+    sitewide (2) &#183; LocalBusiness schema (3) &#183; mobile passes Core Web Vitals (3) &#183; phone CTA above
+    the fold (2)</span></div>
+    <div class="ct-in"><input type="number" min="0" max="19" step="1" data-max="19" id="s3" aria-label="On-page score out of 19"><em>/19</em></div></div>
+
+  <div class="ct-row"><div class="lab"><b>AEO readiness</b>
+    <span>Direct-answer block on the homepage (4) &#183; FAQ page + FAQPage schema (4) &#183;
+    service-area page per city (3) &#183; consistent facts everywhere (3)</span></div>
+    <div class="ct-in"><input type="number" min="0" max="14" step="1" data-max="14" id="s4" aria-label="AEO readiness score out of 14"><em>/14</em></div></div>
+
+  <div class="ct-row"><div class="lab"><b>Citations / directories</b>
+    <span>NAP identical across the top 10 directories (5) &#183; Apple Business Connect (2) &#183;
+    Bing Places (2)</span></div>
+    <div class="ct-in"><input type="number" min="0" max="9" step="1" data-max="9" id="s5" aria-label="Citations score out of 9"><em>/9</em></div></div>
+
+  <div class="ct-row"><div class="lab"><b>Measurement</b>
+    <span>GA4 installed (2) &#183; Search Console verified (2) &#183; call tracking or a unique tracked
+    number (1)</span></div>
+    <div class="ct-in"><input type="number" min="0" max="5" step="1" data-max="5" id="s6" aria-label="Measurement score out of 5"><em>/5</em></div></div>
+
+  <div class="ct-out">
+    <div class="tot"><span id="total">0</span><em>/100</em></div>
+    <div class="band"><b id="bandName">Enter scores</b><span id="bandNote">Most clients land at 25&#8211;45 at intake.</span>
+      <div class="ct-track"><div class="ct-fill" id="fill"></div></div></div>
+  </div>
+</div>
+</div>
+
+<div class="tw"><table>
+<thead><tr><th class="num">Band</th><th>Reading</th><th>What we do</th></tr></thead>
+<tbody>
+<tr><td class="num">0&#8211;35</td><td><strong>Broken</strong></td><td>Fix fundamentals only. No content, no links.</td></tr>
+<tr><td class="num">36&#8211;60</td><td><strong>Typical SMB</strong></td><td>Big fast wins available &#8212; run Foundation in full.</td></tr>
+<tr><td class="num">61&#8211;80</td><td><strong>Competitive</strong></td><td>Push AEO and content.</td></tr>
+<tr><td class="num">81&#8211;100</td><td><strong>Strong</strong></td><td>Defend, then expand to adjacent cities and services.</td></tr>
+</tbody></table></div>
+<div class="col">
+  <p>Most clients score 25&#8211;45 at intake. Say so &#8212; it is reassuring, not insulting. The fixes are
+  cheap and the competitors are in the same shape.</p>
+</div>
+</section>
+
+<!-- 03 -->
+<section id="foundation">
+<div class="col">
+  <div class="phase-h"><span class="d">Phase 1 &#183; days 1&#8211;30</span><span class="t">Foundation</span><span class="g">Nearly all of the fast win lives here</span></div>
+  <h2 style="margin-top:26px"><span class="sn">03</span>Stop losing leads already earned</h2>
+  <p class="dek">No content, no links, no strategy decks. Just the fundamentals, in this order.</p>
+
+  <h3>3.1 Google Business Profile &#8212; always first</h3>
+  <ol>
+    <li><strong>Claim and verify.</strong> If the login is lost, run reclamation before anything else.</li>
+    <li><strong>Primary category.</strong> The #1 individual Local Pack factor. Pick the most specific
+      accurate one &#8212; "HVAC contractor" beats "contractor", "Mexican restaurant" beats "restaurant".
+      Check what the top-3 map competitors use, then pick the one matching what the business actually
+      does most.</li>
+    <li><strong>Secondary categories.</strong> Every accurate one, no stuffing. Inaccurate categories
+      get profiles suspended.</li>
+    <li><strong>Services</strong>, each with a 2&#8211;3 sentence description containing the service name
+      and the city. This text feeds AI Overviews on local queries directly.</li>
+    <li><strong>Business description</strong>, 750 characters: what, who for, which cities, languages
+      served, one proof point.</li>
+    <li><strong>Photos:</strong> 10+ real ones &#8212; team, trucks, before/after, storefront, work in
+      progress. No stock.</li>
+    <li><strong>Hours</strong>, including holiday hours. Wrong hours is the most common cause of a bad
+      first review.</li>
+    <li><strong>Service areas</strong> set to real cities served, not a 200-mile fantasy radius.</li>
+    <li><strong>Attributes:</strong> "Spanish spoken", women-owned, veteran-owned, Latino-owned &#8212; set
+      every true one. These are filterable and they surface in AI answers about the business.</li>
+    <li><strong>Messaging and booking</strong> on, only if the owner will actually respond within an
+      hour.</li>
+    <li><strong>Weekly Google Post</strong> &#8212; Content360 can generate these from the client's content
+      calendar.</li>
+  </ol>
+  <div class="note"><span class="k">Bilingual note</span>
+  <p>GBP is one profile, one language. Put the primary market's language in the description, and cover
+  the second language via the "Spanish spoken" attribute, Spanish reviews, and a Spanish page on the
+  site.</p></div>
+
+  <h3>3.2 NAP consistency</h3>
+  <p>Even minor Name/Address/Phone discrepancies suppress local rankings. Write the one canonical NAP
+  string in the client file, then make these ten match it byte-for-byte:</p>
+  <p style="font-family:var(--mono);font-size:13px;color:var(--text-2);line-height:1.8">
+  Google Business Profile &#183; website footer &#183; Apple Business Connect &#183; Bing Places &#183; Facebook &#183; Yelp &#183;
+  Better Business Bureau &#183; industry directory (Angi / Thumbtack / HomeAdvisor) &#183; local Chamber of
+  Commerce &#183; Hispanic Chamber or local Latino business directory</p>
+  <p>Chamber and EDC listings are doubly valuable &#8212; Moil already holds those partnerships, so they are
+  a real delivery advantage, not a cold outreach task.</p>
+
+  <h3>3.3 Review engine &#8212; and the 150 threshold</h3>
+  <p>Below roughly 150 reviews per location, AI assistants rarely name a business in local
+  recommendations. This is the most under-appreciated fact in local AEO, and most SMBs are at 12.</p>
+  <h4>The system, not the ask</h4>
+  <ul>
+    <li>Trigger the request at the moment of delight &#8212; job completed, invoice paid, tech leaving.</li>
+    <li>One channel, one link. SMS with the direct GBP review link out-converts everything else.</li>
+    <li>Ask by name, from a person, in the customer's language.</li>
+    <li><strong>Respond to 100% of reviews within 48 hours.</strong> Responses are indexable text and
+      a ranking signal &#8212; and the response is where the service name and city legitimately belong.</li>
+    <li>Never gate, never incentivize, never bulk-import. A review-gating penalty undoes a year of
+      work.</li>
+    <li>Target: <strong>+8&#8211;15 reviews per month sustained</strong>, mixed EN/ES where the customer
+      base is mixed.</li>
+  </ul>
+  <div class="note"><span class="k">Math to show the client on day one</span>
+  <p>At 12 reviews and +10/month they cross 150 in about 14 months &#8212; and cross the "competitive
+  locally" line at roughly 50 in month four. Set that expectation immediately so month two doesn't
+  feel like failure.</p></div>
+
+  <h3>3.4 Website minimum viable structure</h3>
+  <p>Eight pages. Not more, until these eight are genuinely good.</p>
+</div>
+
+<div class="tw wide"><table>
+<thead><tr><th>Page</th><th>Must contain</th></tr></thead>
+<tbody>
+<tr><td><strong>Home</strong></td><td>H1 with primary service + primary city &#183; 40&#8211;60 word direct-answer block &#183; phone CTA above the fold &#183; 3 proof points &#183; links to every service page</td></tr>
+<tr><td><strong>Service page &#215; 3</strong></td><td>One per profitable service. What it is, what it costs (a range beats silence), how long it takes, service area, 3 FAQs, photos of real work</td></tr>
+<tr><td><strong>About</strong></td><td>Real owner name, real photo, years in business, licenses, certifications, languages. This is the E-E-A-T page</td></tr>
+<tr><td><strong>Service areas</strong></td><td>One section or page per city served, with genuinely local content &#8212; not a city-name find-and-replace</td></tr>
+<tr><td><strong>Reviews</strong></td><td>Embedded real reviews + link to GBP</td></tr>
+<tr><td><strong>Contact</strong></td><td>NAP, embedded map, hours, form, and a <code>tel:</code> link</td></tr>
+<tr><td><strong>FAQ</strong></td><td>10 real customer questions, matched 1:1 to <code>FAQPage</code> schema</td></tr>
+<tr><td><strong>Spanish mirror</strong></td><td>Where the customer base warrants it &#8212; see &#167;06</td></tr>
+</tbody></table></div>
+
+<div class="col">
+  <h4>Schema minimum</h4>
+  <p><code>LocalBusiness</code> or the right subtype &#8212; <code>HVACBusiness</code>, <code>Plumber</code>,
+  <code>Restaurant</code>, <code>HairSalon</code> &#8212; plus <code>Service</code> per service page,
+  <code>FAQPage</code> and <code>BreadcrumbList</code>. Include <code>areaServed</code>,
+  <code>openingHours</code>, <code>telephone</code>, <code>priceRange</code> and <code>sameAs</code>
+  for every profile from &#167;3.2. Include <code>aggregateRating</code> <strong>only</strong> if reviews
+  are genuinely displayed on the page.</p>
+  <h4>Speed</h4>
+  <p>LCP under 2.5s on mobile. One hero image, properly sized. No carousel. No chat widget that
+  blocks paint. Local buyers are on phones, and 81% of AI Overview queries are mobile.</p>
+
+  <h3>3.5 Measurement, installed before the work starts</h3>
+  <ul>
+    <li>GA4 plus the AI-Surfaces custom channel group (regex lives in Playbook 01 &#167;10)</li>
+    <li>Search Console verified, sitemap submitted</li>
+    <li>A tracked phone number, or at minimum GBP call history plus <code>tel:</code> click events as
+      key events</li>
+    <li>Baseline snapshot: GBP views, calls and direction requests &#183; review count &#183; current map rank
+      for the top 5 service+city terms</li>
+  </ul>
+  <div class="note warn"><span class="k">Why this is step zero, not step last</span>
+  <p>Without a day-0 baseline there is no month-3 report, and the engagement dies of
+  unprovability.</p></div>
+</div>
+</section>
+
+<!-- 04 -->
+<section id="momentum">
+<div class="col">
+  <div class="phase-h"><span class="d">Phase 2 &#183; days 31&#8211;90</span><span class="t">Momentum</span><span class="g">Now build the surfaces that earn rankings</span></div>
+  <h2 style="margin-top:26px"><span class="sn">04</span>Rankings, content and local AEO</h2>
+
+  <h3>4.1 Keyword set &#8212; small and honest</h3>
+  <p>Local SMBs need about 20 terms, not 2,000. Four shapes:</p>
+</div>
+<div class="tw wide"><table>
+<thead><tr><th>Shape</th><th>Example</th><th>Page</th></tr></thead>
+<tbody>
+<tr><td><code>service + city</code></td><td><code>ac repair austin</code></td><td>Service page or service-area section</td></tr>
+<tr><td><code>service + near me</code></td><td><code>emergency plumber near me</code></td><td>GBP + homepage</td></tr>
+<tr><td><code>service + qualifier</code></td><td><code>24 hour ac repair</code>, <code>same day drain cleaning</code></td><td>Service page section</td></tr>
+<tr><td><code>question</code></td><td><code>how much does ac repair cost in austin</code>, <code>why is my ac blowing warm air</code></td><td>Blog / FAQ</td></tr>
+<tr><td><code>Spanish</code></td><td><code>plomero cerca de m&#237;</code>, <code>reparaci&#243;n de aire acondicionado austin</code></td><td>Spanish page</td></tr>
+</tbody></table></div>
+<div class="col">
+  <p>Follow khasky's rule: search the term first, look at what Google actually returns, and match the
+  page type to the SERP. <strong>If the SERP is a map pack, the answer is GBP work &#8212; not a blog
+  post.</strong></p>
+
+  <div class="note"><span class="k">Order of operations &#8212; questions before volume</span>
+  <p>Build the client&#8217;s Q&amp;A list <em>before</em> touching a keyword tool. Ask the owner and
+  their techs: <strong>what do customers actually ask on the phone?</strong> Those questions, in the
+  customer&#8217;s own words, are the page structure. They are also almost always higher-intent than
+  anything a volume tool surfaces &#8212; a customer asking &#8220;why is my AC blowing warm air and
+  will it cost more than $500&#8221; is far closer to booking than one typing <code>ac repair</code>.</p>
+  <p>The 20-term set above then does exactly one job: choosing between two equally true phrasings, and
+  catching demand nobody thought to answer. It never sets the agenda. Volume tells you how many people
+  search a phrase; it cannot tell you which answer books the job. This is the same doctrine Playbook 01
+  runs on, and we hold clients to it because it is what works.</p></div>
+
+  <h4>The Q&amp;A build, per page</h4>
+  <ol>
+    <li><strong>Harvest 8&#8211;12 real questions</strong> per service page &#8212; from calls, texts,
+      and what techs get asked on site. Verbatim, in the customer&#8217;s words, in both languages
+      where the customer base is mixed.</li>
+    <li><strong>Answer each in 40&#8211;80 words</strong> under a question-shaped
+      <code>&lt;h2&gt;</code>, self-contained enough to survive being lifted into an AI answer.</li>
+    <li><strong>State real numbers</strong> &#8212; a price range, a timeframe, a warranty length.
+      Vague answers are unciteable.</li>
+    <li><strong>Reconcile with <code>FAQPage</code> schema</strong>: one source of truth between the
+      visible Q&amp;A and the JSON-LD.</li>
+  </ol>
+
+  <h3>4.2 Service-area pages without doorway spam</h3>
+  <p>The temptation is 40 city pages from one template. Google's helpful-content systems target
+  exactly that, and it fails.</p>
+  <div class="note no"><span class="k">The rule</span>
+  <p><strong>Five real pages beat forty templated ones.</strong> A service-area page earns its URL only
+  if it has at least three of: a named local job or case study &#183; a photo taken in that city &#183; a
+  neighborhood or landmark reference that is actually true &#183; city-specific pricing or permit and code
+  notes &#183; a review from a customer there &#183; a genuine local nuance (hard water, coastal humidity, HOA
+  rules, seasonal load).</p></div>
+  <p>Cadence: one city page per month, best city first. Expand only after the first one ranks.</p>
+
+  <h3>4.3 Content &#8212; four pieces a month, generated in Moil</h3>
+  <p>Content360 produces the 30-day calendar; the owner approves and adds the one thing AI cannot &#8212;
+  photos of real work and one specific detail from a real job.</p>
+</div>
+<div class="tw wide"><table>
+<thead><tr><th class="num">Slot</th><th>Type</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td class="num">1</td><td>Cost/pricing guide &#8212; <code>how much does X cost in {city}</code></td><td>Highest-intent question searches; the most-cited local content type</td></tr>
+<tr><td class="num">2</td><td>Problem/diagnostic post &#8212; <code>why is my X doing Y</code></td><td>Top of funnel, and genuinely useful in AI answers</td></tr>
+<tr><td class="num">3</td><td>Job story / before-after with real photos</td><td>Proof, E-E-A-T, GBP post and social from one shoot</td></tr>
+<tr><td class="num">4</td><td>Seasonal or local post</td><td>Freshness and local relevance</td></tr>
+</tbody></table></div>
+<div class="col">
+  <p>Plus one GBP post weekly, and the month's reviews responded to.</p>
+  <div class="note warn"><span class="k">Don&#8217;t let every client look identical</span>
+  <p>Flyer-style AI posts are effortless and they flood social &#8212; which is exactly the problem.
+  Used daily, they make every brand look the same, and that generic look is what Content360&#8217;s
+  varied templates exist to avoid. Two working rules: <strong>a flyer invites an action, daily content
+  is an image plus a caption</strong> &#8212; don&#8217;t use one for the other. And rotate genuinely
+  different templates (Addy has 40+) rather than reusing one. The differentiator that no competitor
+  can copy is the client&#8217;s own photos of their own work, so every piece should carry at least
+  one.</p></div>
+
+  <div class="note good"><span class="k">Publish the pricing content</span>
+  <p>Owners resist this. The counter-argument: AI assistants answer "how much does ac repair cost in
+  Austin" constantly, and they cite the businesses that state ranges. Silence means a competitor's
+  number gets quoted instead of ours.</p></div>
+
+  <h3>4.4 Local AEO &#8212; how an SMB gets named by ChatGPT and Gemini</h3>
+  <p>Local AI recommendations resolve mostly from <strong>entity strength, reviews and directory
+  consensus</strong> &#8212; not from clever on-page copy. In priority order:</p>
+  <ol class="gaps">
+    <li><b>Review volume and recency.</b> The ~150 threshold. The dominant local AEO lever.</li>
+    <li><b>Directory consensus.</b> The same NAP, category and services repeated across 10+ sources is
+      what the model reads as "this business exists and does this."</li>
+    <li><b>Consistent facts.</b> Hours, phone, services and languages identical everywhere.
+      Contradiction means the model declines to state the fact.</li>
+    <li><b>Extractable on-page answers.</b> 40&#8211;60 word direct answers under question-shaped H2s.
+      Service + city named explicitly in the first sentence.</li>
+    <li><b>Third-party mentions.</b> Local news, Chamber pages, supplier "find a dealer" pages, local
+      blogs, local subreddit and Facebook-group mentions.</li>
+    <li><b><code>LocalBusiness</code> schema</b> that matches the visible page exactly.</li>
+  </ol>
+  <div class="note warn"><span class="k">Skip for most clients</span>
+  <p><code>llms.txt</code>. No measurable lift, and an SMB's 40 minutes a week is better spent on
+  reviews. Add it only for clients with a real content library.</p></div>
+
+  <h4>Client AEO test &#8212; monthly, 10 minutes</h4>
+  <p>Ask each engine, in both languages where relevant:</p>
+  <pre><code>"Best {service} in {city}"
+"Who should I call for {problem} in {city}?"
+"{Service} in {city} that speaks Spanish"
+"Is {Business Name} any good?"
+"How much does {service} cost in {city}?"</code></pre>
+  <p>Log: named or not &#183; what it said &#183; who else got named. This screenshot is the single most
+  persuasive slide in the monthly report &#8212; and when a client first sees themselves named, retention
+  takes care of itself.</p>
+
+  <h3>4.5 Paid, only where it earns its keep</h3>
+  <p>Most of these clients should not run broad paid search. Three exceptions:</p>
+  <ol>
+    <li><strong>Google Local Services Ads</strong>, where the vertical is eligible &#8212; HVAC, plumbing,
+      electrical, cleaning, locksmith. Pay per lead, Google-guaranteed badge, sits above the map pack.
+      Almost always the best first paid dollar for a service business.</li>
+    <li><strong>Brand and competitor-brand search</strong>, tiny budget, only once the site converts.</li>
+    <li><strong>Emergency and urgent terms</strong> where the job is high-ticket and same-day
+      (<code>emergency ac repair</code>). Bid these during season only.</li>
+  </ol>
+  <p>Everything else &#8212; display, broad awareness campaigns, boosted posts &#8212; is where SMB ad budgets
+  die. Say no on the client's behalf. And per khasky: never use remarketing to mask a bad offer or a
+  phone nobody answers.</p>
+</div>
+</section>
+
+<!-- 05 -->
+<section id="compound">
+<div class="col">
+  <div class="phase-h"><span class="d">Phase 3 &#183; days 91&#8211;365</span><span class="t">Compounding</span><span class="g">Where the moat actually forms</span></div>
+  <h2 style="margin-top:26px"><span class="sn">05</span>Compounding levers</h2>
+</div>
+<div class="tw wide"><table>
+<thead><tr><th>Lever</th><th>What it is</th><th class="num">Cadence</th></tr></thead>
+<tbody>
+<tr><td><strong>Adjacent cities</strong></td><td>Next service-area page &#8212; only after the previous one ranks</td><td class="num">1/month</td></tr>
+<tr><td><strong>Adjacent services</strong></td><td>New service page for the next profitable offering</td><td class="num">1/quarter</td></tr>
+<tr><td><strong>Local link building</strong></td><td>Chamber, EDC, supplier dealer-locators, local sponsorships (youth sports, school fundraisers), local news, trade-association listings</td><td class="num">2/month</td></tr>
+<tr><td><strong>Original local data</strong></td><td>"We handled 340 AC calls in Austin last summer &#8212; here's what broke and what it cost." Genuinely citable, genuinely local, no competitor has it</td><td class="num">1/quarter</td></tr>
+<tr><td><strong>Video</strong></td><td>Phone-shot job walkthroughs on YouTube, EN + ES. YouTube dominates Gemini citations</td><td class="num">2/month</td></tr>
+<tr><td><strong>Reviews</strong></td><td>Never stops. Toward 150+, then keep going</td><td class="num">weekly</td></tr>
+<tr><td><strong>Hiring content</strong></td><td>Moil Smart Hiring turns recruiting into a content and local-authority asset: real job posts, careers page, "we're hiring" GBP posts</td><td class="num">ongoing</td></tr>
+<tr><td><strong>Reputation depth</strong></td><td>Photo reviews, GBP Q&amp;A section seeded with real customer questions</td><td class="num">monthly</td></tr>
+</tbody></table></div>
+<div class="col">
+  <div class="note good"><span class="k">Underrated</span>
+  <p>Local sponsorships. A $300 Little League sponsorship that yields a linked listing on a local
+  <code>.org</code> is worth more to a local business than most paid link opportunities &#8212; and it is
+  the kind of link competitors cannot buy at scale.</p></div>
+</div>
+</section>
+
+<!-- 06 -->
+<section id="bilingual">
+<div class="col">
+  <h2><span class="sn">06</span>Bilingual delivery</h2>
+  <p class="dek">Moil's structural advantage, and the most defensible part of the client offer.
+  There are 5M+ Hispanic-owned US businesses generating roughly $800B a year, and Latino-owned
+  employer businesses grew 35% from 2019&#8211;2024 against 6% nationally. Almost no local marketing
+  provider serves them in Spanish properly.</p>
+
+  <h4>Do</h4>
+  <ul>
+    <li>Real Spanish URLs &#8212; <code>/es/servicios</code> or <code>/servicios</code> &#8212; with reciprocal
+      <code>hreflang</code> and <code>x-default</code>.</li>
+    <li>Spanish keyword research from scratch. <em>Plomero</em> vs. <em>fontanero</em> vs.
+      <em>plomer&#237;a</em> varies by region and community: ask the client which word their customers use,
+      then verify against actual search results.</li>
+    <li>The GBP "Spanish spoken" attribute set, and a Spanish sentence in the business description
+      where the customer base is majority Spanish-speaking.</li>
+    <li>Solicit reviews in the customer's language. Spanish reviews are what make a business surface
+      for "que hable espa&#241;ol" queries &#8212; in both classic search and AI answers.</li>
+    <li>Spanish content in the Content360 calendar from month one, not as a later phase.</li>
+  </ul>
+
+  <h4>Don't</h4>
+  <ul>
+    <li>Machine-translate and ship. Bad Spanish reads as untrustworthy to exactly the audience it
+      targets.</li>
+    <li>Serve translated content on the same URL by cookie or JS swap. There must be a distinct,
+      crawlable URL per language, or neither version ranks.</li>
+    <li>Assume Spanish is secondary. For many of these businesses it is the primary market.</li>
+  </ul>
+</div>
+</section>
+
+<!-- 07 -->
+<section id="report">
+<div class="col">
+  <h2><span class="sn">07</span>Reporting &#8212; one page, in dollars</h2>
+  <p class="dek">SMB owners disengage from dashboards. Every month: one page, five blocks.</p>
+<pre><code>1. LEADS THIS MONTH        calls &#183; forms &#183; GBP messages &#183; direction requests
+                           vs. last month, vs. baseline
+
+2. WHERE THEY CAME FROM    Google Maps &#183; organic &#183; AI assistants &#183; direct &#183; paid
+                           (footnote: 35&#8211;70% of AI referrals show as Direct &#8212; this is a floor)
+
+3. VISIBILITY              map rank for the top 5 service+city terms
+                           review count vs. the 150 AI-citation threshold
+                           Local Visibility Scorecard: {n}/100, was {n}
+
+4. AI ANSWER CHECK         "Best {service} in {city}" &#8594; named? screenshot
+                           what the assistant said about the business
+
+5. NEXT MONTH              three things we're doing, one thing we need from you</code></pre>
+  <p>Then the sentence that matters, using the client's own numbers from &#167;02:</p>
+  <div class="note good"><span class="k">The line that renews the engagement</span>
+  <p>"{n} leads &#215; your {x}% close rate &#215; ${y} average ticket = <strong>$~{z} in attributable
+  work</strong>."</p></div>
+
+  <div class="note warn"><span class="k">Expectation-setting script for month 1</span>
+  <p>"GBP changes often move within 2&#8211;4 weeks. Website and review work compounds over 3&#8211;6 months.
+  Anyone promising page-one in 30 days is selling you the map pack you already own for free, or
+  lying."</p></div>
+</div>
+</section>
+
+<!-- 08 -->
+<section id="packaging">
+<div class="col">
+  <h2><span class="sn">08</span>Packaging</h2>
+  <p class="dek">Guidance, not final pricing. Anchor everything against the $3,000&#8211;$8,000/mo agency
+  retainer these businesses are quoted.</p>
+</div>
+<div class="tw wide"><table>
+<thead><tr><th>Tier</th><th>Who it's for</th><th>Delivered</th><th class="num">Client time</th></tr></thead>
+<tbody>
+<tr><td><strong>DIY</strong><br>Moil Professional, $25/mo</td><td>Owner willing to execute</td><td>Playbook + checklists + Content360 calendar + AI coach; owner does GBP and reviews</td><td class="num">~45 min/wk</td></tr>
+<tr><td><strong>Guided</strong><br>Moil + coaching</td><td>Owner who needs accountability</td><td>Foundation done <em>with</em> them in weeks 1&#8211;4, monthly scorecard review, content approved rather than written from scratch</td><td class="num">~30 min/wk</td></tr>
+<tr><td><strong>Done-with-you</strong><br>Market Pro + service</td><td>Multi-location or competitive market</td><td>Moil team executes Phase 1, owner executes Phase 2 with review, quarterly strategy</td><td class="num">~15 min/wk</td></tr>
+</tbody></table></div>
+<div class="col">
+  <div class="note no"><span class="k">Qualify out &#8212; honestly</span>
+  <p>Businesses with no phone coverage &#183; businesses that won't ask for reviews &#183; businesses wanting
+  national rankings for a local service &#183; anyone who needs results in 30 days from a score of 20/100.
+  Taking those engagements produces churn and bad reviews of Moil.</p></div>
+</div>
+</section>
+
+<!-- 09 -->
+<section id="checklist">
+<div class="col">
+  <h2><span class="sn">09</span>Delivery checklist</h2>
+  <p class="dek">The operational core &#8212; one pass per client. Ticks save in this browser, so this
+  is a working tracker, not a printout. Reset it when you start a new client.</p>
+
+  <div class="progress">
+    <div class="pct"><span id="pct">0</span><em>%</em></div>
+    <div class="lbl"><b id="plabel">Nothing started</b><span id="pnote">0 of 0 items complete</span>
+      <div class="ptrack"><div class="pfill" id="pfill"></div></div></div>
+  </div>
+  <p style="margin-top:-8px"><button class="reset" id="resetBtn" type="button">Reset for a new client</button></p>
+
+<details class="pack" open>
+  <summary>Week 0 &#8212; Intake <span class="cnt" data-count>0/7</span></summary>
+  <ul>
+    <li><label><input type="checkbox"><span>&#167;02 data collected, <b>including average ticket and close rate</b></span></label></li>
+    <li><label><input type="checkbox"><span>Scorecard scored, baseline screenshotted</span></label></li>
+    <li><label><input type="checkbox"><span>GBP access confirmed</span></label></li>
+    <li><label><input type="checkbox"><span>GA4 + Search Console + call tracking live</span></label></li>
+    <li><label><input type="checkbox"><span>Canonical NAP string written down</span></label></li>
+    <li><label><input type="checkbox"><span>Top 5 service+city terms chosen; day-0 map rank recorded</span></label></li>
+    <li><label><input type="checkbox"><span>Expectations set in writing (&#167;07 script)</span></label></li>
+  </ul>
+</details>
+
+<details class="pack">
+  <summary>Weeks 1&#8211;4 &#8212; Foundation <span class="cnt" data-count>0/13</span></summary>
+  <ul>
+    <li><label><input type="checkbox"><span>GBP: primary category verified against the top-3 competitors</span></label></li>
+    <li><label><input type="checkbox"><span>GBP: secondary categories, services + descriptions, 750-char description</span></label></li>
+    <li><label><input type="checkbox"><span>GBP: 10+ real photos, hours incl. holidays, service areas, all true attributes</span></label></li>
+    <li><label><input type="checkbox"><span>NAP identical across all 10 surfaces in &#167;3.2</span></label></li>
+    <li><label><input type="checkbox"><span>Review system live; first SMS batch sent; response SLA agreed</span></label></li>
+    <li><label><input type="checkbox"><span>All existing reviews responded to</span></label></li>
+    <li><label><input type="checkbox"><span>Homepage: H1 with service + city, direct-answer block, phone CTA above fold</span></label></li>
+    <li><label><input type="checkbox"><span>3 service pages live with pricing ranges</span></label></li>
+    <li><label><input type="checkbox"><span>About page with real owner name, photo, licenses, languages</span></label></li>
+    <li><label><input type="checkbox"><span>FAQ page, 10 real questions, matched to <code>FAQPage</code> schema</span></label></li>
+    <li><label><input type="checkbox"><span><code>LocalBusiness</code> schema with correct subtype, <code>areaServed</code>, <code>sameAs</code></span></label></li>
+    <li><label><input type="checkbox"><span>Mobile LCP under 2.5s verified</span></label></li>
+    <li><label><input type="checkbox"><span>Scorecard re-scored &#8212; target 60+</span></label></li>
+  </ul>
+</details>
+
+<details class="pack">
+  <summary>Q&amp;A build &#8212; run once per page, before any keyword tool <span class="cnt" data-count>0/8</span></summary>
+  <ul>
+    <li><label><input type="checkbox"><span>Owner and techs interviewed: <b>what do customers actually ask on the phone?</b> <span class="obj">Verbatim, in the customer's words</span></span></label></li>
+    <li><label><input type="checkbox"><span>Questions captured in both languages where the customer base is mixed</span></label></li>
+    <li><label><input type="checkbox"><span>8&#8211;12 questions assigned per service page &#8212; no page carries all of them</span></label></li>
+    <li><label><input type="checkbox"><span>Each answered in 40&#8211;80 words under a question-shaped <code>&lt;h2&gt;</code></span></label></li>
+    <li><label><input type="checkbox"><span>Every answer states a real number: price range, timeframe, or warranty length <span class="obj">Vague answers are unciteable</span></span></label></li>
+    <li><label><input type="checkbox"><span>Homepage carries a 40&#8211;60 word direct-answer block naming service + city</span></label></li>
+    <li><label><input type="checkbox"><span><code>FAQPage</code> schema reconciled 1:1 with the visible Q&amp;A</span></label></li>
+    <li><label><input type="checkbox"><span>Keyword tool consulted <b>last</b> &#8212; only to pick phrasing and catch missed demand <span class="obj">Never to decide whether a question earns a place</span></span></label></li>
+  </ul>
+</details>
+
+<details class="pack">
+  <summary>Weeks 5&#8211;12 &#8212; Momentum <span class="cnt" data-count>0/9</span></summary>
+  <ul>
+    <li><label><input type="checkbox"><span>20-term keyword set finalized against real SERPs</span></label></li>
+    <li><label><input type="checkbox"><span>Service-area page #1 live, passing the &#8805;3-real-signals test</span></label></li>
+    <li><label><input type="checkbox"><span>Content: 4 pieces/month shipping from the Content360 calendar</span></label></li>
+    <li><label><input type="checkbox"><span>Weekly GBP posts running</span></label></li>
+    <li><label><input type="checkbox"><span>Reviews: +8&#8211;15/month sustained, 100% responded</span></label></li>
+    <li><label><input type="checkbox"><span>Monthly AI answer check run and logged, both languages</span></label></li>
+    <li><label><input type="checkbox"><span>Local Services Ads live if the vertical is eligible</span></label></li>
+    <li><label><input type="checkbox"><span>Spanish page(s) live with reciprocal hreflang, where warranted</span></label></li>
+    <li><label><input type="checkbox"><span>Month-3 one-page report delivered in dollars; scorecard re-scored &#8212; target 75+</span></label></li>
+  </ul>
+</details>
+
+<details class="pack">
+  <summary>Ongoing &#8212; Compounding <span class="cnt" data-count>0/5</span></summary>
+  <ul>
+    <li><label><input type="checkbox"><span>1 service-area page/month &#8212; previous one ranking first</span></label></li>
+    <li><label><input type="checkbox"><span>2 local links/month</span></label></li>
+    <li><label><input type="checkbox"><span>2 videos/month, EN + ES</span></label></li>
+    <li><label><input type="checkbox"><span>1 original local data piece/quarter</span></label></li>
+    <li><label><input type="checkbox"><span>Quarterly: scorecard, keyword refresh, competitor check, pricing and facts refresh</span></label></li>
+  </ul>
+</details>
+</div>
+</section>
+
+<!-- 10 -->
+<section id="anti">
+<div class="col">
+  <h2><span class="sn">10</span>What we will not do to a client</h2>
+  <p class="dek">Each of these is a way SMB marketing money gets wasted, or a way a local business
+  loses its lead flow overnight.</p>
+  <ol class="gaps">
+    <li><b>Forty templated city pages.</b> The fastest way to get a small site classified as spam.</li>
+    <li><b>Buying, gating or incentivizing reviews.</b> A GBP suspension can end a local business's
+      lead flow overnight.</li>
+    <li><b>Broad paid search before the phone gets answered.</b> Fix operations first &#8212; ads amplify
+      whatever already exists, including "nobody picks up."</li>
+    <li><b>Keyword-stuffed GBP names</b> ("Joe's Plumbing | Best Plumber Austin TX"). It works until
+      the suspension.</li>
+    <li><b>Inaccurate GBP categories</b> chosen for volume rather than truth.</li>
+    <li><b>Machine-translated Spanish.</b> It signals disrespect to the exact audience it targets.</li>
+    <li><b>Reporting impressions to an owner who thinks in jobs.</b> Always dollars, always their
+      numbers.</li>
+    <li><b>Promising rankings.</b> Promise a system, a cadence and a scorecard.</li>
+    <li><b>Hiding the AI-attribution gap.</b> Say plainly that 35&#8211;70% of AI referrals are invisible
+      and that our numbers are floors.</li>
+    <li><b>Selling content volume to a client scoring 30/100.</b> Foundation first, every time.
+      Content on a broken foundation is the most common way SMB marketing money is wasted.</li>
+  </ol>
+</div>
+</section>
+
+<!-- 11 -->
+<section id="verticals">
+<div class="col">
+  <h2><span class="sn">11</span>Vertical annexes</h2>
+  <p class="dek">Same 90-day system. These are the deltas worth knowing before kickoff.</p>
+
+  <h3>HVAC &#183; plumbing &#183; electrical</h3>
+  <p>Seasonal demand spikes &#8212; pre-load content and ad budget six weeks ahead of season. Emergency
+  intent is high-ticket, so <code>24 hour</code>, <code>same day</code> and <code>emergency</code>
+  qualifiers matter more than volume terms. Local Services Ads are usually the best first paid dollar.
+  License numbers on-site are a real trust signal. Financing options answer a top AI question ("can I
+  finance a new AC?"). Manufacturer dealer-locator listings &#8212; Trane, Carrier, Lennox &#8212; are
+  high-authority local links most competitors never claim.</p>
+
+  <h3>Landscaping &#183; lawn &#183; cleaning</h3>
+  <p>Recurring-revenue framing beats one-off job framing. Before/after photos are the entire content
+  strategy. Neighborhood-level targeting outperforms city-level. Strongly Spanish-language market on
+  both the customer and the hiring side &#8212; Moil Smart Hiring plus bilingual content is a genuine
+  combined advantage here.</p>
+
+  <h3>Restaurants &#183; food</h3>
+  <p>GBP menu, ordering links and photo volume dominate. Reviews arrive fast and cut both ways, so
+  response speed is critical. <code>Restaurant</code> + <code>Menu</code> schema. Instagram and TikTok
+  matter more than blog content. AI answers about food lean heavily on review text and photos, so
+  photo volume is an AEO lever, not a vanity metric.</p>
+
+  <h3>Salons &#183; barbers &#183; personal care</h3>
+  <p>Booking-link friction is the whole conversion story. Individual stylist pages build person-level
+  E-E-A-T and rank for name searches. Photo reviews outperform text. <code>HairSalon</code> schema
+  plus <code>Service</code> per service with real prices.</p>
+
+  <h3>Auto repair</h3>
+  <p><code>service + make/model</code> is a large untapped long-tail
+  (<code>brake repair honda civic austin</code>). Diagnostic question content performs unusually well
+  in AI answers. Warranty and ASE certification signals are strong trust and E-E-A-T markers.</p>
+
+  <h3>Professional services &#8212; accounting, legal, insurance</h3>
+  <p>E-E-A-T is the binding constraint: real credentials, real bios, real bar or CPA numbers.
+  <code>Person</code> schema per practitioner. Higher content depth required than for trades.
+  Bilingual is a major differentiator &#8212; and note YMYL sensitivity: accuracy standards are higher and
+  mistakes cost more.</p>
+</div>
+</section>
+
+<!-- 12 -->
+<section id="sources">
+<div class="col src">
+  <h2><span class="sn">12</span>Sources</h2>
+
+  <h4>Local SEO ranking factors</h4>
+  <ul>
+    <li><a href="https://whitespark.ca/local-search-ranking-factors/">Whitespark 2026 Local Search Ranking Factors</a></li>
+    <li><a href="https://www.clickrank.ai/local-seo-ranking-factors/">Local SEO Ranking Factors 2026 &#8212; ClickRank</a></li>
+    <li><a href="https://www.pinmeto.com/blog/local-seo-ranking-factors-2026/">Local SEO Ranking Factors 2026 &#8212; PinMeTo</a></li>
+    <li><a href="https://www.pinmeto.com/blog/how-ai-changes-google-search-ranking/">How AI Changed Local Search Ranking &#8212; PinMeTo</a></li>
+    <li><a href="https://www.digitalapplied.com/blog/local-seo-2026-google-business-profile-ai-guide">Local SEO 2026: Google Business Profile AI Guide &#8212; DigitalApplied</a></li>
+    <li><a href="https://outpaceseo.com/article/local-seo-gbp/">Local SEO &amp; GBP Guide 2026 &#8212; OutpaceSEO</a></li>
+    <li><a href="https://lanternrow.com/blog/google-business-profile-optimization-for-local-service-businesses/">GBP Optimization for Local Service Businesses &#8212; LanternRow</a></li>
+  </ul>
+
+  <h4>AI search impact, AEO and measurement</h4>
+  <ul>
+    <li>See <strong>Playbook 01 &#167;13</strong> for the full list &#8212; the numbers in &#167;01 above are drawn
+      from it (Seer Interactive, Pew Research, Peec AI, Semrush, Princeton GEO, GA4 attribution
+      guides).</li>
+  </ul>
+
+  <h4>Structural model</h4>
+  <ul>
+    <li><a href="https://github.com/khasky/marketing-and-seo-playbook">khasky/marketing-and-seo-playbook</a>
+      &#8212; local SEO, technical SEO, content and link building, AI search &amp; GEO, attribution chapters</li>
+  </ul>
+
+  <h4>Market sizing</h4>
+  <ul>
+    <li>SBA Office of Advocacy + Stanford SLEI &#8212; 5M+ Hispanic-owned businesses, ~$800B/yr &#183;
+      UCLA Latino Policy &amp; Politics Institute &#8212; 35% growth 2019&#8211;2024 &#183;
+      OutboundEngine via SEJ &#8212; ~50% of small businesses have no marketing plan.
+      Carried forward from <code>research/strategy.md</code>.</li>
+  </ul>
+</div>
+
+<div class="col">
+<footer>
+  <span>Moil Playbook 02 &#183; Client delivery</span>
+  <span>Review quarterly</span>
+  <span>Last updated 2026-08-13</span>
+</footer>
+</div>
+</section>
+</main>
+</div>
+
+<script>
+(function(){
+  /* ---- section rail ---- */
+  var links = Array.prototype.slice.call(document.querySelectorAll('#nav a'));
+  var secs = links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  function mark(){
+    var y = window.scrollY + 140, best = 0;
+    for (var i = 0; i < secs.length; i++){ if (secs[i] && secs[i].offsetTop <= y) best = i; }
+    links.forEach(function(a, i){ a.classList.toggle('on', i === best); });
+  }
+  var queued = false;
+  window.addEventListener('scroll', function(){
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(function(){ mark(); queued = false; });
+  }, {passive:true});
+  mark();
+
+  /* ---- scorecard ---- */
+  var KEY = 'moil-client-scorecard';
+  var inputs = Array.prototype.slice.call(document.querySelectorAll('.ct-in input'));
+  var totalEl = document.getElementById('total');
+  var bandEl = document.getElementById('bandName');
+  var noteEl = document.getElementById('bandNote');
+  var fillEl = document.getElementById('fill');
+  var BANDS = [
+    [35, 'Broken', 'Fix fundamentals only. No content, no links.'],
+    [60, 'Typical SMB', 'Big fast wins available \u2014 run Foundation in full.'],
+    [80, 'Competitive', 'Push AEO and content.'],
+    [100, 'Strong', 'Defend, then expand to adjacent cities and services.']
+  ];
+  function store(){
+    var out = {};
+    inputs.forEach(function(i){ if (i.value !== '') out[i.id] = i.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(out)); } catch (e) {}
+  }
+  function score(){
+    var total = 0, any = false;
+    inputs.forEach(function(i){
+      var max = parseInt(i.dataset.max, 10);
+      var v = parseInt(i.value, 10);
+      if (isNaN(v)) return;
+      any = true;
+      if (v < 0) { v = 0; i.value = 0; }
+      if (v > max) { v = max; i.value = max; }
+      total += v;
+    });
+    totalEl.textContent = total;
+    fillEl.style.width = total + '%';
+    if (!any){
+      bandEl.textContent = 'Enter scores';
+      noteEl.textContent = 'Most clients land at 25\u201345 at intake.';
+      return;
+    }
+    for (var b = 0; b < BANDS.length; b++){
+      if (total <= BANDS[b][0]){
+        bandEl.textContent = BANDS[b][1];
+        noteEl.textContent = BANDS[b][2];
+        break;
+      }
+    }
+  }
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || '{}');
+    inputs.forEach(function(i){ if (saved[i.id] != null) i.value = saved[i.id]; });
+  } catch (e) {}
+  inputs.forEach(function(i){
+    i.addEventListener('input', function(){ score(); store(); });
+  });
+  score();
+
+  /* ---- checklists ---- */
+  var CKEY = 'moil-client-checklist';
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(CKEY) || '{}'); } catch (e) {}
+  var packs = Array.prototype.slice.call(document.querySelectorAll('details.pack'));
+  var allBoxes = [];
+  var pctEl = document.getElementById('pct');
+  var pfillEl = document.getElementById('pfill');
+  var plabelEl = document.getElementById('plabel');
+  var pnoteEl = document.getElementById('pnote');
+
+  function csave(){
+    try { localStorage.setItem(CKEY, JSON.stringify(state)); } catch (e) {}
+  }
+  function overall(){
+    if (!pctEl) return;
+    var done = allBoxes.filter(function(b){ return b.checked; }).length;
+    var total = allBoxes.length;
+    var pct = total ? Math.round(done / total * 100) : 0;
+    pctEl.textContent = pct;
+    pfillEl.style.width = pct + '%';
+    pnoteEl.textContent = done + ' of ' + total + ' items complete';
+    plabelEl.textContent = done === 0 ? 'Nothing started'
+      : done === total ? 'Engagement fully delivered'
+      : pct < 30 ? 'Intake and foundation'
+      : pct < 70 ? 'Foundation landing'
+      : 'Momentum and compounding';
+  }
+  packs.forEach(function(pack, pi){
+    var boxes = Array.prototype.slice.call(pack.querySelectorAll('input[type=checkbox]'));
+    var counter = pack.querySelector('[data-count]');
+    function sync(){
+      counter.textContent = boxes.filter(function(b){ return b.checked; }).length + '/' + boxes.length;
+    }
+    boxes.forEach(function(box, bi){
+      var id = pi + ':' + bi;
+      box.dataset.key = id;
+      if (state[id]) box.checked = true;
+      allBoxes.push(box);
+      box.addEventListener('change', function(){
+        state[id] = box.checked;
+        csave();
+        sync();
+        overall();
+      });
+    });
+    pack._sync = sync;
+    sync();
+  });
+  overall();
+
+  var resetBtn = document.getElementById('resetBtn');
+  if (resetBtn) resetBtn.addEventListener('click', function(){
+    allBoxes.forEach(function(b){ b.checked = false; state[b.dataset.key] = false; });
+    csave();
+    packs.forEach(function(p){ p._sync(); });
+    overall();
+  });
+})();
+</script>

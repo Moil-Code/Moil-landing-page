@@ -130,8 +130,12 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
         <div className="footer-bottom-logo">
           <a href="/business">
             <img
-              src="https://res.cloudinary.com/drlcisipo/image/upload/v1705704261/Website%20images/logo_gox0fw.png"
+              src="https://res.cloudinary.com/drlcisipo/image/upload/f_auto,q_auto,w_138/v1705704261/Website%20images/logo_gox0fw.png"
               alt="Moil Logo"
+              width={69}
+              height={32}
+              loading="lazy"
+              decoding="async"
               style={{ height: '32px', width: 'auto', filter: theme === 'dark' ? 'brightness(0) invert(1)' : 'none' }}
             />
           </a>

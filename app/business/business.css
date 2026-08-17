@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap');
+/* Inter is self-hosted via next/font in app/layout.tsx (--font-inter). A remote
+   @import here cost ~955 ms of render-blocking time on mobile. */
 
 /* ===================================================
    TOKENS
@@ -17,10 +18,10 @@
   --blue-dim: rgba(59,130,246,0.12);
   /* Every token maps to Inter so all text on /business and /business/pricing —
      nav, headlines, labels, body, footer — renders in a single font family. */
-  --mono: 'Inter', sans-serif;
-  --display: 'Inter', sans-serif;
-  --body: 'Inter', sans-serif;
-  --serif: 'Inter', sans-serif;
+  --mono: var(--font-inter, 'Inter'), sans-serif;
+  --display: var(--font-inter, 'Inter'), sans-serif;
+  --body: var(--font-inter, 'Inter'), sans-serif;
+  --serif: var(--font-inter, 'Inter'), sans-serif;
 }
 
 /* DARK */
@@ -446,7 +447,7 @@ nav.scrolled {
   top: 50%;
   aspect-ratio: 2 / 1;
   transform: translateY(-37%);
-  background: url('/demo-section-bg-dark.jpg') center / cover no-repeat;
+  background: url('/demo-section-bg-dark.webp') center / cover no-repeat;
   /* Match the dimming treatment used by the section footer waves. */
   opacity: 0.45;
   pointer-events: none;
@@ -454,7 +455,7 @@ nav.scrolled {
   mask-image: linear-gradient(to bottom, transparent 0%, #000 17%, #000 82%, transparent 100%);
 }
 [data-theme="light"] .demo-section__backdrop {
-  background-image: url('/demo-section-bg-light.jpg');
+  background-image: url('/demo-section-bg-light.webp');
   /* Dedicated light artwork can sit stronger on the pale surface, consistent
      with footer_*_light assets elsewhere on the Business page. */
   opacity: 0.7;
@@ -1775,13 +1776,13 @@ footer {
   flex-direction: column;
   background:
     linear-gradient(to top, rgba(6,8,13,0.98), rgba(6,8,13,0.86) 58%, rgba(6,8,13,0.48)),
-    url('/card_bg_1.jpg') center top / cover;
+    url('/card_bg_1.webp') center top / cover;
 }
 
 .pricing-page-shell .price-card.star {
   background:
     linear-gradient(to top, rgba(6,8,13,0.96), rgba(6,8,13,0.78) 56%, rgba(6,8,13,0.32)),
-    url('/card_bg_3.jpg') center top / cover;
+    url('/card_bg_3.webp') center top / cover;
 }
 
 .pricing-page-shell .price-list {
@@ -1792,7 +1793,7 @@ footer {
 [data-theme="light"] .pricing-page-shell .price-card.star {
   background:
     linear-gradient(to top, rgba(249,248,255,0.98), rgba(249,248,255,0.82) 58%, rgba(249,248,255,0.46)),
-    url('https://res.cloudinary.com/daudj5isi/image/upload/v1783442088/card_bg_1_light_zr3jvk.png') center top / cover;
+    url('https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1600/v1783442088/card_bg_1_light_zr3jvk.png') center top / cover;
 }
 
 @media (max-width: 960px) {
@@ -2069,16 +2070,16 @@ footer {
 .cap-card--wave .cap-card__body {
   padding: 28px 32px 32px;
 }
-.cap-card--w1 { background: linear-gradient(to top, rgba(6,8,13,0.96) 0%, rgba(6,8,13,0.82) 30%, rgba(6,8,13,0.32) 60%, transparent 86%), url('/chart.jpg') center top / cover; }
-.cap-card--w2 { background: linear-gradient(to top, rgba(6,8,13,0.96) 0%, rgba(6,8,13,0.82) 30%, rgba(6,8,13,0.32) 60%, transparent 86%), url('/document.jpg') center top / cover; }
-.cap-card--w3 { background: linear-gradient(to top, rgba(6,8,13,0.96) 0%, rgba(6,8,13,0.82) 30%, rgba(6,8,13,0.32) 60%, transparent 86%), url('https://res.cloudinary.com/daudj5isi/image/upload/v1783393118/canvas_vepl0c.png') center top / cover; }
+.cap-card--w1 { background: linear-gradient(to top, rgba(6,8,13,0.96) 0%, rgba(6,8,13,0.82) 30%, rgba(6,8,13,0.32) 60%, transparent 86%), url('/chart.webp') center top / cover; }
+.cap-card--w2 { background: linear-gradient(to top, rgba(6,8,13,0.96) 0%, rgba(6,8,13,0.82) 30%, rgba(6,8,13,0.32) 60%, transparent 86%), url('/document.webp') center top / cover; }
+.cap-card--w3 { background: linear-gradient(to top, rgba(6,8,13,0.96) 0%, rgba(6,8,13,0.82) 30%, rgba(6,8,13,0.32) 60%, transparent 86%), url('https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1600/v1783393118/canvas_vepl0c.png') center top / cover; }
 
 /* Light theme scrims — dedicated light-mode wave art. Because the art is already
    bright, the scrim is a soft bottom-anchored wash (keeps the dark card text
    legible) that lets the wave show through the upper two-thirds of the card. */
-[data-theme="light"] .cap-card--w1 { background: linear-gradient(to top, rgba(249,248,255,0.97) 0%, rgba(249,248,255,0.72) 26%, rgba(249,248,255,0.18) 56%, transparent 88%), url('https://res.cloudinary.com/daudj5isi/image/upload/v1783442089/chart_light_ozwbl8.png') center top / cover; }
-[data-theme="light"] .cap-card--w2 { background: linear-gradient(to top, rgba(249,248,255,0.97) 0%, rgba(249,248,255,0.72) 26%, rgba(249,248,255,0.18) 56%, transparent 88%), url('https://res.cloudinary.com/daudj5isi/image/upload/v1783442088/document_light_t3o6rb.png') center top / cover; }
-[data-theme="light"] .cap-card--w3 { background: linear-gradient(to top, rgba(249,248,255,0.97) 0%, rgba(249,248,255,0.72) 26%, rgba(249,248,255,0.18) 56%, transparent 88%), url('https://res.cloudinary.com/daudj5isi/image/upload/v1783458527/canvas_light_zubaw1.png') center top / cover; }
+[data-theme="light"] .cap-card--w1 { background: linear-gradient(to top, rgba(249,248,255,0.97) 0%, rgba(249,248,255,0.72) 26%, rgba(249,248,255,0.18) 56%, transparent 88%), url('https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1600/v1783442089/chart_light_ozwbl8.png') center top / cover; }
+[data-theme="light"] .cap-card--w2 { background: linear-gradient(to top, rgba(249,248,255,0.97) 0%, rgba(249,248,255,0.72) 26%, rgba(249,248,255,0.18) 56%, transparent 88%), url('https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1600/v1783442088/document_light_t3o6rb.png') center top / cover; }
+[data-theme="light"] .cap-card--w3 { background: linear-gradient(to top, rgba(249,248,255,0.97) 0%, rgba(249,248,255,0.72) 26%, rgba(249,248,255,0.18) 56%, transparent 88%), url('https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1600/v1783458527/canvas_light_zubaw1.png') center top / cover; }
 
 /* ─── Identity / co-founder — linear layout ──────────────────────────────────
    Centered heading + pull-quote, then real product screenshots (was a 2-column
@@ -2104,22 +2105,22 @@ footer {
 .cost-card.wave-old {
   background:
     linear-gradient(to bottom, rgba(6,8,13,0.95), rgba(6,8,13,0.9) 55%, rgba(6,8,13,0.78)),
-    url('/card_bg_1.jpg') center / cover;
+    url('/card_bg_1.webp') center / cover;
 }
 .cost-card.wave-new {
   background:
     linear-gradient(to bottom, rgba(6,8,13,0.9), rgba(6,8,13,0.8) 50%, rgba(6,8,13,0.52)),
-    url('/card_bg_3.jpg') center / cover;
+    url('/card_bg_3.webp') center / cover;
 }
 [data-theme="light"] .cost-card.wave-old {
   background:
     linear-gradient(to bottom, rgba(249,248,255,0.86), rgba(249,248,255,0.8) 55%, rgba(249,248,255,0.66)),
-    url('https://res.cloudinary.com/daudj5isi/image/upload/v1783442088/card_bg_1_light_zr3jvk.png') center / cover;
+    url('https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1600/v1783442088/card_bg_1_light_zr3jvk.png') center / cover;
 }
 [data-theme="light"] .cost-card.wave-new {
   background:
     linear-gradient(to bottom, rgba(249,248,255,0.82), rgba(249,248,255,0.74) 50%, rgba(249,248,255,0.5)),
-    url('https://res.cloudinary.com/daudj5isi/image/upload/v1783442088/card_bg_1_light_zr3jvk.png') center / cover;
+    url('https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1600/v1783442088/card_bg_1_light_zr3jvk.png') center / cover;
 }
 
 /* ─── Document Creation — full redesign over comment_bg ───────────────────────
@@ -2134,7 +2135,7 @@ footer {
   overflow: hidden;
   background:
     linear-gradient(to top, rgba(6,8,13,0.97) 0%, rgba(6,8,13,0.86) 28%, rgba(6,8,13,0.36) 58%, transparent 84%),
-    url('/comment_bg.jpg') center top / cover;
+    url('/comment_bg.webp') center top / cover;
   border-color: rgba(124, 58, 237, 0.25);
 }
 .cap-card--document .cap-card__body {
@@ -2143,7 +2144,7 @@ footer {
 [data-theme="light"] .cap-card--document {
   background:
     linear-gradient(to top, rgba(249,248,255,0.97) 0%, rgba(249,248,255,0.74) 28%, rgba(249,248,255,0.22) 58%, transparent 86%),
-    url('https://res.cloudinary.com/daudj5isi/image/upload/v1783442088/comment_bg_light_ppipey.png') center top / cover;
+    url('https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1600/v1783442088/comment_bg_light_ppipey.png') center top / cover;
 }
 
 /* ─── Wave button ────────────────────────────────────────────────────────────
@@ -2200,10 +2201,10 @@ footer {
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 42%, #000 86%, transparent 100%);
           mask-image: linear-gradient(to bottom, transparent 0%, #000 42%, #000 86%, transparent 100%);
 }
-.has-footer-1::after { background-image: url('/footer_1.jpg'); }
-.has-footer-2::after { background-image: url('/footer_2.jpg'); }
-.has-footer-3::after { background-image: url('/footer_3.jpg'); }
-.has-footer-4::after { background-image: url('/footer_4.jpg'); }
+.has-footer-1::after { background-image: url('/footer_1.webp'); }
+.has-footer-2::after { background-image: url('/footer_2.webp'); }
+.has-footer-3::after { background-image: url('/footer_3.webp'); }
+.has-footer-4::after { background-image: url('/footer_4.webp'); }
 /* Dim all wave images so text stays legible over the bright glow. */
 .has-footer-1::after,
 .has-footer-2::after,
@@ -2213,10 +2214,10 @@ footer {
 /* Light theme — dedicated light-mode footer waves. They read as soft brand
    glows on the pale background, so they can sit a touch stronger than the dark
    set without fighting the text above them. */
-[data-theme="light"] .has-footer-1::after { background-image: url('/footer_1_light.png'); }
-[data-theme="light"] .has-footer-2::after { background-image: url('/footer_2_light.png'); }
-[data-theme="light"] .has-footer-3::after { background-image: url('/footer_3_light.png'); }
-[data-theme="light"] .has-footer-4::after { background-image: url('/footer_4_light.png'); }
+[data-theme="light"] .has-footer-1::after { background-image: url('/footer_1_light.webp'); }
+[data-theme="light"] .has-footer-2::after { background-image: url('/footer_2_light.webp'); }
+[data-theme="light"] .has-footer-3::after { background-image: url('/footer_3_light.webp'); }
+[data-theme="light"] .has-footer-4::after { background-image: url('/footer_4_light.webp'); }
 [data-theme="light"] .has-footer-1::after,
 [data-theme="light"] .has-footer-2::after,
 [data-theme="light"] .has-footer-3::after,
@@ -2236,7 +2237,7 @@ footer {
   transform: translateX(-50%);
   width: 100vw;
   aspect-ratio: 1672 / 941;
-  background-image: url('/head_bg.png');
+  background-image: url('/head_bg.webp');
   background-position: center top;
   /* light override applied below */
   background-size: cover;
@@ -2249,7 +2250,7 @@ footer {
           mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 58%, transparent 100%);
 }
 [data-theme="light"] .has-head::before {
-  background-image: url('https://res.cloudinary.com/daudj5isi/image/upload/v1783442089/head_bg_light_thaton.png');
+  background-image: url('https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1600/v1783442089/head_bg_light_thaton.png');
 }
 
 /* ─── Footer → header blend ───────────────────────────────────────────────────
@@ -2321,7 +2322,7 @@ footer {
   border: 1px solid var(--border2);
   background:
     linear-gradient(to top, rgba(6,8,13,0.96) 0%, rgba(6,8,13,0.68) 42%, rgba(6,8,13,0.22) 100%),
-    url('/comment_bg.jpg') center / cover;
+    url('/comment_bg.webp') center / cover;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -2338,7 +2339,7 @@ footer {
 [data-theme="light"] .testi-card2 {
   background:
     linear-gradient(to top, rgba(249,248,255,0.95) 0%, rgba(249,248,255,0.62) 42%, rgba(249,248,255,0.2) 100%),
-    url('https://res.cloudinary.com/daudj5isi/image/upload/v1783442088/comment_bg_light_ppipey.png') center / cover;
+    url('https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1600/v1783442088/comment_bg_light_ppipey.png') center / cover;
 }
 @media (prefers-reduced-motion: reduce) { .testi-track { animation: none; } }
 

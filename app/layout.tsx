@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Bebas_Neue } from 'next/font/google';
+import { Bebas_Neue, Inter, Poppins } from 'next/font/google';
 import Script from 'next/script';
 
 import './globals.css';
@@ -8,7 +8,32 @@ import { SiteFooter } from '../src/common/components/SiteFooter';
 import CookieConsent from '../src/common/components/CookieConsent';
 import { baseURL1 } from '../src/common/constants/baseUrl';
 
-const bebas = Bebas_Neue({ weight: ['400'], subsets: ['latin'] });
+const bebas = Bebas_Neue({ weight: ['400'], subsets: ['latin'], display: 'swap' });
+
+// Inter and Poppins used to arrive via three `@import url(fonts.googleapis…)`
+// statements inside globals.css / business.css. A CSS `@import` of a remote
+// stylesheet is the worst case for render-blocking: the browser must download
+// our CSS, parse it, then open a second origin and download another stylesheet
+// before it can paint. Lighthouse costed that chain at ~955 ms on mobile.
+// next/font self-hosts the woff2 files from our own origin, inlines the
+// @font-face rules into the build's CSS, and preloads them, so the round trip
+// to fonts.googleapis.com / fonts.gstatic.com disappears entirely.
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
+// preload:false because Poppins is only referenced by /candidate and a couple of
+// shared widgets. Left on, next/font preloads all four weights at VeryHigh
+// priority on every route — 32 KB that /business never paints with.
+const poppins = Poppins({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-poppins',
+  preload: false,
+});
 
 export const metadata: Metadata = {
   title: {
@@ -115,7 +140,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth" data-theme="light" suppressHydrationWarning>
+    // The font *variable* classes must sit on <html>, not <body>: business.css
+    // builds its --body / --display / --mono tokens on `:root`, and a custom
+    // property referencing an undefined variable is invalid at computed-value
+    // time — which silently drops every font-family on the page to the Tailwind
+    // fallback stack. Keep them here so :root can resolve them.
+    <html lang="en" className={`scroll-smooth ${inter.variable} ${poppins.variable}`} data-theme="light" suppressHydrationWarning>
       <head>
         {/* Pre-paint theme restore. The server starts in light mode, then this
             blocking script applies a saved dark preference before the browser

@@ -118,9 +118,12 @@ export function BusinessNav({
       <a href={logoHref} className="nav-logo">
         {logo ?? (
           <img
-            src="https://res.cloudinary.com/drlcisipo/image/upload/v1705704261/Website%20images/logo_gox0fw.png"
+            src="https://res.cloudinary.com/drlcisipo/image/upload/f_auto,q_auto,w_138/v1705704261/Website%20images/logo_gox0fw.png"
             alt="Moil Logo"
             className="nav-logo-img"
+            width={69}
+            height={32}
+            fetchPriority="high"
             style={{
               height: '32px',
               width: 'auto',

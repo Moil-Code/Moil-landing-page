@@ -43,13 +43,13 @@ export default function DashboardQueryItem(props: any) {
             alt={`${props.employer} is looking for ${props.jobPosition}`}
           />
           <div className="flex-col justify-start items-start flex resp-width">
-            <p className="text-indigo-700 text-base leading-tight font-semibold font-['Poppins'] truncate w-full">
+            <p className="text-indigo-700 text-base leading-tight font-semibold font-poppins truncate w-full">
               {props.experienceLevel + " " + props.jobPosition}
             </p>
             <p className="leading-tight">
-              <span className="text-gray-600 text-[10px] font-medium font-['Poppins']">
+              <span className="text-gray-600 text-[10px] font-medium font-poppins">
               </span>
-              <span className="text-indigo-700 text-[10px] font-medium font-['Poppins'] notranslate">
+              <span className="text-indigo-700 text-[10px] font-medium font-poppins notranslate">
                 {` ${props.employer}`}
               </span>
             </p>
@@ -58,19 +58,19 @@ export default function DashboardQueryItem(props: any) {
         <div className="self-stretch h-16 flex-col justify-start items-start gap-2 flex">
           <div className="self-stretch justify-start items-center gap-2 inline-flex">
             <PositionSvg />
-            <p className="text-slate-800 text-opacity-80 text-[10px] font-medium font-['Poppins']">
+            <p className="text-slate-800 text-opacity-80 text-[10px] font-medium font-poppins">
               {props.jobPosition}
             </p>
           </div>
           <div className="self-stretch justify-start items-center gap-2 inline-flex">
             <JobTypeSvg />
-            <p className="text-slate-800 text-opacity-80 text-[10px] font-medium font-['Poppins']">
+            <p className="text-slate-800 text-opacity-80 text-[10px] font-medium font-poppins">
               {props.jobType}
             </p>
           </div>
           <div className="self-stretch justify-start items-center gap-2 inline-flex">
             <JobLocationSvg />
-            <p className="grow shrink basis-0 text-slate-800 text-opacity-80 text-[10px] font-medium font-['Poppins']">
+            <p className="grow shrink basis-0 text-slate-800 text-opacity-80 text-[10px] font-medium font-poppins">
               {props.JobLocation}
             </p>
           </div>
@@ -78,10 +78,10 @@ export default function DashboardQueryItem(props: any) {
         <div className="justify-start items-center gap-2 inline-flex">
           <RecruitmentDurationSvg />
           <div>
-            <span className="text-slate-800 text-opacity-80 text-[10px] font-medium font-['Poppins']">
+            <span className="text-slate-800 text-opacity-80 text-[10px] font-medium font-poppins">
               {recruitingUntilLabel}{" "}
             </span>
-            <span className="text-indigo-700 text-[10px] font-semibold font-['Poppins']">
+            <span className="text-indigo-700 text-[10px] font-semibold font-poppins">
               {props.recruitmentDuration}
             </span>
           </div>
@@ -92,7 +92,7 @@ export default function DashboardQueryItem(props: any) {
           className="grow shrink basis-0 h-[45px] px-5 py-3 bg-neutral-50 rounded-lg shadow border border-indigo-700 justify-center items-center gap-2.5 flex"
 
         >
-          <span className="text-center text-indigo-700 text-sm font-semibold font-['Poppins']">
+          <span className="text-center text-indigo-700 text-sm font-semibold font-poppins">
             {viewDetailsLabel}
           </span>
         </Link>

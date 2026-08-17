@@ -20,7 +20,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        'poppins': ['Poppins', 'sans-serif'],
+        'poppins': ['var(--font-poppins)', 'Poppins', 'sans-serif'],
+        'inter': ['var(--font-inter)', 'Inter', 'sans-serif'],
       },
       height: {
         'hero': 'calc(100vh - 84px)'

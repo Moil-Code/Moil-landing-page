@@ -148,7 +148,7 @@ const SelectLanguage = ({ setQueryLg, handleClick }: SelectLanguageProps) => {
             <button
               className={`border-2 ${
                 defaultLang === "English" ? "border-[#FF6633]" : "border-[#DCDCDC]"
-              } p-4 w-full md:w-[250px] rounded-lg text-gray-900 focus:ring-orange-400 focus:border-orange-400 font-['Poppins'] text-base flex items-center justify-between`}
+              } p-4 w-full md:w-[250px] rounded-lg text-gray-900 focus:ring-orange-400 focus:border-orange-400 font-poppins text-base flex items-center justify-between`}
               onClick={handleEnglishClick}
             >
               <div className="flex items-center">
@@ -166,7 +166,7 @@ const SelectLanguage = ({ setQueryLg, handleClick }: SelectLanguageProps) => {
             <button
               className={`md:mt-0 border-2 ${
                 defaultLang === "Spanish" ? "border-[#FF6633]" : "border-[#DCDCDC]"
-              } p-4 w-full md:w-[250px] rounded-lg text-gray-900 focus:ring-orange-400 focus:border-orange-400 font-['Poppins'] text-base flex items-center justify-between`}
+              } p-4 w-full md:w-[250px] rounded-lg text-gray-900 focus:ring-orange-400 focus:border-orange-400 font-poppins text-base flex items-center justify-between`}
               onClick={handleSpanishClick}
             >
               <div className="flex items-center">
