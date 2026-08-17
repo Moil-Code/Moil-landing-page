@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { cld } from '../../../src/common/utils/cloudinary';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -30,8 +31,10 @@ const CHAT_LIGHT = 'https://res.cloudinary.com/daudj5isi/image/upload/v178346038
  */
 export function JourneyVisual({ startAlt, chatAlt, theme }: JourneyVisualProps) {
   const root = useRef<HTMLDivElement>(null);
-  const startSrc = theme === 'dark' ? START_DARK : START_LIGHT;
-  const chatSrc = theme === 'dark' ? CHAT_DARK : CHAT_LIGHT;
+  // 1120 = the 560 CSS px slot at 2x DPR. The raw light-theme captures are
+  // ~1.3 MB PNGs; fetching those through the image optimizer times it out.
+  const startSrc = cld(theme === 'dark' ? START_DARK : START_LIGHT, 1120);
+  const chatSrc = cld(theme === 'dark' ? CHAT_DARK : CHAT_LIGHT, 1120);
 
   useEffect(() => {
     const el = root.current;

@@ -617,11 +617,11 @@ export function BusinessPageContent() {
           <div className="rv d2 bilingual-slider-slot">
             <BilingualSlider
               beforeSrc={theme === 'dark'
-                ? 'https://res.cloudinary.com/daudj5isi/image/upload/v1783980034/english_dark_j6vrg6.png'
-                : 'https://res.cloudinary.com/daudj5isi/image/upload/v1783980033/english_ligh_xd6o99.png'}
+                ? 'https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1200/v1783980034/english_dark_j6vrg6.png'
+                : 'https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1200/v1783980033/english_ligh_xd6o99.png'}
               afterSrc={theme === 'dark'
-                ? 'https://res.cloudinary.com/daudj5isi/image/upload/v1783980036/spanish_dark_edbhhv.png'
-                : 'https://res.cloudinary.com/daudj5isi/image/upload/v1783980038/spanish_ligh_uytrn5.png'}
+                ? 'https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1200/v1783980036/spanish_dark_edbhhv.png'
+                : 'https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1200/v1783980038/spanish_ligh_uytrn5.png'}
               beforeAlt={`Moil — ${t.business.bilingualSection.enLabel}`}
               afterAlt={`Moil — ${t.business.bilingualSection.esLabel}`}
               beforeLabel="EN"

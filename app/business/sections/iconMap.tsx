@@ -41,8 +41,10 @@ export const IconMap: Record<string, JSX.Element> = {
   arrowRight: <ArrowRight size={16} />,
 };
 
+// These render as 44x44 avatars, so ask Cloudinary for 88px (2x DPR) instead of
+// the raw uploads — Liliana's original is an 822 KB JPEG for a 44px circle.
 export const testimonialImages = [
-  'https://res.cloudinary.com/drlcisipo/image/upload/v1721818529/Website%20images/Luis_Vives_pleeyc.jpg',
-  'https://res.cloudinary.com/drlcisipo/image/upload/v1721818532/Website%20images/Liliana_Cervantes_g2gb0v.jpg',
-  'https://res.cloudinary.com/drlcisipo/image/upload/v1721818530/Website%20images/Miguel_Bustos_aktvri.jpg',
+  'https://res.cloudinary.com/drlcisipo/image/upload/f_auto,q_auto,w_88/v1721818529/Website%20images/Luis_Vives_pleeyc.jpg',
+  'https://res.cloudinary.com/drlcisipo/image/upload/f_auto,q_auto,w_88/v1721818532/Website%20images/Liliana_Cervantes_g2gb0v.jpg',
+  'https://res.cloudinary.com/drlcisipo/image/upload/f_auto,q_auto,w_88/v1721818530/Website%20images/Miguel_Bustos_aktvri.jpg',
 ];

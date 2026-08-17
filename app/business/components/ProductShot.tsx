@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 import type { ProductShotSource } from '../productShots';
+import { cld } from '../../../src/common/utils/cloudinary';
 
 interface ProductShotProps {
   /** Slot config from app/business/productShots.ts. */
@@ -74,7 +75,10 @@ export function ProductShot({
         <span className="product-shot__dot" style={{ background: '#27C93F' }} />
       </div>
       <Image
-        src={src}
+        // 1840 = the widest this slot is ever painted (920 CSS px per `sizes`)
+        // at 2x DPR. Without this the raw 3000 px export is fetched and
+        // re-encoded per request, which times out the image optimizer.
+        src={cld(src, 1840)}
         alt={alt}
         width={source.width}
         height={source.height}

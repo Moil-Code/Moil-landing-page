@@ -72,7 +72,7 @@ function BusinessPricingPageContent() {
         <div className="pricing-hero-art" aria-hidden="true">
           <Image src="/hero_bg.jpg" alt="" fill priority sizes="100vw" className="hero-bg-dark" />
           <Image
-            src="https://res.cloudinary.com/daudj5isi/image/upload/v1783442089/hero_bg_light_eeeazi.png"
+            src="https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1920/v1783442089/hero_bg_light_eeeazi.png"
             alt=""
             fill
             priority
