@@ -19,7 +19,7 @@ export default function TermsPage() {
     },
     {
       "heading": "3. Your Account",
-      "text": "To access most features you must create an account and provide accurate, current, and complete information. You are responsible for safeguarding your login credentials and for all activity that occurs under your account. Notify us immediately at contacto@moilapp.com if you suspect unauthorized use. You may register or sign in using a third-party provider (such as Google); your use of that provider remains subject to its own terms."
+      "text": "To access most features you must create an account and provide accurate, current, and complete information. You are responsible for safeguarding your login credentials and for all activity that occurs under your account. Notify us immediately at cs@moilapp.com if you suspect unauthorized use. You may register or sign in using a third-party provider (such as Google); your use of that provider remains subject to its own terms."
     },
     {
       "heading": "4. The Services",
@@ -31,7 +31,7 @@ export default function TermsPage() {
     },
     {
       "heading": "6. Cancellations & Refunds",
-      "text": "You may cancel your subscription at any time through your account settings or by contacting contacto@moilapp.com. Cancellation stops future renewals; you retain access until the end of your current paid period. Except where required by applicable law, payments are non-refundable and we do not provide refunds or credits for partial periods, unused features, or content already generated."
+      "text": "You may cancel your subscription at any time through your account settings or by contacting cs@moilapp.com. Cancellation stops future renewals; you retain access until the end of your current paid period. Except where required by applicable law, payments are non-refundable and we do not provide refunds or credits for partial periods, unused features, or content already generated."
     },
     {
       "heading": "7. Free Trials & Promotions",
@@ -91,7 +91,7 @@ export default function TermsPage() {
     },
     {
       "heading": "21. Dispute Resolution; Arbitration & Class-Action Waiver",
-      "text": "PLEASE READ THIS SECTION CAREFULLY—IT AFFECTS YOUR LEGAL RIGHTS. Except for small-claims matters and requests for injunctive relief to protect intellectual property, you and Moil agree to resolve any dispute arising out of or relating to these Terms or the Services through final and binding individual arbitration, rather than in court. You and Moil waive any right to a jury trial and to participate in a class, collective, or representative action. You may opt out of this arbitration agreement by emailing contacto@moilapp.com within 30 days of first accepting these Terms."
+      "text": "PLEASE READ THIS SECTION CAREFULLY—IT AFFECTS YOUR LEGAL RIGHTS. Except for small-claims matters and requests for injunctive relief to protect intellectual property, you and Moil agree to resolve any dispute arising out of or relating to these Terms or the Services through final and binding individual arbitration, rather than in court. You and Moil waive any right to a jury trial and to participate in a class, collective, or representative action. You may opt out of this arbitration agreement by emailing cs@moilapp.com within 30 days of first accepting these Terms."
     },
     {
       "heading": "22. Changes to These Terms",

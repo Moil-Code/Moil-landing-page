@@ -190,7 +190,7 @@ export default function RootLayout({
               "contactPoint": {
                 "@type": "ContactPoint",
                 "contactType": "customer service",
-                "email": "contacto@moilapp.com",
+                "email": "cs@moilapp.com",
                 "url": "https://www.moilapp.com"
               },
               // sameAs MUST exactly match the canonical URLs Google has indexed
