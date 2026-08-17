@@ -101,6 +101,26 @@ const nextConfig = {
       },
     ];
   },
+
+  async rewrites() {
+    // Same-origin fallback for the magnet. Client still prefers
+    // NEXT_PUBLIC_PLAN_API_ORIGIN; this only fires when that (or the
+    // server-only PLAN_API_ORIGIN) is set. No model call lives here.
+    const planOrigin = String(
+      process.env.PLAN_API_ORIGIN || process.env.NEXT_PUBLIC_PLAN_API_ORIGIN || "",
+    ).replace(/\/+$/, "");
+    if (!planOrigin) return [];
+    return [
+      {
+        source: "/plan/preview",
+        destination: `${planOrigin}/plan/preview`,
+      },
+      {
+        source: "/plan/preview/:slug",
+        destination: `${planOrigin}/plan/preview/:slug`,
+      },
+    ];
+  },
   webpack: config => {
     config.resolve.fallback = { fs: false, net: false, tls: false };
     config.externals.push("pino-pretty", "lokijs", "encoding");

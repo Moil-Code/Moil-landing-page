@@ -120,8 +120,12 @@ verbatim ("too many hats"), no jargon.
 
 ### CTAs (unified, used everywhere)
 - Primary: **"Start free — no credit card"** (same-tab to register)
-- Secondary: **"Try the AI co-founder"** (in-page anchor to live demo using
-  existing `app/api/demo/*` endpoints — no signup)
+- Secondary: **"Try the AI co-founder"** (in-page anchor to the live preview — no signup)
+
+  > Note: this originally proposed reusing the `app/api/demo/*` endpoints. Those are
+  > deleted — unauthenticated, unmetered model routes with no UI callers. The no-signup
+  > preview is served by the Moil backend instead, where the rate limits and spend
+  > ledgers already live. See CLAUDE.md → "AI endpoints".
 
 Kill: every `🚀` emoji in CTAs, every variant label, the YouTube `target="_blank"`.
 
