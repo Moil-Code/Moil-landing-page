@@ -3,11 +3,13 @@
 import { ReactNode } from 'react';
 
 type ButtonProps = {
-  href: string;
+  href?: string;
+  onClick?: () => void;
   children: ReactNode;
   className?: string;
   target?: string;
   rel?: string;
+  type?: 'button';
 };
 
 /**
@@ -36,15 +38,21 @@ export function PrimaryButton({ href, children, className = '', target, rel }: B
  * Tailwind reimplementation of `.btn-secondary` — outline pill that turns purple
  * on hover.
  */
-export function SecondaryButton({ href, children, className = '', target, rel }: ButtonProps) {
+const secondaryClass =
+  'inline-flex items-center justify-center gap-[9px] rounded-lg border border-[var(--border2)] bg-transparent px-[34px] py-[15px] text-[15px] font-medium tracking-[0.2px] text-[var(--text)] transition-all duration-[250ms] hover:-translate-y-0.5 hover:border-[var(--purple)] hover:bg-[var(--purple-dim)] hover:text-[var(--purple-light)]';
+
+export function SecondaryButton({ href, onClick, children, className = '', target, rel, type = 'button' }: ButtonProps) {
+  const cls = `${secondaryClass} ${className}`;
+  if (href) {
+    return (
+      <a href={href} target={target} rel={rel} onClick={onClick} className={cls}>
+        {children}
+      </a>
+    );
+  }
   return (
-    <a
-      href={href}
-      target={target}
-      rel={rel}
-      className={`inline-flex items-center justify-center gap-[9px] rounded-lg border border-[var(--border2)] bg-transparent px-[34px] py-[15px] text-[15px] font-medium tracking-[0.2px] text-[var(--text)] transition-all duration-[250ms] hover:-translate-y-0.5 hover:border-[var(--purple)] hover:bg-[var(--purple-dim)] hover:text-[var(--purple-light)] ${className}`}
-    >
+    <button type={type} onClick={onClick} className={cls}>
       {children}
-    </a>
+    </button>
   );
 }

@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
+import { PreviewMagnet } from '../components/PreviewMagnet';
 import gsap from 'gsap';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
@@ -146,14 +147,27 @@ export function HeroSection() {
         {t.business.hero.subheadline}
       </p>
 
-      {/* CTAs */}
-      <div data-hero-item className="relative z-[2] mb-[72px] flex flex-wrap justify-center gap-3 max-[960px]:flex-col max-[960px]:items-center">
+      {/* CTAs — primary stays signup. Secondary focuses the in-page magnet. */}
+      <div data-hero-item className="relative z-[2] mb-6 flex flex-wrap justify-center gap-3 max-[960px]:flex-col max-[960px]:items-center">
         <PrimaryButton href={appendLangToUrl('https://business.moilapp.com/register', lang)} rel="noreferrer">
           {t.business.hero.cta} <span>→</span>
         </PrimaryButton>
-        <SecondaryButton href="#journey">
+        <SecondaryButton
+          onClick={() => {
+            const el = document.getElementById('preview-magnet');
+            if (!el) return;
+            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+            const input = el.querySelector('input,button[type="submit"]') as HTMLElement | null;
+            input?.focus();
+          }}
+        >
           <span className="mr-1.5 inline-flex items-center">{IconMap.play}</span> {t.business.hero.ctaSecondary}
         </SecondaryButton>
+      </div>
+
+      <div data-hero-item className="relative z-[2] mb-[48px] w-full">
+        <PreviewMagnet />
       </div>
 
       {/* Trust strip */}

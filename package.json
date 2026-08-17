@@ -6,7 +6,8 @@
     "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:preview": "node --test evals/previewMagnet.test.js"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
