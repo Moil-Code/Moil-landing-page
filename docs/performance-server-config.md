@@ -110,11 +110,18 @@ production mobile should land well into the 80s/90s.
   loaded `afterInteractive` so it does not block render, but the intent tracking
   it is supposed to do is presumably not working. Someone should check the Apollo
   app id / account.
-- **`public/` still holds the pre-optimization originals** (`head_bg.png` 1.9 MB,
-  `footer_*_light.png` ~950 KB–1.1 MB each, `compare-claude-v2.png` 2.1 MB,
-  `compare-chatgpt-v2.png` 1.6 MB). Nothing references the ones that were replaced
-  by `.webp` any more, so ~7 MB can be deleted from the repo and the deploy
-  whenever you want to; they were left in place rather than deleted.
+- **The superseded originals have been deleted** — the 16 PNG/JPEG files replaced
+  by `.webp` are gone, taking `public/` from 12 MB to 5 MB. They remain in git
+  history if any need to come back.
+- **Still large and still referenced:** `compare-claude-v2.png` (2.1 MB) and
+  `compare-chatgpt-v2.png` (1.6 MB) on `/compare`, and `hero.png` (392 KB) on
+  `/legacy`. Not touched because they are live references on pages outside this
+  pass, but the same webp treatment would cut them by a similar margin.
+- **Unreferenced but not duplicates:** `testimonial-1/2/3.jpg` (92 KB total) have
+  no references anywhere in the source. Left in place — they look like content
+  awaiting use rather than dead weight. `llms.txt` and
+  `googlec0518d3a192e9d8e.html` are also unreferenced *by design* (fetched
+  directly by URL / Google Search Console verification); do not remove them.
 - **`/compare` still ships the two multi-MB comparison PNGs.** They were not part
   of this pass because they are not on `/business`, but the same webp treatment
   would cut them by a similar margin.
