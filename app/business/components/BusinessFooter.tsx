@@ -81,13 +81,9 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
         <div>
           <div className="footer-col-title">{t.footer.platform}</div>
           <div className="footer-links">
-            <a href="#capabilities">{t.footer.platformLinks.features}</a>
-            <a href="#journey">{t.footer.platformLinks.howItWorks}</a>
-            <a href="#hiring">{t.footer.platformLinks.smartHiring}</a>
-            <a href="#pricing">{t.footer.platformLinks.pricing}</a>
-            <a href={appendLangToUrl("https://business.moilapp.com/register", lang)} target="_blank" rel="noreferrer">
-              {t.footer.platformLinks.postAJob}
-            </a>
+            <a href="/business#capabilities">{t.footer.platformLinks.features}</a>
+            <a href="/business#journey">{t.footer.platformLinks.howItWorks}</a>
+            <a href="/business#pricing">{t.footer.platformLinks.pricing}</a>
             <a href={`/candidate?lg=${lang}`}>{t.footer.resourceLinks.forJobSeekers}</a>
           </div>
         </div>
@@ -95,7 +91,7 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
           <div className="footer-col-title">{t.footer.resources}</div>
           <div className="footer-links">
             <a href="https://blog.moilapp.com" target="_blank" rel="noreferrer">{t.footer.resourceLinks.blog}</a>
-            <a href={appendLangToUrl("https://moilapp.com/business", lang)} target="_blank" rel="noreferrer">{t.footer.resourceLinks.aboutUs}</a>
+            <a href="/about">{t.footer.resourceLinks.aboutUs}</a>
             <a href={appendLangToUrl("https://moilapp.com/contact", lang)} target="_blank" rel="noreferrer">{t.footer.resourceLinks.contact}</a>
             <a href="/privacy">{t.footer.resourceLinks.privacyPolicy}</a>
             <a href="/terms">{t.footer.resourceLinks.termsOfService}</a>
@@ -107,6 +103,9 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
           <div className="footer-links">
             <a href="/compare/moil-vs-chatgpt">Moil vs ChatGPT</a>
             <a href="/compare/moil-vs-claude">Moil vs Claude</a>
+            <a href="/compare/moil-vs-agency">Moil vs a marketing agency</a>
+            <a href="/compare/alternative-to-consultant">Moil vs a consultant</a>
+            <a href="/compare/bilingual-local-shop">Bilingual local shop</a>
           </div>
         </div>
         <div>
@@ -118,8 +117,8 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
             <a href={appendLangToUrl("https://moilapp.com/business", lang)} target="_blank" rel="noreferrer">
               {t.footer.getStartedLinks.login}
             </a>
-            <a href="#pricing">{t.business.pricing.professional.name} — $25/mo</a>
-            <a href="#pricing">{t.business.pricing.marketPro.name} — $75/mo</a>
+            <a href="/business#pricing">{t.business.pricing.professional.name} — $25/mo</a>
+            <a href="/business#pricing">{t.business.pricing.marketPro.name} — $75/mo</a>
           </div>
         </div>
       </div>

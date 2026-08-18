@@ -10,7 +10,6 @@ import {
   Languages,
   ShieldCheck,
   Sparkles,
-  UsersRound,
 } from 'lucide-react';
 import { BusinessFaqSection } from '../components/BusinessFaqSection';
 import { BusinessFinalCta } from '../components/BusinessFinalCta';
@@ -33,7 +32,6 @@ function BusinessPricingPageContent() {
   const navItems: NavItem[] = [
     { label: t.business.nav.features, href: '/business#capabilities' },
     { label: t.business.nav.howItWorks, href: '/business#journey' },
-    { label: t.business.nav.hiring, href: '/business#hiring' },
     { label: t.business.nav.pricing, href: '#pricing' },
     { label: t.common.blog, href: 'https://blog.moilapp.com', external: true },
   ];
@@ -42,7 +40,6 @@ function BusinessPricingPageContent() {
     { label: t.common.whatIsMoil, href: '/business#identity' },
     { label: t.business.nav.features, href: '/business#capabilities' },
     { label: t.business.nav.howItWorks, href: '/business#journey' },
-    { label: t.common.smartHiring, href: '/business#hiring' },
     { label: t.business.nav.pricing, href: '#pricing' },
     { label: t.common.blog, href: 'https://blog.moilapp.com', external: true },
   ];
@@ -130,7 +127,7 @@ function BusinessPricingPageContent() {
               {[
                 { icon: BarChart3, label: t.business.ticker.marketResearch },
                 { icon: FileText, label: t.business.ticker.businessPlan },
-                { icon: UsersRound, label: t.business.ticker.smartHiring },
+                { icon: Sparkles, label: t.business.ticker.coach },
                 { icon: Languages, label: t.business.ticker.bilingual },
               ].map(({ icon: Icon, label }) => (
                 <div className="pricing-capability" key={label}>

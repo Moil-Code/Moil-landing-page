@@ -133,6 +133,7 @@ export function HeroSection() {
         className="relative z-[2] mb-7 max-w-[1200px] text-[clamp(42px,6.6vw,84px)] font-bold uppercase leading-[0.96] tracking-[-0.05em] max-[960px]:text-[clamp(36px,8vw,60px)] max-[480px]:text-[clamp(30px,10vw,46px)]"
       >
         Meet the <span className="text-[var(--orange)]">AI co-founder</span>
+        {' '}
         <br />
         for your shop.
       </h1>
