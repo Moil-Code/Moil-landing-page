@@ -283,7 +283,7 @@ export default function ServicesShowcase({ refQuery, lgQuery }: ServicesShowcase
                   </div>
                   <div className="pt-3 md:pt-4 lg:pt-6 border-t border-white/20">
                     <div className="flex items-baseline gap-2 mb-2 md:mb-3 lg:mb-4">
-                      <div className="text-2xl md:text-3xl lg:text-5xl xl:text-6xl font-bold md:font-black text-white">$15</div>
+                      <div className="text-2xl md:text-3xl lg:text-5xl xl:text-6xl font-bold md:font-black text-white">$25</div>
                       <div className="text-white/80 text-sm font-medium">/ month</div>
                     </div>
                     <button

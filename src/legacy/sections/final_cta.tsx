@@ -81,7 +81,7 @@ export default function FinalCTA({ refQuery, lgQuery }: FinalCTAProps) {
                 </svg>
               </div>
               <h3 className="text-lg md:text-xl font-bold text-[#FF6633] mb-2 md:mb-3">Affordable Intelligence</h3>
-              <p className="text-gray-600 text-sm md:text-base leading-relaxed">Get a full business consultant, marketing agency, designer, and recruiter for $15/month. No setup fees, cancel anytime, 30-day money-back guarantee.</p>
+              <p className="text-gray-600 text-sm md:text-base leading-relaxed">Get a full business consultant, marketing agency, designer, and recruiter for $25/month. No setup fees, cancel anytime, 30-day money-back guarantee.</p>
             </div>
             
             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#FF6633]/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
