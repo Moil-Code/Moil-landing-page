@@ -83,7 +83,7 @@ export const es: TranslationKeys = {
       headline: 'Deja de usar',
       headlineHighlight1: 'mil sombreros.',
       headlineMiddle: 'Planifica, contrata y haz marketing para tu negocio',
-      headlineHighlight2: 'por $25 al mes.',
+      headlineHighlight2: 'por $15 al mes.',
       subheadline: 'Moil es tu co-fundador con IA — un cerebro que aprende tu marca y tu negocio y te lleva de una idea desordenada a la ejecución: investigación de mercado, contenido, estrategia, documentos y un coach 24/7. Totalmente bilingüe inglés y español.',
       cta: 'Empieza gratis — sin tarjeta',
       ctaSecondary: 'Prueba al co-fundador IA',
@@ -212,7 +212,7 @@ export const es: TranslationKeys = {
       moilPeriod: 'Por mes · Acceso instantáneo · Sin tarifas de configuración',
       moilList: [
         'Coaching e insights de IA instantáneos — ahora',
-        'Comienza desde solo $25/mes',
+        'Comienza desde solo $15/mes',
         'Personalizado para TU negocio, siempre',
         'Conversaciones y revisiones ilimitadas',
         'Integrado: investigación → plan → contenido → contratación',

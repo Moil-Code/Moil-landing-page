@@ -81,7 +81,7 @@ export const en = {
       headline: 'Stop wearing',
       headlineHighlight1: 'every hat.',
       headlineMiddle: 'Plan, hire, and market your business',
-      headlineHighlight2: 'for $25 a month.',
+      headlineHighlight2: 'for $15 a month.',
       subheadline: 'Moil is your AI co-founder — a brain that learns your brand and business and takes you from a messy idea to execution: market research, content, strategy, documents, and a 24/7 coach. Bilingual English & Spanish.',
       cta: 'Start free — no credit card',
       ctaSecondary: 'Try the AI co-founder',
@@ -210,7 +210,7 @@ export const en = {
       moilPeriod: 'Per month · Instant access · No setup fees',
       moilList: [
         'Instant AI coaching & insights — now',
-        'Starts at just $25/month',
+        'Starts at just $15/month',
         'Personalized to YOUR business, always',
         'Unlimited conversations & revisions',
         'Integrated: research → plan → content → hiring',
