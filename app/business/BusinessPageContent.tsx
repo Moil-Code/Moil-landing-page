@@ -108,7 +108,7 @@ export function BusinessPageContent() {
     { number: '06', time: t.business.journey.steps.step6.time, title: t.business.journey.steps.step6.title, desc: t.business.journey.steps.step6.desc },
   ];
 
-  const stats = [
+  const stats: { label: string; target: number; prefix?: string; suffix?: string }[] = [
     { label: 'Professional / month', target: 25, prefix: '$' },
     { label: 'Market Pro · full Moil360', target: 75, prefix: '$' },
     { label: 'English & Spanish', target: 2 },
