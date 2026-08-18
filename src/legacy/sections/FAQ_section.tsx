@@ -10,7 +10,7 @@ export default function FAQSection() {
   const FAQ = [
     {
       question: "What is Moil?",
-      answer: "Moil is your AI Business Coach—an intelligent co-founder that guides you through every stage of building and growing your business. From answering 21 strategic questions to conducting market research, creating business plans, generating marketing content, designing graphics, and hiring your team—all in one platform. It works via natural conversation in English or Spanish, available 24/7. Think of it as having a business consultant, marketing agency, designer, and recruiter in your pocket for $15/month."
+      answer: "Moil is your AI Business Coach—an intelligent co-founder that guides you through every stage of building and growing your business. From answering 21 strategic questions to conducting market research, creating business plans, generating marketing content, designing graphics, and hiring your team—all in one platform. It works via natural conversation in English or Spanish, available 24/7. Think of it as having a business consultant, marketing agency, designer, and recruiter in your pocket for $25/month."
     },
     {
       question: "How does the AI Business Coach work?",
@@ -30,7 +30,7 @@ export default function FAQSection() {
     },
     {
       question: "Is there a fee to use the AI Business Coach?",
-      answer: "Moil costs $15/month (or $140/year) and includes everything: unlimited AI coaching conversations, market research reports, business plan generation, marketing content creation (social posts, blogs, ads), AI image creation and editing, document generation (contracts, proposals, etc.), smart hiring with candidate matching, and bilingual support (EN/ES). Your first conversation with the AI Coach is completely free—no credit card required."
+      answer: "Moil plans start at $25/month (Professional) and $75/month (Market Pro). Plans include unlimited AI coaching conversations, market research reports, business plan generation, marketing content creation (social posts, blogs, ads), AI image creation and editing, document generation (contracts, proposals, etc.), smart hiring with candidate matching, and bilingual support (EN/ES). Your first conversation with the AI Coach is completely free—no credit card required."
     },
     {
       question: "How secure is my business data?",
@@ -46,7 +46,7 @@ export default function FAQSection() {
     },
     {
       question: "How is this different from traditional consultants?",
-      answer: "Traditional consultants cost $5,000-15,000, take weeks, and provide one-time deliverables with limited revisions. Your AI Business Coach costs $15/month, responds instantly, and provides unlimited guidance. More importantly, it connects your market research, business planning, and hiring into one intelligent system - consultants work in silos. You get 24/7 access to strategic advice that evolves with your business."
+      answer: "Traditional consultants cost $5,000-15,000, take weeks, and provide one-time deliverables with limited revisions. Your AI Business Coach costs $25/month, responds instantly, and provides unlimited guidance. More importantly, it connects your market research, business planning, and hiring into one intelligent system - consultants work in silos. You get 24/7 access to strategic advice that evolves with your business."
     }
   ];
   
