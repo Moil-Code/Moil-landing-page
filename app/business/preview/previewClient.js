@@ -19,8 +19,10 @@ function normalizeOrigin(raw) {
 }
 
 function getPlanApiOrigin(env) {
-	const src = env || (typeof process !== 'undefined' ? process.env : {});
-	return normalizeOrigin((src && src.NEXT_PUBLIC_PLAN_API_ORIGIN) || '');
+	const raw = env
+		? (env.NEXT_PUBLIC_PLAN_API_ORIGIN || '')
+		: (process.env.NEXT_PUBLIC_PLAN_API_ORIGIN || '');
+	return normalizeOrigin(raw);
 }
 
 function isPlanApiConfigured(origin) {
