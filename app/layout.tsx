@@ -37,30 +37,28 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Moil | AI Co-Founder for Small Business — Business Plan, Hiring & Growth',
+    default: 'Moil | AI Co-Founder for Local Shops — Plan & Moil360',
     template: '%s | Moil'
   },
-  description: 'Moil is the AI co-founder every small business deserves. Generate a business plan, run market research, build a content calendar, and hire top talent — all in one platform. Trusted by 500+ businesses.',
+  description: 'Moil is the AI co-founder for local shops. Research, plan, and coaching for $25 a month. The full Moil360 calendar is Market Pro, $75. English and Spanish. Moil Enterprise Inc., Buda, Texas.',
   keywords: [
+    'AI co-founder for local shops',
+    'Moil360',
     'AI business plan generator',
     'AI co-founder small business',
     'AI tools for small business',
     'business plan software',
     'AI market research tool',
     'small business growth platform',
-    'smart hiring software',
-    'AI recruiting tool',
     'content calendar AI',
     'competitor analysis tool',
     'AI business coach',
     'bilingual business platform',
     'SMB AI platform',
-    'job marketplace',
     'free business plan generator',
     'AI financial projections',
     'small business software Texas',
     'business automation tools',
-    'AI workforce solutions',
     'startup tools'
   ],
   authors: [{ name: 'Moil Enterprise Inc.', url: 'https://www.moilapp.com' }],
@@ -78,8 +76,8 @@ export const metadata: Metadata = {
   // override every page that doesn't override it, which is exactly the bug
   // that consolidated the homepage's SEO authority into /business.
   openGraph: {
-    title: 'Moil | AI Co-Founder for Small Business — Business Plan, Hiring & Growth',
-    description: 'The AI co-founder every small business deserves. Business plan, market research, content calendar, smart hiring — all in one platform. Trusted by 500+ SMBs.',
+    title: 'Moil | AI Co-Founder for Local Shops — Plan & Moil360',
+    description: 'Research, plan, and coaching for $25 a month. The full Moil360 calendar is Market Pro, $75. English and Spanish. Moil Enterprise Inc., Buda, Texas.',
     url: baseURL1,
     siteName: 'Moil',
     images: [
@@ -95,8 +93,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Moil | AI Co-Founder for Small Business — Business Plan, Hiring & Growth',
-    description: 'The AI co-founder every small business deserves. Business plan, market research, content calendar, smart hiring — all in one platform. Trusted by 500+ SMBs.',
+    title: 'Moil | AI Co-Founder for Local Shops — Plan & Moil360',
+    description: 'Research, plan, and coaching for $25 a month. The full Moil360 calendar is Market Pro, $75. English and Spanish. Moil Enterprise Inc., Buda, Texas.',
     images: ['/og-home.jpg'],
     creator: '@MoilApp',
     site: '@MoilApp',
@@ -168,8 +166,8 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              "name": "Moil",
-              "alternateName": "Moil Enterprise Inc.",
+              "name": "Moil Enterprise Inc.",
+              "alternateName": "Moil",
               "url": "https://www.moilapp.com",
               "logo": {
                 "@type": "ImageObject",
@@ -177,13 +175,13 @@ export default function RootLayout({
                 "width": 512,
                 "height": 512
               },
-              "description": "AI co-founder platform for small businesses. Generate business plans, run market research, build a 30-day content calendar, and hire top talent — all powered by AI.",
+              "description": "AI co-founder for local shops. Learns the business once, then writes the plan and a 30-day Moil360 calendar in English and Spanish. Not affiliated with MOIL Limited (India).",
               "foundingDate": "2023",
               "industry": "Business Software",
-              "numberOfEmployees": "11-50",
+              "numberOfEmployees": "2-10",
               "address": {
                 "@type": "PostalAddress",
-                "addressLocality": "Austin",
+                "addressLocality": "Buda",
                 "addressRegion": "TX",
                 "addressCountry": "US"
               },
@@ -208,8 +206,8 @@ export default function RootLayout({
               "offers": [
                 {
                   "@type": "Offer",
-                  "name": "Moil Business Growth Platform",
-                  "description": "AI-powered tools for market research, business plan generation, content marketing, and smart hiring. Starting at $25/month.",
+                  "name": "Moil Professional",
+                  "description": "AI co-founder for local shops: research, plan, coaching, and documents. $25 a month.",
                   "price": "25",
                   "priceCurrency": "USD",
                   "priceSpecification": {
@@ -222,11 +220,17 @@ export default function RootLayout({
                 },
                 {
                   "@type": "Offer",
-                  "name": "Moil Job Marketplace",
-                  "description": "Free job search platform connecting candidates with top employers",
-                  "price": "0",
+                  "name": "Moil Market Pro",
+                  "description": "Full Moil360 30-day calendar plus the AI co-founder. $75 a month.",
+                  "price": "75",
                   "priceCurrency": "USD",
-                  "category": "Employment Platform"
+                  "priceSpecification": {
+                    "@type": "UnitPriceSpecification",
+                    "price": "75",
+                    "priceCurrency": "USD",
+                    "billingDuration": "P1M"
+                  },
+                  "category": "Business Software"
                 }
               ]
             })
@@ -243,17 +247,7 @@ export default function RootLayout({
               "@type": "WebSite",
               "name": "Moil",
               "url": "https://www.moilapp.com",
-              "description": "AI co-founder platform for small businesses — business plan, market research, content calendar, smart hiring, and 24/7 AI coaching.",
-              "potentialAction": [
-                {
-                  "@type": "SearchAction",
-                  "target": {
-                    "@type": "EntryPoint",
-                    "urlTemplate": "https://www.moilapp.com/candidate/searchjob?title={search_term_string}"
-                  },
-                  "query-input": "required name=search_term_string"
-                }
-              ]
+              "description": "AI co-founder for local shops — research, plan, coaching, and Moil360 in English and Spanish.",
             })
           }}
         />

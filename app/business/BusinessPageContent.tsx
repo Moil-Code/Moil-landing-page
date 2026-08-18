@@ -40,7 +40,6 @@ export function BusinessPageContent() {
   const navItems: NavItem[] = [
     { label: t.business.nav.features, href: '#capabilities' },
     { label: t.business.nav.howItWorks, href: '#journey' },
-    { label: t.business.nav.hiring, href: '#hiring' },
     { label: t.business.nav.pricing, href: '#pricing' },
     { label: t.common.blog, href: 'https://blog.moilapp.com', external: true },
   ];
@@ -49,10 +48,8 @@ export function BusinessPageContent() {
     { label: t.common.whatIsMoil, href: '#demo' },
     { label: t.business.nav.features, href: '#capabilities' },
     { label: t.business.nav.howItWorks, href: '#journey' },
-    { label: t.common.smartHiring, href: '#hiring' },
     { label: t.business.nav.pricing, href: '#pricing' },
     { label: t.common.blog, href: 'https://blog.moilapp.com', external: true },
-    { label: t.common.switchToCandidate, href: '/candidate' },
   ];
 
   const tickerItems = [
@@ -61,8 +58,6 @@ export function BusinessPageContent() {
     t.business.ticker.content360,
     t.business.ticker.aiImage,
     t.business.ticker.aiVideo,
-    t.business.ticker.smartHiring,
-    t.business.ticker.candidateMatch,
     t.business.ticker.coach,
     t.business.ticker.documents,
     t.business.ticker.brandDna,
@@ -113,29 +108,10 @@ export function BusinessPageContent() {
     { number: '06', time: t.business.journey.steps.step6.time, title: t.business.journey.steps.step6.title, desc: t.business.journey.steps.step6.desc },
   ];
 
-  const hiringSteps = [
-    { num: '1', title: t.business.hiring.steps.step1.title, desc: t.business.hiring.steps.step1.desc },
-    { num: '2', title: t.business.hiring.steps.step2.title, desc: t.business.hiring.steps.step2.desc },
-    { num: '3', title: t.business.hiring.steps.step3.title, desc: t.business.hiring.steps.step3.desc },
-    { num: '4', title: t.business.hiring.steps.step4.title, desc: t.business.hiring.steps.step4.desc },
-  ];
-
-  const hiringStats = [
-    { label: t.business.hiring.stats.fasterThanIndeed, target: 2, suffix: ' Min' },
-    { label: t.business.hiring.stats.interviewSuccess, target: 95, suffix: '%' },
-    { label: t.business.hiring.stats.avgDaysToHire, target: 11 },
-    { label: t.business.hiring.stats.avgCostPerHire, target: 75, prefix: '$' },
-    { label: t.business.hiring.stats.retention90, target: 2400, prefix: '$' },
-    { label: t.business.hiring.stats.bilingualReach, target: 58, suffix: '%' },
-  ];
-
-  const stats = [
-    { label: t.business.statsSection.stats.businessesTrusting, target: 500, suffix: '+' },
-    { label: t.business.statsSection.stats.jobsPostedMonthly, target: 5000, suffix: '+' },
-    { label: t.business.statsSection.stats.interviewSuccessRate, target: 2, suffix: ' Min' },
-    { label: t.business.statsSection.stats.avgCostPerHire, target: 75, prefix: '$' },
-    { label: t.business.statsSection.stats.retention90, target: 11 },
-    { label: t.business.statsSection.stats.startingPrice, target: 25, prefix: '$' },
+  const stats: { label: string; target: number; prefix?: string; suffix?: string }[] = [
+    { label: 'Professional / month', target: 25, prefix: '$' },
+    { label: 'Market Pro · full Moil360', target: 75, prefix: '$' },
+    { label: 'English & Spanish', target: 2 },
   ];
 
   const bilingualHighlights = [
@@ -516,60 +492,6 @@ export function BusinessPageContent() {
       </section>
 
       <div className="divider"></div>
-
-      {/* HIRING */}
-      <section id="hiring" className="has-head">
-        <div className="section-tag rv">{t.business.hiring.tag}</div>
-        <h2 className="section-headline rv">
-          {t.business.hiring.headline}
-          <br />
-          <span style={{ color: 'var(--orange)' }}>{t.business.hiring.headlineHighlight1}</span> {t.business.hiring.headlineMiddle}{' '}
-          <span style={{ color: 'var(--purple-light)' }}>{t.business.hiring.headlineHighlight2}</span>
-        </h2>
-        <p className="section-sub rv">{t.business.hiring.subheadline}</p>
-
-        <div className="hiring-linear">
-          <div className="hiring-two-col">
-            <div className="hiring-shot rv d1">
-              <ProductShot
-                source={productShots.hiringCandidates}
-                alt={`Moil — ${t.business.hiring.candidateHeader}`}
-                theme={theme}
-                placeholderLabel="Hiring — candidate matches"
-              />
-            </div>
-
-            <div className="hiring-steps-col">
-              {hiringSteps.map((step, index) => (
-                <div key={`hstep-${index}`} className={`hstep hstep--wave rv ${index === 1 ? 'd1' : ''} ${index === 2 ? 'd2' : ''} ${index === 3 ? 'd3' : ''}`}>
-                  <div className="hnum">{step.num}</div>
-                  <div>
-                    <div className="hstep-title">{step.title}</div>
-                    <div className="hstep-desc">{step.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="hiring-stats rv">
-            {hiringStats.map((stat, idx) => (
-              <div className="h-stat" key={`hstat-${idx}`}>
-                <div className="h-stat-val" data-target={stat.target} data-prefix={stat.prefix} data-suffix={stat.suffix}>
-                  0
-                </div>
-                <div className="h-stat-lbl">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="rv" style={{ textAlign: 'center', marginTop: '48px' }}>
-            <a className="btn-primary" href={appendLangToUrl("https://business.moilapp.com/register", currentLang)} target="_blank" rel="noreferrer">
-              {t.business.hiring.startHiringCta}
-            </a>
-          </div>
-        </div>
-      </section>
 
       {/* STATS */}
       <div id="stats">

@@ -124,33 +124,31 @@ export function HeroSection() {
         className="relative z-[2] mb-[30px] inline-flex items-center gap-2 rounded-full border border-[rgba(255,92,26,0.22)] bg-[var(--orange-dim)] px-[18px] py-[7px] text-[10px] uppercase tracking-[1.5px] text-[var(--orange)]"
       >
         <span data-pulse className="h-1.5 w-1.5 rounded-full bg-[var(--orange)]" />
-        <span className="mr-1.5 inline-flex items-center">{IconMap.rocket}</span> {t.business.hero.eyebrow}
+        <span className="mr-1.5 inline-flex items-center">{IconMap.rocket}</span> AI co-founder · English &amp; Spanish · Buda, Texas
       </div>
 
-      {/* Headline */}
+      {/* Headline — Phase 1 AEO lock (verbatim) */}
       <h1
         data-hero-item
         className="relative z-[2] mb-7 max-w-[1200px] text-[clamp(42px,6.6vw,84px)] font-bold uppercase leading-[0.96] tracking-[-0.05em] max-[960px]:text-[clamp(36px,8vw,60px)] max-[480px]:text-[clamp(30px,10vw,46px)]"
       >
-        {t.business.hero.headline} <span className="text-[var(--orange)]">{t.business.hero.headlineHighlight1}</span>
+        Meet the <span className="text-[var(--orange)]">AI co-founder</span>
         <br />
-        {t.business.hero.headlineMiddle}
-        <br />
-        <span className="text-[var(--purple-light)]">{t.business.hero.headlineHighlight2}</span>
+        for your shop.
       </h1>
 
-      {/* Subheadline */}
+      {/* Subheadline — Phase 1 AEO lock (verbatim) */}
       <p
         data-hero-item
         className="relative z-[2] mb-11 max-w-[780px] text-[clamp(14px,2vw,18px)] font-light leading-[1.55] text-[var(--text)]"
       >
-        {t.business.hero.subheadline}
+        Research, plan, and coaching for $25 a month. The full Moil360 calendar is Market Pro, $75.
       </p>
 
       {/* CTAs — primary stays signup. Secondary focuses the in-page magnet. */}
       <div data-hero-item className="relative z-[2] mb-6 flex flex-wrap justify-center gap-3 max-[960px]:flex-col max-[960px]:items-center">
         <PrimaryButton href={appendLangToUrl('https://business.moilapp.com/register', lang)} rel="noreferrer">
-          {t.business.hero.cta} <span>→</span>
+          Start free, no card. <span>→</span>
         </PrimaryButton>
         <SecondaryButton
           onClick={() => {
@@ -170,14 +168,14 @@ export function HeroSection() {
         <PreviewMagnet />
       </div>
 
-      {/* Trust strip */}
+      {/* Trust strip — no 500+ / 4.8 / 11-day hiring proof */}
       <div data-hero-item className="relative z-[2] flex flex-wrap items-center justify-center gap-8">
         {[
-          { dot: 'var(--green)', label: t.business.hero.trust500 },
-          { dot: 'var(--orange)', label: t.business.hero.trust5000 },
-          { dot: 'var(--purple-light)', label: t.business.hero.trust94 },
-          { dot: 'var(--green)', label: t.business.hero.trustBilingual },
-          { dot: 'var(--orange)', label: t.business.hero.trustPrice },
+          { dot: 'var(--green)', label: 'Bilingual English & Spanish' },
+          { dot: 'var(--orange)', label: 'Professional $25' },
+          { dot: 'var(--purple-light)', label: 'Moil360 is Market Pro $75' },
+          { dot: 'var(--green)', label: 'Start free, no card' },
+          { dot: 'var(--orange)', label: 'Buda, Texas' },
         ].map((pill, i) => (
           <div
             key={i}

@@ -1,26 +1,34 @@
 # Moil
 
-> Moil is an AI co-founder for small businesses — a brain that learns your brand and business and takes you from a messy idea to execution. It runs your market research, creates your content, builds your strategy and documents, and coaches you 24/7 as you run and grow. Fully bilingual in English and Spanish. Plans start at $25/month and the first AI co-founder conversation is free. Trusted by 500+ small businesses, with Economic Development Corporation and Chamber of Commerce partnerships.
+> Moil is the AI co-founder for local shops. It learns the business once, then writes the plan and a 30-day Moil360 calendar in English and Spanish. Moil Enterprise Inc., Buda, Texas. Not a hiring platform. Not affiliated with MOIL Limited (India).
+
+Professional is $25 a month (research, plan, coaching, documents). The full Moil360 calendar is Market Pro, $75. Start free, no card.
 
 ## Core pages
-- [For Business](https://www.moilapp.com/business): AI business-plan generation, market research, Content360 marketing, and smart hiring for small-business owners.
-- [Pricing](https://www.moilapp.com/business/pricing): Professional ($25/mo) and Market Pro ($75/mo). 30-day money-back guarantee, no setup fees.
+- [For Business](https://www.moilapp.com/business): AI co-founder for local shops — research, plan, and coaching.
+- [Pricing](https://www.moilapp.com/business/pricing): Professional ($25/mo) and Market Pro ($75/mo, full Moil360 calendar).
 - [Para Empresas (Español)](https://www.moilapp.com/es/business): Spanish-language version of the business product.
-- [Content360 — Marketing](https://www.moilapp.com/marketing): AI content marketing — 30-day calendars, AI images and AI video.
-- [For Candidates](https://www.moilapp.com/candidate): Free, bilingual job marketplace.
-- [Search Jobs](https://www.moilapp.com/candidate/searchjob): Browse open roles.
+- [Moil360](https://www.moilapp.com/marketing): 30-day calendar — Market Pro, $75.
+- [Moil vs ChatGPT](https://www.moilapp.com/compare/moil-vs-chatgpt): How the AI co-founder differs from a blank chat.
+- [Moil vs Claude](https://www.moilapp.com/compare/moil-vs-claude): How the AI co-founder differs from a blank chat.
+- [Contact](https://www.moilapp.com/contact): Reach Moil Enterprise Inc.
 
 ## What Moil replaces
-- A business consultant ($5,000–$15,000 per engagement) — Moil delivers a plan plus the next 90 days of work.
-- A marketing agency retainer ($3,000–$8,000/month) — Content360 generates the calendar and the assets.
-- A standalone applicant tracking system (ZipRecruiter, Workable; $299+/month) — Smart Hiring turns a 2-minute job post into AI-ranked candidates (95% match accuracy); average time-to-hire is 11 days vs. the 83.5-day SMB benchmark (SHRM, 2025).
+- A business consultant ($5,000–$15,000 per engagement) — Moil writes the plan and coaches at $25 a month.
+- A marketing agency retainer ($3,000–$8,000/month) — Moil360 (Market Pro, $75) writes the 30-day calendar.
 
 ## Key facts
-- Pricing: from $25/month (Professional); $75/month (Market Pro). First AI conversation free, no credit card required.
+- Pricing: Professional $25/month (co-founder: research, plan, coaching, documents). Market Pro $75/month (full Moil360 calendar). First conversation free, no card.
 - Languages: English and Spanish (fully bilingual end to end).
-- Audience: small-business owners (1–20 employees), including the 5M+ Hispanic-owned U.S. businesses (SBA, 2024).
-- Company: Moil Enterprise Inc., founded 2023, Austin, Texas, USA.
+- Audience: local shops and small-business owners.
+- Company: Moil Enterprise Inc., founded 2023, Buda, Texas, USA.
+- Disambiguation: Not affiliated with MOIL Limited (India). Not a hiring platform.
+
+## Also
+- [For Candidates](https://www.moilapp.com/candidate): Job listings.
+- [Search Jobs](https://www.moilapp.com/candidate/searchjob): Browse open roles.
 
 ## More
 - [Privacy Policy](https://www.moilapp.com/privacy)
+- [Terms](https://www.moilapp.com/terms)
 - [Blog](https://blog.moilapp.com)
