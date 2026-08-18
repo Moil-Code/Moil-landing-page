@@ -197,7 +197,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
                     position: 'relative'
                   }}
                 >
-                  <PricingHeaderForPringItem refQuery={refQuery} lgQuery={lgQuery} flowId={head.flowId} allShow={allShow} plan={head.plan} originalPrice={head.originalPrice} limitedOffer={head.limitedOffer} price={head.price} cta={head.cta} />
+                  <PricingHeaderForPringItem refQuery={refQuery} lgQuery={lgQuery} flowId={head.flowId} allShow={allShow} plan={head.plan} originalPrice={head.originalPrice} price={head.price} cta={head.cta} />
                 </th>
               )
             })
@@ -249,7 +249,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
         {
           mobilePricingDetails.map((head, index) => {
             return (
-              <MobilePricingItem flowId={head.pricing_header.flowId} values={head.values} allShow={allShow} plan={head.pricing_header.plan} originalPrice={head.pricing_header.originalPrice} limitedOffer={head.pricing_header.limitedOffer} price={head.pricing_header.price} cta={head.pricing_header.cta} refQuery={refQuery} lgQuery={lgQuery} key={index} />
+              <MobilePricingItem flowId={head.pricing_header.flowId} values={head.values} allShow={allShow} plan={head.pricing_header.plan} originalPrice={head.pricing_header.originalPrice} price={head.pricing_header.price} cta={head.pricing_header.cta} refQuery={refQuery} lgQuery={lgQuery} key={index} />
             )
           })
         }
