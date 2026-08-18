@@ -512,23 +512,23 @@ export const es: TranslationKeys = {
     },
     testimonials: {
       tag: 'Dueños reales. Resultados reales.',
-      headline: 'Lo que 500+ dueños',
-      headlineHighlight: 'realmente construyeron con Moil.',
+      headline: 'Dueños,',
+      headlineHighlight: 'en sus palabras.',
       items: [
         {
           name: 'Luis Vives',
-          text: 'Publiqué una vacante y en horas conectamos con varios excelentes candidatos. Moil redujo lo que antes nos tomaba semanas a una sola tarde.',
-          role: 'Dueño de negocio · contratado en 3 días',
+          text: 'Le conté el negocio a Moil una vez. Escribió el plan y lo sigo usando cuando necesito el siguiente paso, en vez de empezar de cero.',
+          role: 'Dueño de negocio',
         },
         {
           name: 'Liliana Cervantes',
-          text: 'Excelente plataforma ya sea para buscar trabajo o para buscar trabajadores. La usamos para ambos lados de nuestro negocio — y el soporte bilingüe marca la diferencia.',
-          role: 'Dueña de PYME · contratación bilingüe',
+          text: 'Llevamos el negocio en inglés y en español. Moil mantiene el plan y el mes de publicaciones en los dos, no un PDF de una sola vez.',
+          role: 'Dueña de negocio · inglés y español',
         },
         {
           name: 'Miguel Bustos',
-          text: '100% recomendable. Moil me ayuda a encontrar empleados en el momento que necesito ayuda extra — sin publicar en 10 sitios distintos, sin candidatos fantasma.',
-          role: 'Negocio de servicios · 11 días para contratar',
+          text: 'Le pido a Moil el plan y el mes en vez de pagar un consultor. Ya conoce el negocio.',
+          role: 'Dueño de negocio de servicios',
         },
       ],
     },
