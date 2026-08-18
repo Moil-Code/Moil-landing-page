@@ -40,16 +40,41 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${baseUrl}/compare/moil-vs-chatgpt`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/compare/moil-vs-claude`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/contact`,
+      lastModified: today,
+      changeFrequency: 'yearly',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/terms`,
+      lastModified: today,
+      changeFrequency: 'yearly',
+      priority: 0.4,
+    },
+    {
+      // Demoted: hiring is not the lead product
       url: `${baseUrl}/candidate`,
       lastModified: today,
       changeFrequency: 'weekly',
-      priority: 0.9,
+      priority: 0.3,
     },
     {
       url: `${baseUrl}/candidate/searchjob`,
       lastModified: today,
       changeFrequency: 'daily',
-      priority: 0.8,
+      priority: 0.3,
     },
     {
       url: `${baseUrl}/marketing`,
