@@ -510,23 +510,23 @@ export const en = {
     },
     testimonials: {
       tag: 'Real owners. Real outcomes.',
-      headline: 'What 500+ owners',
-      headlineHighlight: 'actually built with Moil.',
+      headline: 'Owners,',
+      headlineHighlight: 'in their words.',
       items: [
         {
           name: 'Luis Vives',
-          text: 'I posted a position and within hours we connected with multiple great candidates. Moil cut what used to take us weeks down to a single afternoon.',
-          role: 'Business owner · hired in 3 days',
+          text: 'I told Moil the shop once. It wrote the plan and I keep using it when I need a next step, instead of starting from zero.',
+          role: 'Business owner',
         },
         {
           name: 'Liliana Cervantes',
-          text: 'Excellent platform whether you’re looking for a job or for workers. We use it for both sides of our business now — and the bilingual support is a real differentiator.',
-          role: 'SMB owner · bilingual hiring',
+          text: 'We run the shop in English and Spanish. Moil keeps the plan and the month of posts in both, not a one-time PDF.',
+          role: 'Business owner · English and Spanish',
         },
         {
           name: 'Miguel Bustos',
-          text: '100% recommendable. Moil helps me find employees the moment I need extra help — no posting to 10 different sites, no ghost candidates.',
-          role: 'Service business · 11 days to hire',
+          text: 'I ask Moil for the plan and the month instead of paying a consultant. It already knows the business.',
+          role: 'Service business owner',
         },
       ],
     },
