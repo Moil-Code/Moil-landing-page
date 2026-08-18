@@ -42,6 +42,16 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/es',
+        destination: '/es/business',
+        permanent: true,
+      },
+      {
+        source: '/es/',
+        destination: '/es/business',
+        permanent: true,
+      },
+      {
         source: '/compare/moil-vs-chatgp',
         destination: '/compare/moil-vs-chatgpt',
         permanent: true,

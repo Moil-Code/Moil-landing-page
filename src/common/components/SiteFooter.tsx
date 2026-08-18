@@ -32,6 +32,7 @@ type NavLink = { label: string; href: string; external?: boolean };
 
 const NAV_LINKS: readonly NavLink[] = [
   { label: 'Business', href: '/business' },
+  { label: 'About', href: '/about' },
   { label: 'Pricing', href: '/business/pricing' },
   { label: 'Marketing', href: '/marketing' },
   { label: 'Candidates', href: '/candidate' },
@@ -42,6 +43,9 @@ const NAV_LINKS: readonly NavLink[] = [
 const COMPARE_LINKS: readonly NavLink[] = [
   { label: 'Moil vs ChatGPT', href: '/compare/moil-vs-chatgpt' },
   { label: 'Moil vs Claude', href: '/compare/moil-vs-claude' },
+  { label: 'Moil vs a marketing agency', href: '/compare/moil-vs-agency' },
+  { label: 'Moil vs a consultant', href: '/compare/alternative-to-consultant' },
+  { label: 'Bilingual local shop', href: '/compare/bilingual-local-shop' },
 ];
 
 // Legal lives in the footer (organized), never the header. Both point to the
@@ -52,7 +56,7 @@ const LEGAL_LINKS: readonly NavLink[] = [
 ];
 
 // Section routes that ship their own footer — hide the global one there.
-const OWN_FOOTER_PREFIXES = ['/business', '/es/business', '/candidate', '/marketing', '/compare'];
+const OWN_FOOTER_PREFIXES = ['/business', '/es/business', '/candidate', '/marketing', '/compare', '/about'];
 
 export function SiteFooter() {
   const pathname = usePathname() || '/';

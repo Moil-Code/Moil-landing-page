@@ -104,8 +104,8 @@ export function BusinessPageContent() {
     { number: '02', time: t.business.journey.steps.step2.time, title: t.business.journey.steps.step2.title, desc: t.business.journey.steps.step2.desc },
     { number: '03', time: t.business.journey.steps.step3.time, title: t.business.journey.steps.step3.title, desc: t.business.journey.steps.step3.desc },
     { number: '04', time: t.business.journey.steps.step4.time, title: t.business.journey.steps.step4.title, desc: t.business.journey.steps.step4.desc },
-    { number: '05', time: t.business.journey.steps.step5.time, title: t.business.journey.steps.step5.title, desc: t.business.journey.steps.step5.desc },
-    { number: '06', time: t.business.journey.steps.step6.time, title: t.business.journey.steps.step6.title, desc: t.business.journey.steps.step6.desc },
+    // step5 was Smart Hiring — hiring is one footer line only.
+    { number: '05', time: t.business.journey.steps.step6.time, title: t.business.journey.steps.step6.title, desc: t.business.journey.steps.step6.desc },
   ];
 
   const stats: { label: string; target: number; prefix?: string; suffix?: string }[] = [
