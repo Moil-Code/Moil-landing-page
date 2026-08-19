@@ -2550,3 +2550,47 @@ footer {
 .t-text,
 .final-sub { line-height: 1.6; }
 .faq-a-inner { line-height: 1.65; }
+
+/* ── Direct answer block ──────────────────────────────────────────────────────
+   The self-contained "What is Moil?" paragraph. Assistants lift the first
+   coherent block of text on a page, so this is deliberately plain: real prose,
+   one idea, no marketing furniture around it to muddy the extraction. */
+.aeo-answer {
+  padding: 72px 24px;
+  display: flex;
+  justify-content: center;
+}
+.aeo-answer__inner {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: center;
+}
+.aeo-answer__label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin: 0;
+}
+.aeo-answer__body {
+  font-size: clamp(16px, 2.1vw, 19px);
+  line-height: 1.65;
+  color: var(--text);
+  font-weight: 300;
+  margin: 0;
+  text-wrap: pretty;
+}
+.aeo-answer__stamp {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin: 0;
+}
+@media (max-width: 960px) {
+  .aeo-answer { padding: 52px 20px; }
+}

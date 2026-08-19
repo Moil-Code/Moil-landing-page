@@ -7,7 +7,9 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "test:preview": "node --test evals/previewMagnet.test.js"
+    "test:preview": "node --test evals/previewMagnet.test.js",
+    "test": "node --test evals/*.test.js",
+    "test:positioning": "node --test evals/positioning.test.js"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

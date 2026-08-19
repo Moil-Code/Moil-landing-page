@@ -204,37 +204,35 @@ export const staticTranslations: Record<SupportedLanguage, Record<string, string
     // Navigation
     'nav.features': 'Features',
     'nav.howItWorks': 'How It Works',
-    'nav.hiring': 'Hiring',
-    'nav.pricing': 'Pricing',
+        'nav.pricing': 'Pricing',
     'nav.blog': 'Blog',
     'nav.switchToCandidate': 'Switch to Candidate',
     'nav.getStarted': 'Get Started',
     'nav.login': 'Log In',
 
     // Hero
-    'hero.eyebrow': 'Trusted by 500+ Businesses in Texas — AI-Powered from Day One',
+    'hero.eyebrow': 'The co-founder who handles what you never get to',
     'hero.headline1': 'The AI',
     'hero.headline2': 'Co-Founder',
     'hero.headline3': 'Every Small Business',
     'hero.headline4': 'Deserves.',
-    'hero.sub': 'One platform. 21 questions. Market research, business plan, 30-day content marketing, AI images + video, smart hiring, and a 24/7 business coach — all powered by AI that actually understands your business.',
+    'hero.sub': 'Moil learns your business once — what you sell, who buys, how you talk — then writes your month of content and keeps it coming. English and Spanish. From $25 a month.',
     'hero.cta.primary': 'Start With Your AI Co-Founder',
     'hero.cta.secondary': 'See What It Does',
 
     // Testimonials
     'testimonials.tag': 'Real Businesses. Real Results.',
-    'testimonials.headline': "500+ Businesses Can't Be Wrong.",
+    'testimonials.headline': 'Owners, in their words.',
 
     // Footer
-    'footer.tagline': 'The AI Co-Founder for small businesses. Market research, business planning, content marketing, AI visuals, smart hiring, and 24/7 coaching — one platform.',
+    'footer.tagline': 'Moil learns your small business once, then writes your marketing — research, plan, a 30-day content calendar, and coaching. English and Spanish.',
     'footer.copyright': '© 2026 MOIL. ALL RIGHTS RESERVED. · TEXAS-BORN. AI-POWERED.',
   },
   es: {
     // Navigation
     'nav.features': 'Características',
     'nav.howItWorks': 'Cómo Funciona',
-    'nav.hiring': 'Contratación',
-    'nav.pricing': 'Precios',
+        'nav.pricing': 'Precios',
     'nav.blog': 'Blog',
     'nav.switchToCandidate': 'Cambiar a Candidato',
     'nav.getStarted': 'Comenzar Gratis',

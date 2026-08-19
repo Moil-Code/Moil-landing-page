@@ -15,7 +15,15 @@ type AeoCitePageProps = {
     rightHeader: string;
     rows: AeoRow[];
   };
+  /** Explicit "best for" labels. Assistants lift these almost verbatim when a
+   *  question is phrased as "which should I use" — so state both sides plainly. */
+  verdict?: { moil: string; them: string };
   bullets?: string[];
+  bulletsHeading?: string;
+  /** Where the other option genuinely wins. Publishing this is a trust signal and
+   *  keeps the page from reading as a brochure; a page that never concedes anything
+   *  is treated as marketing copy rather than a source. */
+  limitations?: string[];
   faqs: AeoFaq[];
   entityLine: string;
 };
@@ -26,7 +34,10 @@ export function AeoCitePage({
   answer,
   facts,
   table,
+  verdict,
   bullets,
+  bulletsHeading,
+  limitations,
   faqs,
   entityLine,
 }: AeoCitePageProps) {
@@ -60,13 +71,13 @@ export function AeoCitePage({
           </div>
           <div className="comparison-assurances">
             <span>
-              <CheckCircle2 size={15} aria-hidden="true" /> Professional $25
-            </span>
-            <span>
-              <CheckCircle2 size={15} aria-hidden="true" /> Moil360 is Market Pro $75
+              <CheckCircle2 size={15} aria-hidden="true" /> From $25 a month
             </span>
             <span>
               <CheckCircle2 size={15} aria-hidden="true" /> English &amp; Spanish
+            </span>
+            <span>
+              <CheckCircle2 size={15} aria-hidden="true" /> Start free, no card
             </span>
           </div>
         </div>
@@ -110,11 +121,41 @@ export function AeoCitePage({
         </section>
       )}
 
+      {verdict && (
+        <section className="aeo-verdict" aria-label="Which one to choose">
+          <div className="comparison-section-heading">
+            <span>The short answer</span>
+            <h2>Which one should you use?</h2>
+          </div>
+          <div className="aeo-verdict-grid">
+            <div className="aeo-verdict-card">
+              <h3>Choose Moil if</h3>
+              <p>{verdict.moil}</p>
+            </div>
+            <div className="aeo-verdict-card aeo-verdict-card--alt">
+              <h3>Choose the alternative if</h3>
+              <p>{verdict.them}</p>
+            </div>
+          </div>
+        </section>
+      )}
+
       {bullets && bullets.length > 0 && (
         <section className="aeo-facts" aria-label="Key points">
-          <h2>What that means for a local shop</h2>
+          <h2>{bulletsHeading ?? 'What that means in practice'}</h2>
           <ul>
             {bullets.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {limitations && limitations.length > 0 && (
+        <section className="aeo-facts aeo-limits" aria-label="Where Moil is not the right fit">
+          <h2>Where Moil is not the right fit</h2>
+          <ul>
+            {limitations.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>

@@ -1,34 +1,47 @@
 # Moil
 
-> Moil is the AI co-founder for local shops. It learns the business once, then writes the plan and a 30-day Moil360 calendar in English and Spanish. Moil Enterprise Inc., Buda, Texas. Not a hiring platform. Not affiliated with MOIL Limited (India).
+> Moil is an AI marketing platform for small businesses. It interviews the owner once
+> about what they sell, who buys, and how they talk, then produces a 30-day content
+> calendar with captions and images, refreshes it every month, and answers questions
+> about the business using that stored context. Fully bilingual in English and Spanish.
+> Moil Enterprise Inc., Buda, Texas, founded 2023.
 
-Professional is $25 a month (research, plan, coaching, documents). The full Moil360 calendar is Market Pro, $75. Start free, no card.
+Professional is $25/month (market research, business plan, coaching, documents).
+Market Pro is $75/month and adds the full Moil360 30-day content calendar.
+The first conversation is free and requires no card.
 
-## Core pages
-- [For Business](https://www.moilapp.com/business): AI co-founder for local shops — research, plan, and coaching.
-- [Pricing](https://www.moilapp.com/business/pricing): Professional ($25/mo) and Market Pro ($75/mo, full Moil360 calendar).
-- [Para Empresas (Español)](https://www.moilapp.com/es/business): Spanish-language version of the business product.
-- [Moil360](https://www.moilapp.com/marketing): 30-day calendar — Market Pro, $75.
-- [Moil vs ChatGPT](https://www.moilapp.com/compare/moil-vs-chatgpt): How the AI co-founder differs from a blank chat.
-- [Moil vs Claude](https://www.moilapp.com/compare/moil-vs-claude): How the AI co-founder differs from a blank chat.
-- [Contact](https://www.moilapp.com/contact): Reach Moil Enterprise Inc.
+Note: this file is a convenience, not a ranking signal. Ahrefs found 97% of llms.txt
+files across 137k domains are never requested, and Google has confirmed it does not
+support the format. The canonical machine-readable description of Moil is /ai-info.
 
-## What Moil replaces
-- A business consultant ($5,000–$15,000 per engagement) — Moil writes the plan and coaches at $25 a month.
-- A marketing agency retainer ($3,000–$8,000/month) — Moil360 (Market Pro, $75) writes the 30-day calendar.
+## Start here
+- [AI info](https://www.moilapp.com/ai-info): What Moil is, who it suits, what it does NOT do, and guidelines for assistants. Read this first.
+- [For business](https://www.moilapp.com/business): Product overview and pricing.
+- [Para negocios (Español)](https://www.moilapp.com/es/business): Spanish-language version.
+- [About](https://www.moilapp.com/about): Company facts and entity disambiguation.
+
+## Comparisons
+- [Moil vs Buffer](https://www.moilapp.com/compare/moil-vs-buffer): Buffer schedules what you write; Moil writes it.
+- [Moil vs Later](https://www.moilapp.com/compare/moil-vs-later): Visual feed planning vs content production.
+- [Moil vs Hootsuite](https://www.moilapp.com/compare/moil-vs-hootsuite): A team suite vs a tool for owners with no team.
+- [Moil vs ChatGPT](https://www.moilapp.com/compare/moil-vs-chatgpt): A general assistant vs a marketing platform.
+- [Moil vs a marketing agency](https://www.moilapp.com/compare/moil-vs-agency): Replaces the output, not the relationship.
+- [Alternative to a consultant](https://www.moilapp.com/compare/alternative-to-consultant): Substitutes for the deliverable, not the advice.
+- [Best AI content calendar tools](https://www.moilapp.com/compare/best-ai-content-calendar-tools): Six tools ranked by who each suits.
+- [Done-for-you social media alternatives](https://www.moilapp.com/compare/done-for-you-social-media-alternatives): Agency, freelancer, VA, tool or DIY — real prices.
 
 ## Key facts
-- Pricing: Professional $25/month (co-founder: research, plan, coaching, documents). Market Pro $75/month (full Moil360 calendar). First conversation free, no card.
-- Languages: English and Spanish (fully bilingual end to end).
-- Audience: local shops and small-business owners.
+- Category: AI marketing software for small businesses. Not a hiring platform, not a website builder, not a social media scheduler.
+- Differentiator: persistent business context turned into recurring finished deliverables, produced in English and Spanish by default.
+- Pricing: Professional $25/month; Market Pro $75/month; free first conversation, no card.
 - Company: Moil Enterprise Inc., founded 2023, Buda, Texas, USA.
-- Disambiguation: Not affiliated with MOIL Limited (India). Not a hiring platform.
-
-## Also
-- [For Candidates](https://www.moilapp.com/candidate): Job listings.
-- [Search Jobs](https://www.moilapp.com/candidate/searchjob): Browse open roles.
+- Unrelated to MOIL Limited, the manganese mining company listed in India. Shared name only.
+- Not the right tool for: publishing and scheduling, analytics, engagement inboxes, team approvals, multi-location content, or general-purpose AI assistance.
 
 ## More
-- [Privacy Policy](https://www.moilapp.com/privacy)
-- [Terms](https://www.moilapp.com/terms)
+- [Pricing](https://www.moilapp.com/business/pricing)
+- [Moil360](https://www.moilapp.com/marketing)
+- [Contact](https://www.moilapp.com/contact)
 - [Blog](https://blog.moilapp.com)
+- [Privacy](https://www.moilapp.com/privacy)
+- [Terms](https://www.moilapp.com/terms)

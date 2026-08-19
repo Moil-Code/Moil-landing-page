@@ -24,6 +24,19 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // Retired comparison pages (Aug 2026). `bilingual-local-shop` baked the
+      // "shop" wording into a URL; `moil-vs-claude` was a near-duplicate of the
+      // ChatGPT page, which is the scaled-content pattern we are moving away from.
+      {
+        source: '/compare/bilingual-local-shop',
+        destination: '/compare/moil-vs-buffer',
+        permanent: true,
+      },
+      {
+        source: '/compare/moil-vs-claude',
+        destination: '/compare/moil-vs-chatgpt',
+        permanent: true,
+      },
       // Fix 2.6: 301 redirects for dead pages that are actively linked internally
       // and appear in GSC as 404 crawl errors
       {

@@ -124,32 +124,35 @@ export function HeroSection() {
         className="relative z-[2] mb-[30px] inline-flex items-center gap-2 rounded-full border border-[rgba(255,92,26,0.22)] bg-[var(--orange-dim)] px-[18px] py-[7px] text-[10px] uppercase tracking-[1.5px] text-[var(--orange)]"
       >
         <span data-pulse className="h-1.5 w-1.5 rounded-full bg-[var(--orange)]" />
-        <span className="mr-1.5 inline-flex items-center">{IconMap.rocket}</span> AI co-founder · English &amp; Spanish · Buda, Texas
+        <span className="mr-1.5 inline-flex items-center">{IconMap.rocket}</span> {t.business.hero.eyebrow}
       </div>
 
-      {/* Headline — Phase 1 AEO lock (verbatim) */}
+      {/* H1 carries the job in the owner's words — no "AI", no metaphor. The brand
+          frame ("co-founder") sits on the eyebrow above, and the machine-readable
+          category line lives in the answer block below the fold. Four surfaces,
+          four readers — research/seo-aeo-audit-and-plan.md section 4.5. */}
       <h1
         data-hero-item
         className="relative z-[2] mb-7 max-w-[1200px] text-[clamp(42px,6.6vw,84px)] font-bold uppercase leading-[0.96] tracking-[-0.05em] max-[960px]:text-[clamp(36px,8vw,60px)] max-[480px]:text-[clamp(30px,10vw,46px)]"
       >
-        Meet the <span className="text-[var(--orange)]">AI co-founder</span>
+        {t.business.hero.headline}
         {' '}
         <br />
-        for your shop.
+        <span className="text-[var(--orange)]">{t.business.hero.headlineHighlight}</span>
       </h1>
 
-      {/* Subheadline — Phase 1 AEO lock (verbatim) */}
+      {/* Subheadline — the mechanism, including the continuity that drives retention. */}
       <p
         data-hero-item
         className="relative z-[2] mb-11 max-w-[780px] text-[clamp(14px,2vw,18px)] font-light leading-[1.55] text-[var(--text)]"
       >
-        Research, plan, and coaching for $25 a month. The full Moil360 calendar is Market Pro, $75.
+        {t.business.hero.subheadline}
       </p>
 
       {/* CTAs — primary stays signup. Secondary focuses the in-page magnet. */}
       <div data-hero-item className="relative z-[2] mb-6 flex flex-wrap justify-center gap-3 max-[960px]:flex-col max-[960px]:items-center">
         <PrimaryButton href={appendLangToUrl('https://business.moilapp.com/register', lang)} rel="noreferrer">
-          Start free, no card. <span>→</span>
+          {t.business.hero.cta} <span>→</span>
         </PrimaryButton>
         <SecondaryButton
           onClick={() => {
@@ -169,20 +172,18 @@ export function HeroSection() {
         <PreviewMagnet />
       </div>
 
-      {/* Trust strip — no 500+ / 4.8 / 11-day hiring proof */}
+      {/* Trust strip — outcome claims only; nothing here asserts a number we cannot source. */}
       <div data-hero-item className="relative z-[2] flex flex-wrap items-center justify-center gap-8">
-        {[
-          { dot: 'var(--green)', label: 'Bilingual English & Spanish' },
-          { dot: 'var(--orange)', label: 'Professional $25' },
-          { dot: 'var(--purple-light)', label: 'Moil360 is Market Pro $75' },
-          { dot: 'var(--green)', label: 'Start free, no card' },
-          { dot: 'var(--orange)', label: 'Buda, Texas' },
-        ].map((pill, i) => (
+        {t.business.hero.trust.map((label, i) => (
           <div
-            key={i}
+            key={label}
             className="flex items-center gap-2 text-[10px] uppercase tracking-[1px] text-[var(--text)]"
           >
-            <span className="h-[5px] w-[5px] rounded-full" style={{ background: pill.dot }} /> {pill.label}
+            <span
+              className="h-[5px] w-[5px] rounded-full"
+              style={{ background: ['var(--green)', 'var(--orange)', 'var(--purple-light)', 'var(--green)'][i % 4] }}
+            />{' '}
+            {label}
           </div>
         ))}
       </div>

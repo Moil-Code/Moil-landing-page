@@ -37,12 +37,14 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Moil | AI Co-Founder for Local Shops — Plan & Moil360',
+    default: 'Moil | AI Marketing for Small Business — English & Spanish',
     template: '%s | Moil'
   },
-  description: 'Moil is the AI co-founder for local shops. Research, plan, and coaching for $25 a month. The full Moil360 calendar is Market Pro, $75. English and Spanish. Moil Enterprise Inc., Buda, Texas.',
+  description: 'Moil learns your small business once, then writes your marketing: a 30-day content calendar with captions and images that refreshes every month. Bilingual English and Spanish. From $25 a month.',
   keywords: [
-    'AI co-founder for local shops',
+    'AI marketing for small business',
+    'social media content calendar',
+    'done for you social media',
     'Moil360',
     'AI business plan generator',
     'AI co-founder small business',
@@ -76,7 +78,7 @@ export const metadata: Metadata = {
   // override every page that doesn't override it, which is exactly the bug
   // that consolidated the homepage's SEO authority into /business.
   openGraph: {
-    title: 'Moil | AI Co-Founder for Local Shops — Plan & Moil360',
+    title: 'Moil | AI Marketing for Small Business — English & Spanish',
     description: 'Research, plan, and coaching for $25 a month. The full Moil360 calendar is Market Pro, $75. English and Spanish. Moil Enterprise Inc., Buda, Texas.',
     url: baseURL1,
     siteName: 'Moil',
@@ -93,7 +95,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Moil | AI Co-Founder for Local Shops — Plan & Moil360',
+    title: 'Moil | AI Marketing for Small Business — English & Spanish',
     description: 'Research, plan, and coaching for $25 a month. The full Moil360 calendar is Market Pro, $75. English and Spanish. Moil Enterprise Inc., Buda, Texas.',
     images: ['/og-home.jpg'],
     creator: '@MoilApp',
@@ -175,7 +177,7 @@ export default function RootLayout({
                 "width": 512,
                 "height": 512
               },
-              "description": "AI co-founder for local shops. Learns the business once, then writes the plan and a 30-day Moil360 calendar in English and Spanish. Not affiliated with MOIL Limited (India).",
+              "description": "Moil builds AI marketing software for small businesses. It learns a business once, then writes a 30-day content calendar with captions and images, in English and Spanish.",
               "foundingDate": "2023",
               "industry": "Business Software",
               "numberOfEmployees": "2-10",
@@ -207,7 +209,7 @@ export default function RootLayout({
                 {
                   "@type": "Offer",
                   "name": "Moil Professional",
-                  "description": "AI co-founder for local shops: research, plan, coaching, and documents. $25 a month.",
+                  "description": "Market research, business plan, coaching and documents for a small business. $25 a month.",
                   "price": "25",
                   "priceCurrency": "USD",
                   "priceSpecification": {
@@ -247,7 +249,7 @@ export default function RootLayout({
               "@type": "WebSite",
               "name": "Moil",
               "url": "https://www.moilapp.com",
-              "description": "AI co-founder for local shops — research, plan, coaching, and Moil360 in English and Spanish.",
+              "description": "AI marketing for small business — a 30-day content calendar, market research, plan and coaching, in English and Spanish.",
             })
           }}
         />

@@ -1,0 +1,64 @@
+/* /ai-info — deliberately plain. This page is read far more often by machines
+   than by people, and heavy layout gets in the way of clean extraction. */
+.ai-info {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 120px 24px 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 52px;
+  color: var(--text);
+}
+.ai-info__head { display: flex; flex-direction: column; gap: 14px; }
+.ai-info__eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin: 0;
+}
+.ai-info h1 { margin: 0; font-size: clamp(30px, 5vw, 44px); line-height: 1.1; }
+.ai-info h2 {
+  margin: 0 0 18px;
+  font-size: 22px;
+  line-height: 1.25;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border2);
+}
+.ai-info__lede { margin: 0; font-size: 17px; line-height: 1.7; color: var(--text2); }
+.ai-info__stamp {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin: 0;
+}
+.ai-info__note { margin: 0 0 16px; color: var(--text2); line-height: 1.65; }
+.ai-info__dl { margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.ai-info__dl > div {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.ai-info__dl--stacked > div { grid-template-columns: 1fr; gap: 6px; }
+.ai-info__dl dt { font-weight: 600; margin: 0; }
+.ai-info__dl dd { margin: 0; color: var(--text2); line-height: 1.65; }
+.ai-info__list {
+  margin: 0;
+  padding-left: 1.15em;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  line-height: 1.65;
+  color: var(--text2);
+}
+.ai-info__list--limits { border-left: 2px solid var(--border2); padding-left: 1.5em; }
+.ai-info__list a { color: var(--orange); }
+@media (max-width: 640px) {
+  .ai-info { padding: 96px 20px 72px; }
+  .ai-info__dl > div { grid-template-columns: 1fr; gap: 6px; }
+}

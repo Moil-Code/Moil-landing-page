@@ -84,7 +84,7 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
             <a href="/business#capabilities">{t.footer.platformLinks.features}</a>
             <a href="/business#journey">{t.footer.platformLinks.howItWorks}</a>
             <a href="/business#pricing">{t.footer.platformLinks.pricing}</a>
-            <a href={`/candidate?lg=${lang}`}>{t.footer.resourceLinks.forJobSeekers}</a>
+            <a href="/ai-info">AI info</a>
           </div>
         </div>
         <div>
@@ -101,11 +101,13 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
         <div>
           <div className="footer-col-title">Compare</div>
           <div className="footer-links">
+            <a href="/compare/moil-vs-buffer">Moil vs Buffer</a>
+            <a href="/compare/moil-vs-later">Moil vs Later</a>
+            <a href="/compare/moil-vs-hootsuite">Moil vs Hootsuite</a>
             <a href="/compare/moil-vs-chatgpt">Moil vs ChatGPT</a>
-            <a href="/compare/moil-vs-claude">Moil vs Claude</a>
+            <a href="/compare/best-ai-content-calendar-tools">Best AI content calendar tools</a>
+            <a href="/compare/done-for-you-social-media-alternatives">Done-for-you social media</a>
             <a href="/compare/moil-vs-agency">Moil vs a marketing agency</a>
-            <a href="/compare/alternative-to-consultant">Moil vs a consultant</a>
-            <a href="/compare/bilingual-local-shop">Bilingual local shop</a>
           </div>
         </div>
         <div>

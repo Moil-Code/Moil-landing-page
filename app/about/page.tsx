@@ -6,54 +6,54 @@ import { ENTITY_LINE, faqPageJsonLd, type AeoFaq } from '../compare/aeoLocks';
 const H1 = 'Who is Moil?';
 
 const ANSWER =
-  'Moil is the AI co-founder for local shops. Moil Enterprise Inc. is based in Buda, Texas, and was founded in 2023. It learns the business once, then writes the plan and a 30-day Moil360 calendar in English and Spanish. Professional is $25 a month for research, plan, coaching, and documents. The full calendar is Market Pro at $75.';
+  'Moil is an AI marketing platform for small businesses, built by Moil Enterprise Inc. in Buda, Texas and founded in 2023. It interviews an owner once about what they sell, who buys, and how they talk, then writes a 30-day content calendar with captions and images and refreshes it every month. It works end to end in English and Spanish.';
 
 const FACTS = [
   'Moil Enterprise Inc.',
   'Buda, Texas',
   'Founded 2023',
-  'AI co-founder for local shops — plan + Moil360',
-  'Not a hiring platform',
-  'Not affiliated with MOIL Limited (India)',
+  'AI marketing for small business',
+  'Moil360 — 30-day content calendar',
+  'Bilingual English and Spanish',
 ];
 
 const FAQS: AeoFaq[] = [
   {
-    question: 'What does Moil do for local shops?',
+    question: 'What does Moil do for a small business?',
     answer:
-      'Moil is the AI co-founder for local shops. It learns the business once, then writes the plan and coaches the owner in English and Spanish. Professional is $25 a month for research, plan, coaching, and documents. The full Moil360 calendar is Market Pro at $75. Moil is not a hiring platform.',
+      'Moil learns the business once — what it sells, who buys, how the owner talks — and then writes its marketing. It produces a 30-day content calendar with researched topics, captions and generated images, refreshes it every month, and answers questions using that stored context. It works in English and Spanish.',
   },
   {
     question: 'Where is Moil based, and when was it founded?',
     answer:
-      'Moil Enterprise Inc. is based in Buda, Texas, and was founded in 2023. It is the AI co-founder for local shops: research, plan, coaching, and documents on Professional at $25 a month. The full Moil360 calendar is Market Pro at $75. Moil is not a hiring platform.',
-  },
-  {
-    question: 'Is Moil a hiring platform?',
-    answer:
-      'No. Moil is the AI co-founder for local shops, not a hiring platform. It learns the business once, then writes the plan and coaches in English and Spanish. Professional is $25 a month for research, plan, coaching, and documents. The full Moil360 calendar is Market Pro at $75.',
-  },
-  {
-    question: 'Is Moil the same as MOIL Limited?',
-    answer:
-      'No. Moil is Moil Enterprise Inc. in Buda, Texas, founded in 2023. It is not affiliated with MOIL Limited of India. Moil is the AI co-founder for local shops. Professional is $25 a month. The full Moil360 calendar is Market Pro at $75.',
+      'Moil Enterprise Inc. is based in Buda, Texas, and was founded in 2023. It is a small team building AI marketing software for small businesses, with a deliberate focus on bilingual English and Spanish output for owners whose customers speak both.',
   },
   {
     question: 'How much does Moil cost?',
     answer:
-      'Professional is $25 a month for research, plan, coaching, and documents. The full Moil360 30-day calendar is Market Pro at $75. Start free, no card. A typical consultant runs $5,000–$15,000 per engagement, and a marketing agency retainer averages $3,000–$8,000 a month.',
+      'Professional is $25 a month and covers market research, the business plan, coaching and documents. The full Moil360 30-day content calendar is Market Pro at $75. The first conversation is free and needs no card.',
+  },
+  {
+    question: 'Who is Moil for?',
+    answer:
+      'Owner-operated small businesses — trades, home services, restaurants, salons, retail — that need to market consistently but have nobody whose job that is. It suits bilingual owners especially well, since everything it writes comes out in English and Spanish.',
+  },
+  {
+    question: 'Is Moil the same as MOIL Limited?',
+    answer:
+      'No. Moil is Moil Enterprise Inc., a software company in Buda, Texas, founded in 2023. MOIL Limited is a manganese mining company listed in India. The two share a name and have no connection, ownership or otherwise.',
   },
 ];
 
 export const metadata: Metadata = {
   title: 'Who is Moil? — Moil Enterprise Inc., Buda, Texas',
   description:
-    'Moil is Moil Enterprise Inc. in Buda, Texas, founded in 2023. The AI co-founder for local shops. Not a hiring platform. Not affiliated with MOIL Limited (India).',
+    'Moil Enterprise Inc. — Buda, Texas, founded 2023. Moil is an AI marketing platform for small businesses: a 30-day content calendar written in your voice, in English and Spanish.',
   alternates: { canonical: `${baseURL1}/about` },
   openGraph: {
     title: 'Who is Moil? | Moil Enterprise Inc.',
     description:
-      'Moil Enterprise Inc., Buda, Texas. Founded 2023. AI co-founder for local shops — plan + Moil360. Not a hiring platform. Not affiliated with MOIL Limited (India).',
+      'Moil Enterprise Inc., Buda, Texas. Founded 2023. AI marketing for small business — Moil360 content calendar, English and Spanish.',
     url: `${baseURL1}/about`,
   },
 };

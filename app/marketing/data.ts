@@ -95,11 +95,11 @@ export const journeySteps: JourneyStep[] = [
   },
   {
     number: '05',
-    time: '2 MIN TO POST',
-    title: 'Smart Hiring & Team Building',
+    time: 'EVERY DELIVERABLE',
+    title: 'Bilingual by default',
     description:
-      'Post a job in about 2 minutes. AI scores every candidate on skills, location, experience, and language fit. 95% accuracy. 11-day average time to hire.',
-    outputs: ['2-Min Job Post', '95% Accuracy', 'Bilingual Matching', 'Auto-Screening'],
+      'Every caption, image prompt and calendar entry is produced in English and Spanish from the same brief, so a bilingual business stops maintaining two content workflows by hand.',
+    outputs: ['EN + ES Captions', 'Both Languages', 'One Brief', 'No Re-translation'],
   },
   {
     number: '06',
@@ -277,7 +277,7 @@ export const comparisonRows: ComparisonRow[] = [
     aiTool: 'x',
   },
   {
-    feature: 'Smart Hiring (AI Matching)',
+    feature: 'Bilingual EN/ES output',
     moil: 'check',
     consultant: 'x',
     aiTool: 'x',

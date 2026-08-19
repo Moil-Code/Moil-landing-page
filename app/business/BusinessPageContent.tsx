@@ -104,14 +104,15 @@ export function BusinessPageContent() {
     { number: '02', time: t.business.journey.steps.step2.time, title: t.business.journey.steps.step2.title, desc: t.business.journey.steps.step2.desc },
     { number: '03', time: t.business.journey.steps.step3.time, title: t.business.journey.steps.step3.title, desc: t.business.journey.steps.step3.desc },
     { number: '04', time: t.business.journey.steps.step4.time, title: t.business.journey.steps.step4.title, desc: t.business.journey.steps.step4.desc },
-    // step5 was Smart Hiring — hiring is one footer line only.
+    // step5 was Smart Hiring. Hiring left the business surface entirely in Aug 2026;
+    // /candidate is still live as its own product. See research/seo-aeo-audit-and-plan.md.
     { number: '05', time: t.business.journey.steps.step6.time, title: t.business.journey.steps.step6.title, desc: t.business.journey.steps.step6.desc },
   ];
 
   const stats: { label: string; target: number; prefix?: string; suffix?: string }[] = [
-    { label: 'Professional / month', target: 25, prefix: '$' },
-    { label: 'Market Pro · full Moil360', target: 75, prefix: '$' },
-    { label: 'English & Spanish', target: 2 },
+    { label: t.business.statsSection.stats.professional, target: 25, prefix: '$' },
+    { label: t.business.statsSection.stats.marketPro, target: 75, prefix: '$' },
+    { label: t.business.statsSection.stats.languages, target: 2 },
   ];
 
   const bilingualHighlights = [
@@ -153,6 +154,18 @@ export function BusinessPageContent() {
 
       {/* HERO — extracted to sections/HeroSection.tsx (Tailwind + GSAP) */}
       <HeroSection />
+
+      {/* DIRECT ANSWER — the self-contained paragraph an assistant can lift whole.
+          This existed in the translation bundle but was never rendered; shipping it
+          is the single highest-value AEO change on the page. Kept above the ticker
+          so it lands inside the first screen of extractable text. */}
+      <section id="what-is-moil" className="aeo-answer">
+        <div className="aeo-answer__inner">
+          <h2 className="aeo-answer__label">{t.business.aeoAnswer.label}</h2>
+          <p className="aeo-answer__body">{t.business.aeoAnswer.body}</p>
+          <p className="aeo-answer__stamp">{t.business.aeoAnswer.lastUpdated}</p>
+        </div>
+      </section>
 
       {/* TICKER */}
       <div className="capabilities-bar">
@@ -575,44 +588,48 @@ export function BusinessPageContent() {
 
       <div className="divider divider-seamless"></div>
 
-      {/* TESTIMONIALS */}
-      <section id="testimonials" className="has-head has-head-blend" style={{ textAlign: 'center' }}>
-        <div className="section-tag rv" style={{ justifyContent: 'center' }}>
-          {t.business.testimonials.tag}
-        </div>
-        <h2 className="section-headline rv">
-          {t.business.testimonials.headline}
-          <br />
-          <span style={{ color: 'var(--orange)' }}>{t.business.testimonials.headlineHighlight}</span>
-        </h2>
-        <div className="testi-marquee rv">
-          <div className="testi-track">
-            {[...testimonials, ...testimonials, ...testimonials, ...testimonials].map((item, index) => (
-              <div className="testi-card2" key={`testimonial-${index}`}>
-                <div className="testi-card2__body">
-                  <div className="t-stars">★★★★★</div>
-                  <p className="testi-card2__text">{item.testimonial}</p>
-                  <div className="t-author">
-                    <Image
-                      src={item.testimonialImage}
-                      alt={item.testimonialName}
-                      width={44}
-                      height={44}
-                      loading="lazy"
-                      className="t-av-img"
-                      style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border2)' }}
-                    />
-                    <div>
-                      <div className="t-name">{item.testimonialName}</div>
-                      <div className="t-role">{item.role}</div>
+      {/* TESTIMONIALS — renders only when real, sourced quotes exist. The array is
+          empty on purpose: the previous three were authored to match a hero rewrite
+          and attributed to named customers. See CLAUDE.md -> Testimonials. */}
+      {t.business.testimonials.items.length > 0 && (
+        <section id="testimonials" className="has-head has-head-blend" style={{ textAlign: 'center' }}>
+          <div className="section-tag rv" style={{ justifyContent: 'center' }}>
+            {t.business.testimonials.tag}
+          </div>
+          <h2 className="section-headline rv">
+            {t.business.testimonials.headline}
+            <br />
+            <span style={{ color: 'var(--orange)' }}>{t.business.testimonials.headlineHighlight}</span>
+          </h2>
+          <div className="testi-marquee rv">
+            <div className="testi-track">
+              {[...testimonials, ...testimonials, ...testimonials, ...testimonials].map((item, index) => (
+                <div className="testi-card2" key={`testimonial-${index}`}>
+                  <div className="testi-card2__body">
+                    <div className="t-stars">★★★★★</div>
+                    <p className="testi-card2__text">{item.testimonial}</p>
+                    <div className="t-author">
+                      <Image
+                        src={item.testimonialImage}
+                        alt={item.testimonialName}
+                        width={44}
+                        height={44}
+                        loading="lazy"
+                        className="t-av-img"
+                        style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border2)' }}
+                      />
+                      <div>
+                        <div className="t-name">{item.testimonialName}</div>
+                        <div className="t-role">{item.role}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <div className="divider"></div>
 
