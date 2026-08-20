@@ -411,7 +411,9 @@ describe('we only claim deliverables an owner can actually ask for', () => {
 	// The rule this pins: a filename is not a feature. If an owner cannot ask for it
 	// in the chat and receive the finished thing, it does not go in a deliverable list.
 	it('no live surface offers a landing page as something Moil produces', () => {
-		const claims = [/landing pages?/i, /p[aá]ginas? web/i];
+		// \\s+ and the optional '>' marker: llms.txt is a markdown blockquote and
+		// wrapped "a landing\\n> page" straight through the first version of this test.
+		const claims = [/landing(?:\\s|>)+pages?/i, /p[aá]gina(?:\\s|>)+web/i, /p[aá]ginas(?:\\s|>)+web/i];
 		for (const file of [...LIVE_SOURCES, 'public/llms.txt']) {
 			// Strip comments: this repo IS a landing page and says so in its own
 			// file headers. Only shipped copy is a claim to a customer.
