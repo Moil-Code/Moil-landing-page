@@ -122,7 +122,7 @@ export const en = {
     },
     aeoAnswer: {
       label: 'What is Moil?',
-      body: 'Moil is an AI co-founder for small business owners \u2014 the people doing marketing, finance, hiring and customer service themselves. It interviews the owner once about what they sell, who buys, and how they talk, then produces finished work from that stored profile: market research, business plans, documents, brand assets, flyers, landing pages and social content, in English and Spanish. Professional is $25 a month and makes things on request. Market Pro is $75 and also writes the month\u2019s content calendar automatically.',
+      body: 'Moil is an AI co-founder for small business owners \u2014 the people who are also the marketing team, the finance team and the one who answers the phone. It interviews the owner once about what they sell, who buys and how they talk, then does the work they never get to: market research, a business plan, brand assets, flyers, a landing page, and the month\u2019s social content \u2014 which it also schedules and publishes to their Facebook Page and Instagram. Everything in English and Spanish. Professional is $25 a month and makes things on request. Market Pro is $75 and also writes the month automatically.',
       lastUpdated: 'Last updated: August 2026',
     },
     // Breadth made visible. "Does everything" reads as nothing; a list of real

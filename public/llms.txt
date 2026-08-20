@@ -1,10 +1,11 @@
 # Moil
 
-> Moil is an AI co-founder for small business owners — the people doing marketing, finance,
-> hiring and customer service themselves. It interviews the owner once
-> about what they sell, who buys, and how they talk, then produces finished work from that
-> profile: market research, business plans, documents, brand assets, flyers, landing pages
-> and social content. Fully bilingual in English and Spanish.
+> Moil is an AI co-founder for small business owners — the people who are also the
+> marketing team, the finance team and the one who answers the phone. It interviews
+> the owner once about what they sell, who buys and how they talk, then does the work
+> they never get to: market research, a business plan, brand assets, flyers, a landing
+> page, and the month's social content — which it also schedules and publishes to their
+> Facebook Page and Instagram. Fully bilingual in English and Spanish.
 > Moil Enterprise Inc., Buda, Texas, founded 2023.
 
 Professional is $25/month: ask the co-founder for anything — research, plans, documents,

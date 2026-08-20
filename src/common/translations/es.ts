@@ -120,7 +120,7 @@ export const es: TranslationKeys = {
     },
     aeoAnswer: {
       label: '\u00bfQu\u00e9 es Moil?',
-      body: 'Moil es un co-fundador con IA para due\u00f1os de pequeños negocios \u2014 los que hacen ellos mismos el marketing, las finanzas, la contrataci\u00f3n y la atenci\u00f3n al cliente. Entrevista al due\u00f1o una sola vez sobre qu\u00e9 vende, qui\u00e9n le compra y c\u00f3mo habla, y a partir de ese perfil produce trabajo terminado: investigaci\u00f3n de mercado, planes de negocio, documentos, materiales de marca, volantes, p\u00e1ginas web y contenido social, en ingl\u00e9s y espa\u00f1ol. Professional cuesta $25 al mes y hace las cosas cuando se las pides. Market Pro cuesta $75 y adem\u00e1s escribe el calendario del mes autom\u00e1ticamente.',
+      body: 'Moil es un co-fundador con IA para due\u00f1os de pequeños negocios \u2014 los que adem\u00e1s son el equipo de marketing, el de finanzas y el que contesta el tel\u00e9fono. Entrevista al due\u00f1o una sola vez sobre qu\u00e9 vende, qui\u00e9n le compra y c\u00f3mo habla, y luego hace el trabajo para el que nunca hay tiempo: investigaci\u00f3n de mercado, un plan de negocio, materiales de marca, volantes, una p\u00e1gina web y el contenido social del mes \u2014 que adem\u00e1s programa y publica en su p\u00e1gina de Facebook e Instagram. Todo en ingl\u00e9s y espa\u00f1ol. Professional cuesta $25 al mes y hace las cosas cuando se las pides. Market Pro cuesta $75 y adem\u00e1s escribe el mes autom\u00e1ticamente.',
       lastUpdated: '\u00daltima actualizaci\u00f3n: agosto de 2026',
     },
     made: {

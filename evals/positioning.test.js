@@ -368,6 +368,31 @@ describe('publishing is described accurately', () => {
 		}
 	});
 
+	it('the short boilerplate carries publishing too, everywhere it is pasted', () => {
+		// The one-paragraph "what is Moil" answer is the highest-leverage sentence
+		// we own: it is the AEO answer block, the llms.txt summary, the G2 and
+		// Capterra description, and the constitution's own definition. The August
+		// correction fixed six long-form surfaces and missed this one, so the short
+		// version still described a product that only makes things and never sends
+		// them. It is a list of deliverables; publishing has to be the last item or
+		// the arc stops one step early.
+		const BOILERPLATE = [
+			'src/common/translations/en.ts',
+			'src/common/translations/es.ts',
+			'public/llms.txt',
+			'research/moil-offsite-playbook.html',
+			'research/moil-brand-constitution.html',
+		];
+		for (const file of BOILERPLATE) {
+			const src = read(file);
+			assert.match(
+				src,
+				/(schedules and publishes|programa y publica)/i,
+				`${file} describes Moil without saying it publishes`,
+			);
+		}
+	});
+
 	it('both languages carry the publishing answer', () => {
 		assert.match(read('src/common/translations/en.ts'), /Facebook Page and Instagram/);
 		assert.match(read('src/common/translations/es.ts'), /Facebook e Instagram/);
