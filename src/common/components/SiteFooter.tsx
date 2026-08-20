@@ -48,6 +48,7 @@ const COMPARE_LINKS: readonly NavLink[] = [
   { label: 'Best AI content calendar tools', href: '/compare/best-ai-content-calendar-tools' },
   { label: 'Done-for-you social media', href: '/compare/done-for-you-social-media-alternatives' },
   { label: 'Moil vs a marketing agency', href: '/compare/moil-vs-agency' },
+  { label: 'Customer reviews', href: '/reviews' },
   { label: 'AI info', href: '/ai-info' },
 ];
 
@@ -59,7 +60,7 @@ const LEGAL_LINKS: readonly NavLink[] = [
 ];
 
 // Section routes that ship their own footer — hide the global one there.
-const OWN_FOOTER_PREFIXES = ['/business', '/es/business', '/candidate', '/marketing', '/compare', '/about', '/ai-info'];
+const OWN_FOOTER_PREFIXES = ['/business', '/es/business', '/candidate', '/marketing', '/compare', '/about', '/ai-info', '/reviews'];
 
 export function SiteFooter() {
   const pathname = usePathname() || '/';
