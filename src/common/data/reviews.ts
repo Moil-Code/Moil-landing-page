@@ -34,8 +34,12 @@ export type Review = {
 };
 
 /** Public Facebook recommendations. Facebook uses yes/no recommendations rather
- *  than star ratings, so there is no aggregate score to publish anywhere. */
-export const FACEBOOK_REVIEWS_URL = 'https://www.facebook.com/share/1CwdMMjY82/';
+ *  than star ratings, so there is no aggregate score to publish anywhere — only
+ *  a count, which is a sourced number because the page is public. */
+export const FACEBOOK_PAGE_URL = 'https://www.facebook.com/MoilWorks/';
+export const FACEBOOK_REVIEWS_URL = FACEBOOK_PAGE_URL;
+/** Confirmed by Andres, August 2026. Update when the page count changes. */
+export const FACEBOOK_RECOMMENDATION_COUNT = 16;
 
 const DIRECT: Localized = {
   en: 'Given to Moil directly',

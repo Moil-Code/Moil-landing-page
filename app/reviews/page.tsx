@@ -1,6 +1,11 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
-import { REVIEWS, FACEBOOK_REVIEWS_URL, type Review } from '../../src/common/data/reviews';
+import {
+  REVIEWS,
+  FACEBOOK_REVIEWS_URL,
+  FACEBOOK_RECOMMENDATION_COUNT,
+  type Review,
+} from '../../src/common/data/reviews';
 import './reviews.css';
 
 /**
@@ -74,13 +79,13 @@ export default function ReviewsPage() {
             — the coaching programme, or the company itself — it says so above the quote.
           </p>
           <p className="reviews__note">
-            Moil does not publish a star rating. Its public reviews live on{' '}
+            Moil has {FACEBOOK_RECOMMENDATION_COUNT} recommendations on{' '}
             <a href={FACEBOOK_REVIEWS_URL} target="_blank" rel="noreferrer">
-              Facebook
+              its Facebook page
             </a>
-            , which uses yes/no recommendations rather than scores, so there is no average to
-            report. Reviews given to Moil directly are marked as such and can be produced on
-            request.
+            . Facebook uses yes/no recommendations rather than star ratings, so there is no
+            average score to report and Moil does not publish one. A selection appears below;
+            reviews given to Moil directly are marked as such and can be produced on request.
           </p>
         </header>
 
