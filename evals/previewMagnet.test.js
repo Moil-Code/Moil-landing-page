@@ -39,14 +39,20 @@ const MAGNET_KEYS = [
 	'identityFail',
 	'ceiling',
 	'failed',
-	'brandOnly',
 	'emailLabel',
 	'emailPlaceholder',
 	'emailHint',
 	'startFree',
 	'tryAgain',
 	'colorsLabel',
-	'postsLabel',
+	'productsLabel',
+	'platformLabel',
+	'badWebsite',
+	'badHandle',
+	'pickListing',
+	'submitting',
+	'waitEmailLabel',
+	'waitReturn',
 	'revealEyebrow',
 	'unnamedBrand',
 ];
@@ -249,13 +255,30 @@ describe('structural refusals', () => {
 	});
 
 	it('EN and ES have the same magnet key set', () => {
-		const en = read('src/common/translations/en.ts');
-		const es = read('src/common/translations/es.ts');
-		const enBlock = en.slice(en.indexOf('magnet: {'), en.indexOf('unnamedBrand') + 80);
-		const esBlock = es.slice(es.indexOf('magnet: {'), es.indexOf('unnamedBrand') + 80);
+		// Compares the ACTUAL key sets both ways rather than walking a hardcoded
+		// list. The list version could only catch a key going missing from both
+		// languages; a key added to English alone — which is how a bilingual
+		// product ends up half-translated — passed it silently.
+		const block = (file) => {
+			const src = read(file);
+			const start = src.indexOf('magnet: {');
+			const end = src.indexOf('aeoAnswer:', start);
+			assert.ok(start > 0 && end > start, file + ' magnet block not found');
+			return new Set(
+				[...src.slice(start, end).matchAll(/^\s{8}(\w+):/gm)].map((m) => m[1]),
+			);
+		};
+		const en = block('src/common/translations/en.ts');
+		const es = block('src/common/translations/es.ts');
+		const enOnly = [...en].filter((k) => !es.has(k));
+		const esOnly = [...es].filter((k) => !en.has(k));
+		assert.deepEqual(enOnly, [], 'keys in EN with no ES: ' + enOnly.join(', '));
+		assert.deepEqual(esOnly, [], 'keys in ES with no EN: ' + esOnly.join(', '));
+
+		// The keys the component actually reads must exist in both.
 		for (const key of MAGNET_KEYS) {
-			assert.match(enBlock, new RegExp(key + ':'), 'en missing ' + key);
-			assert.match(esBlock, new RegExp(key + ':'), 'es missing ' + key);
+			assert.ok(en.has(key), 'en missing ' + key);
+			assert.ok(es.has(key), 'es missing ' + key);
 		}
 	});
 
