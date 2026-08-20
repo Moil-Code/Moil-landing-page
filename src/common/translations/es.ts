@@ -362,8 +362,8 @@ export const es: TranslationKeys = {
       description: 'Cada función, cada resultado, cada conversación — en inglés y español. Porque tus clientes y equipo hablan ambos.',
       highlights: {
         reach: {
-          title: '58% Más Alcance Bilingüe',
-          desc: 'vs. 22% promedio de la industria para coincidencia de candidatos',
+          title: 'Los dos idiomas, siempre',
+          desc: 'Escrito en inglés y español desde el mismo brief, no traducido después',
           badge: 'Probado',
         },
         voice: {

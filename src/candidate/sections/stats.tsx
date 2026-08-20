@@ -56,9 +56,9 @@ export default function StatsSection({ refQuery, lgQuery }: StatsSectionProps) {
                   <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               ),
-              number: "94%",
-              title: "Interview Success Rate",
-              desc: "Users who practiced with our AI coach"
+              number: "Free",
+              title: "To Create a Profile",
+              desc: "No cost to build a profile and apply"
             },
             {
               icon: (
@@ -68,9 +68,9 @@ export default function StatsSection({ refQuery, lgQuery }: StatsSectionProps) {
                   <path d="M10 10H14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
               ),
-              number: "25K+",
-              title: "Job Placements",
-              desc: "Successful career transitions made"
+              number: "Voice",
+              title: "Or Type",
+              desc: "Build a resume by speaking, in either language"
             },
             {
               icon: (
@@ -96,9 +96,9 @@ export default function StatsSection({ refQuery, lgQuery }: StatsSectionProps) {
                   <path d="M12 15V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
               ),
-              number: "150+",
-              title: "Companies Hiring",
-              desc: "Partner organizations actively recruiting"
+              number: "Open",
+              title: "To Every Trade",
+              desc: "Skilled trades, services, hospitality and more"
             }
           ].map((stat, index) => (
             <div key={index} className="group relative">

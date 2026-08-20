@@ -362,8 +362,8 @@ export const en = {
       description: 'Every feature, every output, every conversation — in English and Spanish. Because your customers and team speak both.',
       highlights: {
         reach: {
-          title: '58% More Bilingual Reach',
-          desc: 'vs. 22% industry average for candidate matching',
+          title: 'Both languages, every time',
+          desc: 'Written in English and Spanish from the same brief, not translated afterwards',
           badge: 'Proven',
         },
         voice: {

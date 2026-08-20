@@ -103,6 +103,37 @@ describe('no fabricated or unsourced social proof', () => {
 		}
 	});
 
+	it('quotes each customer from one place only', () => {
+		// Luis, Liliana and Miguel each had THREE different versions of their words in
+		// this repo: /business, /marketing and the originals. reviews.ts is the only
+		// file allowed to hold quote text.
+		const named = ['Luis Vives', 'Liliana Cervantes', 'Miguel Bustos'];
+		for (const file of LIVE_SOURCES) {
+			if (file.endsWith('data/reviews.ts')) continue;
+			const src = read(file);
+			for (const person of named) {
+				assert.ok(
+					!src.includes(person),
+					`${person} is quoted in ${file}; quotes belong in src/common/data/reviews.ts`,
+				);
+			}
+		}
+	});
+
+	it('publishes no invented usage counts on any live surface', () => {
+		// Every one of these was a decorative figure with nothing behind it:
+		// "50,000+ job seekers", "10K+ active jobs", "94% interview success",
+		// "98% ATS pass rate", "58% more bilingual reach".
+		const claim =
+			/(\d{1,3}(,\d{3})+|\d+\s?K)\+\s*(job|resume|worker|subscriber|compan|user|business|placement|seeker)/i;
+		const rate = /\b\d{2,3}%\s*(success|accuracy|pass|rate|reach|retention|match)/i;
+		for (const file of LIVE_SOURCES) {
+			const src = read(file).replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
+			assert.ok(!claim.test(src), `unsourced usage count in ${file}`);
+			assert.ok(!rate.test(src), `unsourced performance rate in ${file}`);
+		}
+	});
+
 	it('publishes no star rating, because the public source has none to report', () => {
 		// Facebook uses yes/no recommendations. Any average would be invented.
 		for (const file of [...LIVE_SOURCES, 'public/llms.txt']) {

@@ -60,48 +60,45 @@ export default function JobSearchSection() {
           
           {/* Popular Job Categories */}
           <div className="popular-categories">
+            {/* Per-category job counts removed Aug 2026: "12,500+ jobs" and friends
+                were invented, and implausible against the real size of the marketplace.
+                Wire these to a live count or leave them off. */}
             <h3 className="categories-title">Popular Job Categories</h3>
             <div className="categories-grid">
               <div className="category-card">
                 <div className="category-icon">💻</div>
                 <div className="category-info">
                   <h4>Technology</h4>
-                  <p>12,500+ jobs</p>
                 </div>
               </div>
               <div className="category-card">
                 <div className="category-icon">🏥</div>
                 <div className="category-info">
                   <h4>Healthcare</h4>
-                  <p>8,200+ jobs</p>
                 </div>
               </div>
               <div className="category-card">
                 <div className="category-icon">📊</div>
                 <div className="category-info">
                   <h4>Finance</h4>
-                  <p>6,800+ jobs</p>
                 </div>
               </div>
               <div className="category-card">
                 <div className="category-icon">🎨</div>
                 <div className="category-info">
                   <h4>Creative</h4>
-                  <p>4,500+ jobs</p>
                 </div>
               </div>
               <div className="category-card">
                 <div className="category-icon">🔧</div>
                 <div className="category-info">
                   <h4>Skilled Trades</h4>
-                  <p>9,100+ jobs</p>
                 </div>
               </div>
               <div className="category-card">
                 <div className="category-icon">📈</div>
                 <div className="category-info">
                   <h4>Sales & Marketing</h4>
-                  <p>7,300+ jobs</p>
                 </div>
               </div>
             </div>

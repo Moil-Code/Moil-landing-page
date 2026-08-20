@@ -216,12 +216,12 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
                 
                 <div className="grid grid-cols-3 gap-3">
                   <div className="text-center p-3 bg-gradient-to-br from-[#FF6633]/10 to-[#ea580c]/10 rounded-xl border border-[#FF6633]/20">
-                    <div className="text-xl font-bold text-[#FF6633] mb-1">89%</div>
-                    <div className="text-xs text-gray-600 dark:text-[#8892AA]">Job Success</div>
+                    <div className="text-xl font-bold text-[#FF6633] mb-1">Free</div>
+                    <div className="text-xs text-gray-600 dark:text-[#8892AA]">To Practice</div>
                   </div>
                   <div className="text-center p-3 bg-gradient-to-br from-[#FF6633]/10 to-[#ea580c]/10 rounded-xl border border-[#FF6633]/20">
-                    <div className="text-xl font-bold text-[#FF6633] mb-1">15K+</div>
-                    <div className="text-xs text-gray-600 dark:text-[#8892AA]">Workers</div>
+                    <div className="text-xl font-bold text-[#FF6633] mb-1">EN/ES</div>
+                    <div className="text-xs text-gray-600 dark:text-[#8892AA]">Bilingual</div>
                   </div>
                 </div>
               </div>
