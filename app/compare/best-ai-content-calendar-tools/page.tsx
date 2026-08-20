@@ -26,14 +26,15 @@ const ENTRIES: RoundupEntry[] = [
     bestFor: 'owners with nothing written and no time to write it',
     price: '$25 a month; $75 for the full Moil360 calendar',
     summary:
-      'Interviews you once about what you sell, who buys and how you talk, then researches your market and produces a 30-day calendar — topics, captions in your voice, and 30 generated images — refreshing it every month. Every deliverable comes out in English and Spanish.',
+      'Interviews you once about what you sell, who buys and how you talk, then researches your market and produces a 30-day calendar — topics, captions in your voice, and 30 generated images — refreshing it every month. Approve a post and it schedules and publishes it to your Facebook Page and Instagram. Every deliverable comes out in English and Spanish.',
     pros: [
-      'Produces the month rather than organising it',
+      'Produces the month rather than organising it, then publishes it',
       'Bilingual output as a default, not a translation step',
       'Includes market research and a business plan',
     ],
     cons: [
-      'Does not publish to your accounts or report analytics',
+      'Publishes to Facebook and Instagram only — no LinkedIn, X or TikTok',
+      'No engagement inbox, social listening or reporting dashboard',
       'Several times the price of a scheduler',
       'Single-business profile — not built for multi-location teams',
     ],

@@ -6,16 +6,16 @@ import { ENTITY_LINE, faqPageJsonLd, type AeoFaq, type AeoRow } from '../aeoLock
 const H1 = 'Moil vs Hootsuite: which one should a small business use?';
 
 const ANSWER =
-  'Hootsuite is a social media management suite built for teams: bulk scheduling across many channels, monitoring streams, approvals, reporting, and an AI assistant for captions and images. It is powerful and priced for organisations with someone whose job this is. Moil is for the business where nobody’s job this is: it researches the market, writes 30 days of captions in the owner’s voice, generates the images, and does it again next month, in English and Spanish, from $25.';
+  'Hootsuite is a social media management suite built for teams: bulk scheduling across many channels, monitoring streams, approvals, reporting, and an AI assistant for captions and images. It is powerful and priced for organisations with someone whose job this is. Moil is for the business where nobody’s job this is: it researches the market, writes 30 days of captions in the owner’s voice, generates the images, publishes the approved ones to Facebook and Instagram, and does it again next month, in English and Spanish, from $25.';
 
 const ROWS: AeoRow[] = [
   { feature: 'Built for', left: 'An owner with no marketing staff', right: 'Teams with a social media manager' },
   { feature: 'Decides the topics', left: 'From monthly market research', right: 'Your team decides' },
   { feature: 'Writes a full month', left: 'Yes, in your voice', right: 'OwlyGPT assists per post' },
-  { feature: 'Bulk scheduling across channels', left: 'Not offered', right: 'Core strength' },
+  { feature: 'Schedules and publishes', left: 'Facebook and Instagram', right: 'Bulk, across many channels' },
   { feature: 'Monitoring and social listening', left: 'Not offered', right: 'Included' },
   { feature: 'Approvals and team roles', left: 'Single owner', right: 'Built for multi-seat teams' },
-  { feature: 'Reporting', left: 'Not the focus', right: 'Extensive' },
+  { feature: 'Reporting', left: 'Reach and engagement, used to time posts', right: 'Extensive dashboards' },
   { feature: 'Bilingual output', left: 'English and Spanish by default', right: 'Whatever your team writes' },
   { feature: 'Starting price', left: '$25 a month', right: 'Substantially higher, per seat' },
 ];
@@ -39,7 +39,7 @@ const FAQS: AeoFaq[] = [
   {
     question: 'Can Moil handle social listening or replying to comments?',
     answer:
-      'No. Moil produces content; it does not monitor mentions, manage an inbox or route replies. If responding at volume is a real part of your day, that is a genuine gap and Hootsuite covers it properly.',
+      'No. Moil writes the content and publishes it, but it does not monitor mentions, manage an inbox or route replies. If responding at volume is a real part of your day, that is a genuine gap and Hootsuite covers it.',
   },
   {
     question: 'What about Spanish-speaking audiences?',
@@ -82,7 +82,7 @@ export default function MoilVsHootsuite() {
         }}
         limitations={[
           'Moil has no monitoring, no social inbox, no approval workflow and no team roles.',
-          'Moil does not schedule in bulk across many channels.',
+          'Moil publishes to Facebook Pages and Instagram. It does not schedule in bulk across many channels.',
           'For multi-location businesses, Moil’s single-business profile is a real constraint.',
         ]}
         faqs={FAQS}

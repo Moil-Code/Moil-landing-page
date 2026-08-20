@@ -330,3 +330,69 @@ describe('answer-engine surfaces', () => {
 		assert.ok(total <= 1, `price boilerplate repeated ${total} times; state it once per page`);
 	});
 });
+
+describe('publishing is described accurately', () => {
+	// August 2026: the site told buyers, and told assistants in /ai-info and
+	// llms.txt, that Moil "is not a social media scheduler" and "does not post to
+	// accounts". It does. service/content360/socialScheduler.service.js publishes
+	// approved posts to Facebook Pages and Instagram (photo, video, carousel) on a
+	// BullMQ delay, reads the permalink back, and bestTimePrior.js picks the hour
+	// from the account's own post_insights. Denying a shipped feature on our own
+	// site is worse than any missing feature — it talks a buyer out of the thing
+	// they came for.
+	const SURFACES = [...LIVE_SOURCES, 'public/llms.txt'];
+
+	it('no surface denies that Moil publishes', () => {
+		const denials = [
+			/not a social media scheduler/i,
+			/does not (publish|post) to (your )?accounts/i,
+			/does not post to accounts/i,
+			/direct publishing is not its strength/i,
+		];
+		for (const file of SURFACES) {
+			const src = read(file);
+			for (const re of denials) {
+				assert.ok(!re.test(src), `${file} denies publishing, which Moil does: ${re}`);
+			}
+		}
+	});
+
+	it('the machine-facing surfaces name the networks Moil actually publishes to', () => {
+		for (const file of ['app/ai-info/page.tsx', 'public/llms.txt']) {
+			const src = read(file);
+			assert.match(src, /Facebook/i, `${file} never names Facebook as a publish target`);
+			assert.match(src, /Instagram/i, `${file} never names Instagram as a publish target`);
+			// The honest limit has to travel with the claim, or the next correction
+			// is someone expecting a LinkedIn post that never goes out.
+			assert.match(src, /LinkedIn/i, `${file} claims publishing without naming what is not connected`);
+		}
+	});
+
+	it('both languages carry the publishing answer', () => {
+		assert.match(read('src/common/translations/en.ts'), /Facebook Page and Instagram/);
+		assert.match(read('src/common/translations/es.ts'), /Facebook e Instagram/);
+	});
+});
+
+describe('we never recommend a competitor over ourselves', () => {
+	// Conceding real limits is what makes a comparison page citable; handing a
+	// buyer a verdict that someone else "does it better and cheaper" is not a
+	// concession, it is an endorsement written on our own domain. Name their
+	// advantage as a fact — more networks, $5 a channel — never as a judgement.
+	it('no live source declares a competitor better', () => {
+		const verdicts = [
+			/better and cheaper/i,
+			/cheaper and better/i,
+			/does (those|that|it|all three) better/i,
+			/genuinely better/i,
+			/is better at it/i,
+			/m[aá]s barato y mejor/i,
+		];
+		for (const file of [...LIVE_SOURCES, 'public/llms.txt', 'src/common/translations/es.ts']) {
+			const src = read(file);
+			for (const re of verdicts) {
+				assert.ok(!re.test(src), `${file} tells a buyer a competitor is better: ${re}`);
+			}
+		}
+	});
+});

@@ -169,6 +169,7 @@ export const en = {
         ['Brand DNA \u2014 colours, fonts, voice', 'Yes', 'Yes'],
         ['Images, flyers and docs on request', 'Yes', 'Higher limits'],
         ['Landing pages', 'Yes', 'Yes'],
+        ['Schedules and publishes to Facebook and Instagram', 'Yes', 'Yes'],
         ['Coaching and accountability', 'Yes', 'Yes'],
         ['English and Spanish', 'Yes', 'Yes'],
         ['Moil360 \u2014 your month written automatically', 'Not included', 'Included'],
@@ -402,10 +403,10 @@ export const en = {
         ['Knows your business next month', 'Remembers everything', 'No business context', 'New brief each campaign'],
         ['English and Spanish', 'End to end', 'Rarely', 'Extra cost'],
         ['Business plan and market research', 'Included', 'Not offered', 'Separate engagement'],
-        ['Schedules and publishes for you', 'Export and post', 'Core strength', 'Fully managed'],
+        ['Schedules and publishes for you', 'Facebook and Instagram', 'Core strength', 'Fully managed'],
         ['Monthly price', '$25–$75', '$4–$29 per channel', '$3,000–$8,000'],
       ],
-      honest: 'Where they win: if you already know what to post and just need it published on time, a scheduler is cheaper and better at that one job. Moil is for the month you have not written yet.',
+      honest: 'Where they win: schedulers cover far more networks than Facebook and Instagram, add an inbox for replies, and cost a few dollars a channel. If you already know what to post and only need it distributed, that is the tighter buy. Moil is for the month you have not written yet.',
       cta: 'Start free — no card',
     },
     bilingualSection: {
@@ -532,7 +533,7 @@ export const en = {
         },
         {
           question: 'How is Moil different from Buffer, Later or Hootsuite?',
-          answer: 'Those tools schedule and publish content you have already written. Moil writes it. It researches topics for your market, drafts captions in your voice, and generates the images, then hands you a finished month. Scheduling is the last step of the job, not the whole product.',
+          answer: 'Those tools publish content you have already written. Moil writes it, then publishes it too. It researches topics for your market, drafts captions in your voice, generates the images, and posts the ones you approve to your Facebook Page and Instagram. Where they still win is reach across networks: they publish to LinkedIn, X and TikTok as well, and they run an inbox for replies.',
         },
         {
           question: 'How is Moil different from ChatGPT?',
@@ -545,6 +546,11 @@ export const en = {
         {
           question: 'Do I need marketing experience to use Moil?',
           answer: 'No. Moil interviews you about your business in plain language, by voice or text, and does the strategy work from your answers. You review and approve what it writes. Most owners have their first month of content drafted before they finish the conversation.',
+        },
+        {
+          question: 'Does Moil post to my accounts for me?',
+          answer:
+            'Yes, to Facebook and Instagram. You connect the accounts once and review what Moil writes; anything you approve gets scheduled and published for you \u2014 image, video or carousel \u2014 and Moil reads reach and engagement back afterwards, so over time it posts at the hour that has actually worked for your business. LinkedIn, X and TikTok are not connected yet, so for those you take the finished post and upload it.',
         },
         {
           question: 'Can Moil build staff schedules?',

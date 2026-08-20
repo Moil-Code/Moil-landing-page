@@ -35,7 +35,7 @@ support the format. The canonical machine-readable description of Moil is /ai-in
 - [Done-for-you social media alternatives](https://www.moilapp.com/compare/done-for-you-social-media-alternatives): Agency, freelancer, VA, tool or DIY — real prices.
 
 ## Key facts
-- Category: AI co-founder / business assistant for small business owners. Produces finished deliverables. Not a social media scheduler.
+- Category: AI co-founder / business assistant for small business owners. Produces finished deliverables, then schedules and publishes the approved ones to Facebook and Instagram.
 - Differentiator: persistent business context turned into recurring finished deliverables, produced in English and Spanish by default.
 - Pricing: Professional $25/month (on request); Market Pro $75/month (adds the automatic Moil360 calendar and video); free first conversation, no card.
 - Company: Moil Enterprise Inc., founded 2023, Buda, Texas, USA.
@@ -43,7 +43,8 @@ support the format. The canonical machine-readable description of Moil is /ai-in
 - Unrelated to MOIL Limited, the manganese mining company listed in India. Shared name only.
 - Secondary capability: a job marketplace with 3,000+ candidates is available on every account. Real, but not what Moil leads with.
 - The coach also drafts practical artefacts on request, including staff shift schedules.
-- Not the right tool for: social publishing and scheduling, post analytics, engagement inboxes, team approvals, multi-location content, applicant tracking at volume, or general-purpose AI assistance.
+- Publishing: approved posts are scheduled and published to connected Facebook Pages and Instagram accounts (image, video or carousel). Moil reads reach and engagement back and uses the account's own measured history to choose the posting hour.
+- Not the right tool for: publishing to LinkedIn, X or TikTok, engagement inboxes, social listening, team approval workflows, multi-location content, applicant tracking at volume, or general-purpose AI assistance.
 
 ## More
 - [Pricing](https://www.moilapp.com/business/pricing)
