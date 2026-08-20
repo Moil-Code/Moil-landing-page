@@ -209,7 +209,7 @@ export default function RootLayout({
                 {
                   "@type": "Offer",
                   "name": "Moil Professional",
-                  "description": "Professional $25/month — ask the co-founder for anything and it produces the finished work: research, plans, documents, brand assets, flyers, landing pages.",
+                  "description": "Professional $25/month — ask the co-founder for anything and it produces the finished work: research, plans, documents, brand assets, flyers, decks. It also schedules and publishes the posts you approve to Facebook and Instagram.",
                   "price": "25",
                   "priceCurrency": "USD",
                   "priceSpecification": {
@@ -249,7 +249,7 @@ export default function RootLayout({
               "@type": "WebSite",
               "name": "Moil",
               "url": "https://www.moilapp.com",
-              "description": "An AI co-founder for small business owners — research, plans, documents, brand, landing pages and content, in English and Spanish.",
+              "description": "The co-founder who does the work you never get to — plans, posts, and flyers, produced from one profile of the business, in English and Spanish.",
             })
           }}
         />

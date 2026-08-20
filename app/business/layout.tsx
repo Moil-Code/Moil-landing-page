@@ -118,7 +118,7 @@ export default function BusinessLayout({
             "@context": "https://schema.org",
             "@type": "Product",
             "name": "Moil Professional",
-            "description": "Professional $25/month — ask the co-founder for anything and it produces the finished work: research, plans, documents, brand assets, flyers, landing pages.",
+            "description": "Professional $25/month — ask the co-founder for anything and it produces the finished work: research, plans, documents, brand assets, flyers, decks. It also schedules and publishes the posts you approve to Facebook and Instagram.",
             "brand": {
               "@type": "Brand",
               "name": "Moil"
@@ -180,7 +180,7 @@ export default function BusinessLayout({
             "name": "Moil",
             "applicationCategory": "BusinessApplication",
             "operatingSystem": "Web",
-            "description": "AI co-founder for small business owners. Learns the business once, then produces finished work from that profile — research, plans, documents, brand assets, flyers, landing pages and social content, in English and Spanish. Professional $25 makes things on request; Market Pro $75 also writes the month automatically.",
+            "description": "The co-founder who does the work you never get to. Small business owners shouldn\u2019t have to be everything — marketing, planning, and content on top of the real job. Moil learns the business once, then produces finished work: plans, posts, and flyers, in English and Spanish. It also schedules and publishes the posts you approve to Facebook and Instagram. Professional $25 makes things on request; Market Pro $75 also writes the month automatically.",
             "url": `${baseURL1}/business`,
             "screenshot": `${baseURL1}/og_image_v2.jpg`,
             "offers": [

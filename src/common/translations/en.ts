@@ -82,7 +82,7 @@ export const en = {
       headline: 'You\u2019re the marketing team.',
       headlineLine2: 'And the finance team.',
       headlineHighlight: 'And the one who answers the phone.',
-      subheadline: 'Moil learns your business once, then makes the actual work \u2014 your plan, your research, your posts, your flyers, your landing page. Ask it for anything. From $25 a month.',
+      subheadline: 'Moil learns your business once, then makes the actual work \u2014 your plan, your research, your posts, your flyers. Ask it for anything. From $25 a month.',
       cta: 'Start free \u2014 no card',
       ctaSecondary: 'See it on your business',
       trust: [
@@ -122,7 +122,7 @@ export const en = {
     },
     aeoAnswer: {
       label: 'What is Moil?',
-      body: 'Moil is an AI co-founder for small business owners \u2014 the people who are also the marketing team, the finance team and the one who answers the phone. It interviews the owner once about what they sell, who buys and how they talk, then does the work they never get to: market research, a business plan, brand assets, flyers, a landing page, and the month\u2019s social content \u2014 which it also schedules and publishes to their Facebook Page and Instagram. Everything in English and Spanish. Professional is $25 a month and makes things on request. Market Pro is $75 and also writes the month automatically.',
+      body: 'Moil is the co-founder who does the work you never get to. Small business owners shouldn\u2019t have to be everything \u2014 marketing, planning, and content on top of the real job. Moil learns the business once, then produces finished work: plans, posts, and flyers, in English and Spanish. It also schedules and publishes the posts you approve to your Facebook Page and Instagram. Professional is $25 a month and makes things on request. Market Pro is $75 and also writes the month automatically.',
       lastUpdated: 'Last updated: August 2026',
     },
     // Breadth made visible. "Does everything" reads as nothing; a list of real
@@ -136,7 +136,6 @@ export const en = {
         'A 12-page study of their local market',
         'An investor-ready business plan',
         'A Tuesday flyer, on brand, in both languages',
-        'A landing page for a new service',
         '30 days of posts, written in their voice',
         'A pitch deck for a bank meeting',
         'A week of shifts for five employees',
@@ -168,7 +167,6 @@ export const en = {
         ['Business plan and documents', 'Yes', 'Higher limits'],
         ['Brand DNA \u2014 colours, fonts, voice', 'Yes', 'Yes'],
         ['Images, flyers and docs on request', 'Yes', 'Higher limits'],
-        ['Landing pages', 'Yes', 'Yes'],
         ['Schedules and publishes to Facebook and Instagram', 'Yes', 'Yes'],
         ['Coaching and accountability', 'Yes', 'Yes'],
         ['English and Spanish', 'Yes', 'Yes'],
@@ -521,11 +519,11 @@ export const en = {
       items: [
         {
           question: 'What does Moil do for a small business?',
-          answer: 'Moil learns your business once — what you sell, who buys, how you talk — then makes the work you do not have time for. Ask it for market research, a business plan, a flyer, a landing page, a pitch deck, a week of staff shifts or a month of posts, and it produces the finished thing. It works in English and Spanish.',
+          answer: 'Moil learns your business once — what you sell, who buys, how you talk — then makes the work you do not have time for. Ask it for market research, a business plan, a flyer, a pitch deck, a week of staff shifts or a month of posts, and it produces the finished thing. It works in English and Spanish.',
         },
         {
           question: 'How much does Moil cost?',
-          answer: 'Professional is $25 a month: ask the co-founder for anything — research, plans, documents, flyers, landing pages — and it makes it. Market Pro is $75 and adds Moil360, which writes your 30-day content calendar automatically instead of waiting to be asked. The first conversation is free and needs no card.',
+          answer: 'Professional is $25 a month: ask the co-founder for anything — research, plans, documents, flyers, decks — and it makes it. Market Pro is $75 and adds Moil360, which writes your 30-day content calendar automatically instead of waiting to be asked. The first conversation is free and needs no card.',
         },
         {
           question: 'What is Moil360?',

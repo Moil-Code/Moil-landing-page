@@ -80,7 +80,7 @@ export const es: TranslationKeys = {
       headline: 'Eres el equipo de marketing.',
       headlineLine2: 'Y el de finanzas.',
       headlineHighlight: 'Y quien contesta el tel\u00e9fono.',
-      subheadline: 'Moil aprende tu negocio una vez y hace el trabajo de verdad \u2014 tu plan, tu investigaci\u00f3n, tus publicaciones, tus volantes, tu p\u00e1gina web. P\u00eddele lo que necesites. Desde $25 al mes.',
+      subheadline: 'Moil aprende tu negocio una vez y hace el trabajo de verdad \u2014 tu plan, tu investigaci\u00f3n, tus publicaciones, tus volantes. P\u00eddele lo que necesites. Desde $25 al mes.',
       cta: 'Empieza gratis \u2014 sin tarjeta',
       ctaSecondary: 'Pru\u00e9balo con tu negocio',
       trust: [
@@ -120,7 +120,7 @@ export const es: TranslationKeys = {
     },
     aeoAnswer: {
       label: '\u00bfQu\u00e9 es Moil?',
-      body: 'Moil es un co-fundador con IA para due\u00f1os de pequeños negocios \u2014 los que adem\u00e1s son el equipo de marketing, el de finanzas y el que contesta el tel\u00e9fono. Entrevista al due\u00f1o una sola vez sobre qu\u00e9 vende, qui\u00e9n le compra y c\u00f3mo habla, y luego hace el trabajo para el que nunca hay tiempo: investigaci\u00f3n de mercado, un plan de negocio, materiales de marca, volantes, una p\u00e1gina web y el contenido social del mes \u2014 que adem\u00e1s programa y publica en su p\u00e1gina de Facebook e Instagram. Todo en ingl\u00e9s y espa\u00f1ol. Professional cuesta $25 al mes y hace las cosas cuando se las pides. Market Pro cuesta $75 y adem\u00e1s escribe el mes autom\u00e1ticamente.',
+      body: 'Moil es el co-fundador que hace el trabajo para el que nunca te da tiempo. Los due\u00f1os de negocios peque\u00f1os no deber\u00edan tener que ser todo \u2014 marketing, planeaci\u00f3n y contenido encima del trabajo de verdad. Moil aprende tu negocio una sola vez y produce trabajo terminado: planes, publicaciones y volantes, en ingl\u00e9s y espa\u00f1ol. Tambi\u00e9n programa y publica en tu p\u00e1gina de Facebook e Instagram las publicaciones que apruebas. Professional cuesta $25 al mes y hace las cosas cuando se las pides. Market Pro cuesta $75 y adem\u00e1s escribe el mes autom\u00e1ticamente.',
       lastUpdated: '\u00daltima actualizaci\u00f3n: agosto de 2026',
     },
     made: {
@@ -131,7 +131,6 @@ export const es: TranslationKeys = {
         'Un estudio de 12 p\u00e1ginas de su mercado local',
         'Un plan de negocios listo para inversionistas',
         'Un volante para el martes, con su marca, en los dos idiomas',
-        'Una p\u00e1gina web para un servicio nuevo',
         '30 d\u00edas de publicaciones, escritas con su voz',
         'Una presentaci\u00f3n para una cita en el banco',
         'Una semana de turnos para cinco empleados',
@@ -161,7 +160,6 @@ export const es: TranslationKeys = {
         ['Plan de negocios y documentos', 'S\u00ed', 'L\u00edmites m\u00e1s altos'],
         ['Brand DNA \u2014 colores, tipograf\u00edas, voz', 'S\u00ed', 'S\u00ed'],
         ['Im\u00e1genes, volantes y documentos cuando los pidas', 'S\u00ed', 'L\u00edmites m\u00e1s altos'],
-        ['P\u00e1ginas web', 'S\u00ed', 'S\u00ed'],
         ['Programa y publica en Facebook e Instagram', 'S\u00ed', 'S\u00ed'],
         ['Coaching y seguimiento', 'S\u00ed', 'S\u00ed'],
         ['Ingl\u00e9s y espa\u00f1ol', 'S\u00ed', 'S\u00ed'],
@@ -512,11 +510,11 @@ export const es: TranslationKeys = {
       items: [
         {
           question: '¿Qué hace Moil por un pequeño negocio?',
-          answer: 'Moil aprende tu negocio una sola vez — qué vendes, quién te compra, cómo hablas — y hace el trabajo para el que no tienes tiempo. Pídele investigación de mercado, un plan de negocios, un volante, una página web, una presentación, una semana de turnos o un mes de publicaciones, y te entrega la cosa terminada. Funciona en inglés y español.',
+          answer: 'Moil aprende tu negocio una sola vez — qué vendes, quién te compra, cómo hablas — y hace el trabajo para el que no tienes tiempo. Pídele investigación de mercado, un plan de negocios, un volante, una presentación, una semana de turnos o un mes de publicaciones, y te entrega la cosa terminada. Funciona en inglés y español.',
         },
         {
           question: '¿Cuánto cuesta Moil?',
-          answer: 'Professional cuesta $25 al mes: pídele al co-fundador lo que sea — investigación, planes, documentos, volantes, páginas web — y lo hace. Market Pro cuesta $75 y agrega Moil360, que escribe tu calendario de 30 días automáticamente en lugar de esperar a que se lo pidas. La primera conversación es gratis y no pide tarjeta.',
+          answer: 'Professional cuesta $25 al mes: pídele al co-fundador lo que sea — investigación, planes, documentos, volantes, presentaciones — y lo hace. Market Pro cuesta $75 y agrega Moil360, que escribe tu calendario de 30 días automáticamente en lugar de esperar a que se lo pidas. La primera conversación es gratis y no pide tarjeta.',
         },
         {
           question: '¿Qué es Moil360?',

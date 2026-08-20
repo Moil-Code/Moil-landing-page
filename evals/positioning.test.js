@@ -313,13 +313,14 @@ describe('answer-engine surfaces', () => {
 
 	it('shows the breadth of what Moil makes, not just marketing', () => {
 		// Positioning as marketing-only was too narrow: the product also does plans,
-		// research, brand, landing pages, decks, shifts and sales follow-up.
+		// research, brand, decks, shifts and sales follow-up. It does NOT do landing
+		// pages — that item lived in this list until 20 Aug 2026 and was never real.
 		const en = read('src/common/translations/en.ts');
 		const business = en.slice(en.indexOf('\n  business: {'));
 		const made = business.slice(business.indexOf('    made: {'), business.indexOf('    tiers: {'));
 		const items = (made.match(/^        '/gm) || []).length;
 		assert.ok(items >= 6, `want at least 6 concrete deliverables, found ${items}`);
-		for (const word of ['plan', 'market', 'landing page', 'flyer']) {
+		for (const word of ['plan', 'market', 'deck', 'flyer']) {
 			assert.ok(made.toLowerCase().includes(word), `breadth list never mentions "${word}"`);
 		}
 	});
@@ -396,6 +397,39 @@ describe('publishing is described accurately', () => {
 	it('both languages carry the publishing answer', () => {
 		assert.match(read('src/common/translations/en.ts'), /Facebook Page and Instagram/);
 		assert.match(read('src/common/translations/es.ts'), /Facebook e Instagram/);
+	});
+});
+
+describe('we only claim deliverables an owner can actually ask for', () => {
+	// August 2026, twice in one week: a service file was read as a customer-facing
+	// capability. service/landingPageGenerator.js exists in the backend, so the copy
+	// said Moil makes landing pages. It does not — the co-founder can talk an owner
+	// through building one, which is help, not a deliverable. The tell was already
+	// on the site: the context line on Linda Horukeye's review says in plain words
+	// that Moil is not a website builder, and the rest of the site contradicted it.
+	//
+	// The rule this pins: a filename is not a feature. If an owner cannot ask for it
+	// in the chat and receive the finished thing, it does not go in a deliverable list.
+	it('no live surface offers a landing page as something Moil produces', () => {
+		const claims = [/landing pages?/i, /p[aá]ginas? web/i];
+		for (const file of [...LIVE_SOURCES, 'public/llms.txt']) {
+			// Strip comments: this repo IS a landing page and says so in its own
+			// file headers. Only shipped copy is a claim to a customer.
+			const src = read(file)
+				.replace(/\/\*[\s\S]*?\*\//g, '')
+				.replace(/^\s*\/\/.*$/gm, '');
+			for (const re of claims) {
+				assert.ok(
+					!re.test(src),
+					`${file} offers landing pages, which Moil does not produce: ${re}`,
+				);
+			}
+		}
+	});
+
+	it('keeps the review context line that says so out loud', () => {
+		// This sentence is the counter-example that catches the next drift.
+		assert.match(read('src/common/data/reviews.ts'), /not a website builder/i);
 	});
 });
 
