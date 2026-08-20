@@ -145,3 +145,56 @@ describe('platformFromUrl', () => {
 		assert.equal(platformFromUrl('not a url at all'), '');
 	});
 });
+
+describe('the preview slug cookie', () => {
+	const {
+		readPreviewSlugCookie,
+		PREVIEW_SLUG_COOKIE,
+	} = require('../app/business/preview/previewCookie');
+
+	it('reads back a slug so a returning visitor is not stranded', () => {
+		// The cookie was write-only: submit, take the copy's advice and leave,
+		// come back to an empty form while the finished preview sat on the
+		// server with nothing able to ask for it.
+		const doc = { cookie: `${PREVIEW_SLUG_COOKIE}=abc123; other=1` };
+		assert.equal(readPreviewSlugCookie(doc), 'abc123');
+	});
+
+	it('finds the slug when it is not the first cookie', () => {
+		const doc = { cookie: `a=1; ${PREVIEW_SLUG_COOKIE}=xyz789; b=2` };
+		assert.equal(readPreviewSlugCookie(doc), 'xyz789');
+	});
+
+	it('refuses a hand-edited value rather than making it a URL path', () => {
+		for (const bad of ['../../admin', 'a b', 'x'.repeat(200), '']) {
+			const doc = { cookie: `${PREVIEW_SLUG_COOKIE}=${encodeURIComponent(bad)}` };
+			assert.equal(readPreviewSlugCookie(doc), '', bad);
+		}
+	});
+
+	it('is empty when there is no cookie at all', () => {
+		assert.equal(readPreviewSlugCookie({ cookie: '' }), '');
+		assert.equal(readPreviewSlugCookie({}), '');
+	});
+});
+
+describe('the wait ladder', () => {
+	const { waitCopyKey } = require('../app/business/preview/previewWaitCopy');
+	const en = require('fs').readFileSync(
+		require('path').join(__dirname, '..', 'src/common/translations/en.ts'),
+		'utf8',
+	);
+
+	it('does not quote the worst case to someone who has waited 30 seconds', () => {
+		// Time-to-first-value research puts under 5 minutes at "excellent" and
+		// past ~20 minutes at "gone". Telling a visitor half a minute in that
+		// this "can take up to 15 minutes" reads as an instruction to leave.
+		assert.ok(!/up to 15 minutes/i.test(en), 'the 15-minute line is back in the wait copy');
+	});
+
+	it('still escalates honestly rather than looping one calm line', () => {
+		assert.equal(waitCopyKey(0), 'waitCalm');
+		assert.equal(waitCopyKey(45 * 1000), 'waitLeave');
+		assert.equal(waitCopyKey(5 * 60 * 1000), 'waitLonger');
+	});
+});

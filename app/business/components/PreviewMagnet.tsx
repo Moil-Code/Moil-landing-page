@@ -14,7 +14,7 @@ import {
 	viewPreview,
 	websiteSubmitBody,
 } from '../preview/previewClient';
-import { setPreviewSlugCookie } from '../preview/previewCookie';
+import { clearPreviewSlugCookie, readPreviewSlugCookie, setPreviewSlugCookie } from '../preview/previewCookie';
 import { PLATFORMS, readHandle, readPlaceId, readWebsite } from '../preview/previewInput';
 import { nextPollDelayMs, waitCopyKey } from '../preview/previewWaitCopy';
 
@@ -162,6 +162,44 @@ export function PreviewMagnet() {
 		},
 		[origin, onReady, m.failed],
 	);
+
+	// A visitor who submits, is told they can leave, and comes back would
+	// otherwise land on an empty form while their finished preview sits on the
+	// server unreachable. The cookie was already being written; nothing ever
+	// read it. This is the difference between a 15-minute envelope being
+	// survivable and being a dead end.
+	useEffect(() => {
+		if (!configured) return;
+		const saved = readPreviewSlugCookie();
+		if (!saved) return;
+		let live = true;
+		void (async () => {
+			const result = await viewPreview(origin, saved);
+			if (!live || cancelled.current) return;
+			if (result.kind === 'ready' && result.body) {
+				onReady(saved, result.body);
+				return;
+			}
+			if (result.kind === 'building') {
+				setSlug(saved);
+				setPhase('wait');
+				startWaitClock();
+				void poll(saved, 0);
+				return;
+			}
+			// Failed, missing, or the row expired — do not strand the visitor on
+			// a stale id they cannot see or clear.
+			if (result.kind === 'failed' || result.kind === 'missing') {
+				clearPreviewSlugCookie();
+			}
+		})();
+		return () => {
+			live = false;
+		};
+		// Runs once. Re-running on every poll identity change would restart the
+		// resume against a slug we are already polling.
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const beginWait = (nextSlug: string, status?: string) => {
 		setSlug(nextSlug);
@@ -440,7 +478,7 @@ export function PreviewMagnet() {
 			)}
 
 			{phase === 'wait' && (
-				<div className="flex flex-col gap-2 py-2" aria-live="polite">
+				<div className="flex flex-col gap-3 py-2" aria-live="polite">
 					<p className="text-[15px] font-medium text-[var(--text)]">{waitText}</p>
 					{!reduceMotion && (
 						<div
@@ -450,6 +488,35 @@ export function PreviewMagnet() {
 							<div className="h-full w-1/3 animate-pulse rounded-full bg-[var(--orange)]" />
 						</div>
 					)}
+
+					{/* The one thing that survives someone closing the tab. The email
+					    field used to appear only AFTER the reveal, so every visitor who
+					    took the copy's advice and left during the wait was lost with
+					    nothing recorded. */}
+					<label className="flex flex-col gap-1 text-[13px] text-[var(--text)]">
+						<span>{m.waitEmailLabel}</span>
+						<div className="flex gap-2">
+							<input
+								type="email"
+								name="email"
+								autoComplete="email"
+								placeholder={m.emailPlaceholder}
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+								className={fieldClass}
+							/>
+							<button
+								type="button"
+								onClick={() => void sendOptionalEmail()}
+								disabled={!email.trim() || emailSent.current}
+								className="shrink-0 rounded-lg border border-[var(--border2)] px-3 text-[13px] font-semibold text-[var(--text)] transition-colors hover:border-[var(--orange)] disabled:cursor-not-allowed disabled:opacity-50"
+							>
+								{m.waitEmailSend}
+							</button>
+						</div>
+					</label>
+
+					<p className="text-[12px] leading-snug text-[var(--text)] opacity-70">{m.waitReturn}</p>
 				</div>
 			)}
 
