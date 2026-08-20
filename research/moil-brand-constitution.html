@@ -1,0 +1,517 @@
+<title>What Moil Is</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+/* Moil brand identity document — committed to one visual world on purpose.
+   Moil's brand is dark with orange and purple; a light variant would be a
+   different brand. Every colour is painted explicitly so the page holds on
+   any host ground. */
+:root{
+  --ink:#06080D;
+  --ink-2:#0C1018;
+  --surface:#12161F;
+  --surface-2:#1A1F2B;
+  --line:#232939;
+  --line-2:#333B4E;
+  --text:#EEF1F8;
+  --text-2:#A8B0C2;
+  --text-3:#6E7789;
+  --orange:#FF6633;
+  --orange-dim:rgba(255,102,51,0.12);
+  --purple:#5843BD;
+  --purple-light:#9D8BF0;
+  --purple-dim:rgba(88,67,189,0.18);
+  --green:#3FBF8F;
+
+  --display:"Bebas Neue",Impact,"Arial Narrow Bold",sans-serif;
+  --sans:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--ink);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.7;
+  font-weight:300;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1020px;margin:0 auto;padding:0 28px 140px;}
+
+/* ── masthead ─────────────────────────────────────────── */
+.hero{
+  position:relative;
+  padding:110px 0 72px;
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  top:-320px;left:-140px;
+  width:620px;height:620px;
+  background:radial-gradient(circle,rgba(255,102,51,0.16) 0%,transparent 68%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';
+  position:absolute;
+  top:-180px;right:-200px;
+  width:560px;height:560px;
+  background:radial-gradient(circle,rgba(88,67,189,0.22) 0%,transparent 68%);
+  pointer-events:none;
+}
+.hero > *{position:relative;}
+.eyebrow{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--orange);
+  margin:0 0 26px;
+  display:flex;flex-wrap:wrap;gap:8px 20px;
+}
+.eyebrow span:not(:first-child){color:var(--text-3);}
+h1{
+  font-family:var(--display);
+  font-weight:400;
+  font-size:clamp(52px,11vw,132px);
+  line-height:.92;
+  letter-spacing:.01em;
+  margin:0 0 30px;
+  text-transform:uppercase;
+}
+h1 .o{color:var(--orange);}
+.lede{
+  font-size:clamp(19px,2.4vw,24px);
+  line-height:1.55;
+  color:var(--text-2);
+  max-width:60ch;
+  margin:0;
+  font-weight:300;
+}
+.lede b{color:var(--text);font-weight:600;}
+
+/* ── sections ─────────────────────────────────────────── */
+section{padding-top:84px;}
+.rule{
+  display:flex;align-items:baseline;gap:16px;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--text-3);
+  margin-bottom:26px;
+}
+.rule::after{content:'';flex:1;height:1px;background:var(--line);}
+.rule .n{color:var(--orange);}
+h2{
+  font-family:var(--display);
+  font-weight:400;
+  font-size:clamp(34px,5.4vw,60px);
+  line-height:1.02;
+  letter-spacing:.01em;
+  text-transform:uppercase;
+  margin:0 0 24px;
+}
+h3{
+  font-family:var(--sans);
+  font-weight:700;
+  font-size:18px;
+  line-height:1.35;
+  margin:0 0 10px;
+  color:var(--text);
+}
+p{max-width:68ch;margin:0 0 18px;color:var(--text-2);}
+p strong,li strong{color:var(--text);font-weight:600;}
+p:last-child{margin-bottom:0;}
+a{color:var(--orange);text-decoration-thickness:1px;text-underline-offset:3px;}
+a:focus-visible{outline:2px solid var(--orange);outline-offset:3px;}
+ul,ol{margin:0 0 18px;padding-left:1.2em;max-width:68ch;color:var(--text-2);display:flex;flex-direction:column;gap:11px;}
+li::marker{color:var(--orange);}
+
+/* ── the statement ────────────────────────────────────── */
+.statement{
+  border-left:3px solid var(--orange);
+  padding:6px 0 6px 30px;
+  margin:34px 0;
+  max-width:64ch;
+}
+.statement p{
+  font-family:var(--display);
+  font-size:clamp(26px,4vw,42px);
+  line-height:1.08;
+  letter-spacing:.01em;
+  text-transform:uppercase;
+  color:var(--text);
+  margin:0;
+}
+.statement cite{
+  display:block;
+  margin-top:14px;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  font-style:normal;
+  color:var(--text-3);
+}
+
+/* ── pillar cards ─────────────────────────────────────── */
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;margin-top:8px;}
+.pillar{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-top:2px solid var(--orange);
+  border-radius:4px;
+  padding:26px 26px 28px;
+}
+.pillar:nth-child(2){border-top-color:var(--purple-light);}
+.pillar:nth-child(3){border-top-color:var(--green);}
+.pillar .k{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--text-3);
+  display:block;
+  margin-bottom:14px;
+}
+.pillar p{font-size:16.5px;color:var(--text);margin:0;line-height:1.55;}
+
+/* ── made grid ────────────────────────────────────────── */
+.made{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  border-radius:4px;
+  overflow:hidden;
+  margin-top:8px;
+}
+.made div{
+  background:var(--ink-2);
+  padding:18px 22px;
+  font-size:15px;
+  color:var(--text);
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  line-height:1.5;
+}
+.made div::before{
+  content:'';flex-shrink:0;margin-top:9px;
+  width:5px;height:5px;border-radius:50%;background:var(--orange);
+}
+
+/* ── tables ───────────────────────────────────────────── */
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--surface);margin-bottom:18px;}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:560px;}
+th,td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.55;color:var(--text-2);}
+thead th{
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--text-3);font-weight:500;background:var(--surface-2);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none;}
+td strong{color:var(--text);}
+td.k{color:var(--text);font-weight:600;white-space:nowrap;}
+
+/* ── offer ────────────────────────────────────────────── */
+.offer{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;}
+.tier{
+  background:linear-gradient(160deg,var(--surface-2),var(--surface));
+  border:1px solid var(--line-2);
+  border-radius:6px;
+  padding:30px;
+}
+.tier.pro{border-color:rgba(255,102,51,0.42);}
+.tier .name{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-3);}
+.tier .price{font-family:var(--display);font-size:60px;line-height:1;color:var(--orange);margin:12px 0 4px;}
+.tier.max .price{color:var(--purple-light);}
+.tier .per{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);}
+.tier .line{margin:20px 0 0;font-size:17px;line-height:1.5;color:var(--text);font-weight:500;}
+
+/* ── never list ───────────────────────────────────────── */
+.never{counter-reset:n;list-style:none;padding:0;gap:0;}
+.never li{
+  counter-increment:n;
+  display:grid;grid-template-columns:40px 1fr;gap:16px;
+  padding:16px 0;border-bottom:1px solid var(--line);
+  max-width:none;
+}
+.never li:last-child{border-bottom:none;}
+.never li::before{
+  content:counter(n,decimal-leading-zero);
+  font-family:var(--mono);font-size:12px;color:var(--orange);padding-top:4px;
+}
+.never li::marker{content:none;}
+
+.note{
+  background:var(--purple-dim);
+  border:1px solid rgba(88,67,189,0.4);
+  border-radius:4px;
+  padding:22px 26px;
+  margin-top:24px;
+}
+.note p{color:var(--text-2);margin:0;}
+.note p + p{margin-top:12px;}
+
+footer{
+  margin-top:96px;padding-top:26px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-3);display:flex;flex-wrap:wrap;gap:10px 26px;
+}
+
+@media (max-width:720px){
+  .wrap{padding:0 20px 90px;}
+  section{padding-top:60px;}
+  .hero{padding:76px 0 52px;}
+  .statement{padding-left:20px;}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">
+      <span>Moil brand constitution</span><span>v1</span><span>20 Aug 2026</span>
+    </div>
+    <h1>You shouldn't<br>have to be<br><span class="o">everything.</span></h1>
+    <p class="lede">Moil exists because small businesses don't fail from lack of effort. They fail because one person has to be every department at once — and something always gets dropped. <b>This document is what Moil is.</b> It is the companion to <code style="font-family:var(--mono);font-size:.85em;color:var(--purple-light)">MOIL.md</code>: that one governs how the co-founder behaves, this one governs who we are to the world.</p>
+  </header>
+
+  <!-- 1 -->
+  <section>
+    <div class="rule"><span class="n">01</span><span>The honest part</span></div>
+    <h2>Why this was hard</h2>
+    <p>Moil has been called an AI co-founder, a hiring platform, a growth platform, a tool for local shops, and a marketing platform — sometimes on the same page, in the same week. That isn't carelessness. It's what happens when a product genuinely does many things and every attempt at a name tries to describe <strong>the shape of the product</strong> instead of <strong>the job it does.</strong></p>
+    <p>Horizontal products resist shape-names. Any shape you pick either leaves something real out, or is so broad it means nothing. "Does everything" reads as "does nothing."</p>
+    <p>The answer was already written, in our own repository, and it never reached the outside world:</p>
+    <div class="statement">
+      <p>"Part strategic advisor, part executive coach, part executor."</p>
+      <cite>MOIL.md — the coach constitution</cite>
+    </div>
+    <div class="statement">
+      <p>"The bottleneck is execution, not theory. Every capability ends in a deliverable."</p>
+      <cite>Founder OS integration plan — "vending machine, not curriculum"</cite>
+    </div>
+    <p>We were describing ourselves by our <em>parts</em>. What people buy is the <em>result</em>.</p>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <div class="rule"><span class="n">02</span><span>The thesis</span></div>
+    <h2>Every hat, one person</h2>
+    <p>A small business owner is the marketing team. And the finance team. And the person who answers the phone. Not by choice — by arithmetic. There is one of them and there are eleven jobs.</p>
+    <p>So the work that has no deadline is the work that never happens. The marketing plan. The follow-up. The flyer for Tuesday. The month of posts. Not because it doesn't matter, but because a customer is standing in front of them right now.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>What owners tell us</th><th>Share</th></tr></thead>
+        <tbody>
+          <tr><td>Lack of time is what stops them marketing consistently</td><td><strong>73%</strong></td></tr>
+          <tr><td>Post inconsistently as a result</td><td><strong>58%</strong></td></tr>
+          <tr><td>Run out of content ideas and go quiet</td><td><strong>47%</strong></td></tr>
+          <tr><td>Already outsource social media because they cannot keep up</td><td><strong>42%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)">Buffer small-business survey · Clutch outsourcing survey</p>
+    <p>Every existing answer asks the owner for the one thing they don't have. Software gives them a blank calendar and a login. An agency costs $3,000–$8,000 a month. A consultant delivers a document and leaves. A chatbot waits to be prompted, then forgets.</p>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <div class="rule"><span class="n">03</span><span>The definition</span></div>
+    <h2>What Moil is</h2>
+    <div class="statement">
+      <p>Moil is the co-founder who does the work you never get to.</p>
+      <cite>The one-sentence definition — use this everywhere</cite>
+    </div>
+    <p><strong>The longer form, for anywhere that needs it:</strong></p>
+    <div class="note">
+      <p>Moil is an AI co-founder for small business owners — the people doing marketing, finance, hiring and customer service themselves. It interviews the owner once about what they sell, who buys, and how they talk, then produces finished work from that stored profile: market research, business plans, documents, brand assets, flyers, landing pages and social content. It works end to end in English and Spanish.</p>
+      <p>Professional is $25 a month and makes things on request. Market Pro is $75 and also writes the month's content calendar automatically.</p>
+    </div>
+    <p>Three things make that sentence true rather than aspirational, and all three are load-bearing.</p>
+    <div class="pillars">
+      <div class="pillar">
+        <span class="k">01 — It knows you</span>
+        <p>One interview, then a permanent profile. What you sell, who buys, how you talk. You never explain your business twice.</p>
+      </div>
+      <div class="pillar">
+        <span class="k">02 — It makes the thing</span>
+        <p>Not advice, not a template, not a prompt to fill in. The finished plan, the finished flyer, the finished page.</p>
+      </div>
+      <div class="pillar">
+        <span class="k">03 — In both languages</span>
+        <p>Everything comes out in English and Spanish from the same brief. Not translated afterwards. Not a second workflow.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <div class="rule"><span class="n">04</span><span>Purpose · Mission · Vision</span></div>
+    <h2>Why we exist</h2>
+
+    <h3>Purpose — why Moil exists at all</h3>
+    <p>Small businesses don't fail because the owner isn't good enough. They fail because one person cannot be eleven departments and still serve customers. <strong>Moil exists so that stops being the reason.</strong></p>
+
+    <h3>Mission — what we do about it</h3>
+    <p>Give every small business owner a co-founder that learns their business once and then does the work they never get to — plans, research, documents, brand, content, pages — <strong>in the language their customers actually speak.</strong></p>
+
+    <h3>Vision — where this goes</h3>
+    <p>A one-person business should be able to show up like a company ten times its size — <strong>without hiring ten times the people.</strong> The advantage that big companies have is not talent. It is coverage. We are closing that gap.</p>
+
+    <h3>Essence — the four words underneath everything</h3>
+    <div class="statement">
+      <p>You shouldn't have to be everything.</p>
+      <cite>If a piece of Moil communication doesn't ladder to this, cut it</cite>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <div class="rule"><span class="n">05</span><span>Proof</span></div>
+    <h2>What we actually make</h2>
+    <p>Breadth is shown, never claimed. When someone asks what Moil does, do not list capabilities — list finished things. These are real deliverables owners have asked for.</p>
+    <div class="made">
+      <div>A 12-page study of their local market</div>
+      <div>An investor-ready business plan</div>
+      <div>A Tuesday flyer, on brand, in both languages</div>
+      <div>A landing page for a new service</div>
+      <div>30 days of posts, written in their voice</div>
+      <div>A pitch deck for a bank meeting</div>
+      <div>A week of shifts for five employees</div>
+      <div>A job description they'd been dreading</div>
+      <div>Follow-ups to customers who never replied</div>
+    </div>
+    <p style="margin-top:22px">It already knows the business, so none of these start from a blank page. <strong>That is the product.</strong></p>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <div class="rule"><span class="n">06</span><span>Difference</span></div>
+    <h2>How we are different</h2>
+    <p>Never claim to be better in general. Be specific about the axis, and be honest about where the other option wins — a comparison that concedes nothing is read as marketing and discounted.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Against</th><th>The real difference</th><th>Where they win</th></tr></thead>
+        <tbody>
+          <tr><td class="k">ChatGPT / Claude</td><td>They answer what you ask. Moil holds a structured profile of your business and produces finished deliverables — and at $75 does it without being asked.</td><td>Anything open-ended. Broader, cheaper, better at reasoning.</td></tr>
+          <tr><td class="k">Buffer / Later / Hootsuite</td><td>They schedule what you write. Moil writes it.</td><td>Publishing, queues, analytics, engagement inbox. Cheaper and purpose-built.</td></tr>
+          <tr><td class="k">A marketing agency</td><td>We replace the output at about a hundredth of the retainer, and never need re-briefing.</td><td>Judgement, accountability, answering your customers.</td></tr>
+          <tr><td class="k">A business consultant</td><td>They deliver a document and leave. Moil keeps the context and does the next twelve months of execution.</td><td>Experience of businesses like yours. It will tell you your plan is wrong.</td></tr>
+          <tr><td class="k">Other AI coaches</td><td>They advise. We produce. Every conversation ends in a deliverable and a next action with a date.</td><td>Nothing structural — this is our category to take.</td></tr>
+          <tr><td class="k">Everyone</td><td><strong>Genuine bilingual output.</strong> Every deliverable in English and Spanish from one brief.</td><td>No one competes here. This is the moat.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <p><strong>The bilingual advantage is not a feature line — it is the position.</strong> Nearly one in five people in the US is Hispanic. There are roughly five million Hispanic-owned US businesses. Latino-owned employer firms grew about 35% from 2019 to 2024 against roughly 6% nationally. Every major competitor is English-first.</p>
+      <p>An owner serving both languages is currently doing the work twice or skipping one. We are the only ones who make that stop.</p>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <div class="rule"><span class="n">07</span><span>The offer</span></div>
+    <h2>One axis, two plans</h2>
+    <p>Both plans are the same co-founder with the same memory of your business. The only difference is whether you ask for the work or it arrives on its own. <strong>Never describe the tiers any other way.</strong></p>
+    <div class="offer">
+      <div class="tier pro">
+        <span class="name">Professional</span>
+        <div class="price">$25</div>
+        <span class="per">per month</span>
+        <p class="line">Ask it for anything. It makes it.</p>
+      </div>
+      <div class="tier max">
+        <span class="name">Market Pro</span>
+        <div class="price">$75</div>
+        <span class="per">per month</span>
+        <p class="line">It also runs your month, without you asking.</p>
+      </div>
+    </div>
+    <p style="margin-top:24px">The first conversation is free and needs no card. Moil360 — the automatic 30-day calendar — and AI video are the only things Market Pro adds beyond higher limits. <strong>$25 never includes the calendar.</strong> Saying otherwise is the contradiction that sent us back to first principles, and it must not return.</p>
+  </section>
+
+  <!-- 8 -->
+  <section>
+    <div class="rule"><span class="n">08</span><span>Voice</span></div>
+    <h2>How Moil sounds</h2>
+    <div class="statement">
+      <p>Warm. Knowledgeable. Slightly playful. Like a friend who happens to know your business well.</p>
+      <cite>MOIL_VOICE_BRIEF.md — applies to copy, not just audio</cite>
+    </div>
+    <ul>
+      <li><strong>Warm, not soft.</strong> Confident enough to give advice, gentle enough that it doesn't feel preachy.</li>
+      <li><strong>Knowledgeable, not lecturing.</strong> The friend who has run a business and can explain without making anyone feel small for asking.</li>
+      <li><strong>Never sycophantic.</strong> No "great question", no "amazing", no effusive validation. We respect the reader enough to just answer.</li>
+      <li><strong>Conversational.</strong> Contractions. Short sentences. The "let me help with that" register, never "I would be happy to assist."</li>
+      <li><strong>A peer, not a service.</strong> We are talking to owners aged 35–55, often non-technical, running the business while doing five other things.</li>
+    </ul>
+    <p><strong>Who we are not talking to.</strong> Not startup founders. "Co-founder" is our brand frame, not our customer's self-description — a landscaper does not call themselves a founder. Drop TAM/SAM/SOM, "why now", blitzscale, and every other piece of YC dialect.</p>
+
+    <h3>The brand marks</h3>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Element</th><th>Value</th><th>Use</th></tr></thead>
+        <tbody>
+          <tr><td class="k">Moil orange</td><td><strong>#FF6633</strong></td><td>The one accent. Action, emphasis, the word that matters.</td></tr>
+          <tr><td class="k">Moil purple</td><td><strong>#5843BD</strong></td><td>Depth and gradient partner. Never the primary call to action.</td></tr>
+          <tr><td class="k">Display</td><td><strong>Bebas Neue</strong></td><td>Headlines, uppercase. Confident, compact, never decorative.</td></tr>
+          <tr><td class="k">Name</td><td><strong>Moil</strong></td><td>Never "MoilApp", never "Moil AI" in the name field. Legal entity is Moil Enterprise Inc., Buda, Texas, founded 2023.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section>
+    <div class="rule"><span class="n">09</span><span>Discipline</span></div>
+    <h2>What we never do</h2>
+    <p>These are not style preferences. Each one is a rule we broke, at cost, and the reason it exists is written next to it.</p>
+    <ol class="never">
+      <li><strong>Never write or reword a customer's words.</strong> Three real customers had sentences authored for them to match a hero line. That is a fabricated endorsement under FTC rules and it destroyed the only third-party proof we had. Transcribe or omit. Rewording needs the customer's written sign-off on the exact final text.</li>
+      <li><strong>Never publish a number without a source.</strong> We carried three different star ratings on three pages of the same product, and "12,500+ jobs" in a category on a marketplace with 3,000 people. If it cannot be linked to, it does not ship.</li>
+      <li><strong>Never let two surfaces describe Moil differently.</strong> The same customer had three different quote versions in one codebase; the FAQ and the pricing card disagreed about what $25 buys. One source of truth, always.</li>
+      <li><strong>Never lock a phrase and repeat it verbatim.</strong> "AI co-founder for local shops" appeared in about forty places. Repetition is not consistency — it is the scaled-content signature, and it is what made the site read as machine-written.</li>
+      <li><strong>Never pick a word because it is repeatable.</strong> Pick it because customers say it. "Shop" failed that test. So does "co-founder" as a search term — it is a good brand line and a bad head term, which is why it lives on the eyebrow and not the H1.</li>
+      <li><strong>Never claim what the product does not do.</strong> We told AI assistants Moil is "not a website builder" while the backend shipped a full landing-page generator, contradicting a real customer's review. Audit the code before writing the claim.</li>
+      <li><strong>Never deny a shipping feature to keep a story clean.</strong> We erased hiring from the site while the marketplace held 3,000 candidates and a published review credited it with two hires. If the copy has to deny the product, the copy is wrong.</li>
+    </ol>
+  </section>
+
+  <!-- 10 -->
+  <section>
+    <div class="rule"><span class="n">10</span><span>Use</span></div>
+    <h2>How to use this document</h2>
+    <p>This is the brand constitution. It sits beside <code style="font-family:var(--mono);font-size:.85em;color:var(--purple-light)">MOIL.md</code> — that governs how the co-founder behaves in a conversation; this governs who Moil is to everyone else.</p>
+    <ul>
+      <li><strong>Every profile, listing and bio</strong> — G2, Capterra, LinkedIn, Crunchbase, Product Hunt — copies from §3 and §7. Word for word. Description drift across directories is what keeps us confusable with MOIL Limited.</li>
+      <li><strong>Every new page</strong> answers to §4. If it does not ladder to "you shouldn't have to be everything", it does not belong.</li>
+      <li><strong>Every comparison</strong> follows §6: name the axis, concede where they win.</li>
+      <li><strong>Every price mention</strong> uses §7's one axis. Ask, or autopilot. Nothing else.</li>
+      <li><strong>Every piece of copy</strong> is read against §8 before it ships, and against §9 twice.</li>
+      <li><strong>This is a living document.</strong> When the product changes, this changes first — then the website, then the profiles. Not the other way round. That order is the whole fix.</li>
+    </ul>
+    <div class="note">
+      <p><strong>The test for anything we publish:</strong> would an owner who is doing eleven jobs at once read this and recognise themselves — and then see, specifically, what would stop being their job?</p>
+      <p>If not, it isn't finished.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>Moil Enterprise Inc.</span>
+    <span>Buda, Texas · Founded 2023</span>
+    <span>Brand constitution v1</span>
+    <span>Companion to MOIL.md</span>
+  </footer>
+
+</div>
