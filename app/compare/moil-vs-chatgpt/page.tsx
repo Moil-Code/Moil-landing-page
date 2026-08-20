@@ -97,7 +97,7 @@ export default function MoilVsChatGPT() {
           moil:
             'Your marketing has to go out every month and nobody in the business owns it. You want the calendar written, illustrated and ready to review rather than prompted into existence piece by piece — and you need it in English and Spanish.',
           them:
-            'You want a general-purpose assistant for open-ended work: thinking, writing, coding, analysis. ChatGPT is broader, cheaper, and better at reasoning across unrelated problems. It is not trying to hand you a finished month.',
+            'You want a general-purpose assistant for open-ended work: thinking, writing, coding, analysis. ChatGPT is broader, costs less, and carries no business context you have to set up. It is not trying to hand you a finished month, and it cannot publish one.',
         }}
         bulletsHeading="What the difference looks like in a normal month"
         bullets={[
