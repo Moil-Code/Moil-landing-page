@@ -177,7 +177,7 @@ export default function RootLayout({
                 "width": 512,
                 "height": 512
               },
-              "description": "Moil builds AI marketing software for small businesses. It learns a business once, then writes a 30-day content calendar with captions and images, in English and Spanish.",
+              "description": "Moil builds an AI co-founder for small business owners. It learns a business once, then produces the finished work the owner has no time to make, in English and Spanish.",
               "foundingDate": "2023",
               "industry": "Business Software",
               "numberOfEmployees": "2-10",
@@ -209,7 +209,7 @@ export default function RootLayout({
                 {
                   "@type": "Offer",
                   "name": "Moil Professional",
-                  "description": "Market research, business plan, coaching and documents for a small business. $25 a month.",
+                  "description": "Professional $25/month — ask the co-founder for anything and it produces the finished work: research, plans, documents, brand assets, flyers, landing pages.",
                   "price": "25",
                   "priceCurrency": "USD",
                   "priceSpecification": {
@@ -249,7 +249,7 @@ export default function RootLayout({
               "@type": "WebSite",
               "name": "Moil",
               "url": "https://www.moilapp.com",
-              "description": "AI marketing for small business — a 30-day content calendar, market research, plan and coaching, in English and Spanish.",
+              "description": "An AI co-founder for small business owners — research, plans, documents, brand, landing pages and content, in English and Spanish.",
             })
           }}
         />

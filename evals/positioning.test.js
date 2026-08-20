@@ -276,6 +276,54 @@ describe('answer-engine surfaces', () => {
 		assert.match(config, /source: '\/compare\/moil-vs-claude'/);
 	});
 
+	it('keeps the two tiers telling the same story everywhere', () => {
+		// The page once claimed the 30-day calendar was included at $25 while the FAQ
+		// said it was $75. The split is: $25 makes things on request, $75 also runs
+		// the month unasked. Nothing on any surface may contradict that.
+		const en = read('src/common/translations/en.ts');
+		const business = en.slice(en.indexOf('\n  business: {'));
+
+		// The $25 column must never claim Moil360 / the calendar / video.
+		const tiers = business.slice(business.indexOf('    tiers: {'));
+		const table = tiers.slice(tiers.indexOf('rows: ['), tiers.indexOf('      ],'));
+		for (const line of table.split('\n')) {
+			if (/Moil360|content calendar|AI video/i.test(line)) {
+				const cells = [...line.matchAll(/'([^']*)'/g)].map((m) => m[1]);
+				assert.equal(
+					cells[1],
+					'Not included',
+					`the $25 column claims "${cells[0]}"; that is Market Pro only`,
+				);
+			}
+		}
+
+		// No surface may say the calendar is included at $25.
+		const claim = /\$25[^.]{0,120}(30-day calendar|Moil360)[^.]{0,40}(included|includes)/i;
+		for (const file of [...LIVE_SOURCES, 'public/llms.txt']) {
+			assert.ok(!claim.test(read(file)), `${file} implies the calendar is in the $25 plan`);
+		}
+
+		// Both prices must appear together wherever the offer is described, so a
+		// reader never sees one tier without the other.
+		for (const file of ['public/llms.txt', 'app/ai-info/page.tsx']) {
+			const src = read(file);
+			assert.ok(src.includes('$25') && src.includes('$75'), `${file} states one tier but not the other`);
+		}
+	});
+
+	it('shows the breadth of what Moil makes, not just marketing', () => {
+		// Positioning as marketing-only was too narrow: the product also does plans,
+		// research, brand, landing pages, decks, shifts and sales follow-up.
+		const en = read('src/common/translations/en.ts');
+		const business = en.slice(en.indexOf('\n  business: {'));
+		const made = business.slice(business.indexOf('    made: {'), business.indexOf('    tiers: {'));
+		const items = (made.match(/^        '/gm) || []).length;
+		assert.ok(items >= 6, `want at least 6 concrete deliverables, found ${items}`);
+		for (const word of ['plan', 'market', 'landing page', 'flyer']) {
+			assert.ok(made.toLowerCase().includes(word), `breadth list never mentions "${word}"`);
+		}
+	});
+
 	it('does not repeat the price boilerplate across the site', () => {
 		const phrase = /Professional is \$25 a month for research, plan, coaching, and documents/g;
 		const total = LIVE_SOURCES.reduce((n, p) => n + (read(p).match(phrase) || []).length, 0);

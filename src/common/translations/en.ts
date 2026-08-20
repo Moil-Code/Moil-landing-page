@@ -74,19 +74,22 @@ export const en = {
       pricing: 'Pricing',
     },
     hero: {
-      // Eyebrow carries the brand frame ("co-founder"); the H1 carries the job.
-      // Four surfaces, four readers — research/seo-aeo-audit-and-plan.md section 4.5.
+      // The H1 names the problem the owner already knows they have — wearing every
+      // hat — and the page answers it with finished work, not adjectives. "Co-founder"
+      // sits on the eyebrow; "AI" lives in the answer block and schema.
+      // See research/seo-aeo-audit-and-plan.md section 4.5.
       eyebrow: 'The co-founder who handles what you never get to',
-      headline: 'You run the business.',
-      headlineHighlight: 'Moil runs the marketing.',
-      subheadline: 'Moil learns your business once — what you sell, who buys, how you talk — then writes your month of content and keeps it coming. English and Spanish. From $25 a month.',
-      cta: 'Start free — no card',
+      headline: 'You\u2019re the marketing team.',
+      headlineLine2: 'And the finance team.',
+      headlineHighlight: 'And the one who answers the phone.',
+      subheadline: 'Moil learns your business once, then makes the actual work \u2014 your plan, your research, your posts, your flyers, your landing page. Ask it for anything. From $25 a month.',
+      cta: 'Start free \u2014 no card',
       ctaSecondary: 'See it on your business',
       trust: [
-        'A finished month of content',
-        'Written in your voice',
+        'Ask for anything \u2014 it makes it',
+        'It remembers your business',
         'English and Spanish',
-        'Start free — no card',
+        'Start free \u2014 no card',
       ],
       magnet: {
         doorsLabel: 'How should we find your business?',
@@ -119,8 +122,60 @@ export const en = {
     },
     aeoAnswer: {
       label: 'What is Moil?',
-      body: 'Moil is an AI marketing platform for small businesses. It interviews the owner once about what they sell, who buys, and how they talk, then produces a 30-day content calendar with captions and images, refreshes it every month, and answers questions about the business using that stored context. Fully bilingual in English and Spanish. Professional is $25 a month; the full Moil360 calendar is Market Pro at $75.',
+      body: 'Moil is an AI co-founder for small business owners \u2014 the people doing marketing, finance, hiring and customer service themselves. It interviews the owner once about what they sell, who buys, and how they talk, then produces finished work from that stored profile: market research, business plans, documents, brand assets, flyers, landing pages and social content, in English and Spanish. Professional is $25 a month and makes things on request. Market Pro is $75 and also writes the month\u2019s content calendar automatically.',
       lastUpdated: 'Last updated: August 2026',
+    },
+    // Breadth made visible. "Does everything" reads as nothing; a list of real
+    // deliverables reads as everything. Every item below maps to a capability that
+    // actually exists in the product backend.
+    made: {
+      tag: 'One conversation. Finished work.',
+      headline: 'Things owners asked Moil for',
+      headlineHighlight: 'last month.',
+      items: [
+        'A 12-page study of their local market',
+        'An investor-ready business plan',
+        'A Tuesday flyer, on brand, in both languages',
+        'A landing page for a new service',
+        '30 days of posts, written in their voice',
+        'A pitch deck for a bank meeting',
+        'A week of shifts for five employees',
+        'A job description for a role they were dreading writing',
+        'Follow-ups to the customers who never replied',
+      ],
+      footnote: 'It already knows the business, so none of these start from a blank page.',
+    },
+    // The tier split, stated once. $25 makes things when asked; $75 also runs the
+    // month unasked. Every other pricing mention on the site must agree with this.
+    tiers: {
+      tag: 'Two plans',
+      headline: 'Ask, or',
+      headlineHighlight: 'autopilot.',
+      subheadline: 'Both plans are the same co-founder, with the same memory of your business. The difference is whether you ask for the work or it arrives on its own.',
+      proName: 'Professional',
+      proPrice: '$25',
+      proPeriod: 'per month',
+      proLine: 'Ask it for anything. It makes it.',
+      maxName: 'Market Pro',
+      maxPrice: '$75',
+      maxPeriod: 'per month',
+      maxLine: 'It also runs your month, without you asking.',
+      featureCol: 'What you get',
+      rows: [
+        ['The co-founder \u2014 ask for anything', 'Yes', 'Yes'],
+        ['Remembers your business between sessions', 'Yes', 'Yes'],
+        ['Market research', 'Yes', 'Higher limits'],
+        ['Business plan and documents', 'Yes', 'Higher limits'],
+        ['Brand DNA \u2014 colours, fonts, voice', 'Yes', 'Yes'],
+        ['Images, flyers and docs on request', 'Yes', 'Higher limits'],
+        ['Landing pages', 'Yes', 'Yes'],
+        ['Coaching and accountability', 'Yes', 'Yes'],
+        ['English and Spanish', 'Yes', 'Yes'],
+        ['Moil360 \u2014 your month written automatically', 'Not included', 'Included'],
+        ['AI video', 'Not included', 'Included'],
+      ],
+      note: 'The first conversation is free and needs no card.',
+      cta: 'Start free \u2014 no card',
     },
     demoVideo: {
       tag: 'Meet your AI co-founder',
@@ -465,11 +520,11 @@ export const en = {
       items: [
         {
           question: 'What does Moil do for a small business?',
-          answer: 'Moil learns your business once — what you sell, who buys, how you talk — then writes your marketing. It produces a 30-day content calendar with captions and images, refreshes it every month, and answers questions about your business using that stored context. It works in English and Spanish.',
+          answer: 'Moil learns your business once — what you sell, who buys, how you talk — then makes the work you do not have time for. Ask it for market research, a business plan, a flyer, a landing page, a pitch deck, a week of staff shifts or a month of posts, and it produces the finished thing. It works in English and Spanish.',
         },
         {
           question: 'How much does Moil cost?',
-          answer: 'Professional is $25 a month and includes market research, your business plan, coaching and documents. The full Moil360 30-day calendar is Market Pro at $75. The first conversation is free and needs no card, and both plans work end to end in English and Spanish.',
+          answer: 'Professional is $25 a month: ask the co-founder for anything — research, plans, documents, flyers, landing pages — and it makes it. Market Pro is $75 and adds Moil360, which writes your 30-day content calendar automatically instead of waiting to be asked. The first conversation is free and needs no card.',
         },
         {
           question: 'What is Moil360?',

@@ -171,6 +171,27 @@ export function BusinessPageContent() {
         </div>
       </section>
 
+      {/* WHAT IT MADE — breadth made concrete. "Does everything" reads as nothing;
+          a list of real deliverables reads as everything. Sits directly under the
+          answer block so the range is established before any feature copy. */}
+      <section id="what-it-made" className="made">
+        <div className="made__inner">
+          <div className="section-tag rv" style={{ justifyContent: 'center' }}>{t.business.made.tag}</div>
+          <h2 className="section-headline rv" style={{ textAlign: 'center' }}>
+            {t.business.made.headline}{' '}
+            <span style={{ color: 'var(--orange)' }}>{t.business.made.headlineHighlight}</span>
+          </h2>
+          <ul className="made__list rv d1">
+            {t.business.made.items.map((item) => (
+              <li key={item} className="made__item">{item}</li>
+            ))}
+          </ul>
+          <p className="made__footnote rv d2">{t.business.made.footnote}</p>
+        </div>
+      </section>
+
+      <div className="divider"></div>
+
       {/* TICKER */}
       <div className="capabilities-bar">
         <div className="ticker-track">
@@ -583,6 +604,46 @@ export function BusinessPageContent() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <div className="divider"></div>
+
+      {/* TIERS — the split stated once, plainly. $25 makes things when asked;
+          $75 also runs the month unasked. Every other pricing mention on the site
+          is reconciled to this table. */}
+      <section id="tiers" className="tiers">
+        <div className="tiers__inner">
+          <div className="section-tag rv" style={{ justifyContent: 'center' }}>{t.business.tiers.tag}</div>
+          <h2 className="section-headline rv" style={{ textAlign: 'center' }}>
+            {t.business.tiers.headline}{' '}
+            <span style={{ color: 'var(--orange)' }}>{t.business.tiers.headlineHighlight}</span>
+          </h2>
+          <p className="section-sub rv" style={{ textAlign: 'center' }}>{t.business.tiers.subheadline}</p>
+
+          <div className="tiers__table rv d1">
+            <div className="tiers__row tiers__row--head">
+              <span>{t.business.tiers.featureCol}</span>
+              <span>
+                <strong>{t.business.tiers.proName}</strong>
+                <em>{t.business.tiers.proPrice} {t.business.tiers.proPeriod}</em>
+                <small>{t.business.tiers.proLine}</small>
+              </span>
+              <span>
+                <strong>{t.business.tiers.maxName}</strong>
+                <em>{t.business.tiers.maxPrice} {t.business.tiers.maxPeriod}</em>
+                <small>{t.business.tiers.maxLine}</small>
+              </span>
+            </div>
+            {t.business.tiers.rows.map((row) => (
+              <div className="tiers__row" key={row[0]}>
+                <span>{row[0]}</span>
+                <span data-label={t.business.tiers.proName}>{row[1]}</span>
+                <span data-label={t.business.tiers.maxName}>{row[2]}</span>
+              </div>
+            ))}
+          </div>
+          <p className="tiers__note rv d2">{t.business.tiers.note}</p>
         </div>
       </section>
 

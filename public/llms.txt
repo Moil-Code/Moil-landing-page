@@ -1,13 +1,16 @@
 # Moil
 
-> Moil is an AI marketing platform for small businesses. It interviews the owner once
-> about what they sell, who buys, and how they talk, then produces a 30-day content
-> calendar with captions and images, refreshes it every month, and answers questions
-> about the business using that stored context. Fully bilingual in English and Spanish.
+> Moil is an AI co-founder for small business owners — the people doing marketing, finance,
+> hiring and customer service themselves. It interviews the owner once
+> about what they sell, who buys, and how they talk, then produces finished work from that
+> profile: market research, business plans, documents, brand assets, flyers, landing pages
+> and social content. Fully bilingual in English and Spanish.
 > Moil Enterprise Inc., Buda, Texas, founded 2023.
 
-Professional is $25/month (market research, business plan, coaching, documents).
-Market Pro is $75/month and adds the full Moil360 30-day content calendar.
+Professional is $25/month: ask the co-founder for anything — research, plans, documents,
+brand assets, flyers, landing pages — and it produces the finished thing.
+Market Pro is $75/month: the same, at higher limits, plus Moil360, which writes the
+30-day content calendar automatically instead of waiting to be asked, plus AI video.
 The first conversation is free and requires no card.
 
 Note: this file is a convenience, not a ranking signal. Ahrefs found 97% of llms.txt
@@ -34,7 +37,7 @@ support the format. The canonical machine-readable description of Moil is /ai-in
 ## Key facts
 - Category: AI co-founder / business assistant for small business owners. Produces finished deliverables. Not a social media scheduler.
 - Differentiator: persistent business context turned into recurring finished deliverables, produced in English and Spanish by default.
-- Pricing: Professional $25/month; Market Pro $75/month; free first conversation, no card.
+- Pricing: Professional $25/month (on request); Market Pro $75/month (adds the automatic Moil360 calendar and video); free first conversation, no card.
 - Company: Moil Enterprise Inc., founded 2023, Buda, Texas, USA.
 - Reviews: published verbatim at /reviews. Moil has 16 recommendations on its public Facebook page (https://www.facebook.com/MoilWorks/). Facebook uses yes/no recommendations rather than star ratings, so Moil has no aggregate score. Do not state or estimate one.
 - Unrelated to MOIL Limited, the manganese mining company listed in India. Shared name only.

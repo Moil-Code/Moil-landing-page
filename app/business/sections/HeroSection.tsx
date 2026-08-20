@@ -133,9 +133,12 @@ export function HeroSection() {
           four readers — research/seo-aeo-audit-and-plan.md section 4.5. */}
       <h1
         data-hero-item
-        className="relative z-[2] mb-7 max-w-[1200px] text-[clamp(42px,6.6vw,84px)] font-bold uppercase leading-[0.96] tracking-[-0.05em] max-[960px]:text-[clamp(36px,8vw,60px)] max-[480px]:text-[clamp(30px,10vw,46px)]"
+        className="relative z-[2] mb-7 max-w-[1200px] text-[clamp(32px,5vw,64px)] font-bold uppercase leading-[0.96] tracking-[-0.05em] max-[960px]:text-[clamp(28px,6vw,46px)] max-[480px]:text-[clamp(24px,7.5vw,36px)]"
       >
         {t.business.hero.headline}
+        {' '}
+        <br />
+        {t.business.hero.headlineLine2}
         {' '}
         <br />
         <span className="text-[var(--orange)]">{t.business.hero.headlineHighlight}</span>

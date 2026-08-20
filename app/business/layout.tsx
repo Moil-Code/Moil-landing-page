@@ -83,7 +83,7 @@ export default function BusinessLayout({
               "width": 512,
               "height": 512
             },
-            "description": "Moil builds AI marketing software for small businesses. It learns a business once, then writes a 30-day content calendar with captions and images, in English and Spanish.",
+            "description": "Moil builds an AI co-founder for small business owners. It learns a business once, then produces the finished work the owner has no time to make, in English and Spanish.",
             "foundingDate": "2023",
             "industry": "Business Software",
             "numberOfEmployees": "2-10",
@@ -118,7 +118,7 @@ export default function BusinessLayout({
             "@context": "https://schema.org",
             "@type": "Product",
             "name": "Moil Professional",
-            "description": "Market research, business plan, coaching and documents for a small business. $25 a month. Does not include the full Moil360 content calendar.",
+            "description": "Professional $25/month — ask the co-founder for anything and it produces the finished work: research, plans, documents, brand assets, flyers, landing pages.",
             "brand": {
               "@type": "Brand",
               "name": "Moil"
@@ -148,7 +148,7 @@ export default function BusinessLayout({
             "@context": "https://schema.org",
             "@type": "Product",
             "name": "Moil Market Pro",
-            "description": "Everything in Professional plus the full Moil360 30-day content calendar — topics, captions and images, in English and Spanish. $75 a month.",
+            "description": "Market Pro $75/month — everything in Professional at higher limits, plus Moil360, which writes the 30-day content calendar automatically, and AI video.",
             "brand": {
               "@type": "Brand",
               "name": "Moil"
@@ -180,7 +180,7 @@ export default function BusinessLayout({
             "name": "Moil",
             "applicationCategory": "BusinessApplication",
             "operatingSystem": "Web",
-            "description": "AI marketing platform for small businesses. Learns the business once, then writes a 30-day content calendar with captions and images and refreshes it monthly, in English and Spanish. Professional $25; the full Moil360 calendar is Market Pro $75.",
+            "description": "AI co-founder for small business owners. Learns the business once, then produces finished work from that profile — research, plans, documents, brand assets, flyers, landing pages and social content, in English and Spanish. Professional $25 makes things on request; Market Pro $75 also writes the month automatically.",
             "url": `${baseURL1}/business`,
             "screenshot": `${baseURL1}/og_image_v2.jpg`,
             "offers": [
@@ -194,9 +194,9 @@ export default function BusinessLayout({
                   "price": "25",
                   "priceCurrency": "USD",
                   "billingDuration": "P1M",
-                  "description": "Research, plan, coaching, and documents"
+                  "description": "Ask for anything; it makes it"
                 },
-                "description": "Professional $25/month. Free trial available. No credit card."
+                "description": "Professional $25/month. First conversation free, no card."
               },
               {
                 "@type": "Offer",
@@ -208,9 +208,9 @@ export default function BusinessLayout({
                   "price": "75",
                   "priceCurrency": "USD",
                   "billingDuration": "P1M",
-                  "description": "Full Moil360 30-day calendar"
+                  "description": "Also writes your month automatically"
                 },
-                "description": "Market Pro $75/month — full Moil360 calendar."
+                "description": "Market Pro $75/month — adds the automatic Moil360 calendar and video."
               }
             ],
             "featureList": [
