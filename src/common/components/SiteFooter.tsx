@@ -41,11 +41,15 @@ const NAV_LINKS: readonly NavLink[] = [
 ];
 
 const COMPARE_LINKS: readonly NavLink[] = [
+  { label: 'Moil vs Buffer', href: '/compare/moil-vs-buffer' },
+  { label: 'Moil vs Later', href: '/compare/moil-vs-later' },
+  { label: 'Moil vs Hootsuite', href: '/compare/moil-vs-hootsuite' },
   { label: 'Moil vs ChatGPT', href: '/compare/moil-vs-chatgpt' },
-  { label: 'Moil vs Claude', href: '/compare/moil-vs-claude' },
+  { label: 'Best AI content calendar tools', href: '/compare/best-ai-content-calendar-tools' },
+  { label: 'Done-for-you social media', href: '/compare/done-for-you-social-media-alternatives' },
   { label: 'Moil vs a marketing agency', href: '/compare/moil-vs-agency' },
-  { label: 'Moil vs a consultant', href: '/compare/alternative-to-consultant' },
-  { label: 'Bilingual local shop', href: '/compare/bilingual-local-shop' },
+  { label: 'Customer reviews', href: '/reviews' },
+  { label: 'AI info', href: '/ai-info' },
 ];
 
 // Legal lives in the footer (organized), never the header. Both point to the
@@ -56,7 +60,7 @@ const LEGAL_LINKS: readonly NavLink[] = [
 ];
 
 // Section routes that ship their own footer — hide the global one there.
-const OWN_FOOTER_PREFIXES = ['/business', '/es/business', '/candidate', '/marketing', '/compare', '/about'];
+const OWN_FOOTER_PREFIXES = ['/business', '/es/business', '/candidate', '/marketing', '/compare', '/about', '/ai-info', '/reviews'];
 
 export function SiteFooter() {
   const pathname = usePathname() || '/';

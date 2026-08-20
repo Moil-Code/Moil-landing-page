@@ -95,11 +95,11 @@ export const journeySteps: JourneyStep[] = [
   },
   {
     number: '05',
-    time: '2 MIN TO POST',
-    title: 'Smart Hiring & Team Building',
+    time: 'EVERY DELIVERABLE',
+    title: 'Bilingual by default',
     description:
-      'Post a job in about 2 minutes. AI scores every candidate on skills, location, experience, and language fit. 95% accuracy. 11-day average time to hire.',
-    outputs: ['2-Min Job Post', '95% Accuracy', 'Bilingual Matching', 'Auto-Screening'],
+      'Every caption, image prompt and calendar entry is produced in English and Spanish from the same brief, so a bilingual business stops maintaining two content workflows by hand.',
+    outputs: ['EN + ES Captions', 'Both Languages', 'One Brief', 'No Re-translation'],
   },
   {
     number: '06',
@@ -170,12 +170,12 @@ export const featureCards: FeatureCard[] = [
     icon: '🌎',
     title: 'Bilingual Intelligence',
     description:
-      'Every post, every caption, every strategy — in English and Spanish. One click to translate. Built for the America that actually exists. Reach 58% more bilingual customers than competitors.',
+      'Every post, every caption, every strategy — in English and Spanish. One click to translate. Built for the America that actually exists. Reach the customers who speak both.',
     tags: [
       { label: 'English', className: 'f-tag f-tag-o' },
       { label: 'Español', className: 'f-tag f-tag-b' },
       { label: 'One-Click Toggle', className: 'f-tag f-tag-g' },
-      { label: '58% More Reach', className: 'f-tag f-tag-a' },
+      { label: 'EN + ES', className: 'f-tag f-tag-a' },
     ],
     variant: 'large',
   },
@@ -277,7 +277,7 @@ export const comparisonRows: ComparisonRow[] = [
     aiTool: 'x',
   },
   {
-    feature: 'Smart Hiring (AI Matching)',
+    feature: 'Bilingual EN/ES output',
     moil: 'check',
     consultant: 'x',
     aiTool: 'x',
@@ -315,6 +315,8 @@ export const comparisonRows: ComparisonRow[] = [
   },
 ];
 
+import { businessReviews } from '../../src/common/data/reviews';
+
 export type Testimonial = {
   name: string;
   role: string;
@@ -323,32 +325,27 @@ export type Testimonial = {
   gradient: string;
 };
 
-export const testimonials: Testimonial[] = [
-  {
-    name: 'Luis Vives',
-    role: 'Business Owner · Texas',
-    text:
-      'I\'ve used it to post a position, and I am impressed with how easy, intuitive, and effective Moil is. Within hours, we connected with multiple great candidates. I definitely recommend it.',
-    avatar: 'L',
-    gradient: 'linear-gradient(135deg,var(--orange-dim),var(--purple-dim))',
-  },
-  {
-    name: 'Liliana Cervantes',
-    role: 'SMB Owner · Texas',
-    text:
-      "Excellent platform whether to look for a job or look for workers. I recommend it 100%. The AI matching actually works — it finds people that fit exactly what we need.",
-    avatar: 'L',
-    gradient: 'linear-gradient(135deg,var(--purple-dim),var(--blue-dim))',
-  },
-  {
-    name: 'Miguel Bustos',
-    role: 'Service Business · Texas',
-    text:
-      '100% RECOMMENDABLE. This platform helps me find employees when I need extra help. Fast, accurate, and bilingual. The EN/ES feature is a complete game changer for my business.',
-    avatar: 'M',
-    gradient: 'linear-gradient(135deg,var(--orange-dim),var(--purple-dim))',
-  },
+/**
+ * Marketing-page testimonials now derive from the one review array.
+ *
+ * This file previously held a THIRD variant of Luis's, Liliana's and Miguel's
+ * quotes — different again from the /business copies and from what they actually
+ * wrote. Three versions of one person's words across one codebase is how you end
+ * up attributing sentences to customers who never said them.
+ */
+const GRADIENTS = [
+  'linear-gradient(135deg,var(--orange-dim),var(--purple-dim))',
+  'linear-gradient(135deg,var(--purple-dim),var(--blue-dim))',
+  'linear-gradient(135deg,var(--blue-dim),var(--orange-dim))',
 ];
+
+export const testimonials: Testimonial[] = businessReviews().map((review, i) => ({
+  name: review.name,
+  role: review.role?.en ?? '',
+  text: review.text,
+  avatar: review.name.charAt(0),
+  gradient: GRADIENTS[i % GRADIENTS.length],
+}));
 
 export type TerminalLine = {
   key: string;
@@ -376,7 +373,7 @@ export const terminalLines: TerminalLine[] = [
   },
   {
     key: 'INSIGHTS:',
-    value: '"AC tune-up demand up 34% in Feb · Bilingual content +58% reach · Video days top performers"',
+    value: '"AC tune-up season starts in Feb · Bilingual posts reach both audiences · Video days perform best"',
     status: '✓ GROUNDED',
   },
   {
@@ -446,8 +443,8 @@ const journeyStepsEs: JourneyStep[] = [
     time: '2 MIN PARA PUBLICAR',
     title: 'Contratación Inteligente y Construcción de Equipo',
     description:
-      'Publica un puesto en unos 2 minutos. La IA evalúa cada candidato por habilidades, ubicación, experiencia e idioma. 95% de precisión. 11 días promedio para contratar.',
-    outputs: ['Publica en 2 Min', '95% de Precisión', 'Matching Bilingüe', 'Preselección Automática'],
+      'Cada texto, cada imagen y cada entrada del calendario sale en inglés y español desde el mismo brief, para que un negocio bilingüe deje de hacer el trabajo dos veces.',
+    outputs: ['Textos EN + ES', 'Los dos idiomas', 'Un solo brief', 'Sin retraducir'],
   },
   {
     number: '06',
@@ -510,12 +507,12 @@ const featureCardsEs: FeatureCard[] = [
     icon: '🌎',
     title: 'Inteligencia Bilingüe',
     description:
-      'Cada publicación, cada texto, cada estrategia — en inglés y español. Un clic para traducir. Construido para la América que realmente existe. Alcanza 58% más clientes bilingües que los competidores.',
+      'Cada publicación, cada texto, cada estrategia — en inglés y español. Un clic para traducir. Construido para la América que realmente existe. Llega a los clientes que hablan los dos idiomas.',
     tags: [
       { label: 'Inglés', className: 'f-tag f-tag-o' },
       { label: 'Español', className: 'f-tag f-tag-b' },
       { label: 'Cambio en Un Clic', className: 'f-tag f-tag-g' },
-      { label: '58% Más Alcance', className: 'f-tag f-tag-a' },
+      { label: 'EN + ES', className: 'f-tag f-tag-a' },
     ],
     variant: 'large',
   },
@@ -603,7 +600,7 @@ const terminalLinesEs: TerminalLine[] = [
   },
   {
     key: 'INSIGHTS:',
-    value: '"Demanda AC sube 34% en Feb · Contenido bilingüe +58% alcance · Días de video: mejor rendimiento"',
+    value: '"La temporada de AC arranca en Feb · El contenido bilingüe llega a los dos públicos · Los días de video rinden mejor"',
     status: '✓ FUNDAMENTADO',
   },
   {

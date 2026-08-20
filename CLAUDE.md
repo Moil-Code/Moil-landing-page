@@ -75,6 +75,38 @@ longer read is not a key that is no longer valid. `NEXT_PUBLIC_GOOGLE_API_KEY_1`
 stays: it is the Places autocomplete widget in `src/candidate/`, a browser-side
 Maps key, and a different thing entirely. Restrict it by HTTP referrer.
 
+### Testimonials, reviews, and any quoted customer
+
+**Transcribe or omit. Never author, never "align to positioning."**
+
+In August 2026 commit `8157cd3` rewrote three testimonials so they would echo a new
+hero line, while keeping the three real customers' names on them. The quotes were
+written by us, not said by them. That is a fabricated endorsement under the FTC's
+Rule on the Use of Consumer Reviews and Testimonials (in force since 2024-10-21),
+which carries civil penalties per violation — and it destroyed the only genuine
+third-party proof the site had, which is also the single strongest input to being
+recommended by an answer engine.
+
+The rules, in order of importance:
+
+1. A quote goes on the site only if a customer actually wrote or said it. Editing
+   for length or obvious typos is fine. Changing what it claims is not.
+   **Rewording is allowed only when the customer approves the exact final wording,
+   in writing, before it ships.** "They said it could be reworded" is not approval —
+   that is the gap commit `8157cd3` fell through. Draft it, send it back, wait. If
+   they edit your draft, their version wins. Record the approval date as the source.
+2. Every quote carries a dated source we can produce on request — a G2 or Google
+   review, an email, a recorded call.
+3. If the positioning changes and the existing quotes no longer fit, **remove them
+   and go collect new ones.** Do not rewrite them to match. `business.testimonials.items`
+   is an empty array for exactly this reason, and the section hides itself while it is
+   empty. An empty section costs less than a fabricated one.
+4. The same applies to ratings and counts. Do not publish an `AggregateRating`, a star
+   figure, or an "N businesses trust us" line without a public, linkable source. The
+   previous 4.8★ and "500+" claims were removed because neither could be sourced.
+5. `/ai-info` tells assistants not to attribute reviews to Moil while none are
+   published. Update that line when real ones exist.
+
 ### Styling
 
 - Tailwind CSS with custom brand colors (`moil-navy`, `moil-blue`, `moil-orange`, `moil-green`) defined in `tailwind.config.js`

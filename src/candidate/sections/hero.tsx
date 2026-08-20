@@ -89,8 +89,8 @@ export default function CandidateHero({ onGetStarted, refQuery, lgQuery }: Candi
               <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" fill="currentColor"/>
             </svg>
           </div>
-          <span className="hidden sm:inline">Join 50,000+ Job Seekers Finding Success</span>
-          <span className="sm:hidden">50,000+ Success Stories</span>
+          <span className="hidden sm:inline">Build your profile in English or Spanish</span>
+          <span className="sm:hidden">English or Spanish</span>
         </div>
 
         {/* Main Heading */}

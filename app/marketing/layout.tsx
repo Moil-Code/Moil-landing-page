@@ -77,7 +77,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
             "name": "Content360 by Moil",
             "applicationCategory": "BusinessApplication",
             "operatingSystem": "Web",
-            "description": "AI-powered content marketing calendar generator. Creates a complete 30-day social media plan with captions, hashtags, AI images, and video — customized to your brand. Trusted by 500+ businesses.",
+            "description": "AI-powered content marketing calendar generator. Creates a complete 30-day social media plan with captions, hashtags, AI images, and video — customized to your brand. ",
             "url": `${baseURL1}/marketing`,
             "offers": [
               {

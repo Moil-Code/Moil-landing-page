@@ -3,7 +3,7 @@ import { baseURL1 } from '../../../src/common/constants/baseUrl';
 
 export const metadata: Metadata = {
   title: 'Moil Pricing — From $25/mo for AI Business Tools',
-  description: 'One platform for business planning, smart hiring, and AI marketing. Cheaper than a single consultant hour. No contracts. 30-day money-back guarantee. Plans from $25/mo.',
+  description: 'Market research, a business plan, coaching and a 30-day content calendar written in your voice — in English and Spanish. No contracts. 30-day money-back guarantee. From $25/mo.',
   keywords: [
     'AI business platform pricing',
     'business plan software pricing',
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Moil Pricing — From $25/mo for AI Business Tools',
-    description: 'One platform for business planning, smart hiring, and AI marketing. No contracts. 30-day money-back guarantee. From $25/mo.',
+    description: 'Research, plan, coaching and a month of content written for you, in English and Spanish. No contracts. 30-day guarantee. From $25/mo.',
     url: `${baseURL1}/business/pricing`,
     images: [
       {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     title: 'Moil Pricing — From $25/mo for AI Business Tools',
-    description: 'One platform for business planning, smart hiring, and AI marketing. No contracts. 30-day guarantee. From $25/mo.',
+    description: 'Research, plan, coaching and a month of content written for you. English and Spanish. From $25/mo.',
   },
   alternates: {
     canonical: `${baseURL1}/business/pricing`,

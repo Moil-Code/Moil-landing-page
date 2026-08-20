@@ -178,21 +178,9 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
               </div>
             </div>
 
-            {/* Quick Stats */}
-            <div className="hidden lg:flex items-center gap-8">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-white">10K+</div>
-                <div className="text-white/70 text-xs">{t.activeJobs}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-white">500+</div>
-                <div className="text-white/70 text-xs">{t.companies}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-white">95%</div>
-                <div className="text-white/70 text-xs">{t.successRate}</div>
-              </div>
-            </div>
+            {/* Quick-stats strip removed Aug 2026: "10K+ active jobs", "500+ companies"
+                and a "95% success rate" were invented figures. Nothing replaces them
+                until there is a real number with a source behind it. */}
           </div>
         </div>
         

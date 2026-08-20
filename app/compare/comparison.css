@@ -766,3 +766,156 @@
   .aeo-cite .comparison-table-row { min-width: 0; grid-template-columns: 1fr; }
   .aeo-cite .comparison-table-head { display: none; }
 }
+
+/* ── Verdict + limitations ────────────────────────────────────────────────────
+   "Best for" labels and an honest list of where Moil loses. Both exist because
+   assistants lift explicit recommendations, and because a comparison page that
+   never concedes anything gets treated as marketing copy rather than a source. */
+.aeo-verdict {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 56px 24px 8px;
+}
+.aeo-verdict-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+.aeo-verdict-card {
+  border: 1px solid var(--border2);
+  border-left: 3px solid var(--orange);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.aeo-verdict-card--alt {
+  border-left-color: var(--purple-light);
+}
+.aeo-verdict-card h3 {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin: 0;
+}
+.aeo-verdict-card p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+}
+.aeo-limits ul {
+  border-left: 2px solid var(--border2);
+}
+
+/* ── Ranked roundup ───────────────────────────────────────────────────────── */
+.roundup-stamp {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin: 14px 0 0;
+}
+.roundup-method {
+  max-width: 68ch;
+  line-height: 1.7;
+  color: var(--text2);
+}
+.roundup-list {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 56px 24px 8px;
+}
+.roundup-items {
+  list-style: none;
+  margin: 32px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.roundup-item {
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: 24px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.roundup-item.is-moil {
+  border-color: rgba(255, 92, 26, 0.4);
+  background: linear-gradient(135deg, rgba(255, 92, 26, 0.05), var(--surface));
+}
+.roundup-item-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 16px;
+  align-items: start;
+}
+.roundup-rank {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--orange);
+  padding-top: 4px;
+}
+.roundup-item-head h3 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.2;
+}
+.roundup-bestfor {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--text3);
+}
+.roundup-price {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text2);
+  white-space: nowrap;
+  padding-top: 4px;
+}
+.roundup-summary {
+  margin: 0;
+  line-height: 1.65;
+  color: var(--text);
+}
+.roundup-proscons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  border-top: 1px solid var(--border2);
+  padding-top: 16px;
+}
+.roundup-proscons h4 {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin: 0 0 8px;
+}
+.roundup-proscons ul {
+  margin: 0;
+  padding-left: 1.1em;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text2);
+}
+@media (max-width: 640px) {
+  .roundup-item-head { grid-template-columns: auto 1fr; }
+  .roundup-price { grid-column: 2; padding-top: 0; }
+}

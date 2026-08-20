@@ -855,15 +855,6 @@ export function FinalCtaSection() {
           </div>
         ))}
       </div>
-      <div style={{ marginTop: 60, position: 'relative', textAlign: 'center' }}>
-        <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: 3, marginBottom: 8 }}>
-          {f.trustedBy}
-        </div>
-        <div style={{ color: 'var(--purple-light)', fontSize: 16, letterSpacing: 2 }}>★★★★★</div>
-        <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--text3)', marginTop: 6 }}>
-          {f.statsLine}
-        </div>
-      </div>
     </section>
   );
 }

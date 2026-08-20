@@ -1,53 +1,54 @@
 import type { Metadata } from 'next';
 import './business.css';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
+import { en } from '../../src/common/translations/en';
+import { faqJsonLd } from '../../src/common/utils/faqJsonLd';
 
 export const metadata: Metadata = {
-  title: 'AI Co-Founder for Local Shops — Plan, Coaching & Moil360',
-  description: 'Moil is the AI co-founder for local shops. Research, plan, and coaching for $25 a month. The full Moil360 calendar is Market Pro, $75. English and Spanish. Start free, no card.',
+  title: 'AI Marketing for Small Business — Content Calendar in English & Spanish',
+  description: 'Moil learns your small business once, then writes your marketing: a 30-day content calendar with captions and images that refreshes every month. Bilingual English and Spanish. From $25 a month. Start free, no card.',
   keywords: [
-    'AI co-founder for local shops',
+    'AI marketing for small business',
+    'social media content calendar',
+    'done for you social media',
+    'AI content calendar tool',
+    'what to post on social media for my business',
+    'social media for small business owners',
+    'AI social media captions',
     'Moil360',
+    'bilingual marketing tools',
+    'marketing software in Spanish',
+    'calendario de contenidos para redes sociales',
+    'contenido para redes sociales negocio pequeno',
+    'Buffer alternative',
+    'Later alternative',
+    'Hootsuite alternative',
     'AI business plan generator',
-    'free business plan generator',
-    'AI tools for small business',
-    'small business growth platform',
     'AI market research tool',
-    'business plan software',
-    'content calendar AI',
-    'competitor analysis tool free',
-    'AI financial projections',
     'AI business coach',
-    'bilingual business tools',
-    'small business software Texas',
-    'SMB AI platform',
-    'business automation software',
+    'small business marketing plan',
+    'content marketing for contractors',
+    'social media for HVAC business',
+    'social media for landscaping business',
+    'small business AI tools',
     'AI co-founder',
-    'market research software',
-    'startup business tools',
-    'investor ready business plan',
-    'service business software',
-    'home services business tools',
-    'trade business management',
-    'HVAC business software',
-    'small business AI tools'
   ],
   openGraph: {
-    title: 'AI Co-Founder for Local Shops — Plan, Coaching & Moil360',
-    description: 'Research, plan, and coaching for $25 a month. The full Moil360 calendar is Market Pro, $75. English and Spanish. Start free, no card.',
+    title: 'AI Marketing for Small Business — Content Calendar in English & Spanish',
+    description: 'Moil writes your month of content — researched, in your voice, in English and Spanish. From $25 a month. Start free, no card.',
     url: `${baseURL1}/business`,
     images: [
       {
         url: '/og-business.jpg',
         width: 1200,
         height: 630,
-        alt: 'Moil AI Co-Founder for Local Shops',
+        alt: 'Moil — AI marketing for small business',
       }
     ],
   },
   twitter: {
-    title: 'AI Co-Founder for Local Shops — Plan, Coaching & Moil360',
-    description: 'Research, plan, and coaching for $25 a month. The full Moil360 calendar is Market Pro, $75. English and Spanish. Start free, no card.',
+    title: 'AI Marketing for Small Business — Content Calendar in English & Spanish',
+    description: 'Moil writes your month of content — researched, in your voice, in English and Spanish. From $25 a month. Start free, no card.',
   },
   alternates: {
     canonical: `${baseURL1}/business`,
@@ -82,7 +83,7 @@ export default function BusinessLayout({
               "width": 512,
               "height": 512
             },
-            "description": "AI co-founder for local shops. Learns the business once, then writes the plan and a 30-day Moil360 calendar in English and Spanish. Not affiliated with MOIL Limited (India).",
+            "description": "Moil builds AI marketing software for small businesses. It learns a business once, then writes a 30-day content calendar with captions and images, in English and Spanish.",
             "foundingDate": "2023",
             "industry": "Business Software",
             "numberOfEmployees": "2-10",
@@ -117,7 +118,7 @@ export default function BusinessLayout({
             "@context": "https://schema.org",
             "@type": "Product",
             "name": "Moil Professional",
-            "description": "AI co-founder for local shops: research, plan, coaching, and documents. $25 a month. Does not include the full Moil360 calendar.",
+            "description": "Market research, business plan, coaching and documents for a small business. $25 a month. Does not include the full Moil360 content calendar.",
             "brand": {
               "@type": "Brand",
               "name": "Moil"
@@ -147,7 +148,7 @@ export default function BusinessLayout({
             "@context": "https://schema.org",
             "@type": "Product",
             "name": "Moil Market Pro",
-            "description": "AI co-founder plus the full Moil360 30-day calendar in English and Spanish. $75 a month.",
+            "description": "Everything in Professional plus the full Moil360 30-day content calendar — topics, captions and images, in English and Spanish. $75 a month.",
             "brand": {
               "@type": "Brand",
               "name": "Moil"
@@ -179,7 +180,7 @@ export default function BusinessLayout({
             "name": "Moil",
             "applicationCategory": "BusinessApplication",
             "operatingSystem": "Web",
-            "description": "AI co-founder for local shops. Learns the business once, then writes the plan and coaches in English and Spanish. Professional $25; full Moil360 calendar is Market Pro $75.",
+            "description": "AI marketing platform for small businesses. Learns the business once, then writes a 30-day content calendar with captions and images and refreshes it monthly, in English and Spanish. Professional $25; the full Moil360 calendar is Market Pro $75.",
             "url": `${baseURL1}/business`,
             "screenshot": `${baseURL1}/og_image_v2.jpg`,
             "offers": [
@@ -213,7 +214,8 @@ export default function BusinessLayout({
               }
             ],
             "featureList": [
-              "AI Co-Founder for Local Shops",
+              "AI Marketing for Small Business",
+              "Moil360 30-Day Content Calendar",
               "AI Business Plan",
               "AI Market Research",
               "24/7 Coaching",
@@ -225,80 +227,14 @@ export default function BusinessLayout({
         }}
       />
 
-      {/* FAQ structured data — mirrors the on-page FAQ (BusinessFaqSection) */}
+      {/* FAQ structured data — generated from the SAME array the on-page FAQ renders
+          (src/common/translations/en.ts -> business.faq.items). It used to be hand-copied
+          here, drifted from the component, and the page ended up publishing two
+          contradictory sets of answers. Never hand-maintain this again. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-              {
-                "@type": "Question",
-                "name": "What does Moil do for local shops?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Moil is the AI co-founder for local shops. It learns the business once, then writes the plan and coaches the owner in English and Spanish. Professional is $25 a month for research, plan, coaching, and documents. The full Moil360 calendar is Market Pro at $75. Moil is not a hiring platform."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "How much does Moil cost?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Professional is $25 a month and includes the AI co-founder: research, plan, coaching, and documents. The full Moil360 30-day calendar is Market Pro at $75. Start free, no card. A typical consultant runs $5,000–$15,000 per engagement, and a marketing agency retainer averages $3,000–$8,000 a month."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Can Moil generate a business plan?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Yes. Moil learns your shop once, then writes a business plan from that context in English or Spanish. Research, the plan, coaching, and documents come with Professional at $25 a month. The full Moil360 calendar is not in that plan; it is Market Pro at $75. Start free, no card."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "What is Moil360?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Moil360 is the 30-day content calendar Moil writes after it learns the shop — topics, captions, and assets in English and Spanish. The full calendar is Market Pro at $75 a month. Professional at $25 is the AI co-founder for research, plan, coaching, and documents. It does not include the full Moil360 calendar."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Does Moil work in Spanish?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Yes. Moil works in English and Spanish end to end. It learns the business once, then writes the plan, coaching, and documents in either language. Professional is $25 a month. The full Moil360 calendar is also bilingual and ships with Market Pro at $75. Start free, no card."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "How is Moil different from ChatGPT or Claude?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "ChatGPT and Claude are blank chats. Every session starts from zero, and you assemble the work. Moil is the AI co-founder for local shops: it learns the business once, then writes the plan and coaches in English and Spanish. Professional is $25 a month. The full Moil360 calendar is Market Pro at $75."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "How is Moil different from a consultant or agency?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "A typical consultant charges $5,000–$15,000 per engagement. A marketing agency retainer averages $3,000–$8,000 a month. Moil is the AI co-founder at $25 a month for research, plan, coaching, and documents. The full Moil360 calendar is Market Pro at $75. Moil stays on after the plan is written."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Is Moil the same as MOIL Limited?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Moil is Moil Enterprise Inc. in Buda, Texas — the AI co-founder for local shops. It is not a hiring platform and is not affiliated with MOIL Limited of India. Professional is $25 a month for research, plan, coaching, and documents. The full Moil360 calendar is Market Pro at $75."
-                }
-              }
-            ]
-          })
+          __html: JSON.stringify(faqJsonLd(en.business.faq.items)),
         }}
       />
 
@@ -309,8 +245,8 @@ export default function BusinessLayout({
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Article",
-            "headline": "Moil — AI Co-Founder for Local Shops: Research, Plan, and Coaching for $25 a Month",
-            "description": "Moil is the AI co-founder for local shops. It learns the business once, then writes the plan and coaches in English and Spanish. The full Moil360 calendar is Market Pro, $75.",
+            "headline": "Moil — AI Marketing for Small Business: A Month of Content, Written for You",
+            "description": "Moil learns a small business once, then writes its marketing: a 30-day content calendar with researched topics, captions in the owner\u2019s voice and generated images, refreshed every month, in English and Spanish.",
             "url": `${baseURL1}/business`,
             "datePublished": "2025-01-15",
             "dateModified": "2026-08-18",
@@ -332,7 +268,8 @@ export default function BusinessLayout({
             },
             "image": "https://www.moilapp.com/og_image_v2.jpg",
             "about": [
-              { "@type": "Thing", "name": "AI co-founder for local shops" },
+              { "@type": "Thing", "name": "AI marketing for small business" },
+              { "@type": "Thing", "name": "Social media content calendar" },
               { "@type": "Thing", "name": "Business plan generation" },
               { "@type": "Thing", "name": "Moil360 content calendar" },
               { "@type": "Thing", "name": "Bilingual business tools" }
@@ -388,8 +325,8 @@ export default function BusinessLayout({
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "HowTo",
-            "name": "How to Create a Business Plan with Your AI Co-Founder",
-            "description": "Use Moil's AI co-founder to learn the shop once, then write the plan and coach in English or Spanish. Professional is $25 a month. The full Moil360 calendar is Market Pro, $75.",
+            "name": "How to Get a Month of Social Media Content for a Small Business",
+            "description": "How to go from a blank calendar to a finished month of content: describe the business once, let Moil research the market, then review the 30 days it writes. Works in English or Spanish.",
             "totalTime": "PT30M",
             "estimatedCost": {
               "@type": "MonetaryAmount",
@@ -400,32 +337,32 @@ export default function BusinessLayout({
               {
                 "@type": "HowToStep",
                 "position": 1,
-                "name": "Tell Moil About Your Shop",
-                "text": "Answer questions about your shop by voice or text — in English or Spanish. Moil learns the business once."
+                "name": "Describe your business once",
+                "text": "Answer questions about what you sell, who buys and how you talk — by voice or text, in English or Spanish. Moil stores that context and reuses it every month."
               },
               {
                 "@type": "HowToStep",
                 "position": 2,
-                "name": "Receive Market Research",
-                "text": "Moil writes market research from that context: customers, competitors, and the local opportunity."
+                "name": "Get the market research",
+                "text": "Moil researches your customers, your competitors and the local opportunity, and uses it to decide what is worth posting about."
               },
               {
                 "@type": "HowToStep",
                 "position": 3,
-                "name": "Get Your Business Plan",
-                "text": "Moil writes the plan — strategy, projections, and documents — included with Professional at $25 a month."
+                "name": "Get your business plan",
+                "text": "Moil writes the plan \u2014 strategy, projections and documents \u2014 included with Professional at $25 a month."
               },
               {
                 "@type": "HowToStep",
                 "position": 4,
-                "name": "Add the Full Moil360 Calendar (Market Pro)",
-                "text": "The full 30-day Moil360 calendar is Market Pro at $75 a month. It is not included at $25."
+                "name": "Review the 30-day calendar",
+                "text": "Moil360 lays out 30 days of topics, captions and images. You review and approve rather than write. The full calendar is Market Pro at $75 a month."
               },
               {
                 "@type": "HowToStep",
                 "position": 5,
-                "name": "Keep Your AI Coach",
-                "text": "Your AI co-founder stays on for coaching in English and Spanish after the plan is written. Start free, no card."
+                "name": "Let it refresh every month",
+                "text": "Next month drafts itself from the same stored context, so nothing expires and you never re-explain the business. Start free, no card."
               }
             ]
           })
