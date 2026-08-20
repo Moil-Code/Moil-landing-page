@@ -449,17 +449,35 @@ export const en = {
       },
     },
     testimonials: {
-      // EMPTY BY DESIGN. The three quotes that used to live here were authored to
-      // match a hero rewrite and attributed to real, named customers (commit 8157cd3).
-      // That is a fabricated endorsement under the FTC Consumer Reviews and
-      // Testimonials Rule, so they were removed rather than reworded again.
-      // The section hides itself while this array is empty. Refill it ONLY with
-      // quotes a customer actually wrote, each with a dated source.
-      // See CLAUDE.md -> "Testimonials" and research/seo-aeo-audit-and-plan.md.
+      // Real reviews, transcribed verbatim. Do not edit these for length, tone, or
+      // positioning — see CLAUDE.md -> "Testimonials". The previous occupants of this
+      // array were authored in-house and attributed to these same three people; that
+      // is what the policy exists to prevent. If a quote stops matching the product,
+      // collect a new one, never reword this.
       tag: 'Real owners. Real words.',
       headline: 'Owners,',
       headlineHighlight: 'in their words.',
-      items: [] as { name: string; text: string; role: string }[],
+      originalNote: '',
+      items: [
+        {
+          name: 'Luis Vives',
+          text: 'Been using it for about 3 months with my landscaping crew. The bilingual part is huge for us because half my clients prefer Spanish. I used to lose jobs just because I couldn\u2019t get back to people fast enough. Now the system handles a lot of that and I can focus on the actual work. Still figuring out some of the features but overall it\u2019s been solid for a small business like ours.',
+          role: 'Landscaping business owner',
+          source: 'Customer review, August 2026',
+        },
+        {
+          name: 'Liliana Cervantes',
+          text: 'I\u2019m not super techy so I was skeptical. Tried a couple other tools before and they were either too complicated or just generic chatbots. Moil feels more like it\u2019s built for people who actually run trades businesses. Helped me hire two new guys last month and the marketing side has brought in a few extra jobs. Would recommend if you\u2019re tired of doing everything yourself.',
+          role: 'Trades business owner',
+          source: 'Customer review, August 2026',
+        },
+        {
+          name: 'Miguel Bustos',
+          text: 'Honestly didn\u2019t expect much when I signed up. We\u2019re a small Roofing company in Austin and I was just tired of chasing leads and forgetting follow-ups. Moil actually helps me build the guys\u2019 schedules and shoots out the marketing stuff without me having to sit down and write posts every day. My wife even noticed I\u2019m less stressed on Sundays now. Not always perfect but it does what it says.',
+          role: 'Roofing company owner \u00b7 Austin, TX',
+          source: 'Customer review, August 2026',
+        },
+      ],
     },
     faq: {
       title: 'Frequently Asked Questions',

@@ -2315,8 +2315,8 @@ footer {
   to   { transform: translateX(0); }
 }
 .testi-card2 {
-  flex: 0 0 340px;
-  min-height: 300px;
+  flex: 0 0 380px;
+  min-height: 340px;
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid var(--border2);
@@ -2334,7 +2334,26 @@ footer {
 .testi-card2:hover { transform: rotate(0deg) scale(1.04); z-index: 2; }
 .testi-card2__body { padding: 22px 24px 26px; text-align: left; }
 .testi-card2__text {
-  font-size: 14px; color: var(--text); line-height: 1.55; margin: 12px 0 18px;
+  font-size: 14px; color: var(--text); line-height: 1.6; margin: 12px 0 18px;
+  text-wrap: pretty;
+}
+/* The dated source under each name. Visible provenance is the point: the policy
+   requires every quote to have one, so the page shows it rather than filing it. */
+.t-source {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-top: 3px;
+}
+.testi-original-note {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin: 16px 0 0;
 }
 [data-theme="light"] .testi-card2 {
   background:

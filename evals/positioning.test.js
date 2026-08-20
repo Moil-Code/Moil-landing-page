@@ -59,24 +59,50 @@ describe('the "shop" lock stays retired', () => {
 });
 
 describe('no fabricated or unsourced social proof', () => {
-	it('ships no testimonials until real ones are collected', () => {
+	const testimonialBlock = (file) => {
+		const src = read(file);
+		const business = src.slice(src.indexOf('\n  business: {'));
+		const start = business.indexOf('    testimonials: {');
+		return business.slice(start, business.indexOf('\n    },', start));
+	};
+
+	it('gives every published testimonial a dated source', () => {
 		for (const file of ['src/common/translations/en.ts', 'src/common/translations/es.ts']) {
-			const src = read(file);
-			const business = src.slice(src.indexOf('\n  business: {'));
-			const block = business.slice(business.indexOf('    testimonials: {'));
-			assert.match(
-				block.slice(0, block.indexOf('    },')),
-				/items: \[\]/,
-				`${file} business testimonials must stay empty`,
-			);
+			const block = testimonialBlock(file);
+			const names = (block.match(/name:/g) || []).length;
+			const sources = (block.match(/source:/g) || []).length;
+			assert.equal(sources, names, `${file}: every quote needs a dated source`);
+			// A source with no year cannot be produced on request.
+			for (const [, value] of block.matchAll(/source: '([^']+)'/g)) {
+				assert.match(value, /20\d{2}/, `source "${value}" in ${file} has no date`);
+			}
 		}
 	});
 
-	it('does not reattribute the previously fabricated quotes', () => {
-		for (const file of ['src/common/translations/en.ts', 'src/common/translations/es.ts']) {
+	it('never reinstates the authored quotes that were attributed to real customers', () => {
+		// The exact strings from commit 8157cd3. These three people are real and their
+		// genuine reviews are published; these particular sentences were written in-house.
+		const fabricated = [
+			'I told Moil the shop once',
+			'We run the shop in English and Spanish',
+			'I ask Moil for the plan and the month instead of paying a consultant',
+		];
+		for (const file of LIVE_SOURCES) {
 			const src = read(file);
-			assert.doesNotMatch(src, /Luis Vives|Liliana Cervantes|Miguel Bustos/);
+			for (const phrase of fabricated) {
+				assert.ok(!src.includes(phrase), `fabricated quote "${phrase}" is back in ${file}`);
+			}
 		}
+	});
+
+	it('keeps quotes identical across locales, since translating a quote alters it', () => {
+		const quotes = (file) =>
+			[...testimonialBlock(file).matchAll(/text: '([^']+)'/g)].map((m) => m[1]);
+		assert.deepEqual(
+			quotes('src/common/translations/en.ts'),
+			quotes('src/common/translations/es.ts'),
+			'testimonial text must match across locales; translate the role, never the quote',
+		);
 	});
 
 	it('hides the testimonial section while the array is empty', () => {

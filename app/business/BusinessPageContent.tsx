@@ -122,10 +122,11 @@ export function BusinessPageContent() {
   ];
 
   const testimonials = t.business.testimonials.items.map((item, i) => ({
-    testimonialImage: testimonialImages[i],
+    testimonialImage: testimonialImages[i % testimonialImages.length],
     testimonialName: item.name,
     testimonial: item.text,
     role: item.role,
+    source: item.source,
   }));
 
   return (
@@ -588,9 +589,10 @@ export function BusinessPageContent() {
 
       <div className="divider divider-seamless"></div>
 
-      {/* TESTIMONIALS — renders only when real, sourced quotes exist. The array is
-          empty on purpose: the previous three were authored to match a hero rewrite
-          and attributed to named customers. See CLAUDE.md -> Testimonials. */}
+      {/* TESTIMONIALS — renders only when sourced quotes exist, so the section
+          disappears rather than showing placeholders if they are ever pulled.
+          The quotes are transcribed verbatim and carry a dated source; do not edit
+          them for length or positioning. See CLAUDE.md -> Testimonials. */}
       {t.business.testimonials.items.length > 0 && (
         <section id="testimonials" className="has-head has-head-blend" style={{ textAlign: 'center' }}>
           <div className="section-tag rv" style={{ justifyContent: 'center' }}>
@@ -601,6 +603,9 @@ export function BusinessPageContent() {
             <br />
             <span style={{ color: 'var(--orange)' }}>{t.business.testimonials.headlineHighlight}</span>
           </h2>
+          {t.business.testimonials.originalNote && (
+            <p className="testi-original-note rv">{t.business.testimonials.originalNote}</p>
+          )}
           <div className="testi-marquee rv">
             <div className="testi-track">
               {[...testimonials, ...testimonials, ...testimonials, ...testimonials].map((item, index) => (
@@ -621,6 +626,7 @@ export function BusinessPageContent() {
                       <div>
                         <div className="t-name">{item.testimonialName}</div>
                         <div className="t-role">{item.role}</div>
+                        <div className="t-source">{item.source}</div>
                       </div>
                     </div>
                   </div>
