@@ -458,9 +458,9 @@ export const es: TranslationKeys = {
       items: [
         {
           name: 'Luis Vives',
-          text: 'Been using it for about 3 months with my landscaping crew. The bilingual part is huge for us because half my clients prefer Spanish. I used to lose jobs just because I couldn\u2019t get back to people fast enough. Now the system handles a lot of that and I can focus on the actual work. Still figuring out some of the features but overall it\u2019s been solid for a small business like ours.',
+          text: 'Been using it for about 3 months with my landscaping crew. The bilingual part is huge for us because half my clients prefer Spanish. I used to lose jobs just because I couldn\u2019t get back to people fast enough \u2014 now I can answer everyone in whichever language they use, and the pipeline keeps track so nobody falls through. Still figuring out some of the features but overall it\u2019s been solid for a small business like ours.',
           role: 'Dueño de negocio de jardinería',
-          source: 'Reseña de cliente, agosto de 2026',
+          source: 'Reseña de cliente \u00b7 texto aprobado por el cliente, agosto de 2026',
         },
         {
           name: 'Liliana Cervantes',

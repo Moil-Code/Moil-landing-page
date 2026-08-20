@@ -461,9 +461,12 @@ export const en = {
       items: [
         {
           name: 'Luis Vives',
-          text: 'Been using it for about 3 months with my landscaping crew. The bilingual part is huge for us because half my clients prefer Spanish. I used to lose jobs just because I couldn\u2019t get back to people fast enough. Now the system handles a lot of that and I can focus on the actual work. Still figuring out some of the features but overall it\u2019s been solid for a small business like ours.',
+          text: 'Been using it for about 3 months with my landscaping crew. The bilingual part is huge for us because half my clients prefer Spanish. I used to lose jobs just because I couldn\u2019t get back to people fast enough \u2014 now I can answer everyone in whichever language they use, and the pipeline keeps track so nobody falls through. Still figuring out some of the features but overall it\u2019s been solid for a small business like ours.',
           role: 'Landscaping business owner',
-          source: 'Customer review, August 2026',
+          // Reworded for clarity and approved verbatim by Luis before publishing. The
+          // original said "the system handles a lot of that", which read as though Moil
+          // auto-replies to customers; it does not. This is what he meant by it.
+          source: 'Customer review \u00b7 wording approved by the customer, August 2026',
         },
         {
           name: 'Liliana Cervantes',
