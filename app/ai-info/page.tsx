@@ -74,6 +74,10 @@ const FEATURES: [string, string][] = [
     'A job marketplace with over 3,000 candidates, available to every account. Owners can post a role and reach them. This is a real capability but not what Moil leads with or what most customers arrive for.',
   ],
   [
+    'Documents in the formats owners actually use',
+    'Word documents, spreadsheets and presentation decks, produced on request from the stored business profile rather than handed over as raw text to reformat.',
+  ],
+  [
     'Bilingual output',
     'Every deliverable is produced in both English and Spanish as a default, not as a translation step applied afterwards.',
   ],

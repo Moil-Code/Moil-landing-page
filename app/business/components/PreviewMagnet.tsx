@@ -15,6 +15,7 @@ import {
 	websiteSubmitBody,
 } from '../preview/previewClient';
 import { setPreviewSlugCookie } from '../preview/previewCookie';
+import { PLATFORMS, readHandle, readPlaceId, readWebsite } from '../preview/previewInput';
 import { nextPollDelayMs, waitCopyKey } from '../preview/previewWaitCopy';
 
 type Door = 'website' | 'place' | 'handle';
@@ -29,6 +30,11 @@ type ReadyPayload = {
 		logoUrl?: string;
 		category?: string;
 		address?: string;
+		website?: string;
+		handle?: string;
+		handlePlatform?: string;
+		products?: string[];
+		sources?: string[];
 	};
 	content: {
 		kind?: 'posts' | 'brand-only';
@@ -50,6 +56,8 @@ export function PreviewMagnet() {
 	const configured = isPlanApiConfigured(origin);
 
 	const [door, setDoor] = useState<Door>('website');
+	const [platform, setPlatform] = useState<string>('instagram');
+	const [submitting, setSubmitting] = useState(false);
 	const [website, setWebsite] = useState('');
 	const [handle, setHandle] = useState('');
 	const [placeId, setPlaceId] = useState('');
@@ -183,16 +191,52 @@ export function PreviewMagnet() {
 			return;
 		}
 		setErrorMessage('');
-		emailSent.current = Boolean(email.trim());
+
+		// Read the field here so a bad value costs an inline message instead of
+		// a round trip and a server refusal that names no field.
 		let body: Record<string, string> = { locale: lang };
 		if (door === 'website') {
-			body = { ...websiteSubmitBody({ website, email, locale: lang }) };
+			const read = readWebsite(website);
+			if (!read.ok) {
+				if (read.reason === 'is_social' && read.platform) {
+					setPlatform(read.platform);
+					setDoor('handle');
+					setHandle(website.trim());
+					setWebsite('');
+					setErrorMessage(m.movedToHandle);
+					return;
+				}
+				setErrorMessage(m.badWebsite);
+				return;
+			}
+			body = { ...websiteSubmitBody({ website: read.website, email, locale: lang }) };
 		} else if (door === 'place') {
-			body = { ...placeSubmitBody({ placeId, businessName: placeName, email, locale: lang }) };
+			const read = readPlaceId(placeId);
+			if (!read.ok) {
+				setErrorMessage(m.pickListing);
+				return;
+			}
+			body = { ...placeSubmitBody({ placeId: read.placeId, businessName: placeName, email, locale: lang }) };
 		} else {
-			body = { ...handleSubmitBody({ handle, email, locale: lang }) };
+			const read = readHandle(handle, platform);
+			if (!read.ok) {
+				setErrorMessage(read.reason === 'is_website' ? m.movedToWebsite : m.badHandle);
+				if (read.reason === 'is_website') {
+					setDoor('website');
+					setWebsite(handle.trim());
+					setHandle('');
+				}
+				return;
+			}
+			// The platform is the whole reason this door used to fail: the server
+			// will not guess it, and we were not sending it.
+			body = { ...handleSubmitBody({ handle: read.handle, platform: read.platform, email, locale: lang }) };
 		}
+
+		emailSent.current = Boolean(email.trim());
+		setSubmitting(true);
 		const result = await submitPreview(origin, body);
+		setSubmitting(false);
 		if (result.ok && result.body && result.body.slug) {
 			beginWait(result.body.slug, result.body.status);
 			return;
@@ -231,14 +275,43 @@ export function PreviewMagnet() {
 	const waitKey = waitCopyKey(elapsedMs);
 	const waitText = waitKey === 'waitLeave' ? m.waitLeave : waitKey === 'waitLonger' ? m.waitLonger : m.waitCalm;
 
-	const colors = (ready?.brand.colors || []).filter(Boolean).slice(0, 3);
-	const posts = (ready?.content.posts || []).filter((p) => p && p.caption).slice(0, 3);
-	const brandOnly = !posts.length;
+	// Everything below already arrives in the payload and none of it was being
+	// rendered: the reveal showed a name, a tagline and three swatches, then a
+	// list of "Sample posts" that were not posts at all — the server composes
+	// them from the facts it read (the name, the URL, the address, the category
+	// word), because inventing captions for a stranger's brand is the one thing
+	// previewCompose refuses to do. Showing a business its own URL back as a
+	// "sample post" is the weakest possible version of a strong read.
+	const colors = (ready?.brand.colors || []).filter(Boolean).slice(0, 6);
+	const products = (ready?.brand.products || []).filter(Boolean).slice(0, 8);
+	const facts: [string, string][] = ready
+		? ([
+				[m.factCategory, ready.brand.category || ''],
+				[m.factAddress, ready.brand.address || ''],
+				[
+					m.factSource,
+					ready.brand.website ||
+						(ready.brand.handle
+							? `@${ready.brand.handle}${ready.brand.handlePlatform ? ` · ${ready.brand.handlePlatform}` : ''}`
+							: ''),
+				],
+			] as [string, string][]).filter(([, v]) => Boolean(v))
+		: [];
+	const readCount = colors.length + products.length + facts.length;
+
+	const selectDoor = (id: Door) => {
+		setDoor(id);
+		// A refusal belongs to the field that caused it. Carrying it across
+		// doors tells the visitor their website is malformed when what failed
+		// was a handle they have already abandoned.
+		setErrorMessage('');
+		if (phase === 'identity' || phase === 'failed') setPhase('form');
+	};
 
 	const doorBtn = (id: Door, label: string) => (
 		<button
 			type="button"
-			onClick={() => setDoor(id)}
+			onClick={() => selectDoor(id)}
 			aria-pressed={door === id}
 			className={`rounded-full px-3 py-1.5 text-[12px] font-medium tracking-[0.2px] transition-colors ${
 				door === id
@@ -262,13 +335,19 @@ export function PreviewMagnet() {
 				<form onSubmit={onSubmit} className="flex flex-col gap-3">
 					<div className="flex flex-wrap gap-2" role="tablist" aria-label={m.doorsLabel}>
 						{doorBtn('website', m.doorWebsite)}
-						{doorBtn('place', m.doorPlace)}
+						{/* Places needs a browser key. Without one the door renders a line of
+						    apology and no input, so it is a tab that can only waste a click. */}
+						{PLACES_KEY ? doorBtn('place', m.doorPlace) : null}
 						{doorBtn('handle', m.doorHandle)}
 					</div>
 
 					{door === 'website' && (
+						// type="text", not type="url": the browser's url validator demands a
+						// scheme, so `yourbusiness.com` — how nearly everyone types it — was
+						// blocked before it could be sent. The server adds the scheme itself.
 						<input
-							type="url"
+							type="text"
+							inputMode="url"
 							name="website"
 							autoComplete="url"
 							placeholder={m.websitePlaceholder}
@@ -289,25 +368,62 @@ export function PreviewMagnet() {
 								onPlaceSelected={(place) => {
 									setPlaceId(place?.place_id || '');
 									setPlaceName(place?.name || place?.formatted_address || '');
+									setErrorMessage('');
 								}}
 							/>
 						) : (
 							<p className="text-[13px] text-[var(--text)]">{m.placeUnavailable}</p>
 						))}
 
-					{door === 'handle' && (
-						<input
-							type="text"
-							name="handle"
-							placeholder={m.handlePlaceholder}
-							value={handle}
-							onChange={(e) => setHandle(e.target.value)}
-							className={fieldClass}
-							required
-						/>
+					{/* Typing a name is not choosing a listing — only a selection carries the
+					    place id the server keys on. Showing the pick back is the only way the
+					    visitor can tell the difference. */}
+					{door === 'place' && PLACES_KEY && (
+						<p className="text-[12px] leading-snug text-[var(--text)] opacity-80">
+							{placeId ? `${m.listingPicked} ${placeName}` : m.listingHint}
+						</p>
 					)}
 
-					{(phase === 'down' || phase === 'identity' || phase === 'ceiling' || phase === 'failed') && errorMessage && (
+					{door === 'handle' && (
+						<>
+							<input
+								type="text"
+								name="handle"
+								autoCapitalize="none"
+								autoCorrect="off"
+								spellCheck={false}
+								placeholder={m.handlePlaceholder}
+								value={handle}
+								onChange={(e) => setHandle(e.target.value)}
+								className={fieldClass}
+								required
+							/>
+							{/* The server refuses to guess which platform a bare handle belongs
+							    to — guessing points a stranger at someone else's account. It
+							    therefore needs to be asked. Paste a profile URL and the parser
+							    reads the platform from it, so these chips are the fallback. */}
+							<div className="flex flex-wrap items-center gap-2">
+								<span className="text-[12px] text-[var(--text)] opacity-80">{m.platformLabel}</span>
+								{PLATFORMS.map((p) => (
+									<button
+										key={p}
+										type="button"
+										onClick={() => setPlatform(p)}
+										aria-pressed={platform === p}
+										className={`rounded-full px-2.5 py-1 text-[11px] font-medium capitalize transition-colors ${
+											platform === p
+												? 'bg-[var(--purple)] text-white'
+												: 'border border-[var(--border2)] text-[var(--text)] hover:border-[var(--purple)]'
+										}`}
+									>
+										{p}
+									</button>
+								))}
+							</div>
+						</>
+					)}
+
+					{errorMessage && (
 						<p role="alert" className="text-[13px] leading-snug text-[var(--orange)]">
 							{errorMessage}
 						</p>
@@ -315,10 +431,10 @@ export function PreviewMagnet() {
 
 					<button
 						type="submit"
-						disabled={phase === 'down' && !configured}
+						disabled={submitting || (phase === 'down' && !configured)}
 						className="inline-flex items-center justify-center rounded-lg bg-[var(--purple)] px-4 py-2.5 text-[14px] font-semibold text-white transition-colors hover:bg-[var(--purple-light)] disabled:cursor-not-allowed disabled:opacity-60"
 					>
-						{m.submit}
+						{submitting ? m.submitting : m.submit}
 					</button>
 				</form>
 			)}
@@ -338,50 +454,97 @@ export function PreviewMagnet() {
 			)}
 
 			{phase === 'ready' && ready && (
-				<div className="flex flex-col gap-4">
-					<div>
-						<p className="text-[11px] uppercase tracking-[1px] text-[var(--orange)]">{m.revealEyebrow}</p>
-						<h2 className="mt-1 text-[22px] font-bold tracking-[-0.03em] text-[var(--text)]">
-							{ready.brand.name || m.unnamedBrand}
-						</h2>
-						{ready.brand.tagline && (
-							<p className="mt-1 text-[14px] text-[var(--text)]">{ready.brand.tagline}</p>
+				<div className="flex flex-col gap-5">
+					<div className="flex items-start gap-3">
+						{ready.brand.logoUrl && (
+							// eslint-disable-next-line @next/next/no-img-element
+							<img
+								src={ready.brand.logoUrl}
+								alt=""
+								className="h-12 w-12 shrink-0 rounded-lg border border-[var(--border2)] bg-white object-contain p-1"
+								onError={(e) => {
+									(e.currentTarget as HTMLImageElement).style.display = 'none';
+								}}
+							/>
 						)}
+						<div className="min-w-0">
+							<p className="text-[11px] uppercase tracking-[1px] text-[var(--orange)]">{m.revealEyebrow}</p>
+							<h2 className="mt-1 text-[22px] font-bold leading-tight tracking-[-0.03em] text-[var(--text)]">
+								{ready.brand.name || m.unnamedBrand}
+							</h2>
+							{ready.brand.tagline && (
+								<p className="mt-1 text-[14px] leading-snug text-[var(--text)] opacity-90">{ready.brand.tagline}</p>
+							)}
+						</div>
 					</div>
+
+					{facts.length > 0 && (
+						<dl className="flex flex-col gap-0 overflow-hidden rounded-lg border border-[var(--border2)]">
+							{facts.map(([label, value], i) => (
+								<div
+									key={label}
+									className={`grid grid-cols-[92px_minmax(0,1fr)] gap-3 px-3 py-2 text-[13px] ${
+										i ? 'border-t border-[var(--border2)]' : ''
+									}`}
+								>
+									<dt className="text-[11px] uppercase tracking-[0.6px] text-[var(--text)] opacity-60">{label}</dt>
+									<dd className="m-0 break-words capitalize text-[var(--text)]">{value}</dd>
+								</div>
+							))}
+						</dl>
+					)}
 
 					{colors.length > 0 && (
 						<div>
-							<p className="mb-2 text-[11px] uppercase tracking-[1px] text-[var(--text)]">{m.colorsLabel}</p>
-							<div className="flex gap-2">
+							<p className="mb-2 text-[11px] uppercase tracking-[1px] text-[var(--text)] opacity-60">{m.colorsLabel}</p>
+							<div className="flex flex-wrap gap-2">
 								{colors.map((c) => (
-									<span
-										key={c}
-										title={hex(c)}
-										className="h-8 w-8 rounded-full border border-[var(--border2)]"
-										style={{ background: hex(c) }}
-									/>
+									<span key={c} className="flex items-center gap-1.5 rounded-full border border-[var(--border2)] py-1 pl-1 pr-2.5">
+										<span
+											className="h-5 w-5 rounded-full border border-[var(--border2)]"
+											style={{ background: hex(c) }}
+										/>
+										<span className="font-mono text-[11px] uppercase text-[var(--text)] opacity-80">{hex(c)}</span>
+									</span>
 								))}
 							</div>
 						</div>
 					)}
 
-					{brandOnly ? (
-						<p className="text-[14px] leading-snug text-[var(--text)]">{m.brandOnly}</p>
-					) : (
+					{products.length > 0 && (
 						<div>
-							<p className="mb-2 text-[11px] uppercase tracking-[1px] text-[var(--text)]">{m.postsLabel}</p>
-							<ul className="flex flex-col gap-2">
-								{posts.map((post, i) => (
-									<li
-										key={i}
-										className="rounded-lg border border-[var(--border2)] bg-[var(--bg)] px-3 py-2 text-[13px] leading-snug text-[var(--text)]"
+							<p className="mb-2 text-[11px] uppercase tracking-[1px] text-[var(--text)] opacity-60">{m.productsLabel}</p>
+							<div className="flex flex-wrap gap-1.5">
+								{products.map((item) => (
+									<span
+										key={item}
+										className="rounded-md border border-[var(--border2)] bg-[var(--bg)] px-2 py-1 text-[12px] text-[var(--text)]"
 									>
-										{post.caption}
-									</li>
+										{item}
+									</span>
 								))}
-							</ul>
+							</div>
 						</div>
 					)}
+
+					{/* The honest bridge. What the visitor has seen is a READ, not the
+					    product — and saying so is what makes the next line credible. The
+					    old copy oversold the read as "your brand" and then had nothing
+					    to follow it with. */}
+					<div className="rounded-lg border border-[var(--border2)] bg-[var(--bg)] px-3.5 py-3">
+						<p className="text-[13px] font-semibold leading-snug text-[var(--text)]">
+							{readCount > 0 ? m.readSummary : m.readThin}
+						</p>
+						<p className="mt-1.5 text-[13px] leading-snug text-[var(--text)] opacity-85">{m.nextUp}</p>
+						<ul className="mt-2 flex flex-col gap-1 text-[13px] leading-snug text-[var(--text)] opacity-85">
+							{m.nextItems.map((item: string) => (
+								<li key={item} className="flex gap-2">
+									<span aria-hidden className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-[var(--orange)]" />
+									<span>{item}</span>
+								</li>
+							))}
+						</ul>
+					</div>
 
 					<label className="flex flex-col gap-1 text-[13px] text-[var(--text)]">
 						<span>{m.emailLabel}</span>
