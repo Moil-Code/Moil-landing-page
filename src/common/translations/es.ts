@@ -449,32 +449,11 @@ export const es: TranslationKeys = {
       },
     },
     testimonials: {
-      // Reseñas reales, transcritas literalmente. El texto se deja en el idioma en que
-      // el cliente lo escribió; traducir una cita es alterarla. Ver CLAUDE.md.
       tag: 'Dueños reales. Sus palabras.',
       headline: 'Dueños,',
       headlineHighlight: 'en sus palabras.',
       originalNote: 'Reseñas publicadas en el idioma original en que las escribieron.',
-      items: [
-        {
-          name: 'Luis Vives',
-          text: 'Been using it for about 3 months with my landscaping crew. The bilingual part is huge for us because half my clients prefer Spanish. I used to lose jobs just because I couldn\u2019t get back to people fast enough \u2014 now I can answer everyone in whichever language they use, and the pipeline keeps track so nobody falls through. Still figuring out some of the features but overall it\u2019s been solid for a small business like ours.',
-          role: 'Dueño de negocio de jardinería',
-          source: 'Reseña de cliente \u00b7 texto aprobado por el cliente, agosto de 2026',
-        },
-        {
-          name: 'Liliana Cervantes',
-          text: 'I\u2019m not super techy so I was skeptical. Tried a couple other tools before and they were either too complicated or just generic chatbots. Moil feels more like it\u2019s built for people who actually run trades businesses. Helped me hire two new guys last month and the marketing side has brought in a few extra jobs. Would recommend if you\u2019re tired of doing everything yourself.',
-          role: 'Dueña de negocio de oficios',
-          source: 'Reseña de cliente, agosto de 2026',
-        },
-        {
-          name: 'Miguel Bustos',
-          text: 'Honestly didn\u2019t expect much when I signed up. We\u2019re a small Roofing company in Austin and I was just tired of chasing leads and forgetting follow-ups. Moil actually helps me build the guys\u2019 schedules and shoots out the marketing stuff without me having to sit down and write posts every day. My wife even noticed I\u2019m less stressed on Sundays now. Not always perfect but it does what it says.',
-          role: 'Dueño de empresa de techos \u00b7 Austin, TX',
-          source: 'Reseña de cliente, agosto de 2026',
-        },
-      ],
+      readAll: 'Lee todas las reseñas, con sus fuentes',
     },
     faq: {
       title: 'Preguntas Frecuentes',

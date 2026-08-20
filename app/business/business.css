@@ -2613,3 +2613,20 @@ footer {
 @media (max-width: 960px) {
   .aeo-answer { padding: 52px 20px; }
 }
+
+/* Link from the testimonial row to the full, sourced list. */
+.testi-readall {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+.testi-readall:hover { border-bottom-color: var(--orange); }

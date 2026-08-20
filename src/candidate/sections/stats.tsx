@@ -80,9 +80,12 @@ export default function StatsSection({ refQuery, lgQuery }: StatsSectionProps) {
                   <path d="M5 6L6.09 11.26L11 12L6.09 12.74L5 18L3.91 12.74L-1 12L3.91 11.26L5 6Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               ),
-              number: "4.8★",
-              title: "User Rating",
-              desc: "Average satisfaction score"
+              // Was an invented average satisfaction score — one of three different
+              // star figures shown across the candidate pages, which is how you can
+              // tell none of them came from data. Replaced with something true.
+              number: "EN/ES",
+              title: "Fully Bilingual",
+              desc: "Every feature in English and Spanish"
             },
             {
               icon: (

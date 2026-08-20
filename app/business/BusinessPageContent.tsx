@@ -6,6 +6,7 @@ import { ProductShot } from './components/ProductShot';
 import { BilingualSlider } from './components/BilingualSlider';
 import { JourneyVisual } from './components/JourneyVisual';
 import { productShots } from './productShots';
+import { businessReviews } from '../../src/common/data/reviews';
 import { BusinessFaqSection } from './components/BusinessFaqSection';
 import { BusinessFooter } from './components/BusinessFooter';
 import { BusinessMobileMenu } from './components/BusinessMobileMenu';
@@ -121,12 +122,14 @@ export function BusinessPageContent() {
     { icon: 'edit', title: t.business.bilingualSection.highlights.content.title, desc: t.business.bilingualSection.highlights.content.desc, badge: t.business.bilingualSection.highlights.content.badge, badgeClass: 'badge-p' },
   ];
 
-  const testimonials = t.business.testimonials.items.map((item, i) => ({
+  // Reviews come from src/common/data/reviews.ts — one array feeds both this row
+  // and /reviews, so the two surfaces cannot disagree about what a customer said.
+  const testimonials = businessReviews().map((review, i) => ({
     testimonialImage: testimonialImages[i % testimonialImages.length],
-    testimonialName: item.name,
-    testimonial: item.text,
-    role: item.role,
-    source: item.source,
+    testimonialName: review.name,
+    testimonial: review.text,
+    role: review.role?.[currentLang] ?? '',
+    source: review.sourceLabel[currentLang],
   }));
 
   return (
@@ -593,7 +596,7 @@ export function BusinessPageContent() {
           disappears rather than showing placeholders if they are ever pulled.
           The quotes are transcribed verbatim and carry a dated source; do not edit
           them for length or positioning. See CLAUDE.md -> Testimonials. */}
-      {t.business.testimonials.items.length > 0 && (
+      {testimonials.length > 0 && (
         <section id="testimonials" className="has-head has-head-blend" style={{ textAlign: 'center' }}>
           <div className="section-tag rv" style={{ justifyContent: 'center' }}>
             {t.business.testimonials.tag}
@@ -634,6 +637,9 @@ export function BusinessPageContent() {
               ))}
             </div>
           </div>
+          <a className="testi-readall" href="/reviews">
+            {t.business.testimonials.readAll} <span aria-hidden="true">→</span>
+          </a>
         </section>
       )}
 

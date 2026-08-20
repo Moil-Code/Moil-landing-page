@@ -59,23 +59,31 @@ describe('the "shop" lock stays retired', () => {
 });
 
 describe('no fabricated or unsourced social proof', () => {
-	const testimonialBlock = (file) => {
-		const src = read(file);
-		const business = src.slice(src.indexOf('\n  business: {'));
-		const start = business.indexOf('    testimonials: {');
-		return business.slice(start, business.indexOf('\n    },', start));
-	};
+	const reviewsSrc = () => read('src/common/data/reviews.ts');
 
-	it('gives every published testimonial a dated source', () => {
+	it('keeps every published review in one place', () => {
+		// Two lists is how the FAQ ended up publishing contradictory answers.
+		const page = read('app/business/BusinessPageContent.tsx');
+		assert.match(page, /businessReviews\(\)/);
 		for (const file of ['src/common/translations/en.ts', 'src/common/translations/es.ts']) {
-			const block = testimonialBlock(file);
-			const names = (block.match(/name:/g) || []).length;
-			const sources = (block.match(/source:/g) || []).length;
-			assert.equal(sources, names, `${file}: every quote needs a dated source`);
-			// A source with no year cannot be produced on request.
-			for (const [, value] of block.matchAll(/source: '([^']+)'/g)) {
-				assert.match(value, /20\d{2}/, `source "${value}" in ${file} has no date`);
-			}
+			const src = read(file);
+			const business = src.slice(src.indexOf('\n  business: {'));
+			const start = business.indexOf('    testimonials: {');
+			const bl = business.slice(start, business.indexOf('\n    },', start));
+			assert.doesNotMatch(bl, /text:/, `${file} still holds review text; it belongs in reviews.ts`);
+		}
+	});
+
+	it('gives every published review a date and a source', () => {
+		const src = reviewsSrc();
+		const names = (src.match(/^  \{$/gm) || []).length;
+		const dates = (src.match(/^    date: '/gm) || []).length;
+		const sources = (src.match(/^    sourceLabel: /gm) || []).length;
+		assert.ok(names >= 5, `expected the published reviews, found ${names}`);
+		assert.equal(dates, names, 'every review needs an ISO date');
+		assert.equal(sources, names, 'every review needs a source label');
+		for (const [, d] of src.matchAll(/date: '(\d{4}-\d{2}-\d{2})'/g)) {
+			assert.match(d, /^20\d{2}-/, `implausible review date ${d}`);
 		}
 	});
 
@@ -95,22 +103,28 @@ describe('no fabricated or unsourced social proof', () => {
 		}
 	});
 
-	it('keeps quotes identical across locales, since translating a quote alters it', () => {
-		const quotes = (file) =>
-			[...testimonialBlock(file).matchAll(/text: '([^']+)'/g)].map((m) => m[1]);
-		assert.deepEqual(
-			quotes('src/common/translations/en.ts'),
-			quotes('src/common/translations/es.ts'),
-			'testimonial text must match across locales; translate the role, never the quote',
-		);
+	it('publishes no star rating, because the public source has none to report', () => {
+		// Facebook uses yes/no recommendations. Any average would be invented.
+		for (const file of [...LIVE_SOURCES, 'public/llms.txt']) {
+			const src = read(file);
+			assert.doesNotMatch(src, /ratingValue|reviewRating|\b4\.\d\s*(★|stars?)/i, `rating claim in ${file}`);
+		}
 	});
 
-	it('hides the testimonial section while the array is empty', () => {
-		const page = read('app/business/BusinessPageContent.tsx');
-		assert.match(page, /t\.business\.testimonials\.items\.length > 0 &&/);
+	it('labels a review rather than trimming it when it does not fit the positioning', () => {
+		const src = reviewsSrc();
+		// The coaching and jobs reviews are the ones that do not sit neatly under
+		// marketing; each must carry context so the quote is never left to imply
+		// something it does not say.
+		for (const topic of ['coaching', 'jobs', 'founder']) {
+			const i = src.indexOf(`topic: '${topic}'`);
+			assert.ok(i > 0, `expected a "${topic}" review to be published`);
+			const entryStart = src.lastIndexOf('  {', i);
+			assert.match(src.slice(entryStart, i), /context: \{/, `"${topic}" review needs a context label`);
+		}
 	});
 
-	it('publishes no AggregateRating and no unsourced business count', () => {
+		it('publishes no AggregateRating and no unsourced business count', () => {
 		for (const file of LIVE_SOURCES) {
 			const src = read(file);
 			assert.doesNotMatch(src, /"@type":\s*"AggregateRating"/, `AggregateRating in ${file}`);

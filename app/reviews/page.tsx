@@ -89,20 +89,20 @@ export default function ReviewsPage() {
             <li key={`${review.name}-${review.date}`} className="review">
               <div className="review__meta">
                 <span className="review__topic">{TOPIC_LABEL[review.topic]}</span>
-                <span className="review__date">{review.displayDate}</span>
+                <span className="review__date">{review.displayDate.en}</span>
               </div>
-              {review.context && <p className="review__context">{review.context}</p>}
+              {review.context && <p className="review__context">{review.context.en}</p>}
               <blockquote className="review__text">{review.text}</blockquote>
               <footer className="review__author">
                 <span className="review__name">{review.name}</span>
-                {review.role && <span className="review__role">{review.role}</span>}
+                {review.role && <span className="review__role">{review.role.en}</span>}
                 <span className="review__source">
                   {review.sourceUrl ? (
                     <a href={review.sourceUrl} target="_blank" rel="noreferrer">
-                      {review.sourceLabel}
+                      {review.sourceLabel.en}
                     </a>
                   ) : (
-                    review.sourceLabel
+                    review.sourceLabel.en
                   )}
                 </span>
               </footer>
