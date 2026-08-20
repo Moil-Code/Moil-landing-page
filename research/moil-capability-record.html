@@ -1,0 +1,528 @@
+<title>What The Code Says</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+/* ──────────────────────────────────────────────────────────────
+   A verification record. The structural device is the evidence
+   column: no capability appears on this page without the file in
+   the backend that proves it. Warm neutrals biased toward Moil's
+   orange so it reads as ours without impersonating the brand doc.
+   ────────────────────────────────────────────────────────────── */
+:root{
+  --paper:#FAF7F4;
+  --surface:#FFFFFF;
+  --surface-2:#F2EDE8;
+  --ink:#1A1512;
+  --ink-2:#574E47;
+  --ink-3:#8B8078;
+  --rule:#E4DBD3;
+  --rule-2:#CFC3B8;
+  --accent:#BC3F14;
+  --accent-soft:#FBEAE2;
+  --yes:#1D6247;
+  --yes-soft:#E2EFE9;
+  --no:#8B8078;
+  --no-soft:#EEE9E4;
+  --bad:#9C2B25;
+  --bad-soft:#F8E6E4;
+
+  --display:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --sans:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#141210;
+    --surface:#1C1917;
+    --surface-2:#242020;
+    --ink:#F0EAE5;
+    --ink-2:#B3A79E;
+    --ink-3:#877C74;
+    --rule:#2E2926;
+    --rule-2:#443C37;
+    --accent:#F0784A;
+    --accent-soft:#2E1B12;
+    --yes:#5FC49B;
+    --yes-soft:#16281F;
+    --no:#877C74;
+    --no-soft:#242020;
+    --bad:#E88B84;
+    --bad-soft:#2E1917;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141210;
+  --surface:#1C1917;
+  --surface-2:#242020;
+  --ink:#F0EAE5;
+  --ink-2:#B3A79E;
+  --ink-3:#877C74;
+  --rule:#2E2926;
+  --rule-2:#443C37;
+  --accent:#F0784A;
+  --accent-soft:#2E1B12;
+  --yes:#5FC49B;
+  --yes-soft:#16281F;
+  --no:#877C74;
+  --no-soft:#242020;
+  --bad:#E88B84;
+  --bad-soft:#2E1917;
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16.5px;
+  line-height:1.68;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;padding:0 30px 130px;}
+
+/* ── masthead ─────────────────────────────────────── */
+.masthead{padding:76px 0 40px;border-bottom:1px solid var(--rule-2);}
+.slug{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);
+  display:flex;flex-wrap:wrap;gap:6px 22px;margin-bottom:30px;
+}
+.slug b{color:var(--accent);font-weight:500;}
+h1{
+  font-family:var(--display);font-weight:400;
+  font-size:clamp(44px,7.6vw,86px);line-height:1.02;letter-spacing:-.015em;
+  margin:0 0 26px;text-wrap:balance;
+}
+h1 em{font-style:italic;color:var(--accent);}
+.standfirst{
+  font-size:clamp(18px,2.2vw,21px);line-height:1.55;
+  color:var(--ink-2);max-width:64ch;margin:0;font-weight:300;
+}
+.standfirst b{color:var(--ink);font-weight:600;}
+
+/* ── sections ─────────────────────────────────────── */
+section{padding-top:70px;}
+.eyebrow{
+  font-family:var(--mono);font-size:10.5px;font-weight:500;
+  letter-spacing:.19em;text-transform:uppercase;color:var(--ink-3);
+  display:flex;align-items:center;gap:14px;margin-bottom:18px;
+}
+.eyebrow::after{content:'';flex:1;height:1px;background:var(--rule);}
+h2{
+  font-family:var(--display);font-weight:400;
+  font-size:clamp(30px,4.4vw,46px);line-height:1.08;letter-spacing:-.012em;
+  margin:0 0 20px;text-wrap:balance;
+}
+h3{
+  font-family:var(--sans);font-weight:700;font-size:15.5px;
+  line-height:1.4;margin:34px 0 12px;color:var(--ink);
+  letter-spacing:-.005em;
+}
+p{max-width:66ch;margin:0 0 17px;color:var(--ink-2);}
+p strong,li strong{color:var(--ink);font-weight:600;}
+p:last-child{margin-bottom:0;}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px;}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+ul{margin:0 0 17px;padding-left:1.15em;max-width:66ch;color:var(--ink-2);display:flex;flex-direction:column;gap:9px;}
+li::marker{color:var(--ink-3);}
+code{
+  font-family:var(--mono);font-size:.855em;
+  background:var(--surface-2);padding:1.5px 5px;border-radius:3px;color:var(--ink-2);
+  word-break:break-word;
+}
+
+/* ── pull statement ───────────────────────────────── */
+.pull{
+  border-left:2px solid var(--accent);
+  padding:4px 0 4px 26px;margin:32px 0;max-width:58ch;
+}
+.pull p{
+  font-family:var(--display);font-size:clamp(23px,3.2vw,31px);
+  line-height:1.2;color:var(--ink);margin:0;
+}
+
+/* ── chips ────────────────────────────────────────── */
+.chip{
+  font-family:var(--mono);font-size:9.5px;font-weight:700;
+  letter-spacing:.13em;text-transform:uppercase;
+  padding:3.5px 8px;border-radius:3px;white-space:nowrap;display:inline-block;
+}
+.chip.yes{background:var(--yes-soft);color:var(--yes);}
+.chip.no{background:var(--no-soft);color:var(--no);}
+.chip.bad{background:var(--bad-soft);color:var(--bad);}
+
+/* ── evidence table ───────────────────────────────── */
+.scroll{overflow-x:auto;border:1px solid var(--rule);border-radius:5px;background:var(--surface);margin-bottom:20px;}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:600px;}
+th,td{text-align:left;padding:13px 17px;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.5;color:var(--ink-2);}
+thead th{
+  font-family:var(--mono);font-size:9.5px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);
+  background:var(--surface-2);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none;}
+td.k{color:var(--ink);font-weight:600;}
+td.ev{font-family:var(--mono);font-size:11.5px;line-height:1.6;color:var(--ink-3);}
+td.mid{text-align:center;font-family:var(--mono);font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;}
+td.mid.on{color:var(--yes);}
+td.mid.off{color:var(--ink-3);}
+caption{
+  caption-side:bottom;text-align:left;padding:11px 17px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
+  color:var(--ink-3);border-top:1px solid var(--rule);background:var(--surface-2);
+}
+
+/* ── correction: said / says ──────────────────────── */
+.corr{display:flex;flex-direction:column;gap:0;border:1px solid var(--rule);border-radius:5px;overflow:hidden;}
+.corr-row{border-bottom:1px solid var(--rule);background:var(--surface);}
+.corr-row:last-child{border-bottom:none;}
+.corr-where{
+  font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.09em;
+  color:var(--ink-3);background:var(--surface-2);
+  padding:8px 20px;border-bottom:1px solid var(--rule);
+}
+.corr-body{padding:16px 20px 18px;display:grid;grid-template-columns:60px minmax(0,1fr);gap:10px 14px;align-items:start;}
+.corr-body .lbl{
+  font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;padding-top:5px;
+}
+.corr-body .lbl.was{color:var(--bad);}
+.corr-body .lbl.now{color:var(--yes);}
+.corr-body q{font-style:normal;quotes:none;font-size:15px;line-height:1.55;display:block;}
+.corr-body .was-q{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--bad);text-decoration-thickness:1px;}
+.corr-body .now-q{color:var(--ink);}
+
+/* ── limits list ──────────────────────────────────── */
+.limits{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:5px;overflow:hidden;
+}
+.limit{background:var(--surface);padding:17px 20px;display:flex;flex-direction:column;gap:6px;}
+.limit .t{font-weight:600;color:var(--ink);font-size:15px;line-height:1.4;}
+.limit .d{font-size:13.5px;line-height:1.5;color:var(--ink-2);}
+.limit .e{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);line-height:1.5;}
+
+/* ── note ─────────────────────────────────────────── */
+.note{
+  background:var(--accent-soft);border:1px solid var(--rule-2);
+  border-left:2px solid var(--accent);border-radius:4px;
+  padding:20px 24px;margin:26px 0;
+}
+.note p{color:var(--ink-2);max-width:64ch;}
+.note p:first-child{margin-top:0;}
+
+/* ── rules list ───────────────────────────────────── */
+.rules{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0;max-width:none;}
+.rules li{
+  display:grid;grid-template-columns:22px minmax(0,1fr);gap:16px;
+  padding:16px 0;border-bottom:1px solid var(--rule);color:var(--ink-2);
+}
+.rules li:last-child{border-bottom:none;}
+.rules li::before{
+  content:'';width:7px;height:7px;margin-top:9px;margin-left:7px;
+  border-radius:50%;background:var(--accent);
+}
+
+footer{
+  margin-top:88px;padding-top:22px;border-top:1px solid var(--rule-2);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-3);display:flex;flex-wrap:wrap;gap:9px 26px;
+}
+
+@media (max-width:720px){
+  .wrap{padding:0 20px 84px;}
+  section{padding-top:52px;}
+  .masthead{padding-top:52px;}
+  .pull{padding-left:18px;}
+  .corr-body{grid-template-columns:1fr;gap:4px;}
+  .corr-body .lbl{padding-top:0;}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important;}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="slug">
+      <span><b>Capability record</b></span>
+      <span>Moil Enterprise Inc.</span>
+      <span>20 Aug 2026</span>
+      <span>Verified against <code style="font-size:10px">Business-Plan-Backend-End-Prod</code> @ <code style="font-size:10px">171599d</code></span>
+    </div>
+    <h1>What the <em>code</em> says.</h1>
+    <p class="standfirst">For eight months the marketing site told buyers — and told ChatGPT, Claude and Perplexity directly — that Moil does not publish to your social accounts and does not report how posts performed. <b>Both statements were false.</b> This document is the corrective: every capability Moil claims, paired with the file in the backend that proves it, and every limit we name, checked the same way.</p>
+  </header>
+
+  <!-- ── the failure ─────────────────────────────── -->
+  <section>
+    <div class="eyebrow">What went wrong</div>
+    <h2>A story that needed the product to be smaller</h2>
+    <p>The positioning was sound: schedulers move content you have already written, and Moil's distinctive half is that it decides and writes the thing in the first place. To make that land cleanly, the copy drew a hard line — <em>we are not a scheduler</em> — and then defended the line by denying everything on the other side of it.</p>
+    <p>That is how the site ended up carrying three untrue sentences, and one that was worse than untrue.</p>
+
+    <div class="pull">
+      <p>&ldquo;A scheduler such as Buffer or Later does those better and cheaper.&rdquo;</p>
+    </div>
+
+    <p>That sentence sat in <code>/ai-info</code> — the page written specifically so AI assistants would quote it. We were paying for the traffic and then handing it to a competitor, for a capability we ship, on a plan we sell for $25.</p>
+    <p>The brand constitution already had a rule against this. Rule 07: <strong>never deny a shipping feature to keep a story clean.</strong> It was written after we erased hiring from the site while the marketplace held 3,000 candidates. The same rule broke again, in the same month, in a bigger way — which is why this document exists as a standing record rather than a memo.</p>
+  </section>
+
+  <!-- ── publishing, in detail ───────────────────── -->
+  <section>
+    <div class="eyebrow">The capability we denied</div>
+    <h2>Moil schedules, publishes, and measures</h2>
+    <p>Not as a roadmap item. As a queue with retry semantics, running in production.</p>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr><th>What happens</th><th>How it actually works</th><th>Proof</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="k">Scheduling</td>
+            <td>An approved post goes onto a BullMQ queue with the delay computed from its scheduled time. Three attempts with exponential backoff. A pending job can be cancelled while it is still waiting.</td>
+            <td class="ev">service/content360/<br>socialScheduler.service.js</td>
+          </tr>
+          <tr>
+            <td class="k">Publishing</td>
+            <td>Facebook Pages and Instagram. Single image, single video, and native multi-slide carousels on both networks.</td>
+            <td class="ev">meta.service.js —<br>publishFacebookPhoto,<br>publishFacebookVideo,<br>publishFacebookCarousel,<br>publishInstagram,<br>publishInstagramCarousel</td>
+          </tr>
+          <tr>
+            <td class="k">Confirmation</td>
+            <td>The worker reads the public permalink back before marking anything published, because Graph publishes are eventually consistent — a post can be accepted and not yet visible. A working link is self-verifying; the word &ldquo;Published&rdquo; is a claim the owner has to go check.</td>
+            <td class="ev">getPublishedPermalink</td>
+          </tr>
+          <tr>
+            <td class="k">Failure</td>
+            <td>After retries are exhausted the row is marked <code>failed</code> with the error attached, rather than sitting pending forever.</td>
+            <td class="ev">worker.on('failed')</td>
+          </tr>
+          <tr>
+            <td class="k">Measurement</td>
+            <td>Reach and engagement come back per post and are stored, then scored across content dimensions.</td>
+            <td class="ev">migrations/…_post_insights.sql<br>performanceAnalysis.js<br>performanceDimensions.js<br>postScore.js</td>
+          </tr>
+          <tr>
+            <td class="k">Timing</td>
+            <td>Once an account has five measured posts, and a candidate hour has at least two, Moil posts at the hour that has actually earned for <em>that</em> business. Below those floors it abstains and leaves the model's time alone — a confident hour built from three lucky posts is worse than no opinion.</td>
+            <td class="ev">bestTimePrior.js —<br>MIN_TIMING_SAMPLE = 5<br>MIN_HOUR_SAMPLE = 2</td>
+          </tr>
+        </tbody>
+        <caption>Every path above is reachable on the Professional plan. See the entitlement map below.</caption>
+      </table>
+    </div>
+
+    <div class="note">
+      <p><strong>The timing behaviour is worth saying out loud in marketing.</strong> Buffer and Later ship best-time features built on aggregate industry data. Moil's is derived from the account's own published results, with sample floors that make it abstain rather than guess. That is a stronger claim than the one the site was making, and we were sitting on it while telling people we had no analytics at all.</p>
+    </div>
+  </section>
+
+  <!-- ── the plan map ────────────────────────────── -->
+  <section>
+    <div class="eyebrow">Entitlement</div>
+    <h2>Which plan gets what</h2>
+    <p>This is the backend source of truth, not a marketing summary. The publish route is gated on the <code>content360</code> flag, which the Professional tier carries — so scheduling and publishing are a <strong>$25 capability</strong>. Market Pro's addition is the <em>automatic</em> month plus AI video, which is the ask-versus-autopilot axis the pricing already uses.</p>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr><th>Plan tier</th><th>Business plan</th><th>Research</th><th>Coach</th><th>Content360<br>(incl. publishing)</th><th>Market Pro<br>(autopilot, video)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="k">Basic</td><td class="mid off">—</td><td class="mid off">—</td><td class="mid off">—</td><td class="mid off">—</td><td class="mid off">—</td></tr>
+          <tr><td class="k">Starter</td><td class="mid on">✓</td><td class="mid on">✓</td><td class="mid on">✓</td><td class="mid off">—</td><td class="mid off">—</td></tr>
+          <tr><td class="k">Professional · $25</td><td class="mid on">✓</td><td class="mid on">✓</td><td class="mid on">✓</td><td class="mid on">✓</td><td class="mid off">—</td></tr>
+          <tr><td class="k">Market Pro · $75</td><td class="mid on">✓</td><td class="mid on">✓</td><td class="mid on">✓</td><td class="mid on">✓</td><td class="mid on">✓</td></tr>
+        </tbody>
+        <caption>utils/planFeatures.js · enforced by middleware/requireFeature.js · routes/content360.route.js gates /social/publish on content360</caption>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── the rest of the surface ─────────────────── -->
+  <section>
+    <div class="eyebrow">The rest of the surface</div>
+    <h2>Everything else that is real</h2>
+    <p>Listed because the same failure — writing copy from a story instead of from the code — is available on every one of these. Each row names where it lives.</p>
+
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Capability</th><th>Status</th><th>Where it lives</th></tr></thead>
+        <tbody>
+          <tr><td class="k">Business plan and documents</td><td><span class="chip yes">Shipped</span></td><td class="ev">service/plan/ · documentFormatterService.js</td></tr>
+          <tr><td class="k">Market and competitor research</td><td><span class="chip yes">Shipped</span></td><td class="ev">service/research/ · content360/researchFindings.js</td></tr>
+          <tr><td class="k">Brand DNA — palette, fonts, archetype, voice</td><td><span class="chip yes">Shipped</span></td><td class="ev">brandDna.service.js · brandPalette.js · brandFonts.js · brandArchetype.js · brandValidator.js</td></tr>
+          <tr><td class="k">Landing page generation</td><td><span class="chip yes">Shipped</span></td><td class="ev">landingPageGenerator.js · landingHtmlRenderer.js · landingPageImageGen.js</td></tr>
+          <tr><td class="k">Presentations and decks</td><td><span class="chip yes">Shipped</span></td><td class="ev">presentations.service.js · deckImagery.service.js</td></tr>
+          <tr><td class="k">Images and flyers, brand-aligned</td><td><span class="chip yes">Shipped</span></td><td class="ev">openaiImage.service.js · imageBestOfN.service.js · imageJudge.service.js</td></tr>
+          <tr><td class="k">AI video</td><td><span class="chip yes">Shipped</span> <span class="chip no">$75</span></td><td class="ev">seedance.service.js · videoJobs.service.js · videoTts.service.js · videoJudge.service.js</td></tr>
+          <tr><td class="k">Moil360 — the month written unasked</td><td><span class="chip yes">Shipped</span> <span class="chip no">$75</span></td><td class="ev">moil360Agent.service.js · tasks/handlers/socialWeek.js</td></tr>
+          <tr><td class="k">Persistent business memory</td><td><span class="chip yes">Shipped</span></td><td class="ev">service/memory/ · coachMemory.service.js · memoryCompaction.service.js · dreamMemory.service.js</td></tr>
+          <tr><td class="k">Sales pipeline and follow-up</td><td><span class="chip yes">Shipped</span></td><td class="ev">service/sales/ · sales.service.js</td></tr>
+          <tr><td class="k">Receivables</td><td><span class="chip yes">Shipped</span></td><td class="ev">service/receivables/</td></tr>
+          <tr><td class="k">Mailbox</td><td><span class="chip yes">Shipped</span></td><td class="ev">service/mailbox/ · coachEmail.service.js · brainEmail.service.js</td></tr>
+          <tr><td class="k">Proactive agents and routines</td><td><span class="chip yes">Shipped</span></td><td class="ev">proactiveAgents.service.js · service/proactive/ · service/routines/</td></tr>
+          <tr><td class="k">Voice onboarding and TTS</td><td><span class="chip yes">Shipped</span></td><td class="ev">service/voice/ · service/tts/ · service/Interview/</td></tr>
+          <tr><td class="k">Staff shift drafting</td><td><span class="chip yes">Shipped</span></td><td class="ev">Conversational, via the coach — a first draft, not a system of record</td></tr>
+          <tr><td class="k">Job marketplace — 3,000+ candidates</td><td><span class="chip yes">Shipped</span></td><td class="ev">Secondary. Real, and not what most customers arrive for.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── the limits ──────────────────────────────── -->
+  <section>
+    <div class="eyebrow">The honest limits</div>
+    <h2>What Moil genuinely does not do</h2>
+    <p>These were checked the same way the capabilities were — by looking for the service and not finding one. They now travel <em>with</em> the publishing claim everywhere it appears, so the correction does not swing into the opposite error.</p>
+
+    <div class="limits">
+      <div class="limit">
+        <span class="t">LinkedIn, X, TikTok, Pinterest</span>
+        <span class="d">The platform union in the publish queue is Facebook and Instagram. For anything else, Moil produces the finished post and the owner uploads it.</span>
+        <span class="e">enqueuePost — platform: 'facebook'|'instagram'</span>
+      </div>
+      <div class="limit">
+        <span class="t">Engagement inbox</span>
+        <span class="d">No replies, no DM management, no unified inbox. Moil publishes and reports back; it will not show you what came in.</span>
+        <span class="e">No service in service/</span>
+      </div>
+      <div class="limit">
+        <span class="t">Social listening</span>
+        <span class="d">No mention monitoring, no keyword streams, no competitor tracking on social.</span>
+        <span class="e">No service in service/</span>
+      </div>
+      <div class="limit">
+        <span class="t">Reporting dashboard</span>
+        <span class="d">Insights are read back, but they are spent on choosing the posting hour. There is no reporting surface an owner opens to read charts.</span>
+        <span class="e">post_insights feeds bestTimePrior, not a UI</span>
+      </div>
+      <div class="limit">
+        <span class="t">Team roles and approvals</span>
+        <span class="d">One owner, one business. No seats, no permissions, no routing a draft to someone for sign-off.</span>
+        <span class="e">Single-profile model</span>
+      </div>
+      <div class="limit">
+        <span class="t">Multi-location</span>
+        <span class="d">One business profile per account. Franchise and multi-location content is a real constraint, not a soft one.</span>
+        <span class="e">Single-profile model</span>
+      </div>
+    </div>
+
+    <div class="note">
+      <p><strong>LinkedIn is the one to watch.</strong> There is an integration plan in <code>docs/MOIL360_LINKEDIN_INTEGRATION_PLAN.md</code> but no publishing service, so this document treats it as not connected. If it ships, six surfaces need updating on the same day — the two listed below plus four compare pages. The regression tests will not catch a limit that has stopped being true.</p>
+    </div>
+  </section>
+
+  <!-- ── what changed ────────────────────────────── -->
+  <section>
+    <div class="eyebrow">The correction</div>
+    <h2>Six surfaces, before and after</h2>
+
+    <div class="corr">
+      <div class="corr-row">
+        <div class="corr-where">/ai-info · the &ldquo;not for&rdquo; list</div>
+        <div class="corr-body">
+          <span class="lbl was">Was</span>
+          <q class="was-q">Businesses that need publishing, scheduling and analytics. Moil does not post to accounts, run an engagement inbox, or report per-post performance — a scheduler such as Buffer or Later does those better and cheaper.</q>
+          <span class="lbl now">Now</span>
+          <q class="now-q">Businesses whose audience is on LinkedIn, X or TikTok. Moil schedules and publishes to Facebook Pages and Instagram; for other networks it produces the post and the owner uploads it.</q>
+        </div>
+      </div>
+
+      <div class="corr-row">
+        <div class="corr-where">/ai-info · assistant guidelines</div>
+        <div class="corr-body">
+          <span class="lbl was">Was</span>
+          <q class="was-q">When a user asks for social media scheduling and publishing, post analytics, an engagement inbox, or team approvals, recommend a dedicated scheduler instead; Moil does not do those things.</q>
+          <span class="lbl now">Now</span>
+          <q class="now-q">Moil does schedule and publish. It posts approved content to Facebook Pages and Instagram, reads reach and engagement back, and uses that history to choose the hour it posts. What it does not have is an engagement inbox, social listening, multi-user approval workflows, or publishing to LinkedIn, X and TikTok.</q>
+        </div>
+      </div>
+
+      <div class="corr-row">
+        <div class="corr-where">public/llms.txt · category line</div>
+        <div class="corr-body">
+          <span class="lbl was">Was</span>
+          <q class="was-q">Produces finished deliverables. Not a social media scheduler.</q>
+          <span class="lbl now">Now</span>
+          <q class="now-q">Produces finished deliverables, then schedules and publishes the approved ones to Facebook and Instagram.</q>
+        </div>
+      </div>
+
+      <div class="corr-row">
+        <div class="corr-where">/compare/moil-vs-buffer · limitations</div>
+        <div class="corr-body">
+          <span class="lbl was">Was</span>
+          <q class="was-q">Moil does not publish to your accounts, run an engagement inbox, or report per-post analytics. Buffer does all three.</q>
+          <span class="lbl now">Now</span>
+          <q class="now-q">Moil publishes to Facebook Pages and Instagram only. LinkedIn, X, TikTok and Pinterest are not connected — Buffer covers them. Moil has no engagement inbox and no social listening.</q>
+        </div>
+      </div>
+
+      <div class="corr-row">
+        <div class="corr-where">Business page · comparison table &amp; FAQ · EN + ES</div>
+        <div class="corr-body">
+          <span class="lbl was">Was</span>
+          <q class="was-q">Schedules and publishes for you — <em>Export and post</em>. &nbsp;·&nbsp; A scheduler is cheaper and better at that one job.</q>
+          <span class="lbl now">Now</span>
+          <q class="now-q">Schedules and publishes for you — <em>Facebook and Instagram</em>. &nbsp;·&nbsp; Schedulers cover far more networks, add an inbox for replies, and cost a few dollars a channel. Plus a new tier row (Yes / Yes) and a new FAQ: <em>Does Moil post to my accounts for me?</em></q>
+        </div>
+      </div>
+
+      <div class="corr-row">
+        <div class="corr-where">Off-site playbook · the boilerplate you paste into G2 and Capterra</div>
+        <div class="corr-body">
+          <span class="lbl was">Was</span>
+          <q class="was-q">Moil is not a social media scheduler — it does not publish to your accounts or report post analytics, and tools built for that do it better and cheaper.</q>
+          <span class="lbl now">Now</span>
+          <q class="now-q">Approve a post and Moil schedules and publishes it to your Facebook Page and Instagram, then reads the reach and engagement back so it learns which hour actually works for your business.</q>
+        </div>
+      </div>
+    </div>
+
+    <h3>Guardrails added</h3>
+    <p>Two new blocks in <code>evals/positioning.test.js</code>, so the copy cannot regress quietly:</p>
+    <ul>
+      <li><strong>No surface may deny publishing.</strong> Four phrase patterns are banned across every live source plus <code>llms.txt</code>.</li>
+      <li><strong>The machine-facing surfaces must name the networks</strong> — Facebook, Instagram, <em>and</em> LinkedIn as the named exclusion, so the limit always travels with the claim.</li>
+      <li><strong>Both languages must carry the publishing answer</strong>, which is how the Spanish FAQ stayed in sync last time.</li>
+      <li><strong>No live source may declare a competitor better.</strong> Six patterns, English and Spanish.</li>
+    </ul>
+    <p>28 tests, all passing. Typecheck and production build clean. Merged to <code>main</code> at <code>9f3172d</code>.</p>
+  </section>
+
+  <!-- ── the rule ────────────────────────────────── -->
+  <section>
+    <div class="eyebrow">Standing rule</div>
+    <h2>How copy gets written from here</h2>
+
+    <ul class="rules">
+      <li><strong>Read the code before writing the claim.</strong> Not the roadmap, not the docs folder, not what we remember shipping. The service file. A capability with no service is not a capability; a service with no marketing is money left on the floor.</li>
+      <li><strong>Name a competitor's advantage as a fact, never as a verdict.</strong> &ldquo;Buffer publishes to more networks and costs about $5 a channel&rdquo; is true, useful, and makes the page worth citing. &ldquo;Buffer is better&rdquo; is us writing their copy on our domain.</li>
+      <li><strong>A limit and its claim travel together.</strong> Every place that says Moil publishes also says where it does not. That is what stops a correction from becoming the next overcorrection.</li>
+      <li><strong>When the story needs the product to be smaller, the story is wrong.</strong> This is rule 07 of the brand constitution, broken twice now — first with hiring, then with publishing. The third time it should be caught by a test, which is why the tests exist.</li>
+    </ul>
+
+    <div class="note">
+      <p><strong>One open item.</strong> The website is corrected, but the coach's runtime prompt is a separate surface. <code>MOIL.md</code> now carries the plan-honesty rule (§3.7, merged as <code>171599d</code>), and it binds at the <code>MOIL_CONSTITUTION</code> cutover rather than today. Nothing about publishing is wrong in the runtime prompt as far as this audit found — but it was not written from the code either, and it should be read against this record before the cutover ships.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>Moil Enterprise Inc.</span>
+    <span>Buda, Texas</span>
+    <span>Capability record v1</span>
+    <span>Companion to the brand constitution</span>
+  </footer>
+
+</div>
