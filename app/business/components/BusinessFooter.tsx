@@ -85,6 +85,7 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
             <a href="/business#journey">{t.footer.platformLinks.howItWorks}</a>
             <a href="/business#pricing">{t.footer.platformLinks.pricing}</a>
             <a href="/ai-info">AI info</a>
+            <a href={`/candidate?lg=${lang}`}>{t.footer.resourceLinks.forJobSeekers}</a>
           </div>
         </div>
         <div>

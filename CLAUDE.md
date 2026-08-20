@@ -91,6 +91,10 @@ The rules, in order of importance:
 
 1. A quote goes on the site only if a customer actually wrote or said it. Editing
    for length or obvious typos is fine. Changing what it claims is not.
+   **Rewording is allowed only when the customer approves the exact final wording,
+   in writing, before it ships.** "They said it could be reworded" is not approval —
+   that is the gap commit `8157cd3` fell through. Draft it, send it back, wait. If
+   they edit your draft, their version wins. Record the approval date as the source.
 2. Every quote carries a dated source we can produce on request — a G2 or Google
    review, an email, a recorded call.
 3. If the positioning changes and the existing quotes no longer fit, **remove them

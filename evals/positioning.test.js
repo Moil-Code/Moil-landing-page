@@ -119,8 +119,8 @@ describe('no fabricated or unsourced social proof', () => {
 	});
 });
 
-describe('hiring is de-linked from the business surface', () => {
-	it('no business-surface copy sells or denies hiring', () => {
+describe('hiring is available but not a pillar', () => {
+	it('never denies hiring, and never promotes it as a pillar', () => {
 		const surfaces = [
 			'app/business/BusinessPageContent.tsx',
 			'app/business/sections/HeroSection.tsx',
@@ -133,10 +133,13 @@ describe('hiring is de-linked from the business surface', () => {
 		];
 		for (const file of surfaces) {
 			const src = read(file);
+			// Hiring is a real, available feature (3,000+ candidates) and a published
+			// customer review mentions it, so denying it would contradict the page.
+			// What must not come back is the denial, or hiring as a headline pillar.
 			assert.doesNotMatch(src, /not a hiring platform/i, `hiring denial in ${file}`);
-			// The one allowed mention is the comment recording why step5 was removed.
-			const selling = src.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
-			assert.doesNotMatch(selling, /Smart Hiring|time to hire|job post/i, `hiring copy in ${file}`);
+			const copy = src.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
+			assert.doesNotMatch(copy, /Smart Hiring/i, `hiring sold as a pillar in ${file}`);
+			assert.doesNotMatch(copy, /\b\d+[- ]day average to hire|95% (match )?accuracy/i, `unsourced hiring metric in ${file}`);
 		}
 	});
 

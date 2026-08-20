@@ -514,6 +514,16 @@ export const en = {
           answer: 'No. Moil interviews you about your business in plain language, by voice or text, and does the strategy work from your answers. You review and approve what it writes. Most owners have their first month of content drafted before they finish the conversation.',
         },
         {
+          question: 'Can Moil build staff schedules?',
+          answer:
+            'Yes. Ask the coach for something like a week of shifts for five employees with breaks, and it will build it from what it already knows about your business. It is a conversational capability rather than a rota screen, so treat it as a first draft you adjust rather than a scheduling system of record.',
+        },
+        {
+          question: 'Can Moil help me hire?',
+          answer:
+            'Yes, though it is not what Moil leads with. You can post a role and reach the candidates on Moil\u2019s job marketplace, which currently has over 3,000 people on it. Most owners come to Moil for the marketing and use hiring occasionally, when they need it.',
+        },
+        {
           question: 'Is Moil the same as MOIL Limited?',
           answer: 'No. Moil is Moil Enterprise Inc., founded in 2023 and based in Buda, Texas, and it builds AI marketing software for small businesses. MOIL Limited is an unrelated manganese mining company listed in India. The two companies share a name and nothing else.',
         },

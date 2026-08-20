@@ -511,6 +511,16 @@ export const es: TranslationKeys = {
           answer: 'No. Moil te entrevista sobre tu negocio en lenguaje sencillo, por voz o texto, y hace el trabajo de estrategia con tus respuestas. Tú revisas y apruebas lo que escribe. La mayoría de los dueños ya tienen su primer mes redactado antes de terminar la conversación.',
         },
         {
+          question: '¿Moil puede armar horarios del personal?',
+          answer:
+            'Sí. Pídele al coach algo como una semana de turnos para cinco empleados con descansos y lo arma con lo que ya sabe de tu negocio. Es una capacidad conversacional, no una pantalla de turnos, así que tómalo como un primer borrador que ajustas y no como el sistema oficial de horarios.',
+        },
+        {
+          question: '¿Moil me ayuda a contratar?',
+          answer:
+            'Sí, aunque no es lo principal. Puedes publicar una vacante y llegar a los candidatos del marketplace de empleo de Moil, que hoy tiene más de 3,000 personas. La mayoría de los dueños llega por el marketing y usa la contratación de vez en cuando, cuando la necesita.',
+        },
+        {
           question: '¿Moil es lo mismo que MOIL Limited?',
           answer: 'No. Moil es Moil Enterprise Inc., fundada en 2023 y con sede en Buda, Texas, y hace software de marketing con IA para pequeños negocios. MOIL Limited es una minera de manganeso que cotiza en India y no tiene relación. Comparten el nombre y nada más.',
         },

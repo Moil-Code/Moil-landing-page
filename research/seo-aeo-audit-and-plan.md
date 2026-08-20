@@ -203,7 +203,21 @@ content they need. Usage says so; the copy should follow usage rather than the o
 **Moil is: the thing that runs a small business's marketing.** Plan and research feed it; Moil360
 is the output; the coach is what keeps it right over time.
 
-**The job marketplace stays live and fully de-linked.** `/candidate` and
+**Correction, 2026-08-20.** "Fully de-linked" was applied too literally on the first
+pass and hiring was removed from the business surface altogether. That is wrong: hiring
+is still an available feature, the marketplace holds 3,000+ candidates, and a published
+customer review (Liliana) credits it with two hires. Denying it would recreate the
+contradiction this audit exists to fix, one size smaller. The correct shape is
+**available and accurately described, never promoted**: one FAQ entry, a secondary
+listing on `/ai-info` and `llms.txt`, one footer link — and no hiring pillar, no hiring
+metrics, no hiring language in the H1, answer block, or schema descriptions.
+
+Two further product facts surfaced in the same review pass and are now on the site:
+the coach **drafts staff shift schedules** on request (which validates Miguel's review,
+and was a capability the site never mentioned), and the job marketplace headcount is a
+real, citable number.
+
+**The job marketplace stays live and de-emphasised.** `/candidate` and
 `candidate.moilapp.com` continue to exist as their own product. They disappear from the `/business`
 narrative, the business nav, `llms.txt`, and every business-side schema block. No hiring language
 survives anywhere on the business surface.
