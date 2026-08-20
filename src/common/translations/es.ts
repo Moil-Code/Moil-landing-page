@@ -208,7 +208,7 @@ export const es: TranslationKeys = {
         'Conversaciones y revisiones ilimitadas',
         'Integrado: investigación → plan → contenido → calendario',
         'Guía 24/7 — nunca desaparece',
-        'Imágenes IA, video, calendario de 30 días incluidos',
+        'Pídele imágenes, volantes, documentos — conoce tu marca',
         'Bilingüe inglés y español',
       ],
       moilCta: 'Empieza gratis — sin tarjeta',

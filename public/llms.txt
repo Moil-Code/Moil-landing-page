@@ -32,7 +32,7 @@ support the format. The canonical machine-readable description of Moil is /ai-in
 - [Done-for-you social media alternatives](https://www.moilapp.com/compare/done-for-you-social-media-alternatives): Agency, freelancer, VA, tool or DIY — real prices.
 
 ## Key facts
-- Category: AI marketing software for small businesses. Not a website builder, not a social media scheduler.
+- Category: AI co-founder / business assistant for small business owners. Produces finished deliverables. Not a social media scheduler.
 - Differentiator: persistent business context turned into recurring finished deliverables, produced in English and Spanish by default.
 - Pricing: Professional $25/month; Market Pro $75/month; free first conversation, no card.
 - Company: Moil Enterprise Inc., founded 2023, Buda, Texas, USA.

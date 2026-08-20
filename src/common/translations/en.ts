@@ -178,7 +178,7 @@ export const en = {
       },
     },
     problem: {
-      tag: 'What $25 a month gets you',
+      tag: 'What you actually get',
       headline: 'Stop paying $5,000',
       headlineHighlight: 'for advice you can’t act on.',
       headlineEnd: '',
@@ -208,7 +208,7 @@ export const en = {
         'Unlimited conversations & revisions',
         'Integrated: research → plan → content → calendar',
         '24/7 guidance — never goes dark',
-        'AI images, video, 30-day calendar included',
+        'Ask it for images, flyers, docs — it knows your brand',
         'Bilingual English & Spanish',
       ],
       moilCta: 'Start free — no credit card',
