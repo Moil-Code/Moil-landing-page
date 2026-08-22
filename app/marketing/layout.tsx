@@ -85,6 +85,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
                 "name": "Professional",
                 "price": "25",
                 "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
                 "priceSpecification": {
                   "@type": "UnitPriceSpecification",
                   "price": "25",
@@ -98,6 +99,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
                 "name": "Market Pro",
                 "price": "75",
                 "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
                 "priceSpecification": {
                   "@type": "UnitPriceSpecification",
                   "price": "75",

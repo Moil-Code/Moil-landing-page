@@ -137,7 +137,7 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
               <div className="space-y-3">
                 <div className="bg-white dark:bg-[#10141F] rounded-lg p-3">
                   <div className="text-sm font-medium text-gray-900 dark:text-[#EEF2FF] mb-1">Current Question:</div>
-                  <div className="text-sm text-gray-600 dark:text-[#8892AA]">"Tell me about your greatest professional achievement."</div>
+                  <div className="text-sm text-gray-600 dark:text-[#8892AA]">&ldquo;Tell me about your greatest professional achievement.&rdquo;</div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
@@ -299,7 +299,7 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
 
               {/* What You'll Learn */}
               <div>
-                <h5 className="font-semibold text-gray-900 dark:text-[#EEF2FF] mb-3">What You'll Master</h5>
+                <h5 className="font-semibold text-gray-900 dark:text-[#EEF2FF] mb-3">What You&rsquo;ll Master</h5>
                 <div className="space-y-2">
                   {[
                     "Answer behavioral questions confidently",

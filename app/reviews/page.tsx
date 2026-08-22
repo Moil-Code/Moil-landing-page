@@ -38,8 +38,25 @@ export const metadata: Metadata = {
   },
 };
 
-/** Review schema without ratings: Facebook uses yes/no recommendations, so there
- *  is no star value to report and inventing one is exactly what this repo does not do. */
+/**
+ * The quotes as schema.org Quotation, deliberately NOT Review.
+ *
+ * These are real customer reviews and Review is the natural type, but Google
+ * grades any Review of a SoftwareApplication against its review-snippet rules,
+ * which require a star-rating field. There is no star value to report: Facebook
+ * publishes yes/no recommendations, not scores, and the direct quotes carry no
+ * rating either. Inventing one is what CLAUDE.md -> "Testimonials" rule 4 and
+ * the FTC rule behind it forbid, so the type was the only thing left to change.
+ *
+ * Nothing is lost by it. A review of your own business, hosted on your own
+ * site, is excluded from Google review snippets by the self-serving policy
+ * regardless of rating — so this markup could never have produced a rich
+ * result. Quotation keeps the whole quote, its author, its date and its source
+ * legible to an answer engine, which is what these are actually here for.
+ *
+ * If real star ratings ever exist, Review plus a rating field is the correct
+ * type, and this should go back to it.
+ */
 function reviewsJsonLd() {
   return {
     '@context': 'https://schema.org',
@@ -49,11 +66,12 @@ function reviewsJsonLd() {
       '@type': 'ListItem',
       position: index + 1,
       item: {
-        '@type': 'Review',
-        author: { '@type': 'Person', name: review.name },
+        '@type': 'Quotation',
+        text: review.text,
+        creator: { '@type': 'Person', name: review.name },
         datePublished: review.date,
-        reviewBody: review.text,
-        itemReviewed: { '@type': 'SoftwareApplication', name: 'Moil' },
+        about: { '@type': 'SoftwareApplication', name: 'Moil' },
+        ...(review.sourceUrl ? { url: review.sourceUrl } : {}),
       },
     })),
   };

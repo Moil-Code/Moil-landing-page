@@ -81,6 +81,7 @@ export default function CandidateLayout({
               "@type": "Offer",
               "price": "0",
               "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock",
               "description": "Free for job seekers"
             },
             "featureList": [
@@ -97,20 +98,19 @@ export default function CandidateLayout({
         }}
       />
 
-      {/* ItemList structured data for job search */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            "name": "Job Opportunities on Moil",
-            "description": "Thousands of job opportunities across industries, with a focus on bilingual (English/Spanish) positions",
-            "url": `${baseURL1}/candidate/searchjob`,
-            "numberOfItems": "10000"
-          })
-        }}
-      />
+      {/*
+        No ItemList of job opportunities.
+
+        This was an ItemList with numberOfItems "10000" and no itemListElement —
+        an invalid list (one that lists nothing) whose only real content was a
+        count we cannot source. That is the same unsupported-number problem as
+        the retired business-count line removed earlier; CLAUDE.md ->
+        "Testimonials" rule 4 covers counts, not just ratings.
+
+        If real listings are ever exposed here, emit JobPosting nodes for the
+        jobs actually on the page — each with title, description, datePosted,
+        hiringOrganization and jobLocation — rather than a bare total.
+      */}
 
       {/* FAQ structured data */}
       <script

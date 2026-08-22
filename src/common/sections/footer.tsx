@@ -5,7 +5,7 @@ import { FacebookSvg, InstagramSvg, LinkedInSvg, MoilSvg } from "../components/s
 export default function FooterSection({ refQuery, lgQuery }: any) {
 
   const currentYear = new Date().getFullYear();
-  let [ queryString, setQueryString ] = useState("");
+  const [ queryString, setQueryString ] = useState("");
   // Automatically update queryString when refQuery or lgQuery change
   useEffect(() => {
     if (refQuery && lgQuery) {
@@ -176,9 +176,9 @@ export default function FooterSection({ refQuery, lgQuery }: any) {
 
         {/* Social Links */}
         <div className="flex justify-center items-center gap-6 mb-8">
-          <a href="/" className="text-white/70 hover:text-white transition-colors" aria-label="Moil">
+          <Link href="/" className="text-white/70 hover:text-white transition-colors" aria-label="Moil">
             <MoilSvg />
-          </a>
+          </Link>
           <a href="https://www.linkedin.com/company/moilapp" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors" aria-label="LinkedIn">
             <LinkedInSvg />
           </a>

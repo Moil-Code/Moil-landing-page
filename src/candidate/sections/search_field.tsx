@@ -4,10 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import Autocomplete from "react-google-autocomplete";
-import SearchBarsOnTop from "../components/search";
-import HorizontalNFilterIcon from "../components/horizontal_btn";
 import DashboardQueryItem from "../components/dashboard_query_item";
-import { baseURL, workerBaseUrl } from "../../common/constants/baseUrl";
+import { baseURL } from "../../common/constants/baseUrl";
 import { buildCandidateJobUrl } from "../utils/urlBuilder";
 import PaginationBtn from "../components/paginate_btn";
 import { translations, Language } from "../utils/translations";
@@ -32,7 +30,7 @@ interface SearchJobFieldProps {
   accType?: string;
 }
 
-function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
+function SearchJobField({ accType: _accType = "client" }: SearchJobFieldProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const title = searchParams?.get("title") || "";
