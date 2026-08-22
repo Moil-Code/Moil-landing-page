@@ -168,7 +168,8 @@ export default function BusinessLayout({
               "url": `${baseURL1}/business/pricing`,
               "seller": {
                 "@type": "Organization",
-                "name": "Moil Enterprise Inc."
+                "name": "Moil Enterprise Inc.",
+                "url": baseURL1
               },
               "priceSpecification": {
                 "@type": "UnitPriceSpecification",
@@ -213,7 +214,8 @@ export default function BusinessLayout({
               "url": `${baseURL1}/business/pricing`,
               "seller": {
                 "@type": "Organization",
-                "name": "Moil Enterprise Inc."
+                "name": "Moil Enterprise Inc.",
+                "url": baseURL1
               },
               "priceSpecification": {
                 "@type": "UnitPriceSpecification",
