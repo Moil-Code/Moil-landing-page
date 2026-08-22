@@ -81,6 +81,7 @@ export default function CandidateLayout({
               "@type": "Offer",
               "price": "0",
               "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock",
               "description": "Free for job seekers"
             },
             "featureList": [

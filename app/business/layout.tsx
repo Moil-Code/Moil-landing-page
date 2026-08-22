@@ -110,24 +110,66 @@ export default function BusinessLayout({
         }}
       />
 
-      {/* Product — Professional $25 (co-founder; no Moil360) */}
+      {/*
+        Offerings — typed as Service, deliberately NOT Product.
+
+        These were schema.org/Product until Search Console reported them as
+        Merchant listings (missing "image", "shippingDetails",
+        "hasMerchantReturnPolicy", "availability") and Product snippets
+        (missing "review", "aggregateRating") in Aug 2026. Every one of those
+        warnings is a physical-retail requirement Google applies to Product,
+        and two of them cannot be satisfied honestly:
+
+          - shippingDetails / hasMerchantReturnPolicy describe shipping a box.
+            Moil is a monthly subscription. Declaring shipping terms for it
+            would be false structured data, not a fix.
+          - review / aggregateRating need a star rating. Moil has real,
+            sourced reviews (src/common/data/reviews.ts) but no star scores
+            anywhere — Facebook publishes yes/no recommendations, not ratings.
+            Inventing a rating is exactly what CLAUDE.md -> "Testimonials"
+            rule 4 forbids, and the FTC rule behind it.
+
+        Product bought us nothing in return: a product snippet needs a rating
+        to render, so with no rating there was no rich result to lose. Service
+        carries the same name/description/price to an answer engine, is what
+        Moil actually sells, and is not evaluated against merchant rules.
+
+        Do not change these back to Product without a real, sourced rating.
+      */}
+
+      {/* Service — Professional $25 (co-founder; no Moil360) */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Product",
+            "@type": "Service",
             "name": "Moil Professional",
+            "serviceType": "AI business assistant subscription",
             "description": "Professional $25/month — ask the co-founder for anything and it produces the finished work: research, plans, documents, brand assets, flyers, decks. It also schedules and publishes the posts you approve to Facebook and Instagram.",
             "brand": {
               "@type": "Brand",
               "name": "Moil"
             },
+            "provider": {
+              "@type": "Organization",
+              "name": "Moil Enterprise Inc.",
+              "url": baseURL1
+            },
+            "areaServed": "US",
+            "availableLanguage": ["en", "es"],
+            "image": `${baseURL1}/og-pricing.jpg`,
             "url": `${baseURL1}/business/pricing`,
             "offers": {
               "@type": "Offer",
               "price": "25",
               "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock",
+              "url": `${baseURL1}/business/pricing`,
+              "seller": {
+                "@type": "Organization",
+                "name": "Moil Enterprise Inc."
+              },
               "priceSpecification": {
                 "@type": "UnitPriceSpecification",
                 "price": "25",
@@ -140,24 +182,39 @@ export default function BusinessLayout({
         }}
       />
 
-      {/* Product — Market Pro $75 (Moil360 on this plan only) */}
+      {/* Service — Market Pro $75 (Moil360 on this plan only) */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Product",
+            "@type": "Service",
             "name": "Moil Market Pro",
+            "serviceType": "AI marketing calendar subscription",
             "description": "Market Pro $75/month — everything in Professional at higher limits, plus Moil360, which writes the 30-day content calendar automatically, and AI video.",
             "brand": {
               "@type": "Brand",
               "name": "Moil"
             },
+            "provider": {
+              "@type": "Organization",
+              "name": "Moil Enterprise Inc.",
+              "url": baseURL1
+            },
+            "areaServed": "US",
+            "availableLanguage": ["en", "es"],
+            "image": `${baseURL1}/og-pricing.jpg`,
             "url": `${baseURL1}/business/pricing`,
             "offers": {
               "@type": "Offer",
               "price": "75",
               "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock",
+              "url": `${baseURL1}/business/pricing`,
+              "seller": {
+                "@type": "Organization",
+                "name": "Moil Enterprise Inc."
+              },
               "priceSpecification": {
                 "@type": "UnitPriceSpecification",
                 "price": "75",
@@ -189,6 +246,7 @@ export default function BusinessLayout({
                 "name": "Professional",
                 "price": "25",
                 "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
                 "priceSpecification": {
                   "@type": "UnitPriceSpecification",
                   "price": "25",
@@ -203,6 +261,7 @@ export default function BusinessLayout({
                 "name": "Market Pro",
                 "price": "75",
                 "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
                 "priceSpecification": {
                   "@type": "UnitPriceSpecification",
                   "price": "75",

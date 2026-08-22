@@ -205,13 +205,16 @@ export default function RootLayout({
                 "https://www.tiktok.com/@moilapp",
                 "https://www.facebook.com/MoilWorks/"
               ],
-              "offers": [
+              // Organization takes `makesOffer`, not `offers` — `offers` is a
+              // Product/Service property and is silently dropped here.
+              "makesOffer": [
                 {
                   "@type": "Offer",
                   "name": "Moil Professional",
                   "description": "Professional $25/month — ask the co-founder for anything and it produces the finished work: research, plans, documents, brand assets, flyers, decks. It also schedules and publishes the posts you approve to Facebook and Instagram.",
                   "price": "25",
                   "priceCurrency": "USD",
+                  "availability": "https://schema.org/InStock",
                   "priceSpecification": {
                     "@type": "UnitPriceSpecification",
                     "price": "25",
@@ -226,6 +229,7 @@ export default function RootLayout({
                   "description": "Full Moil360 30-day calendar plus the AI co-founder. $75 a month.",
                   "price": "75",
                   "priceCurrency": "USD",
+                  "availability": "https://schema.org/InStock",
                   "priceSpecification": {
                     "@type": "UnitPriceSpecification",
                     "price": "75",
