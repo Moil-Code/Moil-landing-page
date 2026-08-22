@@ -22,8 +22,7 @@ import { HeroSection } from './sections/HeroSection';
 export function BusinessPageContent() {
   const { theme, toggleTheme, menuOpen, setMenuOpen, scrolled } = useBusinessUi();
   const { t, lang: currentLang, setLang } = useLanguageContext();
-  const [showCustomizeModal, setShowCustomizeModal] = useState(false);
-  const [showLanguageModal, setShowLanguageModal] = useState(false);
+  const [, setShowLanguageModal] = useState(false);
 
   const handleLanguageChange = (lang: 'en' | 'es') => {
     setLang(lang);

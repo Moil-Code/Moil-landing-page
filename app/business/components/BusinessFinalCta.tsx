@@ -2,7 +2,7 @@
 
 import { appendLangToUrl } from '../utils/appendLangToUrl';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
-import { ArrowRight, Check, Star } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 
 export function BusinessFinalCta() {
   const { t, lang } = useLanguageContext();

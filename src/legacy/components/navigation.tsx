@@ -3,7 +3,7 @@ import Link from "next/link";
 
 // Local Imports
 import CustomTranslateButton from "../../common/components/CustomTranslateButton";
-import { businessBaseUrl, workerBaseUrl } from "../../common/constants/baseUrl";
+import { businessBaseUrl } from "../../common/constants/baseUrl";
 
 interface BusinessNavigationProps {
   page: string;
@@ -18,7 +18,7 @@ export default function BusinessNavigation({ page, refQuery, lgQuery, setQueryLg
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("hire");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
+  const [, setScrollPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,7 +36,7 @@ export default function BusinessNavigation({ page, refQuery, lgQuery, setQueryLg
     };
   }, []);
 
-  let [ queryString, setQueryString ] = useState("");
+  const [ queryString, setQueryString ] = useState("");
   // Automatically update queryString when refQuery or lgQuery change
   useEffect(() => {
     if (refQuery && lgQuery) {
@@ -77,7 +77,7 @@ export default function BusinessNavigation({ page, refQuery, lgQuery, setQueryLg
     window.open(`${businessBaseUrl}/register${queryString}`, '_blank', 'noopener,noreferrer');
   };
 
-  const deleteRefFromLocalStorage = () => {
+  const _deleteRefFromLocalStorage = () => {
     if (typeof localStorage !== 'undefined') {
       localStorage.removeItem('ref');
       return true;

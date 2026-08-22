@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import { Building2, Globe, Moon, Sun, UserRound } from 'lucide-react';
+import { Globe, Moon, Sun } from 'lucide-react';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
-import Image from 'next/image';
 
 export type NavItem = {
   label: string;
@@ -45,7 +44,6 @@ export function BusinessNav({
   signinHref = 'https://business.moilapp.com',
   onLanguageChange,
   currentLang,
-  setShowLanguageModal,
 }: BusinessNavProps) {
   const [lang, setLang] = useState<'en' | 'es'>('en');
   const [showLangDropdown, setShowLangDropdown] = useState(false);

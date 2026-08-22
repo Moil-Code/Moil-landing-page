@@ -61,14 +61,6 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
     }
   };
 
-  const SOCIAL_LINKS = [
-    { name: 'in', href: 'https://www.linkedin.com/company/moilapp', label: 'Moil on LinkedIn' },
-    { name: '𝕏', href: 'https://x.com/MoilApp', label: 'Moil on X' },
-    { name: 'ig', href: 'https://www.instagram.com/themoilapp/', label: 'Moil on Instagram' },
-    { name: 'tt', href: 'https://www.tiktok.com/@moilapp', label: 'Moil on TikTok' },
-    { name: 'fb', href: 'https://www.facebook.com/MoilWorks/', label: 'Moil on Facebook' },
-  ];
-
   return (
     <footer className="has-footer-2">
       {/* Large italic tagline — Manus-style */}

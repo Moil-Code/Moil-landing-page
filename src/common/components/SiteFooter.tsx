@@ -18,6 +18,7 @@
  *   2. SOCIAL_LINKS URLs MUST match the `sameAs` array in app/layout.tsx.
  */
 
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const SOCIAL_LINKS = [
@@ -79,9 +80,9 @@ export function SiteFooter() {
       <div className="mx-auto flex max-w-6xl flex-col gap-8 md:flex-row md:items-start md:justify-between">
         {/* Brand + tagline */}
         <div className="max-w-sm">
-          <a href="/" className="inline-block text-base font-semibold text-white">
+          <Link href="/" className="inline-block text-base font-semibold text-white">
             Moil
-          </a>
+          </Link>
           <p className="mt-2 text-xs leading-relaxed text-gray-400">
             The AI co-founder for small business owners. Bilingual EN/ES. Built in Austin, TX.
           </p>

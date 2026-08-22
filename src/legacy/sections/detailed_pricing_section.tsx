@@ -260,7 +260,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
         <div className="text-center">
           <h2 className="text-[36px] font-[700] leading-[1.2] mb-4" style={{ color: '#FFFFFF' }}>Partnership Programs</h2>
           <p className="text-[18px] max-w-3xl mx-auto" style={{ color: '#8B929E' }}>
-            Empower your community with Moil's AI-powered business tools through our comprehensive partnership programs.
+            Empower your community with Moil&rsquo;s AI-powered business tools through our comprehensive partnership programs.
           </p>
         </div>
 

@@ -17,7 +17,7 @@ interface EnhancedHeroProps {
   lgQuery?: string;
 }
 
-export default function EnhancedHero({ onGetStarted, refQuery, lgQuery }: EnhancedHeroProps) {
+export default function EnhancedHero({ refQuery, lgQuery }: EnhancedHeroProps) {
   const handleGetStarted = () => {
     openBusinessRegister({ ref: refQuery, lg: lgQuery });
   };

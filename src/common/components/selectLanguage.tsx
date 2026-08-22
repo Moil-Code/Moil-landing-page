@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { setCookie, deleteCookie } from 'cookies-next';
+import { deleteCookie } from 'cookies-next';
 import BackButton from "./back_button";
 
 // Helper function to properly set Google Translate cookie
@@ -53,7 +53,7 @@ const SelectLanguage = ({ setQueryLg, handleClick }: SelectLanguageProps) => {
     // Set Google Translate cookie properly for production
     setGoogleTranslateCookie('en');
 
-    let url = new URL(window.location.href);
+    const url = new URL(window.location.href);
     console.log("Language changed to:", newLang);
     url.searchParams.set("lg", newLang);
     console.log("Updated URL:", url.toString());
@@ -89,7 +89,7 @@ const SelectLanguage = ({ setQueryLg, handleClick }: SelectLanguageProps) => {
     // Set Google Translate cookie properly for production
     setGoogleTranslateCookie('es');
 
-    let url = new URL(window.location.href);
+    const url = new URL(window.location.href);
     console.log("Language changed to:", newLang);
     url.searchParams.set("lg", newLang);
     console.log("Updated URL:", url.toString());

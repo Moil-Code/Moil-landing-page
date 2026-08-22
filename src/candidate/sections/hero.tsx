@@ -2,8 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import SearchComponent from "../components/search";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { openCandidateApp } from "../utils/urlBuilder";
 
 interface CandidateHeroProps {
@@ -12,8 +10,8 @@ interface CandidateHeroProps {
   lgQuery?: string;
 }
 
-export default function CandidateHero({ onGetStarted, refQuery, lgQuery }: CandidateHeroProps) {
-  const [queryString, setQueryString] = useState("");
+export default function CandidateHero({ refQuery, lgQuery }: CandidateHeroProps) {
+  const [, setQueryString] = useState("");
   
   // Automatically update queryString when refQuery or lgQuery change
   useEffect(() => {
@@ -28,7 +26,7 @@ export default function CandidateHero({ onGetStarted, refQuery, lgQuery }: Candi
     }
   }, [refQuery, lgQuery]); // Runs when refQuery or lgQuery changes
 
-  const [windowDimensions, setWindowDimensions] = useState({ width: 0, height: 0 });
+  const [, setWindowDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     const handleResize = () => {

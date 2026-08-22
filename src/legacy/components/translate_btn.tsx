@@ -23,8 +23,7 @@ const TranslateButton: React.FC<TranslateButtonProps> = ({
 }) => {
   const [isSpanish, setIsSpanish] = useState(false);
   const [scriptAdded, setScriptAdded] = useState(false);
-  const [count, setCount] = useState(0);
-  const [changed, setChanged] = useState("en");
+  const [count] = useState(0);
 
   const googleTranslateElementInit = useCallback(() => {
     if (typeof window !== 'undefined' && window.google?.translate) {
@@ -94,7 +93,7 @@ const TranslateButton: React.FC<TranslateButtonProps> = ({
     element.dispatchEvent(event);
   }, []);
 
-  const translatePage = useCallback((newLang: string) => {
+  const _translatePage = useCallback((newLang: string) => {
     if (typeof document === 'undefined') return;
 
     const combo = document.querySelector<HTMLSelectElement>('.goog-te-combo');
