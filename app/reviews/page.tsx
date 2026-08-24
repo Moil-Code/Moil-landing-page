@@ -48,11 +48,13 @@ export const metadata: Metadata = {
  * rating either. Inventing one is what CLAUDE.md -> "Testimonials" rule 4 and
  * the FTC rule behind it forbid, so the type was the only thing left to change.
  *
- * Nothing is lost by it. A review of your own business, hosted on your own
- * site, is excluded from Google review snippets by the self-serving policy
- * regardless of rating — so this markup could never have produced a rich
- * result. Quotation keeps the whole quote, its author, its date and its source
- * legible to an answer engine, which is what these are actually here for.
+ * Little is lost by it. A review snippet requires a rating field outright, so
+ * these nodes were ineligible as they stood — unlike the Product case, where
+ * offers alone would have kept snippet eligibility. Google also discounts
+ * first-party reviews, though that policy is written around LocalBusiness and
+ * Organization, so do not lean on it for a SoftwareApplication. Quotation
+ * keeps the whole quote, its author, its date and its source legible to an
+ * answer engine, which is what these are actually here for.
  *
  * If real star ratings ever exist, Review plus a rating field is the correct
  * type, and this should go back to it.

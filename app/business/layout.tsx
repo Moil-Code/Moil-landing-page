@@ -129,12 +129,21 @@ export default function BusinessLayout({
             Inventing a rating is exactly what CLAUDE.md -> "Testimonials"
             rule 4 forbids, and the FTC rule behind it.
 
-        Product bought us nothing in return: a product snippet needs a rating
-        to render, so with no rating there was no rich result to lose. Service
-        carries the same name/description/price to an answer engine, is what
-        Moil actually sells, and is not evaluated against merchant rules.
+        What this trade costs, stated honestly: a product snippet needs name
+        plus ONE of review, aggregateRating or offers — so these nodes, which
+        carried offers, were snippet-eligible on price alone. Dropping Product
+        gives up that eligibility. It was judged worth it because the merchant
+        fields above can never be satisfied for a subscription, so the warnings
+        would recur forever, and Google grants product snippets to SaaS
+        subscriptions rarely in any case. But it is a trade, not a free win.
 
-        Do not change these back to Product without a real, sourced rating.
+        The alternative, if that trade is ever judged wrong: keep Product and
+        add only image and availability. That clears the one CRITICAL issue
+        (missing image) and leaves four non-critical warnings standing, while
+        keeping price-snippet eligibility. That is a product call, not a
+        technical one.
+
+        Do not change these back to Product without weighing the above.
       */}
 
       {/* Service — Professional $25 (co-founder; no Moil360) */}
