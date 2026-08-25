@@ -19,6 +19,21 @@ import { appendLangToUrl } from './utils/appendLangToUrl';
 import { IconMap, testimonialImages } from './sections/iconMap';
 import { HeroSection } from './sections/HeroSection';
 
+const PRODUCT_GUIDE_LINKS = [
+  {
+    key: 'writePlan' as const,
+    href: 'https://blog.moilapp.com/article/how-to-write-a-business-plan-small-business',
+  },
+  {
+    key: 'compareGenerators' as const,
+    href: 'https://blog.moilapp.com/article/best-ai-business-plan-generator-2025-compared',
+  },
+  {
+    key: 'calendar' as const,
+    href: 'https://blog.moilapp.com/article/30-day-social-media-content-calendar-small-business',
+  },
+];
+
 export function BusinessPageContent() {
   const { theme, toggleTheme, menuOpen, setMenuOpen, scrolled } = useBusinessUi();
   const { t, lang: currentLang, setLang } = useLanguageContext();
@@ -706,6 +721,23 @@ export function BusinessPageContent() {
       <div className="divider"></div>
 
       <BusinessFaqSection />
+
+      {/* GUIDES — one sentence + three text links to the A-money product posts.
+          Footer-adjacent so /business stays a product page, not a blog dump. */}
+      <section id="guides" className="guides">
+        <div className="guides__inner">
+          <p className="guides__sentence">{t.business.guides.sentence}</p>
+          <ul className="guides__links">
+            {PRODUCT_GUIDE_LINKS.map((link) => (
+              <li key={link.href}>
+                <a href={link.href} target="_blank" rel="noreferrer">
+                  {t.business.guides[link.key]}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
       <BusinessFooter theme={theme} onToggleTheme={toggleTheme} onLanguageChange={handleLanguageChange} currentLang={currentLang} />
 

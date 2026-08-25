@@ -52,5 +52,8 @@ support the format. The canonical machine-readable description of Moil is /ai-in
 - [Hiring / job marketplace](https://www.moilapp.com/candidate): Secondary capability — 3,000+ candidates.
 - [Contact](https://www.moilapp.com/contact)
 - [Blog](https://blog.moilapp.com)
+- [How to Write a Business Plan for a Small Business (With AI)](https://blog.moilapp.com/article/how-to-write-a-business-plan-small-business) — who writes the plan, what it costs, English and Spanish. Professional $25/month.
+- [Best AI Business Plan Generator (2026)](https://blog.moilapp.com/article/best-ai-business-plan-generator-2025-compared) — Moil vs LivePlan vs ChatGPT. Full Moil360 calendar is Market Pro at $75/month.
+- [30-Day Social Media Content Calendar for Small Business](https://blog.moilapp.com/article/30-day-social-media-content-calendar-small-business) — free 30-day template; written Moil360 calendar is Market Pro at $75/month.
 - [Privacy](https://www.moilapp.com/privacy)
 - [Terms](https://www.moilapp.com/terms)

@@ -242,6 +242,35 @@ describe('answer-engine surfaces', () => {
 		assert.match(page, /id="what-is-moil"/);
 	});
 
+	it('keeps the live H1 as the hats line', () => {
+		const en = read('src/common/translations/en.ts');
+		const hero = en.slice(en.indexOf('    hero: {'), en.indexOf('    aeoAnswer: {'));
+		assert.match(hero, /headline: 'You\\u2019re the marketing team\.'/);
+		assert.match(hero, /headlineLine2: 'And the finance team\.'/);
+		assert.match(hero, /headlineHighlight: 'And the one who answers the phone\.'/);
+		assert.doesNotMatch(en, /Meet the AI co-founder for your shop/);
+	});
+
+	it('points /business and llms.txt at the three A-money product guides', () => {
+		const urls = [
+			'https://blog.moilapp.com/article/how-to-write-a-business-plan-small-business',
+			'https://blog.moilapp.com/article/best-ai-business-plan-generator-2025-compared',
+			'https://blog.moilapp.com/article/30-day-social-media-content-calendar-small-business',
+		];
+		const page = read('app/business/BusinessPageContent.tsx');
+		const llms = read('public/llms.txt');
+		const en = read('src/common/translations/en.ts');
+		for (const url of urls) {
+			assert.ok(page.includes(url), `/business is missing ${url}`);
+			assert.ok(llms.includes(url), `llms.txt is missing ${url}`);
+			assert.ok(!llms.includes(`${url}.md`), `llms.txt must use the HTML canonical, not ${url}.md`);
+		}
+		assert.match(en, /Guides: how to write the plan/);
+		assert.match(page, /id="guides"/);
+		assert.doesNotMatch(page, /employer-beta/);
+		assert.doesNotMatch(llms, /employer-beta/);
+	});
+
 	it('ships an /ai-info page with limitations and assistant guidelines', () => {
 		const src = read('app/ai-info/page.tsx');
 		assert.match(src, /Guidelines for AI assistants/);
