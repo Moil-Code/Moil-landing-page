@@ -127,21 +127,23 @@ export function HeroSection() {
         <span className="mr-1.5 inline-flex items-center">{IconMap.rocket}</span> {t.business.hero.eyebrow}
       </div>
 
-      {/* H1 carries the job in the owner's words — no "AI", no metaphor. The brand
-          frame ("co-founder") sits on the eyebrow above, and the machine-readable
-          category line lives in the answer block below the fold. Four surfaces,
-          four readers — research/seo-aeo-audit-and-plan.md section 4.5. */}
       <h1
         data-hero-item
-        className="relative z-[2] mb-7 max-w-[1200px] text-[clamp(32px,5vw,64px)] font-bold uppercase leading-[0.96] tracking-[-0.05em] max-[960px]:text-[clamp(28px,6vw,46px)] max-[480px]:text-[clamp(24px,7.5vw,36px)]"
+        className="relative z-[2] mb-7 max-w-[1200px] text-[clamp(32px,5vw,64px)] font-bold leading-[1.1] tracking-[-0.03em] max-[960px]:text-[clamp(28px,6vw,46px)] max-[480px]:text-[clamp(24px,7.5vw,36px)]"
       >
         {t.business.hero.headline}
-        {' '}
-        <br />
-        {t.business.hero.headlineLine2}
-        {' '}
-        <br />
-        <span className="text-[var(--orange)]">{t.business.hero.headlineHighlight}</span>
+        {t.business.hero.headlineLine2 ? (
+          <>
+            <br />
+            {t.business.hero.headlineLine2}
+          </>
+        ) : null}
+        {t.business.hero.headlineHighlight ? (
+          <>
+            <br />
+            <span className="text-[var(--orange)]">{t.business.hero.headlineHighlight}</span>
+          </>
+        ) : null}
       </h1>
 
       {/* Subheadline — the mechanism, including the continuity that drives retention. */}
@@ -152,26 +154,12 @@ export function HeroSection() {
         {t.business.hero.subheadline}
       </p>
 
-      {/* CTAs — primary stays signup. Secondary focuses the in-page magnet. */}
+      {/* CTAs — primary stays signup. Secondary jumps to Market Pro on #pricing. */}
       <div data-hero-item className="relative z-[2] mb-6 flex flex-wrap justify-center gap-3 max-[960px]:flex-col max-[960px]:items-center">
         <PrimaryButton href={appendLangToUrl('https://business.moilapp.com/register', lang)} rel="noreferrer">
           {t.business.hero.cta} <span>→</span>
         </PrimaryButton>
-        <SecondaryButton
-          href={lang === 'es' ? '#pricing' : undefined}
-          onClick={
-            lang === 'es'
-              ? undefined
-              : () => {
-                  const el = document.getElementById('preview-magnet');
-                  if (!el) return;
-                  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                  el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
-                  const input = el.querySelector('input,button[type="submit"]') as HTMLElement | null;
-                  input?.focus();
-                }
-          }
-        >
+        <SecondaryButton href="#pricing">
           <span className="mr-1.5 inline-flex items-center">{IconMap.play}</span> {t.business.hero.ctaSecondary}
         </SecondaryButton>
       </div>

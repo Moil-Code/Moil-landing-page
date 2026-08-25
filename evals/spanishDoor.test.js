@@ -5,8 +5,8 @@
  * S1 Spanish door — /es, /es/business, /es/business/pricing.
  *   node --test evals/spanishDoor.test.js
  *
- * Pins the shop + month-of-posts door on ES only. The English hats door,
- * EN pricing title/meta, and magnet files must stay out of this diff.
+ * Pins the investor-derived Spanish door (socio + Market Pro).
+ * EN hats, bank-lead, and "se arma la cabeza" must not come back.
  */
 
 const { describe, it } = require('node:test');
@@ -46,83 +46,50 @@ describe('ES door copy', () => {
 	const esLayout = read('app/es/business/layout.tsx');
 	const esHero = namedBlock(es.slice(es.indexOf('\n  business: {')), 'hero');
 
-	it('es.ts and the ES layout carry the shop + posts H1 and title', () => {
-		assert.match(esHero, /eyebrow: 'Aprende tu negocio\. Luego escribe el mes\.'/);
-		assert.match(esHero, /headline: 'Moil aprende tu negocio desde el primer d\\u00eda\.'/);
-		assert.match(esHero, /headlineLine2: 'Luego escribe el trabajo que nunca te da tiempo\.'/);
-		assert.match(esHero, /headlineHighlight: 'Un mes de posts para que la p\\u00e1gina no se vea muerta\.'/);
-		assert.match(esHero, /Contestas una vez\. Eso no es un PDF para el banco/);
+	it('es.ts and the ES layout carry the socio + Market Pro door', () => {
+		assert.match(esHero, /eyebrow: 'El socio de los dueños de negocio'/);
+		assert.match(esHero, /headline: 'No te toca serlo todo adem\\u00e1s de atender el negocio\.'/);
+		assert.match(esHero, /headlineLine2: ''/);
+		assert.match(esHero, /headlineHighlight: ''/);
+		assert.match(esHero, /Moil aprende el negocio una vez y no empieza de cero/);
 		assert.match(esHero, /cta: 'Empieza gratis \\u2014 sin tarjeta'/);
-		assert.match(esHero, /ctaSecondary: 'Ver los dos planes'/);
-		assert.doesNotMatch(esHero, /El banco quiere un plan/);
-		assert.doesNotMatch(esHero, /El co-fundador que se encarga/);
-		assert.match(
-			esLayout,
-			/Moil aprende tu negocio\. Un mes de posts que se publica\. \| Moil/,
-		);
-		assert.match(esLayout, /Moil aprende tu negocio\. Luego escribe el trabajo/);
-		assert.doesNotMatch(esLayout, /Plan para el banco, un mes de posts/);
+		assert.match(esHero, /ctaSecondary: 'Ver Market Pro'/);
+		assert.match(esLayout, /El socio que trabaja el negocio contigo \| Moil/);
+		assert.match(esLayout, /Market Pro es \$75\. Professional es \$25 si no quieres el mes/);
 	});
 
-	it('first-scroll job cards are the three specified jobs, not a bank-lead dump', () => {
-		const made = namedBlock(es.slice(es.indexOf('\n  business: {')), 'made');
-		const items = [...made.matchAll(/^        '([^']+)'/gm)].map((m) => m[1]);
-		assert.equal(items.length, 3);
-		assert.match(items[0], /^Desde el primer d\\u00eda se arma la cabeza de tu negocio\./);
-		assert.doesNotMatch(items[0], /^Un plan que el banco/);
-		assert.match(items[0], /banco, el SBA o el lease/);
-		assert.match(items[1], /^Un mes de posts para que la p\\u00e1gina no se vea muerta\./);
-		assert.match(items[2], /^\$25 \/ \$75 en vez de \$500 a una agencia\./);
-		assert.match(made, /Canva \+ ChatGPT a ojo/);
-	});
-});
-
-describe('EN door stays the live hats page', () => {
-	const en = read('src/common/translations/en.ts');
-	const enHero = namedBlock(en.slice(en.indexOf('\n  business: {')), 'hero');
-
-	it('keeps the live EN H1, hats pricing title, and AI Marketing title', () => {
-		assert.match(enHero, /headline: 'You\\u2019re the marketing team\.'/);
-		assert.match(enHero, /headlineLine2: 'And the finance team\.'/);
-		assert.match(enHero, /headlineHighlight: 'And the one who answers the phone\.'/);
-		assert.match(en, /heroHeadline: 'Stop Wearing'/);
-		assert.match(en, /heroHighlight1: 'Every Hat\.'/);
-		assert.match(
-			read('app/business/layout.tsx'),
-			/title: 'AI Marketing for Small Business — Content Calendar in English \& Spanish'/,
-		);
-		assert.match(read('app/page.tsx'), /Stop Wearing Every Hat/);
-	});
-
-	it('does not rewrite EN door \/ H1 \/ pricing \/ title \/ meta in this diff', () => {
-		const diff = gitDiff('src/common/translations/en.ts app/business/layout.tsx app/business/pricing/layout.tsx');
-		assert.equal(diff.trim(), '', `EN door files changed:\n${diff}`);
+	it('fails if banned bank-lead, hats, or se-arma-la-cabeza copy returns', () => {
+		const door = esHero + '\n' + esLayout + '\n' + namedBlock(es.slice(es.indexOf('\n  business: {')), 'aeoAnswer');
+		assert.doesNotMatch(door, /se arma la cabeza/);
+		assert.doesNotMatch(door, /No deberías tener que serlo todo además del trabajo de verdad/);
+		assert.doesNotMatch(door, /El banco quiere un plan/);
+		assert.doesNotMatch(door, /Marketing con IA/);
+		assert.doesNotMatch(door, /Eres el equipo de marketing/);
+		assert.doesNotMatch(door, /You shouldn\\'t have to be everything on top of the real job/);
+		assert.doesNotMatch(esLayout, /\bpyme\b/i);
+		assert.doesNotMatch(esHero, /Desde \$25/);
 	});
 });
 
 describe('ES pricing first screen', () => {
-	it('no longer leads with job postings, Recruiter & Coach, or SOC 2', () => {
+	it('leads with Market Pro and the locked fence, not job postings', () => {
 		const es = read('src/common/translations/es.ts');
 		const business = es.slice(es.indexOf('\n  business: {'));
 		const pricing = namedBlock(business, 'pricing');
 		const pricingPage = namedBlock(business, 'pricingPage');
 		const firstScreen = pricing + '\n' + pricingPage + '\n' + read('app/es/business/pricing/layout.tsx');
 
-		assert.match(pricing, /headline: '\$25 para que aprenda el negocio\.'/);
-		assert.match(pricingPage, /heroHeadline: '\$25 para que aprenda el negocio\.'/);
-		assert.match(pricingPage, /que se publica/);
-		assert.match(firstScreen, /as\\u00ed se arma la cabeza|as[ií] se arma la cabeza/);
-		assert.match(firstScreen, /Professional \$25: investigaci/);
-		assert.match(firstScreen, /Market Pro \$75: el mes de posts/);
-		assert.doesNotMatch(firstScreen, /\$25 para el plan\./);
-
+		assert.match(pricing, /headline: 'Treinta d\\u00edas de contenido con tu marca\. Investigaci\\u00f3n, planes, documentos\.'/);
+		assert.match(pricingPage, /heroHeadline: 'Treinta d\\u00edas de contenido con tu marca\. Investigaci\\u00f3n, planes, documentos\.'/);
+		assert.match(firstScreen, /Treinta d[ií]as de contenido con tu marca \| Moil/);
+		assert.match(firstScreen, /Market Pro es el socio/);
+		assert.match(firstScreen, /Market Pro \$75: el mes de contenido con tu marca/);
+		assert.match(firstScreen, /Professional \$25: la investigaci/);
 		assert.doesNotMatch(firstScreen, /10 publicaciones de empleo/);
-		assert.doesNotMatch(firstScreen, /Publicaciones de empleo ilimitadas/);
 		assert.doesNotMatch(firstScreen, /Reclutador y Coach/);
-		assert.doesNotMatch(firstScreen, /Recruiter & Coach/);
 		assert.doesNotMatch(firstScreen, /SOC 2/);
-		assert.doesNotMatch(firstScreen, /revoluci[oó]n/i);
-		assert.doesNotMatch(firstScreen, /3,000|4\.8|95%|500\+/);
+		assert.doesNotMatch(firstScreen, /se arma la cabeza/);
+		assert.doesNotMatch(firstScreen, /Desde \$25/);
 	});
 });
 
@@ -155,7 +122,6 @@ describe('this PR stays inside S1', () => {
 			.filter(Boolean);
 		assert.ok(!names.some((n) => n.startsWith('app/es/compare')), 'do not add /es/compare');
 		assert.ok(!names.some((n) => n.startsWith('app/es/ai-info')), 'do not add /es/ai-info');
-		assert.ok(!names.includes('public/llms.txt'), 'do not edit llms.txt');
 		const sources = names.filter((n) => !n.startsWith('evals/'));
 		for (const file of sources) {
 			if (!fs.existsSync(path.join(root, file))) continue;

@@ -2,36 +2,36 @@ import type { Metadata } from 'next';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
 
 export const metadata: Metadata = {
-  title: 'Moil Pricing — From $25/mo for AI Business Tools',
-  description: 'Market research, a business plan, coaching and a 30-day content calendar written in your voice — in English and Spanish. No contracts. 30-day money-back guarantee. From $25/mo.',
+  title: {
+    absolute: 'Thirty days of content on brand. Research, plans, documents. | Moil',
+  },
+  description:
+    'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.',
   keywords: [
-    'AI business platform pricing',
-    'business plan software pricing',
-    'affordable AI tools small business',
+    'AI co-founder pricing',
+    'Market Pro $75',
+    'thirty days of content on brand',
     'small business software cost',
-    'AI tools $25 per month',
-    'business growth platform plans',
-    'SMB software pricing',
-    'AI hiring software cost',
     'content calendar tool price',
-    'cheap AI business tools'
   ],
   openGraph: {
-    title: 'Moil Pricing — From $25/mo for AI Business Tools',
-    description: 'Research, plan, coaching and a month of content written for you, in English and Spanish. No contracts. 30-day guarantee. From $25/mo.',
+    title: 'Thirty days of content on brand. Research, plans, documents. | Moil',
+    description:
+      'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.',
     url: `${baseURL1}/business/pricing`,
     images: [
       {
         url: '/og-pricing.jpg',
         width: 1200,
         height: 630,
-        alt: 'Moil Pricing — AI Business Platform Plans',
+        alt: 'Moil Pricing — Market Pro thirty days of content on brand',
       }
     ],
   },
   twitter: {
-    title: 'Moil Pricing — From $25/mo for AI Business Tools',
-    description: 'Research, plan, coaching and a month of content written for you. English and Spanish. From $25/mo.',
+    title: 'Thirty days of content on brand. Research, plans, documents. | Moil',
+    description:
+      'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.',
   },
   alternates: {
     canonical: `${baseURL1}/business/pricing`,
@@ -45,15 +45,14 @@ export default function BusinessPricingLayout({
 }) {
   return (
     <>
-      {/* Pricing structured data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebPage",
-            "name": "Moil Pricing",
-            "description": "Pricing plans for Moil's AI business growth platform",
+            "name": "Thirty days of content on brand. Research, plans, documents.",
+            "description": "Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.",
             "url": `${baseURL1}/business/pricing`,
             "breadcrumb": {
               "@type": "BreadcrumbList",

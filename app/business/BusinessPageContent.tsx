@@ -183,7 +183,7 @@ export function BusinessPageContent() {
       <section id="what-is-moil" className="aeo-answer">
         <div className="aeo-answer__inner">
           <h2 className="aeo-answer__label">{t.business.aeoAnswer.label}</h2>
-          <p className="aeo-answer__body">{t.business.aeoAnswer.body}</p>
+          <p className="aeo-answer__body" style={{ whiteSpace: 'pre-line' }}>{t.business.aeoAnswer.body}</p>
           <p className="aeo-answer__stamp">{t.business.aeoAnswer.lastUpdated}</p>
         </div>
       </section>

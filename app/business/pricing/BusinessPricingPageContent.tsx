@@ -88,12 +88,22 @@ export function BusinessPricingPageContent() {
               {t.business.pricingPage.heroEyebrow}
             </div>
             <h1 className="pricing-page-headline">
-              {t.business.pricingPage.heroHeadline}{' '}
-              <span className="hl-o">{t.business.pricingPage.heroHighlight1}</span>
-              <br />
-              {t.business.pricingPage.heroMiddle}
-              <br />
-              <span className="hl-p">{t.business.pricingPage.heroHighlight2}</span>
+              {t.business.pricingPage.heroHeadline}
+              {t.business.pricingPage.heroHighlight1 ? (
+                <> <span className="hl-o">{t.business.pricingPage.heroHighlight1}</span></>
+              ) : null}
+              {t.business.pricingPage.heroMiddle ? (
+                <>
+                  <br />
+                  {t.business.pricingPage.heroMiddle}
+                </>
+              ) : null}
+              {t.business.pricingPage.heroHighlight2 ? (
+                <>
+                  <br />
+                  <span className="hl-p">{t.business.pricingPage.heroHighlight2}</span>
+                </>
+              ) : null}
             </h1>
             <p className="pricing-page-sub">{t.business.pricingPage.heroSub}</p>
 
@@ -118,11 +128,11 @@ export function BusinessPricingPageContent() {
               <span className="pricing-live-chip"><span></span> {t.business.identity.cardTitle}</span>
             </div>
             <div className="pricing-included-price">
-              <span className="pricing-from">{currentLang === 'es' ? 'Desde' : 'From'}</span>
-              <strong>{t.business.pricing.professional.monthlyPrice}</strong>
+              <span className="pricing-from">Market Pro</span>
+              <strong>{t.business.pricing.marketPro.monthlyPrice}</strong>
               <span>{t.business.pricing.perMonth}</span>
             </div>
-            <p>{t.business.pricing.professional.tagline}</p>
+            <p>{t.business.pricing.marketPro.tagline}</p>
             <div className="pricing-capability-list">
               {[
                 { icon: BarChart3, label: t.business.ticker.marketResearch },

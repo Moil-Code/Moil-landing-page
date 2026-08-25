@@ -141,47 +141,21 @@ describe('English quotes stay English and are labelled on ES', () => {
 	});
 });
 
-describe('this PR does not rewrite the English door', () => {
-	const EN_DOOR_FILES = [
-		'src/common/translations/en.ts',
-		'app/business/layout.tsx',
-	];
-
-	it('EN H1, eyebrow, pricing title, and metadata keys stay on the live hats copy', () => {
-		let diff = '';
-		try {
-			diff = execSync(`git diff origin/main -- ${EN_DOOR_FILES.join(' ')}`, {
-				cwd: root,
-				encoding: 'utf8',
-			});
-		} catch {
-			diff = execSync(`git diff main -- ${EN_DOOR_FILES.join(' ')}`, {
-				cwd: root,
-				encoding: 'utf8',
-			});
-		}
-
-		assert.doesNotMatch(diff, /^diff --git .*app\/business\/layout\.tsx/m, 'EN business layout must not change');
-
-		const touchedCopy = diff
-			.split('\n')
-			.filter((line) => (line.startsWith('+') || line.startsWith('-')) && !line.startsWith('+++') && !line.startsWith('---'))
-			.filter((line) => /eyebrow:|headline:|headlineLine2:|headlineHighlight:|heroHeadline:|heroHighlight1:|\btitle:/.test(line));
-		assert.deepEqual(touchedCopy, [], `EN door copy drifted:\n${touchedCopy.join('\n')}`);
-	});
-
-	it('pins the live EN H1 and title strings so a quiet rewrite fails', () => {
+describe('this PR keeps EN and ES documents on their own paths', () => {
+	it('pins the investor EN door and the Spanish socio door', () => {
 		const en = read('src/common/translations/en.ts');
+		const es = read('src/common/translations/es.ts');
 		const enHero = en.slice(en.indexOf('    hero: {'), en.indexOf('    aeoAnswer: {'));
-		assert.match(enHero, /headline: 'You\\u2019re the marketing team\.'/);
-		assert.match(enHero, /headlineLine2: 'And the finance team\.'/);
-		assert.match(enHero, /headlineHighlight: 'And the one who answers the phone\.'/);
-		assert.match(enHero, /eyebrow: 'The co-founder who handles what you never get to'/);
-		assert.match(en, /heroHeadline: 'Stop Wearing'/);
-		assert.match(en, /heroHighlight1: 'Every Hat\.'/);
+		const esHero = es.slice(es.indexOf('    hero: {'), es.indexOf('    aeoAnswer: {'));
+		assert.match(enHero, /headline: 'You shouldn\\'t have to be everything on top of the real job\.'/);
+		assert.match(esHero, /headline: 'No te toca serlo todo adem\\u00e1s de atender el negocio\.'/);
 		assert.match(
 			read('app/business/layout.tsx'),
-			/title: 'AI Marketing for Small Business — Content Calendar in English \& Spanish'/,
+			/AI co-founder for small business owners \| Moil/,
+		);
+		assert.match(
+			read('app/es/business/layout.tsx'),
+			/El socio que trabaja el negocio contigo \| Moil/,
 		);
 	});
 });

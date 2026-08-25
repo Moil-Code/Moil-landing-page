@@ -12,17 +12,6 @@ export function BusinessPricingSection() {
 
   const plans = [
     {
-      id: 'professional',
-      tier: t.business.pricing.professional.name,
-      tagline: t.business.pricing.professional.tagline,
-      price: billingCycle === 'monthly' ? t.business.pricing.professional.monthlyPrice : t.business.pricing.professional.annualPrice,
-      originalPrice: billingCycle === 'annual' ? t.business.pricing.professional.annualOriginalPrice : undefined,
-      per: billingCycle === 'monthly' ? t.business.pricing.perMonth : t.business.pricing.perYear,
-      features: t.business.pricing.professional.features,
-      cta: t.business.pricing.professional.cta,
-      ctaClass: 'pbtn-sec',
-    },
-    {
       id: 'marketPro',
       tier: t.business.pricing.marketPro.name,
       tagline: t.business.pricing.marketPro.tagline,
@@ -34,6 +23,17 @@ export function BusinessPricingSection() {
       ctaClass: 'pbtn-pri',
       featured: true,
       badge: t.business.pricing.marketPro.badge,
+    },
+    {
+      id: 'professional',
+      tier: t.business.pricing.professional.name,
+      tagline: t.business.pricing.professional.tagline,
+      price: billingCycle === 'monthly' ? t.business.pricing.professional.monthlyPrice : t.business.pricing.professional.annualPrice,
+      originalPrice: billingCycle === 'annual' ? t.business.pricing.professional.annualOriginalPrice : undefined,
+      per: billingCycle === 'monthly' ? t.business.pricing.perMonth : t.business.pricing.perYear,
+      features: t.business.pricing.professional.features,
+      cta: t.business.pricing.professional.cta,
+      ctaClass: 'pbtn-sec',
     },
   ];
 
@@ -54,7 +54,16 @@ export function BusinessPricingSection() {
         {t.business.pricing.tag}
       </div>
       <h2 className="section-headline rv">
-        {t.business.pricing.headline}<br />{t.business.pricing.headlineLine2} <span style={{ color: 'var(--orange)' }}>{t.business.pricing.headlineHighlight}</span>
+        {t.business.pricing.headline}
+        {t.business.pricing.headlineLine2 ? (
+          <>
+            <br />
+            {t.business.pricing.headlineLine2}{' '}
+          </>
+        ) : null}
+        {t.business.pricing.headlineHighlight ? (
+          <span style={{ color: 'var(--orange)' }}>{t.business.pricing.headlineHighlight}</span>
+        ) : null}
       </h2>
       <p className="pricing-sub rv">
         {t.business.pricing.subheadline}{' '}

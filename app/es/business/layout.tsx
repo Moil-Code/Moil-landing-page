@@ -6,9 +6,9 @@ import { faqJsonLd } from '../../../src/common/utils/faqJsonLd';
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'Moil aprende tu negocio. Un mes de posts que se publica. | Moil',
+    absolute: 'El socio que trabaja el negocio contigo | Moil',
   },
-  description: 'Moil aprende tu negocio. Luego escribe el trabajo: lo que le pides, y en Market Pro un mes de posts en Facebook e Instagram que se publican y suenan como tú. Professional $25 al mes. El mes de posts no está en los $25.',
+  description: 'Moil aprende el negocio una vez, piensa contigo y hace el trabajo. Investigación, planes, documentos, y treinta días de contenido con tu marca, en inglés o en español. Market Pro es $75. Professional es $25 si no quieres el mes.',
   keywords: [
     'calendario de contenidos para redes sociales',
     'contenido para redes sociales negocio pequeno',
@@ -24,8 +24,8 @@ export const metadata: Metadata = {
     'IA para emprendedores latinos',
   ],
   openGraph: {
-    title: 'Moil aprende tu negocio. Un mes de posts que se publica. | Moil',
-    description: 'Moil aprende tu negocio. Luego escribe el trabajo: lo que le pides, y en Market Pro un mes de posts en Facebook e Instagram que se publican y suenan como tú. Professional $25 al mes. El mes de posts no está en los $25.',
+    title: 'El socio que trabaja el negocio contigo | Moil',
+    description: 'Moil aprende el negocio una vez, piensa contigo y hace el trabajo. Investigación, planes, documentos, y treinta días de contenido con tu marca, en inglés o en español. Market Pro es $75. Professional es $25 si no quieres el mes.',
     url: `${baseURL1}/es/business`,
     locale: 'es_US',
     images: [
@@ -33,13 +33,13 @@ export const metadata: Metadata = {
         url: '/og-business-es.jpg',
         width: 1200,
         height: 630,
-        alt: 'Moil — Moil aprende tu negocio. Un mes de posts que se publica.',
+        alt: 'Moil — El socio que trabaja el negocio contigo',
       },
     ],
   },
   twitter: {
-    title: 'Moil aprende tu negocio. Un mes de posts que se publica. | Moil',
-    description: 'Moil aprende tu negocio. Luego escribe el trabajo: lo que le pides, y en Market Pro un mes de posts en Facebook e Instagram que se publican y suenan como tú. Professional $25 al mes. El mes de posts no está en los $25.',
+    title: 'El socio que trabaja el negocio contigo | Moil',
+    description: 'Moil aprende el negocio una vez, piensa contigo y hace el trabajo. Investigación, planes, documentos, y treinta días de contenido con tu marca, en inglés o en español. Market Pro es $75. Professional es $25 si no quieres el mes.',
   },
   alternates: {
     canonical: `${baseURL1}/es/business`,

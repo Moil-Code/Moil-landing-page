@@ -1550,9 +1550,8 @@ footer {
   font-family: var(--display);
   font-size: clamp(41px, 5.2vw, 72px);
   font-weight: 800;
-  line-height: 0.98;
-  letter-spacing: -0.05em;
-  text-transform: uppercase;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
 

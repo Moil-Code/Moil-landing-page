@@ -41,9 +41,11 @@ const COMPARE_PAGES = [
 
 describe('the "shop" lock stays retired', () => {
 	it('no live source describes Moil as being for shops', () => {
-		const offenders = LIVE_SOURCES.filter((p) =>
-			/(for (your|local) shops?|the shop\b|learns the shop|about your shop)/i.test(read(p)),
-		);
+		const offenders = LIVE_SOURCES.filter((p) => {
+			// Magnet refuse copy ("Paste the shop homepage.") is honesty, not positioning.
+			const src = read(p).replace(/socialLinkRefuse:\s*'[^']*'/g, '');
+			return /(for (your|local) shops?|the shop\b|learns the shop|about your shop)/i.test(src);
+		});
 		assert.deepEqual(offenders, [], `"shop" positioning came back in: ${offenders.join(', ')}`);
 	});
 
@@ -242,12 +244,11 @@ describe('answer-engine surfaces', () => {
 		assert.match(page, /id="what-is-moil"/);
 	});
 
-	it('keeps the live H1 as the hats line', () => {
+	it('keeps the live H1 as the investor lock', () => {
 		const en = read('src/common/translations/en.ts');
 		const hero = en.slice(en.indexOf('    hero: {'), en.indexOf('    aeoAnswer: {'));
-		assert.match(hero, /headline: 'You\\u2019re the marketing team\.'/);
-		assert.match(hero, /headlineLine2: 'And the finance team\.'/);
-		assert.match(hero, /headlineHighlight: 'And the one who answers the phone\.'/);
+		assert.match(hero, /headline: 'You shouldn\\'t have to be everything on top of the real job\.'/);
+		assert.doesNotMatch(hero, /You\\u2019re the marketing team/);
 		assert.doesNotMatch(en, /Meet the AI co-founder for your shop/);
 	});
 
