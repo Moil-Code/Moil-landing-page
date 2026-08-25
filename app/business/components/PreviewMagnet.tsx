@@ -219,11 +219,6 @@ export function PreviewMagnet() {
 
 	const onSubmit = async (event: FormEvent) => {
 		event.preventDefault();
-		if (!isPlanApiConfigured(origin)) {
-			setPhase('down');
-			setErrorMessage(m.down);
-			return;
-		}
 
 		const read = readWebsite(website);
 		const decision = websiteFieldDecision(read);
@@ -233,6 +228,12 @@ export function PreviewMagnet() {
 		}
 		if (decision.kind === 'refuse_website') {
 			setErrorMessage(m.badWebsite);
+			return;
+		}
+
+		if (!isPlanApiConfigured(origin)) {
+			setPhase('down');
+			setErrorMessage(m.down);
 			return;
 		}
 
@@ -305,7 +306,7 @@ export function PreviewMagnet() {
 
 					<button
 						type="submit"
-						disabled={submitting || (phase === 'down' && !configured)}
+						disabled={submitting}
 						className="inline-flex items-center justify-center rounded-lg bg-[var(--purple)] px-4 py-2.5 text-[14px] font-semibold text-white transition-colors hover:bg-[var(--purple-light)] disabled:cursor-not-allowed disabled:opacity-60"
 					>
 						{submitting ? m.submitting : m.submit}

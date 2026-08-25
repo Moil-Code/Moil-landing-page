@@ -364,6 +364,12 @@ describe('website-only door — no handle generate', () => {
 		assert.doesNotMatch(magnet, /readHandle\(/);
 		assert.doesNotMatch(magnet, /movedToHandle/);
 		assert.doesNotMatch(magnet, /placeSubmitBody/);
+		const onSubmit = magnet.slice(magnet.indexOf('const onSubmit'), magnet.indexOf('const reset'));
+		assert.ok(
+			onSubmit.indexOf('refuse_social') > 0 &&
+				onSubmit.indexOf('refuse_social') < onSubmit.indexOf('isPlanApiConfigured'),
+			'social refuse must stop before any generate / origin check',
+		);
 	});
 
 	it('does not show the handle honest-miss copy', () => {
