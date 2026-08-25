@@ -38,6 +38,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: today,
       changeFrequency: 'monthly',
       priority: 0.9,
+      alternates: {
+        languages: {
+          en: `${baseUrl}/business/pricing`,
+          es: `${baseUrl}/es/business/pricing`,
+        },
+      },
+    },
+    {
+      url: `${baseUrl}/es/business/pricing`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+      alternates: {
+        languages: {
+          en: `${baseUrl}/business/pricing`,
+          es: `${baseUrl}/es/business/pricing`,
+        },
+      },
     },
     {
       url: `${baseUrl}/about`,

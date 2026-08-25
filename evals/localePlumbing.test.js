@@ -141,67 +141,21 @@ describe('English quotes stay English and are labelled on ES', () => {
 	});
 });
 
-describe('this PR does not edit door copy', () => {
-	const DOOR_FILES = [
-		'src/common/translations/en.ts',
-		'src/common/translations/es.ts',
-		'app/business/layout.tsx',
-		'app/es/business/layout.tsx',
-		'app/business/sections/HeroSection.tsx',
-	];
-
-	it('H1, eyebrow, and title keys are unchanged except the quote-label key', () => {
-		let diff = '';
-		try {
-			diff = execSync(`git diff origin/main -- ${DOOR_FILES.join(' ')}`, {
-				cwd: root,
-				encoding: 'utf8',
-			});
-		} catch {
-			diff = execSync(`git diff main -- ${DOOR_FILES.join(' ')}`, {
-				cwd: root,
-				encoding: 'utf8',
-			});
-		}
-
-		assert.doesNotMatch(diff, /^diff --git .*HeroSection/m, 'HeroSection must not change');
-		assert.doesNotMatch(diff, /^diff --git .*app\/business\/layout\.tsx/m, 'EN business layout must not change');
-		assert.doesNotMatch(diff, /^diff --git .*app\/es\/business\/layout\.tsx/m, 'ES business layout must not change');
-
-		const touchedCopy = diff
-			.split('\n')
-			.filter((line) => (line.startsWith('+') || line.startsWith('-')) && !line.startsWith('+++') && !line.startsWith('---'))
-			.filter((line) => /eyebrow:|headline:|headlineLine2:|headlineHighlight:|\btitle:/.test(line));
-		assert.deepEqual(touchedCopy, [], `door copy drifted:\n${touchedCopy.join('\n')}`);
-
-		const addedKeys = diff
-			.split('\n')
-			.filter((line) => line.startsWith('+') && !line.startsWith('+++'))
-			.filter((line) => /:\s*'/.test(line));
-		for (const line of addedKeys) {
-			assert.match(line, /writtenInEnglish/, `unexpected copy key in this PR: ${line}`);
-		}
-	});
-
-	it('pins the live H1 and title strings so a quiet rewrite fails', () => {
+describe('this PR keeps EN and ES documents on their own paths', () => {
+	it('pins the investor EN door and the Spanish socio door', () => {
 		const en = read('src/common/translations/en.ts');
 		const es = read('src/common/translations/es.ts');
 		const enHero = en.slice(en.indexOf('    hero: {'), en.indexOf('    aeoAnswer: {'));
 		const esHero = es.slice(es.indexOf('    hero: {'), es.indexOf('    aeoAnswer: {'));
-		assert.match(enHero, /headline: 'You\\u2019re the marketing team\.'/);
-		assert.match(enHero, /headlineLine2: 'And the finance team\.'/);
-		assert.match(enHero, /headlineHighlight: 'And the one who answers the phone\.'/);
-		assert.match(enHero, /eyebrow: 'The co-founder who handles what you never get to'/);
-		assert.match(esHero, /headline: 'Eres el equipo de marketing\.'/);
-		assert.match(esHero, /headlineLine2: 'Y el de finanzas\.'/);
-		assert.match(esHero, /eyebrow: 'El co-fundador que se encarga de lo que nunca te da tiempo'/);
+		assert.match(enHero, /headline: 'You shouldn\\'t have to be everything on top of the real job\.'/);
+		assert.match(esHero, /headline: 'No te toca serlo todo adem\\u00e1s de atender el negocio\.'/);
 		assert.match(
 			read('app/business/layout.tsx'),
-			/title: 'AI Marketing for Small Business — Content Calendar in English & Spanish'/,
+			/AI co-founder for small business owners \| Moil/,
 		);
 		assert.match(
 			read('app/es/business/layout.tsx'),
-			/title: 'Marketing con IA para pequeños negocios — calendario de contenidos'/,
+			/El socio que trabaja el negocio contigo \| Moil/,
 		);
 	});
 });

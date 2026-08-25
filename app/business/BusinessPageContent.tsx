@@ -183,7 +183,7 @@ export function BusinessPageContent() {
       <section id="what-is-moil" className="aeo-answer">
         <div className="aeo-answer__inner">
           <h2 className="aeo-answer__label">{t.business.aeoAnswer.label}</h2>
-          <p className="aeo-answer__body">{t.business.aeoAnswer.body}</p>
+          <p className="aeo-answer__body" style={{ whiteSpace: 'pre-line' }}>{t.business.aeoAnswer.body}</p>
           <p className="aeo-answer__stamp">{t.business.aeoAnswer.lastUpdated}</p>
         </div>
       </section>
@@ -198,10 +198,21 @@ export function BusinessPageContent() {
             {t.business.made.headline}{' '}
             <span style={{ color: 'var(--orange)' }}>{t.business.made.headlineHighlight}</span>
           </h2>
-          <ul className="made__list rv d1">
-            {t.business.made.items.map((item) => (
-              <li key={item} className="made__item">{item}</li>
-            ))}
+          <ul className={`made__list rv d1${currentLang === 'es' ? ' made__list--jobs' : ''}`}>
+            {t.business.made.items.map((item) => {
+              const split = currentLang === 'es' ? item.indexOf('. ') : -1;
+              if (split > 0) {
+                return (
+                  <li key={item} className="made__item made__item--job">
+                    <div>
+                      <strong>{item.slice(0, split + 1)}</strong>
+                      <p>{item.slice(split + 2)}</p>
+                    </div>
+                  </li>
+                );
+              }
+              return <li key={item} className="made__item">{item}</li>;
+            })}
           </ul>
           <p className="made__footnote rv d2">{t.business.made.footnote}</p>
         </div>

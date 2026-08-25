@@ -74,17 +74,13 @@ export const en = {
       pricing: 'Pricing',
     },
     hero: {
-      // The H1 names the problem the owner already knows they have — wearing every
-      // hat — and the page answers it with finished work, not adjectives. "Co-founder"
-      // sits on the eyebrow; "AI" lives in the answer block and schema.
-      // See research/seo-aeo-audit-and-plan.md section 4.5.
-      eyebrow: 'The co-founder who handles what you never get to',
-      headline: 'You\u2019re the marketing team.',
-      headlineLine2: 'And the finance team.',
-      headlineHighlight: 'And the one who answers the phone.',
-      subheadline: 'Moil learns your business once, then makes the actual work \u2014 your plan, your research, your posts, your flyers. Ask it for anything. From $25 a month.',
+      eyebrow: 'The AI co-founder for small business owners',
+      headline: 'You shouldn\'t have to be everything on top of the real job.',
+      headlineLine2: '',
+      headlineHighlight: '',
+      subheadline: 'Moil learns the business once, builds a brain that compounds, thinks with you, and does the work. Research, plans, documents, and thirty days of content on brand, in English or Spanish.',
       cta: 'Start free \u2014 no card',
-      ctaSecondary: 'See it on your business',
+      ctaSecondary: 'See Market Pro',
       trust: [
         'Ask for anything \u2014 it makes it',
         'It remembers your business',
@@ -137,7 +133,7 @@ export const en = {
     },
     aeoAnswer: {
       label: 'What is Moil?',
-      body: 'Moil is the co-founder who does the work you never get to. Small business owners shouldn\u2019t have to be everything \u2014 marketing, planning, and content on top of the real job. Moil learns the business once, then produces finished work: plans, posts, and flyers, in English and Spanish. It also schedules and publishes the posts you approve to your Facebook Page and Instagram. Professional is $25 a month and makes things on request. Market Pro is $75 and also writes the month automatically.',
+      body: 'Moil is the AI co-founder for small business owners.\n\nOwners shouldn\u2019t have to be everything on top of the real job. Moil learns the business once, builds a brain that compounds, thinks with them, and does the work \u2014 research, plans, documents \u2014 and automates content creation thirty days at a time, on brand, in English or Spanish.',
       lastUpdated: 'Last updated: August 2026',
     },
     // Breadth made visible. "Does everything" reads as nothing; a list of real
@@ -460,11 +456,11 @@ export const en = {
     },
     pricing: {
       tag: 'Simple Pricing',
-      headline: 'A Consultant, Agency,',
-      headlineLine2: 'Recruiter & Coach.',
-      headlineHighlight: 'One Price.',
-      subheadline: '"Traditional consultants charge more for a single meeting than Moil costs for an entire year.',
-      subheadlineEmphasis: "That's not a discount. That's a revolution.",
+      headline: 'Thirty days of content on brand. Research, plans, documents.',
+      headlineLine2: '',
+      headlineHighlight: '',
+      subheadline: 'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.',
+      subheadlineEmphasis: '',
       annualSaving: 'Save up to 25% with annual billing',
       seeDetailed: 'See Detailed Pricing',
       monthly: 'Monthly',
@@ -476,13 +472,14 @@ export const en = {
       save: 'Save',
       professional: {
         name: 'Professional',
-        tagline: 'More capacity for businesses publishing across every channel, every month.',
+        tagline: 'Professional $25: research, plan, and documents. Without the month.',
         cta: 'Get Started',
         monthlyPrice: '$25',
         annualPrice: '$240',
         annualOriginalPrice: '$300',
         features: [
-          '10 job postings/month',
+          'Research, plans, and documents',
+          'Without the month of content',
           '200 AI-generated images',
           '200 AI image edits',
           '15 min audio generation',
@@ -493,14 +490,15 @@ export const en = {
       },
       marketPro: {
         name: 'Market Pro',
-        tagline: 'Unlimited power. Full Moil360 access. Maximum AI.',
+        tagline: 'Market Pro $75: thirty days of content on brand, plus research, plans, and documents.',
         cta: 'Start Market Pro',
         badge: 'BEST VALUE',
         monthlyPrice: '$75',
         annualPrice: '$700',
         annualOriginalPrice: '$900',
         features: [
-          'Unlimited job postings',
+          'Thirty days of content on brand',
+          'Research, plans, and documents',
           'Unlimited AI images & edits',
           '30 min audio generation',
           '15 video credits/month',
@@ -514,7 +512,7 @@ export const en = {
         guarantee: '30-Day Guarantee',
         noSetupFees: 'No Setup Fees',
         cancelAnytime: 'Cancel Anytime',
-        soc2: 'SOC 2 Compliant',
+        soc2: 'Start free \u2014 no card',
         bilingual: 'Bilingual EN/ES',
       },
     },
@@ -540,7 +538,7 @@ export const en = {
         },
         {
           question: 'How much does Moil cost?',
-          answer: 'Professional is $25 a month: ask the co-founder for anything — research, plans, documents, flyers, decks — and it makes it. Market Pro is $75 and adds Moil360, which writes your 30-day content calendar automatically instead of waiting to be asked. The first conversation is free and needs no card.',
+          answer: 'Market Pro is $75 a month: the month of content plus the work \u2014 research, plans, documents. Professional is $25 if you want the research, plan, and documents without the month. The first conversation is free and needs no card.',
         },
         {
           question: 'What is Moil360?',
@@ -573,13 +571,13 @@ export const en = {
             'Yes. Ask the coach for something like a week of shifts for five employees with breaks, and it will build it from what it already knows about your business. It is a conversational capability rather than a rota screen, so treat it as a first draft you adjust rather than a scheduling system of record.',
         },
         {
-          question: 'Can Moil help me hire?',
-          answer:
-            'Yes, though it is not what Moil leads with. You can post a role and reach the candidates on Moil\u2019s job marketplace, which currently has over 3,000 people on it. Most owners come to Moil for the marketing and use hiring occasionally, when they need it.',
+          question: 'Is Moil the same as MOIL Limited?',
+          answer: 'No. Moil is Moil Enterprise Inc., founded in 2023 and based in Buda, Texas, and it builds software for small business owners. MOIL Limited is an unrelated manganese mining company listed in India. The two companies share a name and nothing else.',
         },
         {
-          question: 'Is Moil the same as MOIL Limited?',
-          answer: 'No. Moil is Moil Enterprise Inc., founded in 2023 and based in Buda, Texas, and it builds AI marketing software for small businesses. MOIL Limited is an unrelated manganese mining company listed in India. The two companies share a name and nothing else.',
+          question: 'Can Moil help me hire?',
+          answer:
+            'Yes, though it is not what Moil leads with. You can post a role and reach the candidates on Moil\u2019s job marketplace. Most owners come to Moil for the work and use hiring occasionally, when they need it.',
         },
       ],
     },
@@ -593,19 +591,19 @@ export const en = {
       calendar: '30-Day Social Media Content Calendar for Small Business',
     },
     pricingPage: {
-      heroEyebrow: 'Straightforward plans. Serious business leverage.',
-      heroHeadline: 'Stop Wearing',
-      heroHighlight1: 'Every Hat.',
-      heroMiddle: 'Put Your AI Co-Founder to Work',
-      heroHighlight2: 'From $25 a Month.',
-      heroSub: 'Plan, market, create, and hire from one connected workspace. Start with the capacity you need today, upgrade when momentum demands it, and cancel anytime.',
-      heroCta: 'Start Free',
-      heroCtaSecondary: 'Compare Plans',
+      heroEyebrow: 'The AI co-founder for small business owners',
+      heroHeadline: 'Thirty days of content on brand. Research, plans, documents.',
+      heroHighlight1: '',
+      heroMiddle: '',
+      heroHighlight2: '',
+      heroSub: 'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.',
+      heroCta: 'Start free \u2014 no card',
+      heroCtaSecondary: 'See Market Pro',
       trust30Day: '30-Day Guarantee',
       trustNoSetup: 'No Setup Fees',
       trustCancel: 'Cancel Anytime',
       trustBilingual: 'Bilingual EN/ES',
-      trustPrice: 'From $25/month',
+      trustPrice: 'Market Pro $75',
     },
     finalCta: {
       tag: '75% of SMBs are already using AI (Salesforce, 2025)',
@@ -614,7 +612,7 @@ export const en = {
       headlineHighlight: 'alone.',
       subheadline: 'Your business plan, your market research, and a 30-day content calendar that refreshes every month — written in your voice, in English and Spanish. From $25 a month.',
       cta: 'Start free — no credit card',
-      trust: ['Free to start', '30-day guarantee', 'No credit card', 'SOC 2 compliant', 'Bilingual EN/ES'],
+      trust: ['Free to start', '30-day guarantee', 'No credit card', 'Market Pro $75', 'Bilingual EN/ES'],
     },
   },
 

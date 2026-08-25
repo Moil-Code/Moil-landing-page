@@ -90,8 +90,8 @@ export function BusinessNav({
       // exists. Keeps the hreflang signal consistent — users land on the
       // same URL Google indexes for their locale.
       const localeRouteMap: Record<'en' | 'es', Record<string, string>> = {
-        es: { '/business': '/es/business' },
-        en: { '/es/business': '/business' },
+        es: { '/business': '/es/business', '/business/pricing': '/es/business/pricing' },
+        en: { '/es/business': '/business', '/es/business/pricing': '/business/pricing' },
       };
       const url = new URL(window.location.href);
       const mappedPath = localeRouteMap[selectedLang][url.pathname];

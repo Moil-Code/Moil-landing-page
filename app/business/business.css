@@ -1550,9 +1550,8 @@ footer {
   font-family: var(--display);
   font-size: clamp(41px, 5.2vw, 72px);
   font-weight: 800;
-  line-height: 0.98;
-  letter-spacing: -0.05em;
-  text-transform: uppercase;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
 
@@ -2655,6 +2654,9 @@ footer {
   border-radius: 12px;
   overflow: hidden;
 }
+.made__list--jobs {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
 .made__item {
   background: var(--surface);
   padding: 18px 22px;
@@ -2665,6 +2667,21 @@ footer {
   align-items: center;
   gap: 12px;
   text-align: left;
+}
+.made__item--job {
+  align-items: flex-start;
+}
+.made__item--job strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+  line-height: 1.35;
+}
+.made__item--job p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text2);
 }
 .made__item::before {
   content: '';

@@ -5,8 +5,10 @@ import { en } from '../../src/common/translations/en';
 import { faqJsonLd } from '../../src/common/utils/faqJsonLd';
 
 export const metadata: Metadata = {
-  title: 'AI Marketing for Small Business — Content Calendar in English & Spanish',
-  description: 'Moil learns your small business once, then writes your marketing: a 30-day content calendar with captions and images that refreshes every month. Bilingual English and Spanish. From $25 a month. Start free, no card.',
+  title: {
+    absolute: 'AI co-founder for small business owners | Moil',
+  },
+  description: 'Moil learns the business once, builds a brain that compounds, thinks with you, and does the work. Research, plans, documents, and thirty days of content on brand, in English or Spanish.',
   keywords: [
     'AI marketing for small business',
     'social media content calendar',
@@ -34,21 +36,21 @@ export const metadata: Metadata = {
     'AI co-founder',
   ],
   openGraph: {
-    title: 'AI Marketing for Small Business — Content Calendar in English & Spanish',
-    description: 'Moil writes your month of content — researched, in your voice, in English and Spanish. From $25 a month. Start free, no card.',
+    title: 'AI co-founder for small business owners | Moil',
+    description: 'Moil learns the business once, builds a brain that compounds, thinks with you, and does the work. Research, plans, documents, and thirty days of content on brand, in English or Spanish.',
     url: `${baseURL1}/business`,
     images: [
       {
         url: '/og-business.jpg',
         width: 1200,
         height: 630,
-        alt: 'Moil — AI marketing for small business',
+        alt: 'Moil — AI co-founder for small business owners',
       }
     ],
   },
   twitter: {
-    title: 'AI Marketing for Small Business — Content Calendar in English & Spanish',
-    description: 'Moil writes your month of content — researched, in your voice, in English and Spanish. From $25 a month. Start free, no card.',
+    title: 'AI co-founder for small business owners | Moil',
+    description: 'Moil learns the business once, builds a brain that compounds, thinks with you, and does the work. Research, plans, documents, and thirty days of content on brand, in English or Spanish.',
   },
   alternates: {
     canonical: `${baseURL1}/business`,
@@ -239,7 +241,7 @@ export default function BusinessLayout({
             "name": "Moil",
             "applicationCategory": "BusinessApplication",
             "operatingSystem": "Web",
-            "description": "The co-founder who does the work you never get to. Small business owners shouldn\u2019t have to be everything — marketing, planning, and content on top of the real job. Moil learns the business once, then produces finished work: plans, posts, and flyers, in English and Spanish. It also schedules and publishes the posts you approve to Facebook and Instagram. Professional $25 makes things on request; Market Pro $75 also writes the month automatically.",
+            "description": "Moil is the AI co-founder for small business owners. Owners shouldn\u2019t have to be everything on top of the real job. Moil learns the business once, builds a brain that compounds, thinks with them, and does the work \u2014 research, plans, documents \u2014 and automates content creation thirty days at a time, on brand, in English or Spanish.",
             "url": `${baseURL1}/business`,
             "screenshot": `${baseURL1}/og_image_v2.jpg`,
             "offers": [
@@ -275,7 +277,7 @@ export default function BusinessLayout({
               }
             ],
             "featureList": [
-              "AI Marketing for Small Business",
+              "AI co-founder for small business owners",
               "Moil360 30-Day Content Calendar",
               "AI Business Plan",
               "AI Market Research",
@@ -306,8 +308,8 @@ export default function BusinessLayout({
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Article",
-            "headline": "Moil — AI Marketing for Small Business: A Month of Content, Written for You",
-            "description": "Moil learns a small business once, then writes its marketing: a 30-day content calendar with researched topics, captions in the owner\u2019s voice and generated images, refreshed every month, in English and Spanish.",
+            "headline": "Moil is the AI co-founder for small business owners",
+            "description": "Moil learns the business once, builds a brain that compounds, thinks with them, and does the work \u2014 research, plans, documents \u2014 and automates content creation thirty days at a time, on brand, in English or Spanish.",
             "url": `${baseURL1}/business`,
             "datePublished": "2025-01-15",
             "dateModified": "2026-08-18",

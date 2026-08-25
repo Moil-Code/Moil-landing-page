@@ -26,6 +26,7 @@ type AeoCitePageProps = {
   limitations?: string[];
   faqs: AeoFaq[];
   entityLine: string;
+  assurances?: string[];
 };
 
 export function AeoCitePage({
@@ -40,6 +41,7 @@ export function AeoCitePage({
   limitations,
   faqs,
   entityLine,
+  assurances,
 }: AeoCitePageProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
@@ -53,7 +55,7 @@ export function AeoCitePage({
         <div className="aeo-cite-inner">
           <div className="comparison-eyebrow">{eyebrow}</div>
           <h1>{h1}</h1>
-          <p id="aeo-direct-answer" className="aeo-direct-answer">
+          <p id="aeo-direct-answer" className="aeo-direct-answer" style={{ whiteSpace: 'pre-line' }}>
             {answer}
           </p>
           <div className="comparison-actions">
@@ -70,15 +72,11 @@ export function AeoCitePage({
             </a>
           </div>
           <div className="comparison-assurances">
-            <span>
-              <CheckCircle2 size={15} aria-hidden="true" /> From $25 a month
-            </span>
-            <span>
-              <CheckCircle2 size={15} aria-hidden="true" /> English &amp; Spanish
-            </span>
-            <span>
-              <CheckCircle2 size={15} aria-hidden="true" /> Start free, no card
-            </span>
+            {(assurances ?? ['From $25 a month', 'English & Spanish', 'Start free, no card']).map((item) => (
+              <span key={item}>
+                <CheckCircle2 size={15} aria-hidden="true" /> {item}
+              </span>
+            ))}
           </div>
         </div>
       </section>
