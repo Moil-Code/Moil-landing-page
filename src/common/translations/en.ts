@@ -525,6 +525,7 @@ export const en = {
       headline: 'Owners,',
       headlineHighlight: 'in their words.',
       originalNote: '',
+      writtenInEnglish: 'in English',
       readAll: 'Read every review, with sources',
     },
     faq: {

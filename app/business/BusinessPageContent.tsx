@@ -144,6 +144,9 @@ export function BusinessPageContent() {
     testimonial: review.text,
     role: review.role?.[currentLang] ?? '',
     source: review.sourceLabel[currentLang],
+    // Quotes stay verbatim English. On Spanish surfaces, label that — never rewrite.
+    writtenInEnglishLabel:
+      currentLang === 'es' ? t.business.testimonials.writtenInEnglish : '',
   }));
 
   return (
@@ -690,7 +693,10 @@ export function BusinessPageContent() {
                 <div className="testi-card2" key={`testimonial-${index}`}>
                   <div className="testi-card2__body">
                     <div className="t-stars">★★★★★</div>
-                    <p className="testi-card2__text">{item.testimonial}</p>
+                    <p className="testi-card2__text" {...(item.writtenInEnglishLabel ? { lang: 'en' } : {})}>{item.testimonial}</p>
+                    {item.writtenInEnglishLabel && (
+                      <p className="t-lang">{item.writtenInEnglishLabel}</p>
+                    )}
                     <div className="t-author">
                       <Image
                         src={item.testimonialImage}

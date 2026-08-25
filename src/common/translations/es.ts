@@ -516,6 +516,7 @@ export const es: TranslationKeys = {
       headline: 'Dueños,',
       headlineHighlight: 'en sus palabras.',
       originalNote: 'Reseñas publicadas en el idioma original en que las escribieron.',
+      writtenInEnglish: 'escrito en inglés',
       readAll: 'Lee todas las reseñas, con sus fuentes',
     },
     faq: {

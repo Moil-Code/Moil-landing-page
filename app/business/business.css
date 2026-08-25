@@ -2347,6 +2347,13 @@ footer {
   color: var(--text3);
   margin-top: 3px;
 }
+.t-lang {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.3px;
+  color: var(--text3);
+  margin: -6px 0 16px;
+}
 .testi-original-note {
   font-family: var(--mono);
   font-size: 10px;

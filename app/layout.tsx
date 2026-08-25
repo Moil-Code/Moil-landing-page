@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { Bebas_Neue, Inter, Poppins } from 'next/font/google';
 import Script from 'next/script';
 
@@ -7,6 +8,7 @@ import Analytics from '../src/common/components/analytics';
 import { SiteFooter } from '../src/common/components/SiteFooter';
 import CookieConsent from '../src/common/components/CookieConsent';
 import { baseURL1 } from '../src/common/constants/baseUrl';
+import { HTML_LANG_HEADER } from '../src/common/i18n/pathLocale';
 
 const bebas = Bebas_Neue({ weight: ['400'], subsets: ['latin'], display: 'swap' });
 
@@ -134,18 +136,23 @@ export const metadata: Metadata = {
   classification: 'AI Business Growth Platform',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Path locale arrives via middleware on x-html-lang so `/es/*` is
+  // `<html lang="es">` on the first byte — not a client flash after `en`.
+  const headerStore = await headers();
+  const lang = headerStore.get(HTML_LANG_HEADER) === 'es' ? 'es' : 'en';
+
   return (
     // The font *variable* classes must sit on <html>, not <body>: business.css
     // builds its --body / --display / --mono tokens on `:root`, and a custom
     // property referencing an undefined variable is invalid at computed-value
     // time — which silently drops every font-family on the page to the Tailwind
     // fallback stack. Keep them here so :root can resolve them.
-    <html lang="en" className={`scroll-smooth ${inter.variable} ${poppins.variable}`} data-theme="light" suppressHydrationWarning>
+    <html lang={lang} className={`scroll-smooth ${inter.variable} ${poppins.variable}`} data-theme="light" suppressHydrationWarning>
       <head>
         {/* Pre-paint theme restore. The server starts in light mode, then this
             blocking script applies a saved dark preference before the browser
