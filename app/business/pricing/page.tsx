@@ -21,7 +21,7 @@ import { useBusinessUi } from '../hooks/useBusinessUi';
 import { I18nProvider, useLanguageContext } from '../../../src/common/components/I18nProvider';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
 
-function BusinessPricingPageContent() {
+export function BusinessPricingPageContent() {
   const { theme, toggleTheme, menuOpen, setMenuOpen, scrolled } = useBusinessUi();
   const { t, lang: currentLang, setLang } = useLanguageContext();
 

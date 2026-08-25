@@ -5,8 +5,10 @@ import { es } from '../../../src/common/translations/es';
 import { faqJsonLd } from '../../../src/common/utils/faqJsonLd';
 
 export const metadata: Metadata = {
-  title: 'Marketing con IA para pequeños negocios — calendario de contenidos',
-  description: 'Moil aprende tu negocio una vez y escribe tu marketing: un calendario de contenidos de 30 días con textos e imágenes que se renueva cada mes. En inglés y español. Desde $25 al mes.',
+  title: {
+    absolute: 'Plan para el banco, un mes de posts, o $25 en vez de una agencia de $500 | Moil',
+  },
+  description: 'Moil escribe un plan que puedes llevar al banco, al SBA o al lease, y — en Market Pro — un mes de posts para Facebook e Instagram que se publican con tu voz. Professional $25 al mes. El mes de posts no está en los $25. Inglés y español.',
   keywords: [
     'calendario de contenidos para redes sociales',
     'contenido para redes sociales negocio pequeno',
@@ -22,8 +24,8 @@ export const metadata: Metadata = {
     'IA para emprendedores latinos',
   ],
   openGraph: {
-    title: 'Marketing con IA para pequeños negocios — calendario de contenidos',
-    description: 'Un mes de contenido escrito con tu voz, más investigación de mercado, plan y coaching. En inglés y español. Desde $25 al mes.',
+    title: 'Plan para el banco, un mes de posts, o $25 en vez de una agencia de $500 | Moil',
+    description: 'Moil escribe un plan que puedes llevar al banco, al SBA o al lease, y — en Market Pro — un mes de posts para Facebook e Instagram que se publican con tu voz. Professional $25 al mes. El mes de posts no está en los $25. Inglés y español.',
     url: `${baseURL1}/es/business`,
     locale: 'es_US',
     images: [
@@ -31,13 +33,13 @@ export const metadata: Metadata = {
         url: '/og-business-es.jpg',
         width: 1200,
         height: 630,
-        alt: 'Moil — Co-fundador con IA para pequeños negocios',
+        alt: 'Moil — Plan para el banco, un mes de posts, o $25',
       },
     ],
   },
   twitter: {
-    title: 'Marketing con IA para pequeños negocios — calendario de contenidos',
-    description: 'Un mes de contenido escrito con tu voz, en inglés y español. Desde $25 al mes.',
+    title: 'Plan para el banco, un mes de posts, o $25 en vez de una agencia de $500 | Moil',
+    description: 'Moil escribe un plan que puedes llevar al banco, al SBA o al lease, y — en Market Pro — un mes de posts para Facebook e Instagram que se publican con tu voz. Professional $25 al mes. El mes de posts no está en los $25. Inglés y español.',
   },
   alternates: {
     canonical: `${baseURL1}/es/business`,

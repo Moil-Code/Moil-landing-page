@@ -58,7 +58,8 @@ export function BusinessPricingSection() {
       </h2>
       <p className="pricing-sub rv">
         {t.business.pricing.subheadline}{' '}
-        <strong>{t.business.pricing.subheadlineEmphasis}</strong>&rdquo;
+        <strong>{t.business.pricing.subheadlineEmphasis}</strong>
+        {/^[“"]/.test(t.business.pricing.subheadline) ? '\u201d' : ''}
       </p>
       
       {/* Billing Cycle Toggle */}
@@ -209,7 +210,7 @@ export function BusinessPricingSection() {
 
       {!pricingPage && (<div style={{ textAlign: 'center', marginTop: '40px' }} className="rv">
         <a
-          href={`/business/pricing?lg=${lang}`}
+          href={lang === 'es' ? '/es/business/pricing' : `/business/pricing?lg=${lang}`}
           className="btn-secondary"
           style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
         >

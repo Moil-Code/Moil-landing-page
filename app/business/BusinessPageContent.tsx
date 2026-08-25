@@ -198,10 +198,21 @@ export function BusinessPageContent() {
             {t.business.made.headline}{' '}
             <span style={{ color: 'var(--orange)' }}>{t.business.made.headlineHighlight}</span>
           </h2>
-          <ul className="made__list rv d1">
-            {t.business.made.items.map((item) => (
-              <li key={item} className="made__item">{item}</li>
-            ))}
+          <ul className={`made__list rv d1${currentLang === 'es' ? ' made__list--jobs' : ''}`}>
+            {t.business.made.items.map((item) => {
+              const split = currentLang === 'es' ? item.indexOf('. ') : -1;
+              if (split > 0) {
+                return (
+                  <li key={item} className="made__item made__item--job">
+                    <div>
+                      <strong>{item.slice(0, split + 1)}</strong>
+                      <p>{item.slice(split + 2)}</p>
+                    </div>
+                  </li>
+                );
+              }
+              return <li key={item} className="made__item">{item}</li>;
+            })}
           </ul>
           <p className="made__footnote rv d2">{t.business.made.footnote}</p>
         </div>

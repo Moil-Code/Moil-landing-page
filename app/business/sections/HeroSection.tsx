@@ -158,14 +158,19 @@ export function HeroSection() {
           {t.business.hero.cta} <span>→</span>
         </PrimaryButton>
         <SecondaryButton
-          onClick={() => {
-            const el = document.getElementById('preview-magnet');
-            if (!el) return;
-            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
-            const input = el.querySelector('input,button[type="submit"]') as HTMLElement | null;
-            input?.focus();
-          }}
+          href={lang === 'es' ? '#pricing' : undefined}
+          onClick={
+            lang === 'es'
+              ? undefined
+              : () => {
+                  const el = document.getElementById('preview-magnet');
+                  if (!el) return;
+                  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                  el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+                  const input = el.querySelector('input,button[type="submit"]') as HTMLElement | null;
+                  input?.focus();
+                }
+          }
         >
           <span className="mr-1.5 inline-flex items-center">{IconMap.play}</span> {t.business.hero.ctaSecondary}
         </SecondaryButton>
