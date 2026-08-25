@@ -428,4 +428,22 @@ describe('ready card v1 locks', () => {
 		const waitBlock = magnet.slice(waitStart, waitEnd);
 		assert.doesNotMatch(waitBlock, /email/i);
 	});
+
+	it('does not claim visitor mail or ship a confirm helper', () => {
+		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		const revealSrc = read('app/business/preview/previewReveal.js');
+		const enMagnet = read('src/common/translations/en.ts').slice(
+			read('src/common/translations/en.ts').indexOf('magnet: {'),
+			read('src/common/translations/en.ts').indexOf('aeoAnswer:'),
+		);
+		for (const src of [magnet, revealSrc, enMagnet]) {
+			assert.doesNotMatch(src, /We'll send this preview to that address/i);
+			assert.doesNotMatch(src, /we will send this preview/i);
+			assert.doesNotMatch(src, /confirm helper/i);
+			assert.doesNotMatch(src, /honest-optional/i);
+			assert.doesNotMatch(src, /abandon notify/i);
+		}
+		assert.equal(fs.existsSync(path.join(root, 'app/business/preview/previewConfirm.js')), false);
+		assert.equal(fs.existsSync(path.join(root, 'app/business/preview/confirmEmail.js')), false);
+	});
 });
