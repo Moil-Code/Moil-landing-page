@@ -113,6 +113,14 @@ const nextConfig = {
         ],
       },
       {
+        source: '/es',
+        headers: [{ key: 'Content-Language', value: 'es' }],
+      },
+      {
+        source: '/es/:path*',
+        headers: [{ key: 'Content-Language', value: 'es' }],
+      },
+      {
         // Cache static assets aggressively
         source: '/(.*)\\.(png|jpg|jpeg|gif|svg|ico|woff|woff2)',
         headers: [
