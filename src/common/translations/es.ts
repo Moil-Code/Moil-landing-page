@@ -582,6 +582,13 @@ export const es: TranslationKeys = {
         },
       ],
     },
+    guides: {
+      sentence:
+        'Guías: cómo escribir el plan, qué generador de planes con IA usar, y cómo conseguir un calendario de 30 días — Professional $25/mes, Moil360 completo en Market Pro $75/mes.',
+      writePlan: 'Cómo escribir un plan de negocios para un negocio pequeño (con IA)',
+      compareGenerators: 'El mejor generador de planes de negocios con IA (2026): 6 herramientas comparadas',
+      calendar: 'Calendario de contenido para redes de 30 días para un negocio pequeño',
+    },
     pricingPage: {
       heroEyebrow: 'Planes claros. Ventaja real para tu negocio.',
       heroHeadline: 'Deja de Usar',

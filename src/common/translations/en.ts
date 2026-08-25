@@ -591,6 +591,15 @@ export const en = {
         },
       ],
     },
+    // Three A-money product guides — one sentence + three text links.
+    // Keep this a product page, not a blog dump. Do not grow this into cards.
+    guides: {
+      sentence:
+        'Guides: how to write the plan, which AI plan generator to use, and how to get a 30-day calendar — Professional $25/month, full Moil360 on Market Pro $75/month.',
+      writePlan: 'How to Write a Business Plan for a Small Business (With AI)',
+      compareGenerators: 'Best AI Business Plan Generator (2026): 6 Tools Compared',
+      calendar: '30-Day Social Media Content Calendar for Small Business',
+    },
     pricingPage: {
       heroEyebrow: 'Straightforward plans. Serious business leverage.',
       heroHeadline: 'Stop Wearing',
