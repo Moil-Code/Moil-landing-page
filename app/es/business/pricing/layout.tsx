@@ -3,21 +3,21 @@ import { baseURL1 } from '../../../../src/common/constants/baseUrl';
 
 export const metadata: Metadata = {
   title: {
-    absolute: '$25 para el plan. $75 para el mes de posts que se publica. | Moil',
+    absolute: '$25 para que aprenda el negocio. $75 para el mes de posts que se publica. | Moil',
   },
   description:
-    'Professional $25: investigación, plan, coaching, documentos. No incluye el mes de posts. Market Pro $75: el mes de posts, con tu voz, publicado en Facebook e Instagram.',
+    'Professional $25: investigación, plan, coaching, documentos — así se arma la cabeza. No incluye el mes de posts. Market Pro $75: el mes de posts, con tu voz, publicado en Facebook e Instagram.',
   openGraph: {
-    title: '$25 para el plan. $75 para el mes de posts que se publica. | Moil',
+    title: '$25 para que aprenda el negocio. $75 para el mes de posts que se publica. | Moil',
     description:
-      'Professional $25: investigación, plan, coaching, documentos. No incluye el mes de posts. Market Pro $75: el mes de posts, con tu voz, publicado en Facebook e Instagram.',
+      'Professional $25: investigación, plan, coaching, documentos — así se arma la cabeza. No incluye el mes de posts. Market Pro $75: el mes de posts, con tu voz, publicado en Facebook e Instagram.',
     url: `${baseURL1}/es/business/pricing`,
     locale: 'es_US',
   },
   twitter: {
-    title: '$25 para el plan. $75 para el mes de posts que se publica. | Moil',
+    title: '$25 para que aprenda el negocio. $75 para el mes de posts que se publica. | Moil',
     description:
-      'Professional $25: investigación, plan, coaching, documentos. No incluye el mes de posts. Market Pro $75: el mes de posts, con tu voz, publicado en Facebook e Instagram.',
+      'Professional $25: investigación, plan, coaching, documentos — así se arma la cabeza. No incluye el mes de posts. Market Pro $75: el mes de posts, con tu voz, publicado en Facebook e Instagram.',
   },
   alternates: {
     canonical: `${baseURL1}/es/business/pricing`,
@@ -38,9 +38,9 @@ export default function BusinessPricingEsLayout({ children }: { children: React.
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'WebPage',
-            name: '$25 para el plan. $75 para el mes de posts que se publica.',
+            name: '$25 para que aprenda el negocio. $75 para el mes de posts que se publica.',
             description:
-              'Professional $25: investigación, plan, coaching, documentos. No incluye el mes de posts. Market Pro $75: el mes de posts, con tu voz, publicado en Facebook e Instagram.',
+              'Professional $25: investigación, plan, coaching, documentos — así se arma la cabeza. No incluye el mes de posts. Market Pro $75: el mes de posts, con tu voz, publicado en Facebook e Instagram.',
             url: `${baseURL1}/es/business/pricing`,
             breadcrumb: {
               '@type': 'BreadcrumbList',

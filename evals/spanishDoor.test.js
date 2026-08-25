@@ -5,7 +5,7 @@
  * S1 Spanish door — /es, /es/business, /es/business/pricing.
  *   node --test evals/spanishDoor.test.js
  *
- * Pins the bank / posts / $25 copy on ES only. The English hats door,
+ * Pins the shop + month-of-posts door on ES only. The English hats door,
  * EN pricing title/meta, and magnet files must stay out of this diff.
  */
 
@@ -46,35 +46,34 @@ describe('ES door copy', () => {
 	const esLayout = read('app/es/business/layout.tsx');
 	const esHero = namedBlock(es.slice(es.indexOf('\n  business: {')), 'hero');
 
-	it('es.ts and the ES layout carry the new H1 and title', () => {
-		assert.match(esHero, /headline: 'El banco quiere un plan\.'/);
-		assert.match(esHero, /headlineLine2: 'La p\\u00e1gina se ve muerta\.'/);
-		assert.match(esHero, /headlineHighlight: 'No tienes \$500 al mes para una agencia\.'/);
-		assert.match(
-			esHero,
-			/Moil aprende tu negocio una vez y escribe el trabajo: un business plan que puedes defender/,
-		);
+	it('es.ts and the ES layout carry the shop + posts H1 and title', () => {
+		assert.match(esHero, /eyebrow: 'Aprende tu negocio\. Luego escribe el mes\.'/);
+		assert.match(esHero, /headline: 'Moil aprende tu negocio desde el primer d\\u00eda\.'/);
+		assert.match(esHero, /headlineLine2: 'Luego escribe el trabajo que nunca te da tiempo\.'/);
+		assert.match(esHero, /headlineHighlight: 'Un mes de posts para que la p\\u00e1gina no se vea muerta\.'/);
+		assert.match(esHero, /Contestas una vez\. Eso no es un PDF para el banco/);
 		assert.match(esHero, /cta: 'Empieza gratis \\u2014 sin tarjeta'/);
 		assert.match(esHero, /ctaSecondary: 'Ver los dos planes'/);
+		assert.doesNotMatch(esHero, /El banco quiere un plan/);
 		assert.doesNotMatch(esHero, /El co-fundador que se encarga/);
 		assert.match(
 			esLayout,
-			/Plan para el banco, un mes de posts, o \$25 en vez de una agencia de \$500 \| Moil/,
+			/Moil aprende tu negocio\. Un mes de posts que se publica\. \| Moil/,
 		);
-		assert.match(
-			esLayout,
-			/Moil escribe un plan que puedes llevar al banco, al SBA o al lease/,
-		);
+		assert.match(esLayout, /Moil aprende tu negocio\. Luego escribe el trabajo/);
+		assert.doesNotMatch(esLayout, /Plan para el banco, un mes de posts/);
 	});
 
-	it('first-scroll job cards are the three specified jobs, not a dump', () => {
+	it('first-scroll job cards are the three specified jobs, not a bank-lead dump', () => {
 		const made = namedBlock(es.slice(es.indexOf('\n  business: {')), 'made');
-		assert.match(made, /Un plan que el banco \/ el SBA \/ el lease acepten/);
-		assert.match(made, /Un mes de posts para que la p\\u00e1gina no se vea muerta/);
-		assert.match(made, /\$25 \/ \$75 en vez de \$500 a una agencia/);
-		assert.match(made, /ChatGPT te arma un borrador/);
+		const items = [...made.matchAll(/^        '([^']+)'/gm)].map((m) => m[1]);
+		assert.equal(items.length, 3);
+		assert.match(items[0], /^Desde el primer d\\u00eda se arma la cabeza de tu negocio\./);
+		assert.doesNotMatch(items[0], /^Un plan que el banco/);
+		assert.match(items[0], /banco, el SBA o el lease/);
+		assert.match(items[1], /^Un mes de posts para que la p\\u00e1gina no se vea muerta\./);
+		assert.match(items[2], /^\$25 \/ \$75 en vez de \$500 a una agencia\./);
 		assert.match(made, /Canva \+ ChatGPT a ojo/);
-		assert.equal((made.match(/^        '/gm) || []).length, 3);
 	});
 });
 
@@ -109,11 +108,13 @@ describe('ES pricing first screen', () => {
 		const pricingPage = namedBlock(business, 'pricingPage');
 		const firstScreen = pricing + '\n' + pricingPage + '\n' + read('app/es/business/pricing/layout.tsx');
 
-		assert.match(pricing, /headline: '\$25 para el plan\.'/);
-		assert.match(pricingPage, /heroHeadline: '\$25 para el plan\.'/);
+		assert.match(pricing, /headline: '\$25 para que aprenda el negocio\.'/);
+		assert.match(pricingPage, /heroHeadline: '\$25 para que aprenda el negocio\.'/);
 		assert.match(pricingPage, /que se publica/);
+		assert.match(firstScreen, /as\\u00ed se arma la cabeza|as[ií] se arma la cabeza/);
 		assert.match(firstScreen, /Professional \$25: investigaci/);
 		assert.match(firstScreen, /Market Pro \$75: el mes de posts/);
+		assert.doesNotMatch(firstScreen, /\$25 para el plan\./);
 
 		assert.doesNotMatch(firstScreen, /10 publicaciones de empleo/);
 		assert.doesNotMatch(firstScreen, /Publicaciones de empleo ilimitadas/);
