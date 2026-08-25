@@ -1,24 +1,26 @@
 'use client';
 
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import Autocomplete from 'react-google-autocomplete';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
 import {
 	buildRegisterUrl,
 	getPlanApiOrigin,
-	handleSubmitBody,
 	isPlanApiConfigured,
-	placeSubmitBody,
 	submitPreview,
 	viewPreview,
 	websiteSubmitBody,
 } from '../preview/previewClient';
 import { clearPreviewSlugCookie, readPreviewSlugCookie, setPreviewSlugCookie } from '../preview/previewCookie';
-import { PLATFORMS, readHandle, readPlaceId, readWebsite } from '../preview/previewInput';
+import { readWebsite } from '../preview/previewInput';
+import {
+	canShowReadyCard,
+	readyBrandName,
+	sanitizeTagline,
+	websiteFieldDecision,
+} from '../preview/previewReveal';
 import { nextPollDelayMs, waitCopyKey } from '../preview/previewWaitCopy';
 
-type Door = 'website' | 'place' | 'handle';
 type Phase = 'form' | 'wait' | 'ready' | 'failed' | 'down' | 'identity' | 'ceiling';
 
 type ReadyPayload = {
@@ -42,8 +44,6 @@ type ReadyPayload = {
 	};
 };
 
-const PLACES_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY_1 || '';
-
 function hex(color: string) {
 	const c = color.trim();
 	return c.startsWith('#') ? c : `#${c}`;
@@ -55,14 +55,8 @@ export function PreviewMagnet() {
 	const origin = useMemo(() => getPlanApiOrigin(), []);
 	const configured = isPlanApiConfigured(origin);
 
-	const [door, setDoor] = useState<Door>('website');
-	const [platform, setPlatform] = useState<string>('instagram');
 	const [submitting, setSubmitting] = useState(false);
 	const [website, setWebsite] = useState('');
-	const [handle, setHandle] = useState('');
-	const [placeId, setPlaceId] = useState('');
-	const [placeName, setPlaceName] = useState('');
-	const [email, setEmail] = useState('');
 	const [phase, setPhase] = useState<Phase>(configured ? 'form' : 'down');
 	const [errorMessage, setErrorMessage] = useState(configured ? '' : m.down);
 	const [slug, setSlug] = useState('');
@@ -74,7 +68,6 @@ export function PreviewMagnet() {
 	const tickTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 	const startedAt = useRef(0);
 	const cancelled = useRef(false);
-	const emailSent = useRef(false);
 
 	useEffect(() => {
 		const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -117,19 +110,33 @@ export function PreviewMagnet() {
 		}, reduceMotion ? 1000 : 500);
 	};
 
+	const refuseNamelessReady = useCallback(() => {
+		stopWaitClock();
+		clearPreviewSlugCookie();
+		setReady(null);
+		setSlug('');
+		setPhase('failed');
+		setErrorMessage(m.failed);
+	}, [m.failed]);
+
 	const onReady = useCallback(
 		(nextSlug: string, body: ReadyPayload['brand'] extends infer B ? { brand?: B; content?: ReadyPayload['content'] } : never) => {
+			const brand = (body && body.brand) || {};
+			if (!canShowReadyCard(brand)) {
+				refuseNamelessReady();
+				return;
+			}
 			stopWaitClock();
 			setSlug(nextSlug);
 			setPreviewSlugCookie(nextSlug);
 			setReady({
 				slug: nextSlug,
-				brand: (body && body.brand) || {},
+				brand,
 				content: (body && body.content) || { kind: 'brand-only', posts: [] },
 			});
 			setPhase('ready');
 		},
-		[],
+		[refuseNamelessReady],
 	);
 
 	const poll = useCallback(
@@ -148,7 +155,6 @@ export function PreviewMagnet() {
 				return;
 			}
 			if (result.kind === 'missing' || result.kind === 'down') {
-				// Keep polling through a brief blip; after the long ladder we still poll.
 				if (result.kind === 'missing' && attempt > 8) {
 					stopWaitClock();
 					setPhase('failed');
@@ -163,11 +169,6 @@ export function PreviewMagnet() {
 		[origin, onReady, m.failed],
 	);
 
-	// A visitor who submits, is told they can leave, and comes back would
-	// otherwise land on an empty form while their finished preview sits on the
-	// server unreachable. The cookie was already being written; nothing ever
-	// read it. This is the difference between a 15-minute envelope being
-	// survivable and being a dead end.
 	useEffect(() => {
 		if (!configured) return;
 		const saved = readPreviewSlugCookie();
@@ -187,8 +188,6 @@ export function PreviewMagnet() {
 				void poll(saved, 0);
 				return;
 			}
-			// Failed, missing, or the row expired — do not strand the visitor on
-			// a stale id they cannot see or clear.
 			if (result.kind === 'failed' || result.kind === 'missing') {
 				clearPreviewSlugCookie();
 			}
@@ -196,8 +195,6 @@ export function PreviewMagnet() {
 		return () => {
 			live = false;
 		};
-		// Runs once. Re-running on every poll identity change would restart the
-		// resume against a slug we are already polling.
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -205,7 +202,6 @@ export function PreviewMagnet() {
 		setSlug(nextSlug);
 		setPreviewSlugCookie(nextSlug);
 		if (status === 'ready') {
-			// POST replay of an already-ready row: still GET to load brand/content.
 			setPhase('wait');
 			startWaitClock();
 			void poll(nextSlug, 0);
@@ -228,52 +224,21 @@ export function PreviewMagnet() {
 			setErrorMessage(m.down);
 			return;
 		}
-		setErrorMessage('');
 
-		// Read the field here so a bad value costs an inline message instead of
-		// a round trip and a server refusal that names no field.
-		let body: Record<string, string> = { locale: lang };
-		if (door === 'website') {
-			const read = readWebsite(website);
-			if (!read.ok) {
-				if (read.reason === 'is_social' && read.platform) {
-					setPlatform(read.platform);
-					setDoor('handle');
-					setHandle(website.trim());
-					setWebsite('');
-					setErrorMessage(m.movedToHandle);
-					return;
-				}
-				setErrorMessage(m.badWebsite);
-				return;
-			}
-			body = { ...websiteSubmitBody({ website: read.website, email, locale: lang }) };
-		} else if (door === 'place') {
-			const read = readPlaceId(placeId);
-			if (!read.ok) {
-				setErrorMessage(m.pickListing);
-				return;
-			}
-			body = { ...placeSubmitBody({ placeId: read.placeId, businessName: placeName, email, locale: lang }) };
-		} else {
-			const read = readHandle(handle, platform);
-			if (!read.ok) {
-				setErrorMessage(read.reason === 'is_website' ? m.movedToWebsite : m.badHandle);
-				if (read.reason === 'is_website') {
-					setDoor('website');
-					setWebsite(handle.trim());
-					setHandle('');
-				}
-				return;
-			}
-			// The platform is the whole reason this door used to fail: the server
-			// will not guess it, and we were not sending it.
-			body = { ...handleSubmitBody({ handle: read.handle, platform: read.platform, email, locale: lang }) };
+		const read = readWebsite(website);
+		const decision = websiteFieldDecision(read);
+		if (decision.kind === 'refuse_social') {
+			setErrorMessage(m.socialLinkRefuse);
+			return;
+		}
+		if (decision.kind === 'refuse_website') {
+			setErrorMessage(m.badWebsite);
+			return;
 		}
 
-		emailSent.current = Boolean(email.trim());
+		setErrorMessage('');
 		setSubmitting(true);
-		const result = await submitPreview(origin, body);
+		const result = await submitPreview(origin, websiteSubmitBody({ website: decision.website, locale: lang }));
 		setSubmitting(false);
 		if (result.ok && result.body && result.body.slug) {
 			beginWait(result.body.slug, result.body.status);
@@ -293,13 +258,6 @@ export function PreviewMagnet() {
 		setErrorMessage((result.body && result.body.message) || m.down);
 	};
 
-	const sendOptionalEmail = async () => {
-		if (!slug || !email.trim() || emailSent.current) return;
-		emailSent.current = true;
-		// Replay POST — does not block the reveal. Server will not generate again.
-		void submitPreview(origin, { email: email.trim(), locale: lang, website, placeId, handle, businessName: placeName });
-	};
-
 	const reset = () => {
 		stopWaitClock();
 		setPhase(configured ? 'form' : 'down');
@@ -307,59 +265,15 @@ export function PreviewMagnet() {
 		setReady(null);
 		setSlug('');
 		setElapsedMs(0);
-		emailSent.current = false;
 	};
 
 	const waitKey = waitCopyKey(elapsedMs);
 	const waitText = waitKey === 'waitLeave' ? m.waitLeave : waitKey === 'waitLonger' ? m.waitLonger : m.waitCalm;
 
-	// Everything below already arrives in the payload and none of it was being
-	// rendered: the reveal showed a name, a tagline and three swatches, then a
-	// list of "Sample posts" that were not posts at all — the server composes
-	// them from the facts it read (the name, the URL, the address, the category
-	// word), because inventing captions for a stranger's brand is the one thing
-	// previewCompose refuses to do. Showing a business its own URL back as a
-	// "sample post" is the weakest possible version of a strong read.
+	const brandName = readyBrandName(ready?.brand);
+	const descriptor = sanitizeTagline(ready?.brand.tagline);
 	const colors = (ready?.brand.colors || []).filter(Boolean).slice(0, 6);
-	const products = (ready?.brand.products || []).filter(Boolean).slice(0, 8);
-	const facts: [string, string][] = ready
-		? ([
-				[m.factCategory, ready.brand.category || ''],
-				[m.factAddress, ready.brand.address || ''],
-				[
-					m.factSource,
-					ready.brand.website ||
-						(ready.brand.handle
-							? `@${ready.brand.handle}${ready.brand.handlePlatform ? ` · ${ready.brand.handlePlatform}` : ''}`
-							: ''),
-				],
-			] as [string, string][]).filter(([, v]) => Boolean(v))
-		: [];
-	const readCount = colors.length + products.length + facts.length;
-
-	const selectDoor = (id: Door) => {
-		setDoor(id);
-		// A refusal belongs to the field that caused it. Carrying it across
-		// doors tells the visitor their website is malformed when what failed
-		// was a handle they have already abandoned.
-		setErrorMessage('');
-		if (phase === 'identity' || phase === 'failed') setPhase('form');
-	};
-
-	const doorBtn = (id: Door, label: string) => (
-		<button
-			type="button"
-			onClick={() => selectDoor(id)}
-			aria-pressed={door === id}
-			className={`rounded-full px-3 py-1.5 text-[12px] font-medium tracking-[0.2px] transition-colors ${
-				door === id
-					? 'bg-[var(--orange)] text-white'
-					: 'border border-[var(--border2)] bg-transparent text-[var(--text)] hover:border-[var(--purple)]'
-			}`}
-		>
-			{label}
-		</button>
-	);
+	const showReadyCard = phase === 'ready' && ready && canShowReadyCard(ready.brand);
 
 	const fieldClass =
 		'w-full rounded-lg border border-[var(--border2)] bg-[var(--bg)] px-3 py-2.5 text-[14px] text-[var(--text)] outline-none focus:border-[var(--orange)]';
@@ -371,95 +285,17 @@ export function PreviewMagnet() {
 		>
 			{phase !== 'ready' && phase !== 'wait' && (
 				<form onSubmit={onSubmit} className="flex flex-col gap-3">
-					<div className="flex flex-wrap gap-2" role="tablist" aria-label={m.doorsLabel}>
-						{doorBtn('website', m.doorWebsite)}
-						{/* Places needs a browser key. Without one the door renders a line of
-						    apology and no input, so it is a tab that can only waste a click. */}
-						{PLACES_KEY ? doorBtn('place', m.doorPlace) : null}
-						{doorBtn('handle', m.doorHandle)}
-					</div>
-
-					{door === 'website' && (
-						// type="text", not type="url": the browser's url validator demands a
-						// scheme, so `yourbusiness.com` — how nearly everyone types it — was
-						// blocked before it could be sent. The server adds the scheme itself.
-						<input
-							type="text"
-							inputMode="url"
-							name="website"
-							autoComplete="url"
-							placeholder={m.websitePlaceholder}
-							value={website}
-							onChange={(e) => setWebsite(e.target.value)}
-							className={fieldClass}
-							required
-						/>
-					)}
-
-					{door === 'place' &&
-						(PLACES_KEY ? (
-							<Autocomplete
-								apiKey={PLACES_KEY}
-								className={fieldClass}
-								placeholder={m.placePlaceholder}
-								options={{ types: ['establishment'] }}
-								onPlaceSelected={(place) => {
-									setPlaceId(place?.place_id || '');
-									setPlaceName(place?.name || place?.formatted_address || '');
-									setErrorMessage('');
-								}}
-							/>
-						) : (
-							<p className="text-[13px] text-[var(--text)]">{m.placeUnavailable}</p>
-						))}
-
-					{/* Typing a name is not choosing a listing — only a selection carries the
-					    place id the server keys on. Showing the pick back is the only way the
-					    visitor can tell the difference. */}
-					{door === 'place' && PLACES_KEY && (
-						<p className="text-[12px] leading-snug text-[var(--text)] opacity-80">
-							{placeId ? `${m.listingPicked} ${placeName}` : m.listingHint}
-						</p>
-					)}
-
-					{door === 'handle' && (
-						<>
-							<input
-								type="text"
-								name="handle"
-								autoCapitalize="none"
-								autoCorrect="off"
-								spellCheck={false}
-								placeholder={m.handlePlaceholder}
-								value={handle}
-								onChange={(e) => setHandle(e.target.value)}
-								className={fieldClass}
-								required
-							/>
-							{/* The server refuses to guess which platform a bare handle belongs
-							    to — guessing points a stranger at someone else's account. It
-							    therefore needs to be asked. Paste a profile URL and the parser
-							    reads the platform from it, so these chips are the fallback. */}
-							<div className="flex flex-wrap items-center gap-2">
-								<span className="text-[12px] text-[var(--text)] opacity-80">{m.platformLabel}</span>
-								{PLATFORMS.map((p) => (
-									<button
-										key={p}
-										type="button"
-										onClick={() => setPlatform(p)}
-										aria-pressed={platform === p}
-										className={`rounded-full px-2.5 py-1 text-[11px] font-medium capitalize transition-colors ${
-											platform === p
-												? 'bg-[var(--purple)] text-white'
-												: 'border border-[var(--border2)] text-[var(--text)] hover:border-[var(--purple)]'
-										}`}
-									>
-										{p}
-									</button>
-								))}
-							</div>
-						</>
-					)}
+					<input
+						type="text"
+						inputMode="url"
+						name="website"
+						autoComplete="url"
+						placeholder={m.websitePlaceholder}
+						value={website}
+						onChange={(e) => setWebsite(e.target.value)}
+						className={fieldClass}
+						required
+					/>
 
 					{errorMessage && (
 						<p role="alert" className="text-[13px] leading-snug text-[var(--orange)]">
@@ -481,46 +317,15 @@ export function PreviewMagnet() {
 				<div className="flex flex-col gap-3 py-2" aria-live="polite">
 					<p className="text-[15px] font-medium text-[var(--text)]">{waitText}</p>
 					{!reduceMotion && (
-						<div
-							aria-hidden
-							className="h-1 w-full overflow-hidden rounded-full bg-[var(--border2)]"
-						>
+						<div aria-hidden className="h-1 w-full overflow-hidden rounded-full bg-[var(--border2)]">
 							<div className="h-full w-1/3 animate-pulse rounded-full bg-[var(--orange)]" />
 						</div>
 					)}
-
-					{/* The one thing that survives someone closing the tab. The email
-					    field used to appear only AFTER the reveal, so every visitor who
-					    took the copy's advice and left during the wait was lost with
-					    nothing recorded. */}
-					<label className="flex flex-col gap-1 text-[13px] text-[var(--text)]">
-						<span>{m.waitEmailLabel}</span>
-						<div className="flex gap-2">
-							<input
-								type="email"
-								name="email"
-								autoComplete="email"
-								placeholder={m.emailPlaceholder}
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								className={fieldClass}
-							/>
-							<button
-								type="button"
-								onClick={() => void sendOptionalEmail()}
-								disabled={!email.trim() || emailSent.current}
-								className="shrink-0 rounded-lg border border-[var(--border2)] px-3 text-[13px] font-semibold text-[var(--text)] transition-colors hover:border-[var(--orange)] disabled:cursor-not-allowed disabled:opacity-50"
-							>
-								{m.waitEmailSend}
-							</button>
-						</div>
-					</label>
-
 					<p className="text-[12px] leading-snug text-[var(--text)] opacity-70">{m.waitReturn}</p>
 				</div>
 			)}
 
-			{phase === 'ready' && ready && (
+			{showReadyCard && ready && (
 				<div className="flex flex-col gap-5">
 					<div className="flex items-start gap-3">
 						{ready.brand.logoUrl && (
@@ -537,96 +342,29 @@ export function PreviewMagnet() {
 						<div className="min-w-0">
 							<p className="text-[11px] uppercase tracking-[1px] text-[var(--orange)]">{m.revealEyebrow}</p>
 							<h2 className="mt-1 text-[22px] font-bold leading-tight tracking-[-0.03em] text-[var(--text)]">
-								{ready.brand.name || m.unnamedBrand}
+								{brandName}
 							</h2>
-							{ready.brand.tagline && (
-								<p className="mt-1 text-[14px] leading-snug text-[var(--text)] opacity-90">{ready.brand.tagline}</p>
-							)}
+							{descriptor ? (
+								<p className="mt-1 text-[14px] leading-snug text-[var(--text)] opacity-90">{descriptor}</p>
+							) : null}
 						</div>
 					</div>
 
-					{facts.length > 0 && (
-						<dl className="flex flex-col gap-0 overflow-hidden rounded-lg border border-[var(--border2)]">
-							{facts.map(([label, value], i) => (
-								<div
-									key={label}
-									className={`grid grid-cols-[92px_minmax(0,1fr)] gap-3 px-3 py-2 text-[13px] ${
-										i ? 'border-t border-[var(--border2)]' : ''
-									}`}
-								>
-									<dt className="text-[11px] uppercase tracking-[0.6px] text-[var(--text)] opacity-60">{label}</dt>
-									<dd className="m-0 break-words capitalize text-[var(--text)]">{value}</dd>
-								</div>
-							))}
-						</dl>
-					)}
+					{!descriptor ? (
+						<p className="text-[13px] leading-snug text-[var(--text)] opacity-80">{m.readThin}</p>
+					) : null}
 
 					{colors.length > 0 && (
-						<div>
-							<p className="mb-2 text-[11px] uppercase tracking-[1px] text-[var(--text)] opacity-60">{m.colorsLabel}</p>
-							<div className="flex flex-wrap gap-2">
-								{colors.map((c) => (
-									<span key={c} className="flex items-center gap-1.5 rounded-full border border-[var(--border2)] py-1 pl-1 pr-2.5">
-										<span
-											className="h-5 w-5 rounded-full border border-[var(--border2)]"
-											style={{ background: hex(c) }}
-										/>
-										<span className="font-mono text-[11px] uppercase text-[var(--text)] opacity-80">{hex(c)}</span>
-									</span>
-								))}
-							</div>
-						</div>
-					)}
-
-					{products.length > 0 && (
-						<div>
-							<p className="mb-2 text-[11px] uppercase tracking-[1px] text-[var(--text)] opacity-60">{m.productsLabel}</p>
-							<div className="flex flex-wrap gap-1.5">
-								{products.map((item) => (
-									<span
-										key={item}
-										className="rounded-md border border-[var(--border2)] bg-[var(--bg)] px-2 py-1 text-[12px] text-[var(--text)]"
-									>
-										{item}
-									</span>
-								))}
-							</div>
-						</div>
-					)}
-
-					{/* The honest bridge. What the visitor has seen is a READ, not the
-					    product — and saying so is what makes the next line credible. The
-					    old copy oversold the read as "your brand" and then had nothing
-					    to follow it with. */}
-					<div className="rounded-lg border border-[var(--border2)] bg-[var(--bg)] px-3.5 py-3">
-						<p className="text-[13px] font-semibold leading-snug text-[var(--text)]">
-							{readCount > 0 ? m.readSummary : m.readThin}
-						</p>
-						<p className="mt-1.5 text-[13px] leading-snug text-[var(--text)] opacity-85">{m.nextUp}</p>
-						<ul className="mt-2 flex flex-col gap-1 text-[13px] leading-snug text-[var(--text)] opacity-85">
-							{m.nextItems.map((item: string) => (
-								<li key={item} className="flex gap-2">
-									<span aria-hidden className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-[var(--orange)]" />
-									<span>{item}</span>
-								</li>
+						<div className="flex flex-wrap gap-1.5" aria-hidden>
+							{colors.map((c) => (
+								<span
+									key={c}
+									className="h-2.5 w-2.5 rounded-full border border-[var(--border2)]"
+									style={{ background: hex(c) }}
+								/>
 							))}
-						</ul>
-					</div>
-
-					<label className="flex flex-col gap-1 text-[13px] text-[var(--text)]">
-						<span>{m.emailLabel}</span>
-						<input
-							type="email"
-							name="email"
-							autoComplete="email"
-							placeholder={m.emailPlaceholder}
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-							onBlur={() => void sendOptionalEmail()}
-							className={fieldClass}
-						/>
-						<span className="text-[12px] opacity-80">{m.emailHint}</span>
-					</label>
+						</div>
+					)}
 
 					<a
 						href={signupHref}

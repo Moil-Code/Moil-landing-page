@@ -21,41 +21,48 @@ const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 const client = require('../app/business/preview/previewClient');
 const wait = require('../app/business/preview/previewWaitCopy');
 const cookie = require('../app/business/preview/previewCookie');
+const reveal = require('../app/business/preview/previewReveal');
+const input = require('../app/business/preview/previewInput');
 
 const MAGNET_KEYS = [
-	'doorsLabel',
-	'doorWebsite',
-	'doorPlace',
-	'doorHandle',
 	'websitePlaceholder',
-	'placePlaceholder',
-	'placeUnavailable',
-	'handlePlaceholder',
 	'submit',
+	'submitting',
 	'waitCalm',
 	'waitLeave',
 	'waitLonger',
+	'waitReturn',
 	'down',
 	'identityFail',
 	'ceiling',
 	'failed',
-	'emailLabel',
-	'emailPlaceholder',
-	'emailHint',
 	'startFree',
 	'tryAgain',
-	'colorsLabel',
-	'productsLabel',
-	'platformLabel',
 	'badWebsite',
-	'badHandle',
-	'pickListing',
-	'submitting',
-	'waitEmailLabel',
-	'waitReturn',
+	'socialLinkRefuse',
 	'revealEyebrow',
-	'unnamedBrand',
+	'readThin',
 ];
+
+const KILLED_PROMISE_EN = [
+	'This is what Moil picked up in one pass, without you filling in a form.',
+	'Inside, it asks you a few questions and turns this into the work:',
+	'A study of your local market and who you are competing with',
+	'A business plan built from your numbers, not a template',
+	'A month of posts in your voice, with the images made for you',
+	'Flyers, documents and decks whenever you ask for them',
+];
+
+const KILLED_PROMISE_ES = [
+	'Esto es lo que Moil captó de una sola pasada, sin que llenaras un formulario.',
+	'Adentro te hace unas preguntas y convierte esto en el trabajo:',
+	'Un estudio de tu mercado local y de con quién compites',
+	'Un plan de negocios hecho con tus números, no una plantilla',
+	'Un mes de publicaciones con tu voz, con las imágenes ya hechas',
+	'Volantes, documentos y presentaciones cuando los pidas',
+];
+
+const HONEST_MISS = 'We found that profile, but we do not have the shop name yet. Paste the website.';
 
 describe('preview client — origin and URLs', () => {
 	it('unset origin is not configured and submit/view URLs are null', () => {
@@ -211,6 +218,7 @@ describe('structural refusals', () => {
 		'app/business/preview/previewClient.js',
 		'app/business/preview/previewWaitCopy.js',
 		'app/business/preview/previewCookie.js',
+		'app/business/preview/previewReveal.js',
 		'app/business/components/PreviewMagnet.tsx',
 		'app/business/sections/HeroSection.tsx',
 		'.env.example',
@@ -282,13 +290,142 @@ describe('structural refusals', () => {
 		}
 	});
 
-	it('Places reuses KEY_1 and the rewrite is not a model route', () => {
+	it('Places stays hidden and the rewrite is not a model route', () => {
 		const magnet = read('app/business/components/PreviewMagnet.tsx');
-		assert.match(magnet, /NEXT_PUBLIC_GOOGLE_API_KEY_1/);
+		assert.doesNotMatch(magnet, /doorBtn\('place'/);
+		assert.doesNotMatch(magnet, /react-google-autocomplete/);
 		assert.doesNotMatch(magnet, /GOOGLE_API_KEY_2/);
 		const cfg = read('next.config.js');
 		assert.match(cfg, /source: "\/plan\/preview"/);
 		assert.doesNotMatch(cfg, /gemini/i);
 		assert.doesNotMatch(cfg, /generative/i);
+	});
+});
+
+describe('tagline sanitizer', () => {
+	it('omits interstitial and bot-check copy, including Taste On Main', () => {
+		assert.equal(reveal.sanitizeTagline('Verifying your access.'), '');
+		assert.equal(reveal.sanitizeTagline('Verifying your access'), '');
+		assert.equal(reveal.sanitizeTagline('Just a moment…'), '');
+		assert.equal(reveal.sanitizeTagline('Checking your browser'), '');
+		assert.equal(reveal.sanitizeTagline('Attention Required'), '');
+		assert.equal(reveal.sanitizeTagline('Enable JavaScript to continue'), '');
+		assert.equal(reveal.sanitizeTagline('Cloudflare'), '');
+		assert.equal(reveal.sanitizeTagline('DDoS protection by Cloudflare'), '');
+		assert.equal(reveal.sanitizeTagline('Please wait'), '');
+	});
+
+	it('omits our SEO junk, empty/whitespace, and a single raw URL', () => {
+		assert.equal(reveal.sanitizeTagline('AI Marketing for Small Business'), '');
+		assert.equal(reveal.sanitizeTagline('AI co-founder'), '');
+		assert.equal(reveal.sanitizeTagline('Moil360'), '');
+		assert.equal(reveal.sanitizeTagline('Stop Wearing Every Hat'), '');
+		assert.equal(reveal.sanitizeTagline("You're the marketing team"), '');
+		assert.equal(reveal.sanitizeTagline('  '), '');
+		assert.equal(reveal.sanitizeTagline(''), '');
+		assert.equal(reveal.sanitizeTagline('https://tasteonmain.com'), '');
+		assert.equal(reveal.sanitizeTagline('www.tasteonmain.com'), '');
+	});
+
+	it('keeps a real shop descriptor', () => {
+		assert.equal(reveal.sanitizeTagline('Scratch cooking on Main Street'), 'Scratch cooking on Main Street');
+	});
+});
+
+describe('website-only door — no handle generate', () => {
+	it('does not render the Social handle chip or Places chip', () => {
+		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		assert.doesNotMatch(magnet, /doorBtn\('handle'/);
+		assert.doesNotMatch(magnet, /m\.doorHandle/);
+		assert.doesNotMatch(magnet, /name="handle"/);
+		assert.doesNotMatch(magnet, /doorBtn\('place'/);
+		assert.doesNotMatch(magnet, /PLATFORMS\.map/);
+	});
+
+	it('a social URL in the website field stops; it does not start a handle generate', () => {
+		const urls = [
+			'https://instagram.com/tasteonmain',
+			'https://www.facebook.com/tasteonmain',
+			'https://tiktok.com/@tasteonmain',
+			'https://www.linkedin.com/company/tasteonmain',
+		];
+		for (const url of urls) {
+			const readResult = input.readWebsite(url);
+			const decision = reveal.websiteFieldDecision(readResult);
+			assert.equal(decision.kind, 'refuse_social', url);
+			assert.notEqual(decision.kind, 'submit', url);
+		}
+
+		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		assert.match(magnet, /websiteFieldDecision/);
+		assert.match(magnet, /socialLinkRefuse/);
+		assert.doesNotMatch(magnet, /setDoor\('handle'\)/);
+		assert.doesNotMatch(magnet, /handleSubmitBody/);
+		assert.doesNotMatch(magnet, /readHandle\(/);
+		assert.doesNotMatch(magnet, /movedToHandle/);
+		assert.doesNotMatch(magnet, /placeSubmitBody/);
+	});
+
+	it('does not show the handle honest-miss copy', () => {
+		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		const en = read('src/common/translations/en.ts');
+		const es = read('src/common/translations/es.ts');
+		assert.doesNotMatch(magnet, /handleNoName/);
+		assert.equal(magnet.includes(HONEST_MISS), false);
+		assert.equal(en.includes(HONEST_MISS), false);
+		assert.doesNotMatch(es, /todavía no tenemos el nombre del negocio/);
+	});
+});
+
+describe('ready card v1 locks', () => {
+	it('empty brand name does not ready-card, and never titles as Your business', () => {
+		assert.equal(reveal.canShowReadyCard({ name: '' }), false);
+		assert.equal(reveal.canShowReadyCard({ name: '   ' }), false);
+		assert.equal(reveal.canShowReadyCard({ name: 'Taste On Main' }), true);
+		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		assert.doesNotMatch(magnet, /unnamedBrand/);
+		assert.doesNotMatch(magnet, /Your business/);
+		assert.match(magnet, /canShowReadyCard/);
+	});
+
+	it('promise list strings are gone from the card and magnet i18n', () => {
+		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		const en = read('src/common/translations/en.ts');
+		const es = read('src/common/translations/es.ts');
+		const enMagnet = en.slice(en.indexOf('magnet: {'), en.indexOf('aeoAnswer:'));
+		const esMagnet = es.slice(es.indexOf('magnet: {'), es.indexOf('aeoAnswer:'));
+		for (const phrase of KILLED_PROMISE_EN) {
+			assert.equal(magnet.includes(phrase), false, phrase);
+			assert.equal(enMagnet.includes(phrase), false, phrase);
+		}
+		for (const phrase of KILLED_PROMISE_ES) {
+			assert.equal(magnet.includes(phrase), false, phrase);
+			assert.equal(esMagnet.includes(phrase), false, phrase);
+		}
+		assert.doesNotMatch(magnet, /nextItems/);
+		assert.doesNotMatch(magnet, /readSummary/);
+		assert.doesNotMatch(magnet, /brandOnly/);
+		assert.doesNotMatch(enMagnet, /nextItems/);
+		assert.doesNotMatch(esMagnet, /nextItems/);
+	});
+
+	it('hex is used for swatch colour only — not rendered as text', () => {
+		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		assert.match(magnet, /style=\{\{ background: hex\(c\) \}\}/);
+		assert.doesNotMatch(magnet, />\{hex\(c\)\}</);
+		assert.doesNotMatch(magnet, /font-mono[^>]*>\{hex/);
+	});
+
+	it('no email field on ready or wait', () => {
+		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		assert.doesNotMatch(magnet, /type="email"/);
+		assert.doesNotMatch(magnet, /waitEmailLabel/);
+		assert.doesNotMatch(magnet, /emailLabel/);
+		assert.doesNotMatch(magnet, /sendOptionalEmail/);
+		const waitStart = magnet.indexOf("{phase === 'wait'");
+		const waitEnd = magnet.indexOf('{showReadyCard && ready');
+		assert.ok(waitStart > 0 && waitEnd > waitStart, 'wait block not found');
+		const waitBlock = magnet.slice(waitStart, waitEnd);
+		assert.doesNotMatch(waitBlock, /email/i);
 	});
 });
