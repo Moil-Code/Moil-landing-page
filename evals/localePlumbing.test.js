@@ -62,11 +62,12 @@ describe('path locale contract', () => {
 
 	it('the shared helper in source matches this contract', () => {
 		const src = read('src/common/i18n/pathLocale.ts');
+		const code = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 		assert.match(src, /path === '\/es' \|\| path\.startsWith\('\/es\/'\)/);
 		assert.match(src, /function documentLocaleFromPathname/);
 		assert.match(src, /function langCookieValue/);
 		assert.match(src, /HTML_LANG_HEADER = 'x-html-lang'/);
-		assert.doesNotMatch(src, /accept-language/i);
+		assert.doesNotMatch(code, /accept-language|acceptLang/i);
 	});
 });
 
@@ -88,8 +89,8 @@ describe('first-paint document language', () => {
 		assert.match(src, /Content-Language/);
 		assert.match(src, /cookies\.set\('lang', cookieLang/);
 		assert.match(src, /HTML_LANG_HEADER/);
-		assert.doesNotMatch(src, /accept-language/i);
-		assert.doesNotMatch(src, /acceptLang/);
+		const code = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+		assert.doesNotMatch(code, /accept-language|acceptLang/i);
 	});
 
 	it('next.config also sends Content-Language: es on /es and /es/*', () => {
