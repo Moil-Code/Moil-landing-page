@@ -126,6 +126,18 @@ describe('ES pricing first screen', () => {
 });
 
 describe('this PR stays inside S1', () => {
+	it('pricing page files only default-export a page', () => {
+		for (const file of ['app/business/pricing/page.tsx', 'app/es/business/pricing/page.tsx']) {
+			const src = read(file);
+			assert.match(src, /export default function/, file);
+			assert.doesNotMatch(src, /^export function /m, `${file} must not export extra components`);
+		}
+		assert.ok(
+			fs.existsSync(path.join(root, 'app/business/pricing/BusinessPricingPageContent.tsx')),
+			'pricing content must live outside the page file',
+		);
+	});
+
 	it('magnet files are not in the diff', () => {
 		const names = gitDiff('--name-only')
 			.split('\n')
