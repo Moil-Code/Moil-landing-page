@@ -21,9 +21,9 @@ const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 function namedBlock(src, name) {
 	const start = src.indexOf(`    ${name}: {`);
 	assert.ok(start > 0, `missing ${name} block`);
-	let i = src.indexOf('\n', start);
+	const open = src.indexOf('{', start);
 	let depth = 0;
-	for (; i < src.length; i++) {
+	for (let i = open; i < src.length; i++) {
 		if (src[i] === '{') depth++;
 		if (src[i] === '}') {
 			depth--;
@@ -143,7 +143,10 @@ describe('this PR stays inside S1', () => {
 		assert.ok(!names.some((n) => n.startsWith('app/es/compare')), 'do not add /es/compare');
 		assert.ok(!names.some((n) => n.startsWith('app/es/ai-info')), 'do not add /es/ai-info');
 		assert.ok(!names.includes('public/llms.txt'), 'do not edit llms.txt');
-		const diff = gitDiff('.');
-		assert.doesNotMatch(diff, /employer-beta/);
+		const sources = names.filter((n) => !n.startsWith('evals/'));
+		for (const file of sources) {
+			if (!fs.existsSync(path.join(root, file))) continue;
+			assert.doesNotMatch(read(file), /employer-beta/, file);
+		}
 	});
 });
