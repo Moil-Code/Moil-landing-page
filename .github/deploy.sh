@@ -105,7 +105,16 @@ info "node $(node -v)  ·  yarn $(yarn -v)  ·  pm2 $(pm2 -v)"
 # byte-identical secret and be rewritten on a deploy that changed nothing.
 DEPLOY_ENV_TMP=""
 ENV_CHANGED=0
-cleanup_env_tmp() { [ -n "$DEPLOY_ENV_TMP" ] && rm -f "$DEPLOY_ENV_TMP"; }
+# The explicit `return 0` is load-bearing under `set -e`. When no ENV secret was
+# sent, DEPLOY_ENV_TMP is empty, so `[ -n "" ]` fails, the && short-circuits, and
+# that failure becomes the FUNCTION's status. bash runs this on EXIT, and under
+# `set -e` a trap whose last command fails overrides the status the script asked
+# for — so `exit 0` after a perfect deploy left the shell returning 1. SSM then
+# reported Failed, and the workflow printed "the deploy ran and failed … it has
+# already rolled back", none of which happened: the build, reload and health
+# check had all passed and the new commit was live. A green deploy that reports
+# red is worse than a red one, because the next real failure looks identical.
+cleanup_env_tmp() { [ -n "$DEPLOY_ENV_TMP" ] && rm -f "$DEPLOY_ENV_TMP"; return 0; }
 trap cleanup_env_tmp EXIT
 
 if [ -n "${DEPLOY_ENV_B64:-}" ]; then
