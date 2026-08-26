@@ -148,7 +148,7 @@ describe('this PR keeps EN and ES documents on their own paths', () => {
 		const enHero = en.slice(en.indexOf('    hero: {'), en.indexOf('    aeoAnswer: {'));
 		const esHero = es.slice(es.indexOf('    hero: {'), es.indexOf('    aeoAnswer: {'));
 		assert.match(enHero, /headline: 'You shouldn\\'t have to be everything on top of the real job\.'/);
-		assert.match(esHero, /headline: 'No te toca serlo todo adem\\u00e1s de atender el negocio\.'/);
+		assert.match(esHero, /headline: 'No deber\\u00edas tener que encargarte de todo, adem\\u00e1s de hacer el trabajo que realmente importa\.'/);
 		assert.match(
 			read('app/business/layout.tsx'),
 			/AI co-founder for small business owners \| Moil/,
