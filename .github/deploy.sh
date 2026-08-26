@@ -126,21 +126,38 @@ if [ -n "${DEPLOY_ENV_B64:-}" ]; then
 	# A decode yielding nothing would truncate a working env file to zero bytes.
 	[ -s "$DEPLOY_ENV_TMP" ] || die "ENV secret decoded to nothing — refusing to overwrite $ENV_FILE."
 
-	if [ ! -f "$ENV_FILE" ]; then
-		info "no existing $ENV_FILE — writing one from the ENV secret"
-		ENV_CHANGED=1
-	elif cmp -s "$DEPLOY_ENV_TMP" "$ENV_FILE"; then
+	if [ -f "$ENV_FILE" ] && cmp -s "$DEPLOY_ENV_TMP" "$ENV_FILE"; then
+		# Nothing to do, so nothing is done — the write used to run anyway, which
+		# meant an unwritable env file failed EVERY deploy after the first, on the
+		# path where the content had not changed at all.
 		info "$ENV_FILE already matches the ENV secret — left alone"
 	else
-		cp -p "$ENV_FILE" "$ENV_FILE.bak.$(date +%Y%m%d%H%M%S)"
-		info "existing $ENV_FILE backed up before rewrite"
+		# Writability is tested BEFORE the backup, and that order is the fix.
+		# `cat > "$ENV_FILE"` fails when the file is owned by another user — a past
+		# manual edit as root is the usual cause — while the DIRECTORY is still
+		# writable. So the backup succeeded, the write did not, and every failed run
+		# left another .bak behind. bash reports it as a bare
+		# `line N: .env: Permission denied`, naming neither the owner it needs nor
+		# the switch that turns this off.
+		if [ -f "$ENV_FILE" ]; then
+			[ -w "$ENV_FILE" ] || die "$ENV_FILE is not writable by $(id -un). Give it to the deploy user (sudo chown $(id -un) $APP_PATH/$ENV_FILE), or set the DEPLOY_WRITE_ENV repository variable to false. NOTHING was changed."
+			cp -p "$ENV_FILE" "$ENV_FILE.bak.$(date +%Y%m%d%H%M%S)" \
+				|| die "could not back up $ENV_FILE — refusing to overwrite it."
+			info "existing $ENV_FILE backed up before rewrite"
+		else
+			[ -w . ] || die "$APP_PATH is not writable by $(id -un), so $ENV_FILE cannot be created. NOTHING was changed."
+			info "no existing $ENV_FILE — writing one from the ENV secret"
+		fi
+		# `>` on an existing file keeps its old mode, so chmod is what makes 0600 a
+		# guarantee rather than something that happens to hold on a fresh box. The
+		# test above is necessary but not sufficient — a read-only mount or an ACL
+		# refuses a write that `-w` allows — so the write reports for itself too.
+		cat "$DEPLOY_ENV_TMP" > "$ENV_FILE" \
+			|| die "could not write $ENV_FILE. NOTHING else was changed."
+		chmod 600 "$ENV_FILE"
+		info "$ENV_FILE written from the ENV secret ($(wc -l < "$ENV_FILE") lines, mode $(stat -c '%a' "$ENV_FILE"))"
 		ENV_CHANGED=1
 	fi
-	# `>` on an existing file keeps its old mode, so chmod is what makes 0600 a
-	# guarantee rather than something that happens to hold on a fresh box.
-	cat "$DEPLOY_ENV_TMP" > "$ENV_FILE"
-	chmod 600 "$ENV_FILE"
-	info "$ENV_FILE written from the ENV secret ($(wc -l < "$ENV_FILE") lines, mode $(stat -c '%a' "$ENV_FILE"))"
 fi
 
 PREV_SHA="$(git rev-parse HEAD)"
