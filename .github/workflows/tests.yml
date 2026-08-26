@@ -1,0 +1,40 @@
+name: Tests
+
+# Callable by the deploy workflow (`uses: ./.github/workflows/tests.yml`) and
+# run on its own for every pull request. The deploy `needs:` this, so a red
+# suite means nothing reaches the server.
+on:
+  pull_request:
+  workflow_call:
+
+jobs:
+  test:
+    name: Offline eval suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+
+      # `yarn install --frozen-lockfile` — NOT `npm ci`. The committed
+      # package-lock.json is out of sync with package.json (missing
+      # caniuse-lite) and react 19 conflicts with lucide-react's declared peer
+      # range, so npm fails twice over. yarn.lock is in sync, and vercel.json
+      # already declares yarn as this project's install command.
+      # --frozen-lockfile REFUSES rather than quietly resolving a different
+      # tree, which is what makes CI test what production will build.
+      - name: Install
+        run: yarn install --frozen-lockfile
+
+      # The evals are offline and take under a second — no network, no build.
+      - name: Test
+        run: yarn test
+
+      # The build is the deploy's riskiest step and it is not covered by the
+      # evals, so it runs here too: a commit that cannot compile should fail on
+      # the PR rather than on the server, where the fallout is a rollback.
+      - name: Build
+        run: yarn build
