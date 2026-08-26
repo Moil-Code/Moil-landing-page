@@ -12,7 +12,17 @@ jobs:
     name: Offline eval suite
     runs-on: ubuntu-latest
     steps:
+      # fetch-depth: 0 is REQUIRED, not a nicety. evals/spanishDoor.test.js
+      # enforces the scope of a change by diffing the working tree against
+      # `origin/main` — and actions/checkout does a shallow, single-branch fetch
+      # by default, so neither `origin/main` nor a local `main` exists and the
+      # eval dies with `fatal: bad revision 'main'` before it can assert
+      # anything. That is a broken check, not a failing one: it would go red on
+      # every PR regardless of content. Fetching all refs is what lets it
+      # actually compare.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
