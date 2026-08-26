@@ -165,7 +165,7 @@ jobs:
           # A repository VARIABLE, not a secret — a loopback URL with nothing
           # sensitive in it, and masking it would hide the one value you need
           # to read when the health check fails.
-          HEALTH_URL: ${{ vars.DEPLOY_HEALTH_URL || 'http://127.0.0.1:3000/' }}
+          # HEALTH_URL: ${{ vars.DEPLOY_HEALTH_URL || 'http://127.0.0.1:51/' }}
           DEPLOY_ROLLBACK: ${{ vars.DEPLOY_ROLLBACK || '1' }}
           # Next reads .env.local; naming it here keeps the deploy and the
           # server's own convention from drifting apart silently.
