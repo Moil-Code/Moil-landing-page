@@ -10,6 +10,11 @@ npm run dev        # Start dev server (Next.js)
 npm run build      # Production build
 npm run start      # Start production server
 npm run lint       # Run ESLint
+npm test           # Offline eval suite (no network, no build)
+
+# SEO — needs a build running first: `npm run build && npm run start`
+npm run audit:seo  # Crawl the running build and fail on broken markup
+BASE=http://127.0.0.1:3100 npm run audit:seo   # against another port
 ```
 
 Package manager: `yarn` is used for installs (see `vercel.json`), but `npm` scripts work fine.
@@ -107,6 +112,44 @@ The rules, in order of importance:
 5. `/ai-info` tells assistants not to attribute reviews to Moil while none are
    published. Update that line when real ones exist.
 
+### The SEO audit is the gate on rendered output
+
+`npm run audit:seo` (`scripts/seo-audit.mjs`) boots the build and reads the HTML
+with **no JavaScript executed** — the way Googlebot, the Semrush crawler, and
+every social and AI crawler read it. CI runs it on every PR after the build.
+
+It exists because the Aug 2026 Semrush Site Audit found 131 errors that nothing
+in this repo could see. Every one was in generated output that compiled cleanly
+and looked correct in a browser:
+
+- Two `Offer` objects in the root layout had no `url` and no `priceValidUntil`,
+  so two invalid schema items shipped on **all 65 crawled pages**.
+- `LegalPage` rendered its title as a styled `<p>`, so eight compliance pages
+  had no `h1` and no `h2` at all.
+- Three pages declared `hreflang es -> <url>?lg=es`, a URL that self-canonicalises
+  back to the clean one and serves `lang="en"`.
+- Both footer legal links pointed at `/privacy`, leaving `/terms` and five other
+  pages with no incoming internal link anywhere on the site.
+
+The audit **fails the build** on: invalid or unparseable JSON-LD, a page with no
+`h1` or more than one, an `<img>` with no `alt`, and any hreflang cluster that is
+non-reciprocal, points at a URL that canonicalises elsewhere, or names a language
+the target does not serve.
+
+It **reports but never fails on** text-to-HTML ratio and word count. Those are
+largely a property of shipping a React app; gating on them produces noise nobody
+reads, and the one page that genuinely needs attention
+(`/candidate/searchjob`, 59 server-rendered words) is a product decision.
+
+Routes come from `/sitemap.xml` at runtime plus `/` and `/legacy`, so a new page
+is audited the day it is published rather than the day someone remembers to add
+it to a list. **A new schema `@type` with no rule is reported, not failed** —
+add it to `REQUIRED` in the script rather than letting it pass silently.
+
+Prices and offer bodies live in `src/common/seo/offers.ts` and nowhere else, for
+the same reason the Blog keeps positioning in `brand.ts`: they were hand-written
+in four files and had already drifted.
+
 ### Styling
 
 - Tailwind CSS with custom brand colors (`moil-navy`, `moil-blue`, `moil-orange`, `moil-green`) defined in `tailwind.config.js`
@@ -120,4 +163,25 @@ The rules, in order of importance:
 
 ### Deployment
 
-Deployed on Vercel. `vercel.json` sets install command to `yarn install`. TypeScript and ESLint build errors can be bypassed via `NEXT_PUBLIC_IGNORE_BUILD_ERROR=true` env var (see `next.config.js`).
+**Production is PM2 + nginx on an AWS instance, not Vercel.** `.github/workflows/deploy.yml`
+runs `.github/deploy.sh` over AWS SSM on every push to `main`; `ecosystem.config.js`
+is what actually decides how the app runs (`next start` under PM2, fork mode,
+port from `PORT`). Vercel is still connected and builds previews on PRs, which is
+why `vercel.json` exists and why a green Vercel check does **not** mean production
+updated — the `Deploy to server` workflow is the one that does that.
+
+This distinction matters for performance work: nginx on that host serves
+`/_next/static/**`, so anything about compression, HTTP/2 or caching of static
+assets is server config, not `next.config.js`. See
+`docs/performance-server-config.md` and the ready-to-apply
+`docs/nginx/moilapp-performance.conf`.
+
+Dependencies install with **yarn** (`yarn install --frozen-lockfile`), not `npm ci`
+— the committed `package-lock.json` is out of sync with `package.json` and React 19
+conflicts with `lucide-react`'s declared peer range, so npm fails twice over.
+Locally, `npm install --legacy-peer-deps` works; do not commit the lockfile churn
+it produces.
+
+TypeScript and ESLint build errors can be bypassed via `NEXT_PUBLIC_IGNORE_BUILD_ERROR=true`
+(see `next.config.js`) — though note Next 16 no longer reads the `eslint` key there
+and warns about it on every build.

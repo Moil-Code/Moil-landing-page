@@ -48,3 +48,39 @@ jobs:
       # the PR rather than on the server, where the fallout is a rollback.
       - name: Build
         run: yarn build
+
+      # Every defect in the Aug 2026 Semrush Site Audit was in RENDERED OUTPUT
+      # that compiled fine and looked right: two Offer objects missing required
+      # fields on all 65 pages, eight legal pages whose title was a styled <p>
+      # so they had no h1 at all, three hreflang tags pointing at URLs that
+      # canonicalise away. The evals could not see any of it and neither could
+      # the build. This step boots the build and reads the HTML the way a
+      # crawler does, with no JavaScript executed.
+      #
+      # It fails ONLY on the hard classes — invalid schema, missing/duplicate
+      # h1, images without alt, broken hreflang clusters. Thin-content signals
+      # are printed but never fail: they are a property of shipping a React app
+      # and gating on them would be noise nobody reads.
+      - name: SEO audit
+        run: |
+          # Actions runs this with `set -e`, so the audit's own non-zero exit is
+          # what fails the step. Cleanup therefore has to be a trap: anything
+          # written after the audit line would never run on the failing path,
+          # which is the path that matters.
+          PORT=3000 yarn start &
+          # Capture the pid NOW. `$!` inside the trap body would be resolved
+          # when the trap fires, by which point it names whatever background
+          # job ran last — or nothing.
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+
+          for i in $(seq 1 60); do
+            curl -sf -o /dev/null http://127.0.0.1:3000/business && break
+            sleep 2
+          done
+          # Fail with the real reason rather than letting the audit report 30
+          # unreachable pages when the server simply never came up.
+          curl -sf -o /dev/null http://127.0.0.1:3000/business \
+            || { echo "::error::next start never became ready on :3000"; exit 1; }
+
+          BASE=http://127.0.0.1:3000 yarn audit:seo
