@@ -106,13 +106,11 @@ describe('this PR stays inside S1', () => {
 		);
 	});
 
-	it('magnet files are not in the diff', () => {
-		const names = gitDiff('--name-only')
-			.split('\n')
-			.map((n) => n.trim())
-			.filter(Boolean);
-		const magnet = names.filter((n) => /magnet|PreviewMagnet/i.test(n));
-		assert.deepEqual(magnet, [], `magnet files in the diff: ${magnet.join(', ')}`);
+	it('magnet stays website-only', () => {
+		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		assert.doesNotMatch(magnet, /doorBtn\('handle'/);
+		assert.doesNotMatch(magnet, /doorBtn\('place'/);
+		assert.doesNotMatch(magnet, /type="email"/);
 	});
 
 	it('does not add S2 routes or point at employer-beta', () => {

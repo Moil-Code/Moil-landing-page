@@ -5,8 +5,6 @@ import { useLanguageContext } from '../../../src/common/components/I18nProvider'
 import { appendLangToUrl } from '../utils/appendLangToUrl';
 import {
 	buildRegisterUrl,
-	getPlanApiOrigin,
-	isPlanApiConfigured,
 	submitPreview,
 	viewPreview,
 	websiteSubmitBody,
@@ -52,13 +50,11 @@ function hex(color: string) {
 export function PreviewMagnet() {
 	const { t, lang } = useLanguageContext();
 	const m = t.business.hero.magnet;
-	const origin = useMemo(() => getPlanApiOrigin(), []);
-	const configured = isPlanApiConfigured(origin);
 
 	const [submitting, setSubmitting] = useState(false);
 	const [website, setWebsite] = useState('');
-	const [phase, setPhase] = useState<Phase>(configured ? 'form' : 'down');
-	const [errorMessage, setErrorMessage] = useState(configured ? '' : m.down);
+	const [phase, setPhase] = useState<Phase>('form');
+	const [errorMessage, setErrorMessage] = useState('');
 	const [slug, setSlug] = useState('');
 	const [ready, setReady] = useState<ReadyPayload | null>(null);
 	const [elapsedMs, setElapsedMs] = useState(0);
@@ -142,7 +138,7 @@ export function PreviewMagnet() {
 	const poll = useCallback(
 		async (nextSlug: string, attempt: number) => {
 			if (cancelled.current) return;
-			const result = await viewPreview(origin, nextSlug);
+			const result = await viewPreview(nextSlug);
 			if (cancelled.current) return;
 			if (result.kind === 'ready' && result.body) {
 				onReady(nextSlug, result.body);
@@ -166,16 +162,15 @@ export function PreviewMagnet() {
 				void poll(nextSlug, attempt + 1);
 			}, nextPollDelayMs(attempt));
 		},
-		[origin, onReady, m.failed],
+		[onReady, m.failed],
 	);
 
 	useEffect(() => {
-		if (!configured) return;
 		const saved = readPreviewSlugCookie();
 		if (!saved) return;
 		let live = true;
 		void (async () => {
-			const result = await viewPreview(origin, saved);
+			const result = await viewPreview(saved);
 			if (!live || cancelled.current) return;
 			if (result.kind === 'ready' && result.body) {
 				onReady(saved, result.body);
@@ -231,15 +226,9 @@ export function PreviewMagnet() {
 			return;
 		}
 
-		if (!isPlanApiConfigured(origin)) {
-			setPhase('down');
-			setErrorMessage(m.down);
-			return;
-		}
-
 		setErrorMessage('');
 		setSubmitting(true);
-		const result = await submitPreview(origin, websiteSubmitBody({ website: decision.website, locale: lang }));
+		const result = await submitPreview(websiteSubmitBody({ website: decision.website, locale: lang }));
 		setSubmitting(false);
 		if (result.ok && result.body && result.body.slug) {
 			beginWait(result.body.slug, result.body.status);
@@ -261,8 +250,8 @@ export function PreviewMagnet() {
 
 	const reset = () => {
 		stopWaitClock();
-		setPhase(configured ? 'form' : 'down');
-		setErrorMessage(configured ? '' : m.down);
+		setPhase('form');
+		setErrorMessage('');
 		setReady(null);
 		setSlug('');
 		setElapsedMs(0);

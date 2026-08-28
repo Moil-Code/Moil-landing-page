@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { Globe, Moon, Sun } from 'lucide-react';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
+import { getRegisterOrigin, getRegisterUrl } from '../preview/previewClient';
 
 export type NavItem = {
   label: string;
@@ -39,9 +40,9 @@ export function BusinessNav({
   logo,
   logoHref = '/business',
   ctaLabel = 'Get Started',
-  ctaHref = 'https://business.moilapp.com/register',
+  ctaHref = getRegisterUrl(),
   signinLabel = 'Log In',
-  signinHref = 'https://business.moilapp.com',
+  signinHref = getRegisterOrigin(),
   onLanguageChange,
   currentLang,
 }: BusinessNavProps) {

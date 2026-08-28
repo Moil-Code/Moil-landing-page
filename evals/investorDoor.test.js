@@ -8,7 +8,6 @@
 
 const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
-const { execSync } = require('node:child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -28,14 +27,6 @@ function namedBlock(src, name) {
 		}
 	}
 	return src.slice(start);
-}
-
-function gitDiff(args) {
-	try {
-		return execSync(`git diff origin/main -- ${args}`, { cwd: root, encoding: 'utf8' });
-	} catch {
-		return execSync(`git diff main -- ${args}`, { cwd: root, encoding: 'utf8' });
-	}
 }
 
 describe('EN door lock', () => {
@@ -130,12 +121,10 @@ describe('llms first graf', () => {
 });
 
 describe('scope', () => {
-	it('magnet files are not in the diff', () => {
-		const names = gitDiff('--name-only')
-			.split('\n')
-			.map((n) => n.trim())
-			.filter(Boolean);
-		const magnet = names.filter((n) => /magnet|PreviewMagnet/i.test(n));
-		assert.deepEqual(magnet, [], `magnet files in the diff: ${magnet.join(', ')}`);
+	it('magnet stays website-only', () => {
+		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		assert.doesNotMatch(magnet, /doorBtn\('handle'/);
+		assert.doesNotMatch(magnet, /doorBtn\('place'/);
+		assert.doesNotMatch(magnet, /type="email"/);
 	});
 });

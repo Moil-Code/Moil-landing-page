@@ -20,6 +20,7 @@ import { BusinessPricingSection } from '../components/BusinessPricingSection';
 import { useBusinessUi } from '../hooks/useBusinessUi';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
+import { getRegisterUrl } from '../preview/previewClient';
 
 export function BusinessPricingPageContent() {
   const { theme, toggleTheme, menuOpen, setMenuOpen, scrolled } = useBusinessUi();
@@ -110,7 +111,7 @@ export function BusinessPricingPageContent() {
             <div className="pricing-page-actions">
               <a
                 className="btn-primary btn-wave"
-                href={appendLangToUrl('https://business.moilapp.com/register', currentLang)}
+                href={appendLangToUrl(getRegisterUrl(), currentLang)}
                 target="_blank"
                 rel="noreferrer"
               >

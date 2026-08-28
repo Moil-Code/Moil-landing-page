@@ -16,6 +16,7 @@ import { DemoVideoSection } from './components/DemoVideoSection';
 import { useBusinessUi } from './hooks/useBusinessUi';
 import { useLanguageContext } from '../../src/common/components/I18nProvider';
 import { appendLangToUrl } from './utils/appendLangToUrl';
+import { getRegisterUrl } from './preview/previewClient';
 import { IconMap, testimonialImages } from './sections/iconMap';
 import { HeroSection } from './sections/HeroSection';
 
@@ -316,7 +317,7 @@ export function BusinessPageContent() {
                 <a
                   className="btn-primary"
                   style={{ width: '100%', justifyContent: 'center' }}
-                  href={appendLangToUrl("https://business.moilapp.com/register", currentLang)}
+                  href={appendLangToUrl(getRegisterUrl(), currentLang)}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -454,7 +455,7 @@ export function BusinessPageContent() {
                   </p>
                 </div>
                 </ProductShot>
-                <a className="btn-secondary btn-wave" style={{ marginTop: '18px', width: '100%', justifyContent: 'center' }} href={appendLangToUrl("https://business.moilapp.com/register", currentLang)} target="_blank" rel="noreferrer">
+                <a className="btn-secondary btn-wave" style={{ marginTop: '18px', width: '100%', justifyContent: 'center' }} href={appendLangToUrl(getRegisterUrl(), currentLang)} target="_blank" rel="noreferrer">
                   {t.business.capabilities.content360.exploreCta}
                 </a>
               </div>
@@ -547,7 +548,7 @@ export function BusinessPageContent() {
                 </defs>
               </svg>
             </div>
-            <a className="btn-primary" href={appendLangToUrl("https://business.moilapp.com/register", currentLang)} target="_blank" rel="noreferrer">
+            <a className="btn-primary" href={appendLangToUrl(getRegisterUrl(), currentLang)} target="_blank" rel="noreferrer">
               {t.business.journey.journeyCta}
             </a>
             <p style={{ fontFamily: 'var(--mono)', fontSize: '10px', color: 'var(--text3)', marginTop: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>

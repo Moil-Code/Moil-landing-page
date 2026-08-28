@@ -65,23 +65,11 @@ const KILLED_PROMISE_ES = [
 const HONEST_MISS = 'We found that profile, but we do not have the shop name yet. Paste the website.';
 
 describe('preview client — origin and URLs', () => {
-	it('unset origin is not configured and submit/view URLs are null', () => {
-		assert.equal(client.isPlanApiConfigured(''), false);
-		assert.equal(client.isPlanApiConfigured('   '), false);
-		assert.equal(client.getPlanApiOrigin({}), '');
-		assert.equal(client.previewSubmitUrl(''), null);
-		assert.equal(client.previewViewUrl('', 'abc'), null);
-	});
-
-	it('configured origin builds /plan/preview and /plan/preview/:slug', () => {
-		assert.equal(
-			client.previewSubmitUrl('https://ai.moilapp.com'),
-			'https://ai.moilapp.com/plan/preview',
-		);
-		assert.equal(
-			client.previewViewUrl('https://ai.moilapp.com/', 'my-slug'),
-			'https://ai.moilapp.com/plan/preview/my-slug',
-		);
+	it('submit/view URLs are same-origin /plan/preview', () => {
+		assert.equal(client.previewSubmitUrl(), '/plan/preview');
+		assert.equal(client.previewViewUrl('my-slug'), '/plan/preview/my-slug');
+		assert.equal(client.previewViewUrl(''), null);
+		assert.equal(client.previewViewUrl('   '), null);
 	});
 
 	it('register URL is valid without a preview slug', () => {
@@ -91,14 +79,36 @@ describe('preview client — origin and URLs', () => {
 		assert.match(url, /[?&]lg=en/);
 	});
 
+	it('unset register env still produces production register/login', () => {
+		assert.equal(client.getRegisterOrigin({}), 'https://business.moilapp.com');
+		assert.equal(client.getRegisterUrl({}), 'https://business.moilapp.com/register');
+		assert.equal(client.getLoginUrl({}), 'https://business.moilapp.com/login');
+		assert.equal(
+			client.getRegisterOrigin({ NEXT_PUBLIC_REGISTER_ORIGIN: '' }),
+			'https://business.moilapp.com',
+		);
+	});
+
+	it('register origin comes from env, not a hardcoded twin host', () => {
+		const env = { NEXT_PUBLIC_REGISTER_ORIGIN: 'https://example-app.test' };
+		assert.equal(client.getRegisterOrigin(env), 'https://example-app.test');
+		assert.equal(client.getRegisterUrl(env), 'https://example-app.test/register');
+		assert.match(
+			client.buildRegisterUrl({ lang: 'en', env }),
+			/^https:\/\/example-app\.test\/register/,
+		);
+	});
+
 	it('register URL includes ?preview= when a slug exists', () => {
 		const url = client.buildRegisterUrl({ lang: 'es', previewSlug: 'taco-shop' });
 		assert.match(url, /[?&]preview=taco-shop/);
 		assert.match(url, /[?&]lg=es/);
 	});
 
-	it('down/unset origin: submitPreview returns the form error path, register still works', async () => {
-		const result = await client.submitPreview('', { website: 'https://x.com' });
+	it('fetch failure is the down-state; register still works', async () => {
+		const result = await client.submitPreview({ website: 'https://x.com' }, async () => {
+			throw new Error('network');
+		});
 		assert.equal(result.ok, false);
 		assert.equal(result.kind, 'down');
 		const register = client.buildRegisterUrl({ lang: 'en' });
@@ -117,18 +127,11 @@ describe('preview client — GET is a view', () => {
 				json: async () => ({ status: 'building' }),
 			};
 		};
-		const result = await client.viewPreview(
-			'https://ai.moilapp.com',
-			'slug-1',
-			fakeFetch,
-		);
+		const result = await client.viewPreview('slug-1', fakeFetch);
 		assert.equal(result.kind, 'building');
 		assert.equal(calls.length, 1);
 		assert.equal(calls[0].method, 'GET');
-		assert.equal(
-			calls[0].url,
-			'https://ai.moilapp.com/plan/preview/slug-1',
-		);
+		assert.equal(calls[0].url, '/plan/preview/slug-1');
 	});
 
 	it('there is no generate-named export or function on the client', () => {
@@ -240,7 +243,9 @@ describe('structural refusals', () => {
 		}
 		const env = read('.env.example');
 		assert.match(env, /KEY_2 stays gone|Do not re-add it/i);
-		assert.match(env, /NEXT_PUBLIC_PLAN_API_ORIGIN=/);
+		assert.match(env, /NEXT_PUBLIC_REGISTER_ORIGIN=/);
+		assert.match(env, /PLAN_API_ORIGIN/);
+		assert.doesNotMatch(env, /staging\.ai/);
 		assert.doesNotMatch(env, /^NEXT_PUBLIC_GOOGLE_API_KEY_2=/m);
 	});
 
@@ -254,12 +259,49 @@ describe('structural refusals', () => {
 
 	it('hero primary CTA is still the register URL without requiring a slug', () => {
 		const src = read('app/business/sections/HeroSection.tsx');
-		assert.match(
-			src,
-			/appendLangToUrl\('https:\/\/business\.moilapp\.com\/register'/,
-		);
+		assert.match(src, /buildRegisterUrl\(/);
+		assert.doesNotMatch(src, /employer-beta/);
 		assert.doesNotMatch(src, /href="#journey"/);
 		assert.match(src, /PreviewMagnet/);
+		const url = client.buildRegisterUrl({ lang: 'en' });
+		assert.match(url, /^https:\/\/business\.moilapp\.com\/register/);
+		assert.doesNotMatch(url, /preview=/);
+	});
+
+	it('client magnet uses relative /plan/preview and env-gated register', () => {
+		const gated = [
+			'app/business/preview/previewClient.js',
+			'app/business/components/PreviewMagnet.tsx',
+			'app/business/sections/HeroSection.tsx',
+			'app/business/components/BusinessNav.tsx',
+			'app/business/components/BusinessMobileMenu.tsx',
+			'app/business/components/BusinessFooter.tsx',
+			'app/business/components/BusinessPricingSection.tsx',
+			'next.config.js',
+			'.env.example',
+		];
+		for (const f of gated) {
+			const src = read(f);
+			assert.doesNotMatch(src, /employer-beta/, f);
+			assert.doesNotMatch(src, /staging\.ai/, f);
+			assert.doesNotMatch(src, /stagebeta\.moilapp\.com/, f);
+			if (f !== 'next.config.js' && f !== '.env.example') {
+				assert.doesNotMatch(src, /ai\.moilapp\.com/, f);
+			}
+		}
+		const clientSrc = read('app/business/preview/previewClient.js');
+		assert.match(clientSrc, /['"]\/plan\/preview['"]/);
+		assert.doesNotMatch(clientSrc, /process\.env\.NEXT_PUBLIC_PLAN_API_ORIGIN/);
+		assert.doesNotMatch(clientSrc, /src\.NEXT_PUBLIC_PLAN_API_ORIGIN/);
+		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		assert.doesNotMatch(magnet, /getPlanApiOrigin/);
+		assert.doesNotMatch(magnet, /isPlanApiConfigured/);
+		assert.doesNotMatch(magnet, /NEXT_PUBLIC_PLAN_API_ORIGIN/);
+		const cfg = read('next.config.js');
+		assert.match(cfg, /getRegisterUrl\(/);
+		assert.match(cfg, /getLoginUrl\(/);
+		assert.doesNotMatch(cfg, /destination: 'https:\/\/business\.moilapp\.com\/register'/);
+		assert.doesNotMatch(cfg, /destination: 'https:\/\/business\.moilapp\.com\/login'/);
 	});
 
 	it('EN and ES have the same magnet key set', () => {
@@ -367,8 +409,8 @@ describe('website-only door — no handle generate', () => {
 		const onSubmit = magnet.slice(magnet.indexOf('const onSubmit'), magnet.indexOf('const reset'));
 		assert.ok(
 			onSubmit.indexOf('refuse_social') > 0 &&
-				onSubmit.indexOf('refuse_social') < onSubmit.indexOf('isPlanApiConfigured'),
-			'social refuse must stop before any generate / origin check',
+				onSubmit.indexOf('refuse_social') < onSubmit.indexOf('submitPreview'),
+			'social refuse must stop before any generate / submit',
 		);
 	});
 
