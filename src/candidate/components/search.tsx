@@ -13,9 +13,9 @@ export default function SearchComponent({ lgQuery }: any) {
   const locationRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = () => {
-    let title_trim = title.trim();
+    const title_trim = title.trim();
     console.log("location", location);
-    let location_trim = location.trim();
+    const location_trim = location.trim();
     const searchUrl = `/candidate/searchjob?title=${title_trim}&location=${location_trim}&page=1&lg=${lgQuery}`;
     window.open(searchUrl, '_self');
   }

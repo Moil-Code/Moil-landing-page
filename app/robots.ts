@@ -3,28 +3,22 @@ import { MetadataRoute } from 'next'
 /**
  * robots.txt — apex (`www.moilapp.com`).
  *
- * Two changes vs. previous version:
- *   1. `sitemap` is an array of all 4 sitemaps (apex + blog + business +
- *      candidate). Previously listed only the apex sitemap, which left
- *      Google's sitemap report blind to the blog's 47 articles and the two
- *      subdomains. The blog's own GSC submission still happens manually
- *      (Master Plan Task 1.6) — listing it here is the secondary signal.
- *   2. Removed `/*?*lg=` from disallow. The previous middleware stripped
- *      `?lg=` so it was right to disallow indexable variants. The new
- *      middleware preserves `?lg=es` as the indexable Spanish canonical, so
- *      this disallow now actively prevents Spanish indexation. Removed.
- *
- * Other disallows kept:
- *   - `/_next/static/media/` — font/asset paths showing as "Crawled, not
- *     indexed" wasted crawl budget.
+ * Disallowed:
  *   - `/api/`, `/legacy`, `/login`, `/register`, `/authenticate/` — non-public
  *     surfaces.
  *   - `?ref=`, `?trk=`, `?fbclid=`, `?gclid=` — tracking-only params, no
  *     content swap, no SEO value.
  *
+ * Not disallowed, deliberately:
+ *   - `/*?*lg=` — the middleware no longer strips `?lg=`, and every `?lg=`
+ *     variant self-canonicalises to its clean URL, so they cost nothing to
+ *     leave crawlable. The Spanish documents live at `/es/*`.
+ *   - `/_next/static/media/` — see the note on the rule below.
+ *
  * SEO data-harvesting bots (Ahrefs, MJ12, DotBot, Semrush) blocked entirely —
  * they don't drive traffic, only crawl budget consumption and competitive
- * intel that flows the wrong direction.
+ * intel that flows the wrong direction. Note this does not stop a Semrush Site
+ * Audit the account owner runs against their own property.
  */
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -33,7 +27,13 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: '*',
         allow: '/',
         disallow: [
-          '/_next/static/media/',
+          // `/_next/static/media/` was disallowed here to stop font and asset
+          // paths appearing as "Crawled, not indexed". That traded a cosmetic
+          // GSC line for a real cost: it is where next/font writes the
+          // self-hosted woff2 files, so blocking it stops Googlebot fetching
+          // the fonts the page needs to render, and a renderer that cannot
+          // fetch a render-blocking asset judges the page on what it could
+          // load. Unblocked.
           '/api/',
           '/legacy',
           '/login',
@@ -90,15 +90,18 @@ export default function robots(): MetadataRoute.Robots {
         disallow: '/',
       },
     ],
-    // All four sitemaps Google should know about. The blog and subdomain
-    // sitemaps still need their own GSC submissions (Master Plan Task 1.6),
-    // but referencing them from the apex robots.txt is a secondary signal
-    // Google uses for cross-property discovery.
-    sitemap: [
-      'https://www.moilapp.com/sitemap.xml',
-      'https://blog.moilapp.com/sitemap.xml',
-      'https://business.moilapp.com/sitemap.xml',
-      'https://candidate.moilapp.com/sitemap.xml',
-    ],
+    // Only this host's sitemap. The blog, business and candidate sitemaps used
+    // to be listed here as a "cross-property discovery" signal. What it
+    // actually did was tell every crawler that ~94 URLs on other hostnames
+    // belong to this property: the Aug 2026 Site Audit pulled all four
+    // sitemaps, found none of those URLs reachable by an internal link from
+    // www.moilapp.com — because they are on different hosts — and reported
+    // "79 orphaned pages in sitemaps".
+    //
+    // Each host serves its own robots.txt and its own sitemap, and each is
+    // submitted to Search Console under its own property. That is the
+    // supported way to get a subdomain crawled; a foreign sitemap reference
+    // is not.
+    sitemap: 'https://www.moilapp.com/sitemap.xml',
   }
 }

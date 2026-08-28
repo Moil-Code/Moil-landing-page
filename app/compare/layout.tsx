@@ -11,8 +11,8 @@ import './comparison.css';
 const NAV_ITEMS: NavItem[] = [
   { label: 'Features', href: '/business#capabilities' },
   { label: 'How It Works', href: '/business#journey' },
-  { label: 'Hiring', href: '/business#hiring' },
-  { label: 'Pricing', href: '/business/pricing?lg=en' },
+  { label: 'Pricing', href: '/business/pricing' },
+  { label: 'About', href: '/about' },
   { label: 'Blog', href: 'https://blog.moilapp.com', external: true },
 ];
 

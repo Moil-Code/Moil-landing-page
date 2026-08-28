@@ -1,29 +1,31 @@
 import type { Metadata } from 'next';
 import '../../business/business.css';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
+import { es } from '../../../src/common/translations/es';
+import { faqJsonLd } from '../../../src/common/utils/faqJsonLd';
 
 export const metadata: Metadata = {
-  title: 'Co-fundador con IA para pequeños negocios — plan, contratación y marketing',
-  description: 'Moil le da a los pequeños negocios un co-fundador con IA que redacta tu plan de negocios, dirige tu marketing y contrata a tu equipo. 500+ negocios creciendo. Prueba gratis. Desde $25/mes.',
+  title: {
+    absolute: 'El socio que trabaja el negocio contigo | Moil',
+  },
+  description: 'Moil aprende el negocio una vez, piensa contigo y hace el trabajo. Investigación, planes, documentos, y treinta días de contenido con tu marca, en inglés o en español. Market Pro es $75. Professional es $25 si no quieres el mes.',
   keywords: [
-    'co-fundador IA pequeños negocios',
+    'calendario de contenidos para redes sociales',
+    'contenido para redes sociales negocio pequeno',
+    'que publicar en redes sociales para mi negocio',
+    'ideas de contenido para negocios pequenos',
+    'marketing para pequenos negocios',
+    'plan de marketing para mi negocio',
+    'programa para redes sociales en espanol',
+    'herramientas de IA para pequenos negocios',
     'plan de negocios con IA',
-    'herramientas IA para pequeños negocios',
-    'plataforma de crecimiento para PYMEs',
-    'investigación de mercado con IA',
-    'software para planes de negocio',
-    'contratación inteligente con IA',
-    'reclutamiento con IA pequeñas empresas',
-    'calendario de contenido con IA',
-    'IA bilingüe para negocios',
+    'investigacion de mercado con IA',
+    'software de marketing en espanol',
     'IA para emprendedores latinos',
-    'plataforma SMB en español',
-    'plan de negocios listo para inversionistas',
-    'herramientas IA negocios de servicios',
   ],
   openGraph: {
-    title: 'Co-fundador con IA para pequeños negocios — plan, contratación y marketing',
-    description: 'Plan de negocios, contratación, marketing de contenido y coaching con IA — todo en una plataforma. 500+ pequeños negocios creciendo. Desde $25/mes.',
+    title: 'El socio que trabaja el negocio contigo | Moil',
+    description: 'Moil aprende el negocio una vez, piensa contigo y hace el trabajo. Investigación, planes, documentos, y treinta días de contenido con tu marca, en inglés o en español. Market Pro es $75. Professional es $25 si no quieres el mes.',
     url: `${baseURL1}/es/business`,
     locale: 'es_US',
     images: [
@@ -31,13 +33,13 @@ export const metadata: Metadata = {
         url: '/og-business-es.jpg',
         width: 1200,
         height: 630,
-        alt: 'Moil — Co-fundador con IA para pequeños negocios',
+        alt: 'Moil — El socio que trabaja el negocio contigo',
       },
     ],
   },
   twitter: {
-    title: 'Co-fundador con IA para pequeños negocios',
-    description: 'Plan de negocios, contratación, marketing de contenido y coaching con IA — todo en una plataforma. Desde $25/mes.',
+    title: 'El socio que trabaja el negocio contigo | Moil',
+    description: 'Moil aprende el negocio una vez, piensa contigo y hace el trabajo. Investigación, planes, documentos, y treinta días de contenido con tu marca, en inglés o en español. Market Pro es $75. Professional es $25 si no quieres el mes.',
   },
   alternates: {
     canonical: `${baseURL1}/es/business`,
@@ -65,6 +67,14 @@ export default function BusinessEsLayout({ children }: { children: React.ReactNo
               { '@type': 'ListItem', position: 2, name: 'Para Negocios', item: `${baseURL1}/es/business` },
             ],
           }),
+        }}
+      />
+      {/* Spanish FAQPage, generated from the Spanish translation array so the
+          structured data matches what a Spanish visitor actually reads. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqJsonLd(es.business.faq.items)),
         }}
       />
       {children}

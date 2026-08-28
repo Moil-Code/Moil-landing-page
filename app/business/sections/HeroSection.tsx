@@ -127,19 +127,26 @@ export function HeroSection() {
         <span className="mr-1.5 inline-flex items-center">{IconMap.rocket}</span> {t.business.hero.eyebrow}
       </div>
 
-      {/* Headline */}
       <h1
         data-hero-item
-        className="relative z-[2] mb-7 max-w-[1200px] text-[clamp(42px,6.6vw,84px)] font-bold uppercase leading-[0.96] tracking-[-0.05em] max-[960px]:text-[clamp(36px,8vw,60px)] max-[480px]:text-[clamp(30px,10vw,46px)]"
+        className="relative z-[2] mb-7 max-w-[1200px] text-[clamp(32px,5vw,64px)] font-bold leading-[1.1] tracking-[-0.03em] max-[960px]:text-[clamp(28px,6vw,46px)] max-[480px]:text-[clamp(24px,7.5vw,36px)]"
       >
-        {t.business.hero.headline} <span className="text-[var(--orange)]">{t.business.hero.headlineHighlight1}</span>
-        <br />
-        {t.business.hero.headlineMiddle}
-        <br />
-        <span className="text-[var(--purple-light)]">{t.business.hero.headlineHighlight2}</span>
+        {t.business.hero.headline}
+        {t.business.hero.headlineLine2 ? (
+          <>
+            <br />
+            {t.business.hero.headlineLine2}
+          </>
+        ) : null}
+        {t.business.hero.headlineHighlight ? (
+          <>
+            <br />
+            <span className="text-[var(--orange)]">{t.business.hero.headlineHighlight}</span>
+          </>
+        ) : null}
       </h1>
 
-      {/* Subheadline */}
+      {/* Subheadline — the mechanism, including the continuity that drives retention. */}
       <p
         data-hero-item
         className="relative z-[2] mb-11 max-w-[780px] text-[clamp(14px,2vw,18px)] font-light leading-[1.55] text-[var(--text)]"
@@ -147,21 +154,12 @@ export function HeroSection() {
         {t.business.hero.subheadline}
       </p>
 
-      {/* CTAs — primary stays signup. Secondary focuses the in-page magnet. */}
+      {/* CTAs — primary stays signup. Secondary jumps to Market Pro on #pricing. */}
       <div data-hero-item className="relative z-[2] mb-6 flex flex-wrap justify-center gap-3 max-[960px]:flex-col max-[960px]:items-center">
         <PrimaryButton href={appendLangToUrl('https://business.moilapp.com/register', lang)} rel="noreferrer">
           {t.business.hero.cta} <span>→</span>
         </PrimaryButton>
-        <SecondaryButton
-          onClick={() => {
-            const el = document.getElementById('preview-magnet');
-            if (!el) return;
-            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
-            const input = el.querySelector('input,button[type="submit"]') as HTMLElement | null;
-            input?.focus();
-          }}
-        >
+        <SecondaryButton href="#pricing">
           <span className="mr-1.5 inline-flex items-center">{IconMap.play}</span> {t.business.hero.ctaSecondary}
         </SecondaryButton>
       </div>
@@ -170,20 +168,18 @@ export function HeroSection() {
         <PreviewMagnet />
       </div>
 
-      {/* Trust strip */}
+      {/* Trust strip — outcome claims only; nothing here asserts a number we cannot source. */}
       <div data-hero-item className="relative z-[2] flex flex-wrap items-center justify-center gap-8">
-        {[
-          { dot: 'var(--green)', label: t.business.hero.trust500 },
-          { dot: 'var(--orange)', label: t.business.hero.trust5000 },
-          { dot: 'var(--purple-light)', label: t.business.hero.trust94 },
-          { dot: 'var(--green)', label: t.business.hero.trustBilingual },
-          { dot: 'var(--orange)', label: t.business.hero.trustPrice },
-        ].map((pill, i) => (
+        {t.business.hero.trust.map((label, i) => (
           <div
-            key={i}
+            key={label}
             className="flex items-center gap-2 text-[10px] uppercase tracking-[1px] text-[var(--text)]"
           >
-            <span className="h-[5px] w-[5px] rounded-full" style={{ background: pill.dot }} /> {pill.label}
+            <span
+              className="h-[5px] w-[5px] rounded-full"
+              style={{ background: ['var(--green)', 'var(--orange)', 'var(--purple-light)', 'var(--green)'][i % 4] }}
+            />{' '}
+            {label}
           </div>
         ))}
       </div>

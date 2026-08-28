@@ -2,7 +2,7 @@
 
 import { appendLangToUrl } from '../utils/appendLangToUrl';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
-import { ArrowRight, Check, Star } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 
 export function BusinessFinalCta() {
   const { t, lang } = useLanguageContext();
@@ -30,33 +30,6 @@ export function BusinessFinalCta() {
         ))}
       </div>
       <div style={{ position: 'relative', marginTop: '64px', textAlign: 'center' }}>
-        <div
-          style={{
-            fontFamily: 'var(--mono)',
-            fontSize: '10px',
-            color: 'var(--text3)',
-            textTransform: 'uppercase',
-            letterSpacing: '3px',
-            marginBottom: '8px',
-          }}
-        >
-          {t.business.finalCta.trustedBy}
-        </div>
-        <div className="final-stars" aria-label="Five star rating">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <Star key={index} size={17} fill="currentColor" aria-hidden="true" />
-          ))}
-        </div>
-        <div
-          style={{
-            fontFamily: 'var(--mono)',
-            fontSize: '10px',
-            color: 'var(--text3)',
-            marginTop: '6px',
-          }}
-        >
-          {t.business.finalCta.statsLine}
-        </div>
       </div>
     </section>
   );

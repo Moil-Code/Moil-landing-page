@@ -38,27 +38,19 @@ Lighthouse attributed **2213 ms** of blocked render on mobile to the 112 KB file
 alone, almost all of it transfer time. Compressing it is a ~6× reduction on the
 critical path.
 
-```nginx
-# in the server block (or http block)
-gzip              on;
-gzip_vary         on;
-gzip_comp_level   6;
-gzip_min_length   256;
-gzip_proxied      any;
-gzip_types
-    text/plain text/css text/xml
-    application/javascript application/json application/xml
-    application/rss+xml image/svg+xml font/woff2;
+**The config now lives in the repo as a file you can apply directly, rather than
+as a block to retype:** [`docs/nginx/moilapp-performance.conf`](nginx/moilapp-performance.conf).
+It carries the gzip block, the apex HSTS line, and the HTTP/2 note, with the
+apply and verify commands in its header.
 
-# Better, if ngx_brotli is available — serve brotli to clients that accept it
-# and fall back to gzip for the rest.
-# brotli            on;
-# brotli_comp_level 5;
-# brotli_types      <same list as gzip_types>;
+```bash
+sudo cp docs/nginx/moilapp-performance.conf /etc/nginx/snippets/moilapp-performance.conf
+# then inside the server { … } block for moilapp.com:  include snippets/moilapp-performance.conf;
+sudo nginx -t && sudo systemctl reload nginx
 ```
 
-Note `image/svg+xml` and `font/woff2` in the list; do **not** add jpeg/png/webp,
-which are already compressed.
+Note `image/svg+xml` and `font/woff2` are in the type list; jpeg/png/webp are
+deliberately **not**, since they are already compressed.
 
 Verify after reloading nginx:
 
@@ -79,12 +71,10 @@ the browser is limited to ~6 parallel connections per origin, and everything que
 It is visible in the waterfall: the JS chunks did not even *start* until 3036 ms,
 because they were stuck behind the stylesheets and images.
 
-```nginx
-listen 443 ssl;
-http2 on;          # nginx >= 1.25.1
-# on nginx 1.18 (the version in use) it is instead:
-# listen 443 ssl http2;
-```
+This one goes on the `listen` directive itself, so it cannot live in an included
+snippet — see section 3 of
+[`docs/nginx/moilapp-performance.conf`](nginx/moilapp-performance.conf) for the
+exact line per nginx version.
 
 nginx 1.18 is also EOL — worth scheduling an upgrade for the security patches
 independently of this.

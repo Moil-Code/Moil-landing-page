@@ -2,8 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import SearchComponent from "../components/search";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { openCandidateApp } from "../utils/urlBuilder";
 
 interface CandidateHeroProps {
@@ -12,8 +10,8 @@ interface CandidateHeroProps {
   lgQuery?: string;
 }
 
-export default function CandidateHero({ onGetStarted, refQuery, lgQuery }: CandidateHeroProps) {
-  const [queryString, setQueryString] = useState("");
+export default function CandidateHero({ refQuery, lgQuery }: CandidateHeroProps) {
+  const [, setQueryString] = useState("");
   
   // Automatically update queryString when refQuery or lgQuery change
   useEffect(() => {
@@ -28,7 +26,7 @@ export default function CandidateHero({ onGetStarted, refQuery, lgQuery }: Candi
     }
   }, [refQuery, lgQuery]); // Runs when refQuery or lgQuery changes
 
-  const [windowDimensions, setWindowDimensions] = useState({ width: 0, height: 0 });
+  const [, setWindowDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     const handleResize = () => {
@@ -89,8 +87,8 @@ export default function CandidateHero({ onGetStarted, refQuery, lgQuery }: Candi
               <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" fill="currentColor"/>
             </svg>
           </div>
-          <span className="hidden sm:inline">Join 50,000+ Job Seekers Finding Success</span>
-          <span className="sm:hidden">50,000+ Success Stories</span>
+          <span className="hidden sm:inline">Build your profile in English or Spanish</span>
+          <span className="sm:hidden">English or Spanish</span>
         </div>
 
         {/* Main Heading */}

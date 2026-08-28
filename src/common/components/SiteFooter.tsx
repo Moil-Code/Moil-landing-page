@@ -18,6 +18,7 @@
  *   2. SOCIAL_LINKS URLs MUST match the `sameAs` array in app/layout.tsx.
  */
 
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const SOCIAL_LINKS = [
@@ -32,6 +33,7 @@ type NavLink = { label: string; href: string; external?: boolean };
 
 const NAV_LINKS: readonly NavLink[] = [
   { label: 'Business', href: '/business' },
+  { label: 'About', href: '/about' },
   { label: 'Pricing', href: '/business/pricing' },
   { label: 'Marketing', href: '/marketing' },
   { label: 'Candidates', href: '/candidate' },
@@ -40,19 +42,38 @@ const NAV_LINKS: readonly NavLink[] = [
 ];
 
 const COMPARE_LINKS: readonly NavLink[] = [
+  { label: 'Moil vs Buffer', href: '/compare/moil-vs-buffer' },
+  { label: 'Moil vs Later', href: '/compare/moil-vs-later' },
+  { label: 'Moil vs Hootsuite', href: '/compare/moil-vs-hootsuite' },
   { label: 'Moil vs ChatGPT', href: '/compare/moil-vs-chatgpt' },
-  { label: 'Moil vs Claude', href: '/compare/moil-vs-claude' },
+  { label: 'Best AI content calendar tools', href: '/compare/best-ai-content-calendar-tools' },
+  { label: 'Done-for-you social media', href: '/compare/done-for-you-social-media-alternatives' },
+  { label: 'Moil vs a marketing agency', href: '/compare/moil-vs-agency' },
+  { label: 'Customer reviews', href: '/reviews' },
+  { label: 'AI info', href: '/ai-info' },
 ];
 
-// Legal lives in the footer (organized), never the header. Both point to the
-// combined Terms-of-Service + Privacy page at /privacy.
+// Legal lives in the footer (organized), never the header.
+//
+// Both entries used to point at `/privacy`, so `/terms` — a separate, indexable
+// page — had no link here at all, and `/dmca`, `/dpa`, `/subprocessors`,
+// `/accessibility` and `/privacy-choices` had no incoming internal link
+// anywhere on the site. A page in the sitemap that nothing links to is exactly
+// what the Site Audit counts as an orphan, so listing them in sitemap.ts
+// without this would have traded one orphan report for another.
 const LEGAL_LINKS: readonly NavLink[] = [
-  { label: 'Terms of Service', href: '/privacy' },
+  { label: 'Terms of Service', href: '/terms' },
   { label: 'Privacy Policy', href: '/privacy' },
+  { label: 'Cookie Policy', href: '/cookies' },
+  { label: 'Your Privacy Choices', href: '/privacy-choices' },
+  { label: 'DPA', href: '/dpa' },
+  { label: 'Subprocessors', href: '/subprocessors' },
+  { label: 'DMCA', href: '/dmca' },
+  { label: 'Accessibility', href: '/accessibility' },
 ];
 
 // Section routes that ship their own footer — hide the global one there.
-const OWN_FOOTER_PREFIXES = ['/business', '/es/business', '/candidate', '/marketing', '/compare'];
+const OWN_FOOTER_PREFIXES = ['/business', '/es/business', '/candidate', '/marketing', '/compare', '/about', '/ai-info', '/reviews'];
 
 export function SiteFooter() {
   const pathname = usePathname() || '/';
@@ -71,9 +92,9 @@ export function SiteFooter() {
       <div className="mx-auto flex max-w-6xl flex-col gap-8 md:flex-row md:items-start md:justify-between">
         {/* Brand + tagline */}
         <div className="max-w-sm">
-          <a href="/" className="inline-block text-base font-semibold text-white">
+          <Link href="/" className="inline-block text-base font-semibold text-white">
             Moil
-          </a>
+          </Link>
           <p className="mt-2 text-xs leading-relaxed text-gray-400">
             The AI co-founder for small business owners. Bilingual EN/ES. Built in Austin, TX.
           </p>
@@ -133,7 +154,7 @@ export function SiteFooter() {
       {/* Bottom bar: copyright + organized legal links */}
       <div className="mx-auto mt-8 flex max-w-6xl flex-col gap-3 border-t border-gray-800 pt-5 text-xs sm:flex-row sm:items-center sm:justify-between">
         <span className="text-gray-500">&copy; {year} Moil Enterprise Inc. All rights reserved.</span>
-        <nav aria-label="Legal" className="flex gap-4">
+        <nav aria-label="Legal" className="flex flex-wrap gap-x-4 gap-y-2">
           {LEGAL_LINKS.map(({ label, href }) => (
             <a key={label} href={href} className="text-gray-400 transition hover:text-white hover:underline">
               {label}

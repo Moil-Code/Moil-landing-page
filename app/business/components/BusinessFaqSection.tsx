@@ -3,6 +3,16 @@
 import { useState } from 'react';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
 
+/**
+ * FAQ — renders straight from the translation bundle.
+ *
+ * This used to hold a hardcoded English array, which meant /es/business served
+ * English answers and the FAQPage JSON-LD in layout.tsx was maintained by hand
+ * in parallel. The two drifted until the page shipped two contradictory sets of
+ * answers. The array now lives in one place (`t.business.faq.items`) and the
+ * structured data is generated from the same source — see `faqJsonLd()` in
+ * src/common/utils/faqJsonLd.ts.
+ */
 export function BusinessFaqSection() {
   const { t } = useLanguageContext();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -20,7 +30,7 @@ export function BusinessFaqSection() {
         {t.business.faq.items.map((item, index) => {
           const isOpen = openIndex === index;
           return (
-            <div key={`faq-${index}`} className={`faq-item ${isOpen ? 'open' : ''}`}>
+            <div key={item.question} className={`faq-item ${isOpen ? 'open' : ''}`}>
               <div className="faq-q" onClick={() => setOpenIndex(isOpen ? null : index)}>
                 {item.question}
                 <span className="faq-icon">+</span>

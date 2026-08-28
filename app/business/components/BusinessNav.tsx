@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import { Building2, Globe, Moon, Sun, UserRound } from 'lucide-react';
+import { Globe, Moon, Sun } from 'lucide-react';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
-import Image from 'next/image';
 
 export type NavItem = {
   label: string;
@@ -45,7 +44,6 @@ export function BusinessNav({
   signinHref = 'https://business.moilapp.com',
   onLanguageChange,
   currentLang,
-  setShowLanguageModal,
 }: BusinessNavProps) {
   const [lang, setLang] = useState<'en' | 'es'>('en');
   const [showLangDropdown, setShowLangDropdown] = useState(false);
@@ -92,8 +90,8 @@ export function BusinessNav({
       // exists. Keeps the hreflang signal consistent — users land on the
       // same URL Google indexes for their locale.
       const localeRouteMap: Record<'en' | 'es', Record<string, string>> = {
-        es: { '/business': '/es/business' },
-        en: { '/es/business': '/business' },
+        es: { '/business': '/es/business', '/business/pricing': '/es/business/pricing' },
+        en: { '/es/business': '/business', '/es/business/pricing': '/business/pricing' },
       };
       const url = new URL(window.location.href);
       const mappedPath = localeRouteMap[selectedLang][url.pathname];
@@ -133,51 +131,12 @@ export function BusinessNav({
         )}
       </a>
 
-      {/* Page Switcher Tabs - hidden on mobile, shown in mobile menu */}
-      <div className="page-switcher" style={{
-        display: 'flex',
-        alignItems: 'center',
-        background: theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
-        borderRadius: '999px',
-        padding: '5px',
-        border: theme === 'dark' ? '1px solid rgba(255,255,255,0.12)' : '1px solid rgba(0,0,0,0.1)',
-        gap: '2px',
-      }}>
-        <a
-          href="/candidate"
-          className="switcher-breathe"
-          style={{
-            alignItems: 'center',
-            gap: '5px',
-            padding: '6px 14px',
-            borderRadius: '999px',
-            fontSize: '12px',
-            fontWeight: 600,
-            whiteSpace: 'nowrap',
-            color: theme === 'dark' ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)',
-            textDecoration: 'none',
-          }}
-          onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.7)'; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent'; }}
-        >
-          <UserRound size={14} aria-hidden="true" /> For Job Seekers
-        </a>
-        <span style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '5px',
-          padding: '6px 14px',
-          borderRadius: '999px',
-          fontSize: '12px',
-          fontWeight: 700,
-          whiteSpace: 'nowrap',
-          background: '#FF6633',
-          color: 'white',
-          boxShadow: '0 2px 8px rgba(255,102,51,0.35)',
-        }}>
-          <Building2 size={14} aria-hidden="true" /> For Businesses
-        </span>
-      </div>
+      {/* The For Job Seekers / For Businesses switcher was removed in Aug 2026.
+          The job marketplace at /candidate is still live and still its own product;
+          it simply no longer appears anywhere in the business narrative. See
+          research/seo-aeo-audit-and-plan.md section 3 — an entity that advertises
+          two unrelated products on one surface is harder for both people and
+          answer engines to classify. /candidate keeps its own nav and sitemap. */}
 
       <ul className="nav-links">
         {items.map((item) => (

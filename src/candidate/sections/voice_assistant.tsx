@@ -137,7 +137,7 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
               <div className="space-y-3">
                 <div className="bg-white dark:bg-[#10141F] rounded-lg p-3">
                   <div className="text-sm font-medium text-gray-900 dark:text-[#EEF2FF] mb-1">Current Question:</div>
-                  <div className="text-sm text-gray-600 dark:text-[#8892AA]">"Tell me about your greatest professional achievement."</div>
+                  <div className="text-sm text-gray-600 dark:text-[#8892AA]">&ldquo;Tell me about your greatest professional achievement.&rdquo;</div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
@@ -216,16 +216,12 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
                 
                 <div className="grid grid-cols-3 gap-3">
                   <div className="text-center p-3 bg-gradient-to-br from-[#FF6633]/10 to-[#ea580c]/10 rounded-xl border border-[#FF6633]/20">
-                    <div className="text-xl font-bold text-[#FF6633] mb-1">89%</div>
-                    <div className="text-xs text-gray-600 dark:text-[#8892AA]">Job Success</div>
+                    <div className="text-xl font-bold text-[#FF6633] mb-1">Free</div>
+                    <div className="text-xs text-gray-600 dark:text-[#8892AA]">To Practice</div>
                   </div>
                   <div className="text-center p-3 bg-gradient-to-br from-[#FF6633]/10 to-[#ea580c]/10 rounded-xl border border-[#FF6633]/20">
-                    <div className="text-xl font-bold text-[#FF6633] mb-1">15K+</div>
-                    <div className="text-xs text-gray-600 dark:text-[#8892AA]">Workers</div>
-                  </div>
-                  <div className="text-center p-3 bg-gradient-to-br from-[#FF6633]/10 to-[#ea580c]/10 rounded-xl border border-[#FF6633]/20">
-                    <div className="text-xl font-bold text-[#FF6633] mb-1">4.7★</div>
-                    <div className="text-xs text-gray-600 dark:text-[#8892AA]">Rating</div>
+                    <div className="text-xl font-bold text-[#FF6633] mb-1">EN/ES</div>
+                    <div className="text-xs text-gray-600 dark:text-[#8892AA]">Bilingual</div>
                   </div>
                 </div>
               </div>
@@ -296,23 +292,14 @@ export default function VoiceAssistantSection({ refQuery, lgQuery }: VoiceAssist
 
             {/* Right - Testimonial & Benefits */}
             <div className="space-y-6">
-              {/* Testimonial */}
-              <div className="bg-gradient-to-r from-[#FF6633]/5 to-[#ea580c]/5 rounded-xl p-6 border border-[#FF6633]/20">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="flex text-[#FF6633] text-lg">
-                    {"★".repeat(5)}
-                  </div>
-                  <span className="text-sm font-semibold text-gray-900 dark:text-[#EEF2FF]">4.7/5</span>
-                </div>
-                <div className="text-base text-gray-700 dark:text-[#8892AA] italic mb-3">
-                  "Got hired as a foreman after practicing with the AI coach. It helped me speak with confidence about my experience and handle tough questions."
-                </div>
-                <div className="text-sm text-gray-500 dark:text-[#8892AA]">- Mike R., Construction Foreman</div>
-              </div>
+              {/* Testimonial card removed Aug 2026. The five-star row, the "4.7/5"
+                  and the "Mike R., Construction Foreman" quote were all placeholder
+                  copy — no such review exists. Real, sourced reviews live in
+                  src/common/data/reviews.ts and render on /reviews. */}
 
               {/* What You'll Learn */}
               <div>
-                <h5 className="font-semibold text-gray-900 dark:text-[#EEF2FF] mb-3">What You'll Master</h5>
+                <h5 className="font-semibold text-gray-900 dark:text-[#EEF2FF] mb-3">What You&rsquo;ll Master</h5>
                 <div className="space-y-2">
                   {[
                     "Answer behavioral questions confidently",

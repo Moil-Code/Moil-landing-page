@@ -6,7 +6,7 @@ export default function TestimonialItem({ testimonialImage, testimonialName, tes
 			<div className="flex flex-col gap-y-4">
 				<div className="flex gap-y-4 flex-col md:flex-row justify-between">
 					<div className="flex items-center gap-x-2">
-						<img className="w-[56px] h-[56px] rounded-lg" src={testimonialImage} />
+						<img className="w-[56px] h-[56px] rounded-lg" src={testimonialImage} alt={`${testimonialName}, Moil customer`} />
 						<p className="text-[20px] leading-[1.2] text-black font-semibold">
 							{testimonialName}
 						</p>

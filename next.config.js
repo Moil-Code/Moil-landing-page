@@ -24,6 +24,19 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // Retired comparison pages (Aug 2026). `bilingual-local-shop` baked the
+      // "shop" wording into a URL; `moil-vs-claude` was a near-duplicate of the
+      // ChatGPT page, which is the scaled-content pattern we are moving away from.
+      {
+        source: '/compare/bilingual-local-shop',
+        destination: '/compare/moil-vs-buffer',
+        permanent: true,
+      },
+      {
+        source: '/compare/moil-vs-claude',
+        destination: '/compare/moil-vs-chatgpt',
+        permanent: true,
+      },
       // Fix 2.6: 301 redirects for dead pages that are actively linked internally
       // and appear in GSC as 404 crawl errors
       {
@@ -39,6 +52,16 @@ const nextConfig = {
       {
         source: '/en/',
         destination: '/business',
+        permanent: true,
+      },
+      {
+        source: '/es',
+        destination: '/es/business',
+        permanent: true,
+      },
+      {
+        source: '/es/',
+        destination: '/es/business',
         permanent: true,
       },
       {
@@ -87,7 +110,40 @@ const nextConfig = {
             key: 'Referrer-Policy',
             value: 'strict-origin-when-cross-origin',
           },
+          {
+            // HSTS, in response to the Aug 2026 Site Audit's "subdomains don't
+            // support HSTS" notice.
+            //
+            // Read the scope carefully before relying on this. Per RFC 6797,
+            // `includeSubDomains` covers subdomains OF THE HOST THAT SENT THE
+            // HEADER. This app serves www.moilapp.com, so it covers
+            // www.moilapp.com and *.www.moilapp.com — and nothing else.
+            // blog / business / candidate.moilapp.com are SIBLINGS of www, not
+            // subdomains of it, so this header does not reach them. An earlier
+            // version of this comment claimed it did; it was wrong.
+            //
+            // Covering all of *.moilapp.com requires the header on the apex
+            // `moilapp.com`, and the apex is a hosting-level redirect to www
+            // (see src/common/constants/baseUrl.tsx), not a route in this app —
+            // so that has to be added in nginx/hosting config, not here.
+            // blog.moilapp.com sends its own via the Blog repo's vercel.json.
+            // business and candidate still have none.
+            //
+            // `preload` is deliberately omitted: submitting to the browser
+            // preload list is effectively irreversible and deserves its own
+            // decision.
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains',
+          },
         ],
+      },
+      {
+        source: '/es',
+        headers: [{ key: 'Content-Language', value: 'es' }],
+      },
+      {
+        source: '/es/:path*',
+        headers: [{ key: 'Content-Language', value: 'es' }],
       },
       {
         // Cache static assets aggressively

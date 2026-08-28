@@ -4,10 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import Autocomplete from "react-google-autocomplete";
-import SearchBarsOnTop from "../components/search";
-import HorizontalNFilterIcon from "../components/horizontal_btn";
 import DashboardQueryItem from "../components/dashboard_query_item";
-import { baseURL, workerBaseUrl } from "../../common/constants/baseUrl";
+import { baseURL } from "../../common/constants/baseUrl";
 import { buildCandidateJobUrl } from "../utils/urlBuilder";
 import PaginationBtn from "../components/paginate_btn";
 import { translations, Language } from "../utils/translations";
@@ -32,7 +30,7 @@ interface SearchJobFieldProps {
   accType?: string;
 }
 
-function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
+function SearchJobField({ accType: _accType = "client" }: SearchJobFieldProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const title = searchParams?.get("title") || "";
@@ -178,21 +176,9 @@ function SearchJobField({ accType = "client" }: SearchJobFieldProps) {
               </div>
             </div>
 
-            {/* Quick Stats */}
-            <div className="hidden lg:flex items-center gap-8">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-white">10K+</div>
-                <div className="text-white/70 text-xs">{t.activeJobs}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-white">500+</div>
-                <div className="text-white/70 text-xs">{t.companies}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-white">95%</div>
-                <div className="text-white/70 text-xs">{t.successRate}</div>
-              </div>
-            </div>
+            {/* Quick-stats strip removed Aug 2026: "10K+ active jobs", "500+ companies"
+                and a "95% success rate" were invented figures. Nothing replaces them
+                until there is a real number with a source behind it. */}
           </div>
         </div>
         

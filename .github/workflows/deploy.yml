@@ -1,0 +1,359 @@
+name: Deploy to server
+
+# Push or merge to main  →  tests  →  SSM RunShellScript  →  git pull  →  yarn
+# install  →  next build  →  pm2 reload.
+#
+# The transport is AWS Systems Manager, NOT SSH, and it is deliberately the SAME
+# one the employer API (Moil-codeProdbackend) already runs — this app lives on
+# THAT SAME INSTANCE, so it reuses the instance profile, the SSM agent and the
+# IAM role that are already proven working there. The instance needs no inbound
+# port open to anyone: the agent holds an OUTBOUND connection to AWS and the
+# deploy is handed to it over that.
+#
+# ONE thing is NOT inherited and must be added by hand: the OIDC trust policy.
+# GitHub signs each token with a subject naming THIS repo, so the deploy role's
+# trust policy has to accept
+#   repo:Moil-Code/Moil-landing-page:environment:production
+# alongside the employer API's own subject. Until it does, every run fails at
+# assume-role with a bare "Not authorized to perform sts:AssumeRoleWithWebIdentity",
+# which says nothing about which of several causes it is. See DEPLOYMENT.md.
+#
+# Nothing here holds the deploy logic: the runner ships `.github/deploy.sh` to
+# the instance and the instance executes it. That keeps the sequence (fetch,
+# install, BUILD, reload, health-check, roll back) in the repo, reviewable in a
+# diff, and identical whether it runs from CI or by hand.
+#
+# This is a Next.js app, so it differs from the API repos on the same transport:
+# there is a build step, the rollback re-builds, and NEXT_PUBLIC_* variables are
+# compiled into the bundle rather than read at runtime. deploy.sh's header spells
+# all three out.
+#
+# Setup checklist (IAM trust policy, secrets, server prep): DEPLOYMENT.md
+
+on:
+  push:
+    branches: [main]
+  # Manual re-deploy of whatever main currently points at (e.g. after fixing
+  # server config, or to retry a deploy that failed on a transient error).
+  workflow_dispatch:
+
+# Never run two deploys at once — a second `git reset --hard` landing while the
+# first is mid-install leaves node_modules describing one commit and the working
+# tree another. `cancel-in-progress: false` because killing a deploy halfway
+# through is worse than queueing behind it.
+concurrency:
+  group: deploy-landing-production
+  cancel-in-progress: false
+
+jobs:
+  # The same jest suite that runs on every PR. If it fails, nothing reaches the
+  # instance.
+  test:
+    uses: ./.github/workflows/tests.yml
+
+  deploy:
+    name: Deploy over SSM
+    needs: test
+    runs-on: ubuntu-latest
+    # Scopes the deploy to a GitHub Environment, which is what lets you later add
+    # required reviewers or a wait timer without touching this file. Repository
+    # secrets remain available to it; environment-level secrets override them.
+    #
+    # THIS LINE CHANGES THE OIDC SUBJECT CLAIM. Referencing an environment makes
+    # GitHub send `repo:OWNER/REPO:environment:production` instead of
+    # `repo:OWNER/REPO:ref:refs/heads/main`, so the IAM trust policy must pin the
+    # environment form — the branch form fails every run with a bare AccessDenied.
+    # The branch is restricted on the environment itself (Deployment branches),
+    # not by the claim. Removing this line silently inverts both facts.
+    environment: production
+
+    permissions:
+      contents: read
+      # Mints the OIDC token that AWS exchanges for short-lived credentials.
+      # Without it configure-aws-credentials fails with "Credentials could not be
+      # loaded" and nothing else in this job can work.
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Fail with a readable list rather than an opaque AWS error 40 lines later.
+      - name: Check deploy configuration
+        env:
+          AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+          AWS_REGION_IN: ${{ vars.AWS_REGION }}
+          SSM_INSTANCE_ID: ${{ secrets.SSM_INSTANCE_ID }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          APP_PATH: ${{ secrets.APP_PATH }}
+          PM2_NAME: ${{ secrets.PM2_NAME }}
+          WRITE_ENV: ${{ vars.DEPLOY_WRITE_ENV }}
+        run: |
+          missing=()
+          [ -n "$AWS_ROLE_ARN" ]    || missing+=("AWS_ROLE_ARN (secret)")
+          [ -n "$AWS_REGION_IN" ]   || missing+=("AWS_REGION (variable)")
+          [ -n "$SSM_INSTANCE_ID" ] || missing+=("SSM_INSTANCE_ID (secret)")
+          [ -n "$SERVER_USER" ]     || missing+=("SERVER_USER (secret)")
+          [ -n "$APP_PATH" ]        || missing+=("APP_PATH (secret)")
+          [ -n "$PM2_NAME" ]    || missing+=("PM2_NAME (secret)")
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "::error::Deploy is not configured. Missing: ${missing[*]}"
+            echo "See DEPLOYMENT.md — Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+
+          # DEPLOY_WRITE_ENV is ENABLED on this transport by an explicit decision,
+          # and it carries a real, permanent cost that is worth restating on every
+          # run rather than burying in a doc. Everything handed to send-command is
+          # retained as SSM COMMAND HISTORY for 30 days and readable afterwards by
+          # any principal holding ssm:GetCommandInvocation — so each deploy that
+          # writes .env leaves a full copy of the production environment in an AWS
+          # API. Over SSH this was argv on one process for one moment; here it is a
+          # stored record that cannot be deleted (SSM exposes no delete for command
+          # invocations; they age out on their own).
+          #
+          # The warning is not decoration. The blast radius of this feature is
+          # "who can call ssm:GetCommandInvocation in this account", which is a
+          # different and usually larger set than "who can read GitHub secrets",
+          # and it changes as IAM changes. Audit it when you grant SSM read access.
+          if [ "$WRITE_ENV" = "true" ]; then
+            echo "::warning::DEPLOY_WRITE_ENV=true — this deploy sends the ENV secret to the instance through ssm:SendCommand. Its contents are retained in SSM command history for 30 days and are readable by any principal with ssm:GetCommandInvocation in this account. Rotate anything exposed if that set of principals ever widens. See DEPLOYMENT.md."
+          fi
+
+      - name: Assume the deploy role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+          role-session-name: gha-deploy-${{ github.run_id }}
+
+      # A clear "the agent is not there" beats send-command's InvalidInstanceId,
+      # which is also what you get for a typo'd id and for an instance in another
+      # region — three very different fixes behind one error string.
+      - name: Check the instance is registered with SSM
+        env:
+          SSM_INSTANCE_ID: ${{ secrets.SSM_INSTANCE_ID }}
+        run: |
+          ping="$(aws ssm describe-instance-information \
+                    --filters "Key=InstanceIds,Values=$SSM_INSTANCE_ID" \
+                    --query 'InstanceInformationList[0].PingStatus' \
+                    --output text 2>&1)" || {
+            echo "::error::Could not query SSM: $ping"
+            exit 1
+          }
+          if [ "$ping" != "Online" ]; then
+            echo "::error::The instance is not Online in SSM (PingStatus: $ping). Check that the SSM agent is running on it, that its instance profile grants AmazonSSMManagedInstanceCore, that it can reach the SSM endpoints outbound, and that AWS_REGION matches the instance's region. NOTHING was deployed."
+            exit 1
+          fi
+          echo "SSM agent is Online."
+
+      - name: Deploy
+        # NOT the default `bash -e`: this step inspects exit codes to say whether
+        # the instance was reached at all, and -e would abort before the
+        # diagnosis. (The SSH version this replaced carried a `set -e` comment
+        # but ran under -e anyway, which is why its connection-timeout run died
+        # without ever printing the message written for exactly that case.)
+        shell: bash --noprofile --norc {0}
+        env:
+          SSM_INSTANCE_ID: ${{ secrets.SSM_INSTANCE_ID }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          APP_PATH: ${{ secrets.APP_PATH }}
+          PM2_NAME: ${{ secrets.PM2_NAME }}
+          DEPLOY_BRANCH: ${{ vars.DEPLOY_BRANCH || 'main' }}
+          # HEALTH_URL is a repository SECRET here. bin/www binds 127.0.0.1 only,
+          # so this is polled from the instance itself, not from the runner.
+          # A repository VARIABLE, not a secret — a loopback URL with nothing
+          # sensitive in it, and masking it would hide the one value you need
+          # to read when the health check fails.
+          # HEALTH_URL: ${{ vars.DEPLOY_HEALTH_URL || 'http://127.0.0.1:51/' }}
+          DEPLOY_ROLLBACK: ${{ vars.DEPLOY_ROLLBACK || '1' }}
+          # Next reads .env.local; naming it here keeps the deploy and the
+          # server's own convention from drifting apart silently.
+          ENV_FILE: ${{ vars.DEPLOY_ENV_FILE || '.env.local' }}
+          DEPLOY_SHA: ${{ github.sha }}
+          # OPT-IN: with DEPLOY_WRITE_ENV=true the instance's .env is rewritten
+          # from the ENV secret on every deploy. The `&& ... || ''` collapses to
+          # an empty string when the variable is not exactly "true", so the secret
+          # is not even interpolated into this job otherwise — an unset variable
+          # means the ENV content never enters the runner, let alone AWS.
+          ENV_CONTENT: ${{ vars.DEPLOY_WRITE_ENV == 'true' && secrets.ENV || '' }}
+          # How long to wait for the script to finish. npm install rebuilding
+          # puppeteer's Chrome is the slow case and can run for minutes.
+          POLL_TIMEOUT_SECONDS: ${{ vars.DEPLOY_TIMEOUT_SECONDS || '2400' }}
+        run: |
+          set -uo pipefail
+
+          # Every value crosses two shells (this one, then the instance's), so
+          # each is carried base64-encoded and decoded into a variable on the far
+          # side. A path or URL containing a space or a quote would otherwise
+          # reshape the command it is embedded in, and the failure would read as
+          # a broken deploy rather than as a quoting bug.
+          b64() { printf '%s' "$1" | base64 -w0; }
+
+          SCRIPT_B64="$(base64 -w0 .github/deploy.sh)"
+
+          # The ENV secret is multi-line, so it is base64'd into a single token
+          # rather than carried raw. Empty when DEPLOY_WRITE_ENV is not "true",
+          # and deploy.sh treats an empty value as "leave .env alone" — so the
+          # opt-in is enforced on both sides of the wire.
+          ENV_B64=""
+          if [ -n "$ENV_CONTENT" ]; then ENV_B64="$(printf '%s' "$ENV_CONTENT" | base64 -w0)"; fi
+
+          # The wrapper runs as ROOT — that is what AWS-RunShellScript gives you —
+          # and drops to the deploy user before doing anything. Running the deploy
+          # as root would leave node_modules and the git checkout root-owned, and
+          # the next by-hand deploy as the real user would fail on permissions.
+          cat > /tmp/wrapper.sh <<WRAPPER
+          #!/usr/bin/env bash
+          set -uo pipefail
+
+          d() { printf '%s' "\$1" | base64 -d; }
+
+          DEPLOY_USER="\$(d '$(b64 "$SERVER_USER")')"
+          APP_PATH="\$(d '$(b64 "$APP_PATH")')"
+          PM2_NAME="\$(d '$(b64 "$PM2_NAME")')"
+          DEPLOY_BRANCH="\$(d '$(b64 "$DEPLOY_BRANCH")')"
+          DEPLOY_SHA="\$(d '$(b64 "$DEPLOY_SHA")')"
+          HEALTH_URL="\$(d '$(b64 "$HEALTH_URL")')"
+          DEPLOY_ROLLBACK="\$(d '$(b64 "$DEPLOY_ROLLBACK")')"
+          ENV_FILE="\$(d '$(b64 "$ENV_FILE")')"
+          DEPLOY_ENV_B64='$ENV_B64'
+
+          command -v runuser >/dev/null 2>&1 || {
+            echo "runuser is not installed (util-linux) — cannot drop from root to \$DEPLOY_USER." >&2
+            exit 1
+          }
+          USER_HOME="\$(getent passwd "\$DEPLOY_USER" | cut -d: -f6)"
+          if [ -z "\$USER_HOME" ]; then
+            echo "No such user on this instance: \$DEPLOY_USER" >&2
+            exit 1
+          fi
+
+          TMP="\$(mktemp -d /tmp/moil-deploy.XXXXXXXX)"
+          trap 'rm -rf "\$TMP"' EXIT
+          d '$SCRIPT_B64' > "\$TMP/deploy.sh"
+          chmod 0644 "\$TMP/deploy.sh"
+          chown -R "\$DEPLOY_USER" "\$TMP"
+
+          # SSM truncates StandardOutputContent at 24,000 characters, and a first
+          # deploy that reinstalls Chrome comfortably exceeds that. Keep the full
+          # transcript on the instance so a truncated CI log is an inconvenience
+          # rather than a lost diagnosis.
+          LOG=/var/log/moil-landing-deploy.log
+          { echo; echo "=== \$(date -u +%FT%TZ)  deploy \$DEPLOY_SHA ==="; } >> "\$LOG" 2>/dev/null || LOG=/dev/null
+
+          # 'runuser -u USER -- cmd args' execs directly with NO intermediate
+          # shell, so none of these values is re-parsed. 'env -i' then builds the
+          # environment explicitly: a login shell is what would normally set HOME,
+          # and deploy.sh needs it to find an nvm-installed node.
+          runuser -u "\$DEPLOY_USER" -- env -i \\
+            HOME="\$USER_HOME" \\
+            USER="\$DEPLOY_USER" \\
+            LOGNAME="\$DEPLOY_USER" \\
+            PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \\
+            APP_PATH="\$APP_PATH" \\
+            PM2_NAME="\$PM2_NAME" \\
+            DEPLOY_BRANCH="\$DEPLOY_BRANCH" \\
+            DEPLOY_SHA="\$DEPLOY_SHA" \\
+            HEALTH_URL="\$HEALTH_URL" \\
+            DEPLOY_ROLLBACK="\$DEPLOY_ROLLBACK" \\
+            ENV_FILE="\$ENV_FILE" \\
+            DEPLOY_ENV_B64="\$DEPLOY_ENV_B64" \\
+            bash "\$TMP/deploy.sh" 2>&1 | tee -a "\$LOG"
+          exit "\${PIPESTATUS[0]}"
+          WRAPPER
+
+          WRAPPER_B64="$(base64 -w0 /tmp/wrapper.sh)"
+          rm -f /tmp/wrapper.sh
+
+          # --parameters as a JSON FILE, not the key=value shorthand: the command
+          # contains spaces and pipes, which the shorthand parser splits on.
+          # base64 is JSON-safe, so nothing in this file needs escaping.
+          cat > /tmp/ssm-params.json <<PARAMS
+          {
+            "commands": ["echo $WRAPPER_B64 | base64 -d | bash"],
+            "executionTimeout": ["3600"]
+          }
+          PARAMS
+
+          # stderr goes to a FILE, not into the command substitution: 2>&1 here
+          # would fold any AWS warning into $CMD_ID, and every later call would
+          # then query a command id that does not exist — reported as a deploy
+          # failure rather than as the parse error it is.
+          CMD_ID="$(aws ssm send-command \
+            --instance-ids "$SSM_INSTANCE_ID" \
+            --document-name AWS-RunShellScript \
+            --comment "GHA deploy ${DEPLOY_SHA:0:7}" \
+            --parameters file:///tmp/ssm-params.json \
+            --query 'Command.CommandId' --output text 2>/tmp/ssm-send.err)"
+          send_rc=$?
+          rm -f /tmp/ssm-params.json
+
+          if [ "$send_rc" -ne 0 ] || [ -z "$CMD_ID" ] || [ "$CMD_ID" = "None" ]; then
+            echo "::error::send-command failed, so NOTHING on the instance was touched — no pull, no reload, no rollback. $(cat /tmp/ssm-send.err 2>/dev/null)"
+            exit 1
+          fi
+          echo "SSM command: $CMD_ID"
+
+          # Poll rather than 'aws ssm wait command-executed': that waiter gives up
+          # after 100 seconds, which a deploy that installs dependencies passes
+          # routinely, and its timeout is indistinguishable from a hung deploy.
+          deadline=$(( SECONDS + POLL_TIMEOUT_SECONDS ))
+          status=Pending
+          while [ "$SECONDS" -lt "$deadline" ]; do
+            # InvocationDoesNotExist is normal for a second or two after
+            # send-command — the invocation is not queryable the instant it exists.
+            status="$(aws ssm get-command-invocation \
+                        --command-id "$CMD_ID" \
+                        --instance-id "$SSM_INSTANCE_ID" \
+                        --query 'Status' --output text 2>/dev/null)" || status=Pending
+            case "$status" in
+              Success|Failed|Cancelled|TimedOut) break ;;
+            esac
+            sleep 5
+          done
+
+          echo "::group::Deploy output (from the instance)"
+          aws ssm get-command-invocation \
+            --command-id "$CMD_ID" --instance-id "$SSM_INSTANCE_ID" \
+            --query 'StandardOutputContent' --output text 2>/dev/null
+          err="$(aws ssm get-command-invocation \
+                   --command-id "$CMD_ID" --instance-id "$SSM_INSTANCE_ID" \
+                   --query 'StandardErrorContent' --output text 2>/dev/null)"
+          if [ -n "$err" ] && [ "$err" != "None" ]; then
+            echo "--- stderr ---"
+            printf '%s\n' "$err"
+          fi
+          echo "::endgroup::"
+
+          rc="$(aws ssm get-command-invocation \
+                  --command-id "$CMD_ID" --instance-id "$SSM_INSTANCE_ID" \
+                  --query 'ResponseCode' --output text 2>/dev/null)"
+          case "$rc" in ''|None|-1) rc=1 ;; esac
+
+          # The distinction worth preserving from the SSH version: whether the
+          # instance was touched at all. One case is a plumbing problem with no
+          # blast radius; the other means the app was reloaded and may not have
+          # come back.
+          case "$status" in
+            Success)
+              echo "Deploy succeeded. Full transcript on the instance: /var/log/moil-landing-deploy.log"
+              exit 0
+              ;;
+            TimedOut)
+              echo "::error::SSM reported TimedOut. The script MAY have run partially — this is not a safe no-op. Read /var/log/moil-landing-deploy.log on the instance and check 'pm2 list' before re-running."
+              exit 1
+              ;;
+            Cancelled)
+              echo "::error::The SSM command was cancelled. Check /var/log/moil-landing-deploy.log on the instance for how far it got."
+              exit 1
+              ;;
+            Pending)
+              echo "::error::Gave up waiting after ${POLL_TIMEOUT_SECONDS}s — the command never reported a terminal status. It may still be running on the instance; check /var/log/moil-landing-deploy.log rather than assuming nothing happened. Raise DEPLOY_TIMEOUT_SECONDS if this deploy is legitimately slow."
+              exit 1
+              ;;
+            *)
+              echo "::error::The deploy ran on the instance and failed (status $status, exit $rc). Read the output above: if the health check failed, it has already rolled back to the previous commit. Full transcript: /var/log/moil-landing-deploy.log"
+              exit "$rc"
+              ;;
+          esac

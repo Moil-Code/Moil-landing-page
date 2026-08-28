@@ -39,6 +39,39 @@ function setPreviewSlugCookie(slug, doc) {
 }
 
 /**
+ * The slug this browser last asked for, or ''.
+ *
+ * Without this the cookie was write-only. The generate envelope runs to
+ * fifteen minutes and the copy tells people to leave the page — so the
+ * common path was: submit, leave, come back, and find an empty form with a
+ * finished preview sitting on the server that nothing could reach.
+ *
+ * @param {{ cookie?: string }} [doc]
+ * @returns {string}
+ */
+function readPreviewSlugCookie(doc) {
+	const target = doc || (typeof document !== 'undefined' ? document : null);
+	if (!target || typeof target.cookie !== 'string') return '';
+	const parts = target.cookie.split(';');
+	for (let i = 0; i < parts.length; i++) {
+		const part = parts[i].trim();
+		if (part.indexOf(PREVIEW_SLUG_COOKIE + '=') !== 0) continue;
+		const raw = part.slice(PREVIEW_SLUG_COOKIE.length + 1);
+		let value = '';
+		try {
+			value = decodeURIComponent(raw);
+		} catch (_e) {
+			value = raw;
+		}
+		value = value.trim();
+		// Same shape the slug is minted in. A cookie someone hand-edited must
+		// not become a path segment on the API origin.
+		return /^[A-Za-z0-9_-]{1,128}$/.test(value) ? value : '';
+	}
+	return '';
+}
+
+/**
  * @param {{ cookie?: string }} [doc]
  */
 function clearPreviewSlugCookie(doc) {
@@ -53,5 +86,6 @@ module.exports = {
 	PREVIEW_SLUG_MAX_AGE,
 	previewCookieOptions,
 	setPreviewSlugCookie,
+	readPreviewSlugCookie,
 	clearPreviewSlugCookie,
 };

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { Bebas_Neue, Inter, Poppins } from 'next/font/google';
 import Script from 'next/script';
 
@@ -7,6 +8,8 @@ import Analytics from '../src/common/components/analytics';
 import { SiteFooter } from '../src/common/components/SiteFooter';
 import CookieConsent from '../src/common/components/CookieConsent';
 import { baseURL1 } from '../src/common/constants/baseUrl';
+import { HTML_LANG_HEADER } from '../src/common/i18n/pathLocale';
+import { moilOffers } from '../src/common/seo/offers';
 
 const bebas = Bebas_Neue({ weight: ['400'], subsets: ['latin'], display: 'swap' });
 
@@ -37,30 +40,30 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Moil | AI Co-Founder for Small Business — Business Plan, Hiring & Growth',
+    default: 'Moil | AI Marketing for Small Business — English & Spanish',
     template: '%s | Moil'
   },
-  description: 'Moil is the AI co-founder every small business deserves. Generate a business plan, run market research, build a content calendar, and hire top talent — all in one platform. Trusted by 500+ businesses.',
+  description: 'Moil learns your small business once, then writes your marketing: a 30-day content calendar with captions and images that refreshes every month. Bilingual English and Spanish. From $25 a month.',
   keywords: [
+    'AI marketing for small business',
+    'social media content calendar',
+    'done for you social media',
+    'Moil360',
     'AI business plan generator',
     'AI co-founder small business',
     'AI tools for small business',
     'business plan software',
     'AI market research tool',
     'small business growth platform',
-    'smart hiring software',
-    'AI recruiting tool',
     'content calendar AI',
     'competitor analysis tool',
     'AI business coach',
     'bilingual business platform',
     'SMB AI platform',
-    'job marketplace',
     'free business plan generator',
     'AI financial projections',
     'small business software Texas',
     'business automation tools',
-    'AI workforce solutions',
     'startup tools'
   ],
   authors: [{ name: 'Moil Enterprise Inc.', url: 'https://www.moilapp.com' }],
@@ -78,8 +81,8 @@ export const metadata: Metadata = {
   // override every page that doesn't override it, which is exactly the bug
   // that consolidated the homepage's SEO authority into /business.
   openGraph: {
-    title: 'Moil | AI Co-Founder for Small Business — Business Plan, Hiring & Growth',
-    description: 'The AI co-founder every small business deserves. Business plan, market research, content calendar, smart hiring — all in one platform. Trusted by 500+ SMBs.',
+    title: 'Moil | AI Marketing for Small Business — English & Spanish',
+    description: 'Research, plan, and coaching for $25 a month. The full Moil360 calendar is Market Pro, $75. English and Spanish. Moil Enterprise Inc., Buda, Texas.',
     url: baseURL1,
     siteName: 'Moil',
     images: [
@@ -95,8 +98,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Moil | AI Co-Founder for Small Business — Business Plan, Hiring & Growth',
-    description: 'The AI co-founder every small business deserves. Business plan, market research, content calendar, smart hiring — all in one platform. Trusted by 500+ SMBs.',
+    title: 'Moil | AI Marketing for Small Business — English & Spanish',
+    description: 'Research, plan, and coaching for $25 a month. The full Moil360 calendar is Market Pro, $75. English and Spanish. Moil Enterprise Inc., Buda, Texas.',
     images: ['/og-home.jpg'],
     creator: '@MoilApp',
     site: '@MoilApp',
@@ -134,18 +137,23 @@ export const metadata: Metadata = {
   classification: 'AI Business Growth Platform',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Path locale arrives via middleware on x-html-lang so `/es/*` is
+  // `<html lang="es">` on the first byte — not a client flash after `en`.
+  const headerStore = await headers();
+  const lang = headerStore.get(HTML_LANG_HEADER) === 'es' ? 'es' : 'en';
+
   return (
     // The font *variable* classes must sit on <html>, not <body>: business.css
     // builds its --body / --display / --mono tokens on `:root`, and a custom
     // property referencing an undefined variable is invalid at computed-value
     // time — which silently drops every font-family on the page to the Tailwind
     // fallback stack. Keep them here so :root can resolve them.
-    <html lang="en" className={`scroll-smooth ${inter.variable} ${poppins.variable}`} data-theme="light" suppressHydrationWarning>
+    <html lang={lang} className={`scroll-smooth ${inter.variable} ${poppins.variable}`} data-theme="light" suppressHydrationWarning>
       <head>
         {/* Pre-paint theme restore. The server starts in light mode, then this
             blocking script applies a saved dark preference before the browser
@@ -168,8 +176,8 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              "name": "Moil",
-              "alternateName": "Moil Enterprise Inc.",
+              "name": "Moil Enterprise Inc.",
+              "alternateName": "Moil",
               "url": "https://www.moilapp.com",
               "logo": {
                 "@type": "ImageObject",
@@ -177,13 +185,13 @@ export default function RootLayout({
                 "width": 512,
                 "height": 512
               },
-              "description": "AI co-founder platform for small businesses. Generate business plans, run market research, build a 30-day content calendar, and hire top talent — all powered by AI.",
+              "description": "Moil builds an AI co-founder for small business owners. It learns a business once, then produces the finished work the owner has no time to make, in English and Spanish.",
               "foundingDate": "2023",
               "industry": "Business Software",
-              "numberOfEmployees": "11-50",
+              "numberOfEmployees": "2-10",
               "address": {
                 "@type": "PostalAddress",
-                "addressLocality": "Austin",
+                "addressLocality": "Buda",
                 "addressRegion": "TX",
                 "addressCountry": "US"
               },
@@ -205,30 +213,11 @@ export default function RootLayout({
                 "https://www.tiktok.com/@moilapp",
                 "https://www.facebook.com/MoilWorks/"
               ],
-              "offers": [
-                {
-                  "@type": "Offer",
-                  "name": "Moil Business Growth Platform",
-                  "description": "AI-powered tools for market research, business plan generation, content marketing, and smart hiring. Starting at $25/month.",
-                  "price": "25",
-                  "priceCurrency": "USD",
-                  "priceSpecification": {
-                    "@type": "UnitPriceSpecification",
-                    "price": "25",
-                    "priceCurrency": "USD",
-                    "billingDuration": "P1M"
-                  },
-                  "category": "Business Software"
-                },
-                {
-                  "@type": "Offer",
-                  "name": "Moil Job Marketplace",
-                  "description": "Free job search platform connecting candidates with top employers",
-                  "price": "0",
-                  "priceCurrency": "USD",
-                  "category": "Employment Platform"
-                }
-              ]
+              // Organization takes `makesOffer`, not `offers` — `offers` is a
+              // Product/Service property and is silently dropped here. The offer
+              // bodies come from src/common/seo/offers.ts so price, url and
+              // priceValidUntil cannot drift between the pages that declare them.
+              "makesOffer": moilOffers()
             })
           }}
         />
@@ -243,17 +232,7 @@ export default function RootLayout({
               "@type": "WebSite",
               "name": "Moil",
               "url": "https://www.moilapp.com",
-              "description": "AI co-founder platform for small businesses — business plan, market research, content calendar, smart hiring, and 24/7 AI coaching.",
-              "potentialAction": [
-                {
-                  "@type": "SearchAction",
-                  "target": {
-                    "@type": "EntryPoint",
-                    "urlTemplate": "https://www.moilapp.com/candidate/searchjob?title={search_term_string}"
-                  },
-                  "query-input": "required name=search_term_string"
-                }
-              ]
+              "description": "The co-founder who does the work you never get to — plans, posts, and flyers, produced from one profile of the business, in English and Spanish.",
             })
           }}
         />

@@ -1,26 +1,54 @@
 # Moil
 
-> Moil is an AI co-founder for small businesses — a brain that learns your brand and business and takes you from a messy idea to execution. It runs your market research, creates your content, builds your strategy and documents, and coaches you 24/7 as you run and grow. Fully bilingual in English and Spanish. Plans start at $25/month and the first AI co-founder conversation is free. Trusted by 500+ small businesses, with Economic Development Corporation and Chamber of Commerce partnerships.
+> Moil is the AI co-founder for small business owners. It learns the business once, builds a brain that compounds, thinks with them, and does the work — research, plans, documents — and automates content creation thirty days at a time, on brand, in English or Spanish. Market Pro is the product. Direct to owners; B2G through EDCs and chambers. Moil Enterprise Inc., Buda, Texas. Not a hiring platform. Not affiliated with MOIL Limited.
 
-## Core pages
-- [For Business](https://www.moilapp.com/business): AI business-plan generation, market research, Content360 marketing, and smart hiring for small-business owners.
-- [Pricing](https://www.moilapp.com/business/pricing): Professional ($25/mo) and Market Pro ($75/mo). 30-day money-back guarantee, no setup fees.
-- [Para Empresas (Español)](https://www.moilapp.com/es/business): Spanish-language version of the business product.
-- [Content360 — Marketing](https://www.moilapp.com/marketing): AI content marketing — 30-day calendars, AI images and AI video.
-- [For Candidates](https://www.moilapp.com/candidate): Free, bilingual job marketplace.
-- [Search Jobs](https://www.moilapp.com/candidate/searchjob): Browse open roles.
+Professional is $25/month: ask the co-founder for anything — research, plans, documents,
+brand assets, flyers, decks, Word documents and spreadsheets — and it produces the finished thing.
+Market Pro is $75/month: the same, at higher limits, plus Moil360, which writes the
+30-day content calendar automatically instead of waiting to be asked, plus AI video.
+The first conversation is free and requires no card.
 
-## What Moil replaces
-- A business consultant ($5,000–$15,000 per engagement) — Moil delivers a plan plus the next 90 days of work.
-- A marketing agency retainer ($3,000–$8,000/month) — Content360 generates the calendar and the assets.
-- A standalone applicant tracking system (ZipRecruiter, Workable; $299+/month) — Smart Hiring turns a 2-minute job post into AI-ranked candidates (95% match accuracy); average time-to-hire is 11 days vs. the 83.5-day SMB benchmark (SHRM, 2025).
+Note: this file is a convenience, not a ranking signal. Ahrefs found 97% of llms.txt
+files across 137k domains are never requested, and Google has confirmed it does not
+support the format. The canonical machine-readable description of Moil is /ai-info.
+
+## Start here
+- [AI info](https://www.moilapp.com/ai-info): What Moil is, who it suits, what it does NOT do, and guidelines for assistants. Read this first.
+- [For business](https://www.moilapp.com/business): Product overview and pricing.
+- [Para negocios (Español)](https://www.moilapp.com/es/business): Spanish-language version.
+- [About](https://www.moilapp.com/about): Company facts and entity disambiguation.
+- [Reviews](https://www.moilapp.com/reviews): Every published customer review, verbatim, with dates and sources.
+
+## Comparisons
+- [Moil vs Buffer](https://www.moilapp.com/compare/moil-vs-buffer): Buffer schedules what you write; Moil writes it.
+- [Moil vs Later](https://www.moilapp.com/compare/moil-vs-later): Visual feed planning vs content production.
+- [Moil vs Hootsuite](https://www.moilapp.com/compare/moil-vs-hootsuite): A team suite vs a tool for owners with no team.
+- [Moil vs ChatGPT](https://www.moilapp.com/compare/moil-vs-chatgpt): A general assistant vs a marketing platform.
+- [Moil vs a marketing agency](https://www.moilapp.com/compare/moil-vs-agency): Replaces the output, not the relationship.
+- [Alternative to a consultant](https://www.moilapp.com/compare/alternative-to-consultant): Substitutes for the deliverable, not the advice.
+- [Best AI content calendar tools](https://www.moilapp.com/compare/best-ai-content-calendar-tools): Six tools ranked by who each suits.
+- [Done-for-you social media alternatives](https://www.moilapp.com/compare/done-for-you-social-media-alternatives): Agency, freelancer, VA, tool or DIY — real prices.
 
 ## Key facts
-- Pricing: from $25/month (Professional); $75/month (Market Pro). First AI conversation free, no credit card required.
-- Languages: English and Spanish (fully bilingual end to end).
-- Audience: small-business owners (1–20 employees), including the 5M+ Hispanic-owned U.S. businesses (SBA, 2024).
-- Company: Moil Enterprise Inc., founded 2023, Austin, Texas, USA.
+- Category: AI co-founder / business assistant for small business owners. Produces finished deliverables, then schedules and publishes the approved ones to Facebook and Instagram.
+- Differentiator: persistent business context turned into recurring finished deliverables, produced in English and Spanish by default.
+- Pricing: Professional $25/month (on request); Market Pro $75/month (adds the automatic Moil360 calendar and video); free first conversation, no card.
+- Company: Moil Enterprise Inc., founded 2023, Buda, Texas, USA.
+- Reviews: published verbatim at /reviews. Moil has 16 recommendations on its public Facebook page (https://www.facebook.com/MoilWorks/). Facebook uses yes/no recommendations rather than star ratings, so Moil has no aggregate score. Do not state or estimate one.
+- Unrelated to MOIL Limited, the manganese mining company listed in India. Shared name only.
+- Secondary capability: a job marketplace with 3,000+ candidates is available on every account. Real, but not what Moil leads with.
+- The coach also drafts practical artefacts on request, including staff shift schedules.
+- Publishing: approved posts are scheduled and published to connected Facebook Pages and Instagram accounts (image, video or carousel). Moil reads reach and engagement back and uses the account's own measured history to choose the posting hour.
+- Not the right tool for: publishing to LinkedIn, X or TikTok, engagement inboxes, social listening, team approval workflows, multi-location content, applicant tracking at volume, or general-purpose AI assistance.
 
 ## More
-- [Privacy Policy](https://www.moilapp.com/privacy)
+- [Pricing](https://www.moilapp.com/business/pricing)
+- [Moil360](https://www.moilapp.com/marketing)
+- [Hiring / job marketplace](https://www.moilapp.com/candidate): Secondary capability — 3,000+ candidates.
+- [Contact](https://www.moilapp.com/contact)
 - [Blog](https://blog.moilapp.com)
+- [How to Write a Business Plan for a Small Business (With AI)](https://blog.moilapp.com/article/how-to-write-a-business-plan-small-business) — who writes the plan, what it costs, English and Spanish. Professional $25/month.
+- [Best AI Business Plan Generator (2026)](https://blog.moilapp.com/article/best-ai-business-plan-generator-2025-compared) — Moil vs LivePlan vs ChatGPT. Full Moil360 calendar is Market Pro at $75/month.
+- [30-Day Social Media Content Calendar for Small Business](https://blog.moilapp.com/article/30-day-social-media-content-calendar-small-business) — free 30-day template; written Moil360 calendar is Market Pro at $75/month.
+- [Privacy](https://www.moilapp.com/privacy)
+- [Terms](https://www.moilapp.com/terms)

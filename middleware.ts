@@ -1,56 +1,53 @@
 import { NextRequest, NextResponse } from 'next/server'
+import {
+  HTML_LANG_HEADER,
+  documentLocaleFromPathname,
+  langCookieValue,
+} from './src/common/i18n/pathLocale'
 
 /**
- * Middleware — language cookie management ONLY. Does NOT redirect on `?lg=`.
+ * Middleware — locale from the URL path, then cookie + Content-Language.
  *
  * History: a previous version stripped `?lg=en|es` from every URL with a 301,
  * storing the language in a cookie. That broke Spanish indexability — Google
  * had no Spanish URL to index because every `?lg=es` request 301'd to the
- * clean URL before content rendered. Result: zero non-English search surface
- * on a fully bilingual product.
+ * clean URL before content rendered.
+ *
+ * A later version kept `?lg=` but inferred a missing cookie from
+ * Accept-Language and never looked at `/es`. Crawlers hit `/es/business`
+ * with `Accept-Language: en`, so the Spanish door got
+ * `Set-Cookie: lang=en` and `<html lang="en">`.
  *
  * Current behavior:
- *   - If `?lg=en|es` is present, set the cookie and continue. The URL is
- *     preserved so Google can index `/business?lg=es` as a canonical Spanish
- *     page (with hreflang alternates pointing to/from `/business`).
- *   - If no cookie is set, infer from Accept-Language and write the cookie.
- *     No redirect — Google sees clean URLs by default.
- *   - Tracking params (`?ref=`, `?utm_*`, `?fbclid=`, `?gclid=`) are NOT
- *     touched here; they're handled at the metadata layer (canonical strips
- *     them) and at the robots layer (disallow patterns).
- *
- * Architectural followup (Phase 4 — see MOIL SEO/IMPLEMENTATION_PLAN.md):
- * migrate Spanish from `?lg=es` query-string to `/es/*` path prefix. Cleaner
- * URLs, better cache keys, easier hreflang. Defer until Phases 1–3 complete.
+ *   - `/es` and `/es/*` are Spanish documents. Cookie `lang=es`,
+ *     `Content-Language: es`, and `x-html-lang: es` for the root layout.
+ *     Path wins over `?lg=`, Accept-Language, and any prior cookie.
+ *   - Every other path is an English document (`html lang` + Content-Language
+ *     `en`). Cookie is `es` only when `?lg=es` is explicit; otherwise `en`.
+ *     Visiting `/business` does not flip a visitor to Spanish.
+ *   - No redirects. Tracking params are untouched here.
  */
 export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
   const lgParam = request.nextUrl.searchParams.get('lg')
+  const htmlLang = documentLocaleFromPathname(pathname)
+  const cookieLang = langCookieValue(pathname, lgParam)
 
-  // Path A — `?lg=` present: persist as cookie, continue (NO redirect).
-  if (lgParam === 'en' || lgParam === 'es') {
-    const response = NextResponse.next()
-    response.cookies.set('lang', lgParam, {
-      path: '/',
-      maxAge: 60 * 60 * 24 * 365, // 1 year
-      sameSite: 'lax',
-    })
-    return response
-  }
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set(HTML_LANG_HEADER, htmlLang)
 
-  // Path B — no cookie yet: infer from Accept-Language, set cookie, continue.
-  if (!request.cookies.get('lang')) {
-    const acceptLang = request.headers.get('accept-language') || ''
-    const lang = acceptLang.toLowerCase().startsWith('es') ? 'es' : 'en'
-    const response = NextResponse.next()
-    response.cookies.set('lang', lang, {
-      path: '/',
-      maxAge: 60 * 60 * 24 * 365,
-      sameSite: 'lax',
-    })
-    return response
-  }
+  const response = NextResponse.next({
+    request: { headers: requestHeaders },
+  })
 
-  return NextResponse.next()
+  response.cookies.set('lang', cookieLang, {
+    path: '/',
+    maxAge: 60 * 60 * 24 * 365, // 1 year
+    sameSite: 'lax',
+  })
+  response.headers.set('Content-Language', htmlLang)
+
+  return response
 }
 
 export const config = {

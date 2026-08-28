@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { setCookie, deleteCookie } from 'cookies-next';
+import { deleteCookie } from 'cookies-next';
 import BackButton from "./back_button";
 
 // Helper function to properly set Google Translate cookie
@@ -53,7 +53,7 @@ const SelectLanguage = ({ setQueryLg, handleClick }: SelectLanguageProps) => {
     // Set Google Translate cookie properly for production
     setGoogleTranslateCookie('en');
 
-    let url = new URL(window.location.href);
+    const url = new URL(window.location.href);
     console.log("Language changed to:", newLang);
     url.searchParams.set("lg", newLang);
     console.log("Updated URL:", url.toString());
@@ -89,7 +89,7 @@ const SelectLanguage = ({ setQueryLg, handleClick }: SelectLanguageProps) => {
     // Set Google Translate cookie properly for production
     setGoogleTranslateCookie('es');
 
-    let url = new URL(window.location.href);
+    const url = new URL(window.location.href);
     console.log("Language changed to:", newLang);
     url.searchParams.set("lg", newLang);
     console.log("Updated URL:", url.toString());
@@ -157,7 +157,7 @@ const SelectLanguage = ({ setQueryLg, handleClick }: SelectLanguageProps) => {
                   alt="English icon"
                   className="object-cover"
                 />
-                <h1 className="text-base font-medium text-black ml-4">English</h1>
+                <span className="text-base font-medium text-black ml-4">English</span>
               </div>
               <CheckCircleIcon
                 className={`${defaultLang === "English" ? "text-[#FF6633]" : "text-[#DCDCDC]"}`}
@@ -174,7 +174,7 @@ const SelectLanguage = ({ setQueryLg, handleClick }: SelectLanguageProps) => {
                   src="https://res.cloudinary.com/drlcisipo/image/upload/v1705704281/Website%20images/Spain_shstdy.jpg"
                   alt="spanish icon"
                 />
-                <h1 className="text-base font-medium text-black ml-4">Spanish</h1>
+                <span className="text-base font-medium text-black ml-4">Spanish</span>
               </div>
               <CheckCircleIcon
                 className={`${defaultLang === "Spanish" ? "text-[#FF6633]" : "text-[#DCDCDC]"}`}

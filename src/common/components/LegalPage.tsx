@@ -37,7 +37,18 @@ export default function LegalPage({
   return (
     <div className="bg-[#F7F8FC]">
       <CandidateNavigation refQuery="" lgQuery="" setQueryLg={() => { }} page={page} setShowLanguageModal={() => { }} />
-      <div className="py-4 flex justify-center items-center">
+      {/* The shared nav is `position: fixed`, so it is out of flow and covers
+          whatever the page draws at y=0. Every legal page therefore opened with
+          its "Back" link underneath the header — measured 25px behind it at
+          >=1024px and 17px at 390px, i.e. the top half of the only way out of
+          the page was unclickable, which is what the Aug 2026 staging test
+          reported on /cookies.
+
+          The offset is the header's own height (`h-14 md:h-16 lg:h-20` = 56 /
+          64 / 80px) at the same breakpoints, so the two stay in step. Keep them
+          in lockstep: nothing errors when they drift, the Back link just
+          quietly slides back under the bar. */}
+      <div className="pt-14 md:pt-16 lg:pt-20 py-4 flex justify-center items-center">
         <div className="flex flex-col gap-y-6 md:max-w-[700px] lg:max-w-[750px] px-6 py-6 md:py-10">
           <Link className="w-max flex items-center gap-x-1" href="/">
             <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,7 +59,12 @@ export default function LegalPage({
           </Link>
 
           <div className="flex flex-col gap-y-2">
-            <p className="text-[24px] md:text-[40px] font-[800] text-[#22263A] leading-normal">{title}</p>
+            {/* The page title is an <h1>, not a styled <p>. It rendered as a
+                paragraph for every legal page, which is why the Aug 2026 Site
+                Audit reported 13 pages with no h1 and flagged this template for
+                low semantic HTML usage. The classes are unchanged, so nothing
+                moves visually. */}
+            <h1 className="text-[24px] md:text-[40px] font-[800] text-[#22263A] leading-normal">{title}</h1>
             {lastUpdated && <p className="text-sm text-[#5C6178]">Last updated: {lastUpdated}</p>}
           </div>
 
@@ -60,7 +76,7 @@ export default function LegalPage({
             <div className="flex flex-col gap-y-6">
               {sections.map((s, i) => (
                 <div key={i} className="text-base leading-normal font-medium">
-                  <p className="font-[700]">{s.heading}</p>
+                  <h2 className="font-[700]">{s.heading}</h2>
                   <p className="whitespace-pre-line">{s.text}</p>
                 </div>
               ))}
