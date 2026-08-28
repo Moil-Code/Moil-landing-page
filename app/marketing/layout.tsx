@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
+import { moilOffers } from '../../src/common/seo/offers';
 import { content360Styles } from './content360Styles';
 
 export const metadata: Metadata = {
@@ -53,11 +54,15 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: `${baseURL1}/marketing`,
-    languages: {
-      'en': `${baseURL1}/marketing`,
-      'es': `${baseURL1}/marketing?lg=es`,
-      'x-default': `${baseURL1}/marketing`,
-    },
+    // No `languages` block. There used to be one declaring
+    // `es -> {url}?lg=es`, but `?lg=es` is not a separate document: it
+    // self-canonicalises back to this URL and the server still sends
+    // `<html lang="en">` / `Content-Language: en`, because the middleware reads
+    // the locale from the path, not the query. Semrush counted that as both a
+    // canonical/hreflang conflict and an hreflang language mismatch, and Google
+    // discards a cluster whose target canonicalises away. `/es/*` is the real
+    // Spanish surface; when a Spanish counterpart of this page exists at
+    // `/es/...`, declare the pair here and on that page at the same time.
   },
 };
 
@@ -77,36 +82,12 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
             "name": "Content360 by Moil",
             "applicationCategory": "BusinessApplication",
             "operatingSystem": "Web",
-            "description": "AI-powered content marketing calendar generator. Creates a complete 30-day social media plan with captions, hashtags, AI images, and video — customized to your brand. Trusted by 500+ businesses.",
+            "description": "AI-powered content marketing calendar generator. Creates a complete 30-day social media plan with captions, hashtags, AI images, and video — customized to your brand. ",
             "url": `${baseURL1}/marketing`,
-            "offers": [
-              {
-                "@type": "Offer",
-                "name": "Professional",
-                "price": "25",
-                "priceCurrency": "USD",
-                "priceSpecification": {
-                  "@type": "UnitPriceSpecification",
-                  "price": "25",
-                  "priceCurrency": "USD",
-                  "billingDuration": "P1M"
-                },
-                "description": "More capacity for growing businesses. 200 AI images, 10 job postings/month."
-              },
-              {
-                "@type": "Offer",
-                "name": "Market Pro",
-                "price": "75",
-                "priceCurrency": "USD",
-                "priceSpecification": {
-                  "@type": "UnitPriceSpecification",
-                  "price": "75",
-                  "priceCurrency": "USD",
-                  "billingDuration": "P1M"
-                },
-                "description": "Unlimited power. Full Content360 access. Unlimited job postings, 15 video credits/month."
-              }
-            ],
+            // Shared offer bodies — see src/common/seo/offers.ts. The copies that
+            // used to live here still described "10 job postings/month", a plan
+            // shape Moil no longer sells, and carried no url/priceValidUntil.
+            "offers": moilOffers(),
             "featureList": [
               "30-Day Content Marketing Calendar",
               "AI-Generated Captions & Hashtags",

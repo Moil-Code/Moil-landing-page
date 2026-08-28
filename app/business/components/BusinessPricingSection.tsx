@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { ArrowRight, Check, Sparkles } from 'lucide-react';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
+import { getRegisterUrl } from '../preview/previewClient';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
 
 export function BusinessPricingSection() {
@@ -11,17 +12,6 @@ export function BusinessPricingSection() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
 
   const plans = [
-    {
-      id: 'professional',
-      tier: t.business.pricing.professional.name,
-      tagline: t.business.pricing.professional.tagline,
-      price: billingCycle === 'monthly' ? t.business.pricing.professional.monthlyPrice : t.business.pricing.professional.annualPrice,
-      originalPrice: billingCycle === 'annual' ? t.business.pricing.professional.annualOriginalPrice : undefined,
-      per: billingCycle === 'monthly' ? t.business.pricing.perMonth : t.business.pricing.perYear,
-      features: t.business.pricing.professional.features,
-      cta: t.business.pricing.professional.cta,
-      ctaClass: 'pbtn-sec',
-    },
     {
       id: 'marketPro',
       tier: t.business.pricing.marketPro.name,
@@ -34,6 +24,17 @@ export function BusinessPricingSection() {
       ctaClass: 'pbtn-pri',
       featured: true,
       badge: t.business.pricing.marketPro.badge,
+    },
+    {
+      id: 'professional',
+      tier: t.business.pricing.professional.name,
+      tagline: t.business.pricing.professional.tagline,
+      price: billingCycle === 'monthly' ? t.business.pricing.professional.monthlyPrice : t.business.pricing.professional.annualPrice,
+      originalPrice: billingCycle === 'annual' ? t.business.pricing.professional.annualOriginalPrice : undefined,
+      per: billingCycle === 'monthly' ? t.business.pricing.perMonth : t.business.pricing.perYear,
+      features: t.business.pricing.professional.features,
+      cta: t.business.pricing.professional.cta,
+      ctaClass: 'pbtn-sec',
     },
   ];
 
@@ -54,11 +55,21 @@ export function BusinessPricingSection() {
         {t.business.pricing.tag}
       </div>
       <h2 className="section-headline rv">
-        {t.business.pricing.headline}<br />{t.business.pricing.headlineLine2} <span style={{ color: 'var(--orange)' }}>{t.business.pricing.headlineHighlight}</span>
+        {t.business.pricing.headline}
+        {t.business.pricing.headlineLine2 ? (
+          <>
+            <br />
+            {t.business.pricing.headlineLine2}{' '}
+          </>
+        ) : null}
+        {t.business.pricing.headlineHighlight ? (
+          <span style={{ color: 'var(--orange)' }}>{t.business.pricing.headlineHighlight}</span>
+        ) : null}
       </h2>
       <p className="pricing-sub rv">
         {t.business.pricing.subheadline}{' '}
-        <strong>{t.business.pricing.subheadlineEmphasis}</strong>&rdquo;
+        <strong>{t.business.pricing.subheadlineEmphasis}</strong>
+        {/^[“"]/.test(t.business.pricing.subheadline) ? '\u201d' : ''}
       </p>
       
       {/* Billing Cycle Toggle */}
@@ -187,7 +198,7 @@ export function BusinessPricingSection() {
               ))}
             </ul>
             <a
-              href={appendLangToUrl("https://business.moilapp.com/register", lang)}
+              href={appendLangToUrl(getRegisterUrl(), lang)}
               target="_blank"
               rel="noreferrer"
               className={`price-btn ${plan.ctaClass}`}
@@ -209,7 +220,7 @@ export function BusinessPricingSection() {
 
       {!pricingPage && (<div style={{ textAlign: 'center', marginTop: '40px' }} className="rv">
         <a
-          href={`/business/pricing?lg=${lang}`}
+          href={lang === 'es' ? '/es/business/pricing' : '/business/pricing'}
           className="btn-secondary"
           style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
         >

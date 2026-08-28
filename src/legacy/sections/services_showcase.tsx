@@ -1,6 +1,6 @@
 "use client";
 
-import { openBusinessRegister, buildBusinessUrl } from "../utils/urlBuilder";
+import { openBusinessRegister } from "../utils/urlBuilder";
 import {
   Search,
   FileText,
@@ -8,9 +8,6 @@ import {
   Image,
   Files,
   Users,
-  Zap,
-  Brain,
-  Target,
   Shield,
   Lock,
   MessageCircle
@@ -106,7 +103,7 @@ export default function ServicesShowcase({ refQuery, lgQuery }: ServicesShowcase
 
         {/* 6-Card Capabilities Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16 md:mb-20 lg:mb-24">
-          {capabilities.map((capability, index) => (
+          {capabilities.map((capability) => (
             <div
               key={capability.id}
               className="group relative bg-white/90 backdrop-blur-sm rounded-2xl p-6 md:p-8 border-2 border-gray-200/50 hover:border-[#5843BD]/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
@@ -283,7 +280,7 @@ export default function ServicesShowcase({ refQuery, lgQuery }: ServicesShowcase
                   </div>
                   <div className="pt-3 md:pt-4 lg:pt-6 border-t border-white/20">
                     <div className="flex items-baseline gap-2 mb-2 md:mb-3 lg:mb-4">
-                      <div className="text-2xl md:text-3xl lg:text-5xl xl:text-6xl font-bold md:font-black text-white">$15</div>
+                      <div className="text-2xl md:text-3xl lg:text-5xl xl:text-6xl font-bold md:font-black text-white">$25</div>
                       <div className="text-white/80 text-sm font-medium">/ month</div>
                     </div>
                     <button

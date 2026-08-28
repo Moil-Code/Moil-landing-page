@@ -7,6 +7,8 @@
 // visitor does land on a 404.
 const CLD = 'https://res.cloudinary.com/drlcisipo/image/upload';
 
+import Link from 'next/link';
+
 const NotFoundPage = () => {
   return (
     <div className="w-screen h-screen flex justify-center items-center" style={{ fontFamily: "var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
@@ -57,14 +59,14 @@ const NotFoundPage = () => {
             <p className="md:text-[40px] leading-[1.5] font-[500] text-white text-center capitalize text-[20px]">
               Page not found
             </p>
-            <a
+            <Link
               href="/"
               className="bg-[#FF6633] rounded-[28px] p-4 max-w-max no-underline"
             >
               <span className="text-[16px] leading-[1.5] font-[500] text-white md:text-[20px]">
                 Back to Home
               </span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

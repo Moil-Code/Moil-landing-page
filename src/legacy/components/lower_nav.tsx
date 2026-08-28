@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function LowerNaviation({refQuery, lgQuery }: {refQuery: any, lgQuery: string}) {
-  let [ queryString, setQueryString ] = useState("");
+  const [ queryString, setQueryString ] = useState("");
   // Automatically update queryString when refQuery or lgQuery change
   useEffect(() => {
     if (refQuery && lgQuery) {

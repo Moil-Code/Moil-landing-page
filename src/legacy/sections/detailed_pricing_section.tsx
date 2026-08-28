@@ -6,23 +6,6 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
 
   const pricingHeaders = [
     {
-      plan: "STARTER",
-      price: {
-        monthly: 15,
-        annually: 150
-      },
-      originalPrice: {
-        monthly: 15,
-        annually: 180
-      },
-      limitedOffer: "May 1st",
-      cta: "Purchase",
-      flowId: {
-        monthly: nanoid() + nanoid() + '_starter_monthly',
-        annually: nanoid() + nanoid() + '_starter_yearly'
-      }
-    },
-    {
       plan: "PROFESSIONAL",
       price: {
         monthly: 25,
@@ -40,7 +23,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
       }
     },
     {
-      plan: "MARKETING PRO",
+      plan: "MARKET PRO",
       price: {
         monthly: 75,
         annually: 720
@@ -60,99 +43,63 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
   const pricingDetails = [
     {
       label: "AI Business Coach",
-      values: ["✓ Unlimited", "✓ Unlimited", "✓ Unlimited"]
+      values: ["✓ Unlimited", "✓ Unlimited"]
     },
     {
       label: "Market Research",
-      values: ["✓", "✓", "✓"]
+      values: ["✓", "✓"]
     },
     {
       label: "Business Planning",
-      values: ["✓", "✓", "✓"]
+      values: ["✓", "✓"]
     },
     {
       label: "AI Images/month",
-      values: ["75", "200", "Unlimited"]
+      values: ["200", "Unlimited"]
     },
     {
       label: "Audio Creation",
-      values: ["30s clips (5 min)", "60s clips (15 min)", "2 min clips (30 min)"]
+      values: ["60s clips (15 min)", "2 min clips (30 min)"]
     },
     {
       label: "Video Creation",
-      values: ["X", "3/month (30s)", "15/month (60s)"]
+      values: ["3/month (30s)", "15/month (60s)"]
     },
     {
       label: "Job Postings",
-      values: ["3", "10", "Unlimited"]
+      values: ["10", "Unlimited"]
     },
     {
       label: "Moil 360 Marketing Calendar",
-      values: ["X", "X", "✓ 30-day automated"]
+      values: ["X", "✓ 30-day automated"]
     },
     {
       label: "Social Media Content",
-      values: ["X", "X", "✓ Full month generated"]
+      values: ["X", "✓ Full month generated"]
     },
     {
       label: "AI Image Editing",
-      values: ["X", "X", "✓ Unlimited"]
+      values: ["X", "✓ Unlimited"]
     },
     {
       label: "Candidate Matching",
-      values: ["X", "X", "✓ AI-powered"]
+      values: ["X", "✓ AI-powered"]
     },
     {
       label: "Email Templates",
-      values: ["X", "10", "Unlimited"]
+      values: ["10", "Unlimited"]
     },
     {
       label: "Blog Posts",
-      values: ["X", "X", "4"]
+      values: ["X", "4"]
     },
     {
       label: "Support",
-      values: ["Email", "24hr email", "Same-day + Phone"]
+      values: ["24hr email", "Same-day + Phone"]
     }
   ];
 
   const mobilePricingDetails = [
-    {
-      "pricing_header": {
-        plan: "STARTER",
-        price: {
-          monthly: 15,
-          annually: 150
-        },
-        originalPrice: {
-          monthly: 15,
-          annually: 180
-        },
-        limitedOffer: "May 1st",
-        cta: "Purchase",
-        flowId: {
-          monthly: nanoid() + nanoid() + '_starter_monthly',
-          annually: nanoid() + nanoid() + '_starter_yearly'
-        }
-      },
-      label: ["ai_coach", "market_research", "business_planning", "ai_images", "audio_creation", "video_creation", "job_postings", "marketing_calendar", "social_media", "image_editing", "candidate_matching", "email_templates", "blog_posts", "support"],
-      values: [
-        ["AI Business Coach", "✓ Unlimited"],
-        ["Market Research", "✓"],
-        ["Business Planning", "✓"],
-        ["AI Images/month", "75"],
-        ["Audio Creation", "30s clips (5 min)"],
-        ["Video Creation", "X"],
-        ["Job Postings", "3/month"],
-        ["Moil 360 Marketing Calendar", "X"],
-        ["Social Media Content", "X"],
-        ["AI Image Editing", "X"],
-        ["Candidate Matching", "X"],
-        ["Email Templates", "X"],
-        ["Blog Posts", "X"],
-        ["Support", "Email"]
-      ]
-    },
     {
       "pricing_header": {
         plan: "PROFESSIONAL",
@@ -191,7 +138,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
     },
     {
       "pricing_header": {
-        plan: "MARKETING PRO",
+        plan: "MARKET PRO",
         price: {
           monthly: 75,
           annually: 720
@@ -250,7 +197,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
                     position: 'relative'
                   }}
                 >
-                  <PricingHeaderForPringItem refQuery={refQuery} lgQuery={lgQuery} flowId={head.flowId} allShow={allShow} plan={head.plan} originalPrice={head.originalPrice} limitedOffer={head.limitedOffer} price={head.price} cta={head.cta} />
+                  <PricingHeaderForPringItem refQuery={refQuery} lgQuery={lgQuery} flowId={head.flowId} allShow={allShow} plan={head.plan} originalPrice={head.originalPrice} price={head.price} cta={head.cta} />
                 </th>
               )
             })
@@ -270,7 +217,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
                   </td>
                   {
                     det.values.map((d, i) => {
-                      const isFeaturedCol = i === 1;
+                      const isFeaturedCol = i === 0;
                       const isAvailable = d !== "X";
                       return (
                         <td
@@ -302,7 +249,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
         {
           mobilePricingDetails.map((head, index) => {
             return (
-              <MobilePricingItem flowId={head.pricing_header.flowId} values={head.values} allShow={allShow} plan={head.pricing_header.plan} originalPrice={head.pricing_header.originalPrice} limitedOffer={head.pricing_header.limitedOffer} price={head.pricing_header.price} cta={head.pricing_header.cta} refQuery={refQuery} lgQuery={lgQuery} key={index} />
+              <MobilePricingItem flowId={head.pricing_header.flowId} values={head.values} allShow={allShow} plan={head.pricing_header.plan} originalPrice={head.pricing_header.originalPrice} price={head.pricing_header.price} cta={head.pricing_header.cta} refQuery={refQuery} lgQuery={lgQuery} key={index} />
             )
           })
         }
@@ -313,7 +260,7 @@ export default function DetailedPricinSection({ refQuery, lgQuery, allShow }: an
         <div className="text-center">
           <h2 className="text-[36px] font-[700] leading-[1.2] mb-4" style={{ color: '#FFFFFF' }}>Partnership Programs</h2>
           <p className="text-[18px] max-w-3xl mx-auto" style={{ color: '#8B929E' }}>
-            Empower your community with Moil's AI-powered business tools through our comprehensive partnership programs.
+            Empower your community with Moil&rsquo;s AI-powered business tools through our comprehensive partnership programs.
           </p>
         </div>
 

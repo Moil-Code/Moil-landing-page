@@ -1,23 +1,24 @@
 'use client';
 
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import Autocomplete from 'react-google-autocomplete';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
 import {
 	buildRegisterUrl,
-	getPlanApiOrigin,
-	handleSubmitBody,
-	isPlanApiConfigured,
-	placeSubmitBody,
 	submitPreview,
 	viewPreview,
 	websiteSubmitBody,
 } from '../preview/previewClient';
-import { setPreviewSlugCookie } from '../preview/previewCookie';
+import { clearPreviewSlugCookie, readPreviewSlugCookie, setPreviewSlugCookie } from '../preview/previewCookie';
+import { readWebsite } from '../preview/previewInput';
+import {
+	canShowReadyCard,
+	readyBrandName,
+	sanitizeTagline,
+	websiteFieldDecision,
+} from '../preview/previewReveal';
 import { nextPollDelayMs, waitCopyKey } from '../preview/previewWaitCopy';
 
-type Door = 'website' | 'place' | 'handle';
 type Phase = 'form' | 'wait' | 'ready' | 'failed' | 'down' | 'identity' | 'ceiling';
 
 type ReadyPayload = {
@@ -29,14 +30,17 @@ type ReadyPayload = {
 		logoUrl?: string;
 		category?: string;
 		address?: string;
+		website?: string;
+		handle?: string;
+		handlePlatform?: string;
+		products?: string[];
+		sources?: string[];
 	};
 	content: {
 		kind?: 'posts' | 'brand-only';
 		posts?: { caption?: string; theme?: string }[];
 	};
 };
-
-const PLACES_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY_1 || '';
 
 function hex(color: string) {
 	const c = color.trim();
@@ -46,17 +50,11 @@ function hex(color: string) {
 export function PreviewMagnet() {
 	const { t, lang } = useLanguageContext();
 	const m = t.business.hero.magnet;
-	const origin = useMemo(() => getPlanApiOrigin(), []);
-	const configured = isPlanApiConfigured(origin);
 
-	const [door, setDoor] = useState<Door>('website');
+	const [submitting, setSubmitting] = useState(false);
 	const [website, setWebsite] = useState('');
-	const [handle, setHandle] = useState('');
-	const [placeId, setPlaceId] = useState('');
-	const [placeName, setPlaceName] = useState('');
-	const [email, setEmail] = useState('');
-	const [phase, setPhase] = useState<Phase>(configured ? 'form' : 'down');
-	const [errorMessage, setErrorMessage] = useState(configured ? '' : m.down);
+	const [phase, setPhase] = useState<Phase>('form');
+	const [errorMessage, setErrorMessage] = useState('');
 	const [slug, setSlug] = useState('');
 	const [ready, setReady] = useState<ReadyPayload | null>(null);
 	const [elapsedMs, setElapsedMs] = useState(0);
@@ -66,7 +64,6 @@ export function PreviewMagnet() {
 	const tickTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 	const startedAt = useRef(0);
 	const cancelled = useRef(false);
-	const emailSent = useRef(false);
 
 	useEffect(() => {
 		const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -109,25 +106,39 @@ export function PreviewMagnet() {
 		}, reduceMotion ? 1000 : 500);
 	};
 
+	const refuseNamelessReady = useCallback(() => {
+		stopWaitClock();
+		clearPreviewSlugCookie();
+		setReady(null);
+		setSlug('');
+		setPhase('failed');
+		setErrorMessage(m.failed);
+	}, [m.failed]);
+
 	const onReady = useCallback(
 		(nextSlug: string, body: ReadyPayload['brand'] extends infer B ? { brand?: B; content?: ReadyPayload['content'] } : never) => {
+			const brand = (body && body.brand) || {};
+			if (!canShowReadyCard(brand)) {
+				refuseNamelessReady();
+				return;
+			}
 			stopWaitClock();
 			setSlug(nextSlug);
 			setPreviewSlugCookie(nextSlug);
 			setReady({
 				slug: nextSlug,
-				brand: (body && body.brand) || {},
+				brand,
 				content: (body && body.content) || { kind: 'brand-only', posts: [] },
 			});
 			setPhase('ready');
 		},
-		[],
+		[refuseNamelessReady],
 	);
 
 	const poll = useCallback(
 		async (nextSlug: string, attempt: number) => {
 			if (cancelled.current) return;
-			const result = await viewPreview(origin, nextSlug);
+			const result = await viewPreview(nextSlug);
 			if (cancelled.current) return;
 			if (result.kind === 'ready' && result.body) {
 				onReady(nextSlug, result.body);
@@ -140,7 +151,6 @@ export function PreviewMagnet() {
 				return;
 			}
 			if (result.kind === 'missing' || result.kind === 'down') {
-				// Keep polling through a brief blip; after the long ladder we still poll.
 				if (result.kind === 'missing' && attempt > 8) {
 					stopWaitClock();
 					setPhase('failed');
@@ -152,14 +162,41 @@ export function PreviewMagnet() {
 				void poll(nextSlug, attempt + 1);
 			}, nextPollDelayMs(attempt));
 		},
-		[origin, onReady, m.failed],
+		[onReady, m.failed],
 	);
+
+	useEffect(() => {
+		const saved = readPreviewSlugCookie();
+		if (!saved) return;
+		let live = true;
+		void (async () => {
+			const result = await viewPreview(saved);
+			if (!live || cancelled.current) return;
+			if (result.kind === 'ready' && result.body) {
+				onReady(saved, result.body);
+				return;
+			}
+			if (result.kind === 'building') {
+				setSlug(saved);
+				setPhase('wait');
+				startWaitClock();
+				void poll(saved, 0);
+				return;
+			}
+			if (result.kind === 'failed' || result.kind === 'missing') {
+				clearPreviewSlugCookie();
+			}
+		})();
+		return () => {
+			live = false;
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const beginWait = (nextSlug: string, status?: string) => {
 		setSlug(nextSlug);
 		setPreviewSlugCookie(nextSlug);
 		if (status === 'ready') {
-			// POST replay of an already-ready row: still GET to load brand/content.
 			setPhase('wait');
 			startWaitClock();
 			void poll(nextSlug, 0);
@@ -177,22 +214,22 @@ export function PreviewMagnet() {
 
 	const onSubmit = async (event: FormEvent) => {
 		event.preventDefault();
-		if (!isPlanApiConfigured(origin)) {
-			setPhase('down');
-			setErrorMessage(m.down);
+
+		const read = readWebsite(website);
+		const decision = websiteFieldDecision(read);
+		if (decision.kind === 'refuse_social') {
+			setErrorMessage(m.socialLinkRefuse);
 			return;
 		}
-		setErrorMessage('');
-		emailSent.current = Boolean(email.trim());
-		let body: Record<string, string> = { locale: lang };
-		if (door === 'website') {
-			body = { ...websiteSubmitBody({ website, email, locale: lang }) };
-		} else if (door === 'place') {
-			body = { ...placeSubmitBody({ placeId, businessName: placeName, email, locale: lang }) };
-		} else {
-			body = { ...handleSubmitBody({ handle, email, locale: lang }) };
+		if (decision.kind === 'refuse_website') {
+			setErrorMessage(m.badWebsite);
+			return;
 		}
-		const result = await submitPreview(origin, body);
+
+		setErrorMessage('');
+		setSubmitting(true);
+		const result = await submitPreview(websiteSubmitBody({ website: decision.website, locale: lang }));
+		setSubmitting(false);
 		if (result.ok && result.body && result.body.slug) {
 			beginWait(result.body.slug, result.body.status);
 			return;
@@ -211,44 +248,22 @@ export function PreviewMagnet() {
 		setErrorMessage((result.body && result.body.message) || m.down);
 	};
 
-	const sendOptionalEmail = async () => {
-		if (!slug || !email.trim() || emailSent.current) return;
-		emailSent.current = true;
-		// Replay POST — does not block the reveal. Server will not generate again.
-		void submitPreview(origin, { email: email.trim(), locale: lang, website, placeId, handle, businessName: placeName });
-	};
-
 	const reset = () => {
 		stopWaitClock();
-		setPhase(configured ? 'form' : 'down');
-		setErrorMessage(configured ? '' : m.down);
+		setPhase('form');
+		setErrorMessage('');
 		setReady(null);
 		setSlug('');
 		setElapsedMs(0);
-		emailSent.current = false;
 	};
 
 	const waitKey = waitCopyKey(elapsedMs);
 	const waitText = waitKey === 'waitLeave' ? m.waitLeave : waitKey === 'waitLonger' ? m.waitLonger : m.waitCalm;
 
-	const colors = (ready?.brand.colors || []).filter(Boolean).slice(0, 3);
-	const posts = (ready?.content.posts || []).filter((p) => p && p.caption).slice(0, 3);
-	const brandOnly = !posts.length;
-
-	const doorBtn = (id: Door, label: string) => (
-		<button
-			type="button"
-			onClick={() => setDoor(id)}
-			aria-pressed={door === id}
-			className={`rounded-full px-3 py-1.5 text-[12px] font-medium tracking-[0.2px] transition-colors ${
-				door === id
-					? 'bg-[var(--orange)] text-white'
-					: 'border border-[var(--border2)] bg-transparent text-[var(--text)] hover:border-[var(--purple)]'
-			}`}
-		>
-			{label}
-		</button>
-	);
+	const brandName = readyBrandName(ready?.brand);
+	const descriptor = sanitizeTagline(ready?.brand.tagline);
+	const colors = (ready?.brand.colors || []).filter(Boolean).slice(0, 6);
+	const showReadyCard = phase === 'ready' && ready && canShowReadyCard(ready.brand);
 
 	const fieldClass =
 		'w-full rounded-lg border border-[var(--border2)] bg-[var(--bg)] px-3 py-2.5 text-[14px] text-[var(--text)] outline-none focus:border-[var(--orange)]';
@@ -260,54 +275,19 @@ export function PreviewMagnet() {
 		>
 			{phase !== 'ready' && phase !== 'wait' && (
 				<form onSubmit={onSubmit} className="flex flex-col gap-3">
-					<div className="flex flex-wrap gap-2" role="tablist" aria-label={m.doorsLabel}>
-						{doorBtn('website', m.doorWebsite)}
-						{doorBtn('place', m.doorPlace)}
-						{doorBtn('handle', m.doorHandle)}
-					</div>
+					<input
+						type="text"
+						inputMode="url"
+						name="website"
+						autoComplete="url"
+						placeholder={m.websitePlaceholder}
+						value={website}
+						onChange={(e) => setWebsite(e.target.value)}
+						className={fieldClass}
+						required
+					/>
 
-					{door === 'website' && (
-						<input
-							type="url"
-							name="website"
-							autoComplete="url"
-							placeholder={m.websitePlaceholder}
-							value={website}
-							onChange={(e) => setWebsite(e.target.value)}
-							className={fieldClass}
-							required
-						/>
-					)}
-
-					{door === 'place' &&
-						(PLACES_KEY ? (
-							<Autocomplete
-								apiKey={PLACES_KEY}
-								className={fieldClass}
-								placeholder={m.placePlaceholder}
-								options={{ types: ['establishment'] }}
-								onPlaceSelected={(place) => {
-									setPlaceId(place?.place_id || '');
-									setPlaceName(place?.name || place?.formatted_address || '');
-								}}
-							/>
-						) : (
-							<p className="text-[13px] text-[var(--text)]">{m.placeUnavailable}</p>
-						))}
-
-					{door === 'handle' && (
-						<input
-							type="text"
-							name="handle"
-							placeholder={m.handlePlaceholder}
-							value={handle}
-							onChange={(e) => setHandle(e.target.value)}
-							className={fieldClass}
-							required
-						/>
-					)}
-
-					{(phase === 'down' || phase === 'identity' || phase === 'ceiling' || phase === 'failed') && errorMessage && (
+					{errorMessage && (
 						<p role="alert" className="text-[13px] leading-snug text-[var(--orange)]">
 							{errorMessage}
 						</p>
@@ -315,88 +295,66 @@ export function PreviewMagnet() {
 
 					<button
 						type="submit"
-						disabled={phase === 'down' && !configured}
+						disabled={submitting}
 						className="inline-flex items-center justify-center rounded-lg bg-[var(--purple)] px-4 py-2.5 text-[14px] font-semibold text-white transition-colors hover:bg-[var(--purple-light)] disabled:cursor-not-allowed disabled:opacity-60"
 					>
-						{m.submit}
+						{submitting ? m.submitting : m.submit}
 					</button>
 				</form>
 			)}
 
 			{phase === 'wait' && (
-				<div className="flex flex-col gap-2 py-2" aria-live="polite">
+				<div className="flex flex-col gap-3 py-2" aria-live="polite">
 					<p className="text-[15px] font-medium text-[var(--text)]">{waitText}</p>
 					{!reduceMotion && (
-						<div
-							aria-hidden
-							className="h-1 w-full overflow-hidden rounded-full bg-[var(--border2)]"
-						>
+						<div aria-hidden className="h-1 w-full overflow-hidden rounded-full bg-[var(--border2)]">
 							<div className="h-full w-1/3 animate-pulse rounded-full bg-[var(--orange)]" />
 						</div>
 					)}
+					<p className="text-[12px] leading-snug text-[var(--text)] opacity-70">{m.waitReturn}</p>
 				</div>
 			)}
 
-			{phase === 'ready' && ready && (
-				<div className="flex flex-col gap-4">
-					<div>
-						<p className="text-[11px] uppercase tracking-[1px] text-[var(--orange)]">{m.revealEyebrow}</p>
-						<h2 className="mt-1 text-[22px] font-bold tracking-[-0.03em] text-[var(--text)]">
-							{ready.brand.name || m.unnamedBrand}
-						</h2>
-						{ready.brand.tagline && (
-							<p className="mt-1 text-[14px] text-[var(--text)]">{ready.brand.tagline}</p>
+			{showReadyCard && ready && (
+				<div className="flex flex-col gap-5">
+					<div className="flex items-start gap-3">
+						{ready.brand.logoUrl && (
+							// eslint-disable-next-line @next/next/no-img-element
+							<img
+								src={ready.brand.logoUrl}
+								alt=""
+								className="h-12 w-12 shrink-0 rounded-lg border border-[var(--border2)] bg-white object-contain p-1"
+								onError={(e) => {
+									(e.currentTarget as HTMLImageElement).style.display = 'none';
+								}}
+							/>
 						)}
+						<div className="min-w-0">
+							<p className="text-[11px] uppercase tracking-[1px] text-[var(--orange)]">{m.revealEyebrow}</p>
+							<h2 className="mt-1 text-[22px] font-bold leading-tight tracking-[-0.03em] text-[var(--text)]">
+								{brandName}
+							</h2>
+							{descriptor ? (
+								<p className="mt-1 text-[14px] leading-snug text-[var(--text)] opacity-90">{descriptor}</p>
+							) : null}
+						</div>
 					</div>
 
+					{!descriptor ? (
+						<p className="text-[13px] leading-snug text-[var(--text)] opacity-80">{m.readThin}</p>
+					) : null}
+
 					{colors.length > 0 && (
-						<div>
-							<p className="mb-2 text-[11px] uppercase tracking-[1px] text-[var(--text)]">{m.colorsLabel}</p>
-							<div className="flex gap-2">
-								{colors.map((c) => (
-									<span
-										key={c}
-										title={hex(c)}
-										className="h-8 w-8 rounded-full border border-[var(--border2)]"
-										style={{ background: hex(c) }}
-									/>
-								))}
-							</div>
+						<div className="flex flex-wrap gap-1.5" aria-hidden>
+							{colors.map((c) => (
+								<span
+									key={c}
+									className="h-2.5 w-2.5 rounded-full border border-[var(--border2)]"
+									style={{ background: hex(c) }}
+								/>
+							))}
 						</div>
 					)}
-
-					{brandOnly ? (
-						<p className="text-[14px] leading-snug text-[var(--text)]">{m.brandOnly}</p>
-					) : (
-						<div>
-							<p className="mb-2 text-[11px] uppercase tracking-[1px] text-[var(--text)]">{m.postsLabel}</p>
-							<ul className="flex flex-col gap-2">
-								{posts.map((post, i) => (
-									<li
-										key={i}
-										className="rounded-lg border border-[var(--border2)] bg-[var(--bg)] px-3 py-2 text-[13px] leading-snug text-[var(--text)]"
-									>
-										{post.caption}
-									</li>
-								))}
-							</ul>
-						</div>
-					)}
-
-					<label className="flex flex-col gap-1 text-[13px] text-[var(--text)]">
-						<span>{m.emailLabel}</span>
-						<input
-							type="email"
-							name="email"
-							autoComplete="email"
-							placeholder={m.emailPlaceholder}
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-							onBlur={() => void sendOptionalEmail()}
-							className={fieldClass}
-						/>
-						<span className="text-[12px] opacity-80">{m.emailHint}</span>
-					</label>
 
 					<a
 						href={signupHref}

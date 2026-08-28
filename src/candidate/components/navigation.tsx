@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Moon, Sun } from "lucide-react";
-import { openCandidateApp, buildCandidateUrl, openCandidateRegister } from "../utils/urlBuilder";
+import { buildCandidateUrl, openCandidateRegister } from "../utils/urlBuilder";
 import CustomTranslateButton from "../../common/components/CustomTranslateButton";
 
 interface CandidateNavigationProps {
@@ -18,7 +17,6 @@ interface CandidateNavigationProps {
 }
 
 export default function CandidateNavigation({
-  page,
   refQuery,
   lgQuery,
   setQueryLg,
@@ -28,7 +26,6 @@ export default function CandidateNavigation({
 }: CandidateNavigationProps) {
   const [activeTab, setActiveTab] = useState("jobs");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const router = useRouter();
 
 
   const handleLoginClick = () => {

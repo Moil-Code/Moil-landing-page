@@ -56,7 +56,6 @@ export const triggerGoogleTranslate = (langCode: 'en' | 'es') => {
 
 const CustomTranslateButton: React.FC<CustomTranslateButtonProps> = ({
   setShowLanguageModal,
-  setLgQuery,
   lgQuery,
   parentClass = '',
   className = '',

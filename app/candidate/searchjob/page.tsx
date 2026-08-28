@@ -3,8 +3,6 @@
 import { Suspense } from 'react';
 import SearchJobField from '../../../src/candidate/sections/search_field';
 
-interface SearchJobFieldPageProps {}
-
 function SearchJobFieldContent() {
   return <SearchJobField accType="client" />;
 }

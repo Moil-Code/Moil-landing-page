@@ -1,53 +1,57 @@
 import type { Metadata } from 'next';
 import './business.css';
+import { moilOffers, priceValidUntil } from '../../src/common/seo/offers';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
+import { en } from '../../src/common/translations/en';
+import { faqJsonLd } from '../../src/common/utils/faqJsonLd';
 
 export const metadata: Metadata = {
-  title: 'AI Co-Founder for Small Business — Business Plans, Hiring & Marketing',
-  description: 'Moil gives small businesses an AI co-founder that writes your business plan, runs your marketing, and hires your team. 500+ businesses growing. Try free. From $25/mo.',
+  title: {
+    absolute: 'AI co-founder for small business owners | Moil',
+  },
+  description: 'Moil learns the business once, builds a brain that compounds, thinks with you, and does the work. Research, plans, documents, and thirty days of content on brand, in English or Spanish.',
   keywords: [
+    'AI marketing for small business',
+    'social media content calendar',
+    'done for you social media',
+    'AI content calendar tool',
+    'what to post on social media for my business',
+    'social media for small business owners',
+    'AI social media captions',
+    'Moil360',
+    'bilingual marketing tools',
+    'marketing software in Spanish',
+    'calendario de contenidos para redes sociales',
+    'contenido para redes sociales negocio pequeno',
+    'Buffer alternative',
+    'Later alternative',
+    'Hootsuite alternative',
     'AI business plan generator',
-    'free business plan generator',
-    'AI tools for small business',
-    'small business growth platform',
     'AI market research tool',
-    'business plan software',
-    'smart hiring platform',
-    'AI recruiting software small business',
-    'content calendar AI',
-    'competitor analysis tool free',
-    'AI financial projections',
     'AI business coach',
-    'bilingual business tools',
-    'small business software Texas',
-    'SMB AI platform',
-    'business automation software',
+    'small business marketing plan',
+    'content marketing for contractors',
+    'social media for HVAC business',
+    'social media for landscaping business',
+    'small business AI tools',
     'AI co-founder',
-    'market research software',
-    'startup business tools',
-    'investor ready business plan',
-    'service business software',
-    'home services business tools',
-    'trade business management',
-    'HVAC business software',
-    'small business AI tools'
   ],
   openGraph: {
-    title: 'AI Co-Founder for Small Business — Business Plans, Hiring & Marketing',
-    description: 'Business plan, hiring, content marketing & AI coaching — all in one platform. 500+ small businesses growing. Try free. From $25/mo.',
+    title: 'AI co-founder for small business owners | Moil',
+    description: 'Moil learns the business once, builds a brain that compounds, thinks with you, and does the work. Research, plans, documents, and thirty days of content on brand, in English or Spanish.',
     url: `${baseURL1}/business`,
     images: [
       {
         url: '/og-business.jpg',
         width: 1200,
         height: 630,
-        alt: 'Moil AI Business Growth Platform for Small Business',
+        alt: 'Moil — AI co-founder for small business owners',
       }
     ],
   },
   twitter: {
-    title: 'AI Co-Founder for Small Business — Business Plans, Hiring & Marketing',
-    description: 'Business plan, hiring, content marketing & AI coaching — all in one platform. 500+ small businesses growing. Try free. From $25/mo.',
+    title: 'AI co-founder for small business owners | Moil',
+    description: 'Moil learns the business once, builds a brain that compounds, thinks with you, and does the work. Research, plans, documents, and thirty days of content on brand, in English or Spanish.',
   },
   alternates: {
     canonical: `${baseURL1}/business`,
@@ -66,185 +70,222 @@ export default function BusinessLayout({
 }) {
   return (
     <>
-      {/* SoftwareApplication structured data */}
+      {/* Organization — Moil Enterprise Inc., Buda TX, 2-10 */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Moil Enterprise Inc.",
+            "alternateName": "Moil",
+            "url": "https://www.moilapp.com",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://www.moilapp.com/moil-512.png",
+              "width": 512,
+              "height": 512
+            },
+            "description": "Moil builds an AI co-founder for small business owners. It learns a business once, then produces the finished work the owner has no time to make, in English and Spanish.",
+            "foundingDate": "2023",
+            "industry": "Business Software",
+            "numberOfEmployees": "2-10",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Buda",
+              "addressRegion": "TX",
+              "addressCountry": "US"
+            },
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "contactType": "customer service",
+              "email": "cs@moilapp.com",
+              "url": "https://www.moilapp.com"
+            },
+            "sameAs": [
+              "https://www.linkedin.com/company/moilapp",
+              "https://x.com/MoilApp",
+              "https://www.instagram.com/themoilapp/",
+              "https://www.tiktok.com/@moilapp",
+              "https://www.facebook.com/MoilWorks/"
+            ]
+          })
+        }}
+      />
+
+      {/*
+        Offerings — typed as Service, deliberately NOT Product.
+
+        These were schema.org/Product until Search Console reported them as
+        Merchant listings (missing "image", "shippingDetails",
+        "hasMerchantReturnPolicy", "availability") and Product snippets
+        (missing "review", "aggregateRating") in Aug 2026. Every one of those
+        warnings is a physical-retail requirement Google applies to Product,
+        and two of them cannot be satisfied honestly:
+
+          - shippingDetails / hasMerchantReturnPolicy describe shipping a box.
+            Moil is a monthly subscription. Declaring shipping terms for it
+            would be false structured data, not a fix.
+          - review / aggregateRating need a star rating. Moil has real,
+            sourced reviews (src/common/data/reviews.ts) but no star scores
+            anywhere — Facebook publishes yes/no recommendations, not ratings.
+            Inventing a rating is exactly what CLAUDE.md -> "Testimonials"
+            rule 4 forbids, and the FTC rule behind it.
+
+        Product bought us nothing in return: a product snippet needs a rating
+        to render, so with no rating there was no rich result to lose. Service
+        carries the same name/description/price to an answer engine, is what
+        Moil actually sells, and is not evaluated against merchant rules.
+
+        Do not change these back to Product without a real, sourced rating.
+      */}
+
+      {/* Service — Professional $25 (co-founder; no Moil360) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": "Moil Professional",
+            "serviceType": "AI business assistant subscription",
+            "description": "Professional $25/month — ask the co-founder for anything and it produces the finished work: research, plans, documents, brand assets, flyers, decks. It also schedules and publishes the posts you approve to Facebook and Instagram.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Moil"
+            },
+            "provider": {
+              "@type": "Organization",
+              "name": "Moil Enterprise Inc.",
+              "url": baseURL1
+            },
+            "areaServed": "US",
+            "availableLanguage": ["en", "es"],
+            "image": `${baseURL1}/og-pricing.jpg`,
+            "url": `${baseURL1}/business/pricing`,
+            "offers": {
+              "@type": "Offer",
+              "price": "25",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock",
+              "url": `${baseURL1}/business/pricing`,
+              "priceValidUntil": priceValidUntil(),
+              "seller": {
+                "@type": "Organization",
+                "name": "Moil Enterprise Inc.",
+                "url": baseURL1
+              },
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": "25",
+                "priceCurrency": "USD",
+                "billingDuration": "P1M"
+              },
+              "description": "Professional — research, plan, coaching, and documents. $25/month."
+            }
+          })
+        }}
+      />
+
+      {/* Service — Market Pro $75 (Moil360 on this plan only) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": "Moil Market Pro",
+            "serviceType": "AI marketing calendar subscription",
+            "description": "Market Pro $75/month — everything in Professional at higher limits, plus Moil360, which writes the 30-day content calendar automatically, and AI video.",
+            "brand": {
+              "@type": "Brand",
+              "name": "Moil"
+            },
+            "provider": {
+              "@type": "Organization",
+              "name": "Moil Enterprise Inc.",
+              "url": baseURL1
+            },
+            "areaServed": "US",
+            "availableLanguage": ["en", "es"],
+            "image": `${baseURL1}/og-pricing.jpg`,
+            "url": `${baseURL1}/business/pricing`,
+            "offers": {
+              "@type": "Offer",
+              "price": "75",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock",
+              "url": `${baseURL1}/business/pricing`,
+              "priceValidUntil": priceValidUntil(),
+              "seller": {
+                "@type": "Organization",
+                "name": "Moil Enterprise Inc.",
+                "url": baseURL1
+              },
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": "75",
+                "priceCurrency": "USD",
+                "billingDuration": "P1M"
+              },
+              "description": "Market Pro — full Moil360 calendar. $75/month."
+            }
+          })
+        }}
+      />
+
+      {/* SoftwareApplication structured data — no AggregateRating */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            "name": "Moil Business Growth Platform",
+            "name": "Moil",
             "applicationCategory": "BusinessApplication",
             "operatingSystem": "Web",
-            "description": "AI co-founder for small businesses — a brain that learns your brand and business to run market research, create content, build strategy and documents, and coach you 24/7 as you grow.",
+            "description": "Moil is the AI co-founder for small business owners. Owners shouldn\u2019t have to be everything on top of the real job. Moil learns the business once, builds a brain that compounds, thinks with them, and does the work \u2014 research, plans, documents \u2014 and automates content creation thirty days at a time, on brand, in English or Spanish.",
             "url": `${baseURL1}/business`,
             "screenshot": `${baseURL1}/og_image_v2.jpg`,
-            "offers": {
-              "@type": "Offer",
-              "price": "25",
-              "priceCurrency": "USD",
-              "priceSpecification": {
-                "@type": "UnitPriceSpecification",
-                "price": "25",
-                "priceCurrency": "USD",
-                "billingDuration": "P1M",
-                "description": "Starting price per month"
-              },
-              "description": "From $25/month. Free trial available."
-            },
-            "aggregateRating": {
-              "@type": "AggregateRating",
-              "ratingValue": "4.8",
-              "ratingCount": "500",
-              "bestRating": "5",
-              "worstRating": "1"
-            },
+            // Shared offer bodies — see src/common/seo/offers.ts.
+            "offers": moilOffers(),
             "featureList": [
-              "AI Business Plan Generator",
-              "AI Market Research (20-30 pages)",
-              "30-Day Content Marketing Calendar",
-              "AI Image & Video Generation",
-              "Smart Hiring — Post a Job in 2 Minutes + AI Matching",
-              "AI Candidate Matching (95% accuracy)",
-              "Competitor Analysis",
-              "Financial Projections",
-              "24/7 AI Business Coach",
-              "Brand DNA System",
+              "AI co-founder for small business owners",
+              "Moil360 30-Day Content Calendar",
+              "AI Business Plan",
+              "AI Market Research",
+              "24/7 Coaching",
+              "Documents",
+              "Moil360 30-Day Calendar (Market Pro $75)",
               "Bilingual English & Spanish"
             ]
           })
         }}
       />
 
-      {/* FAQ structured data — mirrors the on-page FAQ (en.ts business.faq.items) exactly so Google honors the rich result */}
+      {/* FAQ structured data — generated from the SAME array the on-page FAQ renders
+          (src/common/translations/en.ts -> business.faq.items). It used to be hand-copied
+          here, drifted from the component, and the page ended up publishing two
+          contradictory sets of answers. Never hand-maintain this again. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": [
-              {
-                "@type": "Question",
-                "name": "What does Moil do for small businesses?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Moil is an AI co-founder for small businesses — a brain that learns your brand and business and takes you from a messy idea to execution. It runs your market research, creates your content, builds your strategy and documents (from a business plan to whatever you need), and coaches you 24/7 as you run and grow. It is bilingual in English and Spanish, starts at $25 a month, and is trusted by 500+ small businesses with EDC and Chamber of Commerce partnerships."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "How much does Moil cost?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Moil plans start at $25/month (Professional) and $75/month (Market Pro). All plans include a 30-day money-back guarantee and no setup fees. Your first AI co-founder conversation requires no credit card. For comparison, a typical small-business consultant runs $5,000–$15,000 per engagement (Thumbtack, 2025) and a marketing agency retainer averages $3,000–$8,000 per month (HawkSEM, 2025)."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Can Moil generate a business plan?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Yes. After you answer 21 strategic questions about your business by voice or text — in English or Spanish — Moil produces a complete, investor-ready business plan with 5-year financial projections, go-to-market strategy, and funding requirements. The whole process takes minutes, not weeks."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "How does smart hiring work on Moil?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "You post a job in about two minutes, and Moil’s AI scores and ranks every candidate with 95% accuracy across skills, experience, location, and language. Average time to hire on Moil is 11 days, compared to the SMB benchmark of 83.5 days (SHRM 2025 Recruiting Benchmarking Report) — roughly 87% faster."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "How accurate is Moil’s AI candidate matching?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Moil’s AI scoring achieves 95% accuracy across skills, location, experience level, and language requirements. Businesses on Moil report a 94% interview success rate and 91% employee retention at 90 days."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "What is Moil360?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Moil360 is Moil’s AI-powered content marketing engine. It generates a complete 30-day content calendar with researched topics, captions, hashtags, AI-generated images, and AI video — all customized to your brand and industry. Includes 6 content types (Educational, Promotional, Engagement, Behind-the-Scenes, Entertainment) and is available in the Market Pro plan."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Does Moil support Spanish (bilingual)?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Yes. Moil is one of the few AI business platforms built fully bilingual in English and Spanish. The onboarding, market research, business plan, content calendar, captions, and hiring pipeline all work in either language. Moil’s bilingual hiring network reaches 58% more bilingual candidates than the industry average — especially relevant to the 5+ million Hispanic-owned U.S. businesses (SBA, 2024)."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "How is Moil different from ChatGPT or other generic AI tools?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Generic AI tools are blank slates — every session starts from zero, you’re the integrator, and outputs are rough drafts. Moil is purpose-built for small business owners. It learns your specific business through structured onboarding, maintains context across sessions, integrates real market data, generates actual marketing assets (images and video), includes 2-minute job posting with AI candidate matching, and delivers finished, ready-to-use outputs."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Moil vs LivePlan, Bizway, or Upmetrics — which is best for business planning?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "LivePlan, Bizway, and Upmetrics all produce business plans, and all three do that well. The difference: Moil treats the business plan as the start, not the end. After your plan generates, the same session also produces 20–30 pages of market research, your 30-day content calendar (Moil360), and your hiring pipeline. The planning tools hand you a PDF; Moil hands you a plan plus the work for the next 90 days. Moil is also fully bilingual EN/ES, where most planning tools are English-only."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Moil vs ZipRecruiter, Workable, or Indeed Smart Sourcing — which is best for hiring?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "ZipRecruiter, Workable, and Indeed Smart Sourcing are dedicated hiring platforms — they do hiring well, but only hiring, and most start at $299/month or more once you need multi-channel posting and candidate matching. Moil includes Smart Hiring as one feature in a larger platform: post a job in about two minutes, score candidates with 95% AI accuracy, and average 11 days to hire vs. the SMB benchmark of 83.5 days (SHRM 2025). All for $25–$75/month total — and bilingual EN/ES, which most ATS tools aren’t."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Moil vs Buffer, Later, or Hootsuite — which is best for content marketing?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Buffer, Later, and Hootsuite are great scheduling tools — you bring the content, they post it. Their AI add-ons help with captions, but you still start from a blank calendar. Moil’s Moil360 generates the entire 30-day calendar for you: researched topics tied to your business plan and market research, full captions, hashtags, AI-generated images, and AI video for your highest-impact days. Schedulers solve distribution; Moil360 solves the strategy and creation. Many SMBs use both — Moil360 for what to post, a scheduler for when."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "How is Moil different from hiring a business consultant?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "A traditional business consultant charges $5,000–$15,000 per engagement and takes 2–4 weeks to deliver. Moil delivers market research, a business plan, content strategy, and hiring setup in one platform — for $25–$75 a month. A consultant goes dark between engagements; Moil is on 24/7 and remembers everything about your business."
-                }
-              },
-              {
-                "@type": "Question",
-                "name": "Is my business data secure?",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "Yes. Moil is SOC 2 compliant with bank-level encryption. Your business data, market research, and candidate information are protected and never shared with third parties. Moil is trusted by 500+ small businesses and partners with Economic Development Corporations and Chambers of Commerce."
-                }
-              }
-            ]
-          })
+          __html: JSON.stringify(faqJsonLd(en.business.faq.items)),
         }}
       />
 
-      {/* Article schema — E-E-A-T signals for AI Overview citation. Post-March-2026 Google update made Experience the top E-E-A-T factor. */}
+      {/* Article schema — E-E-A-T signals for AI Overview citation. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Article",
-            "headline": "Moil — AI Co-Founder for Small Business: Plan, Hire, Market, and Grow for $25/month",
-            "description": "Comprehensive overview of Moil, the AI co-founder for small businesses: a brain that learns your brand and business to run market research, create content, build strategy and documents, and coach you 24/7 as you grow. Bilingual English and Spanish.",
+            "headline": "Moil is the AI co-founder for small business owners",
+            "description": "Moil learns the business once, builds a brain that compounds, thinks with them, and does the work \u2014 research, plans, documents \u2014 and automates content creation thirty days at a time, on brand, in English or Spanish.",
             "url": `${baseURL1}/business`,
             "datePublished": "2025-01-15",
-            "dateModified": "2026-06-09",
+            "dateModified": "2026-08-18",
             "author": {
               "@type": "Organization",
               "name": "Moil Enterprise Inc.",
@@ -263,10 +304,10 @@ export default function BusinessLayout({
             },
             "image": "https://www.moilapp.com/og_image_v2.jpg",
             "about": [
-              { "@type": "Thing", "name": "AI for small business" },
+              { "@type": "Thing", "name": "AI marketing for small business" },
+              { "@type": "Thing", "name": "Social media content calendar" },
               { "@type": "Thing", "name": "Business plan generation" },
-              { "@type": "Thing", "name": "Smart hiring" },
-              { "@type": "Thing", "name": "Content marketing automation" },
+              { "@type": "Thing", "name": "Moil360 content calendar" },
               { "@type": "Thing", "name": "Bilingual business tools" }
             ]
           })
@@ -280,6 +321,7 @@ export default function BusinessLayout({
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebPage",
+            "name": "Moil — the AI co-founder for small business owners",
             "url": `${baseURL1}/business`,
             "speakable": {
               "@type": "SpeakableSpecification",
@@ -289,7 +331,7 @@ export default function BusinessLayout({
         }}
       />
 
-      {/* Breadcrumb schema — completes the breadcrumb coverage (only /pricing and /searchjob had it previously) */}
+      {/* Breadcrumb schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -313,15 +355,15 @@ export default function BusinessLayout({
           })
         }}
       />
-      {/* HowTo structured data — "21 questions to full business plan" process */}
+      {/* HowTo structured data — learn once, then plan. Moil360 is Market Pro. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "HowTo",
-            "name": "How to Create a Complete Business Plan with AI in Under 30 Minutes",
-            "description": "Use Moil's AI co-founder to generate a business plan, market research, a 30-day content calendar, and a hiring pipeline.",
+            "name": "How to Get a Month of Social Media Content for a Small Business",
+            "description": "How to go from a blank calendar to a finished month of content: describe the business once, let Moil research the market, then review the 30 days it writes. Works in English or Spanish.",
             "totalTime": "PT30M",
             "estimatedCost": {
               "@type": "MonetaryAmount",
@@ -332,38 +374,32 @@ export default function BusinessLayout({
               {
                 "@type": "HowToStep",
                 "position": 1,
-                "name": "Answer 21 Strategic Questions",
-                "text": "Answer 21 questions about your business by voice or text — in English or Spanish. Moil's AI learns your business model, market, goals, and gaps in 5–10 minutes."
+                "name": "Describe your business once",
+                "text": "Answer questions about what you sell, who buys and how you talk — by voice or text, in English or Spanish. Moil stores that context and reuses it every month."
               },
               {
                 "@type": "HowToStep",
                 "position": 2,
-                "name": "Receive 20–30 Pages of Market Research",
-                "text": "Moil automatically generates deep market research using your answers: TAM/SAM/SOM, competitive landscape, customer personas, opportunity scoring, and 8–10 authoritative sources."
+                "name": "Get the market research",
+                "text": "Moil researches your customers, your competitors and the local opportunity, and uses it to decide what is worth posting about."
               },
               {
                 "@type": "HowToStep",
                 "position": 3,
-                "name": "Get Your Investor-Ready Business Plan",
-                "text": "With one click, receive a polished PDF business plan with 5-year financial projections, go-to-market strategy, operational roadmap, and funding requirements."
+                "name": "Get your business plan",
+                "text": "Moil writes the plan \u2014 strategy, projections and documents \u2014 included with Professional at $25 a month."
               },
               {
                 "@type": "HowToStep",
                 "position": 4,
-                "name": "Build Your 30-Day Content Marketing Calendar",
-                "text": "Moil360 generates 30 days of content: researched topics, captions, hashtags, CTAs, AI images, and AI video — ready to post across all platforms."
+                "name": "Review the 30-day calendar",
+                "text": "Moil360 lays out 30 days of topics, captions and images. You review and approve rather than write. The full calendar is Market Pro at $75 a month."
               },
               {
                 "@type": "HowToStep",
                 "position": 5,
-                "name": "Activate Smart Hiring",
-                "text": "Post a job in about two minutes. Moil's AI then scores and ranks every candidate with 95% accuracy. Average time to hire: 11 days."
-              },
-              {
-                "@type": "HowToStep",
-                "position": 6,
-                "name": "Access Your 24/7 AI Business Coach",
-                "text": "Your AI co-founder is always available for cash flow guidance, marketing refinements, retention tactics, and scaling advice — and gets smarter the more you use it."
+                "name": "Let it refresh every month",
+                "text": "Next month drafts itself from the same stored context, so nothing expires and you never re-explain the business. Start free, no card."
               }
             ]
           })

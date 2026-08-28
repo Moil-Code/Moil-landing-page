@@ -1550,9 +1550,8 @@ footer {
   font-family: var(--display);
   font-size: clamp(41px, 5.2vw, 72px);
   font-weight: 800;
-  line-height: 0.98;
-  letter-spacing: -0.05em;
-  text-transform: uppercase;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
 
@@ -2315,8 +2314,8 @@ footer {
   to   { transform: translateX(0); }
 }
 .testi-card2 {
-  flex: 0 0 340px;
-  min-height: 300px;
+  flex: 0 0 380px;
+  min-height: 340px;
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid var(--border2);
@@ -2334,7 +2333,33 @@ footer {
 .testi-card2:hover { transform: rotate(0deg) scale(1.04); z-index: 2; }
 .testi-card2__body { padding: 22px 24px 26px; text-align: left; }
 .testi-card2__text {
-  font-size: 14px; color: var(--text); line-height: 1.55; margin: 12px 0 18px;
+  font-size: 14px; color: var(--text); line-height: 1.6; margin: 12px 0 18px;
+  text-wrap: pretty;
+}
+/* The dated source under each name. Visible provenance is the point: the policy
+   requires every quote to have one, so the page shows it rather than filing it. */
+.t-source {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-top: 3px;
+}
+.t-lang {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.3px;
+  color: var(--text3);
+  margin: -6px 0 16px;
+}
+.testi-original-note {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin: 16px 0 0;
 }
 [data-theme="light"] .testi-card2 {
   background:
@@ -2550,3 +2575,243 @@ footer {
 .t-text,
 .final-sub { line-height: 1.6; }
 .faq-a-inner { line-height: 1.65; }
+
+/* ── Direct answer block ──────────────────────────────────────────────────────
+   The self-contained "What is Moil?" paragraph. Assistants lift the first
+   coherent block of text on a page, so this is deliberately plain: real prose,
+   one idea, no marketing furniture around it to muddy the extraction. */
+.aeo-answer {
+  padding: 72px 24px;
+  display: flex;
+  justify-content: center;
+}
+.aeo-answer__inner {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: center;
+}
+.aeo-answer__label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin: 0;
+}
+.aeo-answer__body {
+  font-size: clamp(16px, 2.1vw, 19px);
+  line-height: 1.65;
+  color: var(--text);
+  font-weight: 300;
+  margin: 0;
+  text-wrap: pretty;
+}
+.aeo-answer__stamp {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin: 0;
+}
+@media (max-width: 960px) {
+  .aeo-answer { padding: 52px 20px; }
+}
+
+/* Link from the testimonial row to the full, sourced list. */
+.testi-readall {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+.testi-readall:hover { border-bottom-color: var(--orange); }
+
+/* ── What it made ─────────────────────────────────────────────────────────────
+   Breadth, shown as real deliverables rather than adjectives. Two columns on
+   desktop so nine items read as a range without becoming a wall. */
+.made { padding: 96px 24px; display: flex; justify-content: center; }
+.made__inner { max-width: 900px; width: 100%; display: flex; flex-direction: column; gap: 18px; }
+.made__list {
+  list-style: none;
+  margin: 34px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--border2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.made__list--jobs {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.made__item {
+  background: var(--surface);
+  padding: 18px 22px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+.made__item--job {
+  align-items: flex-start;
+}
+.made__item--job strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+  line-height: 1.35;
+}
+.made__item--job p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text2);
+}
+.made__item::before {
+  content: '';
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--orange);
+}
+.made__footnote {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text3);
+  text-align: center;
+  margin: 22px 0 0;
+}
+
+/* ── Tier split ───────────────────────────────────────────────────────────────
+   The whole offer in one table: $25 makes things on request, $75 also runs the
+   month unasked. Kept deliberately plain — this is the page's clarity moment. */
+.tiers { padding: 96px 24px; display: flex; justify-content: center; }
+.tiers__inner { max-width: 940px; width: 100%; }
+.tiers__table {
+  margin-top: 40px;
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.tiers__row {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  font-size: 14.5px;
+  line-height: 1.5;
+  align-items: center;
+}
+.tiers__row:last-child { border-bottom: none; }
+.tiers__row > span:first-child { color: var(--text2); }
+.tiers__row > span:not(:first-child) { color: var(--text); font-weight: 500; }
+.tiers__row--head {
+  align-items: end;
+  padding: 26px 22px 20px;
+  background: linear-gradient(180deg, var(--orange-dim), transparent);
+  border-bottom: 1px solid var(--border2);
+}
+.tiers__row--head > span { display: flex; flex-direction: column; gap: 4px; }
+.tiers__row--head strong { font-size: 16px; }
+.tiers__row--head em {
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--orange);
+}
+.tiers__row--head small {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text3);
+  font-weight: 400;
+}
+.tiers__note {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text3);
+  text-align: center;
+  margin-top: 20px;
+}
+
+@media (max-width: 860px) {
+  .made { padding: 64px 20px; }
+  .made__list { grid-template-columns: 1fr; }
+  .tiers { padding: 64px 20px; }
+  .tiers__row { grid-template-columns: 1fr; gap: 6px; padding: 16px 18px; }
+  .tiers__row > span:not(:first-child)::before {
+    content: attr(data-label) ': ';
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text3);
+    font-weight: 400;
+  }
+  .tiers__row--head { display: none; }
+}
+
+/* ── Product guides ───────────────────────────────────────────────────────────
+   One sentence + three text links. Not cards. Not a blog dump. */
+.guides {
+  padding: 48px 24px 72px;
+  display: flex;
+  justify-content: center;
+}
+.guides__inner {
+  max-width: 720px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+}
+.guides__sentence {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--text2);
+  margin: 0;
+  text-wrap: pretty;
+}
+.guides__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.guides__links a {
+  font-size: 14px;
+  color: var(--orange);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.guides__links a:hover { color: var(--text); }
+@media (max-width: 960px) {
+  .guides { padding: 36px 20px 56px; }
+}

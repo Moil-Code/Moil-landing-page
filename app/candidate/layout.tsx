@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { priceValidUntil } from '../../src/common/seo/offers';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
 
 export const metadata: Metadata = {
@@ -49,11 +50,15 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: `${baseURL1}/candidate`,
-    languages: {
-      'en': `${baseURL1}/candidate`,
-      'es': `${baseURL1}/candidate?lg=es`,
-      'x-default': `${baseURL1}/candidate`,
-    },
+    // No `languages` block. There used to be one declaring
+    // `es -> {url}?lg=es`, but `?lg=es` is not a separate document: it
+    // self-canonicalises back to this URL and the server still sends
+    // `<html lang="en">` / `Content-Language: en`, because the middleware reads
+    // the locale from the path, not the query. Semrush counted that as both a
+    // canonical/hreflang conflict and an hreflang language mismatch, and Google
+    // discards a cluster whose target canonicalises away. `/es/*` is the real
+    // Spanish surface; when a Spanish counterpart of this page exists at
+    // `/es/...`, declare the pair here and on that page at the same time.
   },
 };
 
@@ -79,8 +84,18 @@ export default function CandidateLayout({
             "screenshot": `${baseURL1}/og-candidate.jpg`,
             "offers": {
               "@type": "Offer",
+              "name": "Moil for job seekers",
               "price": "0",
               "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock",
+              "url": `${baseURL1}/candidate`,
+              "priceValidUntil": priceValidUntil(),
+              "category": "Employment",
+              "seller": {
+                "@type": "Organization",
+                "name": "Moil Enterprise Inc.",
+                "url": baseURL1
+              },
               "description": "Free for job seekers"
             },
             "featureList": [
@@ -97,20 +112,19 @@ export default function CandidateLayout({
         }}
       />
 
-      {/* ItemList structured data for job search */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            "name": "Job Opportunities on Moil",
-            "description": "Thousands of job opportunities across industries, with a focus on bilingual (English/Spanish) positions",
-            "url": `${baseURL1}/candidate/searchjob`,
-            "numberOfItems": "10000"
-          })
-        }}
-      />
+      {/*
+        No ItemList of job opportunities.
+
+        This was an ItemList with numberOfItems "10000" and no itemListElement —
+        an invalid list (one that lists nothing) whose only real content was a
+        count we cannot source. That is the same unsupported-number problem as
+        the retired business-count line removed earlier; CLAUDE.md ->
+        "Testimonials" rule 4 covers counts, not just ratings.
+
+        If real listings are ever exposed here, emit JobPosting nodes for the
+        jobs actually on the page — each with title, description, datePosted,
+        hiringOrganization and jobLocation — rather than a bare total.
+      */}
 
       {/* FAQ structured data */}
       <script

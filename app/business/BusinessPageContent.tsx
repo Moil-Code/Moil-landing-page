@@ -6,6 +6,7 @@ import { ProductShot } from './components/ProductShot';
 import { BilingualSlider } from './components/BilingualSlider';
 import { JourneyVisual } from './components/JourneyVisual';
 import { productShots } from './productShots';
+import { businessReviews } from '../../src/common/data/reviews';
 import { BusinessFaqSection } from './components/BusinessFaqSection';
 import { BusinessFooter } from './components/BusinessFooter';
 import { BusinessMobileMenu } from './components/BusinessMobileMenu';
@@ -15,14 +16,29 @@ import { DemoVideoSection } from './components/DemoVideoSection';
 import { useBusinessUi } from './hooks/useBusinessUi';
 import { useLanguageContext } from '../../src/common/components/I18nProvider';
 import { appendLangToUrl } from './utils/appendLangToUrl';
+import { getRegisterUrl } from './preview/previewClient';
 import { IconMap, testimonialImages } from './sections/iconMap';
 import { HeroSection } from './sections/HeroSection';
+
+const PRODUCT_GUIDE_LINKS = [
+  {
+    key: 'writePlan' as const,
+    href: 'https://blog.moilapp.com/article/how-to-write-a-business-plan-small-business',
+  },
+  {
+    key: 'compareGenerators' as const,
+    href: 'https://blog.moilapp.com/article/best-ai-business-plan-generator-2025-compared',
+  },
+  {
+    key: 'calendar' as const,
+    href: 'https://blog.moilapp.com/article/30-day-social-media-content-calendar-small-business',
+  },
+];
 
 export function BusinessPageContent() {
   const { theme, toggleTheme, menuOpen, setMenuOpen, scrolled } = useBusinessUi();
   const { t, lang: currentLang, setLang } = useLanguageContext();
-  const [showCustomizeModal, setShowCustomizeModal] = useState(false);
-  const [showLanguageModal, setShowLanguageModal] = useState(false);
+  const [, setShowLanguageModal] = useState(false);
 
   const handleLanguageChange = (lang: 'en' | 'es') => {
     setLang(lang);
@@ -40,7 +56,6 @@ export function BusinessPageContent() {
   const navItems: NavItem[] = [
     { label: t.business.nav.features, href: '#capabilities' },
     { label: t.business.nav.howItWorks, href: '#journey' },
-    { label: t.business.nav.hiring, href: '#hiring' },
     { label: t.business.nav.pricing, href: '#pricing' },
     { label: t.common.blog, href: 'https://blog.moilapp.com', external: true },
   ];
@@ -49,10 +64,8 @@ export function BusinessPageContent() {
     { label: t.common.whatIsMoil, href: '#demo' },
     { label: t.business.nav.features, href: '#capabilities' },
     { label: t.business.nav.howItWorks, href: '#journey' },
-    { label: t.common.smartHiring, href: '#hiring' },
     { label: t.business.nav.pricing, href: '#pricing' },
     { label: t.common.blog, href: 'https://blog.moilapp.com', external: true },
-    { label: t.common.switchToCandidate, href: '/candidate' },
   ];
 
   const tickerItems = [
@@ -61,8 +74,6 @@ export function BusinessPageContent() {
     t.business.ticker.content360,
     t.business.ticker.aiImage,
     t.business.ticker.aiVideo,
-    t.business.ticker.smartHiring,
-    t.business.ticker.candidateMatch,
     t.business.ticker.coach,
     t.business.ticker.documents,
     t.business.ticker.brandDna,
@@ -109,33 +120,15 @@ export function BusinessPageContent() {
     { number: '02', time: t.business.journey.steps.step2.time, title: t.business.journey.steps.step2.title, desc: t.business.journey.steps.step2.desc },
     { number: '03', time: t.business.journey.steps.step3.time, title: t.business.journey.steps.step3.title, desc: t.business.journey.steps.step3.desc },
     { number: '04', time: t.business.journey.steps.step4.time, title: t.business.journey.steps.step4.title, desc: t.business.journey.steps.step4.desc },
-    { number: '05', time: t.business.journey.steps.step5.time, title: t.business.journey.steps.step5.title, desc: t.business.journey.steps.step5.desc },
-    { number: '06', time: t.business.journey.steps.step6.time, title: t.business.journey.steps.step6.title, desc: t.business.journey.steps.step6.desc },
+    // step5 was Smart Hiring. Hiring left the business surface entirely in Aug 2026;
+    // /candidate is still live as its own product. See research/seo-aeo-audit-and-plan.md.
+    { number: '05', time: t.business.journey.steps.step6.time, title: t.business.journey.steps.step6.title, desc: t.business.journey.steps.step6.desc },
   ];
 
-  const hiringSteps = [
-    { num: '1', title: t.business.hiring.steps.step1.title, desc: t.business.hiring.steps.step1.desc },
-    { num: '2', title: t.business.hiring.steps.step2.title, desc: t.business.hiring.steps.step2.desc },
-    { num: '3', title: t.business.hiring.steps.step3.title, desc: t.business.hiring.steps.step3.desc },
-    { num: '4', title: t.business.hiring.steps.step4.title, desc: t.business.hiring.steps.step4.desc },
-  ];
-
-  const hiringStats = [
-    { label: t.business.hiring.stats.fasterThanIndeed, target: 2, suffix: ' Min' },
-    { label: t.business.hiring.stats.interviewSuccess, target: 95, suffix: '%' },
-    { label: t.business.hiring.stats.avgDaysToHire, target: 11 },
-    { label: t.business.hiring.stats.avgCostPerHire, target: 75, prefix: '$' },
-    { label: t.business.hiring.stats.retention90, target: 2400, prefix: '$' },
-    { label: t.business.hiring.stats.bilingualReach, target: 58, suffix: '%' },
-  ];
-
-  const stats = [
-    { label: t.business.statsSection.stats.businessesTrusting, target: 500, suffix: '+' },
-    { label: t.business.statsSection.stats.jobsPostedMonthly, target: 5000, suffix: '+' },
-    { label: t.business.statsSection.stats.interviewSuccessRate, target: 2, suffix: ' Min' },
-    { label: t.business.statsSection.stats.avgCostPerHire, target: 75, prefix: '$' },
-    { label: t.business.statsSection.stats.retention90, target: 11 },
-    { label: t.business.statsSection.stats.startingPrice, target: 25, prefix: '$' },
+  const stats: { label: string; target: number; prefix?: string; suffix?: string }[] = [
+    { label: t.business.statsSection.stats.professional, target: 25, prefix: '$' },
+    { label: t.business.statsSection.stats.marketPro, target: 75, prefix: '$' },
+    { label: t.business.statsSection.stats.languages, target: 2 },
   ];
 
   const bilingualHighlights = [
@@ -144,11 +137,17 @@ export function BusinessPageContent() {
     { icon: 'edit', title: t.business.bilingualSection.highlights.content.title, desc: t.business.bilingualSection.highlights.content.desc, badge: t.business.bilingualSection.highlights.content.badge, badgeClass: 'badge-p' },
   ];
 
-  const testimonials = t.business.testimonials.items.map((item, i) => ({
-    testimonialImage: testimonialImages[i],
-    testimonialName: item.name,
-    testimonial: item.text,
-    role: item.role,
+  // Reviews come from src/common/data/reviews.ts — one array feeds both this row
+  // and /reviews, so the two surfaces cannot disagree about what a customer said.
+  const testimonials = businessReviews().map((review, i) => ({
+    testimonialImage: testimonialImages[i % testimonialImages.length],
+    testimonialName: review.name,
+    testimonial: review.text,
+    role: review.role?.[currentLang] ?? '',
+    source: review.sourceLabel[currentLang],
+    // Quotes stay verbatim English. On Spanish surfaces, label that — never rewrite.
+    writtenInEnglishLabel:
+      currentLang === 'es' ? t.business.testimonials.writtenInEnglish : '',
   }));
 
   return (
@@ -177,6 +176,50 @@ export function BusinessPageContent() {
 
       {/* HERO — extracted to sections/HeroSection.tsx (Tailwind + GSAP) */}
       <HeroSection />
+
+      {/* DIRECT ANSWER — the self-contained paragraph an assistant can lift whole.
+          This existed in the translation bundle but was never rendered; shipping it
+          is the single highest-value AEO change on the page. Kept above the ticker
+          so it lands inside the first screen of extractable text. */}
+      <section id="what-is-moil" className="aeo-answer">
+        <div className="aeo-answer__inner">
+          <h2 className="aeo-answer__label">{t.business.aeoAnswer.label}</h2>
+          <p className="aeo-answer__body" style={{ whiteSpace: 'pre-line' }}>{t.business.aeoAnswer.body}</p>
+          <p className="aeo-answer__stamp">{t.business.aeoAnswer.lastUpdated}</p>
+        </div>
+      </section>
+
+      {/* WHAT IT MADE — breadth made concrete. "Does everything" reads as nothing;
+          a list of real deliverables reads as everything. Sits directly under the
+          answer block so the range is established before any feature copy. */}
+      <section id="what-it-made" className="made">
+        <div className="made__inner">
+          <div className="section-tag rv" style={{ justifyContent: 'center' }}>{t.business.made.tag}</div>
+          <h2 className="section-headline rv" style={{ textAlign: 'center' }}>
+            {t.business.made.headline}{' '}
+            <span style={{ color: 'var(--orange)' }}>{t.business.made.headlineHighlight}</span>
+          </h2>
+          <ul className={`made__list rv d1${currentLang === 'es' ? ' made__list--jobs' : ''}`}>
+            {t.business.made.items.map((item) => {
+              const split = currentLang === 'es' ? item.indexOf('. ') : -1;
+              if (split > 0) {
+                return (
+                  <li key={item} className="made__item made__item--job">
+                    <div>
+                      <strong>{item.slice(0, split + 1)}</strong>
+                      <p>{item.slice(split + 2)}</p>
+                    </div>
+                  </li>
+                );
+              }
+              return <li key={item} className="made__item">{item}</li>;
+            })}
+          </ul>
+          <p className="made__footnote rv d2">{t.business.made.footnote}</p>
+        </div>
+      </section>
+
+      <div className="divider"></div>
 
       {/* TICKER */}
       <div className="capabilities-bar">
@@ -274,7 +317,7 @@ export function BusinessPageContent() {
                 <a
                   className="btn-primary"
                   style={{ width: '100%', justifyContent: 'center' }}
-                  href={appendLangToUrl("https://business.moilapp.com/register", currentLang)}
+                  href={appendLangToUrl(getRegisterUrl(), currentLang)}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -412,7 +455,7 @@ export function BusinessPageContent() {
                   </p>
                 </div>
                 </ProductShot>
-                <a className="btn-secondary btn-wave" style={{ marginTop: '18px', width: '100%', justifyContent: 'center' }} href={appendLangToUrl("https://business.moilapp.com/register", currentLang)} target="_blank" rel="noreferrer">
+                <a className="btn-secondary btn-wave" style={{ marginTop: '18px', width: '100%', justifyContent: 'center' }} href={appendLangToUrl(getRegisterUrl(), currentLang)} target="_blank" rel="noreferrer">
                   {t.business.capabilities.content360.exploreCta}
                 </a>
               </div>
@@ -505,7 +548,7 @@ export function BusinessPageContent() {
                 </defs>
               </svg>
             </div>
-            <a className="btn-primary" href={appendLangToUrl("https://business.moilapp.com/register", currentLang)} target="_blank" rel="noreferrer">
+            <a className="btn-primary" href={appendLangToUrl(getRegisterUrl(), currentLang)} target="_blank" rel="noreferrer">
               {t.business.journey.journeyCta}
             </a>
             <p style={{ fontFamily: 'var(--mono)', fontSize: '10px', color: 'var(--text3)', marginTop: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>
@@ -516,60 +559,6 @@ export function BusinessPageContent() {
       </section>
 
       <div className="divider"></div>
-
-      {/* HIRING */}
-      <section id="hiring" className="has-head">
-        <div className="section-tag rv">{t.business.hiring.tag}</div>
-        <h2 className="section-headline rv">
-          {t.business.hiring.headline}
-          <br />
-          <span style={{ color: 'var(--orange)' }}>{t.business.hiring.headlineHighlight1}</span> {t.business.hiring.headlineMiddle}{' '}
-          <span style={{ color: 'var(--purple-light)' }}>{t.business.hiring.headlineHighlight2}</span>
-        </h2>
-        <p className="section-sub rv">{t.business.hiring.subheadline}</p>
-
-        <div className="hiring-linear">
-          <div className="hiring-two-col">
-            <div className="hiring-shot rv d1">
-              <ProductShot
-                source={productShots.hiringCandidates}
-                alt={`Moil — ${t.business.hiring.candidateHeader}`}
-                theme={theme}
-                placeholderLabel="Hiring — candidate matches"
-              />
-            </div>
-
-            <div className="hiring-steps-col">
-              {hiringSteps.map((step, index) => (
-                <div key={`hstep-${index}`} className={`hstep hstep--wave rv ${index === 1 ? 'd1' : ''} ${index === 2 ? 'd2' : ''} ${index === 3 ? 'd3' : ''}`}>
-                  <div className="hnum">{step.num}</div>
-                  <div>
-                    <div className="hstep-title">{step.title}</div>
-                    <div className="hstep-desc">{step.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="hiring-stats rv">
-            {hiringStats.map((stat, idx) => (
-              <div className="h-stat" key={`hstat-${idx}`}>
-                <div className="h-stat-val" data-target={stat.target} data-prefix={stat.prefix} data-suffix={stat.suffix}>
-                  0
-                </div>
-                <div className="h-stat-lbl">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="rv" style={{ textAlign: 'center', marginTop: '48px' }}>
-            <a className="btn-primary" href={appendLangToUrl("https://business.moilapp.com/register", currentLang)} target="_blank" rel="noreferrer">
-              {t.business.hiring.startHiringCta}
-            </a>
-          </div>
-        </div>
-      </section>
 
       {/* STATS */}
       <div id="stats">
@@ -649,52 +638,124 @@ export function BusinessPageContent() {
 
       <div className="divider"></div>
 
-      <div className="has-footer-4 has-footer-blend"><BusinessPricingSection /></div>
+      {/* TIERS — the split stated once, plainly. $25 makes things when asked;
+          $75 also runs the month unasked. Every other pricing mention on the site
+          is reconciled to this table. */}
+      <section id="tiers" className="tiers">
+        <div className="tiers__inner">
+          <div className="section-tag rv" style={{ justifyContent: 'center' }}>{t.business.tiers.tag}</div>
+          <h2 className="section-headline rv" style={{ textAlign: 'center' }}>
+            {t.business.tiers.headline}{' '}
+            <span style={{ color: 'var(--orange)' }}>{t.business.tiers.headlineHighlight}</span>
+          </h2>
+          <p className="section-sub rv" style={{ textAlign: 'center' }}>{t.business.tiers.subheadline}</p>
 
-      <div className="divider divider-seamless"></div>
-
-      {/* TESTIMONIALS */}
-      <section id="testimonials" className="has-head has-head-blend" style={{ textAlign: 'center' }}>
-        <div className="section-tag rv" style={{ justifyContent: 'center' }}>
-          {t.business.testimonials.tag}
-        </div>
-        <h2 className="section-headline rv">
-          {t.business.testimonials.headline}
-          <br />
-          <span style={{ color: 'var(--orange)' }}>{t.business.testimonials.headlineHighlight}</span>
-        </h2>
-        <div className="testi-marquee rv">
-          <div className="testi-track">
-            {[...testimonials, ...testimonials, ...testimonials, ...testimonials].map((item, index) => (
-              <div className="testi-card2" key={`testimonial-${index}`}>
-                <div className="testi-card2__body">
-                  <div className="t-stars">★★★★★</div>
-                  <p className="testi-card2__text">{item.testimonial}</p>
-                  <div className="t-author">
-                    <Image
-                      src={item.testimonialImage}
-                      alt={item.testimonialName}
-                      width={44}
-                      height={44}
-                      loading="lazy"
-                      className="t-av-img"
-                      style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border2)' }}
-                    />
-                    <div>
-                      <div className="t-name">{item.testimonialName}</div>
-                      <div className="t-role">{item.role}</div>
-                    </div>
-                  </div>
-                </div>
+          <div className="tiers__table rv d1">
+            <div className="tiers__row tiers__row--head">
+              <span>{t.business.tiers.featureCol}</span>
+              <span>
+                <strong>{t.business.tiers.proName}</strong>
+                <em>{t.business.tiers.proPrice} {t.business.tiers.proPeriod}</em>
+                <small>{t.business.tiers.proLine}</small>
+              </span>
+              <span>
+                <strong>{t.business.tiers.maxName}</strong>
+                <em>{t.business.tiers.maxPrice} {t.business.tiers.maxPeriod}</em>
+                <small>{t.business.tiers.maxLine}</small>
+              </span>
+            </div>
+            {t.business.tiers.rows.map((row) => (
+              <div className="tiers__row" key={row[0]}>
+                <span>{row[0]}</span>
+                <span data-label={t.business.tiers.proName}>{row[1]}</span>
+                <span data-label={t.business.tiers.maxName}>{row[2]}</span>
               </div>
             ))}
           </div>
+          <p className="tiers__note rv d2">{t.business.tiers.note}</p>
         </div>
       </section>
 
       <div className="divider"></div>
 
+      <div className="has-footer-4 has-footer-blend"><BusinessPricingSection /></div>
+
+      <div className="divider divider-seamless"></div>
+
+      {/* TESTIMONIALS — renders only when sourced quotes exist, so the section
+          disappears rather than showing placeholders if they are ever pulled.
+          The quotes are transcribed verbatim and carry a dated source; do not edit
+          them for length or positioning. See CLAUDE.md -> Testimonials. */}
+      {testimonials.length > 0 && (
+        <section id="testimonials" className="has-head has-head-blend" style={{ textAlign: 'center' }}>
+          <div className="section-tag rv" style={{ justifyContent: 'center' }}>
+            {t.business.testimonials.tag}
+          </div>
+          <h2 className="section-headline rv">
+            {t.business.testimonials.headline}
+            <br />
+            <span style={{ color: 'var(--orange)' }}>{t.business.testimonials.headlineHighlight}</span>
+          </h2>
+          {t.business.testimonials.originalNote && (
+            <p className="testi-original-note rv">{t.business.testimonials.originalNote}</p>
+          )}
+          <div className="testi-marquee rv">
+            <div className="testi-track">
+              {[...testimonials, ...testimonials, ...testimonials, ...testimonials].map((item, index) => (
+                <div className="testi-card2" key={`testimonial-${index}`}>
+                  <div className="testi-card2__body">
+                    <div className="t-stars">★★★★★</div>
+                    <p className="testi-card2__text" {...(item.writtenInEnglishLabel ? { lang: 'en' } : {})}>{item.testimonial}</p>
+                    {item.writtenInEnglishLabel && (
+                      <p className="t-lang">{item.writtenInEnglishLabel}</p>
+                    )}
+                    <div className="t-author">
+                      <Image
+                        src={item.testimonialImage}
+                        alt={item.testimonialName}
+                        width={44}
+                        height={44}
+                        loading="lazy"
+                        className="t-av-img"
+                        style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border2)' }}
+                      />
+                      <div>
+                        <div className="t-name">{item.testimonialName}</div>
+                        <div className="t-role">{item.role}</div>
+                        <div className="t-source">{item.source}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <a className="testi-readall" href="/reviews">
+            {t.business.testimonials.readAll} <span aria-hidden="true">→</span>
+          </a>
+        </section>
+      )}
+
+      <div className="divider"></div>
+
       <BusinessFaqSection />
+
+      {/* GUIDES — one sentence + three text links to the A-money product posts.
+          Footer-adjacent so /business stays a product page, not a blog dump. */}
+      <section id="guides" className="guides">
+        <div className="guides__inner">
+          <p className="guides__sentence">{t.business.guides.sentence}</p>
+          <ul className="guides__links">
+            {PRODUCT_GUIDE_LINKS.map((link) => (
+              <li key={link.href}>
+                <a href={link.href} target="_blank" rel="noreferrer">
+                  {t.business.guides[link.key]}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
       <BusinessFooter theme={theme} onToggleTheme={toggleTheme} onLanguageChange={handleLanguageChange} currentLang={currentLang} />
 

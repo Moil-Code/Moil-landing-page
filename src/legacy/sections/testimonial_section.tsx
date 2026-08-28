@@ -53,7 +53,7 @@ export default function BusinessTestimonialSection({ refQuery, lgQuery }: Testim
     }
   ];
 
-  const ButtonGroup = ({ next, previous, goToSlide, ...rest }: any) => {
+  const ButtonGroup = ({ next, previous, ...rest }: any) => {
     const { carouselState: { currentSlide } } = rest;
 
     return (

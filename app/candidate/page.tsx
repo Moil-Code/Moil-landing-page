@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 import SelectLanguage from "../../src/common/components/selectLanguage";
-import CustomizeModal from "../../src/common/components/CustomizeModal";
 import FooterSection from "../../src/common/sections/footer";
 import { I18nProvider, useLanguageContext } from "../../src/common/components/I18nProvider";
 
@@ -19,20 +18,13 @@ import StatsSection from "../../src/candidate/sections/stats";
 import TestimonialsSection from "../../src/candidate/sections/testimonial_section";
 import FAQSection from "../../src/candidate/sections/FAQ_section";
 import NewsletterSection from "../../src/candidate/sections/newsletter";
-import { baseURL1 } from "../../src/common/constants/baseUrl";
 
 function CandidatePageContent() {
-  const { t, lang: currentLang, setLang } = useLanguageContext();
+  const { lang: currentLang } = useLanguageContext();
   const { theme, toggleTheme } = useCandidateTheme();
   const [refQuery, setRefQuery] = useState<string | null>(null);
   const [queryLg, setQueryLg] = useState("");
   const [showLanguageModal, setShowLanguageModal] = useState(false);
-  const [showCustomizeModal, setShowCustomizeModal] = useState(false);
-
-  const handleLanguageChange = (lang: 'en' | 'es') => {
-    setLang(lang);
-    setQueryLg(lang);
-  };
 
   // Sync queryLg with currentLang from context
   useEffect(() => {

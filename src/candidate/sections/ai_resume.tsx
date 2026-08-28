@@ -191,30 +191,24 @@ export default function AIResumeSection({ refQuery, lgQuery }: AIResumeSectionPr
             {/* Stats Grid */}
             <div className="grid grid-cols-2 gap-4 mb-8">
               <div className="text-center p-4 bg-gradient-to-br from-[#5843BE]/10 to-[#4a3ba0]/10 rounded-xl border border-[#5843BE]/20">
-                <div className="text-3xl font-bold text-[#5843BE] dark:text-[#A99BF0] mb-1">98%</div>
-                <div className="text-sm text-gray-600 dark:text-[#8892AA]">ATS Pass Rate</div>
+                <div className="text-3xl font-bold text-[#5843BE] dark:text-[#A99BF0] mb-1">ATS</div>
+                <div className="text-sm text-gray-600 dark:text-[#8892AA]">Friendly Format</div>
               </div>
               <div className="text-center p-4 bg-gradient-to-br from-[#5843BE]/10 to-[#4a3ba0]/10 rounded-xl border border-[#5843BE]/20">
                 <div className="text-3xl font-bold text-[#5843BE] dark:text-[#A99BF0] mb-1">5min</div>
                 <div className="text-sm text-gray-600 dark:text-[#8892AA]">Avg. Time</div>
               </div>
               <div className="text-center p-4 bg-gradient-to-br from-[#5843BE]/10 to-[#4a3ba0]/10 rounded-xl border border-[#5843BE]/20">
-                <div className="text-3xl font-bold text-[#5843BE] dark:text-[#A99BF0] mb-1">50K+</div>
-                <div className="text-sm text-gray-600 dark:text-[#8892AA]">Resumes Created</div>
-              </div>
-              <div className="text-center p-4 bg-gradient-to-br from-[#5843BE]/10 to-[#4a3ba0]/10 rounded-xl border border-[#5843BE]/20">
-                <div className="text-3xl font-bold text-[#5843BE] dark:text-[#A99BF0] mb-1">4.9★</div>
-                <div className="text-sm text-gray-600 dark:text-[#8892AA]">User Rating</div>
+                <div className="text-3xl font-bold text-[#5843BE] dark:text-[#A99BF0] mb-1">EN/ES</div>
+                <div className="text-sm text-gray-600 dark:text-[#8892AA]">Both Languages</div>
               </div>
             </div>
 
-            {/* Testimonial */}
-            <div className="bg-gray-50 dark:bg-[#161C2B] rounded-xl p-4 mb-8">
-              <div className="text-sm text-gray-600 dark:text-[#8892AA] italic mb-2">
-                "Got my dream job thanks to this AI resume builder. The voice input feature saved me hours!"
-              </div>
-              <div className="text-xs text-gray-500 dark:text-[#8892AA]">- Sarah M., Software Engineer</div>
-            </div>
+            {/* Testimonial removed Aug 2026: "Sarah M., Software Engineer" was
+                placeholder copy, not a real endorsement. Publishing invented quotes
+                under invented names is the failure this repo already had once on
+                /business. Real reviews live in src/common/data/reviews.ts and on
+                /reviews; add one here only from that array. */}
 
             {/* CTA Button */}
             <button 

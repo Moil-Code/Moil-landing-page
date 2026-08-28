@@ -1,0 +1,569 @@
+<title>Moil Off-Site Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#F6F7F9; --surface:#FFFFFF; --surface-2:#EEF1F5;
+  --ink:#16191E; --ink-2:#4A525E; --ink-3:#6E7784;
+  --rule:#DEE3EA; --rule-strong:#C6CEDA;
+  --accent:#24467E; --accent-soft:#E4EAF5;
+  --crit:#A4262C; --crit-soft:#F7E7E8;
+  --high:#8C5410; --high-soft:#F8EEDF;
+  --med:#4E5763; --med-soft:#EBEEF2;
+  --go:#1F5D46; --go-soft:#E3F0EA;
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1217; --surface:#161A21; --surface-2:#1D222B;
+    --ink:#E7EBF1; --ink-2:#9AA3B1; --ink-3:#7B8492;
+    --rule:#262C36; --rule-strong:#38414E;
+    --accent:#8AAEEC; --accent-soft:#1B2536;
+    --crit:#E9848A; --crit-soft:#2E1B1D;
+    --high:#DBA55A; --high-soft:#2C2418;
+    --med:#9AA3B1; --med-soft:#20252E;
+    --go:#6FBF9A; --go-soft:#16261F;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1217; --surface:#161A21; --surface-2:#1D222B;
+  --ink:#E7EBF1; --ink-2:#9AA3B1; --ink-3:#7B8492;
+  --rule:#262C36; --rule-strong:#38414E;
+  --accent:#8AAEEC; --accent-soft:#1B2536;
+  --crit:#E9848A; --crit-soft:#2E1B1D;
+  --high:#DBA55A; --high-soft:#2C2418;
+  --med:#9AA3B1; --med-soft:#20252E;
+  --go:#6FBF9A; --go-soft:#16261F;
+}
+
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px 120px;}
+
+.masthead{padding:64px 0 36px;border-bottom:2px solid var(--ink);display:flex;flex-direction:column;gap:20px;}
+.kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:8px 18px;}
+.masthead h1{font-family:var(--serif);font-weight:500;font-size:clamp(36px,6vw,62px);line-height:1.03;letter-spacing:-.02em;margin:0;text-wrap:balance;}
+.masthead h1 em{font-style:italic;color:var(--accent);}
+.standfirst{font-family:var(--serif);font-size:clamp(18px,2.2vw,21px);line-height:1.5;color:var(--ink-2);max-width:62ch;margin:0;}
+
+.callout{margin:32px 0 0;padding:26px 30px;background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--crit);display:flex;flex-direction:column;gap:12px;}
+.callout.go{border-left-color:var(--go);}
+.callout>*{margin:0;max-width:70ch;}
+.callout h2{font-family:var(--serif);font-size:22px;font-weight:500;border:none;padding:0;}
+
+section{display:grid;grid-template-columns:112px minmax(0,1fr);gap:0 32px;padding-top:64px;}
+.rail{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);padding-top:12px;display:flex;flex-direction:column;gap:8px;}
+.rail .num{color:var(--ink);font-size:22px;letter-spacing:0;line-height:1;}
+.body{min-width:0;display:flex;flex-direction:column;gap:20px;}
+.body>*{margin:0;}
+
+h2{font-family:var(--serif);font-weight:500;font-size:clamp(26px,3.4vw,35px);line-height:1.12;letter-spacing:-.015em;margin:0;padding-bottom:14px;border-bottom:1px solid var(--rule-strong);text-wrap:balance;}
+h3{font-family:var(--sans);font-weight:600;font-size:17px;line-height:1.35;margin:0;}
+h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px;font-weight:500;}
+p{max-width:68ch;}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:2px;}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+code{font-family:var(--mono);font-size:.875em;background:var(--surface-2);padding:1.5px 5px;border-radius:2px;color:var(--ink-2);}
+ul,ol{margin:0;padding-left:1.15em;max-width:68ch;display:flex;flex-direction:column;gap:9px;}
+li::marker{color:var(--ink-3);}
+
+.chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;padding:3px 8px;border-radius:2px;white-space:nowrap;font-weight:500;}
+.chip.crit{background:var(--crit-soft);color:var(--crit);}
+.chip.high{background:var(--high-soft);color:var(--high);}
+.chip.med{background:var(--med-soft);color:var(--med);}
+.chip.acc{background:var(--accent-soft);color:var(--accent);}
+.chip.go{background:var(--go-soft);color:var(--go);}
+
+.scroll{overflow-x:auto;border:1px solid var(--rule);background:var(--surface);}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:560px;}
+th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.5;}
+thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);font-weight:500;background:var(--surface-2);white-space:nowrap;}
+tbody tr:last-child td{border-bottom:none;}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+/* account cards */
+.acct{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--sev,var(--med));padding:24px 26px;display:flex;flex-direction:column;gap:16px;}
+.acct.p1{--sev:var(--crit);} .acct.p2{--sev:var(--high);} .acct.p3{--sev:var(--med);}
+.acct>*{margin:0;}
+.acct-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 14px;}
+.acct-head h3{font-family:var(--serif);font-size:21px;font-weight:500;}
+.acct-facts{display:flex;flex-wrap:wrap;gap:6px 20px;font-family:var(--mono);font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;}
+.acct-facts b{color:var(--ink-2);font-weight:500;}
+
+/* paste blocks */
+.paste{background:var(--surface-2);border:1px solid var(--rule);border-radius:3px;padding:16px 18px;font-family:var(--mono);font-size:13px;line-height:1.6;color:var(--ink);white-space:pre-wrap;overflow-x:auto;max-width:none;}
+.paste-label{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;}
+.paste-label .count{font-family:var(--mono);font-size:10px;color:var(--ink-3);}
+
+.fields{display:flex;flex-direction:column;gap:0;border:1px solid var(--rule);}
+.field{display:grid;grid-template-columns:190px minmax(0,1fr);gap:16px;padding:12px 16px;border-bottom:1px solid var(--rule);font-size:14.5px;line-height:1.55;}
+.field:last-child{border-bottom:none;}
+.field dt{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;}
+.field dd{margin:0;color:var(--ink-2);}
+.field dd strong{color:var(--ink);font-weight:600;}
+
+.warn{border-left:2px solid var(--crit);padding:2px 0 2px 16px;color:var(--ink-2);font-size:14.5px;line-height:1.6;max-width:68ch;}
+.tip{border-left:2px solid var(--go);padding:2px 0 2px 16px;color:var(--ink-2);font-size:14.5px;line-height:1.6;max-width:68ch;}
+
+.stop{counter-reset:stopc;list-style:none;padding:0;gap:14px;}
+.stop li{counter-increment:stopc;display:grid;grid-template-columns:34px 1fr;gap:14px;padding-bottom:14px;border-bottom:1px solid var(--rule);}
+.stop li:last-child{border-bottom:none;padding-bottom:0;}
+.stop li::before{content:counter(stopc,decimal-leading-zero);font-family:var(--mono);font-size:13px;color:var(--crit);padding-top:3px;}
+
+footer{margin-top:72px;padding-top:22px;border-top:2px solid var(--ink);font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:8px 24px;}
+
+@media (max-width:760px){
+  .wrap{padding:0 20px 80px;}
+  section{grid-template-columns:1fr;gap:0;padding-top:48px;}
+  .rail{flex-direction:row;align-items:baseline;gap:12px;padding:0 0 12px;}
+  .rail .num{font-size:15px;}
+  .callout,.acct{padding-left:20px;padding-right:20px;}
+  .field{grid-template-columns:1fr;gap:4px;}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker"><span>Off-site playbook</span><span>Phases 4 &amp; 5</span><span>20 Aug 2026</span></div>
+    <h1>The 88% that <em>isn't</em> on your website.</h1>
+    <p class="standfirst">ChatGPT cites a recommended SaaS tool's own site about 11.6% of the time. Everything shipped to moilapp.com is the other 12%. This is the work that decides whether you get recommended at all — every account to create, and exactly what to put in each field. All copy here comes from the <strong>brand constitution</strong>; this document never invents its own wording.</p>
+  </header>
+
+  <div class="callout">
+    <h2>Do this before the deploy goes live</h2>
+    <p>Once the new pages are indexed you can never recover the before-picture. Run the baseline prompt set in §1 first. It takes about two hours and it is the only thing that makes the next six months measurable.</p>
+  </div>
+
+  <!-- 1 -->
+  <section>
+    <div class="rail"><span class="num">01</span><span>Baseline</span></div>
+    <div class="body">
+      <h2>Record where you stand today</h2>
+      <p>Open ChatGPT, Perplexity, Gemini and Claude. Run each prompt in each tool, in a fresh chat, logged out or in a temporary chat where possible so personalisation doesn't skew it. Paste the raw answers into one dated document.</p>
+
+      <div>
+        <div class="paste-label"><h4>The prompt set</h4><span class="count">15 prompts × 4 tools = 60 answers</span></div>
+        <div class="paste">best AI tool to write social media content for my small business
+done for you social media for small business
+what should I post for my landscaping business
+tool that writes a month of social media content
+best AI content calendar tool
+Buffer alternatives for a small business with no time to write
+AI marketing tool that remembers my business
+best AI tool for an HVAC business
+herramienta para crear contenido de redes sociales en español
+calendario de contenidos para redes sociales negocio pequeño
+software de marketing para negocios pequeños en español
+what is Moil
+is Moil legit
+Moil vs Buffer
+tools for Hispanic small business owners</div>
+      </div>
+
+      <p>For each answer record only three things: <strong>does Moil appear</strong>, <strong>in what position</strong>, and <strong>which URL is cited</strong>. Nothing else. Expect mostly absence — that is the point of a baseline.</p>
+
+      <div class="tip">The four Spanish prompts matter most. That is the pool with the least competition, and if you are absent there too, it confirms the opportunity rather than undermining it.</div>
+
+      <p>Re-run the identical set on the first of each month. Same wording, same document, new dated section.</p>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <div class="rail"><span class="num">02</span><span>Accounts</span></div>
+    <div class="body">
+      <h2>What to create, in priority order</h2>
+      <p>Nine accounts. Four are the ones that matter; the rest are hygiene. Total unavoidable cost is about $29/month. LinkedIn is first because it is the only one that is currently <em>wrong</em> rather than missing.</p>
+
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Account</th><th>Priority</th><th>Cost</th><th>Setup</th><th>Why it exists</th></tr></thead>
+          <tbody>
+            <tr><td><strong>LinkedIn</strong> (exists, wrong)</td><td><span class="chip crit">Do first</span></td><td class="num">Free</td><td class="num">20 min</td><td>Still calls Moil a hiring platform. Fix before creating anything new.</td></tr>
+            <tr><td><strong>G2</strong></td><td><span class="chip crit">Do first</span></td><td class="num">Free</td><td class="num">2–3 hrs</td><td>The single biggest citation multiplier. Now also owns Capterra.</td></tr>
+            <tr><td><strong>Capterra</strong> (G2 Digital Markets)</td><td><span class="chip crit">Do first</span></td><td class="num">Free</td><td class="num">1–2 hrs</td><td>Second listing surface; same owner since Feb 2026.</td></tr>
+            <tr><td><strong>Onboarding question</strong></td><td><span class="chip crit">Do first</span></td><td class="num">Free</td><td class="num">30 min</td><td>Not an account — a form field. Highest leverage item here.</td></tr>
+            <tr><td><strong>Otterly</strong></td><td><span class="chip high">Week 1</span></td><td class="num">~$29/mo</td><td class="num">1 hr</td><td>Tracks whether any of this is working.</td></tr>
+            <tr><td><strong>Trustpilot</strong></td><td><span class="chip high">Week 2</span></td><td class="num">Free tier</td><td class="num">1 hr</td><td>Third review surface; counts toward the profile multiplier.</td></tr>
+            <tr><td><strong>Crunchbase</strong></td><td><span class="chip high">Week 2</span></td><td class="num">Free</td><td class="num">45 min</td><td>Entity disambiguation from MOIL Limited.</td></tr>
+            <tr><td><strong>Reddit</strong></td><td><span class="chip high">Week 2</span></td><td class="num">Free</td><td class="num">Ongoing</td><td>~12% of ChatGPT citations, ~47% of Perplexity's.</td></tr>
+            <tr><td><strong>Product Hunt</strong></td><td><span class="chip med">Week 6+</span></td><td class="num">Free</td><td class="num">4–6 wks prep</td><td>One-shot event. Do not rush it.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="warn"><strong>Google Business Profile — do not create one yet.</strong> Google's 2026 eligibility rules exclude SaaS companies and businesses without a customer-facing location or face-to-face service. A listing that fails review gets suspended, which is worse than not having one. Your Buda EDC and HIVE coaching programme is genuine face-to-face service, so you <em>may</em> qualify — but verify eligibility with Google before submitting, and expect video verification.</div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <div class="rail"><span class="num">03</span><span>Canonical copy</span></div>
+    <div class="body">
+      <h2>Write this once, paste it everywhere</h2>
+      <p>All of this comes from the <strong>brand constitution</strong> (<code>research/moil-brand-constitution.html</code>). Copy from here, never freehand it into a form. Description drift across directories is the single thing keeping Moil confusable with MOIL Limited, and it is entirely self-inflicted.</p>
+
+      <div class="warn"><strong>Superseded.</strong> Any profile written before 20 Aug 2026 describes Moil as an "AI marketing platform". That was too narrow and wrong on the facts — it omits plans, research, brand, decks and publishing. Replace it wherever it appears, starting with LinkedIn.</div>
+
+      <div>
+        <h4>Fixed facts</h4>
+        <div class="paste">Product name:   Moil
+Company:        Moil Enterprise Inc.
+Founded:        2023
+Headquarters:   Buda, Texas, United States
+Website:        https://www.moilapp.com
+Category:       AI co-founder / business assistant for small business owners
+Platform:       Web
+Languages:      English and Spanish
+Pricing:        Professional $25/month · Market Pro $75/month
+                First conversation free, no card required
+Employees:      2–10
+Facebook:       https://www.facebook.com/MoilWorks/
+LinkedIn:       https://www.linkedin.com/company/moilapp</div>
+      </div>
+
+      <div>
+        <div class="paste-label"><h4>Tagline — short</h4><span class="count">45 characters · Product Hunt, G2 header, LinkedIn tagline</span></div>
+        <div class="paste">The co-founder who does what you never get to</div>
+      </div>
+
+      <div>
+        <div class="paste-label"><h4>One-line description</h4><span class="count">141 characters · anywhere with a hard limit</span></div>
+        <div class="paste">An AI co-founder for small business owners. Learns your business once, then makes the work you never get to. English and Spanish. From $25/mo.</div>
+      </div>
+
+      <div>
+        <div class="paste-label"><h4>Short description</h4><span class="count">~570 characters · Capterra, Crunchbase, Trustpilot, LinkedIn "About"</span></div>
+        <div class="paste">Moil is the co-founder who does the work you never get to. Small business owners shouldn't have to be everything — marketing, planning, and content on top of the real job. Moil learns the business once, then produces finished work: plans, posts, and flyers. It also schedules and publishes the posts you approve to your Facebook Page and Instagram. Everything comes out in English and Spanish. Professional is $25/month and makes things on request. Market Pro is $75/month and also writes the month automatically. The first conversation is free and needs no card.</div>
+      </div>
+
+      <div>
+        <div class="paste-label"><h4>Long description</h4><span class="count">~1,500 characters · G2 "About", Product Hunt description</span></div>
+        <div class="paste">A small business owner is the marketing team. And the finance team. And the person who answers the phone. Not by choice — by arithmetic. There is one of them and there are eleven jobs, so the work with no deadline is the work that never happens.
+
+Moil is the co-founder who does that work. It interviews you once — by voice or text — about what you sell, who buys from you, and how you talk. From that profile it produces finished things: a study of your local market, an investor-ready business plan, a flyer for Tuesday, a pitch deck, a week of staff shifts, a job description, a month of social posts. It already knows the business, so nothing starts from a blank page.
+
+Everything comes out in English and Spanish from the same brief, not as a translation step afterwards. For an owner serving both languages, that is the difference between doing the work twice and doing it once.
+
+Two plans, one difference. Professional at $25/month makes things when you ask. Market Pro at $75/month also writes your month's content calendar automatically, without being asked, and adds AI video.
+
+Approve a post and Moil schedules and publishes it to your Facebook Page and Instagram, then reads the reach and engagement back so it learns which hour actually works for your business. It does not publish to LinkedIn, X or TikTok, and it has no engagement inbox — for those, a dedicated scheduler covers what Moil does not. What separates Moil is the half that comes before publishing: it decides and makes the work in the first place.
+
+Moil Enterprise Inc. is based in Buda, Texas and was founded in 2023.</div>
+      </div>
+
+      <div>
+        <h4>Categories — request these, in this order</h4>
+        <div class="paste">Anchors (pick these two wherever you can only pick a few):
+  1. Business Plan Software
+  2. Social Media Marketing / Content Marketing
+
+Also request where multiple are allowed:
+  AI Writing Assistant
+  Content Creation
+  Small Business Marketing
+  Marketing Automation
+
+Do NOT select: Applicant Tracking (ATS), Recruiting, Website Builder,
+CRM, or scheduling-only categories.</div>
+      </div>
+
+      <div class="tip"><strong>Why those two anchors.</strong> Category choice is how these sites tell answer engines what you are. "Business Plan Software" and "Social Media Marketing" are established categories with real search demand that map to jobs Moil genuinely does. Do not pick Website Builder. Moil does not build sites — the co-founder can talk an owner through one, which is help, not a deliverable, and claiming otherwise loses every comparison against a real site builder.</div>
+
+      <div>
+        <h4>Keywords / search terms field</h4>
+        <div class="paste">AI co-founder for small business, AI business assistant, business plan software,
+AI business plan generator, market research for small business, social media content calendar,
+done for you social media, AI content calendar, AI flyer maker,
+bilingual marketing tools, marketing software in Spanish, small business marketing automation,
+marketing for contractors, social media for HVAC business, herramienta de IA para pequeños negocios,
+calendario de contenidos para redes sociales, plan de negocios con IA</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <div class="rail"><span class="num">04</span><span>Setup</span></div>
+    <div class="body">
+      <h2>Account by account</h2>
+
+      <!-- LinkedIn -->
+      <div class="acct p1">
+        <div class="acct-head"><span class="chip crit">Do first</span><h3>LinkedIn — it currently contradicts the site</h3></div>
+        <div class="acct-facts"><span><b>URL:</b> linkedin.com/company/moilapp</span><span><b>Cost:</b> Free</span><span><b>Time:</b> 20 min</span></div>
+        <p>The page still describes Moil as a hiring platform. That predates everything and it is now the loudest contradiction of the new positioning, on the profile most likely to be read by a partner, an investor or a journalist.</p>
+        <dl class="fields">
+          <div class="field"><dt>Tagline</dt><dd>The <strong>short tagline</strong> from §3.</dd></div>
+          <div class="field"><dt>About</dt><dd>The <strong>short description</strong> from §3, verbatim.</dd></div>
+          <div class="field"><dt>Industry</dt><dd><strong>Software Development</strong>. Not Staffing and Recruiting, which is what a hiring-era profile usually carries.</dd></div>
+          <div class="field"><dt>Specialties</dt><dd>Paste the keyword list from §3. LinkedIn indexes this field.</dd></div>
+          <div class="field"><dt>Company size / founded / HQ</dt><dd>2–10 · 2023 · Buda, Texas. Must match Crunchbase and the site's schema exactly.</dd></div>
+          <div class="field"><dt>Website</dt><dd><code>https://www.moilapp.com/business</code></dd></div>
+          <div class="field"><dt>Also check</dt><dd>Andres's personal profile headline and the "Experience" entry — they carry the old description too, and personal profiles outrank company pages in search.</dd></div>
+        </dl>
+      </div>
+
+      <!-- G2 -->
+      <div class="acct p1">
+        <div class="acct-head"><span class="chip crit">Priority 1</span><h3>G2</h3></div>
+        <div class="acct-facts"><span><b>URL:</b> sell.g2.com/create-a-profile</span><span><b>Cost:</b> Free</span><span><b>Time:</b> 2–3 hrs</span></div>
+        <p>The most important account on this list. Brands with profiles across G2, Capterra and Trustpilot show roughly a <strong>3× citation multiplier</strong> in AI answers — and the multiplier comes from having the profile, even though the review sites themselves are rarely cited directly.</p>
+        <p>First check whether an unclaimed profile already exists for Moil; G2 auto-generates shells. Claiming one is faster than building from scratch and preserves anything already there.</p>
+        <dl class="fields">
+          <div class="field"><dt>Product name</dt><dd><strong>Moil</strong>. The real name only — G2 rejects marketing language in the name field. Not "Moil AI", not "Moil — AI Marketing".</dd></div>
+          <div class="field"><dt>Logo</dt><dd>Square, no text in the mark. G2 renders logos small in Grid Reports and text-in-logo becomes illegible. Use <code>moil-512.png</code>.</dd></div>
+          <div class="field"><dt>Website</dt><dd><code>https://www.moilapp.com/business</code> — send them to the product page, not the redirecting root.</dd></div>
+          <div class="field"><dt>About / description</dt><dd>The <strong>long description</strong> from §3, verbatim.</dd></div>
+          <div class="field"><dt>Categories</dt><dd>Request the primary and secondary list from §3. G2's research team verifies and places you, so expect a review step and be ready to justify the choice.</dd></div>
+          <div class="field"><dt>Pricing</dt><dd>Enter both tiers with real numbers. Profiles that hide pricing get cited less, because the answer engine cannot state a price.</dd></div>
+          <div class="field"><dt>Screenshots</dt><dd>At least four: the onboarding conversation, a generated 30-day calendar, a caption in both languages side by side, and a generated image set. Show output, not UI chrome.</dd></div>
+          <div class="field"><dt>Contact</dt><dd><code>cs@moilapp.com</code> — matches the site, which matters for entity consistency.</dd></div>
+        </dl>
+        <div class="warn">Do not buy G2 review campaigns or lead-gen packages yet. Get 25 organic reviews first; paid placement on an empty profile wastes money and looks worse than no profile.</div>
+      </div>
+
+      <!-- Capterra -->
+      <div class="acct p1">
+        <div class="acct-head"><span class="chip crit">Priority 1</span><h3>Capterra · G2 Digital Markets</h3></div>
+        <div class="acct-facts"><span><b>URL:</b> capterra.com — look for "Claim this listing"</span><span><b>Cost:</b> Free</span><span><b>Time:</b> 1–2 hrs</span></div>
+        <p>G2 acquired Capterra, GetApp and Software Advice from Gartner on <strong>5 February 2026</strong>. They are now "G2 Digital Markets" but still run as a separate cabinet, so this is a second account, not an extension of the first. One listing here typically syndicates to GetApp and Software Advice — three surfaces for one setup.</p>
+        <dl class="fields">
+          <div class="field"><dt>Claim first</dt><dd>Capterra auto-builds shell listings by scraping. Search for Moil before creating anything. Verification is an email to a <code>@moilapp.com</code> address.</dd></div>
+          <div class="field"><dt>Description</dt><dd>The <strong>short description</strong> from §3. Their field wants 500–1,000 characters and rewards leading with the problem, which that copy already does.</dd></div>
+          <div class="field"><dt>Categories</dt><dd>One main plus two or three related, from the §3 list.</dd></div>
+          <div class="field"><dt>Pricing</dt><dd>Both tiers, plus the free first conversation. Tick "free trial" only if that is literally accurate.</dd></div>
+        </dl>
+        <div class="tip">Free gets you the listing. Category ranking, badges and lead delivery are paid programmes sold by reps who will call you. Decline until you have reviews.</div>
+      </div>
+
+      <!-- Onboarding -->
+      <div class="acct p1">
+        <div class="acct-head"><span class="chip crit">Priority 1</span><h3>The onboarding question</h3></div>
+        <div class="acct-facts"><span><b>Where:</b> business.moilapp.com signup</span><span><b>Cost:</b> Free</span><span><b>Time:</b> 30 min of dev</span></div>
+        <p>Not an account — one optional field at signup. This is the highest-leverage item in the entire playbook, and it is the trick that let Tally build their whole AI-search programme.</p>
+        <div class="paste">How did you hear about Moil?
+  [ ] Search  [ ] ChatGPT / Claude / Perplexity  [ ] Social  [ ] A friend  [ ] Other
+
+If an AI assistant — what did you ask it?
+  [ free text ]</div>
+        <p>That free-text field turns AEO from guesswork into a keyword list written by the people who actually found you. Every answer becomes a page you know is worth building.</p>
+      </div>
+
+      <!-- Otterly -->
+      <div class="acct p2">
+        <div class="acct-head"><span class="chip high">Priority 2</span><h3>Otterly</h3></div>
+        <div class="acct-facts"><span><b>URL:</b> otterly.ai</span><span><b>Cost:</b> ~$29/month</span><span><b>Time:</b> 1 hr</span></div>
+        <p>Tracks whether your brand appears in AI answers, and which sources get cited. Load the same 15 prompts from §1 so the automated tracking and your manual baseline measure the same thing.</p>
+        <p>Add Buffer, Later, Hootsuite and LivePlan as tracked competitors. The useful signal early on is not "are we cited" — you won't be — it is <em>which</em> pages get cited for your prompts, because that is your distribution-gap list in §6.</p>
+        <div class="tip">Skip Profound at $400+/month until you have signal worth paying to track. Peec at €89–199 is the sensible upgrade if you outgrow Otterly.</div>
+      </div>
+
+      <!-- Trustpilot -->
+      <div class="acct p2">
+        <div class="acct-head"><span class="chip high">Priority 2</span><h3>Trustpilot</h3></div>
+        <div class="acct-facts"><span><b>URL:</b> business.trustpilot.com</span><span><b>Cost:</b> Free plan</span><span><b>Time:</b> 1 hr</span></div>
+        <p>Third review surface. The free plan includes review invitations, which is all you need.</p>
+        <div class="warn"><strong>Trustpilot bans incentivised reviews outright</strong> — no discounts, credits, gifts, loyalty points or free months in exchange for a review, and no strings of any kind attached to an invitation. Enforcement runs to profile warnings and account suspension. Invitations must be neutral and go to <em>all</em> customers, not the happy ones. This is stricter than most platforms; assume the strictest rule applies everywhere and you will never trip any of them.</div>
+      </div>
+
+      <!-- Crunchbase -->
+      <div class="acct p2">
+        <div class="acct-head"><span class="chip high">Priority 2</span><h3>Crunchbase</h3></div>
+        <div class="acct-facts"><span><b>URL:</b> crunchbase.com/add-new</span><span><b>Cost:</b> Free</span><span><b>Time:</b> 45 min</span></div>
+        <p>This one is about entity disambiguation, not leads. MOIL Limited is an NSE-listed Indian manganese miner, and the way you separate from it is consistent structured data across the sources that feed knowledge graphs — not by repeating a denial on your own site, which is what the site used to do.</p>
+        <dl class="fields">
+          <div class="field"><dt>Legal name</dt><dd><strong>Moil Enterprise Inc.</strong> — the full legal entity, exactly as in your Organization schema.</dd></div>
+          <div class="field"><dt>Location</dt><dd>Buda, Texas, United States. Same wording as everywhere else.</dd></div>
+          <div class="field"><dt>Founded</dt><dd>2023.</dd></div>
+          <div class="field"><dt>Description</dt><dd>The <strong>short description</strong> from §3.</dd></div>
+          <div class="field"><dt>Links</dt><dd>Website, LinkedIn, Facebook. These must exactly match the <code>sameAs</code> array already in your site's schema.</dd></div>
+        </dl>
+      </div>
+
+      <!-- Reddit -->
+      <div class="acct p2">
+        <div class="acct-head"><span class="chip high">Priority 2</span><h3>Reddit</h3></div>
+        <div class="acct-facts"><span><b>Cost:</b> Free</span><span><b>Time:</b> 20 min/day, ongoing</span></div>
+        <p>Reddit is roughly <strong>12% of ChatGPT's US citations</strong> and <strong>47% of Perplexity's top sources</strong>. It is also the single easiest place to destroy your reputation, so the rules matter more than the effort.</p>
+        <p>Use one real, named account — yours. Not a brand account, not multiple accounts, ever.</p>
+        <dl class="fields">
+          <div class="field"><dt>Where</dt><dd>r/smallbusiness, r/Entrepreneur, r/marketing, r/socialmedia, plus trade subs: r/HVAC, r/landscaping, r/Construction, r/restaurateur. Spanish-language business communities too.</dd></div>
+          <div class="field"><dt>The ratio</dt><dd>90/10 — at least nine genuinely useful comments for every one that mentions Moil. Most subs enforce this.</dd></div>
+          <div class="field"><dt>Disclosure</dt><dd>First sentence, every time: <strong>"Full disclosure, I built this."</strong> Research is consistent that disclosure <em>increases</em> trust. Undisclosed promotion is the fastest way to get called out and banned.</dd></div>
+          <div class="field"><dt>Best lane</dt><dd>Answering someone who explicitly asked for a tool recommendation. Far better received than any post you originate.</dd></div>
+          <div class="field"><dt>r/smallbusiness</dt><dd>Confines promotion to a weekly thread. Outside it, comment value only.</dd></div>
+        </dl>
+        <div class="warn"><strong>Instant bans:</strong> cross-posting the same promotional content to several subs (mods talk to each other and spam filters catch the pattern), asking people to DM you or check your profile, and any second account. Consequences escalate to sitewide shadowbans where your content is invisible and nobody tells you.</div>
+      </div>
+
+      <!-- Product Hunt -->
+      <div class="acct p3">
+        <div class="acct-head"><span class="chip med">Priority 3</span><h3>Product Hunt</h3></div>
+        <div class="acct-facts"><span><b>Cost:</b> Free</span><span><b>Prep:</b> 4–6 weeks</span><span><b>Timing:</b> Week 6 at the earliest</span></div>
+        <p>A one-shot event, not a profile. You launch once and the result is permanent, so launching before the reviews and profiles exist wastes the shot. Everything else on this list should be done first.</p>
+        <dl class="fields">
+          <div class="field"><dt>Assets</dt><dd>240×240 icon; three to five gallery images or a 30–90 second demo; tagline under 60 characters; two to three paragraph description; maker comment written and reviewed in advance.</dd></div>
+          <div class="field"><dt>Tagline</dt><dd>Use the §3 short tagline. Lead with the benefit, never the technology.</dd></div>
+          <div class="field"><dt>Go live</dt><dd>12:01am Pacific. Tuesday–Thursday for maximum traffic and maximum competition; Friday or Sunday for a realistic shot at a #1-of-day badge. For a small team, take the badge.</dd></div>
+          <div class="field"><dt>First four hours</dt><dd>These decide the ranking. Two or three people on rotating shifts, replying to every comment within about ten minutes.</dd></div>
+          <div class="field"><dt>Maker comment</dt><dd>Three to five paragraphs: why you built it, the problem, what makes it different, and a genuine ask for feedback. Personal, not a press release.</dd></div>
+        </dl>
+        <div class="warn">Never use upvote groups or paid vote services. Both trigger Product Hunt's quality filters and the penalty is worse than a quiet launch.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <div class="rail"><span class="num">05</span><span>Reviews</span></div>
+    <div class="body">
+      <h2>The review engine</h2>
+      <p>Target: <strong>25 real G2 reviews in 90 days.</strong> You start with six published and 16 Facebook recommendations, so the substrate exists — it just lives on the wrong platform.</p>
+
+      <h3>Two channels, both simple</h3>
+      <p><strong>Newsletter.</strong> One short section, once a month. Not a campaign.</p>
+      <p><strong>After support.</strong> When a conversation ends well, ask. This is the highest-yield moment and the most commonly skipped.</p>
+
+      <div>
+        <div class="paste-label"><h4>Ask template — neutral, no incentive, no steering</h4></div>
+        <div class="paste">Subject: Would you write a few lines about Moil?
+
+Hi [name],
+
+If Moil has been useful, would you write a short review on G2? It takes
+about five minutes and it genuinely helps other owners decide whether
+this is worth their time.
+
+Write whatever is true — the good and the parts that still need work.
+An honest review is more useful to us than a glowing one.
+
+[link]
+
+Thanks either way,
+Andres</div>
+      </div>
+
+      <div class="warn"><strong>Three things that make a review worthless or illegal.</strong> Never offer anything in exchange — no discount, credit, free month, gift or loyalty points; Trustpilot and the FTC both treat that as an incentivised review. Never send only to customers you expect to be positive. Never suggest what the review should say, including "if you could mention the bilingual part". The moment you steer the content, it stops being their opinion.</div>
+
+      <div class="tip"><strong>Ask the 16 Facebook people to re-post on G2.</strong> They already recommended you publicly, so the ask is small. Link them straight to the G2 review form and let them write it fresh — do not send them their old text to copy.</div>
+
+      <h3>The reviews you already have</h3>
+      <p>Three are from August 2026, three from October 2025. The older ones are real and they count, but they describe a product that has moved. Going back to those same customers for a current review is worth more than a new stranger's — and the ask is an open question about how they use Moil now, never a request to update the old one to fit the new positioning.</p>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <div class="rail"><span class="num">06</span><span>Distribution</span></div>
+    <div class="body">
+      <h2>Getting inside the 88%</h2>
+      <p>When someone asks an assistant for the best AI content calendar tool, it reads listicles. If Moil is not in them, Moil is not in the answer. This is the most direct route into the 88%, and almost nobody does it.</p>
+
+      <h3>Build the gap list</h3>
+      <p>Search each of these and record the top 20 results that <em>do not</em> mention Moil. One spreadsheet: URL, publication, author, contact, date, which terms it ranks for.</p>
+      <div class="paste">best AI content calendar tools
+best social media tools for small business
+Buffer alternatives
+Later alternatives
+Hootsuite alternatives
+done for you social media
+best AI marketing tools for small business
+AI tools for contractors / trades
+herramientas de marketing para pequeños negocios
+mejores herramientas de IA para negocios</div>
+
+      <h3>The pitch</h3>
+      <p>Email the author with a specific reason you belong in <em>their</em> piece. Generic outreach fails.</p>
+      <div class="paste">Subject: Missing bilingual option in your [title] piece
+
+Hi [name],
+
+Your roundup of [topic] is the one I keep seeing cited. One gap: none of
+the tools listed produce content in Spanish and English from the same
+brief — they'll all publish whatever you type, but none of them write
+both.
+
+That's what we built Moil for. Owners serving bilingual customers are
+currently writing everything twice or skipping one language.
+
+If it's useful: [link to /compare/best-ai-content-calendar-tools]
+Happy to give you a free account to try it yourself.
+
+No worries if it doesn't fit.
+Andres, Moil
+</div>
+      <div class="tip">Bilingual output is the hook. It is the one thing on your feature list that genuinely no competitor in these roundups has, and it gives the writer a reason to add you that isn't "please add me".</div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <div class="rail"><span class="num">07</span><span>Cadence</span></div>
+    <div class="body">
+      <h2>What this looks like weekly</h2>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>When</th><th>What</th><th>Time</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Daily</strong></td><td>Clear the mention inbox — brand and competitor mentions on Reddit and in communities. Reply where you can help.</td><td class="num">20 min</td></tr>
+            <tr><td><strong>Weekly</strong></td><td>Ask for reviews after every support conversation that ended well. Add five entries to the distribution-gap list and send five pitches.</td><td class="num">1 hr</td></tr>
+            <tr><td><strong>Monthly</strong></td><td>Re-run the 15-prompt baseline. Refresh the comparison pages with current competitor pricing. Review the onboarding answers for new prompt patterns.</td><td class="num">3 hrs</td></tr>
+            <tr><td><strong>Quarterly</strong></td><td>Check review count against the 25-in-90-days target. Re-audit every profile for description drift.</td><td class="num">2 hrs</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Roughly three hours a week plus a monthly half-day. It compounds slowly and then not slowly — the same shape Tally's did.</p>
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section>
+    <div class="rail"><span class="num">08</span><span>Rules</span></div>
+    <div class="body">
+      <h2>What never to do</h2>
+      <ol class="stop">
+        <li><strong>Never write, edit or steer a review.</strong> Not even a suggestion of what to mention. This is what the site rewrite existed to undo — do not reintroduce it off-site.</li>
+        <li><strong>Never offer anything in exchange for a review.</strong> No discounts, credits, free months, gifts or points. Trustpilot suspends accounts for it and the FTC fines for it.</li>
+        <li><strong>Never publish a number without a source.</strong> Every profile has a stats field that invites invention. "16 recommendations on Facebook" is publishable because it is checkable; nothing else is until it is.</li>
+        <li><strong>Never let two profiles describe Moil differently.</strong> Paste from §3, which comes from the brand constitution. Description drift across directories is the entity ambiguity that keeps MOIL Limited attached to your name.</li>
+        <li><strong>Never write new copy for a profile.</strong> If a field needs wording that §3 does not cover, add it to the constitution first, then paste it here. The constitution changes first, then the site, then the profiles — that order is the whole fix.</li>
+        <li><strong>Never promote on Reddit without disclosing.</strong> One real account, first sentence, every time.</li>
+        <li><strong>Never buy placement, upvotes or leads on an empty profile.</strong> Reviews first, always. Paid visibility on a bare listing is money spent looking worse.</li>
+      </ol>
+
+      <details style="border-top:1px solid var(--rule-strong);padding-top:16px;margin-top:8px;">
+        <summary style="cursor:pointer;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);">Sources</summary>
+        <ul style="margin-top:16px;font-size:14px;gap:8px;">
+          <li><a href="https://natlawreview.com/press-releases/study-chatgpt-cites-recommended-saas-tools-own-site-just-12-time">ChatGPT cites a recommended SaaS tool's own site just ~12% of the time</a></li>
+          <li><a href="https://emgigroup.com/blog/reddit-citations-saas-ai-search/">EMGI — Reddit citation study</a></li>
+          <li><a href="https://contently.com/2026/04/29/top-sources-llms-cite/">Contently — Top sources LLMs cite in 2026</a></li>
+          <li><a href="https://learn.g2.com/claim-free-g2-profile">G2 — Claim your free profile</a></li>
+          <li><a href="https://blastra.io/guides/how-to-navigate-g2-and-capterra/">G2 and Capterra after the February 2026 acquisition</a></li>
+          <li><a href="https://www.capterra.com/faq/faqs-vendors/">Capterra — Vendor FAQs</a></li>
+          <li><a href="https://corporate.trustpilot.com/legal/for-businesses/guidelines-for-businesses/feb-2026">Trustpilot — Guidelines for businesses</a></li>
+          <li><a href="https://www.ftc.gov/business-guidance/resources/consumer-reviews-testimonials-rule-questions-answers">FTC — Consumer Reviews and Testimonials Rule</a></li>
+          <li><a href="https://support.google.com/business/answer/13763036?hl=en">Google — Business Profile eligibility guidelines</a></li>
+          <li><a href="https://redship.io/blog/reddit-self-promotion-rules">Reddit self-promotion rules, 2026</a></li>
+          <li><a href="https://www.launchpact.io/product-hunt-launch-strategy">Product Hunt launch strategy 2026</a></li>
+          <li><a href="https://otterly.ai/blog/best-ai-search-monitoring-and-llm-monitoring-solutions/">Otterly — AI search monitoring tools compared</a></li>
+          <li><a href="https://foundationinc.co/lab/tally-geo/">Foundation — How Tally used GEO to drive 25% of new users</a></li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+  <footer>
+    <span>Copy source: the brand constitution</span>
+    <span>Phases 4 &amp; 5</span>
+    <span>Site work merged to main</span>
+    <span>Updated 20 Aug 2026</span>
+  </footer>
+
+</div>
