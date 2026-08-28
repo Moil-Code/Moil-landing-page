@@ -7,6 +7,7 @@ import {
   type Review,
 } from '../../src/common/data/reviews';
 import './reviews.css';
+import { moilSoftwareApplication } from '~~/src/common/seo/offers';
 
 /**
  * /reviews — every published review in one place, verbatim, with its date and a
@@ -70,7 +71,10 @@ function reviewsJsonLd() {
         text: review.text,
         creator: { '@type': 'Person', name: review.name },
         datePublished: review.date,
-        about: { '@type': 'SoftwareApplication', name: 'Moil' },
+        // A SoftwareApplication with no applicationCategory and no offers is an
+        // invalid item, and there was one per review on this page. The shared
+        // builder emits a complete one.
+        about: moilSoftwareApplication(),
         ...(review.sourceUrl ? { url: review.sourceUrl } : {}),
       },
     })),

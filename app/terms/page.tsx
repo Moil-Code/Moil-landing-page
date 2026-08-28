@@ -123,7 +123,7 @@ export default function TermsPage() {
             </Link>
 
             <div className="flex flex-col gap-y-2">
-              <p className="text-[24px] md:text-[40px] font-[800] tetx-[#22263A] leading-normal">Moil Terms and Conditions</p>
+              <h1 className="text-[24px] md:text-[40px] font-[800] text-[#22263A] leading-normal">Moil Terms and Conditions</h1>
               <p className="text-sm text-[#5C6178]">Last updated: {lastUpdated}</p>
             </div>
 
@@ -131,7 +131,7 @@ export default function TermsPage() {
               {terms.map((term, i) => {
                 return (
                   <div key={i} className="text-base leading-normal font-medium">
-                    <p className="font-[700]">{term.heading}</p>
+                    <h2 className="font-[700]">{term.heading}</h2>
                     <p>{term.text}</p>
                   </div>
                 )

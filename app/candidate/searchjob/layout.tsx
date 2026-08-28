@@ -40,11 +40,15 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: `${baseURL1}/candidate/searchjob`,
-    languages: {
-      'en': `${baseURL1}/candidate/searchjob`,
-      'es': `${baseURL1}/candidate/searchjob?lg=es`,
-      'x-default': `${baseURL1}/candidate/searchjob`,
-    },
+    // No `languages` block. There used to be one declaring
+    // `es -> {url}?lg=es`, but `?lg=es` is not a separate document: it
+    // self-canonicalises back to this URL and the server still sends
+    // `<html lang="en">` / `Content-Language: en`, because the middleware reads
+    // the locale from the path, not the query. Semrush counted that as both a
+    // canonical/hreflang conflict and an hreflang language mismatch, and Google
+    // discards a cluster whose target canonicalises away. `/es/*` is the real
+    // Spanish surface; when a Spanish counterpart of this page exists at
+    // `/es/...`, declare the pair here and on that page at the same time.
   },
 };
 

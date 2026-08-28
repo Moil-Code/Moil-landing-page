@@ -48,7 +48,12 @@ export default function LegalPage({
           </Link>
 
           <div className="flex flex-col gap-y-2">
-            <p className="text-[24px] md:text-[40px] font-[800] text-[#22263A] leading-normal">{title}</p>
+            {/* The page title is an <h1>, not a styled <p>. It rendered as a
+                paragraph for every legal page, which is why the Aug 2026 Site
+                Audit reported 13 pages with no h1 and flagged this template for
+                low semantic HTML usage. The classes are unchanged, so nothing
+                moves visually. */}
+            <h1 className="text-[24px] md:text-[40px] font-[800] text-[#22263A] leading-normal">{title}</h1>
             {lastUpdated && <p className="text-sm text-[#5C6178]">Last updated: {lastUpdated}</p>}
           </div>
 
@@ -60,7 +65,7 @@ export default function LegalPage({
             <div className="flex flex-col gap-y-6">
               {sections.map((s, i) => (
                 <div key={i} className="text-base leading-normal font-medium">
-                  <p className="font-[700]">{s.heading}</p>
+                  <h2 className="font-[700]">{s.heading}</h2>
                   <p className="whitespace-pre-line">{s.text}</p>
                 </div>
               ))}

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './business.css';
+import { moilOffers, priceValidUntil } from '../../src/common/seo/offers';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
 import { en } from '../../src/common/translations/en';
 import { faqJsonLd } from '../../src/common/utils/faqJsonLd';
@@ -168,6 +169,7 @@ export default function BusinessLayout({
               "priceCurrency": "USD",
               "availability": "https://schema.org/InStock",
               "url": `${baseURL1}/business/pricing`,
+              "priceValidUntil": priceValidUntil(),
               "seller": {
                 "@type": "Organization",
                 "name": "Moil Enterprise Inc.",
@@ -214,6 +216,7 @@ export default function BusinessLayout({
               "priceCurrency": "USD",
               "availability": "https://schema.org/InStock",
               "url": `${baseURL1}/business/pricing`,
+              "priceValidUntil": priceValidUntil(),
               "seller": {
                 "@type": "Organization",
                 "name": "Moil Enterprise Inc.",
@@ -244,38 +247,8 @@ export default function BusinessLayout({
             "description": "Moil is the AI co-founder for small business owners. Owners shouldn\u2019t have to be everything on top of the real job. Moil learns the business once, builds a brain that compounds, thinks with them, and does the work \u2014 research, plans, documents \u2014 and automates content creation thirty days at a time, on brand, in English or Spanish.",
             "url": `${baseURL1}/business`,
             "screenshot": `${baseURL1}/og_image_v2.jpg`,
-            "offers": [
-              {
-                "@type": "Offer",
-                "name": "Professional",
-                "price": "25",
-                "priceCurrency": "USD",
-                "availability": "https://schema.org/InStock",
-                "priceSpecification": {
-                  "@type": "UnitPriceSpecification",
-                  "price": "25",
-                  "priceCurrency": "USD",
-                  "billingDuration": "P1M",
-                  "description": "Ask for anything; it makes it"
-                },
-                "description": "Professional $25/month. First conversation free, no card."
-              },
-              {
-                "@type": "Offer",
-                "name": "Market Pro",
-                "price": "75",
-                "priceCurrency": "USD",
-                "availability": "https://schema.org/InStock",
-                "priceSpecification": {
-                  "@type": "UnitPriceSpecification",
-                  "price": "75",
-                  "priceCurrency": "USD",
-                  "billingDuration": "P1M",
-                  "description": "Also writes your month automatically"
-                },
-                "description": "Market Pro $75/month — adds the automatic Moil360 calendar and video."
-              }
-            ],
+            // Shared offer bodies — see src/common/seo/offers.ts.
+            "offers": moilOffers(),
             "featureList": [
               "AI co-founder for small business owners",
               "Moil360 30-Day Content Calendar",
@@ -348,6 +321,7 @@ export default function BusinessLayout({
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebPage",
+            "name": "Moil — the AI co-founder for small business owners",
             "url": `${baseURL1}/business`,
             "speakable": {
               "@type": "SpeakableSpecification",

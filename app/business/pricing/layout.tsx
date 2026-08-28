@@ -35,6 +35,14 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: `${baseURL1}/business/pricing`,
+    // The Spanish pricing page declares `en -> /business/pricing`. Without the
+    // matching pair here the cluster is non-reciprocal, and Google drops a
+    // one-way hreflang cluster entirely rather than half-honouring it.
+    languages: {
+      en: `${baseURL1}/business/pricing`,
+      es: `${baseURL1}/es/business/pricing`,
+      'x-default': `${baseURL1}/business/pricing`,
+    },
   },
 };
 

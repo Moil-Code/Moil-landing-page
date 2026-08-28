@@ -219,7 +219,7 @@ export function BusinessPricingSection() {
 
       {!pricingPage && (<div style={{ textAlign: 'center', marginTop: '40px' }} className="rv">
         <a
-          href={lang === 'es' ? '/es/business/pricing' : `/business/pricing?lg=${lang}`}
+          href={lang === 'es' ? '/es/business/pricing' : '/business/pricing'}
           className="btn-secondary"
           style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
         >
