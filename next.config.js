@@ -111,15 +111,27 @@ const nextConfig = {
             value: 'strict-origin-when-cross-origin',
           },
           {
-            // HSTS. The Aug 2026 Site Audit reported subdomains with no HSTS.
-            // `includeSubDomains` is what makes the policy cover
-            // blog/business/candidate.moilapp.com, and it is also why this must
-            // not ship until every subdomain genuinely serves HTTPS — the
-            // browser will refuse plain HTTP to all of them for `max-age`.
-            // They do (all are HTTPS-only behind the same certs), so this is
-            // safe; `preload` is deliberately omitted, because submitting to
-            // the preload list is effectively irreversible and should be a
-            // separate, deliberate decision.
+            // HSTS, in response to the Aug 2026 Site Audit's "subdomains don't
+            // support HSTS" notice.
+            //
+            // Read the scope carefully before relying on this. Per RFC 6797,
+            // `includeSubDomains` covers subdomains OF THE HOST THAT SENT THE
+            // HEADER. This app serves www.moilapp.com, so it covers
+            // www.moilapp.com and *.www.moilapp.com — and nothing else.
+            // blog / business / candidate.moilapp.com are SIBLINGS of www, not
+            // subdomains of it, so this header does not reach them. An earlier
+            // version of this comment claimed it did; it was wrong.
+            //
+            // Covering all of *.moilapp.com requires the header on the apex
+            // `moilapp.com`, and the apex is a hosting-level redirect to www
+            // (see src/common/constants/baseUrl.tsx), not a route in this app —
+            // so that has to be added in nginx/hosting config, not here.
+            // blog.moilapp.com sends its own via the Blog repo's vercel.json.
+            // business and candidate still have none.
+            //
+            // `preload` is deliberately omitted: submitting to the browser
+            // preload list is effectively irreversible and deserves its own
+            // decision.
             key: 'Strict-Transport-Security',
             value: 'max-age=63072000; includeSubDomains',
           },
