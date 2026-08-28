@@ -26,8 +26,13 @@ function normalizeOrigin(raw) {
 }
 
 function getRegisterOrigin(env) {
-	const src = env || (typeof process !== 'undefined' ? process.env : {});
-	return normalizeOrigin((src && src.NEXT_PUBLIC_REGISTER_ORIGIN) || '') || DEFAULT_REGISTER_ORIGIN;
+	// Next only inlines a static process.env.NEXT_PUBLIC_* member.
+	// A dynamic lookup leaves the client bundle empty and every CTA
+	// falls back to production.
+	const raw = env
+		? (env.NEXT_PUBLIC_REGISTER_ORIGIN || '')
+		: (process.env.NEXT_PUBLIC_REGISTER_ORIGIN || '');
+	return normalizeOrigin(raw) || DEFAULT_REGISTER_ORIGIN;
 }
 
 function getRegisterUrl(env) {

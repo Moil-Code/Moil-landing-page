@@ -99,6 +99,19 @@ describe('preview client — origin and URLs', () => {
 		);
 	});
 
+	it('omitted-env path is a static process.env.NEXT_PUBLIC_REGISTER_ORIGIN member', () => {
+		const src = read('app/business/preview/previewClient.js');
+		const fn = src.slice(
+			src.indexOf('function getRegisterOrigin'),
+			src.indexOf('function getRegisterUrl'),
+		);
+		assert.match(fn, /process\.env\.NEXT_PUBLIC_REGISTER_ORIGIN/);
+		assert.doesNotMatch(fn, /src\.NEXT_PUBLIC_REGISTER_ORIGIN/);
+		const omitted = fn.replace(/^[\s\S]*\?[\s\S]*?:\s*/, '');
+		assert.match(omitted, /process\.env\.NEXT_PUBLIC_REGISTER_ORIGIN/);
+		assert.doesNotMatch(omitted, /(?<!process\.)env\.NEXT_PUBLIC_REGISTER_ORIGIN/);
+	});
+
 	it('register URL includes ?preview= when a slug exists', () => {
 		const url = client.buildRegisterUrl({ lang: 'es', previewSlug: 'taco-shop' });
 		assert.match(url, /[?&]preview=taco-shop/);
