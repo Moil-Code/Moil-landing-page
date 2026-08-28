@@ -53,11 +53,23 @@ const COMPARE_LINKS: readonly NavLink[] = [
   { label: 'AI info', href: '/ai-info' },
 ];
 
-// Legal lives in the footer (organized), never the header. Both point to the
-// combined Terms-of-Service + Privacy page at /privacy.
+// Legal lives in the footer (organized), never the header.
+//
+// Both entries used to point at `/privacy`, so `/terms` — a separate, indexable
+// page — had no link here at all, and `/dmca`, `/dpa`, `/subprocessors`,
+// `/accessibility` and `/privacy-choices` had no incoming internal link
+// anywhere on the site. A page in the sitemap that nothing links to is exactly
+// what the Site Audit counts as an orphan, so listing them in sitemap.ts
+// without this would have traded one orphan report for another.
 const LEGAL_LINKS: readonly NavLink[] = [
-  { label: 'Terms of Service', href: '/privacy' },
+  { label: 'Terms of Service', href: '/terms' },
   { label: 'Privacy Policy', href: '/privacy' },
+  { label: 'Cookie Policy', href: '/cookies' },
+  { label: 'Your Privacy Choices', href: '/privacy-choices' },
+  { label: 'DPA', href: '/dpa' },
+  { label: 'Subprocessors', href: '/subprocessors' },
+  { label: 'DMCA', href: '/dmca' },
+  { label: 'Accessibility', href: '/accessibility' },
 ];
 
 // Section routes that ship their own footer — hide the global one there.
@@ -142,7 +154,7 @@ export function SiteFooter() {
       {/* Bottom bar: copyright + organized legal links */}
       <div className="mx-auto mt-8 flex max-w-6xl flex-col gap-3 border-t border-gray-800 pt-5 text-xs sm:flex-row sm:items-center sm:justify-between">
         <span className="text-gray-500">&copy; {year} Moil Enterprise Inc. All rights reserved.</span>
-        <nav aria-label="Legal" className="flex gap-4">
+        <nav aria-label="Legal" className="flex flex-wrap gap-x-4 gap-y-2">
           {LEGAL_LINKS.map(({ label, href }) => (
             <a key={label} href={href} className="text-gray-400 transition hover:text-white hover:underline">
               {label}

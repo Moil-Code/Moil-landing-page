@@ -110,6 +110,19 @@ const nextConfig = {
             key: 'Referrer-Policy',
             value: 'strict-origin-when-cross-origin',
           },
+          {
+            // HSTS. The Aug 2026 Site Audit reported subdomains with no HSTS.
+            // `includeSubDomains` is what makes the policy cover
+            // blog/business/candidate.moilapp.com, and it is also why this must
+            // not ship until every subdomain genuinely serves HTTPS — the
+            // browser will refuse plain HTTP to all of them for `max-age`.
+            // They do (all are HTTPS-only behind the same certs), so this is
+            // safe; `preload` is deliberately omitted, because submitting to
+            // the preload list is effectively irreversible and should be a
+            // separate, deliberate decision.
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains',
+          },
         ],
       },
       {

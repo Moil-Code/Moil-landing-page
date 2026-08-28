@@ -9,6 +9,7 @@ import { SiteFooter } from '../src/common/components/SiteFooter';
 import CookieConsent from '../src/common/components/CookieConsent';
 import { baseURL1 } from '../src/common/constants/baseUrl';
 import { HTML_LANG_HEADER } from '../src/common/i18n/pathLocale';
+import { moilOffers } from '../src/common/seo/offers';
 
 const bebas = Bebas_Neue({ weight: ['400'], subsets: ['latin'], display: 'swap' });
 
@@ -213,39 +214,10 @@ export default async function RootLayout({
                 "https://www.facebook.com/MoilWorks/"
               ],
               // Organization takes `makesOffer`, not `offers` — `offers` is a
-              // Product/Service property and is silently dropped here.
-              "makesOffer": [
-                {
-                  "@type": "Offer",
-                  "name": "Moil Professional",
-                  "description": "Professional $25/month — ask the co-founder for anything and it produces the finished work: research, plans, documents, brand assets, flyers, decks. It also schedules and publishes the posts you approve to Facebook and Instagram.",
-                  "price": "25",
-                  "priceCurrency": "USD",
-                  "availability": "https://schema.org/InStock",
-                  "priceSpecification": {
-                    "@type": "UnitPriceSpecification",
-                    "price": "25",
-                    "priceCurrency": "USD",
-                    "billingDuration": "P1M"
-                  },
-                  "category": "Business Software"
-                },
-                {
-                  "@type": "Offer",
-                  "name": "Moil Market Pro",
-                  "description": "Full Moil360 30-day calendar plus the AI co-founder. $75 a month.",
-                  "price": "75",
-                  "priceCurrency": "USD",
-                  "availability": "https://schema.org/InStock",
-                  "priceSpecification": {
-                    "@type": "UnitPriceSpecification",
-                    "price": "75",
-                    "priceCurrency": "USD",
-                    "billingDuration": "P1M"
-                  },
-                  "category": "Business Software"
-                }
-              ]
+              // Product/Service property and is silently dropped here. The offer
+              // bodies come from src/common/seo/offers.ts so price, url and
+              // priceValidUntil cannot drift between the pages that declare them.
+              "makesOffer": moilOffers()
             })
           }}
         />

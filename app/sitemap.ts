@@ -160,5 +160,45 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'yearly',
       priority: 0.3,
     },
+    // The remaining compliance pages. All six are indexable, all six are linked
+    // from the global footer, and all six were missing from this file — which
+    // is how a page ends up crawled but never declared. `/legacy` stays out on
+    // purpose: robots.txt disallows it.
+    {
+      url: `${baseUrl}/cookies`,
+      lastModified: today,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/dmca`,
+      lastModified: today,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/dpa`,
+      lastModified: today,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/subprocessors`,
+      lastModified: today,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/accessibility`,
+      lastModified: today,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/privacy-choices`,
+      lastModified: today,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
   ]
 }
