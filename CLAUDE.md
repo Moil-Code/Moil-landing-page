@@ -100,7 +100,15 @@ So the carrier is per VISITOR and it is `?platforms=` on the register URL (`buil
 
 Two rules ride on this side: only `isOffered` ids travel (a value in a URL a founder can read is a promise, and `buildRegisterUrl` asks `platformChoice` rather than re-enumerating the networks — the eval fails on a second inline list); and **"decide for me" and an empty pick send nothing at all**, because sending the resolved pair would report a decision they never made and freeze today's default into their account.
 
-**The picker UI itself is still not built here** — that is a design surface, not a wiring one, and the mechanism underneath it is now complete and tested end to end.
+**THE PICKER'S SCREEN IS BUILT (`platformPickerView.js` + `PreviewMagnet`).** It sits in the reveal card, above the Start-free CTA — the moment a founder is deciding whether to hand over an email, where answering one question is cheaper than filling a form later. The pure module owns what a screen adds to the vocabulary: which rows exist, in what order, and which a finger may land on.
+
+- **`COMING` networks are RENDERED, named and unselectable.** `selectable: false` is the whole contract; a screen that lets a finger land on one has re-created the dead control this picker refuses.
+- **There is no "decide for me" chip.** It is the ABSENCE of a pick — a chip would make it a peer of the networks, so a founder who ticked it and one who ticked both would look identical on screen and different in the payload. The eval fails if the sentinel ever becomes a row.
+- **`toggle` REFUSES anything not offered rather than adding it.** The screen renders unselectable rows, and a handler that trusted its own markup would be one DOM edit away from putting TikTok in the payload.
+- **An untouched picker sends nothing**, so a founder who ignores it is byte-identical to one who never saw it.
+- **Copy is keyed off the id in both languages and an unknown key renders NOTHING**, never a raw slug — a bare `tiktok` on the first screen a stranger sees reads as a bug. The eval derives the same keys and fails if any row lacks a string in EN or ES, so a new network cannot arrive invisible.
+
+Pinned by `evals/platformPickerView.test.js` (11 checks), red-verified seven ways. Note the repo's dependencies are not installed in every environment, so `tsc` reports only "react is missing" — the file was verified to parse (zero TS1xxx syntax errors) rather than type-checked.
 
 ### Testimonials, reviews, and any quoted customer
 
