@@ -92,7 +92,15 @@ So **`OFFERED` is what we can honour and `COMING` NAMES the rest**, unselectable
 - **"Decide for me" resolves to EVERY publishable network, never a guess** — with two, that is both — and carries `decided: false` as the receipt that we chose rather than them.
 - **`OFFERED` may never exceed the backend's `PUBLISHABLE_PLATFORMS`.** The repos cannot import each other and neither CI has the other checkout, so `Business-plan-Staging/evals/fixtures/landing-platformChoice.js` is a committed pin (the `fe-contentProfile` pattern) and its check asserts a **direction, not equality**: the landing may NAME a network it cannot offer, and does; it may never OFFER one. A reverse assertion keeps the "not yet" rows alive so the screen cannot slide back to silent omission. Moving a network from `COMING` to `OFFERED` is a two-repo change with a human in the middle, by construction.
 
-Pinned by `evals/platformChoice.test.js`, red-verified nine ways including the specced mistake itself. **The picker UI and where the choice is STORED are deliberately not built here** — the choice needs a consumer before it is a control, and a picker whose answer nothing reads is the decoration this rule exists to prevent.
+Pinned by `evals/platformChoice.test.js`, red-verified nine ways including the specced mistake itself.
+
+**THE ANSWER NOW HAS A CONSUMER, AND IT IS NOT THE PREVIEW ROW (2026-08-30).** The plan proposed storing the choice on `business_previews.brand`, on the true observation that it is free-form JSONB needing no migration. It is still the wrong home, and that table's own migration header says why: `identity_key` is UNIQUE *"precisely so a preview is generated once and replayed forever"*. **There is ONE ROW PER BUSINESS.** Brand DNA scraped off a website is the same fact for every visitor; a PREFERENCE is not — two people previewing the same restaurant would inherit each other's picks, and whoever signed up would be seeded with a stranger's answer, with nothing erroring.
+
+So the carrier is per VISITOR and it is `?platforms=` on the register URL (`buildRegisterUrl`), beside the slug, on the same hop, into the same app-origin record. The consumer is `Business-plan-Staging/service/preview/previewPlatformSeed.js` → the founder's own Autopilot `settings.platform`, seeded once at claim time and never overwriting a choice they made inside the product.
+
+Two rules ride on this side: only `isOffered` ids travel (a value in a URL a founder can read is a promise, and `buildRegisterUrl` asks `platformChoice` rather than re-enumerating the networks — the eval fails on a second inline list); and **"decide for me" and an empty pick send nothing at all**, because sending the resolved pair would report a decision they never made and freeze today's default into their account.
+
+**The picker UI itself is still not built here** — that is a design surface, not a wiring one, and the mechanism underneath it is now complete and tested end to end.
 
 ### Testimonials, reviews, and any quoted customer
 
