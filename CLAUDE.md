@@ -80,6 +80,20 @@ longer read is not a key that is no longer valid. `NEXT_PUBLIC_GOOGLE_API_KEY_1`
 stays: it is the Places autocomplete widget in `src/candidate/`, a browser-side
 Maps key, and a different thing entirely. Restrict it by HTTP referrer.
 
+### The pre-wall platform picker offers what we can honour (`app/business/preview/platformChoice.js`)
+
+`MARKETING_FIRST_REBUILD_PLAN` step 3 specs this picker from the competitor's own pre-wall transcript — *TikTok · Instagram · YouTube · Facebook · LinkedIn · or Decide For Me*. **Three of those five cannot receive a post from us.** The Moil backend is explicit (`Business-plan-Staging/utils/socialPlatforms.js`): `PUBLISHABLE_PLATFORMS` is instagram + facebook, `KNOWN_PLATFORMS` adds linkedin (it has a caption variant, a voice and a handle slot — and no scheduler branch), and that file's own comment calls the gap *"the honest description of what we ship"*. TikTok and YouTube are not even known.
+
+A founder who ticks TikTok on the **acquisition** screen, hands over an email and never sees a TikTok post has been told something untrue at the moment they trusted us most — the dead-control failure, at the worst possible place for it, and worse than the competitor's version because theirs presumably works.
+
+So **`OFFERED` is what we can honour and `COMING` NAMES the rest**, unselectable, each with a reason. An omission reads as an oversight and a founder cannot tell that from a decision: "not yet" is an answer, nothing is not. Rules:
+- **A refused network is REPORTED**, never silently dropped — otherwise the screen and the stored answer disagree with nothing to explain it.
+- **An empty choice is "decide for me", not "no networks".** Storing an empty set produces a month with nowhere to go, and the founder finds out a week later.
+- **"Decide for me" resolves to EVERY publishable network, never a guess** — with two, that is both — and carries `decided: false` as the receipt that we chose rather than them.
+- **`OFFERED` may never exceed the backend's `PUBLISHABLE_PLATFORMS`.** The repos cannot import each other and neither CI has the other checkout, so `Business-plan-Staging/evals/fixtures/landing-platformChoice.js` is a committed pin (the `fe-contentProfile` pattern) and its check asserts a **direction, not equality**: the landing may NAME a network it cannot offer, and does; it may never OFFER one. A reverse assertion keeps the "not yet" rows alive so the screen cannot slide back to silent omission. Moving a network from `COMING` to `OFFERED` is a two-repo change with a human in the middle, by construction.
+
+Pinned by `evals/platformChoice.test.js`, red-verified nine ways including the specced mistake itself. **The picker UI and where the choice is STORED are deliberately not built here** — the choice needs a consumer before it is a control, and a picker whose answer nothing reads is the decoration this rule exists to prevent.
+
 ### Testimonials, reviews, and any quoted customer
 
 **Transcribe or omit. Never author, never "align to positioning."**
