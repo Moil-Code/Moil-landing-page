@@ -107,3 +107,97 @@ test('the module is pure', () => {
 	assert.ok(!/fetch\(|require\('fs'\)|document\./.test(body), 'does I/O');
 	assert.ok(!/react/i.test(body), 'imports React');
 });
+
+// ── The choice travels, and only the honourable half of it ──────────────────
+//
+// A picker whose answer nothing reads is decoration — this repo's own rule.
+// The answer's carrier is `?platforms=` on the register URL, because
+// `business_previews` is ONE ROW PER BUSINESS (UNIQUE identity_key, replayed
+// forever) and a PREFERENCE stored there is another visitor's answer. The
+// consumer is `Business-plan-Staging/service/preview/previewPlatformSeed.js`.
+
+const client = require('../app/business/preview/previewClient');
+
+test('a real choice rides the register URL', () => {
+	const url = client.buildRegisterUrl({
+		previewSlug: 'taco-shop',
+		platforms: ['instagram', 'facebook'],
+	});
+	const u = new URL(url);
+	assert.strictEqual(u.searchParams.get('preview'), 'taco-shop');
+	assert.strictEqual(
+		u.searchParams.get('platforms'),
+		'instagram,facebook',
+	);
+});
+
+test('"decide for me" and an empty pick send NOTHING', () => {
+	// Sending the resolved pair would report a decision the founder never
+	// made and freeze today's default into their account. Absence lets the
+	// product keep choosing, which is what they asked for.
+	for (const platforms of [undefined, [], null, DECIDE_FOR_ME]) {
+		const url = client.buildRegisterUrl({
+			previewSlug: 's',
+			platforms,
+		});
+		assert.strictEqual(
+			new URL(url).searchParams.get('platforms'),
+			null,
+			String(platforms),
+		);
+	}
+});
+
+test('a network we cannot honour never reaches the URL', () => {
+	// It is refused at the server too. It must also be refused HERE: a value
+	// in a URL the founder can read is a promise, and the picker already
+	// refuses it on screen.
+	const url = client.buildRegisterUrl({
+		previewSlug: 's',
+		platforms: ['tiktok', 'youtube', 'linkedin'],
+	});
+	assert.strictEqual(
+		new URL(url).searchParams.get('platforms'),
+		null,
+	);
+});
+
+test('a mixed list carries only what is offered', () => {
+	const url = client.buildRegisterUrl({
+		previewSlug: 's',
+		platforms: ['tiktok', ' FACEBOOK ', 'facebook'],
+	});
+	assert.strictEqual(
+		new URL(url).searchParams.get('platforms'),
+		'facebook',
+	);
+});
+
+test('the carrier is bound to OFFERED, never a second hardcoded list', () => {
+	const src = fs.readFileSync(
+		path.join(__dirname, '../app/business/preview/previewClient.js'),
+		'utf8',
+	);
+	const body = src
+		.replace(/\/\*[\s\S]*?\*\//g, '')
+		.replace(/^\s*\/\/.*$/gm, '');
+	assert.ok(
+		body.includes('isOffered'),
+		'previewClient must ask platformChoice, not re-enumerate the networks',
+	);
+	assert.ok(
+		!/\[[^\]]*'instagram'[^\]]*'facebook'[^\]]*\]/.test(body),
+		'a second inline platform list has appeared in previewClient',
+	);
+});
+
+test('the register URL stays valid with no slug at all', () => {
+	const url = client.buildRegisterUrl({
+		platforms: ['facebook'],
+		lang: 'es',
+	});
+	const u = new URL(url);
+	assert.strictEqual(u.searchParams.get('platforms'), 'facebook');
+	assert.strictEqual(u.searchParams.get('lg'), 'es');
+	assert.strictEqual(u.searchParams.get('preview'), null);
+});

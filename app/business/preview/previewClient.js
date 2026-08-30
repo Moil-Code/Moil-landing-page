@@ -13,6 +13,9 @@
 
 const REGISTER_ORIGIN = 'https://business.moilapp.com/register';
 
+// The picker's own offer list — the ONE authority on what may be named here.
+const { isOffered } = require('./platformChoice');
+
 function normalizeOrigin(raw) {
 	if (typeof raw !== 'string') return '';
 	return raw.trim().replace(/\/+$/, '');
@@ -43,14 +46,42 @@ function previewViewUrl(origin, slug) {
 }
 
 /**
- * Register URL. Always valid. Adds ?preview= only when a slug exists.
+ * Register URL. Always valid. Adds ?preview= only when a slug exists, and
+ * ?platforms= only when the founder actually CHOSE.
+ *
+ * ── WHY THE PLATFORM CHOICE RIDES THE URL ──────────────────────────────────
+ *
+ * The picker is anonymous and pre-wall, so there is no identity to store it
+ * against, and the obvious server-side home is wrong: `business_previews` is
+ * ONE ROW PER BUSINESS (`identity_key` is UNIQUE precisely so a preview is
+ * generated once and replayed forever). A preference stored there is another
+ * visitor's answer — two people previewing the same restaurant would inherit
+ * each other's picks, and whoever signed up would be seeded with a stranger's
+ * choice, silently.
+ *
+ * So it crosses the origin the same way the slug does, on the same hop, and
+ * is captured into the same app-origin store. It is a preference for the
+ * founder's own account and carries no privilege; the backend refuses
+ * anything its scheduler cannot publish to
+ * (`service/preview/previewPlatformSeed.js`).
+ *
+ * "Decide for me" and an empty tick-list DELIBERATELY send nothing. Sending
+ * the resolved pair would report a decision the founder never made and freeze
+ * today's default into their account; absence lets the product keep choosing.
+ *
  * Language is applied via appendLang (the existing helper) when provided.
  *
- * @param {{ lang?: 'en'|'es', previewSlug?: string, appendLang?: function }} [opts]
+ * @param {{ lang?: 'en'|'es', previewSlug?: string, platforms?: string[], appendLang?: function }} [opts]
  */
 function buildRegisterUrl(opts) {
 	const o = opts && typeof opts === 'object' ? opts : {};
 	const slug = typeof o.previewSlug === 'string' ? o.previewSlug.trim() : '';
+	// Only ids this screen may OFFER travel. Anything else is dropped here as
+	// well as at the server: a value the picker refuses must not reach a URL
+	// a founder can see and read as a promise.
+	const platforms = (Array.isArray(o.platforms) ? o.platforms : [])
+		.map((p) => (typeof p === 'string' ? p.trim().toLowerCase() : ''))
+		.filter((p, i, a) => p && isOffered(p) && a.indexOf(p) === i);
 	let url = REGISTER_ORIGIN;
 	if (slug) {
 		try {
@@ -59,6 +90,17 @@ function buildRegisterUrl(opts) {
 			url = u.toString();
 		} catch {
 			url = url + '?preview=' + encodeURIComponent(slug);
+		}
+	}
+	if (platforms.length) {
+		const value = platforms.join(',');
+		try {
+			const u = new URL(url);
+			u.searchParams.set('platforms', value);
+			url = u.toString();
+		} catch {
+			const sep = url.indexOf('?') >= 0 ? '&' : '?';
+			url = url + sep + 'platforms=' + encodeURIComponent(value);
 		}
 	}
 	const lang = o.lang === 'es' || o.lang === 'en' ? o.lang : 'en';

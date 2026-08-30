@@ -6,6 +6,8 @@ export function previewViewUrl(origin: string, slug: string): string | null;
 export function buildRegisterUrl(opts?: {
   lang?: 'en' | 'es';
   previewSlug?: string;
+  /** Offered ids only; "decide for me" and an empty pick send nothing. */
+  platforms?: string[];
   appendLang?: (url: string, lang: 'en' | 'es') => string;
 }): string;
 export function websiteSubmitBody(input: { website?: string; email?: string; locale?: string }): Record<string, string>;
