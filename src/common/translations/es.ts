@@ -219,13 +219,13 @@ export const es: TranslationKeys = {
       headlineHighlight2: 'Sin nómina.',
       quote: 'Dirigir un pequeño negocio significa usar todos los sombreros — CEO, mercadólogo, reclutador, estratega — todo a la vez.',
       quoteEmphasis: 'Eso termina hoy.',
-      description: 'Moil es la primera plataforma de IA que conecta cada función crítica de un pequeño negocio en un único ecosistema inteligente. Inicia una conversación, responde 21 preguntas estratégicas y observa cómo tu co-fundador IA construye tu investigación de mercado, plan de negocios, estrategia de contenido y activos visuales — todo en un mismo lugar.',
+      description: 'Moil es la primera plataforma de IA que conecta cada función crítica de un pequeño negocio en un único ecosistema inteligente. Inicia una conversación — pega tu sitio web, sube un PDF, escríbelo o díctalo en voz alta — y observa cómo tu co-fundador IA construye tu investigación de mercado, plan de negocios, estrategia de contenido y activos visuales — todo en un mismo lugar.',
       footnote: 'Disponible en inglés y español · Cumple con SOC 2 · Sin tarifas de configuración',
       cardTitle: 'Tu Co-Fundador IA',
       cardSub: 'Plataforma de Inteligencia Moil · Siempre Activo',
       cofounder: {
         marketResearch: 'Investigación de Mercado',
-        marketResearchSub: '21 preguntas → 20–30 páginas de datos reales del mercado',
+        marketResearchSub: 'Un enlace → 20–30 páginas de datos reales del mercado',
         marketResearchBadge: 'Instantáneo',
         businessPlan: 'Plan de Negocios',
         businessPlanSub: 'PDF listo para inversores con proyecciones a 5 años',
@@ -283,8 +283,8 @@ export const es: TranslationKeys = {
       subheadline: 'Seis módulos poderosos, entrelazados en una sola conversación inteligente. Cada uno alimenta al siguiente.',
       marketResearch: {
         title: 'Investigación y Validación de Mercado',
-        description: 'Responde 21 preguntas estratégicas por voz o texto — en inglés o español. Análisis profundo del mercado de 8–10 fuentes reales. TAM/SAM/SOM, panorama competitivo, personas de clientes, puntuación de oportunidades.',
-        tag1: '21 Preguntas',
+        description: 'Pega tu sitio web, o responde por voz o texto — en inglés o español. Análisis profundo del mercado de 8–10 fuentes reales. TAM/SAM/SOM, panorama competitivo, personas de clientes, puntuación de oportunidades.',
+        tag1: 'Cuatro formas de empezar',
         tag2: 'Fuentes Reales',
         tag3: 'TAM/SAM/SOM',
       },
@@ -324,14 +324,14 @@ export const es: TranslationKeys = {
     },
     journey: {
       tag: 'Tu Viaje Completo',
-      headline: 'De 21 Preguntas a',
+      headline: 'De Un Enlace a',
       headlineHighlight1: 'Control Total',
       headlineHighlight2: 'del Negocio.',
       subheadline: 'Todo automatizado. Cada resultado profesional. Cada decisión basada en datos reales del mercado.',
       steps: {
         step1: {
           time: '5–10 Minutos',
-          title: '21 Preguntas Estratégicas',
+          title: 'Cuatro Formas de Empezar',
           desc: 'Voz o texto. Inglés o español. Tu co-fundador IA aprende tu modelo de negocio, mercado, brechas competitivas, metas y fortalezas. La base de todo lo que sigue.',
         },
         step2: {
@@ -429,7 +429,7 @@ export const es: TranslationKeys = {
         },
         voice: {
           title: 'Entrada de Voz — Inglés y Español',
-          desc: 'Responde 21 preguntas por voz en tu idioma preferido',
+          desc: 'Responde por voz en tu idioma preferido',
           badge: 'Ambos',
         },
         content: {
@@ -677,7 +677,7 @@ export const es: TranslationKeys = {
     },
     journey: {
       sectionTag: 'Tu Camino',
-      headLine1: 'De 21 Preguntas',
+      headLine1: 'De Un Enlace',
       headLine2: 'a la',
       headLine2Highlight: 'Dominación Total.',
       sub: 'Cada paso automatizado. Cada resultado profesional. Cada decisión respaldada por datos reales del mercado — no suposiciones.',

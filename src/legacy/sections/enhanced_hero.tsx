@@ -37,7 +37,7 @@ export default function EnhancedHero({ refQuery, lgQuery }: EnhancedHeroProps) {
     {
       icon: <Search className="w-5 h-5" />,
       title: "Market Research",
-      subtitle: "21 Questions to Insights",
+      subtitle: "One Link to Insights",
       color: "from-green-500 to-teal-600"
     },
     {

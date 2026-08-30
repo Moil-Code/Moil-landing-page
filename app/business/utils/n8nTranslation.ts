@@ -244,7 +244,7 @@ export const staticTranslations: Record<SupportedLanguage, Record<string, string
     'hero.headline2': 'Co-Fundador IA',
     'hero.headline3': 'Que Todo Pequeño Negocio',
     'hero.headline4': 'Merece.',
-    'hero.sub': 'Una plataforma. 21 preguntas. Investigación de mercado, plan de negocios, marketing de contenido de 30 días, imágenes + video con IA, contratación inteligente y un coach de negocios 24/7 — todo impulsado por IA que realmente entiende tu negocio.',
+    'hero.sub': 'Una plataforma. Un enlace. Investigación de mercado, plan de negocios, marketing de contenido de 30 días, imágenes + video con IA, contratación inteligente y un coach de negocios 24/7 — todo impulsado por IA que realmente entiende tu negocio.',
     'hero.cta.primary': 'Comienza con tu Co-Fundador IA',
     'hero.cta.secondary': 'Ver Qué Hace',
 

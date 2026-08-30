@@ -122,8 +122,8 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
               {
                 "@type": "HowToStep",
                 "position": 1,
-                "name": "Answer 21 Strategic Questions",
-                "text": "Answer 21 questions about your business in 5–10 minutes by voice or text, in English or Spanish. Your AI learns your brand, market, goals, and content gaps."
+                "name": "Start With Your Website",
+                "text": "Start with your website — or a PDF, or a few sentences by voice or text, in English or Spanish. Your AI learns your brand, market, goals, and content gaps."
               },
               {
                 "@type": "HowToStep",
@@ -189,7 +189,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
                 "name": "How long does it take to generate a 30-day content calendar?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "After answering 21 questions (5–10 minutes), Content360 generates your complete 30-day content calendar automatically. The entire process from onboarding to ready-to-post content takes under 30 minutes."
+                  "text": "After you start — a website link, a PDF, or a few sentences — Content360 generates your complete 30-day content calendar automatically. The entire process from onboarding to ready-to-post content takes under 30 minutes."
                 }
               },
               {

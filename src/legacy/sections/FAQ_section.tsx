@@ -10,7 +10,7 @@ export default function FAQSection() {
   const FAQ = [
     {
       question: "What is Moil?",
-      answer: "Moil is your AI Business Coach—an intelligent co-founder that guides you through every stage of building and growing your business. From answering 21 strategic questions to conducting market research, creating business plans, generating marketing content, designing graphics, and hiring your team—all in one platform. It works via natural conversation in English or Spanish, available 24/7. Think of it as having a business consultant, marketing agency, designer, and recruiter in your pocket for $25/month."
+      answer: "Moil is your AI Business Coach—an intelligent co-founder that guides you through every stage of building and growing your business. From reading your website to conducting market research, creating business plans, generating marketing content, designing graphics, and hiring your team—all in one platform. It works via natural conversation in English or Spanish, available 24/7. Think of it as having a business consultant, marketing agency, designer, and recruiter in your pocket for $25/month."
     },
     {
       question: "How does the AI Business Coach work?",

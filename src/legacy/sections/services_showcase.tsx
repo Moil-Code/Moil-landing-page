@@ -18,7 +18,7 @@ const capabilities = [
   {
     id: "market-research",
     title: "Market Research & Validation",
-    description: "Answer 21 strategic questions and get comprehensive market analysis, TAM/SAM/SOM calculations, competitive insights, and customer personas—all investor-ready.",
+    description: "Start with your website, a PDF, or a few sentences and get comprehensive market analysis, TAM/SAM/SOM calculations, competitive insights, and customer personas—all investor-ready.",
     icon: <Search className="w-6 h-6" />,
     color: "from-[#5843BD] to-[#4a3ba0]"
   },

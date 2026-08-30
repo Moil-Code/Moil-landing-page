@@ -7,7 +7,7 @@ const journeySteps = [
   {
     id: 1,
     step: "STEP 1",
-    title: "Answer 21 Strategic Questions",
+    title: "Start With Your Website",
     duration: "5-10 min",
     description: "Kickstart with our AI business coach via voice or text (English/Spanish).",
     valueDelivered: [

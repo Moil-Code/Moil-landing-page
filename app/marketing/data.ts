@@ -63,9 +63,9 @@ export const journeySteps: JourneyStep[] = [
   {
     number: '01',
     time: '5–10 MIN',
-    title: '21 Strategic Questions',
+    title: 'Four Ways to Start',
     description:
-      'Answer 21 questions by voice or text — in English or Spanish. Your AI co-founder learns everything: your model, your market, your goals, your gaps.',
+      'Paste your website, or answer by voice or text — in English or Spanish. Your AI co-founder learns everything: your model, your market, your goals, your gaps.',
     outputs: ['Business Model Analysis', 'Gap Identification', 'Strength Mapping', 'Bilingual EN/ES'],
   },
   {
@@ -408,9 +408,9 @@ const journeyStepsEs: JourneyStep[] = [
   {
     number: '01',
     time: '5–10 MIN',
-    title: '21 Preguntas Estratégicas',
+    title: 'Cuatro Formas de Empezar',
     description:
-      'Responde 21 preguntas por voz o texto — en inglés o español. Tu co-fundador IA aprende todo: tu modelo, tu mercado, tus metas, tus brechas.',
+      'Pega tu sitio web, o responde por voz o texto — en inglés o español. Tu co-fundador IA aprende todo: tu modelo, tu mercado, tus metas, tus brechas.',
     outputs: ['Análisis del Modelo', 'Identificación de Brechas', 'Mapeo de Fortalezas', 'Bilingüe EN/ES'],
   },
   {

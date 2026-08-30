@@ -240,13 +240,13 @@ export const en = {
       headlineHighlight2: 'Never on payroll.',
       quote: 'Running a small business means wearing every hat — CEO, marketer, recruiter, strategist — all at once.',
       quoteEmphasis: 'That ends today.',
-      description: 'Moil is the first AI platform that connects every critical function of a small business into a single intelligent ecosystem. Start a conversation, answer 21 strategic questions, and watch it build your market research, business plan, content strategy and visual assets — all in one place.',
+      description: 'Moil is the first AI platform that connects every critical function of a small business into a single intelligent ecosystem. Start a conversation — paste your website, upload a PDF, type it or say it out loud — and watch it build your market research, business plan, content strategy and visual assets — all in one place.',
       footnote: 'Available in English & Spanish · SOC 2 Compliant · No setup fees',
       cardTitle: 'Your AI Co-Founder',
       cardSub: 'Moil Intelligence Platform · Always On',
       cofounder: {
         marketResearch: 'Market Research',
-        marketResearchSub: '21 questions → 20–30 pages of real market data',
+        marketResearchSub: 'One link → 20–30 pages of real market data',
         marketResearchBadge: 'Instant',
         businessPlan: 'Business Plan',
         businessPlanSub: 'Investor-ready PDF with 5-year projections',
@@ -304,8 +304,8 @@ export const en = {
       subheadline: 'Six powerful modules, woven into a single intelligent conversation. Each one feeds the next.',
       marketResearch: {
         title: 'Market Research & Validation',
-        description: 'Answer 21 strategic questions by voice or text — in English or Spanish. Deep market analysis from 8–10 real sources. TAM/SAM/SOM, competitive landscape, customer personas, opportunity scoring.',
-        tag1: '21 Questions',
+        description: 'Paste your website, or answer by voice or text — in English or Spanish. Deep market analysis from 8–10 real sources. TAM/SAM/SOM, competitive landscape, customer personas, opportunity scoring.',
+        tag1: 'Four ways in',
         tag2: 'Real Sources',
         tag3: 'TAM/SAM/SOM',
       },
@@ -345,14 +345,14 @@ export const en = {
     },
     journey: {
       tag: 'Your Complete Journey',
-      headline: 'From 21 Questions to',
+      headline: 'From One Link to',
       headlineHighlight1: 'Total Business',
       headlineHighlight2: 'Command.',
       subheadline: 'Everything automated. Every output professional. Every decision grounded in real market data.',
       steps: {
         step1: {
           time: '5–10 Minutes',
-          title: '21 Strategic Questions',
+          title: 'Four Ways to Start',
           desc: 'Voice or text. English or Spanish. Your AI co-founder learns your business model, market, competitive gaps, goals, and strengths. The foundation for everything that follows.',
         },
         step2: {
@@ -450,7 +450,7 @@ export const en = {
         },
         voice: {
           title: 'Voice Input — English & Spanish',
-          desc: 'Answer 21 questions by voice in your preferred language',
+          desc: 'Answer by voice in your preferred language',
           badge: 'Both',
         },
         content: {
@@ -714,7 +714,7 @@ export const en = {
     },
     journey: {
       sectionTag: 'Your Journey',
-      headLine1: 'From 21 Questions',
+      headLine1: 'From One Link',
       headLine2: 'to',
       headLine2Highlight: 'Total Domination.',
       sub: 'Every step automated. Every output professional. Every decision backed by real market data — not gut feelings.',

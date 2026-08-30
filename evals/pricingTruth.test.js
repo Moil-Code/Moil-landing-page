@@ -255,3 +255,78 @@ describe('no live source re-introduces a claim the app cannot honour', () => {
 		assert.deepEqual(offenders, [], `the stale annual price came back in: ${offenders.join(', ')}`);
 	});
 });
+
+// ── THE INTAKE IS FOUR DOORS, NOT TWENTY-ONE QUESTIONS ─────────────────────
+//
+// The product's onboarding is a website URL, a PDF, typed text, or spoken
+// answers — `runIntake` in Business-plan-Staging, whose CLAUDE.md calls them
+// "the four intake doors" throughout. Nothing anywhere defines a 21-question
+// flow, so every sentence promising one described a product we do not ship.
+//
+// It was in NINE places per language, including the JSON-LD FAQ answers in
+// `app/marketing/layout.tsx` — structured data, which is what an answer
+// engine quotes VERBATIM. That is the most expensive place on this site for a
+// false sentence, and it is the same class this file already guards for
+// price: a claim nobody can source.
+//
+// A SCAN, not a corpus check. A hand-written corpus cannot tell you whether
+// it covers the strings actually shipped.
+describe('the intake we describe is the intake we have', () => {
+	// The bare number is far too common (years, sizes, ids), so the pattern
+	// binds it to a question word, in either language.
+	const CLAIM = /\b21\s+(strategic\s+)?(questions?|preguntas?)/i;
+	const SKIP_DIRS = new Set([
+		'node_modules', '.git', '.next', 'out', 'build', 'coverage',
+	]);
+	const EXTS = new Set([
+		'.ts', '.tsx', '.js', '.jsx', '.mjs', '.md', '.txt', '.json',
+	]);
+
+	const scanAll = (dir, out = []) => {
+		for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+			if (SKIP_DIRS.has(entry.name)) continue;
+			const full = path.join(dir, entry.name);
+			if (entry.isDirectory()) {
+				scanAll(full, out);
+			} else if (EXTS.has(path.extname(entry.name))) {
+				out.push(full);
+			}
+		}
+		return out;
+	};
+
+	it('no surface claims a 21-question intake', () => {
+		const hits = [];
+		for (const full of scanAll(root)) {
+			// This file names the claim in order to forbid it.
+			if (full === __filename) continue;
+			let src;
+			try {
+				src = fs.readFileSync(full, 'utf8');
+			} catch (_e) {
+				continue;
+			}
+			if (CLAIM.test(src)) hits.push(path.relative(root, full));
+		}
+		assert.deepEqual(
+			hits,
+			[],
+			'these files claim an intake the product does not have: ' +
+				hits.join(', '),
+		);
+	});
+
+	it('the scan can actually see a violation', () => {
+		// Without this the check above passes for a repo it never read — the
+		// pattern could be wrong, the walker could be returning nothing, and
+		// a clean result would look identical either way.
+		assert.ok(CLAIM.test('Answer 21 strategic questions by voice'));
+		assert.ok(CLAIM.test('Responde 21 preguntas estratégicas'));
+		assert.ok(CLAIM.test('21 questions'));
+		// And it must not fire on an ordinary number.
+		assert.ok(!CLAIM.test('21 templates'));
+		assert.ok(!CLAIM.test('shipped in 2021'));
+		assert.ok(scanAll(root).length > 50, 'the walker found almost nothing');
+	});
+});
+
