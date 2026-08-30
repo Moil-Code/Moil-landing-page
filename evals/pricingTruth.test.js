@@ -64,15 +64,44 @@ const TIERS = ['professional', 'marketPro'];
  * sibling key at the same indent rather than by a fixed window — a window
  * bleeds into the following tier and reads ITS prices as this one's, which is
  * exactly how a two-tier ladder passes a check it should fail.
+ *
+ * Two refusals, and both are the difference between a gate and decoration:
+ * a key that is MISSING throws (a renamed block must fail loudly, never make
+ * every assertion under it pass vacuously), and a key that appears TWICE in
+ * the slice throws too. `pricing:` really does occur twice at four-space
+ * indent in en.ts — once under `business`, once under another section — so
+ * taking the first match happened to be right and was right by luck. Luck is
+ * not a property a gate can keep.
  */
 function blockOf(src, key, indent = '      ') {
 	const open = `\n${indent}${key}: {\n`;
+	const hits = src.split(open).length - 1;
+	assert.notEqual(hits, 0, `block ${key} not found at indent ${indent.length} — did the key get renamed?`);
+	assert.equal(hits, 1, `block ${key} appears ${hits} times at indent ${indent.length}; the slice is ambiguous`);
 	const start = src.indexOf(open);
-	assert.notEqual(start, -1, `block ${key} not found — did the key get renamed?`);
 	const end = src.indexOf(`\n${indent}},`, start + open.length);
 	assert.notEqual(end, -1, `block ${key} is not closed at indent ${indent.length}`);
 	return src.slice(start, end);
 }
+
+/**
+ * The business subtree. Scoping to it is what makes the uniqueness rule above
+ * satisfiable — and it is also correct on its own terms: /marketing and
+ * /candidate have their own `pricing` blocks and are not what this file is
+ * about.
+ */
+const businessOf = (lang) => {
+	const src = read(`src/common/translations/${lang}.ts`);
+	const at = src.indexOf('\n  business: {');
+	assert.notEqual(at, -1, `${lang}: business subtree not found`);
+	// END IT AT THE NEXT TOP-LEVEL KEY, not at end-of-file. `marketing` has a
+	// `pricing` block of its own, so an unbounded slice is two pricing blocks
+	// wearing one name — which is precisely the ambiguity blockOf refuses, and
+	// which the first cut of this helper walked straight into.
+	const end = src.indexOf('\n  },\n', at);
+	assert.notEqual(end, -1, `${lang}: business subtree is not closed`);
+	return src.slice(at, end);
+};
 
 const dollars = (block, key) => {
 	const m = block.match(new RegExp(`${key}: '\\$([\\d,]+)'`));
@@ -82,8 +111,7 @@ const dollars = (block, key) => {
 
 describe('the price ladder is arithmetic, not three numbers typed by hand', () => {
 	for (const lang of LANGS) {
-		const src = read(`src/common/translations/${lang}.ts`);
-		const pricing = blockOf(src, 'pricing', '    ');
+		const pricing = blockOf(businessOf(lang), 'pricing', '    ');
 
 		// The advertised discount is a promise about the two numbers beside it.
 		// "Save up to 25%" was a hedge AND wrong (the real figure is exactly
@@ -121,8 +149,8 @@ describe('the price ladder is arithmetic, not three numbers typed by hand', () =
 	it('both languages sell the same numbers', () => {
 		// A price corrected in one language and not the other is the same
 		// defect the $700 was, restricted to half the audience.
-		const en = blockOf(read('src/common/translations/en.ts'), 'pricing', '    ');
-		const es = blockOf(read('src/common/translations/es.ts'), 'pricing', '    ');
+		const en = blockOf(businessOf('en'), 'pricing', '    ');
+		const es = blockOf(businessOf('es'), 'pricing', '    ');
 		for (const tier of TIERS) {
 			const a = blockOf(en, tier);
 			const b = blockOf(es, tier);
@@ -137,7 +165,7 @@ describe('the price ladder is arithmetic, not three numbers typed by hand', () =
 		// pages. It is the fourth place the number lived before it was
 		// centralised, and it is the one nobody looks at.
 		const offers = read('src/common/seo/offers.ts');
-		const pricing = blockOf(read('src/common/translations/en.ts'), 'pricing', '    ');
+		const pricing = blockOf(businessOf('en'), 'pricing', '    ');
 		for (const [tier, key] of [['professional', 'professional'], ['marketPro', 'marketPro']]) {
 			const monthly = dollars(blockOf(pricing, tier), 'monthlyPrice');
 			const offerBlock = blockOf(offers, key, '  ');
@@ -152,7 +180,7 @@ describe('the price ladder is arithmetic, not three numbers typed by hand', () =
 
 describe('the comparison table describes one product', () => {
 	const rowsOf = (lang) => {
-		const src = read(`src/common/translations/${lang}.ts`);
+		const src = businessOf(lang);
 		const start = src.indexOf('      rows: [');
 		assert.notEqual(start, -1, `${lang}: tiers.rows not found`);
 		const end = src.indexOf('\n      ],', start);
