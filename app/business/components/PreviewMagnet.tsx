@@ -19,6 +19,7 @@ import {
 	sanitizeTagline,
 	websiteFieldDecision,
 } from '../preview/previewReveal';
+import { pickerRows, toggle, pickerState } from '../preview/platformPickerView';
 import { nextPollDelayMs, waitCopyKey } from '../preview/previewWaitCopy';
 
 type Phase = 'form' | 'wait' | 'ready' | 'failed' | 'down' | 'identity' | 'ceiling';
@@ -49,6 +50,25 @@ function hex(color: string) {
 	return c.startsWith('#') ? c : `#${c}`;
 }
 
+// Copy lookups. A key this build has no string for renders NOTHING rather
+// than a raw id — the picker is the first thing a stranger sees, and a bare
+// `tiktok` on it reads as a bug. The vocabulary decides which rows exist;
+// this only decides what they are called.
+type MagnetCopy = Record<string, string | undefined>;
+
+function platformCopy(m: MagnetCopy, id: string): string {
+	const key = 'platform' + id.charAt(0).toUpperCase() + id.slice(1);
+	return m[key] || '';
+}
+
+function reasonCopy(m: MagnetCopy, reason: string): string {
+	const camel = reason
+		.split('-')
+		.map((w, i) => (i === 0 ? w : w.charAt(0).toUpperCase() + w.slice(1)))
+		.join('');
+	return m['platform' + camel.charAt(0).toUpperCase() + camel.slice(1)] || '';
+}
+
 export function PreviewMagnet() {
 	const { t, lang } = useLanguageContext();
 	const m = t.business.hero.magnet;
@@ -61,6 +81,12 @@ export function PreviewMagnet() {
 	const [errorMessage, setErrorMessage] = useState(configured ? '' : m.down);
 	const [slug, setSlug] = useState('');
 	const [ready, setReady] = useState<ReadyPayload | null>(null);
+	// The pre-wall platform choice. EMPTY IS THE DEFAULT and it means "decide
+	// for me" — `buildRegisterUrl` sends nothing for an empty pick, so a
+	// founder who does not touch this is byte-identical to one who never saw
+	// it, and the product keeps choosing rather than freezing today's default
+	// into their account.
+	const [platforms, setPlatforms] = useState<string[]>([]);
 	const [elapsedMs, setElapsedMs] = useState(0);
 	const [reduceMotion, setReduceMotion] = useState(false);
 
@@ -86,8 +112,14 @@ export function PreviewMagnet() {
 	}, []);
 
 	const signupHref = useMemo(
-		() => buildRegisterUrl({ lang, previewSlug: slug, appendLang: appendLangToUrl }),
-		[lang, slug],
+		() =>
+			buildRegisterUrl({
+				lang,
+				previewSlug: slug,
+				platforms,
+				appendLang: appendLangToUrl,
+			}),
+		[lang, slug, platforms],
 	);
 
 	const stopWaitClock = () => {
@@ -366,6 +398,57 @@ export function PreviewMagnet() {
 							))}
 						</div>
 					)}
+
+					{/* THE PICKER SITS ABOVE THE WALL, not behind it — this is the
+					    moment a founder is deciding whether to hand over an email,
+					    and it is cheaper to answer one question than to fill a
+					    form later. It offers only what the scheduler can serve
+					    and NAMES the rest, unselectable: an omission reads as an
+					    oversight and a founder cannot tell that from a decision.
+					    Ticking nothing is how you say "decide for me" — there is
+					    deliberately no chip for it, or it would be a peer of the
+					    networks and the two answers would look the same. */}
+					<fieldset className="m-0 border-0 p-0">
+						<legend className="mb-2 p-0 text-[11px] uppercase tracking-[1px] text-[var(--text)] opacity-70">
+							{m.platformsLabel}
+						</legend>
+						<div className="flex flex-wrap gap-1.5">
+							{pickerRows({ selected: platforms }).map((row) =>
+								row.selectable ? (
+									<button
+										key={row.id}
+										type="button"
+										aria-pressed={row.checked}
+										onClick={() => setPlatforms((p) => toggle(p, row.id))}
+										className={
+											'rounded-full border px-3 py-1.5 text-[13px] font-bold transition-colors ' +
+											(row.checked
+												? 'border-[var(--orange)] bg-[var(--orange)] text-white'
+												: 'border-[var(--border2)] text-[var(--text)] hover:border-[var(--orange)]')
+										}
+									>
+										{platformCopy(m, row.id)}
+									</button>
+								) : (
+									<span
+										key={row.id}
+										className="cursor-default rounded-full border border-dashed border-[var(--border2)] px-3 py-1.5 text-[13px] text-[var(--text)] opacity-45"
+										title={reasonCopy(m, row.reason)}
+									>
+										{platformCopy(m, row.id)}
+										<span className="ml-1.5 text-[11px] font-normal">
+											{reasonCopy(m, row.reason)}
+										</span>
+									</span>
+								),
+							)}
+						</div>
+						<p className="mt-2 text-[12px] leading-snug text-[var(--text)] opacity-70">
+							{pickerState(platforms) === 'decide'
+								? m.platformsDecide
+								: m.platformsChosen}
+						</p>
+					</fieldset>
 
 					<a
 						href={signupHref}
