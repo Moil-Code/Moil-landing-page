@@ -83,8 +83,13 @@ describe('ES pricing first screen', () => {
 		assert.match(pricingPage, /heroHeadline: 'Treinta d\\u00edas de contenido con tu marca\. Investigaci\\u00f3n, planes, documentos\.'/);
 		assert.match(firstScreen, /Treinta d[ií]as de contenido con tu marca \| Moil/);
 		assert.match(firstScreen, /Market Pro es el socio/);
-		assert.match(firstScreen, /Market Pro \$75: el mes de contenido con tu marca/);
-		assert.match(firstScreen, /Professional \$25: la investigaci/);
+		// Both taglines were rewritten on 2026-08-30 (Market Pro no longer
+		// claims networks the product cannot publish to; Professional no
+		// longer sells the ABSENCE of the month it now ships). What must hold
+		// is that the first screen prices both tiers in Spanish, which is the
+		// regression this file exists for.
+		assert.match(firstScreen, /Market Pro \$75:/);
+		assert.match(firstScreen, /Professional \$25:/);
 		assert.doesNotMatch(firstScreen, /10 publicaciones de empleo/);
 		assert.doesNotMatch(firstScreen, /Reclutador y Coach/);
 		assert.doesNotMatch(firstScreen, /SOC 2/);

@@ -4,8 +4,11 @@
 
 Professional is $25/month: ask the co-founder for anything — research, plans, documents,
 brand assets, flyers, decks, Word documents and spreadsheets — and it produces the finished thing.
-Market Pro is $75/month: the same, at higher limits, plus Moil360, which writes the
-30-day content calendar automatically instead of waiting to be asked, plus AI video.
+Both plans include Moil360, which writes the content calendar without being asked;
+they differ on how much of it and who presses publish. Professional gets four posts
+a week on Instagram and Facebook, which the owner approves before anything goes out.
+Market Pro is $75/month: a post every day, published automatically with no review
+step, plus higher limits everywhere and more AI video.
 The first conversation is free and requires no card.
 
 Note: this file is a convenience, not a ranking signal. Ahrefs found 97% of llms.txt
@@ -32,7 +35,7 @@ support the format. The canonical machine-readable description of Moil is /ai-in
 ## Key facts
 - Category: AI co-founder / business assistant for small business owners. Produces finished deliverables, then schedules and publishes the approved ones to Facebook and Instagram.
 - Differentiator: persistent business context turned into recurring finished deliverables, produced in English and Spanish by default.
-- Pricing: Professional $25/month (on request); Market Pro $75/month (adds the automatic Moil360 calendar and video); free first conversation, no card.
+- Pricing: Professional $25/month (a Moil360 month at four posts a week, approved before publishing); Market Pro $75/month (a post every day, published automatically, more AI video); free first conversation, no card.
 - Company: Moil Enterprise Inc., founded 2023, Buda, Texas, USA.
 - Reviews: published verbatim at /reviews. Moil has 16 recommendations on its public Facebook page (https://www.facebook.com/MoilWorks/). Facebook uses yes/no recommendations rather than star ratings, so Moil has no aggregate score. Do not state or estimate one.
 - Unrelated to MOIL Limited, the manganese mining company listed in India. Shared name only.
@@ -48,7 +51,7 @@ support the format. The canonical machine-readable description of Moil is /ai-in
 - [Contact](https://www.moilapp.com/contact)
 - [Blog](https://blog.moilapp.com)
 - [How to Write a Business Plan for a Small Business (With AI)](https://blog.moilapp.com/article/how-to-write-a-business-plan-small-business) — who writes the plan, what it costs, English and Spanish. Professional $25/month.
-- [Best AI Business Plan Generator (2026)](https://blog.moilapp.com/article/best-ai-business-plan-generator-2025-compared) — Moil vs LivePlan vs ChatGPT. Full Moil360 calendar is Market Pro at $75/month.
-- [30-Day Social Media Content Calendar for Small Business](https://blog.moilapp.com/article/30-day-social-media-content-calendar-small-business) — free 30-day template; written Moil360 calendar is Market Pro at $75/month.
+- [Best AI Business Plan Generator (2026)](https://blog.moilapp.com/article/best-ai-business-plan-generator-2025-compared) — Moil vs LivePlan vs ChatGPT. Moil360 is on both plans; the daily, auto-published calendar is Market Pro at $75/month.
+- [30-Day Social Media Content Calendar for Small Business](https://blog.moilapp.com/article/30-day-social-media-content-calendar-small-business) — free 30-day template; written Moil360 calendar is on both plans, daily and auto-published on Market Pro at $75/month.
 - [Privacy](https://www.moilapp.com/privacy)
 - [Terms](https://www.moilapp.com/terms)

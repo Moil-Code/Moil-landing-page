@@ -30,7 +30,7 @@ const FAQS: AeoFaq[] = [
   {
     question: 'How much does Moil cost?',
     answer:
-      'Market Pro is $75 a month: the month of content plus the work. Professional is $25 if you want the research, plan, and documents without the month. The first conversation is free and needs no card.',
+      'Market Pro is $75 a month: the month of content plus the work. Professional is $25 for the same co-founder with a lighter month — four posts a week that you approve before anything publishes. The first conversation is free and needs no card.',
   },
   {
     question: 'Who is Moil for?',

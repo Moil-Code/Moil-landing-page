@@ -307,30 +307,53 @@ describe('answer-engine surfaces', () => {
 	});
 
 	it('keeps the two tiers telling the same story everywhere', () => {
-		// The page once claimed the 30-day calendar was included at $25 while the FAQ
-		// said it was $75. The split is: $25 makes things on request, $75 also runs
-		// the month unasked. Nothing on any surface may contradict that.
+		// The page once claimed the 30-day calendar was included at $25 while
+		// the FAQ said it was $75, and this test was written to end that.
+		//
+		// IT ENFORCED THE OLD SPLIT AS A PRODUCT FACT, and on 2026-08-30 the
+		// split moved: Professional gained a real scheduled month, so the
+		// boundary is now the DENSITIES (4 posts a week, reviewed, vs 7
+		// published automatically — Business-plan-Staging/utils/planLimits.js)
+		// rather than the presence of the feature. The old assertion
+		// ("the $25 cell must read 'Not included'") had become a gate holding
+		// the site to a claim the app contradicts after the card is charged.
+		//
+		// The GUARANTEE is unchanged and is what is re-stated below: the two
+		// tiers must differ, visibly, and no surface may describe the split
+		// differently from the table. What is deliberately NOT re-stated is
+		// any literal cell value — pinning prose is why this failed for a
+		// reason that was not a defect, and a gate that fails for the wrong
+		// reason gets weakened rather than obeyed.
 		const en = read('src/common/translations/en.ts');
 		const business = en.slice(en.indexOf('\n  business: {'));
 
-		// The $25 column must never claim Moil360 / the calendar / video.
+		// Every Moil360 / calendar / video row must still SEPARATE the tiers.
+		// A row whose two cells agree is a row that sells nothing, and it is
+		// the shape a careless boundary move produces.
 		const tiers = business.slice(business.indexOf('    tiers: {'));
 		const table = tiers.slice(tiers.indexOf('rows: ['), tiers.indexOf('      ],'));
+		let differentiators = 0;
 		for (const line of table.split('\n')) {
-			if (/Moil360|content calendar|AI video/i.test(line)) {
-				const cells = [...line.matchAll(/'([^']*)'/g)].map((m) => m[1]);
-				assert.equal(
+			if (/^\s*\[/.test(line) && /Moil360|content calendar|AI video|Publishes the month/i.test(line)) {
+				const cells = [...line.matchAll(/'((?:[^'\\]|\\.)*)'/g)].map((m) => m[1]);
+				assert.equal(cells.length, 3, `malformed row: ${line.trim()}`);
+				assert.notEqual(
 					cells[1],
-					'Not included',
-					`the $25 column claims "${cells[0]}"; that is Market Pro only`,
+					cells[2],
+					`"${cells[0]}" reads the same on both tiers; it differentiates nothing`,
 				);
+				differentiators++;
 			}
 		}
+		assert.ok(differentiators >= 2, `want the table to separate the tiers on 2+ rows, found ${differentiators}`);
 
-		// No surface may say the calendar is included at $25.
-		const claim = /\$25[^.]{0,120}(30-day calendar|Moil360)[^.]{0,40}(included|includes)/i;
+		// AUTO-PUBLISHING is the capability that stayed behind, so it is the
+		// one no surface may hand to the $25 tier. (The calendar itself is now
+		// on both plans, which is why the old regex is gone rather than
+		// edited: it was testing the opposite fact.)
+		const claim = /\$25[^.]{0,140}(publishes? (it|them|the month|automatically)|without (your |any )?(review|approval)|auto-publish)/i;
 		for (const file of [...LIVE_SOURCES, 'public/llms.txt']) {
-			assert.ok(!claim.test(read(file)), `${file} implies the calendar is in the $25 plan`);
+			assert.ok(!claim.test(read(file)), `${file} implies the $25 plan publishes unattended`);
 		}
 
 		// Both prices must appear together wherever the offer is described, so a

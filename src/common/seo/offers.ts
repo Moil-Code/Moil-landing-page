@@ -12,6 +12,13 @@
  * It is also the same drift the Blog solved with brand.ts: a price written in
  * four places is a price that will eventually disagree with itself. Change a
  * price here and nowhere else.
+ *
+ * The DESCRIPTIONS drift the same way the prices did, and worse: these are the
+ * strings an answer engine quotes back as fact. Both said Professional had no
+ * scheduled month, which stopped being true on 2026-08-30 when the tier
+ * boundary moved from the FEATURE to the DENSITIES (4 posts a week reviewed vs
+ * 7 published automatically — Business-plan-Staging/utils/planLimits.js).
+ * Neither names a network the product cannot publish to.
  */
 
 import { baseURL1 } from '../constants/baseUrl';
@@ -37,15 +44,15 @@ const PLANS: Record<PlanKey, { name: string; price: string; description: string;
     name: 'Moil Professional',
     price: '25',
     description:
-      'Professional $25/month — ask the co-founder for anything and it produces the finished work: research, plans, documents, brand assets, flyers, decks. It also schedules and publishes the posts you approve to Facebook and Instagram.',
-    unitDescription: 'Ask for anything; it makes it',
+      'Professional $25/month — a scheduled month of content at four posts a week on Instagram and Facebook, which you approve before anything publishes, plus the AI co-founder: research, plans, documents, brand assets, flyers, decks.',
+    unitDescription: 'A month at four posts a week, plus anything you ask for',
   },
   marketPro: {
     name: 'Moil Market Pro',
     price: '75',
     description:
-      'Market Pro $75/month — the full Moil360 30-day calendar plus the AI co-founder.',
-    unitDescription: 'Also writes your month automatically',
+      'Market Pro $75/month — a post every day on Instagram and Facebook, published for you with no review step, plus unlimited AI images, 15 video credits a month, and the AI co-founder.',
+    unitDescription: 'A post a day, published for you',
   },
 };
 

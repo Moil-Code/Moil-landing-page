@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     absolute: 'Thirty days of content on brand. Research, plans, documents. | Moil',
   },
   description:
-    'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.',
+    'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 for the same co-founder with a lighter month — four posts a week that you approve before anything publishes.',
   keywords: [
     'AI co-founder pricing',
     'Market Pro $75',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Thirty days of content on brand. Research, plans, documents. | Moil',
     description:
-      'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.',
+      'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 for the same co-founder with a lighter month — four posts a week that you approve before anything publishes.',
     url: `${baseURL1}/business/pricing`,
     images: [
       {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   twitter: {
     title: 'Thirty days of content on brand. Research, plans, documents. | Moil',
     description:
-      'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.',
+      'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 for the same co-founder with a lighter month — four posts a week that you approve before anything publishes.',
   },
   alternates: {
     canonical: `${baseURL1}/business/pricing`,
@@ -60,7 +60,7 @@ export default function BusinessPricingLayout({
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "Thirty days of content on brand. Research, plans, documents.",
-            "description": "Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.",
+            "description": "Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 for the same co-founder with a lighter month — four posts a week that you approve before anything publishes.",
             "url": `${baseURL1}/business/pricing`,
             "breadcrumb": {
               "@type": "BreadcrumbList",

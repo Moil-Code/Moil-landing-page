@@ -145,7 +145,7 @@ export const es: TranslationKeys = {
       items: [
         'Investigaci\u00f3n, planes, documentos.',
         'Treinta d\u00edas de contenido con tu marca, en ingl\u00e9s o en espa\u00f1ol.',
-        'Market Pro es $75. Professional es $25 si no quieres el mes.',
+        'Market Pro es $75. Professional es $25: el mismo co-fundador con un mes m\u00e1s liviano \u2014 cuatro posts por semana que apruebas antes de que se publique nada.',
       ],
       footnote: 'Ya conoce el negocio, as\u00ed que nada de esto empieza en una hoja en blanco.',
     },
@@ -174,8 +174,11 @@ export const es: TranslationKeys = {
         ['Programa y publica en Facebook e Instagram', 'S\u00ed', 'S\u00ed'],
         ['Coaching y seguimiento', 'S\u00ed', 'S\u00ed'],
         ['Ingl\u00e9s y espa\u00f1ol', 'S\u00ed', 'S\u00ed'],
-        ['Moil360 \u2014 tu mes escrito autom\u00e1ticamente', 'No incluido', 'Incluido'],
-        ['Video con IA', 'No incluido', 'Incluido'],
+        // Ver el comentario en en.ts: el l\u00edmite pas\u00f3 de la FUNCI\u00d3N a la
+        // DENSIDAD el 2026-08-30. 'No incluido' ya es falso.
+        ['Moil360 \u2014 tu mes escrito autom\u00e1ticamente', '4 posts por semana', 'Todos los d\u00edas'],
+        ['Publica el mes solo', 'T\u00fa apruebas primero', 'Autom\u00e1tico'],
+        ['Video con IA \u2014 haz que cualquier post se mueva', '3 al mes', '15 al mes'],
       ],
       note: 'La primera conversaci\u00f3n es gratis y no pide tarjeta.',
       cta: 'Empieza gratis \u2014 sin tarjeta',
@@ -453,7 +456,8 @@ export const es: TranslationKeys = {
       headlineHighlight: '',
       subheadline: 'Market Pro es el socio: aprende una vez, piensa contigo, hace el trabajo y escribe el mes en ingl\u00e9s o en espa\u00f1ol. Professional es $25 si quieres la investigaci\u00f3n, el plan y los documentos sin el mes.',
       subheadlineEmphasis: '',
-      annualSaving: 'Ahorra hasta 25% con facturación anual',
+      // Ver la nota en en.ts: es exactamente 20% en los dos planes.
+      annualSaving: 'Ahorra 20% con facturación anual',
       seeDetailed: 'Ver Precios Detallados',
       monthly: 'Mensual',
       annual: 'Anual',
@@ -464,14 +468,19 @@ export const es: TranslationKeys = {
       save: 'Ahorra',
       professional: {
         name: 'Profesional',
-        tagline: 'Professional $25: la investigaci\u00f3n, el plan y los documentos. Sin el mes.',
+        // "Sin el mes" dej\u00f3 de ser cierto el 2026-08-30 \u2014 ver la nota en
+        // en.ts. Profesional ahora s\u00ed trae un mes programado, a menor
+        // densidad. La frontera entre planes pas\u00f3 de la FUNCI\u00d3N a las
+        // CANTIDADES.
+        tagline: 'Professional $25: un mes programado con cuatro publicaciones por semana, m\u00e1s la investigaci\u00f3n, los planes y los documentos.',
         cta: 'Comenzar',
         monthlyPrice: '$25',
         annualPrice: '$240',
         annualOriginalPrice: '$300',
         features: [
-          'La investigaci\u00f3n, el plan y los documentos',
-          'Sin el mes',
+          '4 publicaciones por semana, en Instagram y Facebook',
+          'T\u00fa revisas cada publicaci\u00f3n antes de que salga',
+          'La investigaci\u00f3n, los planes y los documentos',
           '200 im\u00e1genes generadas por IA',
           '200 ediciones de im\u00e1genes IA',
           '15 min de generaci\u00f3n de audio',
@@ -482,20 +491,22 @@ export const es: TranslationKeys = {
       },
       marketPro: {
         name: 'Market Pro',
-        tagline: 'Market Pro $75: el mes de contenido con tu marca, m\u00e1s la investigaci\u00f3n, los planes y los documentos.',
+        tagline: 'Market Pro $75: una publicaci\u00f3n al d\u00eda en Instagram y Facebook, publicada por ti o por nosotros, m\u00e1s la investigaci\u00f3n, los planes y los documentos.',
         cta: 'Iniciar Market Pro',
         badge: 'MEJOR VALOR',
         monthlyPrice: '$75',
-        annualPrice: '$700',
+        // $720, no $700 \u2014 ver la nota en en.ts. Era el \u00fanico lugar con
+        // el n\u00famero equivocado, y es el que lee quien va a pagar.
+        annualPrice: '$720',
         annualOriginalPrice: '$900',
         features: [
-          'El mes de contenido con tu marca',
+          'Una publicaci\u00f3n al d\u00eda, en Instagram y Facebook',
+          'Publicada por nosotros, o revisada por ti \u2014 t\u00fa decides',
           'Investigaci\u00f3n, planes y documentos',
           'Im\u00e1genes y ediciones IA ilimitadas',
           '30 min de generaci\u00f3n de audio',
           '15 cr\u00e9ditos de video/mes',
           'Acceso Completo a Moil360',
-          'Suite Market Pro',
           'Coach IA e investigaci\u00f3n profunda de mercado',
           'Soporte de cuenta dedicado',
         ],
@@ -686,7 +697,7 @@ export const es: TranslationKeys = {
       headLine1: 'Un Equipo de Marketing Completo.',
       headLine1Highlight: 'Por Menos que Netflix.',
       intro: '"Una agencia de marketing, un consultor de negocios, un reclutador y un coach IA disponible 24/7 — todo en una plataforma, desde $25 al mes."',
-      annualBadge: '✓ Ahorra hasta 25% con facturación anual',
+      annualBadge: '✓ Ahorra 20% con facturación anual',
       featuredBadge: '⭐ MEJOR VALOR',
       trust: ['Garantía de 30 Días', 'Sin Costos de Configuración', 'Cancela Cuando Quieras', 'Cumple SOC 2', 'Bilingüe EN/ES'],
     },

@@ -182,8 +182,24 @@ export const en = {
         ['Schedules and publishes to Facebook and Instagram', 'Yes', 'Yes'],
         ['Coaching and accountability', 'Yes', 'Yes'],
         ['English and Spanish', 'Yes', 'Yes'],
-        ['Moil360 \u2014 your month written automatically', 'Not included', 'Included'],
-        ['AI video', 'Not included', 'Included'],
+        // THE BOUNDARY MOVED FROM THE FEATURE TO THE DENSITY (2026-08-30).
+        // 'Not included' was true until Professional gained a real scheduled
+        // month, and a comparison table that still sells the ABSENCE of the
+        // thing the product delivers after the card is charged is the worst
+        // kind of stale: it undersells the tier AND contradicts the app.
+        // Numbers, because the densities are what Market Pro actually buys —
+        // Business-plan-Staging/utils/planLimits.js: 4 posts a week on
+        // Instagram and Facebook vs 7 on all four networks.
+        ['Moil360 \u2014 your month written automatically', '4 posts a week', 'Every day'],
+        // Auto-promote is the capability that stayed behind: Professional
+        // reviews the week, Market Pro publishes it with no human in the
+        // loop. maxLine already claims it, so the table should show it.
+        ['Publishes the month on its own', 'You approve first', 'Automatic'],
+        // Professional DOES get AI video — 3 studio credits a month
+        // (moil-codestagingbackend/utils/planConfig.js videoCredits). What it
+        // does not get is generative video inside the automatic month
+        // (planLimits.generativeVideosPerMonth = 0). 'Not included' was false.
+        ['AI video \u2014 make any post move', '3 a month', '15 a month'],
       ],
       note: 'The first conversation is free and needs no card.',
       cta: 'Start free \u2014 no card',
@@ -459,9 +475,14 @@ export const en = {
       headline: 'Thirty days of content on brand. Research, plans, documents.',
       headlineLine2: '',
       headlineHighlight: '',
-      subheadline: 'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.',
+      subheadline: 'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 for the same co-founder with a lighter month \u2014 four posts a week that you approve before anything publishes.',
       subheadlineEmphasis: '',
-      annualSaving: 'Save up to 25% with annual billing',
+      // EXACTLY 20%, on both tiers: $300 -> $240 and $900 -> $720. "Up to
+      // 25%" was wrong even at the old $700 (22.2%) and is a hedge where a
+      // definite number is both true and stronger. A savings claim is
+      // arithmetic, not marketing, and only a definite number can be checked
+      // (evals/pricingTruth.test.js recomputes it from the two prices).
+      annualSaving: 'Save 20% with annual billing',
       seeDetailed: 'See Detailed Pricing',
       monthly: 'Monthly',
       annual: 'Annual',
@@ -472,14 +493,23 @@ export const en = {
       save: 'Save',
       professional: {
         name: 'Professional',
-        tagline: 'Professional $25: research, plan, and documents. Without the month.',
+        // "Without the month" was true until 2026-08-30 and is not any more:
+        // Professional now gets a real scheduled month at reduced density —
+        // 4 posts a week on Instagram and Facebook, reviewed before anything
+        // publishes (Business-plan-Staging/utils/planLimits.js). The tier
+        // boundary moved from the FEATURE to the QUANTITIES, and copy that
+        // still sells its absence undersells the tier AND contradicts what
+        // the product does after the card is charged. Density and networks
+        // are named, because those are what Market Pro actually buys.
+        tagline: 'Professional $25: a scheduled month at four posts a week, plus research, plans, and documents.',
         cta: 'Get Started',
         monthlyPrice: '$25',
         annualPrice: '$240',
         annualOriginalPrice: '$300',
         features: [
+          '4 posts a week, on Instagram and Facebook',
+          'You review every post before it publishes',
           'Research, plans, and documents',
-          'Without the month of content',
           '200 AI-generated images',
           '200 AI image edits',
           '15 min audio generation',
@@ -490,20 +520,26 @@ export const en = {
       },
       marketPro: {
         name: 'Market Pro',
-        tagline: 'Market Pro $75: thirty days of content on brand, plus research, plans, and documents.',
+        tagline: 'Market Pro $75: a post every day on Instagram and Facebook, published for you, plus research, plans, and documents.',
         cta: 'Start Market Pro',
         badge: 'BEST VALUE',
         monthlyPrice: '$75',
-        annualPrice: '$700',
+        // $720, NOT $700. This string said $700 until 2026-08-30 while the
+        // employer app's constants/plans.js said 720 AND the staging
+        // backend's planConfig.js said 720 and mapped it to the Stripe price
+        // — so the only wrong copy of the number was the one a buyer reads
+        // immediately before they are charged. Two sources agreed and one of
+        // them is what actually charges.
+        annualPrice: '$720',
         annualOriginalPrice: '$900',
         features: [
-          'Thirty days of content on brand',
+          'A post every day, on Instagram and Facebook',
+          'Published for you, or reviewed first — your call',
           'Research, plans, and documents',
           'Unlimited AI images & edits',
           '30 min audio generation',
           '15 video credits/month',
           'Moil360 Full Access',
-          'Market Pro suite',
           'AI Coach & deep market research',
           'Dedicated account support',
         ],
@@ -538,7 +574,7 @@ export const en = {
         },
         {
           question: 'How much does Moil cost?',
-          answer: 'Market Pro is $75 a month: the month of content plus the work \u2014 research, plans, documents. Professional is $25 if you want the research, plan, and documents without the month. The first conversation is free and needs no card.',
+          answer: 'Market Pro is $75 a month: the month of content plus the work \u2014 research, plans, documents. Professional is $25 for the same co-founder with a lighter month \u2014 four posts a week that you approve before anything publishes. The first conversation is free and needs no card.',
         },
         {
           question: 'What is Moil360?',
@@ -596,7 +632,7 @@ export const en = {
       heroHighlight1: '',
       heroMiddle: '',
       heroHighlight2: '',
-      heroSub: 'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.',
+      heroSub: 'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 for the same co-founder with a lighter month \u2014 four posts a week that you approve before anything publishes.',
       heroCta: 'Start free \u2014 no card',
       heroCtaSecondary: 'See Market Pro',
       trust30Day: '30-Day Guarantee',
@@ -698,7 +734,7 @@ export const en = {
       headLine1: 'A Full Marketing Team.',
       headLine1Highlight: 'For Less Than Netflix.',
       intro: '"A marketing agency, a business consultant, a recruiter, and a 24/7 AI coach — all in one platform, starting at $25 a month."',
-      annualBadge: '✓ Save up to 25% with annual billing',
+      annualBadge: '✓ Save 20% with annual billing',
       featuredBadge: '⭐ BEST VALUE',
       trust: ['30-Day Guarantee', 'No Setup Fees', 'Cancel Anytime', 'SOC 2 Compliant', 'Bilingual EN/ES'],
     },

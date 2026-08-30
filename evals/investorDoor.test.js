@@ -86,7 +86,13 @@ describe('EN pricing lock', () => {
 		assert.match(pricingPage, /heroHeadline: 'Thirty days of content on brand\. Research, plans, documents\.'/);
 		assert.match(pricing, /headline: 'Thirty days of content on brand\. Research, plans, documents\.'/);
 		assert.match(firstScreen, /Market Pro is the AI co-founder/);
-		assert.match(firstScreen, /Professional is \$25 if you want the research/);
+		// Was: /Professional is \$25 if you want the research/ — the literal
+		// sentence, which sold Professional as the tier WITHOUT the month and
+		// stopped being true on 2026-08-30. The point of the line is that the
+		// cheaper tier is named and priced on the first screen, not the words
+		// it is named with; pinning the prose is what made an honest copy fix
+		// look like a regression.
+		assert.match(firstScreen, /Professional is \$25\b/);
 		assert.match(layout, /Thirty days of content on brand\. Research, plans, documents\./);
 		assert.doesNotMatch(firstScreen, /Stop Wearing/);
 		assert.doesNotMatch(firstScreen, /10 job postings/);

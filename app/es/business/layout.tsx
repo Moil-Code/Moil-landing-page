@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: {
     absolute: 'El socio que trabaja el negocio contigo | Moil',
   },
-  description: 'Moil aprende el negocio una vez, piensa contigo y hace el trabajo. Investigación, planes, documentos, y treinta días de contenido con tu marca, en inglés o en español. Market Pro es $75. Professional es $25 si no quieres el mes.',
+  description: 'Moil aprende el negocio una vez, piensa contigo y hace el trabajo. Investigación, planes, documentos, y treinta días de contenido con tu marca, en inglés o en español. Market Pro es $75. Professional es $25: el mismo co-fundador con un mes más liviano — cuatro posts por semana que apruebas antes de que se publique nada.',
   keywords: [
     'calendario de contenidos para redes sociales',
     'contenido para redes sociales negocio pequeno',
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'El socio que trabaja el negocio contigo | Moil',
-    description: 'Moil aprende el negocio una vez, piensa contigo y hace el trabajo. Investigación, planes, documentos, y treinta días de contenido con tu marca, en inglés o en español. Market Pro es $75. Professional es $25 si no quieres el mes.',
+    description: 'Moil aprende el negocio una vez, piensa contigo y hace el trabajo. Investigación, planes, documentos, y treinta días de contenido con tu marca, en inglés o en español. Market Pro es $75. Professional es $25: el mismo co-fundador con un mes más liviano — cuatro posts por semana que apruebas antes de que se publique nada.',
     url: `${baseURL1}/es/business`,
     locale: 'es_US',
     images: [
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     title: 'El socio que trabaja el negocio contigo | Moil',
-    description: 'Moil aprende el negocio una vez, piensa contigo y hace el trabajo. Investigación, planes, documentos, y treinta días de contenido con tu marca, en inglés o en español. Market Pro es $75. Professional es $25 si no quieres el mes.',
+    description: 'Moil aprende el negocio una vez, piensa contigo y hace el trabajo. Investigación, planes, documentos, y treinta días de contenido con tu marca, en inglés o en español. Market Pro es $75. Professional es $25: el mismo co-fundador con un mes más liviano — cuatro posts por semana que apruebas antes de que se publique nada.',
   },
   alternates: {
     canonical: `${baseURL1}/es/business`,
