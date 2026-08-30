@@ -295,11 +295,22 @@ describe('the intake we describe is the intake we have', () => {
 		return out;
 	};
 
+	// A file that NAMES the claim in order to FORBID it is not a surface
+	// claiming it. Same discipline as the backend evals that strip comments
+	// first "so the header explaining the rule cannot trip the check about
+	// it" — and it is an explicit, reasoned ALLOWLIST rather than a blanket
+	// `.md` skip, because `public/llms.txt` and the marketing MDX-adjacent
+	// copy are shipped surfaces that must stay scanned. Adding an entry here
+	// is a deliberate act with a human in the middle.
+	const EXEMPT = new Map([
+		['evals/pricingTruth.test.js', 'this check names the claim to forbid it'],
+		['CLAUDE.md', 'records why the claim was removed; not a shipped surface'],
+	]);
+
 	it('no surface claims a 21-question intake', () => {
 		const hits = [];
 		for (const full of scanAll(root)) {
-			// This file names the claim in order to forbid it.
-			if (full === __filename) continue;
+			if (EXEMPT.has(path.relative(root, full))) continue;
 			let src;
 			try {
 				src = fs.readFileSync(full, 'utf8');
@@ -314,6 +325,18 @@ describe('the intake we describe is the intake we have', () => {
 			'these files claim an intake the product does not have: ' +
 				hits.join(', '),
 		);
+	});
+
+	it('every exemption names a real file and a reason', () => {
+		// An exemption for a file that no longer exists is a hole nobody can
+		// see: it looks deliberate and protects nothing.
+		for (const [rel, reason] of EXEMPT) {
+			assert.ok(
+				fs.existsSync(path.join(root, rel)),
+				`exempt file no longer exists: ${rel}`,
+			);
+			assert.ok(reason && reason.length > 10, `exemption ${rel} has no reason`);
+		}
 	});
 
 	it('the scan can actually see a violation', () => {
