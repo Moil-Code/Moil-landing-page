@@ -126,6 +126,18 @@ The rules, in order of importance:
 5. `/ai-info` tells assistants not to attribute reviews to Moil while none are
    published. Update that line when real ones exist.
 
+### The intake we describe is the intake we have (2026-08-30)
+
+The site described a **21-question intake** in eleven surfaces per language. The product ships **four doors** — a website URL, a PDF, typed text, or spoken answers. Verified before rewriting: nothing in `Business-plan-Staging` defines a 21-question flow, and that repo's `CLAUDE.md` calls them "the four intake doors" throughout.
+
+The worst copy was in `app/marketing/layout.tsx`'s **JSON-LD FAQ answers** — structured data is what an answer engine quotes verbatim, which makes it the most expensive place on this site for a false sentence, and it is the same class the pricing rules already cover.
+
+**Only the intake claim was rewritten.** Surrounding claims that were not verified — "20–30 pages", "8–10 real sources" — are left byte-identical. Fixing one unsourced number is not a licence to silently endorse the others.
+
+**The scan found three files a hand grep missed, on its first run**, including a legacy surface. The reason is the lesson worth keeping: the grep enumerated casings (`21 strategic`, `21 Questions`) and the live strings were **Title Case** (`21 Strategic Questions`). That is precisely the Title-Case bracket-label class recorded one repo over — a hand-written list of spellings misses one, and a scan does not.
+
+`evals/pricingTruth.test.js` therefore carries a repo-wide, case-insensitive scan binding the number to a question word in either language (the bare number is far too common — years, sizes, ids), plus an assertion that **the scan can actually see a violation**: without it, a clean result and a broken walker look identical. Red-verified six ways.
+
 ### The SEO audit is the gate on rendered output
 
 `npm run audit:seo` (`scripts/seo-audit.mjs`) boots the build and reads the HTML
