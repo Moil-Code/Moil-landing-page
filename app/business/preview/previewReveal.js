@@ -16,6 +16,12 @@ const INTERSTITIAL = [
 	'cloudflare',
 	'ddos protection',
 	'please wait',
+	// Ruiz GET 0a44dfcf painted these as the shop tagline / captions.
+	'performing security verification',
+	'security verification',
+	'needs review',
+	'verify you are human',
+	'unusual traffic',
 ];
 
 const SEO_JUNK = [
@@ -42,6 +48,26 @@ function isSingleRawUrl(value) {
 	return /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+\.[a-z]{2,}$/i.test(text);
 }
 
+function isInterstitial(raw) {
+	const folded = fold(raw);
+	if (!folded) return false;
+	for (let i = 0; i < INTERSTITIAL.length; i++) {
+		if (folded.includes(INTERSTITIAL[i])) return true;
+	}
+	return false;
+}
+
+const HOST_LEAD =
+	/^(?:https?:\/\/)?(?:www\.)?[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+\.[a-z]{2,}(?:\/[^\s]*)?/i;
+
+/** Strip a leading URL/host and an optional dash/colon so "ruizsalon.com — junk" can be judged. */
+function remainderAfterLeadingHost(text) {
+	const t = asText(text);
+	const m = t.match(HOST_LEAD);
+	if (!m) return t;
+	return t.slice(m[0].length).replace(/^\s*[—–\-|:]\s*/, '').trim();
+}
+
 /**
  * Empty string means omit the descriptor. Interstitials, our
  * own SEO lines, whitespace, and a lone URL all count as empty.
@@ -53,10 +79,8 @@ function sanitizeTagline(raw) {
 	const text = raw.trim();
 	if (!text) return '';
 	if (isSingleRawUrl(text)) return '';
+	if (isInterstitial(text)) return '';
 	const folded = fold(text);
-	for (let i = 0; i < INTERSTITIAL.length; i++) {
-		if (folded.includes(INTERSTITIAL[i])) return '';
-	}
 	for (let j = 0; j < SEO_JUNK.length; j++) {
 		if (folded.includes(SEO_JUNK[j])) return '';
 	}
@@ -87,11 +111,207 @@ function websiteFieldDecision(read) {
 	return { kind: 'refuse_website' };
 }
 
+function asText(value) {
+	if (typeof value === 'string') return value.trim();
+	if (value && typeof value === 'object' && !Array.isArray(value) && typeof value.value === 'string') {
+		return value.value.trim();
+	}
+	return '';
+}
+
+function asList(value) {
+	if (Array.isArray(value)) {
+		return value.map(asText).filter(Boolean);
+	}
+	const single = asText(value);
+	return single ? [single] : [];
+}
+
+function hasFact(raw) {
+	if (Array.isArray(raw)) return asList(raw).length > 0;
+	return Boolean(asText(raw));
+}
+
+function pickFolded(positioning, brand, key) {
+	const fromPos = positioning && positioning[key];
+	if (hasFact(fromPos)) return fromPos;
+	return brand && brand[key];
+}
+
+/**
+ * Positioning lives on the ready body OR folded onto brand. Omit the
+ * whole block when every field is missing. Each field may be a string,
+ * `{ value }`, or an array of those — generate today stores
+ * `{ value, factClass, source }`; onboarding will flatten to strings.
+ * @param {{ positioning?: object, brand?: object } | null | undefined} body
+ */
+function readPositioning(body) {
+	const positioning = (body && body.positioning) || {};
+	const brand = (body && body.brand) || {};
+	const audience = asList(pickFolded(positioning, brand, 'audience')).join(' ');
+	const problem = asList(pickFolded(positioning, brand, 'problem')).join(' ');
+	const cadence = asList(pickFolded(positioning, brand, 'cadence')).join(' ');
+	const voice = asList(pickFolded(positioning, brand, 'voice'));
+	const keyTerms = asList(pickFolded(positioning, brand, 'keyTerms'));
+	return {
+		audience,
+		problem,
+		cadence,
+		voice,
+		keyTerms,
+		present: Boolean(audience || problem || cadence || voice.length || keyTerms.length),
+	};
+}
+
+function shopProducts(brand) {
+	return asList(brand && brand.products);
+}
+
+function shopDescriptor(brand) {
+	if (!brand) return '';
+	return sanitizeTagline(brand.tagline) || sanitizeTagline(brand.description);
+}
+
+function shopFact(brand, key) {
+	return asText(brand && brand[key]);
+}
+
+function hostOf(raw) {
+	const s = asText(raw);
+	if (!s) return '';
+	try {
+		const u = new URL(/^https?:\/\//i.test(s) ? s : 'https://' + s);
+		return u.hostname.replace(/^www\./i, '').toLowerCase();
+	} catch {
+		return '';
+	}
+}
+
+/**
+ * A caption that is a URL, a host, a handle-echo, or bot-check /
+ * interstitial copy is not a post. Real captions with real words stay.
+ * @param {unknown} caption
+ * @param {{ website?: string, handle?: string } | null | undefined} brand
+ */
+function captionIsUrlOrEcho(caption, brand) {
+	const text = asText(caption);
+	if (!text) return false;
+	if (isInterstitial(text)) return true;
+	if (isSingleRawUrl(text)) return true;
+	const rest = remainderAfterLeadingHost(text);
+	if (rest !== text && (!rest || isInterstitial(rest))) return true;
+	if (!/\s/.test(text)) {
+		if (/^@[\w.]+$/.test(text)) return true;
+		if (
+			/^(https?:\/\/)?(www\.)?[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+\.[a-z]{2,}(?:\/\S*)?$/i.test(
+				text,
+			)
+		) {
+			return true;
+		}
+	}
+	const handle = asText(brand && brand.handle).replace(/^@/, '');
+	if (handle && fold(text).replace(/^@/, '') === fold(handle)) return true;
+	const siteHost = hostOf(brand && brand.website);
+	if (siteHost && !/\s/.test(text) && fold(text).replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/$/, '') === siteHost) {
+		return true;
+	}
+	return false;
+}
+
+const CREATIVE_KEYS = ['imageUrl', 'image', 'creativeUrl'];
+
+function httpsUrl(raw) {
+	if (typeof raw !== 'string') return '';
+	const s = raw.trim();
+	if (!s || /^data:/i.test(s)) return '';
+	if (!/^https?:\/\//i.test(s)) return '';
+	return s;
+}
+
+function urlFromUnknown(raw) {
+	if (typeof raw === 'string') return httpsUrl(raw);
+	if (raw && typeof raw === 'object' && typeof raw.url === 'string') return httpsUrl(raw.url);
+	if (raw && typeof raw === 'object' && typeof raw.imageUrl === 'string') return httpsUrl(raw.imageUrl);
+	return '';
+}
+
+/**
+ * Accept common creative URL keys, including generate's
+ * `post.creative.imageUrl`. Only http(s). data: (including data:svg)
+ * is not a real creative.
+ * @param {object | null | undefined} post
+ * @returns {string}
+ */
+function creativeUrlFromPost(post) {
+	if (!post || typeof post !== 'object') return '';
+	for (let i = 0; i < CREATIVE_KEYS.length; i++) {
+		const url = urlFromUnknown(post[CREATIVE_KEYS[i]]);
+		if (url) return url;
+	}
+	if (post.creative) {
+		const nested = urlFromUnknown(post.creative) || urlFromUnknown(post.creative.imageUrl) || urlFromUnknown(post.creative.image);
+		if (nested) return nested;
+	}
+	return '';
+}
+
+/**
+ * 0–3 real posts. URL / host / interstitial / "(needs review)"
+ * captions are skipped. Never invents a caption. Empty after the
+ * filter → no stack. Image URL is optional.
+ * @param {{ posts?: unknown[] } | null | undefined} content
+ * @param {object | null | undefined} brand
+ */
+function realPosts(content, brand) {
+	const posts = content && Array.isArray(content.posts) ? content.posts : [];
+	const out = [];
+	for (let i = 0; i < posts.length; i++) {
+		const post = posts[i];
+		if (!post || typeof post !== 'object') continue;
+		const caption = asText(post.caption);
+		if (!caption || captionIsUrlOrEcho(caption, brand)) continue;
+		out.push({
+			caption,
+			imageUrl: creativeUrlFromPost(post),
+		});
+		if (out.length >= 3) break;
+	}
+	return out;
+}
+
+/**
+ * Bind a real scrape progress string when GET starts sending one.
+ * Status enums are not progress. Do not invent theatre lines.
+ * @param {object | null | undefined} body
+ * @returns {string}
+ */
+function progressFromBody(body) {
+	if (!body || typeof body !== 'object') return '';
+	const known = /^(building|ready|failed|accepted|missing|down|identity|ceiling|ok)$/i;
+	const keys = ['progress', 'progressMessage', 'statusMessage', 'message', 'status'];
+	for (let i = 0; i < keys.length; i++) {
+		const s = asText(body[keys[i]]);
+		if (!s || known.test(s)) continue;
+		return s;
+	}
+	return '';
+}
+
 module.exports = {
 	sanitizeTagline,
 	readyBrandName,
 	canShowReadyCard,
 	websiteFieldDecision,
+	readPositioning,
+	shopProducts,
+	shopDescriptor,
+	shopFact,
+	captionIsUrlOrEcho,
+	creativeUrlFromPost,
+	realPosts,
+	progressFromBody,
+	isInterstitial,
 	INTERSTITIAL,
 	SEO_JUNK,
 };

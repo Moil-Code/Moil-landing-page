@@ -9,6 +9,8 @@ export function previewViewUrl(slug: string): string | null;
 export function buildRegisterUrl(opts?: {
   lang?: 'en' | 'es';
   previewSlug?: string;
+  /** Offered ids only; "decide for me" and an empty pick send nothing. */
+  platforms?: string[];
   appendLang?: (url: string, lang: 'en' | 'es') => string;
   env?: Record<string, string | undefined>;
 }): string;
