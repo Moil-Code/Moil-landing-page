@@ -16,6 +16,12 @@ const INTERSTITIAL = [
 	'cloudflare',
 	'ddos protection',
 	'please wait',
+	// Ruiz GET 0a44dfcf painted these as the shop tagline / captions.
+	'performing security verification',
+	'security verification',
+	'needs review',
+	'verify you are human',
+	'unusual traffic',
 ];
 
 const SEO_JUNK = [
@@ -42,6 +48,26 @@ function isSingleRawUrl(value) {
 	return /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+\.[a-z]{2,}$/i.test(text);
 }
 
+function isInterstitial(raw) {
+	const folded = fold(raw);
+	if (!folded) return false;
+	for (let i = 0; i < INTERSTITIAL.length; i++) {
+		if (folded.includes(INTERSTITIAL[i])) return true;
+	}
+	return false;
+}
+
+const HOST_LEAD =
+	/^(?:https?:\/\/)?(?:www\.)?[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)+\.[a-z]{2,}(?:\/[^\s]*)?/i;
+
+/** Strip a leading URL/host and an optional dash/colon so "ruizsalon.com — junk" can be judged. */
+function remainderAfterLeadingHost(text) {
+	const t = asText(text);
+	const m = t.match(HOST_LEAD);
+	if (!m) return t;
+	return t.slice(m[0].length).replace(/^\s*[—–\-|:]\s*/, '').trim();
+}
+
 /**
  * Empty string means omit the descriptor. Interstitials, our
  * own SEO lines, whitespace, and a lone URL all count as empty.
@@ -53,10 +79,8 @@ function sanitizeTagline(raw) {
 	const text = raw.trim();
 	if (!text) return '';
 	if (isSingleRawUrl(text)) return '';
+	if (isInterstitial(text)) return '';
 	const folded = fold(text);
-	for (let i = 0; i < INTERSTITIAL.length; i++) {
-		if (folded.includes(INTERSTITIAL[i])) return '';
-	}
 	for (let j = 0; j < SEO_JUNK.length; j++) {
 		if (folded.includes(SEO_JUNK[j])) return '';
 	}
@@ -154,15 +178,18 @@ function hostOf(raw) {
 }
 
 /**
- * A caption that is a URL, a website, or a handle-echo is not a post.
- * Real captions with spaces stay, even if they mention a site.
+ * A caption that is a URL, a host, a handle-echo, or bot-check /
+ * interstitial copy is not a post. Real captions with real words stay.
  * @param {unknown} caption
  * @param {{ website?: string, handle?: string } | null | undefined} brand
  */
 function captionIsUrlOrEcho(caption, brand) {
 	const text = asText(caption);
 	if (!text) return false;
+	if (isInterstitial(text)) return true;
 	if (isSingleRawUrl(text)) return true;
+	const rest = remainderAfterLeadingHost(text);
+	if (rest !== text && (!rest || isInterstitial(rest))) return true;
 	if (!/\s/.test(text)) {
 		if (/^@[\w.]+$/.test(text)) return true;
 		if (
@@ -202,8 +229,9 @@ function creativeUrlFromPost(post) {
 }
 
 /**
- * 0–3 real posts. URL / website / handle-echo captions are skipped.
- * Never invents a caption. Empty after the filter → no stack.
+ * 0–3 real posts. URL / host / interstitial / "(needs review)"
+ * captions are skipped. Never invents a caption. Empty after the
+ * filter → no stack. Image URL is optional.
  * @param {{ posts?: unknown[] } | null | undefined} content
  * @param {object | null | undefined} brand
  */
@@ -255,6 +283,7 @@ module.exports = {
 	creativeUrlFromPost,
 	realPosts,
 	progressFromBody,
+	isInterstitial,
 	INTERSTITIAL,
 	SEO_JUNK,
 };

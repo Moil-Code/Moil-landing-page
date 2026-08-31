@@ -23,6 +23,7 @@ export function readPositioning(body?: {
 export function shopProducts(brand?: { products?: unknown } | null): string[];
 export function shopDescriptor(brand?: { tagline?: unknown; description?: unknown } | null): string;
 export function shopFact(brand?: object | null, key?: string): string;
+export function isInterstitial(raw: unknown): boolean;
 export function captionIsUrlOrEcho(
 	caption: unknown,
 	brand?: { website?: string; handle?: string } | null,

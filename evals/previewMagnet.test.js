@@ -378,6 +378,10 @@ describe('tagline sanitizer', () => {
 		assert.equal(reveal.sanitizeTagline('Cloudflare'), '');
 		assert.equal(reveal.sanitizeTagline('DDoS protection by Cloudflare'), '');
 		assert.equal(reveal.sanitizeTagline('Please wait'), '');
+		assert.equal(reveal.sanitizeTagline('Performing security verification'), '');
+		assert.equal(reveal.sanitizeTagline('performing security verification'), '');
+		assert.equal(reveal.sanitizeTagline('(needs review)'), '');
+		assert.equal(reveal.sanitizeTagline('Needs review'), '');
 	});
 
 	it('omits our SEO junk, empty/whitespace, and a single raw URL', () => {
@@ -632,6 +636,27 @@ describe('frozen GET contract on the ready card', () => {
 		const none = reveal.realPosts({ kind: 'brand-only', posts: [] }, brand);
 		assert.deepEqual(none, []);
 
+		const ruiz = {
+			website: 'https://ruizsalon.com',
+			tagline: 'Performing security verification',
+		};
+		assert.equal(reveal.shopDescriptor(ruiz), '');
+		assert.deepEqual(
+			reveal.realPosts(
+				{
+					kind: 'posts',
+					posts: [
+						{ caption: 'ruizsalon.com — Performing security verification' },
+						{ caption: 'https://ruizsalon.com' },
+						{ caption: '(needs review)' },
+					],
+				},
+				ruiz,
+			),
+			[],
+			'Ruiz GET fact-echo captions must paint zero post cards',
+		);
+
 		const src = magnet();
 		assert.match(src, /realPosts\(/);
 		assert.match(src, /posts\.length > 0/);
@@ -654,6 +679,15 @@ describe('frozen GET contract on the ready card', () => {
 		const url = client.buildRegisterUrl({ lang: 'en', previewSlug: 'taco-shop' });
 		assert.match(url, /[?&]preview=taco-shop/);
 		assert.match(url, /[?&]lg=en/);
+		const gated = client.buildRegisterUrl({
+			lang: 'en',
+			previewSlug: 'ruiz-salon',
+			env: { NEXT_PUBLIC_REGISTER_ORIGIN: 'https://example-app.test' },
+		});
+		assert.match(gated, /^https:\/\/example-app\.test\/register/);
+		assert.match(gated, /[?&]preview=ruiz-salon/);
+		assert.match(gated, /[?&]lg=en/);
+		assert.doesNotMatch(src, /employer-beta/);
 	});
 
 	it('wait copy is a real scrape, not Munch theatre, and binds progress if GET sends it', () => {
