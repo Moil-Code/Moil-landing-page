@@ -67,7 +67,7 @@ export function ComparisonPage({
               business from idea to execution — with research, planning, content, and hiring in one workspace.
             </p>
             <div className="comparison-actions">
-              <a className="comparison-primary" href="https://business.moilapp.com/register?lg=en" target="_blank" rel="noreferrer">
+              <a className="comparison-primary" href="https://employer-beta.moilapp.com/register?lg=en" target="_blank" rel="noreferrer">
                 Start with Moil <ArrowRight size={18} aria-hidden="true" />
               </a>
               <a className="comparison-secondary" href="#feature-comparison">
@@ -192,7 +192,7 @@ export function ComparisonPage({
           <h2>Keep the conversation. Add the operating system.</h2>
           <p>Start turning your business context into research, strategy, content, and a stronger team.</p>
         </div>
-        <a href="https://business.moilapp.com/register?lg=en" target="_blank" rel="noreferrer">
+        <a href="https://employer-beta.moilapp.com/register?lg=en" target="_blank" rel="noreferrer">
           Start free <ArrowRight size={19} aria-hidden="true" />
         </a>
       </section>

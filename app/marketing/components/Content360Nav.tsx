@@ -21,7 +21,7 @@ export function Content360Nav({
   const { t, lang, setLang } = useContent360Translation();
 
   const handleCtaClick = () => {
-    window.open('https://business.moilapp.com', '_blank', 'noopener,noreferrer');
+    window.open('https://employer-beta.moilapp.com', '_blank', 'noopener,noreferrer');
   };
 
   const links = [

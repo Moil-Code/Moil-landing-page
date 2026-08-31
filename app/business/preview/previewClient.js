@@ -11,7 +11,7 @@
  * This module never throws; callers always get a result object.
  */
 
-const REGISTER_ORIGIN = 'https://business.moilapp.com/register';
+const REGISTER_ORIGIN = 'https://employer-beta.moilapp.com/register';
 
 function normalizeOrigin(raw) {
 	if (typeof raw !== 'string') return '';

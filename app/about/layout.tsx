@@ -40,7 +40,7 @@ function AboutShell({ children }: { children: React.ReactNode }) {
         onToggleTheme={toggleTheme}
         theme={theme}
         items={NAV_ITEMS}
-        ctaHref="https://business.moilapp.com/register"
+        ctaHref="https://employer-beta.moilapp.com/register"
         ctaLabel="Get Started Free"
         currentLang={lang}
         onLanguageChange={setLang}

@@ -61,7 +61,7 @@ export function AeoCitePage({
           <div className="comparison-actions">
             <a
               className="comparison-primary"
-              href="https://business.moilapp.com/register?lg=en"
+              href="https://employer-beta.moilapp.com/register?lg=en"
               target="_blank"
               rel="noreferrer"
             >

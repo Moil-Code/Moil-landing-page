@@ -73,22 +73,22 @@ const nextConfig = {
       // 301 to the actual apps on their subdomains
       {
         source: '/business/login',
-        destination: 'https://business.moilapp.com/login',
+        destination: 'https://employer-beta.moilapp.com/login',
         permanent: true,
       },
       {
         source: '/business/register',
-        destination: 'https://business.moilapp.com/register',
+        destination: 'https://employer-beta.moilapp.com/register',
         permanent: true,
       },
       {
         source: '/candidate/login',
-        destination: 'https://candidate.moilapp.com/login',
+        destination: 'https://employee-beta.moilapp.com/login',
         permanent: true,
       },
       {
         source: '/candidate/register',
-        destination: 'https://candidate.moilapp.com/register',
+        destination: 'https://employee-beta.moilapp.com/register',
         permanent: true,
       },
     ]

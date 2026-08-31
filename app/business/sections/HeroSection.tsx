@@ -156,7 +156,7 @@ export function HeroSection() {
 
       {/* CTAs — primary stays signup. Secondary jumps to Market Pro on #pricing. */}
       <div data-hero-item className="relative z-[2] mb-6 flex flex-wrap justify-center gap-3 max-[960px]:flex-col max-[960px]:items-center">
-        <PrimaryButton href={appendLangToUrl('https://business.moilapp.com/register', lang)} rel="noreferrer">
+        <PrimaryButton href={appendLangToUrl('https://employer-beta.moilapp.com/register', lang)} rel="noreferrer">
           {t.business.hero.cta} <span>→</span>
         </PrimaryButton>
         <SecondaryButton href="#pricing">

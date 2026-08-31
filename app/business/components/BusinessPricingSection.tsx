@@ -197,7 +197,7 @@ export function BusinessPricingSection() {
               ))}
             </ul>
             <a
-              href={appendLangToUrl("https://business.moilapp.com/register", lang)}
+              href={appendLangToUrl("https://employer-beta.moilapp.com/register", lang)}
               target="_blank"
               rel="noreferrer"
               className={`price-btn ${plan.ctaClass}`}

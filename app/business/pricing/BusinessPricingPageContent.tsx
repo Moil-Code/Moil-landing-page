@@ -110,7 +110,7 @@ export function BusinessPricingPageContent() {
             <div className="pricing-page-actions">
               <a
                 className="btn-primary btn-wave"
-                href={appendLangToUrl('https://business.moilapp.com/register', currentLang)}
+                href={appendLangToUrl('https://employer-beta.moilapp.com/register', currentLang)}
                 target="_blank"
                 rel="noreferrer"
               >

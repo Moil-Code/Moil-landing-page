@@ -39,9 +39,9 @@ export function BusinessNav({
   logo,
   logoHref = '/business',
   ctaLabel = 'Get Started',
-  ctaHref = 'https://business.moilapp.com/register',
+  ctaHref = 'https://employer-beta.moilapp.com/register',
   signinLabel = 'Log In',
-  signinHref = 'https://business.moilapp.com',
+  signinHref = 'https://employer-beta.moilapp.com',
   onLanguageChange,
   currentLang,
 }: BusinessNavProps) {

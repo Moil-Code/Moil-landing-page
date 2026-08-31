@@ -22,7 +22,7 @@ export function BusinessMobileMenu({
   theme,
   items,
   ctaLabel = 'Start free — no credit card',
-  ctaHref = 'https://business.moilapp.com/register',
+  ctaHref = 'https://employer-beta.moilapp.com/register',
   currentLang,
 }: BusinessMobileMenuProps) {
   const [lang, setLang] = useState<'en' | 'es'>('en');

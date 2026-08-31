@@ -107,7 +107,7 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
         <div>
           <div className="footer-col-title">{t.footer.getStarted}</div>
           <div className="footer-links">
-            <a href={appendLangToUrl("https://business.moilapp.com/register", lang)} target="_blank" rel="noreferrer">
+            <a href={appendLangToUrl("https://employer-beta.moilapp.com/register", lang)} target="_blank" rel="noreferrer">
               {t.footer.getStartedLinks.freeConsultation}
             </a>
             <a href={appendLangToUrl("https://moilapp.com/business", lang)} target="_blank" rel="noreferrer">
