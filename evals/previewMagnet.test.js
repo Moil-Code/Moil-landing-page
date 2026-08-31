@@ -595,6 +595,103 @@ describe('frozen GET contract on the ready card', () => {
 		assert.match(src, /m\.posCadence/);
 	});
 
+	it('GET lockstep: flat strings and {value} / creative.imageUrl both paint', () => {
+		const fact = (value) => ({ value, factClass: 'extracted', source: 'site' });
+
+		const wrapped = reveal.readPositioning({
+			brand: { name: 'Moil' },
+			positioning: {
+				audience: fact('Trades'),
+				voice: [fact('Direct'), fact('Friendly')],
+				problem: fact('Too many hats'),
+				keyTerms: [fact('co-founder')],
+				cadence: fact('Four posts a week'),
+			},
+		});
+		assert.equal(wrapped.present, true);
+		assert.equal(wrapped.audience, 'Trades');
+		assert.deepEqual(wrapped.voice, ['Direct', 'Friendly']);
+		assert.equal(wrapped.problem, 'Too many hats');
+		assert.deepEqual(wrapped.keyTerms, ['co-founder']);
+		assert.equal(wrapped.cadence, 'Four posts a week');
+
+		const emptyWrapped = reveal.readPositioning({
+			brand: { name: 'Moil' },
+			positioning: {
+				audience: fact(''),
+				voice: fact(''),
+				problem: fact(''),
+				keyTerms: [],
+				cadence: fact(''),
+			},
+		});
+		assert.equal(emptyWrapped.present, false);
+
+		const foldedWrapped = reveal.readPositioning({
+			brand: {
+				name: 'Moil',
+				audience: fact('Owners'),
+				voice: [fact('Calm')],
+			},
+		});
+		assert.equal(foldedWrapped.present, true);
+		assert.equal(foldedWrapped.audience, 'Owners');
+		assert.deepEqual(foldedWrapped.voice, ['Calm']);
+
+		assert.equal(
+			reveal.creativeUrlFromPost({
+				caption: 'Tuesday special.',
+				imageUrl: 'https://cdn.example/flat.jpg',
+			}),
+			'https://cdn.example/flat.jpg',
+		);
+		assert.equal(
+			reveal.creativeUrlFromPost({
+				caption: 'Tuesday special.',
+				creative: { imageUrl: 'https://cdn.example/nested.jpg' },
+			}),
+			'https://cdn.example/nested.jpg',
+		);
+		assert.equal(
+			reveal.creativeUrlFromPost({
+				caption: 'Tuesday special.',
+				creative: { imageUrl: 'http://cdn.example/insecure.jpg' },
+			}),
+			'http://cdn.example/insecure.jpg',
+		);
+		assert.equal(
+			reveal.creativeUrlFromPost({
+				caption: 'Tuesday special.',
+				creative: {
+					imageUrl:
+						'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciLz4=',
+				},
+			}),
+			'',
+			'data:svg is not a real creative',
+		);
+		assert.equal(
+			reveal.creativeUrlFromPost({
+				caption: 'Tuesday special.',
+				imageUrl: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"></svg>',
+			}),
+			'',
+		);
+
+		const dataPost = reveal.realPosts({
+			kind: 'posts',
+			posts: [
+				{
+					caption: 'Tuesday special.',
+					creative: { imageUrl: 'data:image/svg+xml;utf8,<svg></svg>' },
+				},
+			],
+		});
+		assert.equal(dataPost.length, 1);
+		assert.equal(dataPost[0].caption, 'Tuesday special.');
+		assert.equal(dataPost[0].imageUrl, '');
+	});
+
 	it('post cards keep non-URL captions and skip website-URL captions', () => {
 		const brand = { website: 'https://www.moilapp.com', handle: '@moilapp' };
 		const kept = reveal.realPosts(
