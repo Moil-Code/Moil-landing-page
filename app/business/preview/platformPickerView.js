@@ -7,16 +7,18 @@
  * question a screen adds: what goes on the page, in what order, and which
  * rows a finger may land on.
  *
- * ── "DECIDE FOR ME" IS THE ABSENCE OF A CHOICE, NOT A SIXTH CHIP ───────────
+ * ── "DECIDE FOR ME" IS A VISIBLE CHIP, NOT A SIXTH NETWORK ─────────────────
  *
- * `normalizeChoice` already resolves an empty pick to every publishable
- * network with `decided: false` — the receipt that WE chose. Rendering a
- * "Decide for me" chip beside the networks would make it a peer of them, so a
- * founder who ticked it and a founder who ticked both would look the same on
- * screen and different in the payload. The screen says what happens when
- * nothing is ticked, and ticking nothing is how you say it.
+ * Jimmy lock: the control is on the screen, named, pressable. It is still
+ * not a row in `pickerRows` — those are networks, and Decide is not one.
+ * Clicking it CLEARS the pick (`chooseDecide` → `[]`). Empty and Decide are
+ * the same payload: `normalizeChoice` resolves both to every publishable
+ * network with `decided: false`, and `buildRegisterUrl` sends nothing so
+ * today's default is not frozen into the account.
  *
- * That is also why this module emits no such row and the eval asserts it.
+ * Ticking both Instagram and Facebook is a real choice (`decided: true`)
+ * and unchecks the Decide chip. The two answers look different on screen
+ * and different in the URL, which is the point of showing the chip.
  *
  * ── A "NOT YET" ROW IS AN ANSWER; AN ABSENT ROW IS NOT ─────────────────────
  *
@@ -33,6 +35,7 @@
 const {
 	OFFERED,
 	COMING,
+	DECIDE_FOR_ME,
 	isOffered,
 } = require('./platformChoice');
 
@@ -88,4 +91,26 @@ function pickerState(selected) {
 	return list.some((p) => isOffered(p)) ? 'chosen' : 'decide';
 }
 
-module.exports = { pickerRows, toggle, pickerState };
+/**
+ * The Decide For Me chip. Not a network. `checked` when nothing offered
+ * is ticked — the same state as an untouched picker.
+ * @param {{ selected?: string[] }} [state]
+ */
+function decideChip(state) {
+	const selected = Array.isArray(state && state.selected)
+		? state.selected
+		: [];
+	return {
+		id: DECIDE_FOR_ME,
+		selectable: true,
+		checked: pickerState(selected) === 'decide',
+		reason: '',
+	};
+}
+
+/** Clicking Decide For Me. Empty pick ≡ decide. */
+function chooseDecide() {
+	return [];
+}
+
+module.exports = { pickerRows, toggle, pickerState, decideChip, chooseDecide };

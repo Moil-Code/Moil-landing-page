@@ -40,18 +40,29 @@ const MAGNET_KEYS = [
 	'tryAgain',
 	'badWebsite',
 	'socialLinkRefuse',
-	'revealEyebrow',
-	'productsLabel',
-	'factCategory',
-	'factAddress',
-	'posAudience',
-	'posVoice',
-	'posProblem',
-	'posKeyTerms',
-	'posCadence',
 	'platformsLabel',
 	'platformsDecide',
 	'platformsChosen',
+	'platformDecideForMe',
+	'platformsOr',
+	'knowingTitle',
+	'headingName',
+	'headingOverview',
+	'headingProducts',
+	'headingServices',
+	'headingMessaging',
+	'headingCtas',
+	'headingSlogans',
+	'headingVoice',
+	'headingLogo',
+	'headingColors',
+	'headingPhotos',
+	'headingSchedule',
+	'editLabel',
+	'doneLabel',
+	'waitStepScrapeStarted',
+	'waitStepPagesRead',
+	'waitStepTokensReady',
 ];
 
 const KILLED_PROMISE_EN = [
@@ -245,7 +256,9 @@ describe('structural refusals', () => {
 		'app/business/preview/previewWaitCopy.js',
 		'app/business/preview/previewCookie.js',
 		'app/business/preview/previewReveal.js',
+		'app/business/preview/gettingToKnowYou.js',
 		'app/business/components/PreviewMagnet.tsx',
+		'app/business/components/GettingToKnowYou.tsx',
 		'app/business/sections/HeroSection.tsx',
 		'.env.example',
 		'next.config.js',
@@ -485,10 +498,10 @@ describe('ready card v1 locks', () => {
 	});
 
 	it('hex is used for swatch colour only — not rendered as text', () => {
-		const magnet = read('app/business/components/PreviewMagnet.tsx');
-		assert.match(magnet, /style=\{\{ background: hex\(c\) \}\}/);
-		assert.doesNotMatch(magnet, />\{hex\(c\)\}</);
-		assert.doesNotMatch(magnet, /font-mono[^>]*>\{hex/);
+		const src = read('app/business/components/GettingToKnowYou.tsx');
+		assert.match(src, /style=\{\{ background: hex\(c\) \}\}/);
+		assert.doesNotMatch(src, />\{hex\(c\)\}</);
+		assert.doesNotMatch(src, /font-mono[^>]*>\{hex/);
 	});
 
 	it('no email field on ready or wait', () => {
@@ -502,6 +515,8 @@ describe('ready card v1 locks', () => {
 		assert.ok(waitStart > 0 && waitEnd > waitStart, 'wait block not found');
 		const waitBlock = magnet.slice(waitStart, waitEnd);
 		assert.doesNotMatch(waitBlock, /email/i);
+		const gtk = read('app/business/components/GettingToKnowYou.tsx');
+		assert.doesNotMatch(gtk, /type="email"/);
 	});
 
 	it('does not claim visitor mail or ship a confirm helper', () => {
@@ -544,15 +559,14 @@ describe('frozen GET contract on the ready card', () => {
 		assert.doesNotMatch(esMagnet, /Eso es todo lo que un cliente puede ver desde afuera/);
 	});
 
-	it('products chips render when nonempty and omit when empty', () => {
+	it('products helper still omits empty; the magnet paints via Getting To Know You', () => {
 		assert.deepEqual(reveal.shopProducts({ products: ['Tacos', ' Horchata '] }), ['Tacos', 'Horchata']);
 		assert.deepEqual(reveal.shopProducts({ products: [] }), []);
 		assert.deepEqual(reveal.shopProducts({}), []);
 		assert.deepEqual(reveal.shopProducts(null), []);
 		const src = magnet();
-		assert.match(src, /shopProducts\(/);
-		assert.match(src, /m\.productsLabel/);
-		assert.match(src, /products\.length > 0/);
+		assert.doesNotMatch(src, /shopProducts\(/);
+		assert.match(src, /GettingToKnowYou/);
 	});
 
 	it('positioning fields render when present and omit the block when absent', () => {
@@ -586,13 +600,9 @@ describe('frozen GET contract on the ready card', () => {
 		assert.deepEqual(folded.voice, ['Calm and direct']);
 
 		const src = magnet();
-		assert.match(src, /readPositioning\(/);
-		assert.match(src, /positioning\.present/);
-		assert.match(src, /m\.posAudience/);
-		assert.match(src, /m\.posVoice/);
-		assert.match(src, /m\.posProblem/);
-		assert.match(src, /m\.posKeyTerms/);
-		assert.match(src, /m\.posCadence/);
+		assert.doesNotMatch(src, /readPositioning\(/);
+		assert.doesNotMatch(src, /m\.posCadence/);
+		assert.doesNotMatch(src, /m\.posAudience/);
 	});
 
 	it('GET lockstep: flat strings and {value} / creative.imageUrl both paint', () => {
@@ -755,12 +765,12 @@ describe('frozen GET contract on the ready card', () => {
 		);
 
 		const src = magnet();
-		assert.match(src, /realPosts\(/);
-		assert.match(src, /posts\.length > 0/);
-		assert.match(src, /bg-gradient-to-br/);
+		assert.doesNotMatch(src, /realPosts\(/);
+		assert.doesNotMatch(src, /<article/);
 		assert.doesNotMatch(src, /I'm learning/);
 		assert.doesNotMatch(src, /Reveal My First Posts/);
-		assert.doesNotMatch(src, /Decide For Me/);
+		assert.match(read('app/business/components/GettingToKnowYou.tsx'), /platformDecideForMe/);
+		assert.match(read('src/common/translations/en.ts'), /Decide For Me/);
 	});
 
 	it('CTA still uses buildRegisterUrl with the preview slug', () => {
@@ -771,7 +781,7 @@ describe('frozen GET contract on the ready card', () => {
 		assert.match(block, /buildRegisterUrl\(/);
 		assert.match(block, /previewSlug: slug/);
 		assert.match(block, /platforms,/);
-		assert.match(src, /\{m\.startFree\}/);
+		assert.match(read('app/business/components/GettingToKnowYou.tsx'), /\{m\.startFree\}/);
 		assert.doesNotMatch(src, /colorsLabel/);
 		const url = client.buildRegisterUrl({ lang: 'en', previewSlug: 'taco-shop' });
 		assert.match(url, /[?&]preview=taco-shop/);
@@ -800,6 +810,7 @@ describe('frozen GET contract on the ready card', () => {
 		assert.equal(reveal.progressFromBody({ progress: 'Pulling colours from the homepage.' }), 'Pulling colours from the homepage.');
 		const src = magnet();
 		assert.match(src, /progressFromBody/);
+		assert.match(src, /waitStepsFromBody/);
 		assert.match(src, /waitProgress \|\| waitText/);
 	});
 });
