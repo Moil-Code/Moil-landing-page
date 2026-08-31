@@ -13,32 +13,54 @@ import { clearPreviewSlugCookie, readPreviewSlugCookie, setPreviewSlugCookie } f
 import { readWebsite } from '../preview/previewInput';
 import {
 	canShowReadyCard,
+	progressFromBody,
+	readPositioning,
 	readyBrandName,
-	sanitizeTagline,
+	realPosts,
+	shopDescriptor,
+	shopFact,
+	shopProducts,
 	websiteFieldDecision,
 } from '../preview/previewReveal';
+import { pickerRows, toggle, pickerState } from '../preview/platformPickerView';
 import { nextPollDelayMs, waitCopyKey } from '../preview/previewWaitCopy';
 
 type Phase = 'form' | 'wait' | 'ready' | 'failed' | 'down' | 'identity' | 'ceiling';
 
+type ReadyBrand = {
+	name?: string;
+	colors?: string[];
+	tagline?: string;
+	description?: string;
+	logoUrl?: string;
+	logo?: string;
+	category?: string;
+	address?: string;
+	website?: string;
+	handle?: string;
+	handlePlatform?: string;
+	products?: string[];
+	sources?: string[];
+	audience?: string;
+	voice?: string | string[];
+	problem?: string;
+	keyTerms?: string[];
+	cadence?: string;
+};
+
 type ReadyPayload = {
 	slug: string;
-	brand: {
-		name?: string;
-		colors?: string[];
-		tagline?: string;
-		logoUrl?: string;
-		category?: string;
-		address?: string;
-		website?: string;
-		handle?: string;
-		handlePlatform?: string;
-		products?: string[];
-		sources?: string[];
+	brand: ReadyBrand;
+	positioning?: {
+		audience?: string;
+		voice?: string | string[];
+		problem?: string;
+		keyTerms?: string[];
+		cadence?: string;
 	};
 	content: {
 		kind?: 'posts' | 'brand-only';
-		posts?: { caption?: string; theme?: string }[];
+		posts?: { caption?: string; theme?: string; imageUrl?: string; image?: string; creativeUrl?: string }[];
 	};
 };
 
@@ -47,9 +69,51 @@ function hex(color: string) {
 	return c.startsWith('#') ? c : `#${c}`;
 }
 
+// Copy lookups. A key this build has no string for renders NOTHING rather
+// than a raw id — the picker is the first thing a stranger sees, and a bare
+// `tiktok` on it reads as a bug. The vocabulary decides which rows exist;
+// this only decides what they are called.
+type MagnetCopy = Record<string, string | undefined>;
+
+function platformCopy(m: MagnetCopy, id: string): string {
+	const key = 'platform' + id.charAt(0).toUpperCase() + id.slice(1);
+	return m[key] || '';
+}
+
+function reasonCopy(m: MagnetCopy, reason: string): string {
+	const camel = reason
+		.split('-')
+		.map((w, i) => (i === 0 ? w : w.charAt(0).toUpperCase() + w.slice(1)))
+		.join('');
+	return m['platform' + camel.charAt(0).toUpperCase() + camel.slice(1)] || '';
+}
+
+function logoUrlFromBrand(brand: ReadyBrand): string {
+	for (const raw of [brand.logoUrl, brand.logo]) {
+		if (typeof raw === 'string' && raw.trim()) return raw.trim();
+	}
+	return '';
+}
+
+function FactChips({ items }: { items: string[] }) {
+	return (
+		<div className="flex flex-wrap gap-1.5">
+			{items.map((item) => (
+				<span
+					key={item}
+					className="rounded-full border border-[var(--border2)] px-2.5 py-1 text-[12px] text-[var(--text)]"
+				>
+					{item}
+				</span>
+			))}
+		</div>
+	);
+}
+
 export function PreviewMagnet() {
 	const { t, lang } = useLanguageContext();
 	const m = t.business.hero.magnet;
+	const magnetCopy = m as unknown as MagnetCopy;
 
 	const [submitting, setSubmitting] = useState(false);
 	const [website, setWebsite] = useState('');
@@ -57,7 +121,14 @@ export function PreviewMagnet() {
 	const [errorMessage, setErrorMessage] = useState('');
 	const [slug, setSlug] = useState('');
 	const [ready, setReady] = useState<ReadyPayload | null>(null);
+	// The pre-wall platform choice. EMPTY IS THE DEFAULT and it means "decide
+	// for me" — `buildRegisterUrl` sends nothing for an empty pick, so a
+	// founder who does not touch this is byte-identical to one who never saw
+	// it, and the product keeps choosing rather than freezing today's default
+	// into their account.
+	const [platforms, setPlatforms] = useState<string[]>([]);
 	const [elapsedMs, setElapsedMs] = useState(0);
+	const [waitProgress, setWaitProgress] = useState('');
 	const [reduceMotion, setReduceMotion] = useState(false);
 
 	const pollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -82,8 +153,14 @@ export function PreviewMagnet() {
 	}, []);
 
 	const signupHref = useMemo(
-		() => buildRegisterUrl({ lang, previewSlug: slug, appendLang: appendLangToUrl }),
-		[lang, slug],
+		() =>
+			buildRegisterUrl({
+				lang,
+				previewSlug: slug,
+				platforms,
+				appendLang: appendLangToUrl,
+			}),
+		[lang, slug, platforms],
 	);
 
 	const stopWaitClock = () => {
@@ -116,7 +193,7 @@ export function PreviewMagnet() {
 	}, [m.failed]);
 
 	const onReady = useCallback(
-		(nextSlug: string, body: ReadyPayload['brand'] extends infer B ? { brand?: B; content?: ReadyPayload['content'] } : never) => {
+		(nextSlug: string, body: { brand?: ReadyBrand; content?: ReadyPayload['content']; positioning?: ReadyPayload['positioning'] }) => {
 			const brand = (body && body.brand) || {};
 			if (!canShowReadyCard(brand)) {
 				refuseNamelessReady();
@@ -128,6 +205,7 @@ export function PreviewMagnet() {
 			setReady({
 				slug: nextSlug,
 				brand,
+				positioning: body && body.positioning,
 				content: (body && body.content) || { kind: 'brand-only', posts: [] },
 			});
 			setPhase('ready');
@@ -149,6 +227,10 @@ export function PreviewMagnet() {
 				setPhase('failed');
 				setErrorMessage(m.failed);
 				return;
+			}
+			if (result.kind === 'building' || result.kind === 'accepted') {
+				const msg = progressFromBody(result.body);
+				if (msg) setWaitProgress(msg);
 			}
 			if (result.kind === 'missing' || result.kind === 'down') {
 				if (result.kind === 'missing' && attempt > 8) {
@@ -196,6 +278,7 @@ export function PreviewMagnet() {
 	const beginWait = (nextSlug: string, status?: string) => {
 		setSlug(nextSlug);
 		setPreviewSlugCookie(nextSlug);
+		setWaitProgress('');
 		if (status === 'ready') {
 			setPhase('wait');
 			startWaitClock();
@@ -255,14 +338,21 @@ export function PreviewMagnet() {
 		setReady(null);
 		setSlug('');
 		setElapsedMs(0);
+		setWaitProgress('');
 	};
 
 	const waitKey = waitCopyKey(elapsedMs);
 	const waitText = waitKey === 'waitLeave' ? m.waitLeave : waitKey === 'waitLonger' ? m.waitLonger : m.waitCalm;
 
 	const brandName = readyBrandName(ready?.brand);
-	const descriptor = sanitizeTagline(ready?.brand.tagline);
+	const descriptor = shopDescriptor(ready?.brand);
 	const colors = (ready?.brand.colors || []).filter(Boolean).slice(0, 6);
+	const products = shopProducts(ready?.brand);
+	const category = shopFact(ready?.brand, 'category');
+	const address = shopFact(ready?.brand, 'address');
+	const logoUrl = ready ? logoUrlFromBrand(ready.brand) : '';
+	const positioning = readPositioning(ready);
+	const posts = ready ? realPosts(ready.content, ready.brand) : [];
 	const showReadyCard = phase === 'ready' && ready && canShowReadyCard(ready.brand);
 
 	const fieldClass =
@@ -305,7 +395,7 @@ export function PreviewMagnet() {
 
 			{phase === 'wait' && (
 				<div className="flex flex-col gap-3 py-2" aria-live="polite">
-					<p className="text-[15px] font-medium text-[var(--text)]">{waitText}</p>
+					<p className="text-[15px] font-medium text-[var(--text)]">{waitProgress || waitText}</p>
 					{!reduceMotion && (
 						<div aria-hidden className="h-1 w-full overflow-hidden rounded-full bg-[var(--border2)]">
 							<div className="h-full w-1/3 animate-pulse rounded-full bg-[var(--orange)]" />
@@ -318,17 +408,17 @@ export function PreviewMagnet() {
 			{showReadyCard && ready && (
 				<div className="flex flex-col gap-5">
 					<div className="flex items-start gap-3">
-						{ready.brand.logoUrl && (
+						{logoUrl ? (
 							// eslint-disable-next-line @next/next/no-img-element
 							<img
-								src={ready.brand.logoUrl}
+								src={logoUrl}
 								alt=""
 								className="h-12 w-12 shrink-0 rounded-lg border border-[var(--border2)] bg-white object-contain p-1"
 								onError={(e) => {
 									(e.currentTarget as HTMLImageElement).style.display = 'none';
 								}}
 							/>
-						)}
+						) : null}
 						<div className="min-w-0">
 							<p className="text-[11px] uppercase tracking-[1px] text-[var(--orange)]">{m.revealEyebrow}</p>
 							<h2 className="mt-1 text-[22px] font-bold leading-tight tracking-[-0.03em] text-[var(--text)]">
@@ -339,10 +429,6 @@ export function PreviewMagnet() {
 							) : null}
 						</div>
 					</div>
-
-					{!descriptor ? (
-						<p className="text-[13px] leading-snug text-[var(--text)] opacity-80">{m.readThin}</p>
-					) : null}
 
 					{colors.length > 0 && (
 						<div className="flex flex-wrap gap-1.5" aria-hidden>
@@ -355,6 +441,153 @@ export function PreviewMagnet() {
 							))}
 						</div>
 					)}
+
+					{category ? (
+						<p className="text-[13px] leading-snug text-[var(--text)]">
+							<span className="opacity-60">{m.factCategory}</span> {category}
+						</p>
+					) : null}
+
+					{address ? (
+						<p className="text-[13px] leading-snug text-[var(--text)]">
+							<span className="opacity-60">{m.factAddress}</span> {address}
+						</p>
+					) : null}
+
+					{products.length > 0 ? (
+						<div>
+							<p className="mb-1.5 text-[11px] uppercase tracking-[1px] text-[var(--text)] opacity-70">
+								{m.productsLabel}
+							</p>
+							<FactChips items={products} />
+						</div>
+					) : null}
+
+					{positioning.present ? (
+						<div className="flex flex-col gap-3">
+							{positioning.audience ? (
+								<div>
+									<p className="mb-1 text-[11px] uppercase tracking-[1px] text-[var(--text)] opacity-70">
+										{m.posAudience}
+									</p>
+									<p className="text-[14px] leading-snug text-[var(--text)]">{positioning.audience}</p>
+								</div>
+							) : null}
+							{positioning.problem ? (
+								<div>
+									<p className="mb-1 text-[11px] uppercase tracking-[1px] text-[var(--text)] opacity-70">
+										{m.posProblem}
+									</p>
+									<p className="text-[14px] leading-snug text-[var(--text)]">{positioning.problem}</p>
+								</div>
+							) : null}
+							{positioning.voice.length > 0 ? (
+								<div>
+									<p className="mb-1.5 text-[11px] uppercase tracking-[1px] text-[var(--text)] opacity-70">
+										{m.posVoice}
+									</p>
+									{positioning.voice.length === 1 ? (
+										<p className="text-[14px] leading-snug text-[var(--text)]">{positioning.voice[0]}</p>
+									) : (
+										<FactChips items={positioning.voice} />
+									)}
+								</div>
+							) : null}
+							{positioning.keyTerms.length > 0 ? (
+								<div>
+									<p className="mb-1.5 text-[11px] uppercase tracking-[1px] text-[var(--text)] opacity-70">
+										{m.posKeyTerms}
+									</p>
+									<FactChips items={positioning.keyTerms} />
+								</div>
+							) : null}
+							{positioning.cadence ? (
+								<div>
+									<p className="mb-1 text-[11px] uppercase tracking-[1px] text-[var(--text)] opacity-70">
+										{m.posCadence}
+									</p>
+									<p className="text-[14px] leading-snug text-[var(--text)]">{positioning.cadence}</p>
+								</div>
+							) : null}
+						</div>
+					) : null}
+
+					{posts.length > 0 ? (
+						<div className="flex flex-col gap-3">
+							{posts.map((post, i) => (
+								<article
+									key={i}
+									className="overflow-hidden rounded-2xl border border-[var(--border2)] bg-[var(--bg)]"
+								>
+									<div className="relative aspect-[4/5] bg-gradient-to-br from-[var(--orange)] to-[var(--purple)]">
+										{post.imageUrl ? (
+											// eslint-disable-next-line @next/next/no-img-element
+											<img
+												src={post.imageUrl}
+												alt=""
+												className="absolute inset-0 h-full w-full object-cover"
+												onError={(e) => {
+													(e.currentTarget as HTMLImageElement).style.display = 'none';
+												}}
+											/>
+										) : null}
+									</div>
+									<p className="px-3.5 py-3 text-[14px] leading-snug text-[var(--text)]">{post.caption}</p>
+								</article>
+							))}
+						</div>
+					) : null}
+
+					{/* THE PICKER SITS ABOVE THE WALL, not behind it — this is the
+					    moment a founder is deciding whether to hand over an email,
+					    and it is cheaper to answer one question than to fill a
+					    form later. It offers only what the scheduler can serve
+					    and NAMES the rest, unselectable: an omission reads as an
+					    oversight and a founder cannot tell that from a decision.
+					    Ticking nothing is how you say "decide for me" — there is
+					    deliberately no chip for it, or it would be a peer of the
+					    networks and the two answers would look the same. */}
+					<fieldset className="m-0 border-0 p-0">
+						<legend className="mb-2 p-0 text-[11px] uppercase tracking-[1px] text-[var(--text)] opacity-70">
+							{m.platformsLabel}
+						</legend>
+						<div className="flex flex-wrap gap-1.5">
+							{pickerRows({ selected: platforms }).map((row) =>
+								row.selectable ? (
+									<button
+										key={row.id}
+										type="button"
+										aria-pressed={row.checked}
+										onClick={() => setPlatforms((p) => toggle(p, row.id))}
+										className={
+											'rounded-full border px-3 py-1.5 text-[13px] font-bold transition-colors ' +
+											(row.checked
+												? 'border-[var(--orange)] bg-[var(--orange)] text-white'
+												: 'border-[var(--border2)] text-[var(--text)] hover:border-[var(--orange)]')
+										}
+									>
+										{platformCopy(magnetCopy, row.id)}
+									</button>
+								) : (
+									<span
+										key={row.id}
+										className="cursor-default rounded-full border border-dashed border-[var(--border2)] px-3 py-1.5 text-[13px] text-[var(--text)] opacity-45"
+										title={reasonCopy(magnetCopy, row.reason)}
+									>
+										{platformCopy(magnetCopy, row.id)}
+										<span className="ml-1.5 text-[11px] font-normal">
+											{reasonCopy(magnetCopy, row.reason)}
+										</span>
+									</span>
+								),
+							)}
+						</div>
+						<p className="mt-2 text-[12px] leading-snug text-[var(--text)] opacity-70">
+							{pickerState(platforms) === 'decide'
+								? m.platformsDecide
+								: m.platformsChosen}
+						</p>
+					</fieldset>
 
 					<a
 						href={signupHref}

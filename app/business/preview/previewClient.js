@@ -20,6 +20,9 @@
 
 const DEFAULT_REGISTER_ORIGIN = 'https://business.moilapp.com';
 
+// The picker's own offer list — the ONE authority on what may be named here.
+const { isOffered } = require('./platformChoice');
+
 function normalizeOrigin(raw) {
 	if (typeof raw !== 'string') return '';
 	return raw.trim().replace(/\/+$/, '');
@@ -56,14 +59,26 @@ function previewViewUrl(slug) {
 }
 
 /**
- * Register URL. Always valid. Adds ?preview= only when a slug exists.
+ * Register URL. Always valid. Adds ?preview= only when a slug exists, and
+ * ?platforms= only when the founder actually CHOSE.
+ *
+ * "Decide for me" and an empty tick-list DELIBERATELY send nothing. Sending
+ * the resolved pair would report a decision the founder never made and freeze
+ * today's default into their account; absence lets the product keep choosing.
+ *
  * Language is applied via appendLang (the existing helper) when provided.
  *
- * @param {{ lang?: 'en'|'es', previewSlug?: string, appendLang?: function, env?: Record<string, string|undefined> }} [opts]
+ * @param {{ lang?: 'en'|'es', previewSlug?: string, platforms?: string[], appendLang?: function, env?: Record<string, string|undefined> }} [opts]
  */
 function buildRegisterUrl(opts) {
 	const o = opts && typeof opts === 'object' ? opts : {};
 	const slug = typeof o.previewSlug === 'string' ? o.previewSlug.trim() : '';
+	// Only ids this screen may OFFER travel. Anything else is dropped here as
+	// well as at the server: a value the picker refuses must not reach a URL
+	// a founder can see and read as a promise.
+	const platforms = (Array.isArray(o.platforms) ? o.platforms : [])
+		.map((p) => (typeof p === 'string' ? p.trim().toLowerCase() : ''))
+		.filter((p, i, a) => p && isOffered(p) && a.indexOf(p) === i);
 	let url = getRegisterUrl(o.env);
 	if (slug) {
 		try {
@@ -72,6 +87,17 @@ function buildRegisterUrl(opts) {
 			url = u.toString();
 		} catch {
 			url = url + '?preview=' + encodeURIComponent(slug);
+		}
+	}
+	if (platforms.length) {
+		const value = platforms.join(',');
+		try {
+			const u = new URL(url);
+			u.searchParams.set('platforms', value);
+			url = u.toString();
+		} catch {
+			const sep = url.indexOf('?') >= 0 ? '&' : '?';
+			url = url + sep + 'platforms=' + encodeURIComponent(value);
 		}
 	}
 	const lang = o.lang === 'es' || o.lang === 'en' ? o.lang : 'en';

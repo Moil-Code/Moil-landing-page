@@ -41,7 +41,17 @@ const MAGNET_KEYS = [
 	'badWebsite',
 	'socialLinkRefuse',
 	'revealEyebrow',
-	'readThin',
+	'productsLabel',
+	'factCategory',
+	'factAddress',
+	'posAudience',
+	'posVoice',
+	'posProblem',
+	'posKeyTerms',
+	'posCadence',
+	'platformsLabel',
+	'platformsDecide',
+	'platformsChosen',
 ];
 
 const KILLED_PROMISE_EN = [
@@ -506,5 +516,159 @@ describe('ready card v1 locks', () => {
 		}
 		assert.equal(fs.existsSync(path.join(root, 'app/business/preview/previewConfirm.js')), false);
 		assert.equal(fs.existsSync(path.join(root, 'app/business/preview/confirmEmail.js')), false);
+	});
+});
+
+describe('frozen GET contract on the ready card', () => {
+	const magnet = () => read('app/business/components/PreviewMagnet.tsx');
+
+	it('readThin is gone from ready JSX and magnet i18n', () => {
+		const src = magnet();
+		const enMagnet = read('src/common/translations/en.ts').slice(
+			read('src/common/translations/en.ts').indexOf('magnet: {'),
+			read('src/common/translations/en.ts').indexOf('aeoAnswer:'),
+		);
+		const esMagnet = read('src/common/translations/es.ts').slice(
+			read('src/common/translations/es.ts').indexOf('magnet: {'),
+			read('src/common/translations/es.ts').indexOf('aeoAnswer:'),
+		);
+		assert.doesNotMatch(src, /readThin/);
+		assert.doesNotMatch(src, /That is all a customer can see from the outside/);
+		assert.doesNotMatch(enMagnet, /readThin/);
+		assert.doesNotMatch(esMagnet, /readThin/);
+		assert.doesNotMatch(enMagnet, /That is all a customer can see from the outside/);
+		assert.doesNotMatch(esMagnet, /Eso es todo lo que un cliente puede ver desde afuera/);
+	});
+
+	it('products chips render when nonempty and omit when empty', () => {
+		assert.deepEqual(reveal.shopProducts({ products: ['Tacos', ' Horchata '] }), ['Tacos', 'Horchata']);
+		assert.deepEqual(reveal.shopProducts({ products: [] }), []);
+		assert.deepEqual(reveal.shopProducts({}), []);
+		assert.deepEqual(reveal.shopProducts(null), []);
+		const src = magnet();
+		assert.match(src, /shopProducts\(/);
+		assert.match(src, /m\.productsLabel/);
+		assert.match(src, /products\.length > 0/);
+	});
+
+	it('positioning fields render when present and omit the block when absent', () => {
+		const empty = reveal.readPositioning({ brand: { name: 'Moil' } });
+		assert.equal(empty.present, false);
+		assert.equal(empty.audience, '');
+		assert.deepEqual(empty.voice, []);
+
+		const fromObject = reveal.readPositioning({
+			brand: { name: 'Moil' },
+			positioning: {
+				audience: 'Trades',
+				voice: ['Direct', 'Friendly'],
+				problem: 'Too many hats',
+				keyTerms: ['co-founder'],
+				cadence: 'Four posts a week',
+			},
+		});
+		assert.equal(fromObject.present, true);
+		assert.equal(fromObject.audience, 'Trades');
+		assert.deepEqual(fromObject.voice, ['Direct', 'Friendly']);
+		assert.equal(fromObject.problem, 'Too many hats');
+		assert.deepEqual(fromObject.keyTerms, ['co-founder']);
+		assert.equal(fromObject.cadence, 'Four posts a week');
+
+		const folded = reveal.readPositioning({
+			brand: { name: 'Moil', audience: 'Owners', voice: 'Calm and direct' },
+		});
+		assert.equal(folded.present, true);
+		assert.equal(folded.audience, 'Owners');
+		assert.deepEqual(folded.voice, ['Calm and direct']);
+
+		const src = magnet();
+		assert.match(src, /readPositioning\(/);
+		assert.match(src, /positioning\.present/);
+		assert.match(src, /m\.posAudience/);
+		assert.match(src, /m\.posVoice/);
+		assert.match(src, /m\.posProblem/);
+		assert.match(src, /m\.posKeyTerms/);
+		assert.match(src, /m\.posCadence/);
+	});
+
+	it('post cards keep non-URL captions and skip website-URL captions', () => {
+		const brand = { website: 'https://www.moilapp.com', handle: '@moilapp' };
+		const kept = reveal.realPosts(
+			{
+				kind: 'posts',
+				posts: [
+					{ caption: 'Tuesday on Main Street.', imageUrl: 'https://cdn.example/p.jpg' },
+					{ caption: 'https://www.moilapp.com' },
+					{ caption: 'www.moilapp.com' },
+					{ caption: '@moilapp' },
+					{ caption: 'moilapp.com' },
+					{ caption: 'Scratch cooking tonight.', creativeUrl: 'https://cdn.example/q.jpg' },
+					{ caption: 'A third real line.', image: 'https://cdn.example/r.jpg' },
+					{ caption: 'A fourth that must not paint.' },
+				],
+			},
+			brand,
+		);
+		assert.equal(kept.length, 3);
+		assert.equal(kept[0].caption, 'Tuesday on Main Street.');
+		assert.equal(kept[0].imageUrl, 'https://cdn.example/p.jpg');
+		assert.equal(kept[1].caption, 'Scratch cooking tonight.');
+		assert.equal(kept[1].imageUrl, 'https://cdn.example/q.jpg');
+		assert.equal(kept[2].imageUrl, 'https://cdn.example/r.jpg');
+
+		const allUrls = reveal.realPosts(
+			{
+				kind: 'posts',
+				posts: [
+					{ caption: 'https://tasteonmain.com', imageUrl: 'https://cdn.example/x.jpg' },
+					{ caption: 'www.tasteonmain.com' },
+					{ caption: 'tasteonmain.com' },
+				],
+			},
+			{ website: 'https://tasteonmain.com' },
+		);
+		assert.deepEqual(allUrls, []);
+
+		const none = reveal.realPosts({ kind: 'brand-only', posts: [] }, brand);
+		assert.deepEqual(none, []);
+
+		const src = magnet();
+		assert.match(src, /realPosts\(/);
+		assert.match(src, /posts\.length > 0/);
+		assert.match(src, /bg-gradient-to-br/);
+		assert.doesNotMatch(src, /I'm learning/);
+		assert.doesNotMatch(src, /Reveal My First Posts/);
+		assert.doesNotMatch(src, /Decide For Me/);
+	});
+
+	it('CTA still uses buildRegisterUrl with the preview slug', () => {
+		const src = magnet();
+		const at = src.indexOf('const signupHref = useMemo(');
+		assert.ok(at > -1, 'signupHref was renamed');
+		const block = src.slice(at, at + 500);
+		assert.match(block, /buildRegisterUrl\(/);
+		assert.match(block, /previewSlug: slug/);
+		assert.match(block, /platforms,/);
+		assert.match(src, /\{m\.startFree\}/);
+		assert.doesNotMatch(src, /colorsLabel/);
+		const url = client.buildRegisterUrl({ lang: 'en', previewSlug: 'taco-shop' });
+		assert.match(url, /[?&]preview=taco-shop/);
+		assert.match(url, /[?&]lg=en/);
+	});
+
+	it('wait copy is a real scrape, not Munch theatre, and binds progress if GET sends it', () => {
+		const enMagnet = read('src/common/translations/en.ts').slice(
+			read('src/common/translations/en.ts').indexOf('magnet: {'),
+			read('src/common/translations/en.ts').indexOf('aeoAnswer:'),
+		);
+		assert.doesNotMatch(enMagnet, /I'm learning/);
+		assert.doesNotMatch(enMagnet, /what you do/);
+		assert.doesNotMatch(enMagnet, /look and feel/);
+		assert.match(enMagnet, /Reading your website/);
+		assert.equal(reveal.progressFromBody({ status: 'building' }), '');
+		assert.equal(reveal.progressFromBody({ progress: 'Pulling colours from the homepage.' }), 'Pulling colours from the homepage.');
+		const src = magnet();
+		assert.match(src, /progressFromBody/);
+		assert.match(src, /waitProgress \|\| waitText/);
 	});
 });
