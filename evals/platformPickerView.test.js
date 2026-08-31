@@ -7,8 +7,8 @@
  * one question a screen adds. These go RED if:
  *   - a network we cannot honour becomes selectable
  *   - a "not yet" row is dropped, turning an answer back into silence
- *   - "decide for me" becomes a chip (a peer of the networks) instead of the
- *     absence of a pick
+ *   - Decide For Me is missing from the screen, or becomes a sixth network
+ *     in pickerRows
  *   - a click handler trusts its own markup and admits an unofferable id
  *   - a row exists with no copy in EN or ES
  */
@@ -21,6 +21,8 @@ const {
 	pickerRows,
 	toggle,
 	pickerState,
+	decideChip,
+	chooseDecide,
 } = require('../app/business/preview/platformPickerView');
 const {
 	OFFERED,
@@ -45,20 +47,15 @@ test('every COMING network is rendered, named, and unselectable', () => {
 	}
 });
 
-test('there is NO "decide for me" row', () => {
-	// It is the ABSENCE of a pick. A chip would make it a peer of the
-	// networks, so a founder who ticked it and one who ticked both would look
-	// the same on screen and different in the payload.
+test('Decide For Me is a visible chip, not a network row', () => {
 	const ids = pickerRows().map((r) => r.id);
 	assert.ok(!ids.includes('decide'), ids.join(','));
-	const src = fs.readFileSync(
-		path.join(__dirname, '../app/business/preview/platformPickerView.js'),
-		'utf8',
-	);
-	const body = src
-		.replace(/\/\*[\s\S]*?\*\//g, '')
-		.replace(/^\s*\/\/.*$/gm, '');
-	assert.ok(!/DECIDE_FOR_ME/.test(body), 'the sentinel became a row');
+	const empty = decideChip({ selected: [] });
+	assert.strictEqual(empty.id, 'decide');
+	assert.strictEqual(empty.checked, true);
+	assert.strictEqual(empty.selectable, true);
+	assert.strictEqual(decideChip({ selected: ['instagram'] }).checked, false);
+	assert.deepStrictEqual(chooseDecide(), []);
 });
 
 test('checked state reflects the selection', () => {
@@ -123,7 +120,7 @@ test('every row has copy in BOTH languages', () => {
 			.join('');
 		return 'platform' + camel.charAt(0).toUpperCase() + camel.slice(1);
 	};
-	const needed = new Set(['platformsLabel', 'platformsDecide', 'platformsChosen']);
+	const needed = new Set(['platformsLabel', 'platformsDecide', 'platformsChosen', 'platformDecideForMe', 'platformsOr']);
 	for (const row of pickerRows()) {
 		needed.add(keyFor(row.id));
 		if (row.reason) needed.add(reasonKeyFor(row.reason));
@@ -144,20 +141,16 @@ test('every row has copy in BOTH languages', () => {
 
 test('the screen renders the rows it is given, and refuses through toggle', () => {
 	const src = fs.readFileSync(
-		path.join(__dirname, '../app/business/components/PreviewMagnet.tsx'),
+		path.join(__dirname, '../app/business/components/GettingToKnowYou.tsx'),
 		'utf8',
 	);
 	assert.ok(/pickerRows\(\{ selected: platforms \}\)/.test(src));
-	// Selection goes through `toggle`, never a raw push — that is where the
-	// refusal lives.
 	assert.ok(/toggle\(p, row\.id\)/.test(src));
-	// An unselectable row must not carry a click handler.
-	const unselectable = src.slice(
-		src.indexOf('row.selectable ? ('),
-		src.indexOf('</fieldset>'),
-	);
-	const spanHalf = unselectable.slice(unselectable.indexOf(') : ('));
-	assert.ok(!/onClick/.test(spanHalf), 'a "not yet" row is clickable');
+	assert.ok(/chooseDecide\(/.test(src));
+	assert.ok(/platformDecideForMe/.test(src));
+	const coming = src.slice(src.indexOf('cursor-default'), src.indexOf('platformsOr'));
+	assert.ok(coming.length > 20, 'coming rows missing');
+	assert.ok(!/onClick/.test(coming), 'a "not yet" row is clickable');
 });
 
 test('the choice reaches the register URL', () => {
