@@ -45,12 +45,23 @@ const MAGNET_NEW_KEYS = [
 	'waitBeatUvp',
 ];
 
-function magnetKeys(file) {
+function magnetBlock(file) {
 	const src = read(file);
 	const start = src.indexOf('magnet: {');
 	const end = src.indexOf('aeoAnswer:', start);
 	assert.ok(start > 0 && end > start, file + ' magnet block not found');
-	return new Set([...src.slice(start, end).matchAll(/^\s{8}(\w+):/gm)].map((m) => m[1]));
+	return src.slice(start, end);
+}
+
+function magnetKeys(file) {
+	return new Set([...magnetBlock(file).matchAll(/^\s{8}(\w+):/gm)].map((m) => m[1]));
+}
+
+function magnetQuoted(file, key) {
+	const re = new RegExp(`^\\s{8}${key}:\\s*'((?:\\\\'|[^'])*)'`, 'm');
+	const m = magnetBlock(file).match(re);
+	assert.ok(m, file + ' missing quoted ' + key);
+	return m[1].replace(/\\'/g, "'");
 }
 
 describe('wzP6PJqiVxqG paint — filled in, empty/banned out', () => {
@@ -197,9 +208,20 @@ describe('audience and problem paint when GET has them', () => {
 		assert.equal(byId.framing.value, 'Scratch cooking on Main Street.');
 		assert.equal(byId.audience.value, 'Locals who want weeknight dinner.');
 		assert.equal(byId.problem.value, 'Nowhere nearby that feels like home.');
+		assert.equal(gtk.headingKeyFor('framing'), 'waitBeatFraming');
 		assert.equal(gtk.headingKeyFor('audience'), 'waitBeatAudience');
+		assert.equal(gtk.headingKeyFor('services'), 'waitBeatServices');
 		assert.equal(gtk.headingKeyFor('problem'), 'waitBeatProblem');
 		assert.equal(gtk.headingKeyFor('UVP'), 'waitBeatUvp');
+		assert.equal(gtk.HEADING_KEY.framing, 'waitBeatFraming');
+		assert.equal(gtk.HEADING_KEY.audience, 'waitBeatAudience');
+		assert.equal(gtk.HEADING_KEY.services, 'waitBeatServices');
+		assert.equal(gtk.HEADING_KEY.problem, 'waitBeatProblem');
+		assert.equal(gtk.HEADING_KEY.UVP, 'waitBeatUvp');
+		assert.notEqual(gtk.HEADING_KEY.framing, 'headingOverview');
+		assert.notEqual(gtk.HEADING_KEY.audience, 'headingAudience');
+		assert.notEqual(gtk.HEADING_KEY.services, 'headingServices');
+		assert.notEqual(gtk.HEADING_KEY.problem, 'headingProblem');
 		assert.ok(gtk.SECTION_ORDER.indexOf('audience') > gtk.SECTION_ORDER.indexOf('framing'));
 		assert.ok(gtk.SECTION_ORDER.indexOf('audience') < gtk.SECTION_ORDER.indexOf('services'));
 		assert.ok(gtk.SECTION_ORDER.indexOf('problem') > gtk.SECTION_ORDER.indexOf('services'));
@@ -720,7 +742,7 @@ describe('EN/ES magnet key parity for Getting To Know You', () => {
 		assert.doesNotMatch(esMagnet, /Mensajer[ií]a y encuadre/i);
 		assert.doesNotMatch(esMagnet, /Horario de publicaci[oó]n/);
 		assert.doesNotMatch(esMagnet, /I'm learning/);
-		assert.match(esMagnet, /Lo que te distingue/);
+		assert.match(esMagnet, /Por qué gana/);
 		assert.match(esMagnet, /A quién te diriges/);
 		assert.match(esMagnet, /Qué problema resuelves/);
 		assert.doesNotMatch(esMagnet, /What sets you apart/);
@@ -730,5 +752,65 @@ describe('EN/ES magnet key parity for Getting To Know You', () => {
 		assert.doesNotMatch(esMagnet, /Audiencia objetivo/);
 		assert.doesNotMatch(esMagnet, /Reveal My First Posts/);
 		assert.doesNotMatch(esMagnet, /Official FREE/);
+	});
+});
+
+describe('ready-card headings are the wait GET headings', () => {
+	const EN = {
+		waitBeatFraming: 'What this business is',
+		waitBeatAudience: 'Who it is for',
+		waitBeatServices: 'What it offers',
+		waitBeatProblem: 'The problem it solves',
+		waitBeatUvp: 'Why it wins',
+	};
+	const ES = {
+		waitBeatFraming: 'Qué es el negocio',
+		waitBeatAudience: 'Para quién es',
+		waitBeatServices: 'Qué ofrece',
+		waitBeatProblem: 'El problema que resuelve',
+		waitBeatUvp: 'Por qué gana',
+	};
+	const ES_DUMP_CALQUES = {
+		waitBeatFraming: 'Cómo se habla del negocio',
+		waitBeatAudience: 'A quién sirves',
+		waitBeatServices: 'Servicios',
+		waitBeatProblem: 'Qué resuelves',
+		waitBeatUvp: 'Lo que te distingue',
+	};
+
+	it('EN waitBeat* is the five GET progress headings; headingName does not paint Business Name', () => {
+		for (const [key, want] of Object.entries(EN)) {
+			assert.equal(magnetQuoted('src/common/translations/en.ts', key), want, key);
+		}
+		const headingName = magnetQuoted('src/common/translations/en.ts', 'headingName');
+		assert.notEqual(headingName, 'Business Name');
+		assert.doesNotMatch(headingName, /Business Name/);
+		assert.equal(gtk.foldBeatHeading(EN.waitBeatFraming), 'framing');
+		assert.equal(gtk.foldBeatHeading(EN.waitBeatAudience), 'audience');
+		assert.equal(gtk.foldBeatHeading(EN.waitBeatServices), 'services');
+		assert.equal(gtk.foldBeatHeading(EN.waitBeatProblem), 'problem');
+		assert.equal(gtk.foldBeatHeading(EN.waitBeatUvp), 'UVP');
+		assert.equal(gtk.headingKeyFor('name'), 'headingName');
+		const gtkSrc = read('app/business/components/GettingToKnowYou.tsx');
+		assert.match(gtkSrc, /headingKeyFor\(section\.id\)/);
+		assert.match(gtkSrc, /\{heading \? \(/);
+	});
+
+	it('ES waitBeat* is shop Spanish for those five meanings, not dump-label calques; headingName is not Nombre del negocio', () => {
+		for (const [key, want] of Object.entries(ES)) {
+			assert.equal(magnetQuoted('src/common/translations/es.ts', key), want, key);
+			assert.notEqual(magnetQuoted('src/common/translations/es.ts', key), ES_DUMP_CALQUES[key], key);
+		}
+		const waitBeats = Object.keys(ES)
+			.map((key) => magnetQuoted('src/common/translations/es.ts', key))
+			.join('\n');
+		assert.doesNotMatch(waitBeats, /A quién sirves/);
+		assert.doesNotMatch(waitBeats, /Qué resuelves/);
+		assert.doesNotMatch(waitBeats, /Cómo se habla del negocio/);
+		assert.doesNotMatch(waitBeats, /Lo que te distingue/);
+		assert.notEqual(magnetQuoted('src/common/translations/es.ts', 'waitBeatServices'), 'Servicios');
+		const headingName = magnetQuoted('src/common/translations/es.ts', 'headingName');
+		assert.notEqual(headingName, 'Nombre del negocio');
+		assert.doesNotMatch(headingName, /Nombre del negocio/);
 	});
 });
