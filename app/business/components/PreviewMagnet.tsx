@@ -44,6 +44,7 @@ type ReadyPayload = {
 		audience?: string;
 		voice?: string | string[];
 		problem?: string;
+		uvp?: string;
 		keyTerms?: string[];
 		cadence?: string;
 	};

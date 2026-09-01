@@ -18,16 +18,18 @@ type Section = {
 	value?: string | string[];
 	chips?: string[];
 	sentence?: string;
+	logo?: string;
+	colors?: string[];
+	photos?: string[];
 };
 
 type Draft = {
 	name?: string;
-	overview?: string;
+	framing?: string;
 	audience?: string;
-	products?: string[];
 	services?: string;
 	problem?: string;
-	messaging?: string;
+	UVP?: string;
 	ctas?: string[];
 	slogans?: string[];
 	voiceChips?: string[];
@@ -43,6 +45,19 @@ type Props = {
 	onReset: () => void;
 	copy: MagnetCopy;
 };
+
+/** First-brain copy. Picker and proof sit below this, not above overview. */
+const KNOWING_IDS = Object.freeze([
+	'name',
+	'framing',
+	'audience',
+	'services',
+	'problem',
+	'UVP',
+	'ctas',
+	'slogans',
+	'voice',
+]);
 
 function platformCopy(m: MagnetCopy, id: string): string {
 	const key = 'platform' + id.charAt(0).toUpperCase() + id.slice(1);
@@ -110,8 +125,27 @@ function Pencil({ label, onClick }: { label: string; onClick: () => void }) {
 }
 
 function isEditable(kind: string, id: string) {
-	if (id === 'schedule' || id === 'logo' || id === 'colors' || id === 'photos') return false;
-	return kind === 'text' || kind === 'list' || kind === 'voice';
+	if (id === 'schedule' || id === 'proof') return false;
+	return kind === 'text' || kind === 'list' || kind === 'line' || kind === 'voice';
+}
+
+function draftValue(section: Section, draft: Draft): Section {
+	if (section.id === 'name' && draft.name != null) return { ...section, value: draft.name };
+	if (section.id === 'framing' && draft.framing != null) return { ...section, value: draft.framing };
+	if (section.id === 'audience' && draft.audience != null) return { ...section, value: draft.audience };
+	if (section.id === 'services' && draft.services != null) return { ...section, value: draft.services };
+	if (section.id === 'problem' && draft.problem != null) return { ...section, value: draft.problem };
+	if (section.id === 'UVP' && draft.UVP != null) return { ...section, value: draft.UVP };
+	if (section.id === 'ctas' && draft.ctas) return { ...section, value: draft.ctas };
+	if (section.id === 'slogans' && draft.slogans) return { ...section, value: draft.slogans };
+	if (section.id === 'voice') {
+		return {
+			...section,
+			chips: draft.voiceChips || section.chips || [],
+			sentence: draft.voiceSentence != null ? draft.voiceSentence : section.sentence || '',
+		};
+	}
+	return section;
 }
 
 export function GettingToKnowYou({
@@ -134,32 +168,15 @@ export function GettingToKnowYou({
 	);
 
 	const decide = decideChip({ selected: platforms });
-
-	const painted = sections.map((section) => {
-		if (section.id === 'name' && draft.name != null) return { ...section, value: draft.name };
-		if (section.id === 'overview' && draft.overview != null) return { ...section, value: draft.overview };
-		if (section.id === 'audience' && draft.audience != null) return { ...section, value: draft.audience };
-		if (section.id === 'products' && draft.products) return { ...section, value: draft.products };
-		if (section.id === 'services' && draft.services != null) return { ...section, value: draft.services };
-		if (section.id === 'problem' && draft.problem != null) return { ...section, value: draft.problem };
-		if (section.id === 'messaging' && draft.messaging != null) return { ...section, value: draft.messaging };
-		if (section.id === 'ctas' && draft.ctas) return { ...section, value: draft.ctas };
-		if (section.id === 'slogans' && draft.slogans) return { ...section, value: draft.slogans };
-		if (section.id === 'voice') {
-			return {
-				...section,
-				chips: draft.voiceChips || section.chips || [],
-				sentence: draft.voiceSentence != null ? draft.voiceSentence : section.sentence || '',
-			};
-		}
-		return section;
-	});
+	const painted = sections.map((section) => draftValue(section, draft));
+	const knowing = painted.filter((section) => KNOWING_IDS.includes(section.id));
+	const proof = painted.find((section) => section.id === 'proof');
 
 	const beginEdit = (section: Section) => {
 		setEditing(section.id);
 		if (section.kind === 'voice') {
-			setEditText((section.chips || []).join('\n'));
 			setEditSentence(section.sentence || '');
+			setEditText((section.chips || []).join('\n'));
 			return;
 		}
 		setEditText(asLines(section.value));
@@ -167,30 +184,29 @@ export function GettingToKnowYou({
 	};
 
 	// leftover-4 dest HOLD: local state only. Hydrate persist is Onboarding.
+	// leftover-6 OFF: no posts magnet, no second scrape, no website builder.
 	const commitEdit = (id: string) => {
 		setDraft((prev) => {
 			const next: Draft = { ...prev };
 			if (id === 'voice') {
 				next.voiceChips = parseLines(editText);
 				next.voiceSentence = editSentence;
-			} else if (id === 'products') {
-				next.products = parseLines(editText);
 			} else if (id === 'ctas') {
 				next.ctas = parseLines(editText);
 			} else if (id === 'slogans') {
 				next.slogans = parseLines(editText);
 			} else if (id === 'name') {
 				next.name = editText.trim();
-			} else if (id === 'overview') {
-				next.overview = editText.trim();
+			} else if (id === 'framing') {
+				next.framing = editText.trim();
 			} else if (id === 'audience') {
 				next.audience = editText.trim();
 			} else if (id === 'services') {
 				next.services = editText.trim();
 			} else if (id === 'problem') {
 				next.problem = editText.trim();
-			} else if (id === 'messaging') {
-				next.messaging = editText.trim();
+			} else if (id === 'UVP') {
+				next.UVP = editText.trim();
 			}
 			return next;
 		});
@@ -202,6 +218,51 @@ export function GettingToKnowYou({
 		(on
 			? 'border-[var(--text)] bg-[var(--text)] text-[var(--bg)]'
 			: 'border-[var(--border2)] text-[var(--text)] hover:border-[var(--text)]');
+
+	const renderSection = (section: Section) => {
+		const heading = m[headingKeyFor(section.id)] || '';
+		const editingThis = editing === section.id;
+		return (
+			<section key={section.id} className="min-w-0">
+				{heading ? (
+					<div className="mb-1.5 flex items-center">
+						<p className="text-[14px] font-semibold text-[var(--text)]">{heading}</p>
+						{isEditable(section.kind, section.id) && !editingThis ? (
+							<Pencil label={m.editLabel || ''} onClick={() => beginEdit(section)} />
+						) : null}
+					</div>
+				) : null}
+
+				{editingThis ? (
+					<div className="flex flex-col gap-2">
+						{section.kind === 'voice' ? (
+							<textarea
+								value={editSentence}
+								onChange={(e) => setEditSentence(e.target.value)}
+								rows={2}
+								className="w-full rounded-lg border border-[var(--border2)] bg-[var(--bg)] px-3 py-2 text-[14px] text-[var(--text)] outline-none focus:border-[var(--orange)]"
+							/>
+						) : null}
+						<textarea
+							value={editText}
+							onChange={(e) => setEditText(e.target.value)}
+							rows={section.kind === 'text' ? 4 : 3}
+							className="w-full rounded-lg border border-[var(--border2)] bg-[var(--bg)] px-3 py-2 text-[14px] text-[var(--text)] outline-none focus:border-[var(--orange)]"
+						/>
+						<button
+							type="button"
+							onClick={() => commitEdit(section.id)}
+							className="self-start rounded-full border border-[var(--border2)] px-3 py-1 text-[12px] font-semibold text-[var(--text)]"
+						>
+							{m.doneLabel}
+						</button>
+					</div>
+				) : (
+					<SectionView section={section} copy={m} />
+				)}
+			</section>
+		);
+	};
 
 	return (
 		<div className="flex max-h-[min(72vh,840px)] flex-col gap-0">
@@ -215,7 +276,12 @@ export function GettingToKnowYou({
 					</p>
 				) : null}
 
-				<fieldset className="m-0 mb-6 border-0 p-0">
+				<div className="flex flex-col gap-5 pb-2">
+					{knowing.map(renderSection)}
+					{proof ? <ProofStrip section={proof} /> : null}
+				</div>
+
+				<fieldset className="m-0 mb-2 mt-6 border-0 p-0">
 					<legend className="mb-2 p-0 text-[14px] font-semibold text-[var(--text)]">
 						{m.platformsLabel}
 					</legend>
@@ -258,51 +324,6 @@ export function GettingToKnowYou({
 						{pickerState(platforms) === 'decide' ? m.platformsDecide : m.platformsChosen}
 					</p>
 				</fieldset>
-
-				<div className="flex flex-col gap-5 pb-2">
-					{painted.map((section) => {
-						const heading = m[headingKeyFor(section.id)] || '';
-						const editingThis = editing === section.id;
-						return (
-							<section key={section.id} className="min-w-0">
-								<div className="mb-1.5 flex items-center">
-									<p className="text-[14px] font-semibold text-[var(--text)]">{heading}</p>
-									{isEditable(section.kind, section.id) && !editingThis ? (
-										<Pencil label={m.editLabel || ''} onClick={() => beginEdit(section)} />
-									) : null}
-								</div>
-
-								{editingThis ? (
-									<div className="flex flex-col gap-2">
-										<textarea
-											value={editText}
-											onChange={(e) => setEditText(e.target.value)}
-											rows={section.kind === 'text' ? 4 : 5}
-											className="w-full rounded-lg border border-[var(--border2)] bg-[var(--bg)] px-3 py-2 text-[14px] text-[var(--text)] outline-none focus:border-[var(--orange)]"
-										/>
-										{section.kind === 'voice' ? (
-											<textarea
-												value={editSentence}
-												onChange={(e) => setEditSentence(e.target.value)}
-												rows={2}
-												className="w-full rounded-lg border border-[var(--border2)] bg-[var(--bg)] px-3 py-2 text-[14px] text-[var(--text)] outline-none focus:border-[var(--orange)]"
-											/>
-										) : null}
-										<button
-											type="button"
-											onClick={() => commitEdit(section.id)}
-											className="self-start rounded-full border border-[var(--border2)] px-3 py-1 text-[12px] font-semibold text-[var(--text)]"
-										>
-											{m.doneLabel}
-										</button>
-									</div>
-								) : (
-									<SectionView section={section} copy={m} />
-								)}
-							</section>
-						);
-					})}
-				</div>
 			</div>
 
 			<div className="shrink-0 pt-4">
@@ -324,9 +345,60 @@ export function GettingToKnowYou({
 	);
 }
 
+function ProofStrip({ section }: { section: Section }) {
+	const colors = section.colors || [];
+	const photos = section.photos || [];
+	return (
+		<div className="flex flex-wrap items-center gap-3 pt-1" aria-hidden>
+			{section.logo ? (
+				// eslint-disable-next-line @next/next/no-img-element
+				<img
+					src={section.logo}
+					alt=""
+					className="h-12 w-12 rounded-lg border border-[var(--border2)] bg-white object-contain p-1"
+					onError={(e) => {
+						(e.currentTarget as HTMLImageElement).style.display = 'none';
+					}}
+				/>
+			) : null}
+			{colors.length ? (
+				<div className="flex flex-wrap gap-1.5">
+					{colors.map((c) => (
+						<span
+							key={c}
+							className="h-6 w-6 rounded-full border border-[var(--border2)]"
+							style={{ background: hex(c) }}
+						/>
+					))}
+				</div>
+			) : null}
+			{photos.length ? (
+				<div className="flex flex-wrap gap-1.5">
+					{photos.slice(0, 3).map((src) => (
+						// eslint-disable-next-line @next/next/no-img-element
+						<img
+							key={src}
+							src={src}
+							alt=""
+							className="h-12 w-12 rounded-lg border border-[var(--border2)] object-cover"
+							onError={(e) => {
+								(e.currentTarget as HTMLImageElement).style.display = 'none';
+							}}
+						/>
+					))}
+				</div>
+			) : null}
+		</div>
+	);
+}
+
 function SectionView({ section, copy }: { section: Section; copy: MagnetCopy }) {
 	if (section.kind === 'text') {
 		return <p className="text-[14px] leading-snug text-[var(--text)]">{section.value as string}</p>;
+	}
+	if (section.kind === 'line') {
+		const items = (section.value as string[]) || [];
+		return <p className="text-[14px] leading-snug text-[var(--text)]">{items.join(' · ')}</p>;
 	}
 	if (section.kind === 'list') {
 		return <Chips items={(section.value as string[]) || []} />;
@@ -334,56 +406,10 @@ function SectionView({ section, copy }: { section: Section; copy: MagnetCopy }) 
 	if (section.kind === 'voice') {
 		return (
 			<div className="flex flex-col gap-2">
-				{section.chips && section.chips.length > 0 ? <Chips items={section.chips} /> : null}
 				{section.sentence ? (
-					<p className="text-[13px] leading-snug text-[var(--text)] opacity-75">{section.sentence}</p>
+					<p className="text-[14px] leading-snug text-[var(--text)]">{section.sentence}</p>
 				) : null}
-			</div>
-		);
-	}
-	if (section.kind === 'logo' && typeof section.value === 'string') {
-		return (
-			// eslint-disable-next-line @next/next/no-img-element
-			<img
-				src={section.value}
-				alt=""
-				className="h-16 w-16 rounded-lg border border-[var(--border2)] bg-white object-contain p-1"
-				onError={(e) => {
-					(e.currentTarget as HTMLImageElement).style.display = 'none';
-				}}
-			/>
-		);
-	}
-	if (section.kind === 'colors') {
-		const colors = (section.value as string[]) || [];
-		return (
-			<div className="flex flex-wrap gap-2" aria-hidden>
-				{colors.map((c) => (
-					<span
-						key={c}
-						className="h-8 w-8 rounded-full border border-[var(--border2)]"
-						style={{ background: hex(c) }}
-					/>
-				))}
-			</div>
-		);
-	}
-	if (section.kind === 'photos') {
-		const photos = (section.value as string[]) || [];
-		return (
-			<div className="flex flex-wrap gap-2">
-				{photos.map((src) => (
-					// eslint-disable-next-line @next/next/no-img-element
-					<img
-						key={src}
-						src={src}
-						alt=""
-						className="h-20 w-20 rounded-lg border border-[var(--border2)] object-cover"
-						onError={(e) => {
-							(e.currentTarget as HTMLImageElement).style.display = 'none';
-						}}
-					/>
-				))}
+				{section.chips && section.chips.length > 0 ? <Chips items={section.chips} /> : null}
 			</div>
 		);
 	}
