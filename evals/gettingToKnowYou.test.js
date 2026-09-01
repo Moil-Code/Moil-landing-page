@@ -170,6 +170,55 @@ describe('wait beats — admit progress array, never scrape theatre', () => {
 		assert.deepEqual(gtk.waitBeatsFromBody({ progress: [] }), []);
 	});
 
+	it('live contract: English GET headings fold in admitted order with their texts', () => {
+		assert.equal(gtk.foldBeatHeading('What this business is'), 'framing');
+		assert.equal(gtk.foldBeatHeading('Who it is for'), 'audience');
+		assert.equal(gtk.foldBeatHeading('What it offers'), 'services');
+		assert.equal(gtk.foldBeatHeading('The problem it solves'), 'problem');
+		assert.equal(gtk.foldBeatHeading('Why it wins'), 'UVP');
+		assert.equal(gtk.foldBeatHeading('  WHO   IT IS FOR  '), 'audience');
+		assert.equal(gtk.foldBeatHeading('what this business is'), 'framing');
+
+		const live = gtk.waitBeatsFromBody({
+			status: 'building',
+			progress: [
+				{ heading: 'Why it wins', text: 'The co-founder on the work.' },
+				{ heading: 'Who it is for', text: 'Small-business owners.' },
+				{ heading: 'What this business is', text: 'Direct, practical, for owners.' },
+				{ heading: 'The problem it solves', text: 'Owners should not have to be everything.' },
+				{ heading: 'What it offers', text: 'Plans, documents, and a month of posts.' },
+			],
+		});
+		assert.deepEqual(live, [
+			{ heading: 'framing', text: 'Direct, practical, for owners.' },
+			{ heading: 'audience', text: 'Small-business owners.' },
+			{ heading: 'services', text: 'Plans, documents, and a month of posts.' },
+			{ heading: 'problem', text: 'Owners should not have to be everything.' },
+			{ heading: 'UVP', text: 'The co-founder on the work.' },
+		]);
+		assert.equal(gtk.typedText(live[0].text, 6), 'Direct');
+		assert.equal(
+			gtk.waitBeatsFromBody({
+				progress: [
+					{ heading: 'What this business is', text: 'Direct, practical, for owners.' },
+					{ heading: 'Who it is for', text: 'Small-business owners.' },
+				],
+			}).map((b) => b.heading).join(','),
+			'framing,audience',
+		);
+		assert.deepEqual(
+			gtk.waitBeatsFromBody({
+				progress: [
+					{ heading: 'What this business is', text: '' },
+					{ heading: 'A heading we do not admit', text: 'No.' },
+					{ heading: 'Who it is for', text: 'Owners.' },
+				],
+			}),
+			[{ heading: 'audience', text: 'Owners.' }],
+		);
+		assert.equal(reveal.progressFromBody({ progress: 'What this business is' }), '');
+	});
+
 	it('binds admitted beats in framing → audience → services → problem → UVP order and types the text', () => {
 		const two = gtk.waitBeatsFromBody({
 			status: 'building',

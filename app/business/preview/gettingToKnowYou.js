@@ -115,22 +115,30 @@ function unique(list) {
 }
 
 /**
- * Admit a wait-beat heading. messaging → framing, uvp → UVP.
- * Unknown ids (including scrape_started / pages_read / tokens_ready) → ''.
+ * Live building GET headings (English strings) and id aliases.
+ * Order is WAIT_BEAT_HEADINGS. scrape_started / pages_read / tokens_ready → ''.
  * @param {unknown} raw
  * @returns {string}
  */
 function foldBeatHeading(raw) {
-	const s = String(raw || '')
+	const collapsed = String(raw || '')
 		.trim()
 		.toLowerCase()
-		.replace(/&/g, 'and')
-		.replace(/[^a-z0-9]+/g, '_');
-	if (s === 'framing' || s === 'messaging') return 'framing';
-	if (s === 'audience') return 'audience';
-	if (s === 'services') return 'services';
-	if (s === 'problem') return 'problem';
-	if (s === 'uvp') return 'UVP';
+		.replace(/\s+/g, ' ');
+	if (!collapsed) return '';
+
+	if (collapsed === 'what this business is') return 'framing';
+	if (collapsed === 'who it is for') return 'audience';
+	if (collapsed === 'what it offers') return 'services';
+	if (collapsed === 'the problem it solves') return 'problem';
+	if (collapsed === 'why it wins') return 'UVP';
+
+	const id = collapsed.replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+	if (id === 'framing' || id === 'messaging') return 'framing';
+	if (id === 'audience') return 'audience';
+	if (id === 'services') return 'services';
+	if (id === 'problem') return 'problem';
+	if (id === 'uvp') return 'UVP';
 	return '';
 }
 
