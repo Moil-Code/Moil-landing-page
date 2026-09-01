@@ -23,8 +23,10 @@ type Section = {
 type Draft = {
 	name?: string;
 	overview?: string;
+	audience?: string;
 	products?: string[];
 	services?: string;
+	problem?: string;
 	messaging?: string;
 	ctas?: string[];
 	slogans?: string[];
@@ -136,8 +138,10 @@ export function GettingToKnowYou({
 	const painted = sections.map((section) => {
 		if (section.id === 'name' && draft.name != null) return { ...section, value: draft.name };
 		if (section.id === 'overview' && draft.overview != null) return { ...section, value: draft.overview };
+		if (section.id === 'audience' && draft.audience != null) return { ...section, value: draft.audience };
 		if (section.id === 'products' && draft.products) return { ...section, value: draft.products };
 		if (section.id === 'services' && draft.services != null) return { ...section, value: draft.services };
+		if (section.id === 'problem' && draft.problem != null) return { ...section, value: draft.problem };
 		if (section.id === 'messaging' && draft.messaging != null) return { ...section, value: draft.messaging };
 		if (section.id === 'ctas' && draft.ctas) return { ...section, value: draft.ctas };
 		if (section.id === 'slogans' && draft.slogans) return { ...section, value: draft.slogans };
@@ -179,8 +183,12 @@ export function GettingToKnowYou({
 				next.name = editText.trim();
 			} else if (id === 'overview') {
 				next.overview = editText.trim();
+			} else if (id === 'audience') {
+				next.audience = editText.trim();
 			} else if (id === 'services') {
 				next.services = editText.trim();
+			} else if (id === 'problem') {
+				next.problem = editText.trim();
 			} else if (id === 'messaging') {
 				next.messaging = editText.trim();
 			}
