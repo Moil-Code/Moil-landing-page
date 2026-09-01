@@ -3,13 +3,17 @@
 /**
  * Getting To Know You — paint plan from a ready GET body.
  *
- * Capture order, one heading per filled field. Empty omitted.
- * Audience and problem paint when GET has them (positioning, else brand).
- * Does not invent narrationPov / uvp / trustSignals / competitors headings.
- * Does not paint content.posts. Cadence is never Posting Schedule.
+ * Ready lead is the five wait sentences as composed prose (omit empty):
+ * What this business is / Who it is for / What it offers / The problem it
+ * solves / Why it wins. Unban uvp when GET has it. Unique CTAs and slogans
+ * fold to one line from 1–2 real shop lines that are not Moil nav, or omit.
+ * Voice: sentence first. Logo / colors / photos are a proof strip under
+ * the knowing, not the story. Does not paint content.posts. Cadence is
+ * never Posting Schedule.
  *
  * leftover-4 dest HOLD: this module does not persist. Hydrate lives on
  * Onboarding. Local edits in the card die with the session.
+ * leftover-6 OFF: no posts magnet, no second scrape, no website builder.
  *
  * Pure: no I/O, no clock, no React.
  */
@@ -41,35 +45,29 @@ const TYPEOUT_MS_PER_CHAR = 24;
 
 const SECTION_ORDER = Object.freeze([
 	'name',
-	'overview',
+	'framing',
 	'audience',
-	'products',
 	'services',
 	'problem',
-	'messaging',
+	'UVP',
 	'ctas',
 	'slogans',
 	'voice',
-	'logo',
-	'colors',
-	'photos',
+	'proof',
 	'schedule',
 ]);
 
 const HEADING_KEY = Object.freeze({
 	name: 'headingName',
-	overview: 'headingOverview',
-	audience: 'headingAudience',
-	products: 'headingProducts',
-	services: 'headingServices',
-	problem: 'headingProblem',
-	messaging: 'headingMessaging',
+	framing: 'waitBeatFraming',
+	audience: 'waitBeatAudience',
+	services: 'waitBeatServices',
+	problem: 'waitBeatProblem',
+	UVP: 'waitBeatUvp',
 	ctas: 'headingCtas',
 	slogans: 'headingSlogans',
 	voice: 'headingVoice',
-	logo: 'headingLogo',
-	colors: 'headingColors',
-	photos: 'headingPhotos',
+	proof: '',
 	schedule: 'headingSchedule',
 });
 
@@ -80,10 +78,12 @@ const BANNED_HEADING_IDS = Object.freeze([
 	'tagline',
 	'cadence',
 	'narrationPov',
-	'uvp',
 	'trustSignals',
 	'posts',
 ]);
+
+/** Max real shop CTAs / slogans on the ready card. The rest omit. */
+const FOLDED_LINE_MAX = 2;
 
 function asText(value) {
 	if (typeof value === 'string') return value.trim();
@@ -257,7 +257,7 @@ function colorRow(brand) {
 }
 
 /**
- * Chips are the capture. positioning.voice as a sentence is secondary.
+ * Voice lead is the sentence. Chips are optional under it, not the hero.
  * @param {{ brand?: object, positioning?: object } | null | undefined} body
  */
 function voiceFromBody(body) {
@@ -299,6 +299,101 @@ function scheduleFromPick(selected) {
 	return normalizeChoice(selected).platforms;
 }
 
+function collapsedLine(raw) {
+	return String(raw || '')
+		.trim()
+		.toLowerCase()
+		.replace(/[—–−]/g, '-')
+		.replace(/\s+/g, ' ');
+}
+
+/**
+ * Moil chrome, site nav, and listing-directory pills. Kyle's eight Unique
+ * CTA chips (Claim listing, HVAC Open Buda page, …) are the fail this
+ * refuses. A real shop CTA ("Book a job", "Get a quote") passes.
+ * @param {unknown} raw
+ * @returns {boolean}
+ */
+function isMoilNavLine(raw) {
+	const s = asText(raw);
+	if (!s) return true;
+	const n = collapsedLine(s);
+	if (/\bmoil\b/i.test(s)) return true;
+	if (/what is moil/.test(n)) return true;
+	if (/start free/.test(n)) return true;
+	if (/no credit card/.test(n)) return true;
+	if (/how it works/.test(n)) return true;
+	if (/claim(ed)?/.test(n) && /(listing|verified)/.test(n)) return true;
+	if (/scan (my|your|the) shop/.test(n)) return true;
+	if (/sample report/.test(n)) return true;
+	if (/open .+\bpage/.test(n)) return true;
+	if (/visibility (board|scan)/.test(n)) return true;
+	if (/find a shop/.test(n)) return true;
+	if (/local shops/.test(n)) return true;
+	if (/hat score/.test(n)) return true;
+	if (/^fix list$/.test(n)) return true;
+	if (/^take control$/.test(n)) return true;
+	if (/^ai visibility scan$/.test(n)) return true;
+	if (/^(home|about|blog|features?|pricing|login|log in|sign in|sign up|get started|contact|menu|faq|careers?|privacy|terms)$/.test(n)) {
+		return true;
+	}
+	return false;
+}
+
+function foldShopLines(raw, opts) {
+	const max = (opts && opts.max) || FOLDED_LINE_MAX;
+	const requireSentence = Boolean(opts && opts.requireSentence);
+	const out = [];
+	const list = asList(raw);
+	for (let i = 0; i < list.length; i++) {
+		const line = list[i];
+		if (isMoilNavLine(line)) continue;
+		if (requireSentence && line.length < 18 && !/[.?!]/.test(line)) continue;
+		if (out.includes(line)) continue;
+		out.push(line);
+		if (out.length >= max) break;
+	}
+	return out;
+}
+
+function foldShopCtas(raw) {
+	return foldShopLines(raw, { max: FOLDED_LINE_MAX });
+}
+
+function foldShopSlogans(raw) {
+	return foldShopLines(raw, { max: FOLDED_LINE_MAX, requireSentence: true });
+}
+
+/**
+ * The five wait sentences, as ready prose. Empty omitted. No type-out:
+ * this is the ready payload, not a fake replay of wait.
+ * @param {{ brand?: object, positioning?: object } | null | undefined} body
+ * @returns {{ heading: string, text: string }[]}
+ */
+function knowingLeadFromBody(body) {
+	const brand = (body && body.brand) || {};
+	const out = [];
+	const framing = overviewFromBrand(brand) || asText(brand.messaging);
+	if (framing) out.push({ heading: 'framing', text: framing });
+	const audience = foldedFact(body, 'audience');
+	if (audience) out.push({ heading: 'audience', text: audience });
+	const services = asText(brand.services);
+	if (services) out.push({ heading: 'services', text: services });
+	const problem = foldedFact(body, 'problem');
+	if (problem) out.push({ heading: 'problem', text: problem });
+	const uvp = foldedFact(body, 'uvp') || foldedFact(body, 'UVP');
+	if (uvp) out.push({ heading: 'UVP', text: uvp });
+	return out;
+}
+
+function proofFromBrand(brand) {
+	const logo = logoUrl(brand);
+	const colors = colorRow(brand);
+	const photos = httpsPhotos(brand);
+	if (!logo && !colors.length && !photos.length) return null;
+	return { id: 'proof', kind: 'proof', logo, colors, photos };
+}
+
 /**
  * @param {{ brand?: object, positioning?: object, content?: object } | null | undefined} body
  * @param {{ selected?: string[] }} [opts]
@@ -311,33 +406,16 @@ function profileSections(body, opts) {
 	const name = asText(brand.name);
 	if (name) sections.push({ id: 'name', kind: 'text', value: name });
 
-	const overview = overviewFromBrand(brand);
-	if (overview) sections.push({ id: 'overview', kind: 'text', value: overview });
-
-	const audience = foldedFact(body, 'audience');
-	if (audience) sections.push({ id: 'audience', kind: 'text', value: audience });
-
-	const products = asList(brand.products);
-	if (products.length) {
-		sections.push({ id: 'products', kind: 'list', value: products, observeOnly: true });
+	const lead = knowingLeadFromBody(body);
+	for (let i = 0; i < lead.length; i++) {
+		sections.push({ id: lead[i].heading, kind: 'text', value: lead[i].text });
 	}
 
-	const services = asText(brand.services);
-	if (services) {
-		sections.push({ id: 'services', kind: 'text', value: services, observeOnly: true });
-	}
+	const ctas = foldShopCtas(brand.ctas);
+	if (ctas.length) sections.push({ id: 'ctas', kind: 'line', value: ctas });
 
-	const problem = foldedFact(body, 'problem');
-	if (problem) sections.push({ id: 'problem', kind: 'text', value: problem });
-
-	const messaging = asText(brand.messaging);
-	if (messaging) sections.push({ id: 'messaging', kind: 'text', value: messaging });
-
-	const ctas = asList(brand.ctas);
-	if (ctas.length) sections.push({ id: 'ctas', kind: 'list', value: ctas });
-
-	const slogans = asList(brand.slogans);
-	if (slogans.length) sections.push({ id: 'slogans', kind: 'list', value: slogans });
+	const slogans = foldShopSlogans(brand.slogans);
+	if (slogans.length) sections.push({ id: 'slogans', kind: 'line', value: slogans });
 
 	const voice = voiceFromBody(body);
 	if (voice.chips.length || voice.sentence) {
@@ -349,14 +427,8 @@ function profileSections(body, opts) {
 		});
 	}
 
-	const logo = logoUrl(brand);
-	if (logo) sections.push({ id: 'logo', kind: 'logo', value: logo });
-
-	const colors = colorRow(brand);
-	if (colors.length) sections.push({ id: 'colors', kind: 'colors', value: colors });
-
-	const photos = httpsPhotos(brand);
-	if (photos.length) sections.push({ id: 'photos', kind: 'photos', value: photos });
+	const proof = proofFromBrand(brand);
+	if (proof) sections.push(proof);
 
 	const schedule = scheduleFromPick(selected);
 	if (schedule.length) {
@@ -367,6 +439,7 @@ function profileSections(body, opts) {
 }
 
 function headingKeyFor(id) {
+	if (WAIT_BEAT_HEADING_KEY[id]) return WAIT_BEAT_HEADING_KEY[id];
 	return HEADING_KEY[id] || '';
 }
 
@@ -377,6 +450,7 @@ module.exports = {
 	SECTION_ORDER,
 	HEADING_KEY,
 	BANNED_HEADING_IDS,
+	FOLDED_LINE_MAX,
 	asText,
 	asList,
 	httpsUrl,
@@ -390,6 +464,11 @@ module.exports = {
 	colorRow,
 	voiceFromBody,
 	scheduleFromPick,
+	isMoilNavLine,
+	foldShopCtas,
+	foldShopSlogans,
+	knowingLeadFromBody,
+	proofFromBrand,
 	profileSections,
 	headingKeyFor,
 };

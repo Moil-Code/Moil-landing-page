@@ -59,6 +59,11 @@ describe('ES door copy', () => {
 		assert.doesNotMatch(firstScreen, /You shouldn\\'t have to be everything on top of the real job/);
 		assert.doesNotMatch(esLayout, /\bpyme\b/i);
 		assert.doesNotMatch(esHero, /Desde \$25/);
+		const esProblem = namedBlock(es.slice(es.indexOf('\n  business: {')), 'problem');
+		assert.doesNotMatch(esProblem, /Moil cuesta \$25/);
+		assert.doesNotMatch(esProblem, /Qué te da \$25 al mes/);
+		assert.match(esProblem, /Market Pro es \$75/);
+		assert.match(esProblem, /moilPrice: '\$75'/);
 	});
 });
 

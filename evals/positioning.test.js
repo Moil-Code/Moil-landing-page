@@ -299,7 +299,9 @@ describe('answer-engine surfaces', () => {
 	});
 
 	it('retires the duplicate and shop-named comparison pages', () => {
-		assert.ok(!fs.existsSync(path.join(root, 'app/compare/moil-vs-claude')));
+		// 87885a8 re-added /compare/moil-vs-claude as an extra page. Keep it;
+		// wiping it would drop later main. bilingual-local-shop stays retired.
+		assert.ok(fs.existsSync(path.join(root, 'app/compare/moil-vs-claude')));
 		assert.ok(!fs.existsSync(path.join(root, 'app/compare/bilingual-local-shop')));
 		const config = read('next.config.js');
 		assert.match(config, /source: '\/compare\/bilingual-local-shop'/);
