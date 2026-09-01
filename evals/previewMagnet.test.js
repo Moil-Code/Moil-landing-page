@@ -40,8 +40,33 @@ const MAGNET_KEYS = [
 	'tryAgain',
 	'badWebsite',
 	'socialLinkRefuse',
-	'revealEyebrow',
-	'readThin',
+	'platformsLabel',
+	'platformsDecide',
+	'platformsChosen',
+	'platformDecideForMe',
+	'platformsOr',
+	'knowingTitle',
+	'headingName',
+	'headingOverview',
+	'headingAudience',
+	'headingProducts',
+	'headingServices',
+	'headingProblem',
+	'headingMessaging',
+	'headingCtas',
+	'headingSlogans',
+	'headingVoice',
+	'headingLogo',
+	'headingColors',
+	'headingPhotos',
+	'headingSchedule',
+	'editLabel',
+	'doneLabel',
+	'waitBeatFraming',
+	'waitBeatAudience',
+	'waitBeatServices',
+	'waitBeatProblem',
+	'waitBeatUvp',
 ];
 
 const KILLED_PROMISE_EN = [
@@ -65,23 +90,11 @@ const KILLED_PROMISE_ES = [
 const HONEST_MISS = 'We found that profile, but we do not have the shop name yet. Paste the website.';
 
 describe('preview client — origin and URLs', () => {
-	it('unset origin is not configured and submit/view URLs are null', () => {
-		assert.equal(client.isPlanApiConfigured(''), false);
-		assert.equal(client.isPlanApiConfigured('   '), false);
-		assert.equal(client.getPlanApiOrigin({}), '');
-		assert.equal(client.previewSubmitUrl(''), null);
-		assert.equal(client.previewViewUrl('', 'abc'), null);
-	});
-
-	it('configured origin builds /plan/preview and /plan/preview/:slug', () => {
-		assert.equal(
-			client.previewSubmitUrl('https://ai.moilapp.com'),
-			'https://ai.moilapp.com/plan/preview',
-		);
-		assert.equal(
-			client.previewViewUrl('https://ai.moilapp.com/', 'my-slug'),
-			'https://ai.moilapp.com/plan/preview/my-slug',
-		);
+	it('submit/view URLs are same-origin /plan/preview', () => {
+		assert.equal(client.previewSubmitUrl(), '/plan/preview');
+		assert.equal(client.previewViewUrl('my-slug'), '/plan/preview/my-slug');
+		assert.equal(client.previewViewUrl(''), null);
+		assert.equal(client.previewViewUrl('   '), null);
 	});
 
 	it('register URL is valid without a preview slug', () => {
@@ -91,14 +104,49 @@ describe('preview client — origin and URLs', () => {
 		assert.match(url, /[?&]lg=en/);
 	});
 
+	it('unset register env still produces production register/login', () => {
+		assert.equal(client.getRegisterOrigin({}), 'https://business.moilapp.com');
+		assert.equal(client.getRegisterUrl({}), 'https://business.moilapp.com/register');
+		assert.equal(client.getLoginUrl({}), 'https://business.moilapp.com/login');
+		assert.equal(
+			client.getRegisterOrigin({ NEXT_PUBLIC_REGISTER_ORIGIN: '' }),
+			'https://business.moilapp.com',
+		);
+	});
+
+	it('register origin comes from env, not a hardcoded twin host', () => {
+		const env = { NEXT_PUBLIC_REGISTER_ORIGIN: 'https://example-app.test' };
+		assert.equal(client.getRegisterOrigin(env), 'https://example-app.test');
+		assert.equal(client.getRegisterUrl(env), 'https://example-app.test/register');
+		assert.match(
+			client.buildRegisterUrl({ lang: 'en', env }),
+			/^https:\/\/example-app\.test\/register/,
+		);
+	});
+
+	it('omitted-env path is a static process.env.NEXT_PUBLIC_REGISTER_ORIGIN member', () => {
+		const src = read('app/business/preview/previewClient.js');
+		const fn = src.slice(
+			src.indexOf('function getRegisterOrigin'),
+			src.indexOf('function getRegisterUrl'),
+		);
+		assert.match(fn, /process\.env\.NEXT_PUBLIC_REGISTER_ORIGIN/);
+		assert.doesNotMatch(fn, /src\.NEXT_PUBLIC_REGISTER_ORIGIN/);
+		const omitted = fn.replace(/^[\s\S]*\?[\s\S]*?:\s*/, '');
+		assert.match(omitted, /process\.env\.NEXT_PUBLIC_REGISTER_ORIGIN/);
+		assert.doesNotMatch(omitted, /(?<!process\.)env\.NEXT_PUBLIC_REGISTER_ORIGIN/);
+	});
+
 	it('register URL includes ?preview= when a slug exists', () => {
 		const url = client.buildRegisterUrl({ lang: 'es', previewSlug: 'taco-shop' });
 		assert.match(url, /[?&]preview=taco-shop/);
 		assert.match(url, /[?&]lg=es/);
 	});
 
-	it('down/unset origin: submitPreview returns the form error path, register still works', async () => {
-		const result = await client.submitPreview('', { website: 'https://x.com' });
+	it('fetch failure is the down-state; register still works', async () => {
+		const result = await client.submitPreview({ website: 'https://x.com' }, async () => {
+			throw new Error('network');
+		});
 		assert.equal(result.ok, false);
 		assert.equal(result.kind, 'down');
 		const register = client.buildRegisterUrl({ lang: 'en' });
@@ -117,18 +165,11 @@ describe('preview client — GET is a view', () => {
 				json: async () => ({ status: 'building' }),
 			};
 		};
-		const result = await client.viewPreview(
-			'https://ai.moilapp.com',
-			'slug-1',
-			fakeFetch,
-		);
+		const result = await client.viewPreview('slug-1', fakeFetch);
 		assert.equal(result.kind, 'building');
 		assert.equal(calls.length, 1);
 		assert.equal(calls[0].method, 'GET');
-		assert.equal(
-			calls[0].url,
-			'https://ai.moilapp.com/plan/preview/slug-1',
-		);
+		assert.equal(calls[0].url, '/plan/preview/slug-1');
 	});
 
 	it('there is no generate-named export or function on the client', () => {
@@ -159,12 +200,41 @@ describe('wait copy B25 ladder', () => {
 		assert.equal(wait.waitCopyKey(10 * 60 * 1000), 'waitLonger');
 	});
 
-	it('poll backoff is 2s, 4s, 8s, then cap 10s', () => {
-		assert.equal(wait.nextPollDelayMs(0), 2000);
-		assert.equal(wait.nextPollDelayMs(1), 4000);
-		assert.equal(wait.nextPollDelayMs(2), 8000);
-		assert.equal(wait.nextPollDelayMs(3), 10000);
-		assert.equal(wait.nextPollDelayMs(9), 10000);
+	it('polls GET about every 1s while wait — no 2/4/8/10 backoff', () => {
+		assert.equal(wait.WAIT_LEAVE_MS, 30_000);
+		assert.equal(wait.WAIT_LONG_MS, 150_000);
+		assert.equal(wait.WAIT_POLL_MS, 1000);
+		assert.equal(wait.nextPollDelayMs(0), 1000);
+		assert.equal(wait.nextPollDelayMs(1), 1000);
+		assert.equal(wait.nextPollDelayMs(2), 1000);
+		assert.equal(wait.nextPollDelayMs(3), 1000);
+		assert.equal(wait.nextPollDelayMs(9), 1000);
+		for (const n of [0, 1, 2, 3, 9]) {
+			const ms = wait.nextPollDelayMs(n);
+			assert.ok(ms >= 800 && ms <= 1200, 'wait poll is ~1s, got ' + ms);
+			assert.notEqual(ms, 2000);
+			assert.notEqual(ms, 4000);
+			assert.notEqual(ms, 8000);
+			assert.notEqual(ms, 10000);
+		}
+	});
+
+	it('ready GET goes to the ready card — does not type beats off the ready body', () => {
+		const src = read('app/business/components/PreviewMagnet.tsx');
+		const pollFn = src.slice(src.indexOf('const poll ='), src.indexOf('const beginWait'));
+		const readyIdx = pollFn.indexOf("result.kind === 'ready'");
+		const failedIdx = pollFn.indexOf("result.kind === 'failed'");
+		assert.ok(readyIdx >= 0 && failedIdx > readyIdx, 'ready arm in poll');
+		const readyArm = pollFn.slice(readyIdx, failedIdx);
+		assert.match(readyArm, /onReady\(/);
+		assert.doesNotMatch(readyArm, /waitBeatsFromBody/);
+		assert.doesNotMatch(readyArm, /typedText/);
+		assert.doesNotMatch(readyArm, /setWaitBeats/);
+		assert.doesNotMatch(src, /waitBeatsFromReady/);
+		assert.doesNotMatch(src, /beatsFromBrand/);
+		assert.doesNotMatch(src, /typeFromReady/);
+		const buildingArm = pollFn.slice(pollFn.indexOf("result.kind === 'building'"));
+		assert.match(buildingArm, /waitBeatsFromBody/);
 	});
 });
 
@@ -219,7 +289,9 @@ describe('structural refusals', () => {
 		'app/business/preview/previewWaitCopy.js',
 		'app/business/preview/previewCookie.js',
 		'app/business/preview/previewReveal.js',
+		'app/business/preview/gettingToKnowYou.js',
 		'app/business/components/PreviewMagnet.tsx',
+		'app/business/components/GettingToKnowYou.tsx',
 		'app/business/sections/HeroSection.tsx',
 		'.env.example',
 		'next.config.js',
@@ -240,7 +312,9 @@ describe('structural refusals', () => {
 		}
 		const env = read('.env.example');
 		assert.match(env, /KEY_2 stays gone|Do not re-add it/i);
-		assert.match(env, /NEXT_PUBLIC_PLAN_API_ORIGIN=/);
+		assert.match(env, /NEXT_PUBLIC_REGISTER_ORIGIN=/);
+		assert.match(env, /PLAN_API_ORIGIN/);
+		assert.doesNotMatch(env, /staging\.ai/);
 		assert.doesNotMatch(env, /^NEXT_PUBLIC_GOOGLE_API_KEY_2=/m);
 	});
 
@@ -254,12 +328,49 @@ describe('structural refusals', () => {
 
 	it('hero primary CTA is still the register URL without requiring a slug', () => {
 		const src = read('app/business/sections/HeroSection.tsx');
-		assert.match(
-			src,
-			/appendLangToUrl\('https:\/\/business\.moilapp\.com\/register'/,
-		);
+		assert.match(src, /buildRegisterUrl\(/);
+		assert.doesNotMatch(src, /employer-beta/);
 		assert.doesNotMatch(src, /href="#journey"/);
 		assert.match(src, /PreviewMagnet/);
+		const url = client.buildRegisterUrl({ lang: 'en' });
+		assert.match(url, /^https:\/\/business\.moilapp\.com\/register/);
+		assert.doesNotMatch(url, /preview=/);
+	});
+
+	it('client magnet uses relative /plan/preview and env-gated register', () => {
+		const gated = [
+			'app/business/preview/previewClient.js',
+			'app/business/components/PreviewMagnet.tsx',
+			'app/business/sections/HeroSection.tsx',
+			'app/business/components/BusinessNav.tsx',
+			'app/business/components/BusinessMobileMenu.tsx',
+			'app/business/components/BusinessFooter.tsx',
+			'app/business/components/BusinessPricingSection.tsx',
+			'next.config.js',
+			'.env.example',
+		];
+		for (const f of gated) {
+			const src = read(f);
+			assert.doesNotMatch(src, /employer-beta/, f);
+			assert.doesNotMatch(src, /staging\.ai/, f);
+			assert.doesNotMatch(src, /stagebeta\.moilapp\.com/, f);
+			if (f !== 'next.config.js' && f !== '.env.example') {
+				assert.doesNotMatch(src, /ai\.moilapp\.com/, f);
+			}
+		}
+		const clientSrc = read('app/business/preview/previewClient.js');
+		assert.match(clientSrc, /['"]\/plan\/preview['"]/);
+		assert.doesNotMatch(clientSrc, /process\.env\.NEXT_PUBLIC_PLAN_API_ORIGIN/);
+		assert.doesNotMatch(clientSrc, /src\.NEXT_PUBLIC_PLAN_API_ORIGIN/);
+		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		assert.doesNotMatch(magnet, /getPlanApiOrigin/);
+		assert.doesNotMatch(magnet, /isPlanApiConfigured/);
+		assert.doesNotMatch(magnet, /NEXT_PUBLIC_PLAN_API_ORIGIN/);
+		const cfg = read('next.config.js');
+		assert.match(cfg, /getRegisterUrl\(/);
+		assert.match(cfg, /getLoginUrl\(/);
+		assert.doesNotMatch(cfg, /destination: 'https:\/\/business\.moilapp\.com\/register'/);
+		assert.doesNotMatch(cfg, /destination: 'https:\/\/business\.moilapp\.com\/login'/);
 	});
 
 	it('EN and ES have the same magnet key set', () => {
@@ -313,6 +424,10 @@ describe('tagline sanitizer', () => {
 		assert.equal(reveal.sanitizeTagline('Cloudflare'), '');
 		assert.equal(reveal.sanitizeTagline('DDoS protection by Cloudflare'), '');
 		assert.equal(reveal.sanitizeTagline('Please wait'), '');
+		assert.equal(reveal.sanitizeTagline('Performing security verification'), '');
+		assert.equal(reveal.sanitizeTagline('performing security verification'), '');
+		assert.equal(reveal.sanitizeTagline('(needs review)'), '');
+		assert.equal(reveal.sanitizeTagline('Needs review'), '');
 	});
 
 	it('omits our SEO junk, empty/whitespace, and a single raw URL', () => {
@@ -367,8 +482,8 @@ describe('website-only door — no handle generate', () => {
 		const onSubmit = magnet.slice(magnet.indexOf('const onSubmit'), magnet.indexOf('const reset'));
 		assert.ok(
 			onSubmit.indexOf('refuse_social') > 0 &&
-				onSubmit.indexOf('refuse_social') < onSubmit.indexOf('isPlanApiConfigured'),
-			'social refuse must stop before any generate / origin check',
+				onSubmit.indexOf('refuse_social') < onSubmit.indexOf('submitPreview'),
+			'social refuse must stop before any generate / submit',
 		);
 	});
 
@@ -416,10 +531,10 @@ describe('ready card v1 locks', () => {
 	});
 
 	it('hex is used for swatch colour only — not rendered as text', () => {
-		const magnet = read('app/business/components/PreviewMagnet.tsx');
-		assert.match(magnet, /style=\{\{ background: hex\(c\) \}\}/);
-		assert.doesNotMatch(magnet, />\{hex\(c\)\}</);
-		assert.doesNotMatch(magnet, /font-mono[^>]*>\{hex/);
+		const src = read('app/business/components/GettingToKnowYou.tsx');
+		assert.match(src, /style=\{\{ background: hex\(c\) \}\}/);
+		assert.doesNotMatch(src, />\{hex\(c\)\}</);
+		assert.doesNotMatch(src, /font-mono[^>]*>\{hex/);
 	});
 
 	it('no email field on ready or wait', () => {
@@ -433,6 +548,8 @@ describe('ready card v1 locks', () => {
 		assert.ok(waitStart > 0 && waitEnd > waitStart, 'wait block not found');
 		const waitBlock = magnet.slice(waitStart, waitEnd);
 		assert.doesNotMatch(waitBlock, /email/i);
+		const gtk = read('app/business/components/GettingToKnowYou.tsx');
+		assert.doesNotMatch(gtk, /type="email"/);
 	});
 
 	it('does not claim visitor mail or ship a confirm helper', () => {
@@ -451,5 +568,286 @@ describe('ready card v1 locks', () => {
 		}
 		assert.equal(fs.existsSync(path.join(root, 'app/business/preview/previewConfirm.js')), false);
 		assert.equal(fs.existsSync(path.join(root, 'app/business/preview/confirmEmail.js')), false);
+	});
+});
+
+describe('frozen GET contract on the ready card', () => {
+	const magnet = () => read('app/business/components/PreviewMagnet.tsx');
+
+	it('readThin is gone from ready JSX and magnet i18n', () => {
+		const src = magnet();
+		const enMagnet = read('src/common/translations/en.ts').slice(
+			read('src/common/translations/en.ts').indexOf('magnet: {'),
+			read('src/common/translations/en.ts').indexOf('aeoAnswer:'),
+		);
+		const esMagnet = read('src/common/translations/es.ts').slice(
+			read('src/common/translations/es.ts').indexOf('magnet: {'),
+			read('src/common/translations/es.ts').indexOf('aeoAnswer:'),
+		);
+		assert.doesNotMatch(src, /readThin/);
+		assert.doesNotMatch(src, /That is all a customer can see from the outside/);
+		assert.doesNotMatch(enMagnet, /readThin/);
+		assert.doesNotMatch(esMagnet, /readThin/);
+		assert.doesNotMatch(enMagnet, /That is all a customer can see from the outside/);
+		assert.doesNotMatch(esMagnet, /Eso es todo lo que un cliente puede ver desde afuera/);
+	});
+
+	it('products helper still omits empty; the magnet paints via Getting To Know You', () => {
+		assert.deepEqual(reveal.shopProducts({ products: ['Tacos', ' Horchata '] }), ['Tacos', 'Horchata']);
+		assert.deepEqual(reveal.shopProducts({ products: [] }), []);
+		assert.deepEqual(reveal.shopProducts({}), []);
+		assert.deepEqual(reveal.shopProducts(null), []);
+		const src = magnet();
+		assert.doesNotMatch(src, /shopProducts\(/);
+		assert.match(src, /GettingToKnowYou/);
+	});
+
+	it('positioning fields render when present and omit the block when absent', () => {
+		const empty = reveal.readPositioning({ brand: { name: 'Moil' } });
+		assert.equal(empty.present, false);
+		assert.equal(empty.audience, '');
+		assert.deepEqual(empty.voice, []);
+
+		const fromObject = reveal.readPositioning({
+			brand: { name: 'Moil' },
+			positioning: {
+				audience: 'Trades',
+				voice: ['Direct', 'Friendly'],
+				problem: 'Too many hats',
+				keyTerms: ['co-founder'],
+				cadence: 'Four posts a week',
+			},
+		});
+		assert.equal(fromObject.present, true);
+		assert.equal(fromObject.audience, 'Trades');
+		assert.deepEqual(fromObject.voice, ['Direct', 'Friendly']);
+		assert.equal(fromObject.problem, 'Too many hats');
+		assert.deepEqual(fromObject.keyTerms, ['co-founder']);
+		assert.equal(fromObject.cadence, 'Four posts a week');
+
+		const folded = reveal.readPositioning({
+			brand: { name: 'Moil', audience: 'Owners', voice: 'Calm and direct' },
+		});
+		assert.equal(folded.present, true);
+		assert.equal(folded.audience, 'Owners');
+		assert.deepEqual(folded.voice, ['Calm and direct']);
+
+		const src = magnet();
+		assert.doesNotMatch(src, /readPositioning\(/);
+		assert.doesNotMatch(src, /m\.posCadence/);
+		assert.doesNotMatch(src, /m\.posAudience/);
+	});
+
+	it('GET lockstep: flat strings and {value} / creative.imageUrl both paint', () => {
+		const fact = (value) => ({ value, factClass: 'extracted', source: 'site' });
+
+		const wrapped = reveal.readPositioning({
+			brand: { name: 'Moil' },
+			positioning: {
+				audience: fact('Trades'),
+				voice: [fact('Direct'), fact('Friendly')],
+				problem: fact('Too many hats'),
+				keyTerms: [fact('co-founder')],
+				cadence: fact('Four posts a week'),
+			},
+		});
+		assert.equal(wrapped.present, true);
+		assert.equal(wrapped.audience, 'Trades');
+		assert.deepEqual(wrapped.voice, ['Direct', 'Friendly']);
+		assert.equal(wrapped.problem, 'Too many hats');
+		assert.deepEqual(wrapped.keyTerms, ['co-founder']);
+		assert.equal(wrapped.cadence, 'Four posts a week');
+
+		const emptyWrapped = reveal.readPositioning({
+			brand: { name: 'Moil' },
+			positioning: {
+				audience: fact(''),
+				voice: fact(''),
+				problem: fact(''),
+				keyTerms: [],
+				cadence: fact(''),
+			},
+		});
+		assert.equal(emptyWrapped.present, false);
+
+		const foldedWrapped = reveal.readPositioning({
+			brand: {
+				name: 'Moil',
+				audience: fact('Owners'),
+				voice: [fact('Calm')],
+			},
+		});
+		assert.equal(foldedWrapped.present, true);
+		assert.equal(foldedWrapped.audience, 'Owners');
+		assert.deepEqual(foldedWrapped.voice, ['Calm']);
+
+		assert.equal(
+			reveal.creativeUrlFromPost({
+				caption: 'Tuesday special.',
+				imageUrl: 'https://cdn.example/flat.jpg',
+			}),
+			'https://cdn.example/flat.jpg',
+		);
+		assert.equal(
+			reveal.creativeUrlFromPost({
+				caption: 'Tuesday special.',
+				creative: { imageUrl: 'https://cdn.example/nested.jpg' },
+			}),
+			'https://cdn.example/nested.jpg',
+		);
+		assert.equal(
+			reveal.creativeUrlFromPost({
+				caption: 'Tuesday special.',
+				creative: { imageUrl: 'http://cdn.example/insecure.jpg' },
+			}),
+			'http://cdn.example/insecure.jpg',
+		);
+		assert.equal(
+			reveal.creativeUrlFromPost({
+				caption: 'Tuesday special.',
+				creative: {
+					imageUrl:
+						'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciLz4=',
+				},
+			}),
+			'',
+			'data:svg is not a real creative',
+		);
+		assert.equal(
+			reveal.creativeUrlFromPost({
+				caption: 'Tuesday special.',
+				imageUrl: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"></svg>',
+			}),
+			'',
+		);
+
+		const dataPost = reveal.realPosts({
+			kind: 'posts',
+			posts: [
+				{
+					caption: 'Tuesday special.',
+					creative: { imageUrl: 'data:image/svg+xml;utf8,<svg></svg>' },
+				},
+			],
+		});
+		assert.equal(dataPost.length, 1);
+		assert.equal(dataPost[0].caption, 'Tuesday special.');
+		assert.equal(dataPost[0].imageUrl, '');
+	});
+
+	it('post cards keep non-URL captions and skip website-URL captions', () => {
+		const brand = { website: 'https://www.moilapp.com', handle: '@moilapp' };
+		const kept = reveal.realPosts(
+			{
+				kind: 'posts',
+				posts: [
+					{ caption: 'Tuesday on Main Street.', imageUrl: 'https://cdn.example/p.jpg' },
+					{ caption: 'https://www.moilapp.com' },
+					{ caption: 'www.moilapp.com' },
+					{ caption: '@moilapp' },
+					{ caption: 'moilapp.com' },
+					{ caption: 'Scratch cooking tonight.', creativeUrl: 'https://cdn.example/q.jpg' },
+					{ caption: 'A third real line.', image: 'https://cdn.example/r.jpg' },
+					{ caption: 'A fourth that must not paint.' },
+				],
+			},
+			brand,
+		);
+		assert.equal(kept.length, 3);
+		assert.equal(kept[0].caption, 'Tuesday on Main Street.');
+		assert.equal(kept[0].imageUrl, 'https://cdn.example/p.jpg');
+		assert.equal(kept[1].caption, 'Scratch cooking tonight.');
+		assert.equal(kept[1].imageUrl, 'https://cdn.example/q.jpg');
+		assert.equal(kept[2].imageUrl, 'https://cdn.example/r.jpg');
+
+		const allUrls = reveal.realPosts(
+			{
+				kind: 'posts',
+				posts: [
+					{ caption: 'https://tasteonmain.com', imageUrl: 'https://cdn.example/x.jpg' },
+					{ caption: 'www.tasteonmain.com' },
+					{ caption: 'tasteonmain.com' },
+				],
+			},
+			{ website: 'https://tasteonmain.com' },
+		);
+		assert.deepEqual(allUrls, []);
+
+		const none = reveal.realPosts({ kind: 'brand-only', posts: [] }, brand);
+		assert.deepEqual(none, []);
+
+		const ruiz = {
+			website: 'https://ruizsalon.com',
+			tagline: 'Performing security verification',
+		};
+		assert.equal(reveal.shopDescriptor(ruiz), '');
+		assert.deepEqual(
+			reveal.realPosts(
+				{
+					kind: 'posts',
+					posts: [
+						{ caption: 'ruizsalon.com — Performing security verification' },
+						{ caption: 'https://ruizsalon.com' },
+						{ caption: '(needs review)' },
+					],
+				},
+				ruiz,
+			),
+			[],
+			'Ruiz GET fact-echo captions must paint zero post cards',
+		);
+
+		const src = magnet();
+		assert.doesNotMatch(src, /realPosts\(/);
+		assert.doesNotMatch(src, /<article/);
+		assert.doesNotMatch(src, /I'm learning/);
+		assert.doesNotMatch(src, /Reveal My First Posts/);
+		assert.match(read('app/business/components/GettingToKnowYou.tsx'), /platformDecideForMe/);
+		assert.match(read('src/common/translations/en.ts'), /Decide For Me/);
+	});
+
+	it('CTA still uses buildRegisterUrl with the preview slug', () => {
+		const src = magnet();
+		const at = src.indexOf('const signupHref = useMemo(');
+		assert.ok(at > -1, 'signupHref was renamed');
+		const block = src.slice(at, at + 500);
+		assert.match(block, /buildRegisterUrl\(/);
+		assert.match(block, /previewSlug: slug/);
+		assert.match(block, /platforms,/);
+		assert.match(read('app/business/components/GettingToKnowYou.tsx'), /\{m\.startFree\}/);
+		assert.doesNotMatch(src, /colorsLabel/);
+		const url = client.buildRegisterUrl({ lang: 'en', previewSlug: 'taco-shop' });
+		assert.match(url, /[?&]preview=taco-shop/);
+		assert.match(url, /[?&]lg=en/);
+		const gated = client.buildRegisterUrl({
+			lang: 'en',
+			previewSlug: 'ruiz-salon',
+			env: { NEXT_PUBLIC_REGISTER_ORIGIN: 'https://example-app.test' },
+		});
+		assert.match(gated, /^https:\/\/example-app\.test\/register/);
+		assert.match(gated, /[?&]preview=ruiz-salon/);
+		assert.match(gated, /[?&]lg=en/);
+		assert.doesNotMatch(src, /employer-beta/);
+	});
+
+	it('wait copy is a real scrape, not Munch theatre, and binds progress if GET sends it', () => {
+		const enMagnet = read('src/common/translations/en.ts').slice(
+			read('src/common/translations/en.ts').indexOf('magnet: {'),
+			read('src/common/translations/en.ts').indexOf('aeoAnswer:'),
+		);
+		assert.doesNotMatch(enMagnet, /I'm learning/);
+		assert.doesNotMatch(enMagnet, /what you do/);
+		assert.doesNotMatch(enMagnet, /look and feel/);
+		assert.match(enMagnet, /Reading your website/);
+		assert.equal(reveal.progressFromBody({ status: 'building' }), '');
+		assert.equal(reveal.progressFromBody({ progress: 'Pulling colours from the homepage.' }), 'Pulling colours from the homepage.');
+		const src = magnet();
+		assert.match(src, /progressFromBody/);
+		assert.match(src, /waitBeatsFromBody/);
+		assert.match(src, /typedText\(/);
+		assert.match(src, /waitProgress \|\| waitText/);
+		assert.doesNotMatch(src, /waitStepsFromBody/);
+		assert.doesNotMatch(src, /waitStepScrapeStarted/);
+		assert.doesNotMatch(src, /scrape_started/);
 	});
 });

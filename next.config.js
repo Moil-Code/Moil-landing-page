@@ -1,5 +1,7 @@
 // @ts-check
 
+const { getLoginUrl, getRegisterUrl } = require("./app/business/preview/previewClient");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -70,15 +72,16 @@ const nextConfig = {
         permanent: true,
       },
       // SEO: crawlable login/register paths on the landing domain that
-      // 301 to the actual apps on their subdomains
+      // 301 to the app origin. NEXT_PUBLIC_REGISTER_ORIGIN overrides;
+      // unset stays production so www is unchanged if the env is missing.
       {
         source: '/business/login',
-        destination: 'https://employer-beta.moilapp.com/login',
+        destination: getLoginUrl(),
         permanent: true,
       },
       {
         source: '/business/register',
-        destination: 'https://employer-beta.moilapp.com/register',
+        destination: getRegisterUrl(),
         permanent: true,
       },
       {
@@ -159,9 +162,11 @@ const nextConfig = {
   },
 
   async rewrites() {
-    // Same-origin fallback for the magnet. Client still prefers
-    // NEXT_PUBLIC_PLAN_API_ORIGIN; this only fires when that (or the
-    // server-only PLAN_API_ORIGIN) is set. No model call lives here.
+    // Same-origin /plan/preview → $PLAN_API_ORIGIN/plan/preview.
+    // The magnet client always fetches relative /plan/preview. This
+    // rewrite is the CORS-safe path. Fires when PLAN_API_ORIGIN (or
+    // NEXT_PUBLIC_PLAN_API_ORIGIN as a leftover fallback) is set.
+    // No model call lives here.
     const planOrigin = String(
       process.env.PLAN_API_ORIGIN || process.env.NEXT_PUBLIC_PLAN_API_ORIGIN || "",
     ).replace(/\/+$/, "");

@@ -150,7 +150,7 @@ describe('this PR keeps EN and ES documents on their own paths', () => {
 		assert.match(esHero, /headline: 'No deber\\u00edas tener que encargarte de todo, adem\\u00e1s de hacer el trabajo que realmente importa\.'/);
 		assert.match(
 			read('app/business/layout.tsx'),
-			/AI co-founder for small business owners \| Moil/,
+			/AI co-founder that writes the plan and the month \| Moil/,
 		);
 		assert.match(
 			read('app/es/business/layout.tsx'),

@@ -1,57 +1,85 @@
 'use strict';
 
 /**
- * Public magnet client. Talks only to /plan/preview.
+ * Public magnet client. Talks only to same-origin /plan/preview.
  *
  * POST is a SUBMIT. GET is a VIEW. Views never generate —
  * there is no generate-named function in this file, and
- * viewPreview / pollPreviewView only issue GET.
+ * viewPreview only issues GET.
  *
- * If the origin is unset the form takes the down-state.
+ * The browser never fetches NEXT_PUBLIC_PLAN_API_ORIGIN. The
+ * next.config.js rewrite sends /plan/preview to PLAN_API_ORIGIN
+ * (server-only). Fetch failure is the down-state.
+ *
+ * Register / login come from NEXT_PUBLIC_REGISTER_ORIGIN.
+ * Unset, that origin is production https://business.moilapp.com
+ * so www stays safe if the env is missing.
+ *
  * This module never throws; callers always get a result object.
  */
 
-const REGISTER_ORIGIN = 'https://employer-beta.moilapp.com/register';
+const DEFAULT_REGISTER_ORIGIN = 'https://business.moilapp.com';
+
+// The picker's own offer list — the ONE authority on what may be named here.
+const { isOffered } = require('./platformChoice');
 
 function normalizeOrigin(raw) {
 	if (typeof raw !== 'string') return '';
 	return raw.trim().replace(/\/+$/, '');
 }
 
-function getPlanApiOrigin(env) {
+function getRegisterOrigin(env) {
+	// Next only inlines a static process.env.NEXT_PUBLIC_* member.
+	// A dynamic lookup leaves the client bundle empty and every CTA
+	// falls back to production.
 	const raw = env
-		? (env.NEXT_PUBLIC_PLAN_API_ORIGIN || '')
-		: (process.env.NEXT_PUBLIC_PLAN_API_ORIGIN || '');
-	return normalizeOrigin(raw);
+		? (env.NEXT_PUBLIC_REGISTER_ORIGIN || '')
+		: (process.env.NEXT_PUBLIC_REGISTER_ORIGIN || '');
+	return normalizeOrigin(raw) || DEFAULT_REGISTER_ORIGIN;
 }
 
-function isPlanApiConfigured(origin) {
-	if (origin === undefined) return Boolean(getPlanApiOrigin());
-	return Boolean(normalizeOrigin(origin));
+function getRegisterUrl(env) {
+	return getRegisterOrigin(env) + '/register';
 }
 
-function previewSubmitUrl(origin) {
-	const o = normalizeOrigin(origin);
-	return o ? o + '/plan/preview' : null;
+function getLoginUrl(env) {
+	return getRegisterOrigin(env) + '/login';
 }
 
-function previewViewUrl(origin, slug) {
-	const o = normalizeOrigin(origin);
+const REGISTER_ORIGIN = getRegisterUrl();
+
+function previewSubmitUrl() {
+	return '/plan/preview';
+}
+
+function previewViewUrl(slug) {
 	const s = typeof slug === 'string' ? slug.trim() : '';
-	if (!o || !s) return null;
-	return o + '/plan/preview/' + encodeURIComponent(s);
+	if (!s) return null;
+	return '/plan/preview/' + encodeURIComponent(s);
 }
 
 /**
- * Register URL. Always valid. Adds ?preview= only when a slug exists.
+ * Register URL. Always valid. Adds ?preview= only when a slug exists, and
+ * ?platforms= only when the founder actually CHOSE.
+ *
+ * "Decide for me" and an empty tick-list DELIBERATELY send nothing. Sending
+ * the resolved pair would report a decision the founder never made and freeze
+ * today's default into their account; absence lets the product keep choosing.
+ *
  * Language is applied via appendLang (the existing helper) when provided.
  *
- * @param {{ lang?: 'en'|'es', previewSlug?: string, appendLang?: function }} [opts]
+ * @param {{ lang?: 'en'|'es', previewSlug?: string, platforms?: string[], appendLang?: function, env?: Record<string, string|undefined> }} [opts]
  */
 function buildRegisterUrl(opts) {
 	const o = opts && typeof opts === 'object' ? opts : {};
 	const slug = typeof o.previewSlug === 'string' ? o.previewSlug.trim() : '';
-	let url = REGISTER_ORIGIN;
+	// Only ids this screen may OFFER travel. Anything else is dropped here as
+	// well as at the server: a value the picker refuses must not reach a URL
+	// a founder can see and read as a promise.
+	const platforms = (Array.isArray(o.platforms) ? o.platforms : [])
+		.map((p) => (typeof p === 'string' ? p.trim().toLowerCase() : ''))
+		.filter((p, i, a) => p && isOffered(p) && a.indexOf(p) === i);
+	let url = getRegisterUrl(o.env);
 	if (slug) {
 		try {
 			const u = new URL(url);
@@ -59,6 +87,17 @@ function buildRegisterUrl(opts) {
 			url = u.toString();
 		} catch {
 			url = url + '?preview=' + encodeURIComponent(slug);
+		}
+	}
+	if (platforms.length) {
+		const value = platforms.join(',');
+		try {
+			const u = new URL(url);
+			u.searchParams.set('platforms', value);
+			url = u.toString();
+		} catch {
+			const sep = url.indexOf('?') >= 0 ? '&' : '?';
+			url = url + sep + 'platforms=' + encodeURIComponent(value);
 		}
 	}
 	const lang = o.lang === 'es' || o.lang === 'en' ? o.lang : 'en';
@@ -126,8 +165,8 @@ function classifyHttp(status, json) {
 /**
  * POST /plan/preview. Never throws.
  */
-async function submitPreview(origin, body, fetchFn) {
-	const url = previewSubmitUrl(origin);
+async function submitPreview(body, fetchFn) {
+	const url = previewSubmitUrl();
 	if (!url) return { ok: false, kind: 'down', status: 0, body: null };
 	const doFetch = fetchFn || (typeof fetch === 'function' ? fetch : null);
 	if (!doFetch) return { ok: false, kind: 'down', status: 0, body: null };
@@ -147,8 +186,8 @@ async function submitPreview(origin, body, fetchFn) {
 /**
  * GET /plan/preview/:slug. A VIEW. Never POSTs. Never generates.
  */
-async function viewPreview(origin, slug, fetchFn) {
-	const url = previewViewUrl(origin, slug);
+async function viewPreview(slug, fetchFn) {
+	const url = previewViewUrl(slug);
 	if (!url) return { ok: false, kind: 'down', status: 0, body: null };
 	const doFetch = fetchFn || (typeof fetch === 'function' ? fetch : null);
 	if (!doFetch) return { ok: false, kind: 'down', status: 0, body: null };
@@ -162,10 +201,12 @@ async function viewPreview(origin, slug, fetchFn) {
 }
 
 module.exports = {
+	DEFAULT_REGISTER_ORIGIN,
 	REGISTER_ORIGIN,
 	normalizeOrigin,
-	getPlanApiOrigin,
-	isPlanApiConfigured,
+	getRegisterOrigin,
+	getRegisterUrl,
+	getLoginUrl,
 	previewSubmitUrl,
 	previewViewUrl,
 	buildRegisterUrl,

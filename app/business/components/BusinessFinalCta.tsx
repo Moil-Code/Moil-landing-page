@@ -1,6 +1,7 @@
 'use client';
 
 import { appendLangToUrl } from '../utils/appendLangToUrl';
+import { getRegisterUrl } from '../preview/previewClient';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
 import { ArrowRight, Check } from 'lucide-react';
 
@@ -19,7 +20,7 @@ export function BusinessFinalCta() {
       <p className="final-sub rv">
         {t.business.finalCta.subheadline}
       </p>
-      <a className="final-btn rv" href={appendLangToUrl("https://employer-beta.moilapp.com/register", lang)} rel="noreferrer">
+      <a className="final-btn rv" href={appendLangToUrl(getRegisterUrl(), lang)} rel="noreferrer">
         {t.business.finalCta.cta} <ArrowRight size={18} aria-hidden="true" />
       </a>
       <div className="final-trust rv">

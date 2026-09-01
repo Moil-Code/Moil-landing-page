@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Moon, Sun, Globe } from 'lucide-react';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
+import { getLoginUrl, getRegisterUrl } from '../preview/previewClient';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
 
 type BusinessFooterProps = {
@@ -107,10 +108,10 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
         <div>
           <div className="footer-col-title">{t.footer.getStarted}</div>
           <div className="footer-links">
-            <a href={appendLangToUrl("https://employer-beta.moilapp.com/register", lang)} target="_blank" rel="noreferrer">
+            <a href={appendLangToUrl(getRegisterUrl(), lang)} target="_blank" rel="noreferrer">
               {t.footer.getStartedLinks.freeConsultation}
             </a>
-            <a href={appendLangToUrl("https://moilapp.com/business", lang)} target="_blank" rel="noreferrer">
+            <a href={appendLangToUrl(getLoginUrl(), lang)} target="_blank" rel="noreferrer">
               {t.footer.getStartedLinks.login}
             </a>
             <a href="/business#pricing">{t.business.pricing.professional.name} — $25/mo</a>

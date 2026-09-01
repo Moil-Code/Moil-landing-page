@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { ArrowRight, Check, Sparkles } from 'lucide-react';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
+import { getRegisterUrl } from '../preview/previewClient';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
 
 export function BusinessPricingSection() {
@@ -197,7 +198,7 @@ export function BusinessPricingSection() {
               ))}
             </ul>
             <a
-              href={appendLangToUrl("https://employer-beta.moilapp.com/register", lang)}
+              href={appendLangToUrl(getRegisterUrl(), lang)}
               target="_blank"
               rel="noreferrer"
               className={`price-btn ${plan.ctaClass}`}

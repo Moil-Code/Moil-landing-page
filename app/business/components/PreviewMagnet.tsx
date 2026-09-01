@@ -5,63 +5,80 @@ import { useLanguageContext } from '../../../src/common/components/I18nProvider'
 import { appendLangToUrl } from '../utils/appendLangToUrl';
 import {
 	buildRegisterUrl,
-	getPlanApiOrigin,
-	isPlanApiConfigured,
 	submitPreview,
 	viewPreview,
 	websiteSubmitBody,
 } from '../preview/previewClient';
 import { clearPreviewSlugCookie, readPreviewSlugCookie, setPreviewSlugCookie } from '../preview/previewCookie';
 import { readWebsite } from '../preview/previewInput';
-import {
-	canShowReadyCard,
-	readyBrandName,
-	sanitizeTagline,
-	websiteFieldDecision,
-} from '../preview/previewReveal';
+import { canShowReadyCard, progressFromBody, websiteFieldDecision } from '../preview/previewReveal';
+import { waitBeatsFromBody, waitBeatHeadingKey, typedText, TYPEOUT_MS_PER_CHAR } from '../preview/gettingToKnowYou';
 import { nextPollDelayMs, waitCopyKey } from '../preview/previewWaitCopy';
+import { GettingToKnowYou } from './GettingToKnowYou';
 
 type Phase = 'form' | 'wait' | 'ready' | 'failed' | 'down' | 'identity' | 'ceiling';
 
+type ReadyBrand = {
+	name?: string;
+	colors?: string[];
+	tagline?: string;
+	description?: string;
+	overview?: string;
+	logoUrl?: string;
+	logo?: string;
+	website?: string;
+	products?: string[];
+	services?: string;
+	messaging?: string;
+	ctas?: string[];
+	slogans?: string[];
+	voiceChips?: string[];
+	photos?: string[];
+	language?: string;
+};
+
 type ReadyPayload = {
 	slug: string;
-	brand: {
-		name?: string;
-		colors?: string[];
-		tagline?: string;
-		logoUrl?: string;
-		category?: string;
-		address?: string;
-		website?: string;
-		handle?: string;
-		handlePlatform?: string;
-		products?: string[];
-		sources?: string[];
-	};
-	content: {
-		kind?: 'posts' | 'brand-only';
-		posts?: { caption?: string; theme?: string }[];
+	brand: ReadyBrand;
+	positioning?: {
+		audience?: string;
+		voice?: string | string[];
+		problem?: string;
+		keyTerms?: string[];
+		cadence?: string;
 	};
 };
 
-function hex(color: string) {
-	const c = color.trim();
-	return c.startsWith('#') ? c : `#${c}`;
+type WaitBeat = { heading: string; text: string };
+
+type MagnetCopy = Record<string, string | undefined>;
+
+function waitBeatHeadingCopy(m: MagnetCopy, heading: string): string {
+	const key = waitBeatHeadingKey(heading);
+	return (key && m[key]) || '';
 }
 
 export function PreviewMagnet() {
 	const { t, lang } = useLanguageContext();
 	const m = t.business.hero.magnet;
-	const origin = useMemo(() => getPlanApiOrigin(), []);
-	const configured = isPlanApiConfigured(origin);
+	const magnetCopy = m as unknown as MagnetCopy;
 
 	const [submitting, setSubmitting] = useState(false);
 	const [website, setWebsite] = useState('');
-	const [phase, setPhase] = useState<Phase>(configured ? 'form' : 'down');
-	const [errorMessage, setErrorMessage] = useState(configured ? '' : m.down);
+	const [phase, setPhase] = useState<Phase>('form');
+	const [errorMessage, setErrorMessage] = useState('');
 	const [slug, setSlug] = useState('');
 	const [ready, setReady] = useState<ReadyPayload | null>(null);
+	// The pre-wall platform choice. EMPTY IS THE DEFAULT and it means "decide
+	// for me" — `buildRegisterUrl` sends nothing for an empty pick, so a
+	// founder who does not touch this is byte-identical to one who never saw
+	// it, and the product keeps choosing rather than freezing today's default
+	// into their account. Decide For Me is a visible chip on the ready card.
+	const [platforms, setPlatforms] = useState<string[]>([]);
 	const [elapsedMs, setElapsedMs] = useState(0);
+	const [waitProgress, setWaitProgress] = useState('');
+	const [waitBeats, setWaitBeats] = useState<WaitBeat[]>([]);
+	const [typedChars, setTypedChars] = useState<Record<string, number>>({});
 	const [reduceMotion, setReduceMotion] = useState(false);
 
 	const pollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -86,8 +103,14 @@ export function PreviewMagnet() {
 	}, []);
 
 	const signupHref = useMemo(
-		() => buildRegisterUrl({ lang, previewSlug: slug, appendLang: appendLangToUrl }),
-		[lang, slug],
+		() =>
+			buildRegisterUrl({
+				lang,
+				previewSlug: slug,
+				platforms,
+				appendLang: appendLangToUrl,
+			}),
+		[lang, slug, platforms],
 	);
 
 	const stopWaitClock = () => {
@@ -120,7 +143,7 @@ export function PreviewMagnet() {
 	}, [m.failed]);
 
 	const onReady = useCallback(
-		(nextSlug: string, body: ReadyPayload['brand'] extends infer B ? { brand?: B; content?: ReadyPayload['content'] } : never) => {
+		(nextSlug: string, body: { brand?: ReadyBrand; positioning?: ReadyPayload['positioning'] }) => {
 			const brand = (body && body.brand) || {};
 			if (!canShowReadyCard(brand)) {
 				refuseNamelessReady();
@@ -132,7 +155,7 @@ export function PreviewMagnet() {
 			setReady({
 				slug: nextSlug,
 				brand,
-				content: (body && body.content) || { kind: 'brand-only', posts: [] },
+				positioning: body && body.positioning,
 			});
 			setPhase('ready');
 		},
@@ -142,7 +165,7 @@ export function PreviewMagnet() {
 	const poll = useCallback(
 		async (nextSlug: string, attempt: number) => {
 			if (cancelled.current) return;
-			const result = await viewPreview(origin, nextSlug);
+			const result = await viewPreview(nextSlug);
 			if (cancelled.current) return;
 			if (result.kind === 'ready' && result.body) {
 				onReady(nextSlug, result.body);
@@ -154,6 +177,12 @@ export function PreviewMagnet() {
 				setErrorMessage(m.failed);
 				return;
 			}
+			if (result.kind === 'building' || result.kind === 'accepted') {
+				const beats = waitBeatsFromBody(result.body);
+				if (beats.length) setWaitBeats(beats);
+				const msg = progressFromBody(result.body);
+				if (msg) setWaitProgress(msg);
+			}
 			if (result.kind === 'missing' || result.kind === 'down') {
 				if (result.kind === 'missing' && attempt > 8) {
 					stopWaitClock();
@@ -164,18 +193,37 @@ export function PreviewMagnet() {
 			}
 			pollTimer.current = setTimeout(() => {
 				void poll(nextSlug, attempt + 1);
-			}, nextPollDelayMs(attempt));
+			}, nextPollDelayMs(attempt)); // ~1s while wait; not 2/4/8/10 backoff
 		},
-		[origin, onReady, m.failed],
+		[onReady, m.failed],
 	);
 
 	useEffect(() => {
-		if (!configured) return;
+		if (phase !== 'wait' || reduceMotion || waitBeats.length === 0) return;
+		const id = window.setInterval(() => {
+			setTypedChars((prev) => {
+				let changed = false;
+				const next = { ...prev };
+				for (let i = 0; i < waitBeats.length; i++) {
+					const beat = waitBeats[i];
+					const cur = next[beat.heading] || 0;
+					if (cur < beat.text.length) {
+						next[beat.heading] = cur + 1;
+						changed = true;
+					}
+				}
+				return changed ? next : prev;
+			});
+		}, TYPEOUT_MS_PER_CHAR);
+		return () => window.clearInterval(id);
+	}, [phase, reduceMotion, waitBeats]);
+
+	useEffect(() => {
 		const saved = readPreviewSlugCookie();
 		if (!saved) return;
 		let live = true;
 		void (async () => {
-			const result = await viewPreview(origin, saved);
+			const result = await viewPreview(saved);
 			if (!live || cancelled.current) return;
 			if (result.kind === 'ready' && result.body) {
 				onReady(saved, result.body);
@@ -201,6 +249,9 @@ export function PreviewMagnet() {
 	const beginWait = (nextSlug: string, status?: string) => {
 		setSlug(nextSlug);
 		setPreviewSlugCookie(nextSlug);
+		setWaitProgress('');
+		setWaitBeats([]);
+		setTypedChars({});
 		if (status === 'ready') {
 			setPhase('wait');
 			startWaitClock();
@@ -231,15 +282,9 @@ export function PreviewMagnet() {
 			return;
 		}
 
-		if (!isPlanApiConfigured(origin)) {
-			setPhase('down');
-			setErrorMessage(m.down);
-			return;
-		}
-
 		setErrorMessage('');
 		setSubmitting(true);
-		const result = await submitPreview(origin, websiteSubmitBody({ website: decision.website, locale: lang }));
+		const result = await submitPreview(websiteSubmitBody({ website: decision.website, locale: lang }));
 		setSubmitting(false);
 		if (result.ok && result.body && result.body.slug) {
 			beginWait(result.body.slug, result.body.status);
@@ -261,19 +306,19 @@ export function PreviewMagnet() {
 
 	const reset = () => {
 		stopWaitClock();
-		setPhase(configured ? 'form' : 'down');
-		setErrorMessage(configured ? '' : m.down);
+		setPhase('form');
+		setErrorMessage('');
 		setReady(null);
 		setSlug('');
 		setElapsedMs(0);
+		setWaitProgress('');
+		setWaitBeats([]);
+		setTypedChars({});
+		setPlatforms([]);
 	};
 
 	const waitKey = waitCopyKey(elapsedMs);
 	const waitText = waitKey === 'waitLeave' ? m.waitLeave : waitKey === 'waitLonger' ? m.waitLonger : m.waitCalm;
-
-	const brandName = readyBrandName(ready?.brand);
-	const descriptor = sanitizeTagline(ready?.brand.tagline);
-	const colors = (ready?.brand.colors || []).filter(Boolean).slice(0, 6);
 	const showReadyCard = phase === 'ready' && ready && canShowReadyCard(ready.brand);
 
 	const fieldClass =
@@ -316,7 +361,39 @@ export function PreviewMagnet() {
 
 			{phase === 'wait' && (
 				<div className="flex flex-col gap-3 py-2" aria-live="polite">
-					<p className="text-[15px] font-medium text-[var(--text)]">{waitText}</p>
+					{website.trim() ? (
+						<p className="ml-auto w-fit max-w-[90%] rounded-full bg-[var(--border2)] px-3 py-1.5 text-[13px] text-[var(--text)]">
+							{website.trim()}
+						</p>
+					) : null}
+					{waitBeats.length > 0 ? (
+						<div className="flex flex-col gap-2.5">
+							{waitBeats.map((beat) => {
+								const label = waitBeatHeadingCopy(magnetCopy, beat.heading);
+								const typed = typedText(
+									beat.text,
+									reduceMotion ? beat.text.length : typedChars[beat.heading] || 0,
+									reduceMotion,
+								);
+								const typing = !reduceMotion && typed.length < beat.text.length;
+								return (
+									<div key={beat.heading} className="flex flex-col gap-0.5">
+										{label ? (
+											<p className="text-[12px] leading-snug text-[var(--text)] opacity-70">{label}</p>
+										) : null}
+										<p
+											className="text-[15px] font-medium text-[var(--text)]"
+											aria-hidden={typing}
+										>
+											{typed}
+										</p>
+									</div>
+								);
+							})}
+						</div>
+					) : (
+						<p className="text-[15px] font-medium text-[var(--text)]">{waitProgress || waitText}</p>
+					)}
 					{!reduceMotion && (
 						<div aria-hidden className="h-1 w-full overflow-hidden rounded-full bg-[var(--border2)]">
 							<div className="h-full w-1/3 animate-pulse rounded-full bg-[var(--orange)]" />
@@ -327,56 +404,16 @@ export function PreviewMagnet() {
 			)}
 
 			{showReadyCard && ready && (
-				<div className="flex flex-col gap-5">
-					<div className="flex items-start gap-3">
-						{ready.brand.logoUrl && (
-							// eslint-disable-next-line @next/next/no-img-element
-							<img
-								src={ready.brand.logoUrl}
-								alt=""
-								className="h-12 w-12 shrink-0 rounded-lg border border-[var(--border2)] bg-white object-contain p-1"
-								onError={(e) => {
-									(e.currentTarget as HTMLImageElement).style.display = 'none';
-								}}
-							/>
-						)}
-						<div className="min-w-0">
-							<p className="text-[11px] uppercase tracking-[1px] text-[var(--orange)]">{m.revealEyebrow}</p>
-							<h2 className="mt-1 text-[22px] font-bold leading-tight tracking-[-0.03em] text-[var(--text)]">
-								{brandName}
-							</h2>
-							{descriptor ? (
-								<p className="mt-1 text-[14px] leading-snug text-[var(--text)] opacity-90">{descriptor}</p>
-							) : null}
-						</div>
-					</div>
-
-					{!descriptor ? (
-						<p className="text-[13px] leading-snug text-[var(--text)] opacity-80">{m.readThin}</p>
-					) : null}
-
-					{colors.length > 0 && (
-						<div className="flex flex-wrap gap-1.5" aria-hidden>
-							{colors.map((c) => (
-								<span
-									key={c}
-									className="h-2.5 w-2.5 rounded-full border border-[var(--border2)]"
-									style={{ background: hex(c) }}
-								/>
-							))}
-						</div>
-					)}
-
-					<a
-						href={signupHref}
-						className="inline-flex items-center justify-center rounded-lg bg-[var(--orange)] px-4 py-2.5 text-[14px] font-bold text-white hover:bg-[#FF7A40]"
-					>
-						{m.startFree} <span className="ml-1">→</span>
-					</a>
-					<button type="button" onClick={reset} className="text-[12px] text-[var(--text)] underline-offset-2 hover:underline">
-						{m.tryAgain}
-					</button>
-				</div>
+				<GettingToKnowYou
+					key={ready.slug}
+					body={{ brand: ready.brand, positioning: ready.positioning }}
+					website={website.trim() || ready.brand.website || ''}
+					platforms={platforms}
+					onPlatforms={setPlatforms}
+					signupHref={signupHref}
+					onReset={reset}
+					copy={magnetCopy}
+				/>
 			)}
 		</div>
 	);

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import type { NavItem } from './BusinessNav';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
+import { getRegisterUrl } from '../preview/previewClient';
 
 type BusinessMobileMenuProps = {
   open: boolean;
@@ -22,7 +23,7 @@ export function BusinessMobileMenu({
   theme,
   items,
   ctaLabel = 'Start free — no credit card',
-  ctaHref = 'https://employer-beta.moilapp.com/register',
+  ctaHref = getRegisterUrl(),
   currentLang,
 }: BusinessMobileMenuProps) {
   const [lang, setLang] = useState<'en' | 'es'>('en');

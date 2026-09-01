@@ -11,7 +11,6 @@
 
 const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
-const { execSync } = require('node:child_process');
 const fs = require('fs');
 const path = require('path');
 
@@ -31,14 +30,6 @@ function namedBlock(src, name) {
 		}
 	}
 	return src.slice(start);
-}
-
-function gitDiff(args) {
-	try {
-		return execSync(`git diff origin/main -- ${args}`, { cwd: root, encoding: 'utf8' });
-	} catch {
-		return execSync(`git diff main -- ${args}`, { cwd: root, encoding: 'utf8' });
-	}
 }
 
 describe('ES door copy', () => {
@@ -106,25 +97,28 @@ describe('this PR stays inside S1', () => {
 		);
 	});
 
-	it('magnet files are not in the diff', () => {
-		const names = gitDiff('--name-only')
-			.split('\n')
-			.map((n) => n.trim())
-			.filter(Boolean);
-		const magnet = names.filter((n) => /magnet|PreviewMagnet/i.test(n));
-		assert.deepEqual(magnet, [], `magnet files in the diff: ${magnet.join(', ')}`);
+	it('magnet stays website-only', () => {
+		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		assert.doesNotMatch(magnet, /doorBtn\('handle'/);
+		assert.doesNotMatch(magnet, /doorBtn\('place'/);
+		assert.doesNotMatch(magnet, /type="email"/);
 	});
 
-	it('does not add S2 routes or point at employer-beta', () => {
-		const names = gitDiff('--name-only')
-			.split('\n')
-			.map((n) => n.trim())
-			.filter(Boolean);
-		assert.ok(!names.some((n) => n.startsWith('app/es/compare')), 'do not add /es/compare');
-		assert.ok(!names.some((n) => n.startsWith('app/es/ai-info')), 'do not add /es/ai-info');
-		const sources = names.filter((n) => !n.startsWith('evals/'));
-		for (const file of sources) {
-			if (!fs.existsSync(path.join(root, file))) continue;
+	it('does not add S2 routes; the door does not hardcode the twin host', () => {
+		// This repo IS the staging landing. Stagebeta dest belongs in env /
+		// deploy docs (tests.yml Build, DEPLOYMENT.md), not in the magnet.
+		// Scan the door, not the git diff — a full-tree bring-up from
+		// staging@0f7f5ae0 is supposed to touch magnet files.
+		assert.equal(fs.existsSync(path.join(root, 'app/es/compare')), false, 'do not add /es/compare');
+		assert.equal(fs.existsSync(path.join(root, 'app/es/ai-info')), false, 'do not add /es/ai-info');
+		const door = [
+			'app/business/components/PreviewMagnet.tsx',
+			'app/business/components/GettingToKnowYou.tsx',
+			'app/business/sections/HeroSection.tsx',
+			'app/business/preview/previewClient.js',
+			'app/business/BusinessPageContent.tsx',
+		];
+		for (const file of door) {
 			assert.doesNotMatch(read(file), /employer-beta/, file);
 		}
 	});

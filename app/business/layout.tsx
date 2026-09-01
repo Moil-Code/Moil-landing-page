@@ -7,9 +7,9 @@ import { faqJsonLd } from '../../src/common/utils/faqJsonLd';
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'AI co-founder for small business owners | Moil',
+    absolute: 'AI co-founder that writes the plan and the month | Moil',
   },
-  description: 'Moil learns the business once, builds a brain that compounds, thinks with you, and does the work. Research, plans, documents, and thirty days of content on brand, in English or Spanish.',
+  description: 'Moil writes a plan you can take to a lender and a month of on-brand posts. Market Pro is $75. Professional is $25 if you only want the plan, not the month.',
   keywords: [
     'AI marketing for small business',
     'social media content calendar',
@@ -37,8 +37,8 @@ export const metadata: Metadata = {
     'AI co-founder',
   ],
   openGraph: {
-    title: 'AI co-founder for small business owners | Moil',
-    description: 'Moil learns the business once, builds a brain that compounds, thinks with you, and does the work. Research, plans, documents, and thirty days of content on brand, in English or Spanish.',
+    title: 'AI co-founder that writes the plan and the month | Moil',
+    description: 'Moil writes a plan you can take to a lender and a month of on-brand posts. Market Pro is $75. Professional is $25 if you only want the plan, not the month.',
     url: `${baseURL1}/business`,
     images: [
       {
@@ -50,8 +50,8 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    title: 'AI co-founder for small business owners | Moil',
-    description: 'Moil learns the business once, builds a brain that compounds, thinks with you, and does the work. Research, plans, documents, and thirty days of content on brand, in English or Spanish.',
+    title: 'AI co-founder that writes the plan and the month | Moil',
+    description: 'Moil writes a plan you can take to a lender and a month of on-brand posts. Market Pro is $75. Professional is $25 if you only want the plan, not the month.',
   },
   alternates: {
     canonical: `${baseURL1}/business`,

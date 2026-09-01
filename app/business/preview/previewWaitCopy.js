@@ -13,6 +13,7 @@
 
 const WAIT_LEAVE_MS = 30 * 1000;
 const WAIT_LONG_MS = 150 * 1000; // 2.5 min — inside the 2–3 min window
+const WAIT_POLL_MS = 1000;
 
 /**
  * @param {number} elapsedMs
@@ -26,18 +27,20 @@ function waitCopyKey(elapsedMs) {
 }
 
 /**
- * Backoff for GET polls: 2s, 4s, 8s, then cap at 10s.
- * @param {number} attempt zero-based completed poll count
+ * GET poll while phase=wait. Fixed ~1s so the door can catch
+ * Onboarding's sub-second typeProgress+markReady dump after scrape.
+ * The old 2/4/8/10s backoff (polls at 0, 2, 6, 14, 24s) missed it.
+ * Copy ladder (calm / leave / longer) is independent of this cadence.
+ * @param {number} [_attempt] unused — kept so callers do not change
  */
-function nextPollDelayMs(attempt) {
-	const n = Number.isFinite(attempt) && attempt > 0 ? attempt : 0;
-	const step = 2000 * Math.pow(2, n);
-	return Math.min(step, 10000);
+function nextPollDelayMs(_attempt) {
+	return WAIT_POLL_MS;
 }
 
 module.exports = {
 	WAIT_LEAVE_MS,
 	WAIT_LONG_MS,
+	WAIT_POLL_MS,
 	waitCopyKey,
 	nextPollDelayMs,
 };

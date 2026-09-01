@@ -12,14 +12,11 @@ jobs:
     name: Offline eval suite
     runs-on: ubuntu-latest
     steps:
-      # fetch-depth: 0 is REQUIRED, not a nicety. evals/spanishDoor.test.js
-      # enforces the scope of a change by diffing the working tree against
+      # fetch-depth: 0 is REQUIRED, not a nicety. Some evals compare against
       # `origin/main` — and actions/checkout does a shallow, single-branch fetch
       # by default, so neither `origin/main` nor a local `main` exists and the
       # eval dies with `fatal: bad revision 'main'` before it can assert
-      # anything. That is a broken check, not a failing one: it would go red on
-      # every PR regardless of content. Fetching all refs is what lets it
-      # actually compare.
+      # anything. Fetching all refs is what lets those checks actually compare.
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -40,13 +37,24 @@ jobs:
         run: yarn install --frozen-lockfile
 
       # The evals are offline and take under a second — no network, no build.
+      # Do NOT export NEXT_PUBLIC_REGISTER_ORIGIN here: several evals pin the
+      # unset-env fallback (production register) so a missing host env cannot
+      # silently retarget www. The Build step is what bakes stagebeta origins.
       - name: Test
         run: yarn test
 
       # The build is the deploy's riskiest step and it is not covered by the
       # evals, so it runs here too: a commit that cannot compile should fail on
       # the PR rather than on the server, where the fallout is a rollback.
+      #
+      # STAGEBETA origins — do not bake production. Next inlines
+      # NEXT_PUBLIC_* at build time; PLAN_API_ORIGIN is the server rewrite
+      # target for same-origin /plan/preview. /api /plan /mail stay on Node
+      # (nginx on stagebeta); Next only rewrites /plan/preview*.
       - name: Build
+        env:
+          PLAN_API_ORIGIN: https://stagebeta.moilapp.com
+          NEXT_PUBLIC_REGISTER_ORIGIN: https://employer-beta.moilapp.com
         run: yarn build
 
       # Every defect in the Aug 2026 Semrush Site Audit was in RENDERED OUTPUT

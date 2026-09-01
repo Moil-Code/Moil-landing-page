@@ -6,6 +6,7 @@ import { PreviewMagnet } from '../components/PreviewMagnet';
 import gsap from 'gsap';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
+import { buildRegisterUrl } from '../preview/previewClient';
 import { IconMap } from './iconMap';
 import { PrimaryButton, SecondaryButton } from './ui';
 
@@ -156,7 +157,7 @@ export function HeroSection() {
 
       {/* CTAs — primary stays signup. Secondary jumps to Market Pro on #pricing. */}
       <div data-hero-item className="relative z-[2] mb-6 flex flex-wrap justify-center gap-3 max-[960px]:flex-col max-[960px]:items-center">
-        <PrimaryButton href={appendLangToUrl('https://employer-beta.moilapp.com/register', lang)} rel="noreferrer">
+        <PrimaryButton href={buildRegisterUrl({ lang, appendLang: appendLangToUrl })} rel="noreferrer">
           {t.business.hero.cta} <span>→</span>
         </PrimaryButton>
         <SecondaryButton href="#pricing">
