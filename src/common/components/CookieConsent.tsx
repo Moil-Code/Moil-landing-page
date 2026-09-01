@@ -2,24 +2,29 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-
-const STORAGE_KEY = "moil_cookie_consent";
-
-type ConsentValue = "accepted" | "rejected";
+import {
+  CONSENT_STORAGE_KEY as STORAGE_KEY,
+  type ConsentValue,
+  hasGlobalPrivacyControl,
+  writeConsent,
+} from "../consent";
 
 /**
  * Lightweight cookie-consent banner.
  *
- * Stores the user's choice in localStorage and broadcasts a
- * `moil:cookie-consent` window event with `{ value }` so analytics scripts
- * (Segment, Apollo) can be gated on consent. Renders nothing until mounted to
- * avoid SSR/CSR hydration mismatches, and nothing once a choice is recorded.
+ * Records the choice through `src/common/consent.ts` — the ONE writer — and
+ * `<Analytics />` reads it through the same module, so "Reject non-essential"
+ * actually keeps GA4 / Clarity / the FB pixel / Apollo off the page. A browser
+ * sending Global Privacy Control is treated as an existing refusal, so the
+ * banner is not shown at all. Renders nothing until mounted to avoid SSR/CSR
+ * hydration mismatches, and nothing once a choice is recorded.
  */
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     try {
+      if (hasGlobalPrivacyControl()) return;
       const existing = window.localStorage.getItem(STORAGE_KEY);
       if (!existing) setVisible(true);
     } catch {
@@ -29,19 +34,7 @@ export default function CookieConsent() {
   }, []);
 
   const record = (value: ConsentValue) => {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, value);
-      window.localStorage.setItem(`${STORAGE_KEY}_at`, new Date().toISOString());
-    } catch {
-      /* ignore persistence failure */
-    }
-    try {
-      window.dispatchEvent(
-        new CustomEvent("moil:cookie-consent", { detail: { value } }),
-      );
-    } catch {
-      /* ignore */
-    }
+    writeConsent(value);
     setVisible(false);
   };
 
@@ -56,9 +49,9 @@ export default function CookieConsent() {
     >
       <div className="mx-auto flex max-w-4xl flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-2xl sm:flex-row sm:items-center sm:justify-between sm:p-6">
         <p className="text-sm leading-relaxed text-[#22263A]">
-          We use cookies to run the site, remember your preferences, and analyze
-          traffic. By clicking &ldquo;Accept all&rdquo; you agree to our use of
-          cookies. See our{" "}
+          We use essential cookies to run the site. Analytics and marketing
+          tools (Google Analytics, Microsoft Clarity, Meta Pixel, Apollo) load
+          only if you click &ldquo;Accept all&rdquo;. See our{" "}
           <Link href="/cookies" className="font-semibold text-[#5843BE] underline">
             Cookie Policy
           </Link>{" "}

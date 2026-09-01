@@ -4,6 +4,7 @@ import { moilOffers, priceValidUntil } from '../../src/common/seo/offers';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
 import { en } from '../../src/common/translations/en';
 import { faqJsonLd } from '../../src/common/utils/faqJsonLd';
+import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 export const metadata: Metadata = {
   title: {
@@ -74,7 +75,7 @@ export default function BusinessLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "Organization",
             "name": "Moil Enterprise Inc.",
@@ -144,7 +145,7 @@ export default function BusinessLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "Service",
             "name": "Moil Professional",
@@ -191,7 +192,7 @@ export default function BusinessLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "Service",
             "name": "Moil Market Pro",
@@ -238,7 +239,7 @@ export default function BusinessLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
             "name": "Moil",
@@ -270,7 +271,7 @@ export default function BusinessLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqJsonLd(en.business.faq.items)),
+          __html: jsonLd(faqJsonLd(en.business.faq.items)),
         }}
       />
 
@@ -278,7 +279,7 @@ export default function BusinessLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "Article",
             "headline": "Moil is the AI co-founder for small business owners",
@@ -318,7 +319,7 @@ export default function BusinessLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "Moil — the AI co-founder for small business owners",
@@ -335,7 +336,7 @@ export default function BusinessLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [
@@ -359,7 +360,7 @@ export default function BusinessLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "HowTo",
             "name": "How to Get a Month of Social Media Content for a Small Business",

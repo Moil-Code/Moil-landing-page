@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
+import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 export const metadata: Metadata = {
   title: {
@@ -56,7 +57,7 @@ export default function BusinessPricingLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "Thirty days of content on brand. Research, plans, documents.",

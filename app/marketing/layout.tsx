@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
 import { moilOffers } from '../../src/common/seo/offers';
 import { content360Styles } from './content360Styles';
+import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 export const metadata: Metadata = {
   title: 'AI Marketing for Small Business',
@@ -76,7 +77,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
             "name": "Content360 by Moil",
@@ -107,7 +108,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "HowTo",
             "name": "How to Build a 30-Day Content Marketing Calendar with AI",
@@ -164,7 +165,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "FAQPage",
             "mainEntity": [
@@ -217,7 +218,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [

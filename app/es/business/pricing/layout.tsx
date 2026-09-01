@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../../../src/common/constants/baseUrl';
+import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 export const metadata: Metadata = {
   title: {
@@ -35,7 +36,7 @@ export default function BusinessPricingEsLayout({ children }: { children: React.
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             '@context': 'https://schema.org',
             '@type': 'WebPage',
             name: 'Treinta días de contenido con tu marca',

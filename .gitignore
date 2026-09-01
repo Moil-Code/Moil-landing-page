@@ -36,4 +36,11 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-yarn.lock
+# yarn.lock is the canonical tracked lockfile (see CLAUDE.md) — never ignore it.
+
+# Any real env file, whatever the suffix (only the example is tracked).
+.env.*
+!.env.example
+# Key material never belongs in the tree.
+*.p12
+*.key

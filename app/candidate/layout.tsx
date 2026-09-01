@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { priceValidUntil } from '../../src/common/seo/offers';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
+import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 export const metadata: Metadata = {
   title: 'Find Trade & Blue-Collar Jobs',
@@ -73,7 +74,7 @@ export default function CandidateLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "WebApplication",
             "name": "Moil Job Search Platform",
@@ -130,7 +131,7 @@ export default function CandidateLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "FAQPage",
             "mainEntity": [
@@ -183,7 +184,7 @@ export default function CandidateLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [

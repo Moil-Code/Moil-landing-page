@@ -8,6 +8,7 @@ import {
 } from '../../src/common/data/reviews';
 import './reviews.css';
 import { moilSoftwareApplication } from '~~/src/common/seo/offers';
+import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 /**
  * /reviews — every published review in one place, verbatim, with its date and a
@@ -88,7 +89,7 @@ export default function ReviewsPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewsJsonLd()) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(reviewsJsonLd()) }}
       />
       <main className="reviews">
         <header className="reviews__head">

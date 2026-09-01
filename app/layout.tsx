@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { Bebas_Neue, Inter, Poppins } from 'next/font/google';
-import Script from 'next/script';
 
 import './globals.css';
 import Analytics from '../src/common/components/analytics';
@@ -10,6 +9,7 @@ import CookieConsent from '../src/common/components/CookieConsent';
 import { baseURL1 } from '../src/common/constants/baseUrl';
 import { HTML_LANG_HEADER } from '../src/common/i18n/pathLocale';
 import { moilOffers } from '../src/common/seo/offers';
+import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 const bebas = Bebas_Neue({ weight: ['400'], subsets: ['latin'], display: 'swap' });
 
@@ -173,7 +173,7 @@ export default async function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: jsonLd({
               "@context": "https://schema.org",
               "@type": "Organization",
               "name": "Moil Enterprise Inc.",
@@ -227,7 +227,7 @@ export default async function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: jsonLd({
               "@context": "https://schema.org",
               "@type": "WebSite",
               "name": "Moil",
@@ -238,28 +238,10 @@ export default async function RootLayout({
         />
       </head>
       <body className={`${bebas.className} antialiased`} suppressHydrationWarning={true}>
+        {/* Every tracker (GA4, Clarity, FB Pixel, Apollo) lives inside
+            <Analytics />, which renders nothing until the visitor consents.
+            Do not add a tracking <Script> here — it would bypass the gate. */}
         <Analytics />
-        {/* Apollo tracking — deferred so it never blocks page render / LCP */}
-        <Script
-          id="apollo-tracker"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              function initApollo(){
-                var n=Math.random().toString(36).substring(7),
-                  o=document.createElement("script");
-                o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,
-                o.async=!0,
-                o.defer=!0,
-                o.onload=function(){
-                  window.trackingFunctions && window.trackingFunctions.onLoad && window.trackingFunctions.onLoad({appId:"6882701177d61d001958874e"})
-                },
-                document.head.appendChild(o)
-              }
-              initApollo();
-            `,
-          }}
-        />
         <div id="modal"></div>
         <div className="flex flex-col min-h-screen">
           <main className="flex-grow">

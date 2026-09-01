@@ -15,23 +15,28 @@ export default function DashboardQueryItem(props: any) {
   const [ref, isVisible]: any = useOnScreen({ threshold: 0.5 });
 
   useEffect(() => {
-    if (isVisible) {
-      fetch(`${baseURL}/api/job/impressions/${props.jobUrl.split('/')[2]}`, {
-        method: "PATCH",
-      })
-        .then(response => {
-          // Convert the response to JSON
-          return response.json();
-        })
-        .then(data => {
-          // Now you can use the parsed JSON data
-          console.log('Data:', data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
+    if (!isVisible) return;
+    // The impression is keyed on the job's custom_name — the segment after
+    // /jobs/ in the (absolute) candidate URL. The old `split('/')[2]` read the
+    // HOST out of an absolute URL, so this PATCH hit
+    // `/api/job/impressions/candidate.moilapp.com` for every card. Encoded so
+    // an employer-authored slug cannot rewrite the request path.
+    let slug = '';
+    try {
+      const segments = new URL(String(props.jobUrl), window.location.origin)
+        .pathname.split('/').filter(Boolean);
+      const jobsIdx = segments.indexOf('jobs');
+      slug = jobsIdx >= 0 ? segments[jobsIdx + 1] || '' : '';
+    } catch {
+      slug = '';
     }
-  }, [isVisible]);
+    if (!slug) return;
+    fetch(`${baseURL}/api/job/impressions/${encodeURIComponent(slug)}`, {
+      method: "PATCH",
+    }).catch(() => {
+      /* impression counting is best-effort */
+    });
+  }, [isVisible, props.jobUrl]);
 
   return (
     <div ref={ref} className={props.indeed === false ? "moil_class w-full ipad:w-[305px] px-4 py-2 rounded-lg shadow border border-indigo-400 border-opacity-30 flex-col justify-between gap-4 items-start inline-flex" : "job-background w-full ipad:w-[305px] px-4 py-2 rounded-lg shadow border border-indigo-400 border-opacity-30 flex-col justify-between gap-4 items-start inline-flex"}>
