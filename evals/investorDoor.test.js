@@ -63,6 +63,42 @@ describe('EN door lock', () => {
 		assert.match(hero, /href="#pricing"/);
 		assert.doesNotMatch(hero, /getElementById\('preview-magnet'\)/);
 	});
+
+	it('C0 first fold is URL magnet + Start free; no Moil is $25 above the fold', () => {
+		const hero = read('app/business/sections/HeroSection.tsx');
+		const page = read('app/business/BusinessPageContent.tsx');
+		const en = read('src/common/translations/en.ts');
+		const business = en.slice(en.indexOf('\n  business: {'));
+		const problem = namedBlock(business, 'problem');
+		const heroCopy = namedBlock(business, 'hero');
+
+		assert.ok(
+			hero.indexOf('<PreviewMagnet') < hero.indexOf('<PrimaryButton'),
+			'URL magnet is the invite, above Start free',
+		);
+		assert.match(hero, /t\.business\.hero\.cta/);
+		assert.doesNotMatch(heroCopy, /\$25/);
+		assert.doesNotMatch(heroCopy, /Moil is \$25/);
+		assert.doesNotMatch(problem, /Moil is \$25/);
+		assert.match(problem, /Market Pro is \$75/);
+		assert.match(problem, /moilPrice: '\$75'/);
+		assert.doesNotMatch(problem, /Starts at just \$25/);
+		assert.ok(
+			page.indexOf('id="identity"') < page.indexOf('id="problem"'),
+			'Traditional Consultants is demoted below identity',
+		);
+		assert.ok(
+			page.indexOf('id="problem"') < page.indexOf('id="tiers"'),
+			'compare sits with pricing, not the first body',
+		);
+		assert.ok(
+			page.indexOf('<HeroSection') < page.indexOf('<BusinessPricingSection'),
+			'Professional $25 card is not the first-fold invite',
+		);
+		assert.doesNotMatch(hero, /BusinessPricingSection/);
+		assert.match(read('app/business/layout.tsx'), /AI co-founder that writes the plan and the month \| Moil/);
+		assert.match(heroCopy, /headline: 'You shouldn\\'t have to be everything on top of the real job\.'/);
+	});
 });
 
 describe('EN pricing lock', () => {

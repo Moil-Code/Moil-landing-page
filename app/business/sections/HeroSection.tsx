@@ -155,18 +155,19 @@ export function HeroSection() {
         {t.business.hero.subheadline}
       </p>
 
-      {/* CTAs — primary stays signup. Secondary jumps to Market Pro on #pricing. */}
-      <div data-hero-item className="relative z-[2] mb-6 flex flex-wrap justify-center gap-3 max-[960px]:flex-col max-[960px]:items-center">
+      {/* First fold invite is the URL magnet. Start free stays. Market Pro is
+          the sell ($75) via the secondary CTA — not a $25 card. */}
+      <div data-hero-item className="relative z-[2] mb-6 w-full">
+        <PreviewMagnet />
+      </div>
+
+      <div data-hero-item className="relative z-[2] mb-[48px] flex flex-wrap justify-center gap-3 max-[960px]:flex-col max-[960px]:items-center">
         <PrimaryButton href={buildRegisterUrl({ lang, appendLang: appendLangToUrl })} rel="noreferrer">
           {t.business.hero.cta} <span>→</span>
         </PrimaryButton>
         <SecondaryButton href="#pricing">
           <span className="mr-1.5 inline-flex items-center">{IconMap.play}</span> {t.business.hero.ctaSecondary}
         </SecondaryButton>
-      </div>
-
-      <div data-hero-item className="relative z-[2] mb-[48px] w-full">
-        <PreviewMagnet />
       </div>
 
       {/* Trust strip — outcome claims only; nothing here asserts a number we cannot source. */}

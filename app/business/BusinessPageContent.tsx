@@ -239,112 +239,8 @@ export function BusinessPageContent() {
 
       <div className="divider"></div>
 
-      {/* PROBLEM / VS — moved above IDENTITY: it's the page's strongest hook ($5K consultant vs $25 Moil) and was previously buried below an abstract section */}
-      <section id="problem" className="has-footer-1">
-        <div className="problem-inner">
-          <div className="section-tag rv" style={{ justifyContent: 'center' }}>
-            {t.business.problem.tag}
-          </div>
-          <h2 className="section-headline rv" style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto 12px' }}>
-            {t.business.problem.headline}
-            <br /><span style={{ color: 'var(--orange)' }}>{t.business.problem.headlineHighlight}</span>{t.business.problem.headlineEnd}
-          </h2>
-          <p
-            className="rv"
-            style={{
-              textAlign: 'center',
-              fontSize: '16px',
-              color: 'var(--text2)',
-              maxWidth: '580px',
-              margin: '0 auto 60px',
-              fontWeight: 300,
-            }}
-          >
-            {t.business.problem.subheadline}
-          </p>
-
-          <div className="vs-grid-wrap" style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: '32px', alignItems: 'stretch' }}>
-            <div className="cost-card old wave-old rv" style={{ display: 'flex', flexDirection: 'column' }}>
-              <div className="cost-badge old-b">{t.business.problem.oldMethod}</div>
-              <div className="cost-title">{t.business.problem.oldTitle}</div>
-              <div className="cost-price strike">{t.business.problem.oldPrice}</div>
-              <div className="cost-period">{t.business.problem.oldPeriod}</div>
-              <ul className="cost-list" style={{ flex: 1 }}>
-                {t.business.problem.oldList.map((item, idx) => (
-                  <li key={`old-list-${idx}`}>
-                    <span className="x">✗</span>{item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="rv" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px', padding: '0 8px' }}>
-              <div style={{ width: '1px', flex: 1, background: 'linear-gradient(180deg,transparent,var(--border2),transparent)', minHeight: '60px' }}></div>
-              <div
-                style={{
-                  width: '56px',
-                  height: '56px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg,var(--orange-dim),var(--purple-dim))',
-                  border: '1px solid var(--border2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontFamily: 'var(--display)',
-                  fontSize: '20px',
-                  color: 'var(--orange)',
-                  flexShrink: 0,
-                }}
-              >
-                VS
-              </div>
-              <div style={{ width: '1px', flex: 1, background: 'linear-gradient(180deg,transparent,var(--border2),transparent)', minHeight: '60px' }}></div>
-            </div>
-
-            <div className="cost-card new wave-new rv d2" style={{ display: 'flex', flexDirection: 'column' }}>
-              <div className="cost-badge new-b" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>{IconMap.star} {t.business.problem.moilBadge}</div>
-              <div className="cost-title">{t.business.problem.moilTitle}</div>
-              <div className="cost-price moil-price">{t.business.problem.moilPrice}</div>
-              <div className="cost-period">{t.business.problem.moilPeriod}</div>
-              <ul className="cost-list" style={{ flex: 1 }}>
-                {t.business.problem.moilList.map((item, idx) => (
-                  <li key={`moil-list-${idx}`}>
-                    <span className="ok">✓</span>{item}
-                  </li>
-                ))}
-              </ul>
-              <div style={{ marginTop: '28px' }}>
-                <a
-                  className="btn-primary"
-                  style={{ width: '100%', justifyContent: 'center' }}
-                  href={appendLangToUrl(getRegisterUrl(), currentLang)}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {t.business.problem.moilCta}
-                </a>
-                <p
-                  style={{
-                    fontFamily: 'var(--mono)',
-                    fontSize: '9px',
-                    color: 'var(--text3)',
-                    textAlign: 'center',
-                    marginTop: '10px',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px',
-                  }}
-                >
-                  <span style={{ display: 'inline-flex', alignItems: 'center', marginRight: '4px' }}>{IconMap.lock}</span> {t.business.problem.moilTrust}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div className="divider"></div>
-
-      {/* IDENTITY — demoted from above-the-fold to mid-page proof, since the VS pricing reveal is the stronger hook */}
+      {/* IDENTITY — first-body proof. Traditional Consultants / $25 compare is
+          demoted to sit with pricing: Market Pro $75 is the sell; $25 is a way in. */}
       <section id="identity">
         <div className="identity-linear">
           <div className="identity-head">
@@ -632,6 +528,112 @@ export function BusinessPageContent() {
                 <span className={`cf-cap-badge ${item.badgeClass}`}>{item.badge}</span>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="divider"></div>
+
+      {/* PROBLEM / VS — demoted out of the first body. Market Pro $75 is the
+          sell; Professional $25 is a way in, stated later with pricing. */}
+      <section id="problem" className="has-footer-1">
+        <div className="problem-inner">
+          <div className="section-tag rv" style={{ justifyContent: 'center' }}>
+            {t.business.problem.tag}
+          </div>
+          <h2 className="section-headline rv" style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto 12px' }}>
+            {t.business.problem.headline}
+            <br /><span style={{ color: 'var(--orange)' }}>{t.business.problem.headlineHighlight}</span>{t.business.problem.headlineEnd}
+          </h2>
+          <p
+            className="rv"
+            style={{
+              textAlign: 'center',
+              fontSize: '16px',
+              color: 'var(--text2)',
+              maxWidth: '580px',
+              margin: '0 auto 60px',
+              fontWeight: 300,
+            }}
+          >
+            {t.business.problem.subheadline}
+          </p>
+
+          <div className="vs-grid-wrap" style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: '32px', alignItems: 'stretch' }}>
+            <div className="cost-card old wave-old rv" style={{ display: 'flex', flexDirection: 'column' }}>
+              <div className="cost-badge old-b">{t.business.problem.oldMethod}</div>
+              <div className="cost-title">{t.business.problem.oldTitle}</div>
+              <div className="cost-price strike">{t.business.problem.oldPrice}</div>
+              <div className="cost-period">{t.business.problem.oldPeriod}</div>
+              <ul className="cost-list" style={{ flex: 1 }}>
+                {t.business.problem.oldList.map((item, idx) => (
+                  <li key={`old-list-${idx}`}>
+                    <span className="x">✗</span>{item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="rv" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px', padding: '0 8px' }}>
+              <div style={{ width: '1px', flex: 1, background: 'linear-gradient(180deg,transparent,var(--border2),transparent)', minHeight: '60px' }}></div>
+              <div
+                style={{
+                  width: '56px',
+                  height: '56px',
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg,var(--orange-dim),var(--purple-dim))',
+                  border: '1px solid var(--border2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontFamily: 'var(--display)',
+                  fontSize: '20px',
+                  color: 'var(--orange)',
+                  flexShrink: 0,
+                }}
+              >
+                VS
+              </div>
+              <div style={{ width: '1px', flex: 1, background: 'linear-gradient(180deg,transparent,var(--border2),transparent)', minHeight: '60px' }}></div>
+            </div>
+
+            <div className="cost-card new wave-new rv d2" style={{ display: 'flex', flexDirection: 'column' }}>
+              <div className="cost-badge new-b" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>{IconMap.star} {t.business.problem.moilBadge}</div>
+              <div className="cost-title">{t.business.problem.moilTitle}</div>
+              <div className="cost-price moil-price">{t.business.problem.moilPrice}</div>
+              <div className="cost-period">{t.business.problem.moilPeriod}</div>
+              <ul className="cost-list" style={{ flex: 1 }}>
+                {t.business.problem.moilList.map((item, idx) => (
+                  <li key={`moil-list-${idx}`}>
+                    <span className="ok">✓</span>{item}
+                  </li>
+                ))}
+              </ul>
+              <div style={{ marginTop: '28px' }}>
+                <a
+                  className="btn-primary"
+                  style={{ width: '100%', justifyContent: 'center' }}
+                  href={appendLangToUrl(getRegisterUrl(), currentLang)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {t.business.problem.moilCta}
+                </a>
+                <p
+                  style={{
+                    fontFamily: 'var(--mono)',
+                    fontSize: '9px',
+                    color: 'var(--text3)',
+                    textAlign: 'center',
+                    marginTop: '10px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '1px',
+                  }}
+                >
+                  <span style={{ display: 'inline-flex', alignItems: 'center', marginRight: '4px' }}>{IconMap.lock}</span> {t.business.problem.moilTrust}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

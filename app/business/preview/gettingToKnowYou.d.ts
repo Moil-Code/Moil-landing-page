@@ -4,6 +4,7 @@ export const TYPEOUT_MS_PER_CHAR: number;
 export const SECTION_ORDER: readonly string[];
 export const HEADING_KEY: Record<string, string>;
 export const BANNED_HEADING_IDS: readonly string[];
+export const FOLDED_LINE_MAX: number;
 export function asText(value: unknown): string;
 export function asList(value: unknown): string[];
 export function httpsUrl(raw: unknown): string;
@@ -20,6 +21,20 @@ export function voiceFromBody(body?: {
 	positioning?: object;
 } | null): { chips: string[]; sentence: string };
 export function scheduleFromPick(selected?: unknown): string[];
+export function isMoilNavLine(raw?: unknown): boolean;
+export function foldShopCtas(raw?: unknown): string[];
+export function foldShopSlogans(raw?: unknown): string[];
+export function knowingLeadFromBody(body?: {
+	brand?: object;
+	positioning?: object;
+} | null): Array<{ heading: string; text: string }>;
+export function proofFromBrand(brand?: object | null): {
+	id: string;
+	kind: string;
+	logo: string;
+	colors: string[];
+	photos: string[];
+} | null;
 export function profileSections(
 	body?: {
 		brand?: object;
@@ -33,6 +48,9 @@ export function profileSections(
 	value?: string | string[];
 	chips?: string[];
 	sentence?: string;
+	logo?: string;
+	colors?: string[];
+	photos?: string[];
 	observeOnly?: boolean;
 }>;
 export function headingKeyFor(id: string): string;
