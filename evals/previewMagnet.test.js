@@ -198,12 +198,41 @@ describe('wait copy B25 ladder', () => {
 		assert.equal(wait.waitCopyKey(10 * 60 * 1000), 'waitLonger');
 	});
 
-	it('poll backoff is 2s, 4s, 8s, then cap 10s', () => {
-		assert.equal(wait.nextPollDelayMs(0), 2000);
-		assert.equal(wait.nextPollDelayMs(1), 4000);
-		assert.equal(wait.nextPollDelayMs(2), 8000);
-		assert.equal(wait.nextPollDelayMs(3), 10000);
-		assert.equal(wait.nextPollDelayMs(9), 10000);
+	it('polls GET about every 1s while wait — no 2/4/8/10 backoff', () => {
+		assert.equal(wait.WAIT_LEAVE_MS, 30_000);
+		assert.equal(wait.WAIT_LONG_MS, 150_000);
+		assert.equal(wait.WAIT_POLL_MS, 1000);
+		assert.equal(wait.nextPollDelayMs(0), 1000);
+		assert.equal(wait.nextPollDelayMs(1), 1000);
+		assert.equal(wait.nextPollDelayMs(2), 1000);
+		assert.equal(wait.nextPollDelayMs(3), 1000);
+		assert.equal(wait.nextPollDelayMs(9), 1000);
+		for (const n of [0, 1, 2, 3, 9]) {
+			const ms = wait.nextPollDelayMs(n);
+			assert.ok(ms >= 800 && ms <= 1200, 'wait poll is ~1s, got ' + ms);
+			assert.notEqual(ms, 2000);
+			assert.notEqual(ms, 4000);
+			assert.notEqual(ms, 8000);
+			assert.notEqual(ms, 10000);
+		}
+	});
+
+	it('ready GET goes to the ready card — does not type beats off the ready body', () => {
+		const src = read('app/business/components/PreviewMagnet.tsx');
+		const pollFn = src.slice(src.indexOf('const poll ='), src.indexOf('const beginWait'));
+		const readyIdx = pollFn.indexOf("result.kind === 'ready'");
+		const failedIdx = pollFn.indexOf("result.kind === 'failed'");
+		assert.ok(readyIdx >= 0 && failedIdx > readyIdx, 'ready arm in poll');
+		const readyArm = pollFn.slice(readyIdx, failedIdx);
+		assert.match(readyArm, /onReady\(/);
+		assert.doesNotMatch(readyArm, /waitBeatsFromBody/);
+		assert.doesNotMatch(readyArm, /typedText/);
+		assert.doesNotMatch(readyArm, /setWaitBeats/);
+		assert.doesNotMatch(src, /waitBeatsFromReady/);
+		assert.doesNotMatch(src, /beatsFromBrand/);
+		assert.doesNotMatch(src, /typeFromReady/);
+		const buildingArm = pollFn.slice(pollFn.indexOf("result.kind === 'building'"));
+		assert.match(buildingArm, /waitBeatsFromBody/);
 	});
 });
 
