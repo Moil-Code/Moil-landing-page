@@ -44,7 +44,7 @@ describe('EN door lock', () => {
 	const layout = read('app/business/layout.tsx');
 
 	it('pins the locked title, H1, sub, and CTAs', () => {
-		assert.match(layout, /AI co-founder for small business owners \| Moil/);
+		assert.match(layout, /AI co-founder that writes the plan and the month \| Moil/);
 		assert.match(hero, /eyebrow: 'The AI co-founder for small business owners'/);
 		assert.match(hero, /headline: 'You shouldn\\'t have to be everything on top of the real job\.'/);
 		assert.match(hero, /headlineLine2: ''/);
