@@ -193,7 +193,7 @@ export function PreviewMagnet() {
 			}
 			pollTimer.current = setTimeout(() => {
 				void poll(nextSlug, attempt + 1);
-			}, nextPollDelayMs(attempt));
+			}, nextPollDelayMs(attempt)); // ~1s while wait; not 2/4/8/10 backoff
 		},
 		[onReady, m.failed],
 	);

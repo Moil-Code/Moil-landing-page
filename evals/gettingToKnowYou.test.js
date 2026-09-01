@@ -170,6 +170,29 @@ describe('wait beats — admit progress array, never scrape theatre', () => {
 		assert.deepEqual(gtk.waitBeatsFromBody({ progress: [] }), []);
 	});
 
+	it('does not type wait beats off a ready GET body', () => {
+		assert.deepEqual(
+			gtk.waitBeatsFromBody({
+				status: 'ready',
+				brand: {
+					name: 'Taste On Main',
+					description: 'Scratch cooking on Main Street',
+					services: 'Dinner and catering.',
+					messaging: 'Warm and local.',
+				},
+				positioning: {
+					audience: 'Locals who want weeknight dinner.',
+					problem: 'Nowhere nearby that feels like home.',
+					voice: 'Warm',
+				},
+			}),
+			[],
+		);
+		const helper = read('app/business/preview/gettingToKnowYou.js');
+		assert.doesNotMatch(helper, /function\s+\w*(fromReady|readyBeats|typeFromReady)\w*/i);
+		assert.match(helper, /admitProgress\(into, body\.progress\)/);
+	});
+
 	it('live contract: English GET headings fold in admitted order with their texts', () => {
 		assert.equal(gtk.foldBeatHeading('What this business is'), 'framing');
 		assert.equal(gtk.foldBeatHeading('Who it is for'), 'audience');
