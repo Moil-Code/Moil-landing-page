@@ -289,7 +289,7 @@ function realPosts(content, brand) {
 function progressFromBody(body) {
 	if (!body || typeof body !== 'object') return '';
 	const known = /^(building|ready|failed|accepted|missing|down|identity|ceiling|ok)$/i;
-	const stepId = /^(scrape_started|pages_read|tokens_ready)$/i;
+	const stepId = /^(scrape_started|pages_read|tokens_ready|framing|audience|services|problem|uvp|messaging)$/i;
 	const keys = ['progress', 'progressMessage', 'statusMessage', 'message', 'status'];
 	for (let i = 0; i < keys.length; i++) {
 		const s = asText(body[keys[i]]);

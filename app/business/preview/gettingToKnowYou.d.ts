@@ -1,11 +1,16 @@
-export const WAIT_STEP_IDS: readonly string[];
+export const WAIT_BEAT_HEADINGS: readonly string[];
+export const WAIT_BEAT_HEADING_KEY: Record<string, string>;
+export const TYPEOUT_MS_PER_CHAR: number;
 export const SECTION_ORDER: readonly string[];
 export const HEADING_KEY: Record<string, string>;
 export const BANNED_HEADING_IDS: readonly string[];
 export function asText(value: unknown): string;
 export function asList(value: unknown): string[];
 export function httpsUrl(raw: unknown): string;
-export function waitStepsFromBody(body?: object | null): string[];
+export function foldBeatHeading(raw?: unknown): string;
+export function waitBeatsFromBody(body?: object | null): Array<{ heading: string; text: string }>;
+export function waitBeatHeadingKey(heading: string): string;
+export function typedText(text?: unknown, charCount?: unknown, reduceMotion?: boolean): string;
 export function overviewFromBrand(brand?: object | null): string;
 export function httpsPhotos(brand?: object | null): string[];
 export function logoUrl(brand?: object | null): string;

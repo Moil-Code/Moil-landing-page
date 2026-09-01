@@ -15,12 +15,28 @@
 
 const { normalizeChoice } = require('./platformChoice');
 
-/** Bind only these if a building GET exposes them as progress/step ids. */
-const WAIT_STEP_IDS = Object.freeze([
-	'scrape_started',
-	'pages_read',
-	'tokens_ready',
+/**
+ * Building GET wait beats. Only these headings, in this order.
+ * scrape_started / pages_read / tokens_ready are dead for this door.
+ */
+const WAIT_BEAT_HEADINGS = Object.freeze([
+	'framing',
+	'audience',
+	'services',
+	'problem',
+	'UVP',
 ]);
+
+const WAIT_BEAT_HEADING_KEY = Object.freeze({
+	framing: 'waitBeatFraming',
+	audience: 'waitBeatAudience',
+	services: 'waitBeatServices',
+	problem: 'waitBeatProblem',
+	UVP: 'waitBeatUvp',
+});
+
+/** Character type-out pace once a beat has landed on poll. */
+const TYPEOUT_MS_PER_CHAR = 24;
 
 const SECTION_ORDER = Object.freeze([
 	'name',
@@ -98,57 +114,108 @@ function unique(list) {
 	return out;
 }
 
-function foldStepId(raw) {
-	return String(raw || '')
+/**
+ * Admit a wait-beat heading. messaging → framing, uvp → UVP.
+ * Unknown ids (including scrape_started / pages_read / tokens_ready) → ''.
+ * @param {unknown} raw
+ * @returns {string}
+ */
+function foldBeatHeading(raw) {
+	const s = String(raw || '')
 		.trim()
 		.toLowerCase()
-		.replace(/\s+/g, '_');
+		.replace(/&/g, 'and')
+		.replace(/[^a-z0-9]+/g, '_');
+	if (s === 'framing' || s === 'messaging') return 'framing';
+	if (s === 'audience') return 'audience';
+	if (s === 'services') return 'services';
+	if (s === 'problem') return 'problem';
+	if (s === 'uvp') return 'UVP';
+	return '';
 }
 
-function collectStepIds(raw, into) {
-	if (raw == null || raw === false) return;
-	if (typeof raw === 'string' || typeof raw === 'number') {
-		const id = foldStepId(raw);
-		if (WAIT_STEP_IDS.includes(id) && !into.includes(id)) into.push(id);
-		return;
-	}
-	if (Array.isArray(raw)) {
-		for (let i = 0; i < raw.length; i++) collectStepIds(raw[i], into);
-		return;
-	}
+function beatText(raw) {
+	if (raw == null) return '';
+	if (typeof raw === 'string' || typeof raw === 'number') return asText(raw);
+	if (Array.isArray(raw)) return '';
 	if (typeof raw === 'object') {
-		collectStepIds(raw.id || raw.step || raw.event || raw.progress || raw.name, into);
-		if (raw.events) collectStepIds(raw.events, into);
-		if (raw.steps) collectStepIds(raw.steps, into);
+		return asText(raw.text || raw.value || raw.body || raw.message || raw.copy);
+	}
+	return '';
+}
+
+function admitBeat(into, headingRaw, textRaw) {
+	const heading = foldBeatHeading(headingRaw);
+	const text = beatText(textRaw);
+	if (!heading || !text) return;
+	into[heading] = text;
+}
+
+function admitProgress(into, progress) {
+	if (progress == null) return;
+	if (typeof progress === 'string' || typeof progress === 'number') return;
+	if (Array.isArray(progress)) {
+		for (let i = 0; i < progress.length; i++) admitProgress(into, progress[i]);
+		return;
+	}
+	if (typeof progress !== 'object') return;
+
+	const ownHeading = progress.heading || progress.id || progress.key || progress.name || progress.beat;
+	if (ownHeading) {
+		admitBeat(
+			into,
+			ownHeading,
+			progress.text || progress.value || progress.body || progress.message || progress.copy,
+		);
+	}
+
+	const keys = Object.keys(progress);
+	for (let i = 0; i < keys.length; i++) {
+		const key = keys[i];
+		if (!foldBeatHeading(key)) continue;
+		admitBeat(into, key, progress[key]);
 	}
 }
 
 /**
- * Bind scrape_started / pages_read / tokens_ready when the building GET
- * exposes them. posts_composing is never a wait step. Empty → honest wait.
+ * Bind admitted wait beats from a building GET `progress` array.
+ * Missing / empty text → omitted. Unknown headings ignored.
+ * scrape_started / pages_read / tokens_ready never admit.
+ * Empty → honest wait ladder, not invented theatre.
  * @param {object | null | undefined} body
- * @returns {string[]}
+ * @returns {{ heading: string, text: string }[]}
  */
-function waitStepsFromBody(body) {
+function waitBeatsFromBody(body) {
 	if (!body || typeof body !== 'object') return [];
-	const hits = [];
-	collectStepIds(body.events, hits);
-	collectStepIds(body.steps, hits);
-	collectStepIds(body.progress, hits);
-	collectStepIds(body.step, hits);
-	collectStepIds(body.stage, hits);
-	collectStepIds(body.progressStep, hits);
-	for (let i = 0; i < WAIT_STEP_IDS.length; i++) {
-		const id = WAIT_STEP_IDS[i];
-		const v = body[id];
-		if (v && v !== 'false' && v !== 0) {
-			if (!hits.includes(id)) hits.push(id);
-		}
-		if (body.progress && typeof body.progress === 'object' && body.progress[id]) {
-			if (!hits.includes(id)) hits.push(id);
-		}
+	const into = Object.create(null);
+	admitProgress(into, body.progress);
+	const out = [];
+	for (let i = 0; i < WAIT_BEAT_HEADINGS.length; i++) {
+		const heading = WAIT_BEAT_HEADINGS[i];
+		if (into[heading]) out.push({ heading, text: into[heading] });
 	}
-	return WAIT_STEP_IDS.filter((id) => hits.includes(id));
+	return out;
+}
+
+function waitBeatHeadingKey(heading) {
+	return WAIT_BEAT_HEADING_KEY[heading] || '';
+}
+
+/**
+ * Visible prefix while a beat types out. reduceMotion → full text.
+ * @param {unknown} text
+ * @param {unknown} charCount
+ * @param {boolean} [reduceMotion]
+ * @returns {string}
+ */
+function typedText(text, charCount, reduceMotion) {
+	const s = typeof text === 'string' ? text : '';
+	if (!s) return '';
+	if (reduceMotion) return s;
+	const n = Number(charCount);
+	if (!Number.isFinite(n) || n <= 0) return '';
+	if (n >= s.length) return s;
+	return s.slice(0, Math.floor(n));
 }
 
 function overviewFromBrand(brand) {
@@ -269,14 +336,19 @@ function headingKeyFor(id) {
 }
 
 module.exports = {
-	WAIT_STEP_IDS,
+	WAIT_BEAT_HEADINGS,
+	WAIT_BEAT_HEADING_KEY,
+	TYPEOUT_MS_PER_CHAR,
 	SECTION_ORDER,
 	HEADING_KEY,
 	BANNED_HEADING_IDS,
 	asText,
 	asList,
 	httpsUrl,
-	waitStepsFromBody,
+	foldBeatHeading,
+	waitBeatsFromBody,
+	waitBeatHeadingKey,
+	typedText,
 	overviewFromBrand,
 	httpsPhotos,
 	logoUrl,

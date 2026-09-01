@@ -12,7 +12,7 @@ import {
 import { clearPreviewSlugCookie, readPreviewSlugCookie, setPreviewSlugCookie } from '../preview/previewCookie';
 import { readWebsite } from '../preview/previewInput';
 import { canShowReadyCard, progressFromBody, websiteFieldDecision } from '../preview/previewReveal';
-import { waitStepsFromBody } from '../preview/gettingToKnowYou';
+import { waitBeatsFromBody, waitBeatHeadingKey, typedText, TYPEOUT_MS_PER_CHAR } from '../preview/gettingToKnowYou';
 import { nextPollDelayMs, waitCopyKey } from '../preview/previewWaitCopy';
 import { GettingToKnowYou } from './GettingToKnowYou';
 
@@ -49,13 +49,13 @@ type ReadyPayload = {
 	};
 };
 
+type WaitBeat = { heading: string; text: string };
+
 type MagnetCopy = Record<string, string | undefined>;
 
-function waitStepCopy(m: MagnetCopy, id: string): string {
-	if (id === 'scrape_started') return m.waitStepScrapeStarted || '';
-	if (id === 'pages_read') return m.waitStepPagesRead || '';
-	if (id === 'tokens_ready') return m.waitStepTokensReady || '';
-	return '';
+function waitBeatHeadingCopy(m: MagnetCopy, heading: string): string {
+	const key = waitBeatHeadingKey(heading);
+	return (key && m[key]) || '';
 }
 
 export function PreviewMagnet() {
@@ -77,7 +77,8 @@ export function PreviewMagnet() {
 	const [platforms, setPlatforms] = useState<string[]>([]);
 	const [elapsedMs, setElapsedMs] = useState(0);
 	const [waitProgress, setWaitProgress] = useState('');
-	const [waitSteps, setWaitSteps] = useState<string[]>([]);
+	const [waitBeats, setWaitBeats] = useState<WaitBeat[]>([]);
+	const [typedChars, setTypedChars] = useState<Record<string, number>>({});
 	const [reduceMotion, setReduceMotion] = useState(false);
 
 	const pollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -177,8 +178,8 @@ export function PreviewMagnet() {
 				return;
 			}
 			if (result.kind === 'building' || result.kind === 'accepted') {
-				const steps = waitStepsFromBody(result.body);
-				if (steps.length) setWaitSteps(steps);
+				const beats = waitBeatsFromBody(result.body);
+				if (beats.length) setWaitBeats(beats);
 				const msg = progressFromBody(result.body);
 				if (msg) setWaitProgress(msg);
 			}
@@ -196,6 +197,26 @@ export function PreviewMagnet() {
 		},
 		[onReady, m.failed],
 	);
+
+	useEffect(() => {
+		if (phase !== 'wait' || reduceMotion || waitBeats.length === 0) return;
+		const id = window.setInterval(() => {
+			setTypedChars((prev) => {
+				let changed = false;
+				const next = { ...prev };
+				for (let i = 0; i < waitBeats.length; i++) {
+					const beat = waitBeats[i];
+					const cur = next[beat.heading] || 0;
+					if (cur < beat.text.length) {
+						next[beat.heading] = cur + 1;
+						changed = true;
+					}
+				}
+				return changed ? next : prev;
+			});
+		}, TYPEOUT_MS_PER_CHAR);
+		return () => window.clearInterval(id);
+	}, [phase, reduceMotion, waitBeats]);
 
 	useEffect(() => {
 		const saved = readPreviewSlugCookie();
@@ -229,7 +250,8 @@ export function PreviewMagnet() {
 		setSlug(nextSlug);
 		setPreviewSlugCookie(nextSlug);
 		setWaitProgress('');
-		setWaitSteps([]);
+		setWaitBeats([]);
+		setTypedChars({});
 		if (status === 'ready') {
 			setPhase('wait');
 			startWaitClock();
@@ -290,14 +312,14 @@ export function PreviewMagnet() {
 		setSlug('');
 		setElapsedMs(0);
 		setWaitProgress('');
-		setWaitSteps([]);
+		setWaitBeats([]);
+		setTypedChars({});
 		setPlatforms([]);
 	};
 
 	const waitKey = waitCopyKey(elapsedMs);
 	const waitText = waitKey === 'waitLeave' ? m.waitLeave : waitKey === 'waitLonger' ? m.waitLonger : m.waitCalm;
 	const showReadyCard = phase === 'ready' && ready && canShowReadyCard(ready.brand);
-	const boundStepLines = waitSteps.map((id) => waitStepCopy(magnetCopy, id)).filter(Boolean);
 
 	const fieldClass =
 		'w-full rounded-lg border border-[var(--border2)] bg-[var(--bg)] px-3 py-2.5 text-[14px] text-[var(--text)] outline-none focus:border-[var(--orange)]';
@@ -344,13 +366,30 @@ export function PreviewMagnet() {
 							{website.trim()}
 						</p>
 					) : null}
-					{boundStepLines.length > 0 ? (
-						<div className="flex flex-col gap-1.5">
-							{boundStepLines.map((line) => (
-								<p key={line} className="text-[15px] font-medium text-[var(--text)]">
-									{line}
-								</p>
-							))}
+					{waitBeats.length > 0 ? (
+						<div className="flex flex-col gap-2.5">
+							{waitBeats.map((beat) => {
+								const label = waitBeatHeadingCopy(magnetCopy, beat.heading);
+								const typed = typedText(
+									beat.text,
+									reduceMotion ? beat.text.length : typedChars[beat.heading] || 0,
+									reduceMotion,
+								);
+								const typing = !reduceMotion && typed.length < beat.text.length;
+								return (
+									<div key={beat.heading} className="flex flex-col gap-0.5">
+										{label ? (
+											<p className="text-[12px] leading-snug text-[var(--text)] opacity-70">{label}</p>
+										) : null}
+										<p
+											className="text-[15px] font-medium text-[var(--text)]"
+											aria-hidden={typing}
+										>
+											{typed}
+										</p>
+									</div>
+								);
+							})}
 						</div>
 					) : (
 						<p className="text-[15px] font-medium text-[var(--text)]">{waitProgress || waitText}</p>

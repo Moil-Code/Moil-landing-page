@@ -60,9 +60,11 @@ const MAGNET_KEYS = [
 	'headingSchedule',
 	'editLabel',
 	'doneLabel',
-	'waitStepScrapeStarted',
-	'waitStepPagesRead',
-	'waitStepTokensReady',
+	'waitBeatFraming',
+	'waitBeatAudience',
+	'waitBeatServices',
+	'waitBeatProblem',
+	'waitBeatUvp',
 ];
 
 const KILLED_PROMISE_EN = [
@@ -810,7 +812,11 @@ describe('frozen GET contract on the ready card', () => {
 		assert.equal(reveal.progressFromBody({ progress: 'Pulling colours from the homepage.' }), 'Pulling colours from the homepage.');
 		const src = magnet();
 		assert.match(src, /progressFromBody/);
-		assert.match(src, /waitStepsFromBody/);
+		assert.match(src, /waitBeatsFromBody/);
+		assert.match(src, /typedText\(/);
 		assert.match(src, /waitProgress \|\| waitText/);
+		assert.doesNotMatch(src, /waitStepsFromBody/);
+		assert.doesNotMatch(src, /waitStepScrapeStarted/);
+		assert.doesNotMatch(src, /scrape_started/);
 	});
 });
