@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import LegalPage from "~~/src/common/components/LegalPage";
 import { baseURL1 } from "~~/src/common/constants/baseUrl";
-import { COMPANY_NAME, COMPANY_ADDRESS, CONTACT_EMAIL } from "~~/src/common/constants/company";
+import { COMPANY_NAME, COMPANY_ADDRESS, CONTACT_EMAIL, LEGAL_LAST_UPDATED } from "~~/src/common/constants/company";
 
 export const metadata: Metadata = {
   title: "Copyright & DMCA Policy",
@@ -33,13 +33,21 @@ export default function DmcaPage() {
       text: "We may, in appropriate circumstances, suspend or terminate accounts of users who are repeat infringers.",
     },
     {
-      heading: "5. Designated Agent & Registration",
-      text: `Send DMCA notices to our Designated Copyright Agent: ${COMPANY_NAME}, Attn: Copyright Agent, ${COMPANY_ADDRESS}; or by email to ${CONTACT_EMAIL} with the subject line "DMCA Notice".\n\nImportant: Our Designated Copyright Agent is (or will be) registered with the U.S. Copyright Office. For the most current registered-agent details, visit copyright.gov/dmca-directory or contact us directly. Registration is required to fully benefit from DMCA safe-harbor protections.`,
+      // ATTORNEY REVIEW REQUIRED — and one concrete action, not a rewrite:
+      // TODO(legal): designate an agent in the U.S. Copyright Office directory
+      // at dmca.copyright.gov (a filing fee applies) and add the directory link
+      // here. The previous wording said the agent "is (or will be) registered",
+      // which asserts a legal status nobody had verified — and registration is
+      // precisely the fact that decides whether the safe harbour is available.
+      // An unregistered agent described as registered is worse than an honest
+      // notice channel, because a rightsholder relies on it.
+      heading: "5. Designated Agent",
+      text: `Send DMCA notices to: ${COMPANY_NAME}, Attn: Copyright Agent, ${COMPANY_ADDRESS}; or by email to ${CONTACT_EMAIL} with the subject line "DMCA Notice". Email reaches us fastest and is the channel we monitor.\n\nWe act on complete notices whether or not a designated agent is on file with the U.S. Copyright Office. If you need to confirm our current designated-agent details, check the Copyright Office directory at copyright.gov/dmca-directory or contact us at the address above.`,
     },
   ];
 
   return (
-    <LegalPage title="Copyright & DMCA Policy" lastUpdated="June 23, 2026" page="dmca" sections={sections}>
+    <LegalPage title="Copyright & DMCA Policy" lastUpdated={LEGAL_LAST_UPDATED} page="dmca" sections={sections}>
       <p className="text-sm text-[#5C6178]">
         See also our{" "}
         <Link href="/terms" className="text-[#FF6633] underline">Terms and Conditions</Link>.

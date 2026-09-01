@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import LegalPage from "~~/src/common/components/LegalPage";
 import { baseURL1 } from "~~/src/common/constants/baseUrl";
 import { COMPANY_NAME, COMPANY_ADDRESS, CONTACT_EMAIL } from "~~/src/common/constants/company";
@@ -28,9 +29,38 @@ export default function ContactPage() {
         <div>
           <p className="font-[700]">Privacy Requests</p>
           <p>
-            Email{" "}
+            To access, correct, delete, or receive a copy of your personal information, or to opt out
+            of sale/sharing, email{" "}
             <a href={`mailto:${CONTACT_EMAIL}?subject=Privacy%20Request`} className="text-[#FF6633] underline">{CONTACT_EMAIL}</a>{" "}
-            with the subject &ldquo;Privacy Request&rdquo;.
+            with the subject &ldquo;Privacy Request&rdquo;, or write to the mailing address below.
+          </p>
+          <p className="pt-1 text-sm text-[#5C6178]">
+            We confirm receipt within 10 business days and respond within 45 days, extendable once by
+            a further 45 days where the request is complex — we will tell you if that happens. We
+            verify your identity before acting on a request, and we will not charge you or provide a
+            lesser standard of service for exercising a right. An authorized agent may submit a
+            request on your behalf with written permission. See{" "}
+            <Link href="/privacy-choices" className="text-[#FF6633] underline">Your Privacy Choices</Link>{" "}
+            and our <Link href="/privacy" className="text-[#FF6633] underline">Privacy Policy</Link>.
+          </p>
+        </div>
+        <div>
+          <p className="font-[700]">Copyright (DMCA)</p>
+          <p>
+            Send infringement notices to{" "}
+            <a href={`mailto:${CONTACT_EMAIL}?subject=DMCA%20Notice`} className="text-[#FF6633] underline">{CONTACT_EMAIL}</a>{" "}
+            with the subject &ldquo;DMCA Notice&rdquo;. See our{" "}
+            <Link href="/dmca" className="text-[#FF6633] underline">Copyright &amp; DMCA Policy</Link>.
+          </p>
+        </div>
+        <div>
+          <p className="font-[700]">Security</p>
+          <p>
+            To report a vulnerability, email{" "}
+            <a href={`mailto:${CONTACT_EMAIL}?subject=Security%20Report`} className="text-[#FF6633] underline">{CONTACT_EMAIL}</a>{" "}
+            with the subject &ldquo;Security Report&rdquo;. Please give us a reasonable period to
+            investigate and remediate before public disclosure. We will not pursue legal action
+            against good-faith research that respects user privacy and avoids service disruption.
           </p>
         </div>
         <div>
