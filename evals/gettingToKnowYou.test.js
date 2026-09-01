@@ -36,9 +36,11 @@ const MAGNET_NEW_KEYS = [
 	'platformsOr',
 	'editLabel',
 	'doneLabel',
-	'waitStepScrapeStarted',
-	'waitStepPagesRead',
-	'waitStepTokensReady',
+	'waitBeatFraming',
+	'waitBeatAudience',
+	'waitBeatServices',
+	'waitBeatProblem',
+	'waitBeatUvp',
 ];
 
 function magnetKeys(file) {
@@ -160,36 +162,187 @@ describe('wzP6PJqiVxqG paint — filled in, empty/banned out', () => {
 	});
 });
 
-describe('wait steps — bind only real scrape ids', () => {
-	it('missing events → empty (honest wait, not Munch theatre)', () => {
-		assert.deepEqual(gtk.waitStepsFromBody({ status: 'building' }), []);
-		assert.deepEqual(gtk.waitStepsFromBody(null), []);
-		assert.deepEqual(gtk.waitStepsFromBody({ posts_composing: true }), []);
+describe('wait beats — admit progress array, never scrape theatre', () => {
+	it('empty / missing progress → honest wait, not invented beats', () => {
+		assert.deepEqual(gtk.waitBeatsFromBody({ status: 'building' }), []);
+		assert.deepEqual(gtk.waitBeatsFromBody(null), []);
+		assert.deepEqual(gtk.waitBeatsFromBody({ posts_composing: true }), []);
+		assert.deepEqual(gtk.waitBeatsFromBody({ progress: [] }), []);
 	});
 
-	it('binds scrape_started / pages_read / tokens_ready from progress, events, or flags', () => {
-		assert.deepEqual(gtk.waitStepsFromBody({ progress: 'scrape_started' }), ['scrape_started']);
-		assert.deepEqual(gtk.waitStepsFromBody({ events: ['scrape_started', 'pages_read'] }), [
-			'scrape_started',
-			'pages_read',
-		]);
-		assert.deepEqual(gtk.waitStepsFromBody({ events: [{ id: 'tokens_ready' }] }), ['tokens_ready']);
-		assert.deepEqual(gtk.waitStepsFromBody({ scrape_started: true, tokens_ready: 1 }), [
-			'scrape_started',
-			'tokens_ready',
-		]);
-	});
+	it('live contract: English GET headings fold in admitted order with their texts', () => {
+		assert.equal(gtk.foldBeatHeading('What this business is'), 'framing');
+		assert.equal(gtk.foldBeatHeading('Who it is for'), 'audience');
+		assert.equal(gtk.foldBeatHeading('What it offers'), 'services');
+		assert.equal(gtk.foldBeatHeading('The problem it solves'), 'problem');
+		assert.equal(gtk.foldBeatHeading('Why it wins'), 'UVP');
+		assert.equal(gtk.foldBeatHeading('  WHO   IT IS FOR  '), 'audience');
+		assert.equal(gtk.foldBeatHeading('what this business is'), 'framing');
 
-	it('never treats posts_composing as a wait step or a progress string', () => {
+		const live = gtk.waitBeatsFromBody({
+			status: 'building',
+			progress: [
+				{ heading: 'Why it wins', text: 'The co-founder on the work.' },
+				{ heading: 'Who it is for', text: 'Small-business owners.' },
+				{ heading: 'What this business is', text: 'Direct, practical, for owners.' },
+				{ heading: 'The problem it solves', text: 'Owners should not have to be everything.' },
+				{ heading: 'What it offers', text: 'Plans, documents, and a month of posts.' },
+			],
+		});
+		assert.deepEqual(live, [
+			{ heading: 'framing', text: 'Direct, practical, for owners.' },
+			{ heading: 'audience', text: 'Small-business owners.' },
+			{ heading: 'services', text: 'Plans, documents, and a month of posts.' },
+			{ heading: 'problem', text: 'Owners should not have to be everything.' },
+			{ heading: 'UVP', text: 'The co-founder on the work.' },
+		]);
+		assert.equal(gtk.typedText(live[0].text, 6), 'Direct');
+		assert.equal(
+			gtk.waitBeatsFromBody({
+				progress: [
+					{ heading: 'What this business is', text: 'Direct, practical, for owners.' },
+					{ heading: 'Who it is for', text: 'Small-business owners.' },
+				],
+			}).map((b) => b.heading).join(','),
+			'framing,audience',
+		);
 		assert.deepEqual(
-			gtk.waitStepsFromBody({ events: ['posts_composing', 'scrape_started'] }),
-			['scrape_started'],
+			gtk.waitBeatsFromBody({
+				progress: [
+					{ heading: 'What this business is', text: '' },
+					{ heading: 'A heading we do not admit', text: 'No.' },
+					{ heading: 'Who it is for', text: 'Owners.' },
+				],
+			}),
+			[{ heading: 'audience', text: 'Owners.' }],
+		);
+		assert.equal(reveal.progressFromBody({ progress: 'What this business is' }), '');
+	});
+
+	it('binds admitted beats in framing → audience → services → problem → UVP order and types the text', () => {
+		const two = gtk.waitBeatsFromBody({
+			status: 'building',
+			progress: [
+				{ heading: 'framing', text: 'Direct, practical, for owners.' },
+				{ heading: 'audience', text: 'Small-business owners.' },
+			],
+		});
+		assert.deepEqual(
+			two.map((b) => b.heading),
+			['framing', 'audience'],
+		);
+		assert.equal(two[0].text, 'Direct, practical, for owners.');
+		assert.equal(two[1].text, 'Small-business owners.');
+		assert.equal(
+			two.some((b) => b.heading === 'services' || b.heading === 'problem' || b.heading === 'UVP'),
+			false,
+			'later beats absent until present',
+		);
+		assert.equal(gtk.typedText(two[0].text, 0), '');
+		assert.equal(gtk.typedText(two[0].text, 6), 'Direct');
+		assert.equal(gtk.typedText(two[0].text, 99), two[0].text);
+		assert.equal(gtk.typedText(two[0].text, 2, true), two[0].text);
+
+		const later = gtk.waitBeatsFromBody({
+			status: 'building',
+			progress: [
+				{ heading: 'UVP', text: 'The co-founder on the work.' },
+				{ heading: 'audience', text: 'Small-business owners.' },
+				{ heading: 'framing', text: 'Direct, practical, for owners.' },
+				{ heading: 'problem', text: 'Owners should not have to be everything.' },
+				{ heading: 'services', text: 'Plans, documents, and a month of posts.' },
+			],
+		});
+		assert.deepEqual(
+			later.map((b) => b.heading),
+			['framing', 'audience', 'services', 'problem', 'UVP'],
+		);
+	});
+
+	it('heading not in the admitted set is ignored; missing/empty text omits that beat', () => {
+		assert.deepEqual(
+			gtk.waitBeatsFromBody({
+				progress: [
+					{ heading: 'trustSignals', text: 'Five stars.' },
+					{ heading: 'framing', text: '' },
+					{ heading: 'audience', text: '   ' },
+					{ heading: 'services', text: 'Hiring and documents.' },
+					{ heading: 'logo', text: 'A mark.' },
+				],
+			}),
+			[{ heading: 'services', text: 'Hiring and documents.' }],
+		);
+		assert.equal(gtk.foldBeatHeading('messaging'), 'framing');
+		assert.equal(gtk.foldBeatHeading('uvp'), 'UVP');
+		assert.deepEqual(
+			gtk.waitBeatsFromBody({
+				progress: [
+					{ heading: 'messaging', text: 'How we talk.' },
+					{ heading: 'uvp', text: 'We do the work.' },
+				],
+			}),
+			[
+				{ heading: 'framing', text: 'How we talk.' },
+				{ heading: 'UVP', text: 'We do the work.' },
+			],
+		);
+	});
+
+	it('scrape_started / pages_read / tokens_ready never become wait UI', () => {
+		assert.deepEqual(gtk.waitBeatsFromBody({ progress: 'scrape_started' }), []);
+		assert.deepEqual(
+			gtk.waitBeatsFromBody({
+				events: ['scrape_started', 'pages_read'],
+				scrape_started: true,
+				pages_read: true,
+				tokens_ready: 1,
+			}),
+			[],
+		);
+		assert.deepEqual(
+			gtk.waitBeatsFromBody({
+				progress: [
+					{ heading: 'scrape_started', text: 'Started reading the site.' },
+					{ heading: 'pages_read', text: 'Reading the pages.' },
+					{ heading: 'tokens_ready', text: 'Finished reading.' },
+				],
+			}),
+			[],
+		);
+		assert.equal(gtk.foldBeatHeading('scrape_started'), '');
+		assert.equal(gtk.foldBeatHeading('pages_read'), '');
+		assert.equal(gtk.foldBeatHeading('tokens_ready'), '');
+		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		assert.doesNotMatch(magnet, /waitStepScrapeStarted/);
+		assert.doesNotMatch(magnet, /waitStepPagesRead/);
+		assert.doesNotMatch(magnet, /waitStepTokensReady/);
+		assert.doesNotMatch(magnet, /scrape_started/);
+		assert.doesNotMatch(magnet, /pages_read/);
+		assert.doesNotMatch(magnet, /tokens_ready/);
+		assert.match(magnet, /waitBeatsFromBody/);
+		assert.match(magnet, /typedText\(/);
+		assert.match(magnet, /TYPEOUT_MS_PER_CHAR/);
+	});
+
+	it('never treats posts_composing as a wait beat or a progress string', () => {
+		assert.deepEqual(
+			gtk.waitBeatsFromBody({ events: ['posts_composing', 'scrape_started'] }),
+			[],
 		);
 		assert.equal(reveal.progressFromBody({ progress: 'posts_composing' }), '');
 		assert.equal(reveal.progressFromBody({ progress: 'scrape_started' }), '');
+		assert.equal(reveal.progressFromBody({ progress: 'framing' }), '');
 		assert.equal(
 			reveal.progressFromBody({ progress: 'Pulling colours from the homepage.' }),
 			'Pulling colours from the homepage.',
+		);
+		assert.equal(
+			reveal.progressFromBody({
+				progress: [
+					{ heading: 'framing', text: 'Direct, practical, for owners.' },
+				],
+			}),
+			'',
 		);
 	});
 });
@@ -272,6 +425,9 @@ describe('EN/ES magnet key parity for Getting To Know You', () => {
 		assert.doesNotMatch(esMagnet, /Mensajer[ií]a y encuadre/i);
 		assert.doesNotMatch(esMagnet, /Horario de publicaci[oó]n/);
 		assert.doesNotMatch(esMagnet, /I'm learning/);
+		assert.match(esMagnet, /Lo que te distingue/);
+		assert.doesNotMatch(esMagnet, /What sets you apart/);
+		assert.doesNotMatch(esMagnet, /Propuesta de valor/);
 		assert.doesNotMatch(esMagnet, /Reveal My First Posts/);
 		assert.doesNotMatch(esMagnet, /Official FREE/);
 	});
