@@ -4,7 +4,8 @@
  * Getting To Know You — paint plan from a ready GET body.
  *
  * Capture order, one heading per filled field. Empty omitted.
- * Does not invent narrationPov / uvp / trustSignals headings.
+ * Audience and problem paint when GET has them (positioning, else brand).
+ * Does not invent narrationPov / uvp / trustSignals / competitors headings.
  * Does not paint content.posts. Cadence is never Posting Schedule.
  *
  * leftover-4 dest HOLD: this module does not persist. Hydrate lives on
@@ -41,8 +42,10 @@ const TYPEOUT_MS_PER_CHAR = 24;
 const SECTION_ORDER = Object.freeze([
 	'name',
 	'overview',
+	'audience',
 	'products',
 	'services',
+	'problem',
 	'messaging',
 	'ctas',
 	'slogans',
@@ -56,8 +59,10 @@ const SECTION_ORDER = Object.freeze([
 const HEADING_KEY = Object.freeze({
 	name: 'headingName',
 	overview: 'headingOverview',
+	audience: 'headingAudience',
 	products: 'headingProducts',
 	services: 'headingServices',
+	problem: 'headingProblem',
 	messaging: 'headingMessaging',
 	ctas: 'headingCtas',
 	slogans: 'headingSlogans',
@@ -70,8 +75,6 @@ const HEADING_KEY = Object.freeze({
 
 /** Never become section ids, even when the GET has values. */
 const BANNED_HEADING_IDS = Object.freeze([
-	'audience',
-	'problem',
 	'keyTerms',
 	'language',
 	'tagline',
@@ -268,6 +271,24 @@ function voiceFromBody(body) {
 	return { chips, sentence };
 }
 
+function hasFact(raw) {
+	if (Array.isArray(raw)) return asList(raw).length > 0;
+	return Boolean(asText(raw));
+}
+
+/** positioning[key] first; brand[key] if positioning is empty. */
+function pickFolded(positioning, brand, key) {
+	const fromPos = positioning && positioning[key];
+	if (hasFact(fromPos)) return fromPos;
+	return brand && brand[key];
+}
+
+function foldedFact(body, key) {
+	const brand = (body && body.brand) || {};
+	const positioning = (body && body.positioning) || {};
+	return asList(pickFolded(positioning, brand, key)).join(' ');
+}
+
 /**
  * Posting Schedule = the platforms they picked (or Decide = both offered).
  * Never cadence prose.
@@ -293,6 +314,9 @@ function profileSections(body, opts) {
 	const overview = overviewFromBrand(brand);
 	if (overview) sections.push({ id: 'overview', kind: 'text', value: overview });
 
+	const audience = foldedFact(body, 'audience');
+	if (audience) sections.push({ id: 'audience', kind: 'text', value: audience });
+
 	const products = asList(brand.products);
 	if (products.length) {
 		sections.push({ id: 'products', kind: 'list', value: products, observeOnly: true });
@@ -302,6 +326,9 @@ function profileSections(body, opts) {
 	if (services) {
 		sections.push({ id: 'services', kind: 'text', value: services, observeOnly: true });
 	}
+
+	const problem = foldedFact(body, 'problem');
+	if (problem) sections.push({ id: 'problem', kind: 'text', value: problem });
 
 	const messaging = asText(brand.messaging);
 	if (messaging) sections.push({ id: 'messaging', kind: 'text', value: messaging });

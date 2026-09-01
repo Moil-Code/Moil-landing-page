@@ -22,8 +22,10 @@ const MAGNET_NEW_KEYS = [
 	'knowingTitle',
 	'headingName',
 	'headingOverview',
+	'headingAudience',
 	'headingProducts',
 	'headingServices',
+	'headingProblem',
 	'headingMessaging',
 	'headingCtas',
 	'headingSlogans',
@@ -111,11 +113,13 @@ describe('wzP6PJqiVxqG paint — filled in, empty/banned out', () => {
 		assert.equal(byId.voice.sentence, 'Direct. Practical. Empowering.');
 	});
 
-	it('omits audience, problem, keyTerms, language, tagline, cadence, posts', () => {
+	it('omits empty audience and problem; still omits keyTerms, language, tagline, cadence, posts', () => {
 		const ids = new Set(sections.map((s) => s.id));
 		for (const banned of gtk.BANNED_HEADING_IDS) {
 			assert.equal(ids.has(banned), false, banned);
 		}
+		assert.equal(ids.has('audience'), false);
+		assert.equal(ids.has('problem'), false);
 		assert.equal(fixture.positioning.audience, '');
 		assert.equal(fixture.positioning.problem, '');
 		assert.equal(fixture.positioning.keyTerms, '');
@@ -159,6 +163,161 @@ describe('wzP6PJqiVxqG paint — filled in, empty/banned out', () => {
 		);
 		assert.equal(reveal.canShowReadyCard({ name: '' }), false);
 		assert.equal(reveal.canShowReadyCard({ name: 'Moil' }), true);
+	});
+});
+
+describe('audience and problem paint when GET has them', () => {
+	it('paints positioning.audience and positioning.problem in capture order', () => {
+		const sections = gtk.profileSections(
+			{
+				brand: {
+					name: 'Taste On Main',
+					overview: 'Scratch cooking on Main Street.',
+					services: 'Dinner and catering.',
+				},
+				positioning: {
+					audience: 'Locals who want weeknight dinner.',
+					problem: 'Nowhere nearby that feels like home.',
+				},
+			},
+			{ selected: [] },
+		);
+		assert.deepEqual(
+			sections.map((s) => s.id),
+			['name', 'overview', 'audience', 'services', 'problem', 'schedule'],
+		);
+		const byId = Object.fromEntries(sections.map((s) => [s.id, s]));
+		assert.equal(byId.audience.value, 'Locals who want weeknight dinner.');
+		assert.equal(byId.problem.value, 'Nowhere nearby that feels like home.');
+		assert.equal(gtk.headingKeyFor('audience'), 'headingAudience');
+		assert.equal(gtk.headingKeyFor('problem'), 'headingProblem');
+		assert.ok(gtk.SECTION_ORDER.indexOf('audience') > gtk.SECTION_ORDER.indexOf('overview'));
+		assert.ok(gtk.SECTION_ORDER.indexOf('audience') < gtk.SECTION_ORDER.indexOf('services'));
+		assert.ok(gtk.SECTION_ORDER.indexOf('problem') > gtk.SECTION_ORDER.indexOf('services'));
+	});
+
+	it('admits brand-level audience and problem when positioning is empty', () => {
+		const sections = gtk.profileSections(
+			{
+				brand: {
+					name: 'Shop',
+					audience: 'Owners.',
+					problem: 'Too many hats.',
+				},
+				positioning: {
+					audience: '',
+					problem: '',
+				},
+			},
+			{ selected: [] },
+		);
+		const byId = Object.fromEntries(sections.map((s) => [s.id, s]));
+		assert.equal(byId.audience.value, 'Owners.');
+		assert.equal(byId.problem.value, 'Too many hats.');
+	});
+
+	it('prefers positioning over brand when both are present', () => {
+		const sections = gtk.profileSections(
+			{
+				brand: {
+					name: 'Shop',
+					audience: 'Brand-level audience.',
+					problem: 'Brand-level problem.',
+				},
+				positioning: {
+					audience: 'Positioning audience.',
+					problem: 'Positioning problem.',
+				},
+			},
+			{ selected: [] },
+		);
+		const byId = Object.fromEntries(sections.map((s) => [s.id, s]));
+		assert.equal(byId.audience.value, 'Positioning audience.');
+		assert.equal(byId.problem.value, 'Positioning problem.');
+	});
+
+	it('unwraps { value } facts and joins arrays; omits whitespace-only', () => {
+		const wrapped = gtk.profileSections(
+			{
+				brand: { name: 'Shop' },
+				positioning: {
+					audience: { value: 'Trades', factClass: 'extracted', source: 'site' },
+					problem: [{ value: 'Too many hats.' }, { value: 'No time to post.' }],
+				},
+			},
+			{ selected: [] },
+		);
+		const byId = Object.fromEntries(wrapped.map((s) => [s.id, s]));
+		assert.equal(byId.audience.value, 'Trades');
+		assert.equal(byId.problem.value, 'Too many hats. No time to post.');
+
+		const empty = gtk.profileSections(
+			{
+				brand: { name: 'Shop', audience: '   ', problem: { value: '' } },
+				positioning: { audience: '', problem: '  ' },
+			},
+			{ selected: [] },
+		);
+		const ids = empty.map((s) => s.id);
+		assert.equal(ids.includes('audience'), false);
+		assert.equal(ids.includes('problem'), false);
+	});
+
+	it('does not unban keyTerms, language, tagline, cadence, narrationPov, uvp, trustSignals, posts', () => {
+		const sections = gtk.profileSections(
+			{
+				brand: {
+					name: 'Shop',
+					language: 'en',
+					tagline: 'The AI co-founder for small business owners.',
+					keyTerms: ['co-founder'],
+					narrationPov: 'We',
+					uvp: 'We do the work.',
+					trustSignals: ['Five stars'],
+					competitors: ['A rival'],
+					market: 'Local dinner',
+				},
+				positioning: {
+					audience: 'Locals.',
+					problem: 'Nowhere nearby.',
+					keyTerms: ['weeknight'],
+					cadence: 'A few times a week',
+					narrationPov: 'We',
+					uvp: 'Home cooking.',
+					trustSignals: ['Since 2019'],
+				},
+				content: {
+					kind: 'posts',
+					posts: [{ caption: 'Tuesday special.' }],
+				},
+			},
+			{ selected: [] },
+		);
+		const ids = sections.map((s) => s.id);
+		assert.ok(ids.includes('audience'));
+		assert.ok(ids.includes('problem'));
+		for (const banned of gtk.BANNED_HEADING_IDS) {
+			assert.equal(ids.includes(banned), false, banned);
+		}
+		assert.equal(ids.includes('competitors'), false);
+		assert.equal(ids.includes('market'), false);
+		assert.deepEqual(
+			gtk.BANNED_HEADING_IDS,
+			[
+				'keyTerms',
+				'language',
+				'tagline',
+				'cadence',
+				'narrationPov',
+				'uvp',
+				'trustSignals',
+				'posts',
+			],
+		);
+		const helperBody = read('app/business/preview/gettingToKnowYou.js')
+			.replace(/\/\*[\s\S]*?\*\//g, '')
+			.replace(/^\s*\/\/.*$/gm, '');
+		assert.doesNotMatch(helperBody, /content\.posts/);
 	});
 });
 
@@ -449,8 +608,13 @@ describe('EN/ES magnet key parity for Getting To Know You', () => {
 		assert.doesNotMatch(esMagnet, /Horario de publicaci[oó]n/);
 		assert.doesNotMatch(esMagnet, /I'm learning/);
 		assert.match(esMagnet, /Lo que te distingue/);
+		assert.match(esMagnet, /A quién te diriges/);
+		assert.match(esMagnet, /Qué problema resuelves/);
 		assert.doesNotMatch(esMagnet, /What sets you apart/);
 		assert.doesNotMatch(esMagnet, /Propuesta de valor/);
+		assert.doesNotMatch(esMagnet, /Target Audience/);
+		assert.doesNotMatch(esMagnet, /What problem do you solve/);
+		assert.doesNotMatch(esMagnet, /Audiencia objetivo/);
 		assert.doesNotMatch(esMagnet, /Reveal My First Posts/);
 		assert.doesNotMatch(esMagnet, /Official FREE/);
 	});
