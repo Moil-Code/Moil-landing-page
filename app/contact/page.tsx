@@ -1,50 +1,54 @@
-import type { Metadata } from "next";
-import LegalPage from "~~/src/common/components/LegalPage";
-import { baseURL1 } from "~~/src/common/constants/baseUrl";
-import { COMPANY_NAME, COMPANY_ADDRESS, CONTACT_EMAIL } from "~~/src/common/constants/company";
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import { ArrowUpRight } from 'lucide-react';
+import { baseURL1 } from '../../src/common/constants/baseUrl';
+import { COMPANY_ADDRESS, COMPANY_NAME, CONTACT_EMAIL } from '../../src/common/constants/company';
+import styles from '../showcase-pages.module.css';
 
 export const metadata: Metadata = {
-  title: "Contact Us",
-  description: "Get in touch with Moil Enterprise Inc. for support, privacy requests, partnerships, and general questions.",
+  title: 'Contact Moil',
+  description: 'Talk to Moil about support, partnerships, privacy requests, or a new small-business website.',
   alternates: { canonical: `${baseURL1}/contact` },
   robots: { index: true, follow: true },
 };
 
 export default function ContactPage() {
-  return (
-    <LegalPage
-      title="Contact Us"
-      page="contact"
-      intro="We'd love to hear from you. Reach out and we'll get back to you as soon as we can."
-    >
-      <div className="flex flex-col gap-y-5 text-base leading-normal font-medium text-[#22263A]">
+  return <main className={styles.page}>
+    <section className={`${styles.hero} ${styles.simpleHero}`}>
+      <div className={styles.heroInner}>
         <div>
-          <p className="font-[700]">General & Support</p>
-          <p>
-            Email:{" "}
-            <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#FF6633] underline">{CONTACT_EMAIL}</a>
-          </p>
+          <span className={styles.eyebrow}>CONTACT MOIL</span>
+          <h1 className={styles.title}>Let&apos;s make the next move <span className={styles.titleAccent}>useful.</span></h1>
+          <p className={styles.lede}>Whether you need help, want to explore a partnership, or have a project in mind, send us a note. We will point you to the right next step.</p>
         </div>
-        <div>
-          <p className="font-[700]">Privacy Requests</p>
-          <p>
-            Email{" "}
-            <a href={`mailto:${CONTACT_EMAIL}?subject=Privacy%20Request`} className="text-[#FF6633] underline">{CONTACT_EMAIL}</a>{" "}
-            with the subject &ldquo;Privacy Request&rdquo;.
-          </p>
-        </div>
-        <div>
-          <p className="font-[700]">Mailing Address</p>
-          <p>{COMPANY_NAME}</p>
-          <p>{COMPANY_ADDRESS}</p>
-        </div>
-        <div className="flex flex-wrap gap-x-5 gap-y-2 pt-2 text-sm">
-          <a href="https://www.linkedin.com/company/moilapp" target="_blank" rel="noopener noreferrer" className="text-[#5843BE] underline">LinkedIn</a>
-          <a href="https://www.facebook.com/themoilapp" target="_blank" rel="noopener noreferrer" className="text-[#5843BE] underline">Facebook</a>
-          <a href="https://instagram.com/themoilapp" target="_blank" rel="noopener noreferrer" className="text-[#5843BE] underline">Instagram</a>
-          <a href="https://blog.moilapp.com" target="_blank" rel="noopener noreferrer" className="text-[#5843BE] underline">Blog</a>
-        </div>
+        <div className={styles.heroImage}><Image src="/page-heroes/contact-conversation.png" alt="Two people having a thoughtful business conversation" fill priority sizes="(max-width: 900px) 100vw, 45vw" /></div>
       </div>
-    </LegalPage>
-  );
+    </section>
+    <section className={styles.section}>
+      <div className={styles.contactGrid}>
+        <div className={styles.contactCard}>
+          <span className={styles.eyebrow}>START A CONVERSATION</span>
+          <h2>What can we help with?</h2>
+          <div className={styles.contactLinks}>
+            <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=General%20question`}>General questions & support <ArrowUpRight size={18} /></a>
+            <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=Moil%20partnership%20inquiry`}>Partnerships & community programs <ArrowUpRight size={18} /></a>
+            <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=Website%20project%20inquiry`}>Small-business website projects <ArrowUpRight size={18} /></a>
+            <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=Privacy%20request`}>Privacy requests <ArrowUpRight size={18} /></a>
+          </div>
+        </div>
+        <aside className={`${styles.contactCard} ${styles.contactAside}`}>
+          <div>
+            <span className={styles.eyebrow}>MOIL ENTERPRISE INC.</span>
+            <h2>One place to start, even if you do not have all the answers yet.</h2>
+            <p>Tell us what is on your plate. We will help you find the most useful way forward.</p>
+          </div>
+          <div className={styles.contactDetails}>
+            <div><span>EMAIL</span><strong>{CONTACT_EMAIL}</strong></div>
+            <div><span>LOCATION</span><strong>{COMPANY_ADDRESS}</strong></div>
+            <div><span>COMPANY</span><strong>{COMPANY_NAME}</strong></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>;
 }
