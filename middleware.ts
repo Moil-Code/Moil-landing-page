@@ -44,6 +44,9 @@ export function middleware(request: NextRequest) {
     path: '/',
     maxAge: 60 * 60 * 24 * 365, // 1 year
     sameSite: 'lax',
+    // Preference-only value, but it is emitted on every response; never let it
+    // ride a plain-HTTP hop. Dev runs on http://localhost, so gate on production.
+    secure: process.env.NODE_ENV === 'production',
   })
   response.headers.set('Content-Language', htmlLang)
 

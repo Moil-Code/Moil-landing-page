@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
+import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 export const metadata: Metadata = {
   title: 'Search Jobs — Bilingual Job Opportunities Near You',
@@ -63,7 +64,7 @@ export default function SearchJobLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "Job Search — Moil",

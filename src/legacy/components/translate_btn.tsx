@@ -42,12 +42,12 @@ const TranslateButton: React.FC<TranslateButtonProps> = ({
   useEffect(() => {
     if (!scriptAdded && typeof window !== 'undefined') {
       const myTranslateScript = document.querySelectorAll(
-        'script[src^="//translate.google.com/translate_a/element.js"]'
+        'script[src*="translate.google.com/translate_a/element.js"]'
       );
 
       if (myTranslateScript.length === 0) {
         const addScript = document.createElement('script');
-        addScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+        addScript.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
         addScript.async = true;
         addScript.onerror = () => {
           console.error('Failed to load Google Translate script');

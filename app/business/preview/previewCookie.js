@@ -17,7 +17,21 @@ function previewCookieOptions() {
 		maxAge: PREVIEW_SLUG_MAX_AGE,
 		sameSite: 'lax',
 		path: '/',
+		secure: true,
 	};
+}
+
+/**
+ * `Secure` is appended only on an https page: a browser silently DROPS a
+ * Secure cookie written from an http origin (localhost dev), which would make
+ * the resume-a-finished-preview path fail exactly where it is tested by hand.
+ * Production is https-only (HSTS), so the attribute is always present there.
+ */
+function secureSuffix(doc) {
+	const loc =
+		(doc && doc.location) ||
+		(typeof location !== 'undefined' ? location : null);
+	return loc && loc.protocol === 'https:' ? '; Secure' : '';
 }
 
 /**
@@ -35,7 +49,8 @@ function setPreviewSlugCookie(slug, doc) {
 		encodeURIComponent(value) +
 		'; Max-Age=' +
 		PREVIEW_SLUG_MAX_AGE +
-		'; Path=/; SameSite=Lax';
+		'; Path=/; SameSite=Lax' +
+		secureSuffix(target);
 }
 
 /**
@@ -78,7 +93,9 @@ function clearPreviewSlugCookie(doc) {
 	const target = doc || (typeof document !== 'undefined' ? document : null);
 	if (!target || typeof target.cookie !== 'string') return;
 	target.cookie =
-		PREVIEW_SLUG_COOKIE + '=; Max-Age=0; Path=/; SameSite=Lax';
+		PREVIEW_SLUG_COOKIE +
+		'=; Max-Age=0; Path=/; SameSite=Lax' +
+		secureSuffix(target);
 }
 
 module.exports = {

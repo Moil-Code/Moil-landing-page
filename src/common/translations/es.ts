@@ -255,7 +255,7 @@ export const es: TranslationKeys = {
       quote: 'Dirigir un pequeño negocio significa usar todos los sombreros — CEO, mercadólogo, reclutador, estratega — todo a la vez.',
       quoteEmphasis: 'Eso termina hoy.',
       description: 'Moil es la primera plataforma de IA que conecta cada función crítica de un pequeño negocio en un único ecosistema inteligente. Inicia una conversación, responde 21 preguntas estratégicas y observa cómo tu co-fundador IA construye tu investigación de mercado, plan de negocios, estrategia de contenido y activos visuales — todo en un mismo lugar.',
-      footnote: 'Disponible en inglés y español · Cumple con SOC 2 · Sin tarifas de configuración',
+      footnote: 'Disponible en inglés y español · Cifrado en tránsito y en reposo · Sin tarifas de configuración',
       cardTitle: 'Tu Co-Fundador IA',
       cardSub: 'Plataforma de Inteligencia Moil · Siempre Activo',
       cofounder: {
@@ -308,7 +308,7 @@ export const es: TranslationKeys = {
         'Bilingüe inglés y español',
       ],
       moilCta: 'Empieza gratis — sin tarjeta',
-      moilTrust: 'Seguro · Garantía de 30 días · Sin tarifas de configuración',
+      moilTrust: 'Seguro · Cancela cuando quieras · Sin tarifas de configuración',
     },
     capabilities: {
       tag: 'Capacidades de la Plataforma',
@@ -539,7 +539,7 @@ export const es: TranslationKeys = {
         ],
       },
       trust: {
-        guarantee: 'Garantía de 30 Días',
+        guarantee: 'Cancela cuando quieras',
         noSetupFees: 'Sin Tarifas de Configuración',
         cancelAnytime: 'Cancela en Cualquier Momento',
         soc2: 'Empieza gratis \u2014 sin tarjeta',
@@ -625,7 +625,7 @@ export const es: TranslationKeys = {
       heroSub: 'Market Pro es el socio: aprende una vez, piensa contigo, hace el trabajo y escribe el mes en ingl\u00e9s o en espa\u00f1ol. Professional es $25 si quieres la investigaci\u00f3n, el plan y los documentos sin el mes.',
       heroCta: 'Empieza gratis \u2014 sin tarjeta',
       heroCtaSecondary: 'Ver Market Pro',
-      trust30Day: 'Garantía de 30 Días',
+      trust30Day: 'Cancela cuando quieras',
       trustNoSetup: 'Sin Tarifas de Configuración',
       trustCancel: 'Cancela en Cualquier Momento',
       trustBilingual: 'Bilingüe EN/ES',
@@ -726,7 +726,7 @@ export const es: TranslationKeys = {
       intro: '"Una agencia de marketing, un consultor de negocios, un reclutador y un coach IA disponible 24/7 — todo en una plataforma, desde $25 al mes."',
       annualBadge: '✓ Ahorra hasta 25% con facturación anual',
       featuredBadge: '⭐ MEJOR VALOR',
-      trust: ['Garantía de 30 Días', 'Sin Costos de Configuración', 'Cancela Cuando Quieras', 'Cumple SOC 2', 'Bilingüe EN/ES'],
+      trust: ['Sin Costos de Configuración', 'Cancela Cuando Quieras', 'Cifrado en Tránsito y en Reposo', 'Bilingüe EN/ES'],
     },
     comparison: {
       sectionTag: 'La Comparación Real',
@@ -751,7 +751,7 @@ export const es: TranslationKeys = {
       headLine2Highlight: 'Ahora Mismo.',
       sub: 'Otro dueño acaba de recibir sus próximos 30 días de contenido — investigado, escrito y listo para publicar. Con su voz. En los dos idiomas.',
       cta: 'Empieza gratis — sin tarjeta',
-      trust: ['🔒 Seguro', 'Garantía de 30 Días', 'Sin Costos de Configuración', 'Cancela Cuando Quieras'],
+      trust: ['🔒 Seguro', 'Sin Costos de Configuración', 'Cancela Cuando Quieras'],
     },
     footer: {
       howItWorks: 'Cómo Funciona',
@@ -767,7 +767,7 @@ export const es: TranslationKeys = {
   footer: {
     tagline: 'Moil aprende tu pequeño negocio una vez y escribe tu marketing — investigación, plan, un calendario de 30 días y coaching. En inglés y español.',
     badges: {
-      aiPowered: 'Cumple con SOC 2',
+      aiPowered: 'Cifrado y Privado',
       bilingual: 'Bilingüe EN/ES',
       businesses: 'Bilingüe EN/ES',
     },

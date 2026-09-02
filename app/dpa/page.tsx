@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import LegalPage from "~~/src/common/components/LegalPage";
 import { baseURL1 } from "~~/src/common/constants/baseUrl";
-import { COMPANY_NAME, CONTACT_EMAIL } from "~~/src/common/constants/company";
+import { COMPANY_NAME, CONTACT_EMAIL, LEGAL_LAST_UPDATED } from "~~/src/common/constants/company";
 
 export const metadata: Metadata = {
   title: "Data Processing Addendum",
@@ -28,7 +28,11 @@ export default function DpaPage() {
     },
     {
       heading: "4. Subprocessors",
-      text: "We engage the subprocessors listed on our Subprocessors page to help deliver the Services, under contracts that impose data-protection obligations. We remain responsible for their performance.",
+      text: "We engage the subprocessors listed on our Subprocessors page to help deliver the Services, under contracts that impose data-protection obligations. We remain responsible for their performance. We will give the customer notice before adding or replacing a subprocessor that processes customer personal data, and the customer may object on reasonable data-protection grounds; if we cannot accommodate the objection, the customer may terminate the affected Services.",
+    },
+    {
+      heading: "4a. AI Providers and Model Training",
+      text: "Some subprocessors are AI providers, and content the customer submits may be sent to them to generate a response. We instruct those providers not to use customer content to train their models, to the extent each provider's API terms allow. We do not control their internal practices and make no representation beyond that instruction. Two AI providers we use are headquartered in China and one is part of the ByteDance group; the Subprocessors page identifies each by name and headquarters. A customer that requires processing limited to United States-headquartered providers should contact us before submitting data.",
     },
     {
       heading: "5. Data Subject Requests",
@@ -36,7 +40,7 @@ export default function DpaPage() {
     },
     {
       heading: "6. Personal Data Breaches",
-      text: "We will notify the customer without undue delay after becoming aware of a personal data breach affecting customer personal data, and provide information reasonably needed to meet notification obligations.",
+      text: "We will notify the customer without undue delay, and in any event within 72 hours, after becoming aware of a personal data breach affecting customer personal data, and provide the information reasonably needed for the customer to meet its own notification obligations. Where Moil is itself required to notify individuals under state breach-notification law, we do so within the period that law allows.",
     },
     {
       heading: "7. Return and Deletion",
@@ -44,7 +48,11 @@ export default function DpaPage() {
     },
     {
       heading: "8. International Transfers",
-      text: "Where personal data is transferred across borders, we rely on appropriate safeguards such as the Standard Contractual Clauses where required.",
+      text: "Moil's infrastructure processes data in the United States. Where personal data originating in the European Economic Area or the United Kingdom is transferred, we rely on the Standard Contractual Clauses or another lawful transfer mechanism. Separately, some AI subprocessors are headquartered outside the United States, including in China; that is disclosed by name on the Subprocessors page rather than left to a general clause, because a customer cannot assess a transfer it has not been told about.",
+    },
+    {
+      heading: "8a. California: Service Provider Terms",
+      text: `For personal information the customer discloses to us that is subject to the California Consumer Privacy Act as amended, ${COMPANY_NAME} acts as a "service provider". We are prohibited from, and will not: sell or share that personal information; retain, use, or disclose it for any purpose other than performing the Services specified in the agreement, or as otherwise permitted by the CCPA; retain, use, or disclose it outside the direct business relationship with the customer; or combine it with personal information received from another source, except as the CCPA permits. We will notify the customer if we determine we can no longer meet these obligations, and the customer may take reasonable steps to stop and remediate unauthorized use.`,
     },
     {
       heading: "9. Audits",
@@ -59,7 +67,7 @@ export default function DpaPage() {
   return (
     <LegalPage
       title="Data Processing Addendum (Summary for Business Customers)"
-      lastUpdated="June 23, 2026"
+      lastUpdated={LEGAL_LAST_UPDATED}
       page="dpa"
       intro="This is a plain-language summary for business customers and is not a substitute for the signed Data Processing Addendum, which governs in the event of any conflict."
       sections={sections}

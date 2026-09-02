@@ -4,6 +4,8 @@ const { getLoginUrl, getRegisterUrl } = require("./app/business/preview/previewC
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Do not advertise the framework in every response.
+  poweredByHeader: false,
   reactStrictMode: true,
   typescript: {
     ignoreBuildErrors: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",
@@ -104,6 +106,35 @@ const nextConfig = {
           {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
+          },
+          {
+            // Framework fingerprint removed below via poweredByHeader:false;
+            // this policy set is the enforced minimum that cannot break the
+            // page: it only constrains framing, plugins and <base>. Script
+            // sources are measured first (see the Report-Only header) because
+            // the site loads inline JSON-LD, the theme restore, and — after
+            // consent — GA4, Clarity, the FB pixel, Apollo, Google Translate
+            // and Maps; enforcing script-src blind would take one of them down
+            // silently.
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors 'self'; object-src 'none'; base-uri 'self'",
+          },
+          {
+            key: 'Content-Security-Policy-Report-Only',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms https://*.clarity.ms https://connect.facebook.net https://assets.apollo.io https://*.apollo.io https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com https://maps.googleapis.com",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.gstatic.com",
+              "img-src 'self' data: blob: https:",
+              "font-src 'self' data: https://fonts.gstatic.com",
+              "connect-src 'self' https://*.moilapp.com https://www.google-analytics.com https://*.analytics.google.com https://*.clarity.ms https://www.facebook.com https://*.apollo.io https://translate.googleapis.com https://maps.googleapis.com",
+              "frame-src 'self' https://www.facebook.com https://www.googletagmanager.com",
+              "form-action 'self' https://*.moilapp.com",
+            ].join('; '),
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
           },
           {
             key: 'X-Frame-Options',

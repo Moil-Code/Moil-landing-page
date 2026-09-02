@@ -45,6 +45,12 @@ concurrency:
   group: deploy-landing-production
   cancel-in-progress: false
 
+# Least privilege: the default GITHUB_TOKEN grant is repo-configurable and often
+# read/write. Nothing in this workflow writes to the repository; jobs that need
+# more (e.g. OIDC id-token) declare it at job level.
+permissions:
+  contents: read
+
 jobs:
   # The same jest suite that runs on every PR. If it fails, nothing reaches the
   # instance.
@@ -76,7 +82,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       # Fail with a readable list rather than an opaque AWS error 40 lines later.
       - name: Check deploy configuration
@@ -121,7 +127,7 @@ jobs:
           fi
 
       - name: Assume the deploy role
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@ff717079ee2060e4bcee96c4779b553acc87447c # v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}

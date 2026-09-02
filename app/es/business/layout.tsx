@@ -3,6 +3,7 @@ import '../../business/business.css';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
 import { es } from '../../../src/common/translations/es';
 import { faqJsonLd } from '../../../src/common/utils/faqJsonLd';
+import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 export const metadata: Metadata = {
   title: {
@@ -59,7 +60,7 @@ export default function BusinessEsLayout({ children }: { children: React.ReactNo
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [
@@ -74,7 +75,7 @@ export default function BusinessEsLayout({ children }: { children: React.ReactNo
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqJsonLd(es.business.faq.items)),
+          __html: jsonLd(faqJsonLd(es.business.faq.items)),
         }}
       />
       {children}

@@ -24,7 +24,7 @@ export function Content360Footer({ themeEmoji, onToggleTheme }: Props) {
           <a href="https://moilapp.com/business" target="_blank" rel="noreferrer">
             {f.getStarted}
           </a>
-          <a href="/privacy">{lang === 'es' ? 'Términos' : 'Terms'}</a>
+          <a href="/terms">{lang === 'es' ? 'Términos' : 'Terms'}</a>
           <a href="/privacy">{lang === 'es' ? 'Privacidad' : 'Privacy'}</a>
         </div>
         <div className="lang-toggle">
