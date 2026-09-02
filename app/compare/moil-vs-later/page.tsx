@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
 import { AeoCitePage } from '../AeoCitePage';
 import { ENTITY_LINE, faqPageJsonLd, type AeoFaq, type AeoRow } from '../aeoLocks';
+import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 const H1 = 'Moil vs Later: which one should a small business use?';
 
@@ -69,7 +70,7 @@ export const metadata: Metadata = {
 export default function MoilVsLater() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd(FAQS)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(faqPageJsonLd(FAQS)) }} />
       <AeoCitePage
         eyebrow="Moil vs Later"
         h1={H1}

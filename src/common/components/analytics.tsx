@@ -1,6 +1,7 @@
 'use client';
 
 import Script from 'next/script';
+import { useConsent } from '../consent';
 
 // Analytics IDs come from env (see .env.example). Each block only renders when
 // its ID is configured — otherwise we'd fire tracking scripts with placeholder
@@ -9,8 +10,21 @@ import Script from 'next/script';
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 const CLARITY_PROJECT_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
 const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
+const APOLLO_APP_ID = '6882701177d61d001958874e';
 
+/**
+ * Every non-essential tracker on the site, gated on cookie consent.
+ *
+ * Nothing here renders until the visitor has clicked "Accept all" (or a stored
+ * acceptance is found) and the browser is not sending Global Privacy Control.
+ * The banner has promised this gate since it shipped; this is where it is
+ * actually enforced. Adding a new tracker anywhere else in the tree bypasses
+ * the gate — add it HERE, inside the `consent === 'accepted'` branch.
+ */
 export default function Analytics() {
+  const consent = useConsent();
+  if (consent !== 'accepted') return null;
+
   return (
     <>
       {/* Google Analytics */}
@@ -64,6 +78,24 @@ export default function Analytics() {
           `}
         </Script>
       )}
+
+      {/* Apollo website-visitor tracker — identifies companies from visits, so
+          it is a "share" of personal data and sits behind the same gate. */}
+      <Script id="apollo-tracker" strategy="afterInteractive">
+        {`
+          (function(){
+            var n=Math.random().toString(36).substring(7),
+              o=document.createElement("script");
+            o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n;
+            o.async=true;
+            o.defer=true;
+            o.onload=function(){
+              window.trackingFunctions && window.trackingFunctions.onLoad && window.trackingFunctions.onLoad({appId:"${APOLLO_APP_ID}"})
+            };
+            document.head.appendChild(o);
+          })();
+        `}
+      </Script>
     </>
   );
 }

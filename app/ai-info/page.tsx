@@ -3,6 +3,7 @@ import { baseURL1 } from '../../src/common/constants/baseUrl';
 import { en } from '../../src/common/translations/en';
 import { faqJsonLd } from '../../src/common/utils/faqJsonLd';
 import './ai-info.css';
+import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 /**
  * /ai-info — a page written for assistants rather than for buyers.
@@ -117,7 +118,7 @@ export default function AiInfoPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(en.business.faq.items)) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(faqJsonLd(en.business.faq.items)) }}
       />
       <main className="ai-info">
         <header className="ai-info__head">

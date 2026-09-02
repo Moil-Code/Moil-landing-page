@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
 import { COMPANY_ADDRESS, COMPANY_NAME, CONTACT_EMAIL } from '../../src/common/constants/company';
@@ -33,8 +34,20 @@ export default function ContactPage() {
             <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=General%20question`}>General questions & support <ArrowUpRight size={18} /></a>
             <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=Moil%20partnership%20inquiry`}>Partnerships & community programs <ArrowUpRight size={18} /></a>
             <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=Website%20project%20inquiry`}>Small-business website projects <ArrowUpRight size={18} /></a>
-            <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=Privacy%20request`}>Privacy requests <ArrowUpRight size={18} /></a>
+            <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=Privacy%20Request`}>Privacy requests <ArrowUpRight size={18} /></a>
+            <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=DMCA%20Notice`}>Copyright &amp; DMCA notices <ArrowUpRight size={18} /></a>
+            <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=Security%20Report`}>Report a security issue <ArrowUpRight size={18} /></a>
           </div>
+          <p className={styles.contactNote}>
+            For a privacy request we confirm receipt within 10 business days and respond within 45
+            days, extendable once by a further 45 days where the request is complex — we will tell
+            you if that happens. We verify your identity first, an authorized agent may submit on
+            your behalf with written permission, and we will never charge you or give you a lesser
+            standard of service for exercising a right. See{' '}
+            <Link href="/privacy-choices">Your Privacy Choices</Link>,{' '}
+            <Link href="/privacy">Privacy Policy</Link> and{' '}
+            <Link href="/dmca">Copyright &amp; DMCA Policy</Link>.
+          </p>
         </div>
         <aside className={`${styles.contactCard} ${styles.contactAside}`}>
           <div>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
 import { moilOffers } from '../../src/common/seo/offers';
 import { content360Styles } from './content360Styles';
+import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 export const metadata: Metadata = {
   title: 'AI Marketing for Small Business',
@@ -76,7 +77,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
             "name": "Content360 by Moil",
@@ -107,7 +108,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "HowTo",
             "name": "How to Build a 30-Day Content Marketing Calendar with AI",
@@ -164,7 +165,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "FAQPage",
             "mainEntity": [
@@ -181,7 +182,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
                 "name": "How much does Content360 cost?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Content360 is included in Moil's plans starting at $25/month (Professional) and $75/month (Market Pro with full Content360 access). All plans include a 30-day money-back guarantee. No setup fees."
+                  "text": "Content360 is included in Moil's plans starting at $25/month (Professional) and $75/month (Market Pro with full Content360 access). Cancel anytime. No setup fees."
                 }
               },
               {
@@ -197,7 +198,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
                 "name": "Does Content360 support Spanish (bilingual content)?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Yes. Every post, caption, and strategy is available in English and Spanish with one click. Content360 is built for bilingual businesses and reaches 58% more bilingual customers than competitors."
+                  "text": "Yes. Every post, caption, and strategy is available in English and Spanish with one click. Content360 is built for bilingual businesses."
                 }
               },
               {
@@ -217,7 +218,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLd({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [

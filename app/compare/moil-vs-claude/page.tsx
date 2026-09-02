@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { AeoCitePage } from '../AeoCitePage';
 import { ENTITY_LINE, faqPageJsonLd, type AeoFaq, type AeoRow } from '../aeoLocks';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
+import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 const H1 = 'How is Moil different from Claude?';
 
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
 export default function MoilVsClaude() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd(FAQS)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(faqPageJsonLd(FAQS)) }} />
       <AeoCitePage
         eyebrow="Moil vs Claude"
         h1={H1}

@@ -133,7 +133,7 @@ const CustomTranslateButton: React.FC<CustomTranslateButtonProps> = ({
     const existingScript = document.querySelector('script[src*="translate.google.com"]');
     if (!existingScript) {
       const script = document.createElement('script');
-      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
       script.async = true;
       document.body.appendChild(script);
     } else if (window.google?.translate?.TranslateElement) {

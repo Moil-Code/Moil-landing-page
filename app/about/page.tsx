@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
 import { AeoCitePage } from '../compare/AeoCitePage';
 import { faqPageJsonLd, type AeoFaq } from '../compare/aeoLocks';
+import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 const H1 = 'Moil is the AI co-founder for small business owners.';
 
@@ -67,7 +68,7 @@ export default function AboutPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd(FAQS)) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(faqPageJsonLd(FAQS)) }}
       />
       <AeoCitePage
         eyebrow="About Moil"

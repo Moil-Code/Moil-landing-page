@@ -263,7 +263,7 @@ export const en = {
       quote: 'Running a small business means wearing every hat — CEO, marketer, recruiter, strategist — all at once.',
       quoteEmphasis: 'That ends today.',
       description: 'Moil is the first AI platform that connects every critical function of a small business into a single intelligent ecosystem. Start a conversation, answer 21 strategic questions, and watch it build your market research, business plan, content strategy and visual assets — all in one place.',
-      footnote: 'Available in English & Spanish · SOC 2 Compliant · No setup fees',
+      footnote: 'Available in English & Spanish · Encrypted in transit and at rest · No setup fees',
       cardTitle: 'Your AI Co-Founder',
       cardSub: 'Moil Intelligence Platform · Always On',
       cofounder: {
@@ -316,7 +316,7 @@ export const en = {
         'Bilingual English & Spanish',
       ],
       moilCta: 'Start free — no credit card',
-      moilTrust: 'Secure · 30-day guarantee · No setup fees',
+      moilTrust: 'Secure · Cancel anytime · No setup fees',
     },
     capabilities: {
       tag: 'Platform Capabilities',
@@ -547,10 +547,10 @@ export const en = {
         ],
       },
       trust: {
-        guarantee: '30-Day Guarantee',
+        guarantee: 'Cancel anytime',
         noSetupFees: 'No Setup Fees',
         cancelAnytime: 'Cancel Anytime',
-        soc2: 'Start free \u2014 no card',
+        startFree: 'Start free \u2014 no card',
         bilingual: 'Bilingual EN/ES',
       },
     },
@@ -637,7 +637,7 @@ export const en = {
       heroSub: 'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.',
       heroCta: 'Start free \u2014 no card',
       heroCtaSecondary: 'See Market Pro',
-      trust30Day: '30-Day Guarantee',
+      trust30Day: 'Cancel anytime',
       trustNoSetup: 'No Setup Fees',
       trustCancel: 'Cancel Anytime',
       trustBilingual: 'Bilingual EN/ES',
@@ -650,7 +650,7 @@ export const en = {
       headlineHighlight: 'alone.',
       subheadline: 'Your business plan, your market research, and a 30-day content calendar that refreshes every month — written in your voice, in English and Spanish. From $25 a month.',
       cta: 'Start free — no credit card',
-      trust: ['Free to start', '30-day guarantee', 'No credit card', 'Market Pro $75', 'Bilingual EN/ES'],
+      trust: ['Free to start', 'Cancel anytime', 'No credit card', 'Market Pro $75', 'Bilingual EN/ES'],
     },
   },
 
@@ -738,7 +738,7 @@ export const en = {
       intro: '"A marketing agency, a business consultant, a recruiter, and a 24/7 AI coach — all in one platform, starting at $25 a month."',
       annualBadge: '✓ Save up to 25% with annual billing',
       featuredBadge: '⭐ BEST VALUE',
-      trust: ['30-Day Guarantee', 'No Setup Fees', 'Cancel Anytime', 'SOC 2 Compliant', 'Bilingual EN/ES'],
+      trust: ['No Setup Fees', 'Cancel Anytime', 'Encrypted in Transit & at Rest', 'Bilingual EN/ES'],
     },
     comparison: {
       sectionTag: 'The Real Comparison',
@@ -763,7 +763,7 @@ export const en = {
       headLine2Highlight: 'Right Now.',
       sub: 'Another owner just got their next 30 days of content — researched, written, and ready to publish. In their voice. In both languages.',
       cta: 'Start free — no card',
-      trust: ['🔒 Secure', '30-Day Guarantee', 'No Setup Fees', 'Cancel Anytime'],
+      trust: ['🔒 Secure', 'No Setup Fees', 'Cancel Anytime'],
     },
     footer: {
       howItWorks: 'How It Works',
@@ -779,7 +779,7 @@ export const en = {
   footer: {
     tagline: 'Moil learns your small business once, then writes your marketing — research, plan, a 30-day content calendar, and coaching. English and Spanish.',
     badges: {
-      aiPowered: 'SOC 2 Compliant',
+      aiPowered: 'Encrypted & Private',
       bilingual: 'Bilingual EN/ES',
       businesses: 'Bilingual EN/ES',
     },

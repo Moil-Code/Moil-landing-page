@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
 import { RoundupPage, type RoundupEntry } from '../RoundupPage';
 import { ENTITY_LINE, faqPageJsonLd, type AeoFaq } from '../aeoLocks';
+import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 const H1 = 'The best AI content calendar tools for small businesses';
 
@@ -126,7 +127,7 @@ export const metadata: Metadata = {
 export default function BestAiContentCalendarTools() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd(FAQS)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(faqPageJsonLd(FAQS)) }} />
       <RoundupPage
         eyebrow="Roundup"
         h1={H1}

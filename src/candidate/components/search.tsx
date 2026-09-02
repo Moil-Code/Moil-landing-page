@@ -13,11 +13,15 @@ export default function SearchComponent({ lgQuery }: any) {
   const locationRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = () => {
-    const title_trim = title.trim();
-    console.log("location", location);
-    const location_trim = location.trim();
-    const searchUrl = `/candidate/searchjob?title=${title_trim}&location=${location_trim}&page=1&lg=${lgQuery}`;
-    window.open(searchUrl, '_self');
+    // Free text goes through URLSearchParams so `&`, `#` or `?` typed into a
+    // field cannot rewrite the rest of the query string.
+    const params = new URLSearchParams({
+      title: title.trim(),
+      location: location.trim(),
+      page: '1',
+    });
+    if (lgQuery) params.set('lg', String(lgQuery));
+    window.open(`/candidate/searchjob?${params.toString()}`, '_self');
   }
 
   const handleMouseDown = (name: string) => {

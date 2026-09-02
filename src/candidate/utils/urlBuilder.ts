@@ -56,7 +56,9 @@ export const openCandidateApp = (params: UrlParams = {}): void => {
  * Build candidate job URL with referral parameters
  */
 export const buildCandidateJobUrl = (jobCustomName: string, params: UrlParams = {}): string => {
-  const baseUrl = `${workerBaseUrl}/jobs/${jobCustomName}`;
+  // `custom_name` is employer-authored data from the jobs API. Encoded so a
+  // value carrying `/`, `?` or `#` cannot break out of the /jobs/ path segment.
+  const baseUrl = `${workerBaseUrl}/jobs/${encodeURIComponent(String(jobCustomName ?? ''))}`;
   const urlParams = new URLSearchParams();
   
   if (params.ref) {

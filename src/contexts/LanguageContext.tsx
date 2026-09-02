@@ -19,7 +19,7 @@ const translations = {
     'hero.feature1': 'AI-Powered',
     'hero.feature2': 'Fast Growth',
     'hero.feature3': 'Quick Launch',
-    'hero.guarantee': '30-day money-back guarantee',
+    'hero.guarantee': 'Cancel anytime',
     'hero.cta': 'Start Your Business Now',
     'language.toggle': 'ES',
     
@@ -65,7 +65,7 @@ const translations = {
     'faq.question3': 'Can I make changes?',
     'faq.answer3': 'Yes! We offer unlimited revisions until you\'re 100% satisfied.',
     'faq.question4': 'What if I\'m not satisfied?',
-    'faq.answer4': 'We offer a 30-day money-back guarantee, no questions asked.',
+    'faq.answer4': 'You can cancel anytime from your account settings; cancellation stops future renewals and you keep access through the end of your paid period.',
     'faq.question5': 'Do you provide support?',
     'faq.answer5': 'Yes, we provide ongoing support and maintenance for your business.'
   },
@@ -76,7 +76,7 @@ const translations = {
     'hero.feature1': 'IA Avanzada',
     'hero.feature2': 'Crecimiento Rápido',
     'hero.feature3': 'Lanzamiento Rápido',
-    'hero.guarantee': 'Garantía de devolución de 30 días',
+    'hero.guarantee': 'Cancela cuando quieras',
     'hero.cta': 'Inicia Tu Negocio Ahora',
     'language.toggle': 'EN',
     
@@ -122,7 +122,7 @@ const translations = {
     'faq.question3': '¿Puedo hacer cambios?',
     'faq.answer3': '¡Sí! Ofrecemos revisiones ilimitadas hasta que estés 100% satisfecho.',
     'faq.question4': '¿Qué pasa si no estoy satisfecho?',
-    'faq.answer4': 'Ofrecemos una garantía de devolución de dinero de 30 días, sin preguntas.',
+    'faq.answer4': 'Puedes cancelar cuando quieras desde la configuración de tu cuenta; la cancelación detiene las renovaciones futuras y conservas el acceso hasta el final de tu período pagado.',
     'faq.question5': '¿Proporcionan soporte?',
     'faq.answer5': 'Sí, proporcionamos soporte continuo y mantenimiento para tu negocio.'
   }
