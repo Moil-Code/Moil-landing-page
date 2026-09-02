@@ -107,7 +107,7 @@ export default function BusinessTestimonialSection({ refQuery, lgQuery }: Testim
         {/* Header Section */}
         <div className="text-center max-w-4xl mx-auto mb-16">
           <div className="inline-block px-4 py-1.5 bg-white/10 rounded-full text-white/90 text-sm font-medium mb-6 border border-white/20 backdrop-blur-sm">
-             ⭐ Trusted by 500+ Businesses
+             ⭐ Built for small businesses
           </div>
           
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 leading-tight tracking-tight">

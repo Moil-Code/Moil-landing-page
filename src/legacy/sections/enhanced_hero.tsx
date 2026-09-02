@@ -82,7 +82,7 @@ export default function EnhancedHero({ refQuery, lgQuery }: EnhancedHeroProps) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 md:gap-x-12 lg:gap-x-16 gap-y-8 md:gap-y-12 lg:gap-y-2 items-center relative z-10 min-h-[60vh] md:min-h-[70vh] lg:min-h-[80vh]">
           <div className="text-center lg:text-left px-4 sm:px-0">
           <div className="inline-block px-3 py-2 md:px-4 bg-white/10 rounded-full text-xs md:text-sm font-medium mb-4 md:mb-6 backdrop-blur-sm border border-white/20">
-              🚀 Trusted by 500+ Businesses in Texas
+              🚀 Built for small businesses in Texas
             </div>
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-medium font-black mb-4 md:mb-6 lg:mb-8 leading-tight">
               <span className="text-white">

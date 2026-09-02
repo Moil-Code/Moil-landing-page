@@ -542,7 +542,7 @@ export const es: TranslationKeys = {
         guarantee: 'Cancela cuando quieras',
         noSetupFees: 'Sin Tarifas de Configuración',
         cancelAnytime: 'Cancela en Cualquier Momento',
-        soc2: 'Empieza gratis \u2014 sin tarjeta',
+        startFree: 'Empieza gratis \u2014 sin tarjeta',
         bilingual: 'Bilingüe EN/ES',
       },
     },

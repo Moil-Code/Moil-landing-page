@@ -26,7 +26,7 @@ const hiringSteps = [
   {
     step: "3",
     title: "AI-Matches Qualified Candidates",
-    platforms: "Scored on skills • experience • location • language fit • availability • 95% match accuracy",
+    platforms: "Scored on skills • experience • location • language fit • availability",
     distribution: [
       { day: "Monday", action: "Initial post with AI-optimized copy" },
       { day: "Wednesday", action: "Skills highlight and benefits" },
@@ -104,7 +104,7 @@ export default function SmartHiring({ refQuery, lgQuery }: SmartHiringProps) {
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 lg:mb-8 leading-tight">
             <span className="bg-gradient-to-r from-[#5843BD] via-purple-600 to-[#5843BD] bg-clip-text text-transparent">Build Your Team </span>
-            <span className="bg-gradient-to-r from-[#FF6633] via-orange-500 to-[#FF6633] bg-clip-text text-transparent">5x Faster</span>
+            <span className="bg-gradient-to-r from-[#FF6633] via-orange-500 to-[#FF6633] bg-clip-text text-transparent">With AI</span>
           </h2>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed px-4">
             Your AI Coach doesn&apos;t just plan your business—it helps you build your team. Post a job
@@ -247,7 +247,7 @@ export default function SmartHiring({ refQuery, lgQuery }: SmartHiringProps) {
               </span>
             </h3>
             <p className="text-gray-600 mb-6 md:mb-8 max-w-2xl mx-auto">
-              Join 500+ businesses that have transformed their hiring process with AI-powered candidate matching.
+              Transform your hiring process with AI-powered candidate matching.
             </p>
             <button 
               onClick={handleGenerateBusinessPlan}

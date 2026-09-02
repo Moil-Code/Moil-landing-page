@@ -81,7 +81,7 @@ export default function FinalCTA({ refQuery, lgQuery }: FinalCTAProps) {
                 </svg>
               </div>
               <h3 className="text-lg md:text-xl font-bold text-[#FF6633] mb-2 md:mb-3">Affordable Intelligence</h3>
-              <p className="text-gray-600 text-sm md:text-base leading-relaxed">Get a full business consultant, marketing agency, designer, and recruiter for $25/month. No setup fees, cancel anytime, 30-day money-back guarantee.</p>
+              <p className="text-gray-600 text-sm md:text-base leading-relaxed">Get a full business consultant, marketing agency, designer, and recruiter for $25/month. No setup fees, cancel anytime.</p>
             </div>
             
             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#FF6633]/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
@@ -97,7 +97,7 @@ export default function FinalCTA({ refQuery, lgQuery }: FinalCTAProps) {
                 </svg>
               </div>
               <h3 className="text-lg md:text-xl font-bold text-green-600 mb-2 md:mb-3">Proven Results</h3>
-              <p className="text-gray-600 text-sm md:text-base leading-relaxed">500+ businesses trust Moil • 5,000+ jobs posted • 94% interview success rate • 5x faster hiring • 91% employee retention at 90 days</p>
+              <p className="text-gray-600 text-sm md:text-base leading-relaxed">Bilingual English and Spanish • No setup fees • Cancel anytime</p>
             </div>
             
             <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-green-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
@@ -160,13 +160,13 @@ export default function FinalCTA({ refQuery, lgQuery }: FinalCTAProps) {
                   <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                   </svg>
-                  <span>30-Day Money-Back Guarantee</span>
+                  <span>Cancel Anytime</span>
                 </div>
                 <div className="flex items-center gap-2 text-gray-600 text-xs md:text-sm">
                   <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                   </svg>
-                  <span>SOC 2 Compliant</span>
+                  <span>Encrypted &amp; Private</span>
                 </div>
                 <div className="flex items-center gap-2 text-gray-600 text-xs md:text-sm">
                   <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">

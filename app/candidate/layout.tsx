@@ -148,7 +148,7 @@ export default function CandidateLayout({
                 "name": "How does Moil's AI job matching work?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Moil's AI analyzes your skills, experience, and preferences to match you with the most relevant job opportunities. Our AI matching has a 94% interview success rate, helping you land interviews faster."
+                  "text": "Moil's AI analyzes your skills, experience, and preferences to match you with the most relevant job opportunities, scoring each opening on skills, experience, location, and language fit."
                 }
               },
               {

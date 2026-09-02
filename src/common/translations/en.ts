@@ -316,7 +316,7 @@ export const en = {
         'Bilingual English & Spanish',
       ],
       moilCta: 'Start free — no credit card',
-      moilTrust: 'Secure · 30-day guarantee · No setup fees',
+      moilTrust: 'Secure · Cancel anytime · No setup fees',
     },
     capabilities: {
       tag: 'Platform Capabilities',
@@ -550,7 +550,7 @@ export const en = {
         guarantee: 'Cancel anytime',
         noSetupFees: 'No Setup Fees',
         cancelAnytime: 'Cancel Anytime',
-        soc2: 'Start free \u2014 no card',
+        startFree: 'Start free \u2014 no card',
         bilingual: 'Bilingual EN/ES',
       },
     },
@@ -650,7 +650,7 @@ export const en = {
       headlineHighlight: 'alone.',
       subheadline: 'Your business plan, your market research, and a 30-day content calendar that refreshes every month — written in your voice, in English and Spanish. From $25 a month.',
       cta: 'Start free — no credit card',
-      trust: ['Free to start', '30-day guarantee', 'No credit card', 'Market Pro $75', 'Bilingual EN/ES'],
+      trust: ['Free to start', 'Cancel anytime', 'No credit card', 'Market Pro $75', 'Bilingual EN/ES'],
     },
   },
 

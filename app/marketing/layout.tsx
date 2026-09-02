@@ -182,7 +182,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
                 "name": "How much does Content360 cost?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Content360 is included in Moil's plans starting at $25/month (Professional) and $75/month (Market Pro with full Content360 access). All plans include a 30-day money-back guarantee. No setup fees."
+                  "text": "Content360 is included in Moil's plans starting at $25/month (Professional) and $75/month (Market Pro with full Content360 access). Cancel anytime. No setup fees."
                 }
               },
               {
@@ -198,7 +198,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
                 "name": "Does Content360 support Spanish (bilingual content)?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Yes. Every post, caption, and strategy is available in English and Spanish with one click. Content360 is built for bilingual businesses and reaches 58% more bilingual customers than competitors."
+                  "text": "Yes. Every post, caption, and strategy is available in English and Spanish with one click. Content360 is built for bilingual businesses."
                 }
               },
               {

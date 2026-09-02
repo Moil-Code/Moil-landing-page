@@ -36,7 +36,7 @@ export default function FAQSection() {
       question: "How secure is my business data?",
       answer: (
         <span>
-          SOC 2 compliant with bank-level encryption. Your conversations with the AI Coach, business plans, and hiring data are completely private. We use minimal data retention and role-based access controls. Your information is never shared or sold. We&apos;re trusted by Economic Development Corporations and 500+ businesses across Texas. For more information, refer to our <Link href="/privacy" className="text-blue-500 underline">privacy policy</Link>.
+          Your data is encrypted in transit and at rest. Your conversations with the AI Coach, business plans, and hiring data are private to your account, protected by role-based access controls and minimal data retention. We do not sell your personal information. We use a small number of vetted service providers to operate the product; they are listed on our subprocessors page and are contractually barred from using your data for their own purposes. For more information, refer to our <Link href="/privacy" className="text-blue-500 underline">privacy policy</Link>.
         </span>
       )
     },

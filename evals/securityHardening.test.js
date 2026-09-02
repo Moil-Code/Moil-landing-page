@@ -140,10 +140,63 @@ test('no protocol-relative third-party script URLs', () => {
 	}
 });
 
-test('unsubstantiated trust claims are gone from the marketing copy', () => {
-	for (const f of ['src/common/translations/en.ts', 'src/common/translations/es.ts']) {
-		const src = read(f);
-		assert.ok(!/SOC 2/.test(src), `${f} still claims SOC 2 — there is no report behind it`);
-		assert.ok(!/30-Day Guarantee|Garantía de 30/.test(src), `${f} advertises a guarantee the Terms disclaim`);
+test('no unsubstantiated advertising claim survives anywhere in the tree', () => {
+	// The first cut of this check named TWO files (en.ts, es.ts). Seventeen
+	// violations survived in eleven others — including two FAQPage JSON-LD
+	// blocks on live routes, which answer engines quote verbatim. A scan with a
+	// hand-maintained file list reports clean about the files it was told to
+	// read, which is not the same fact as the one it claims. It is exhaustive
+	// now; a new file is covered the day it is written.
+	//
+	// Every rule here guards a claim we cannot substantiate on request:
+	// a compliance certification with no report, a refund the Terms disclaim,
+	// a customer count with no source, an efficacy or comparative figure with
+	// no study. None of these produce a runtime error — they are pure
+	// liability, and the FTC's substantiation standard applies whether or not
+	// anyone here remembers the number's origin.
+	const RULES = [
+		[/SOC ?2\b/i, 'claims SOC 2 — there is no report behind it'],
+		[/ISO ?27001/i, 'claims ISO 27001 certification'],
+		[/PCI[- ]?DSS/i, 'claims PCI-DSS compliance'],
+		[/money[- ]back guarantee/i, 'advertises a refund the Terms disclaim'],
+		[/\b30[- ]?day guarantee/i, 'advertises a refund the Terms disclaim'],
+		[/Garantía de (devolución|30)/i, 'advertises a refund the Terms disclaim'],
+		[/trusted by\s+\d/i, 'unsourced customer count'],
+		[/\b\d[\d,]*\+\s*(businesses|customers|users|companies|jobs|hires)\b/i, 'unsourced volume claim'],
+		[/\b\d{1,3}\s*%\s*(interview|success|accuracy|retention|match)/i, 'efficacy claim with no study'],
+		[/\b\d+x\s+faster\b/i, 'comparative speed claim with no study'],
+		[/\b\d{1,3}\s*%\s*more\b[^.]{0,40}\bcompetitor/i, 'comparative claim against competitors'],
+		[/AggregateRating/, 'publishes a rating with no linkable source'],
+	];
+
+	// A file+rule may sit here only with a reason a human wrote down.
+	const EXEMPT = {
+		'src/legacy/sections/detailed_pricing_section.tsx::unsourced volume claim':
+			'"supporting 50+ businesses" describes WHO the EDC plan is for, not a claim about Moil',
+		'src/legacy/sections/FAQ_section.tsx::efficacy claim with no study':
+			'"(75-95% match confidence)" describes the score range the UI displays, not an outcome',
+	};
+
+	const files = [...walk('app'), ...walk('src')];
+	// A clean result and a broken walker look identical from the outside.
+	assert.ok(files.length > 100, `walker only reached ${files.length} files — it is broken, not clean`);
+
+	const found = [];
+	for (const f of files) {
+		const src = stripComments(read(f));
+		for (const [re, why] of RULES) {
+			if (!re.test(src)) continue;
+			if (EXEMPT[`${f}::${why}`]) continue;
+			found.push(`${f} — ${why}`);
+		}
 	}
+	assert.deepEqual(found, [], `unsubstantiated claims:\n  ${found.join('\n  ')}`);
+
+	// ...and prove the rules can actually SEE one, or an empty result above is
+	// a statement about the regexes rather than about the tree.
+	const canary = 'We are SOC 2 compliant, trusted by 500+ businesses, 94% success rate.';
+	assert.ok(
+		RULES.filter(([re]) => re.test(canary)).length >= 3,
+		'the rules no longer detect a violation they are written for',
+	);
 });

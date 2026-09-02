@@ -42,7 +42,7 @@ export function BusinessPricingSection() {
     t.business.pricing.trust.guarantee,
     t.business.pricing.trust.noSetupFees,
     t.business.pricing.trust.cancelAnytime,
-    t.business.pricing.trust.soc2,
+    t.business.pricing.trust.startFree,
     t.business.pricing.trust.bilingual,
   ];
 

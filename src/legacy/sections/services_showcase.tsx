@@ -53,7 +53,7 @@ const capabilities = [
   {
     id: "smart-hiring",
     title: "Smart Hiring & Matching",
-    description: "Post a job in about 2 minutes, get AI-matched candidates with 95% accuracy, and streamline your entire hiring process.",
+    description: "Post a job in about 2 minutes, get AI-matched candidates, and streamline your entire hiring process.",
     icon: <Users className="w-6 h-6" />,
     color: "from-[#FF6633] to-[#e55a2b]"
   }
@@ -144,7 +144,7 @@ export default function ServicesShowcase({ refQuery, lgQuery }: ServicesShowcase
               <div className="inline-flex items-center gap-2 px-3 py-2 md:px-4 lg:px-6 md:py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-xs md:text-sm font-medium md:font-bold mb-4 md:mb-6 lg:mb-8 text-white shadow-lg">
                 <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-[#FF6633] rounded-full animate-pulse"></div>
                 <span>Premium AI Business Ecosystem</span>
-                <div className="px-2 py-1 md:px-3 bg-[#FF6633] rounded-full text-xs">97% Accuracy</div>
+                <div className="px-2 py-1 md:px-3 bg-[#FF6633] rounded-full text-xs">Bilingual EN/ES</div>
               </div>
               <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold md:font-black text-white mb-3 md:mb-4 lg:mb-6 leading-tight px-4">
                 Your AI Co-Founder vs<br />
@@ -292,7 +292,7 @@ export default function ServicesShowcase({ refQuery, lgQuery }: ServicesShowcase
                         <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
                       </svg>
                     </button>
-                    <p className="text-white/70 text-xs text-center mt-4">🔒 Secure payment • 30-day money-back guarantee</p>
+                    <p className="text-white/70 text-xs text-center mt-4">🔒 Secure payment • Cancel anytime</p>
                   </div>
                 </div>
               </div>
@@ -306,7 +306,7 @@ export default function ServicesShowcase({ refQuery, lgQuery }: ServicesShowcase
                   <div className="w-16 h-16 bg-gradient-to-br from-white/20 to-white/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-lg">
                     <Shield className="w-8 h-8 text-white" />
                   </div>
-                  <h5 className="text-white font-bold text-lg mb-3">30-Day Guarantee</h5>
+                  <h5 className="text-white font-bold text-lg mb-3">Cancel Anytime</h5>
                   <p className="text-white/80 text-sm leading-relaxed flex-grow">Get actionable business insights and hiring results within 30 days or receive a full refund</p>
                 </div>
               </div>
@@ -318,7 +318,7 @@ export default function ServicesShowcase({ refQuery, lgQuery }: ServicesShowcase
                     <Lock className="w-8 h-8 text-white" />
                   </div>
                   <h5 className="text-white font-bold text-lg mb-3">Enterprise Security</h5>
-                  <p className="text-white/80 text-sm leading-relaxed flex-grow">SOC 2 compliant with bank-level encryption. Trusted by growing businesses and EDCs across Texas</p>
+                  <p className="text-white/80 text-sm leading-relaxed flex-grow">Encrypted in transit and at rest, with role-based access controls and minimal data retention</p>
                 </div>
               </div>
 
