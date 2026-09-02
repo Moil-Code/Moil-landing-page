@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import CandidateNavigation from "~~/src/candidate/components/navigation";
 
 export type LegalSection = {
   heading: string;
@@ -37,14 +36,13 @@ type LegalPageProps = {
 };
 
 /**
- * Shared shell for all legal / compliance pages (privacy, terms, cookies,
- * subprocessors, DMCA, accessibility, DPA, privacy choices). Keeps the nav,
- * back link, title, and section styling consistent in one place.
+ * Shared content frame for all legal / compliance pages. The route layouts own
+ * the site-wide header and footer; this component keeps the article itself
+ * consistent without reintroducing the former candidate-only navigation.
  */
 export default function LegalPage({
   title,
   lastUpdated,
-  page,
   intro,
   sections,
   children,
@@ -54,18 +52,8 @@ export default function LegalPage({
   const lastUpdatedLabel = labels?.lastUpdated ?? "Last updated";
   return (
     <div className="bg-[#F7F8FC]">
-      <CandidateNavigation refQuery="" lgQuery="" setQueryLg={() => { }} page={page} setShowLanguageModal={() => { }} />
-      {/* The shared nav is `position: fixed`, so it is out of flow and covers
-          whatever the page draws at y=0. Every legal page therefore opened with
-          its "Back" link underneath the header — measured 25px behind it at
-          >=1024px and 17px at 390px, i.e. the top half of the only way out of
-          the page was unclickable, which is what the Aug 2026 staging test
-          reported on /cookies.
-
-          The offset is the header's own height (`h-14 md:h-16 lg:h-20` = 56 /
-          64 / 80px) at the same breakpoints, so the two stay in step. Keep them
-          in lockstep: nothing errors when they drift, the Back link just
-          quietly slides back under the bar. */}
+      {/* The shared nav is fixed. This spacing keeps the article's back link
+          clear of it at every breakpoint. */}
       <div className="pt-14 md:pt-16 lg:pt-20 py-4 flex justify-center items-center">
         <div className="flex flex-col gap-y-6 md:max-w-[700px] lg:max-w-[750px] px-6 py-6 md:py-10">
           <Link className="w-max flex items-center gap-x-1" href="/">

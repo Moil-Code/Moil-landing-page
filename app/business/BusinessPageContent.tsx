@@ -54,18 +54,20 @@ export function BusinessPageContent() {
 
   // Translated data arrays
   const navItems: NavItem[] = [
-    { label: t.business.nav.features, href: '#capabilities' },
-    { label: t.business.nav.howItWorks, href: '#journey' },
-    { label: t.business.nav.pricing, href: '#pricing' },
-    { label: t.common.blog, href: 'https://blog.moilapp.com', external: true },
+    { label: 'Work', href: '/work' },
+    { label: 'Partners', href: '/partners' },
+    { label: 'About', href: '/about' },
+    { label: 'Contact', href: '/contact' },
   ];
 
   const mobileItems: NavItem[] = [
-    { label: t.common.whatIsMoil, href: '#demo' },
-    { label: t.business.nav.features, href: '#capabilities' },
-    { label: t.business.nav.howItWorks, href: '#journey' },
-    { label: t.business.nav.pricing, href: '#pricing' },
-    { label: t.common.blog, href: 'https://blog.moilapp.com', external: true },
+    { label: 'Business Plan', href: '/business' },
+    { label: 'Moil Services', href: '/marketing' },
+    { label: 'Hiring', href: '/candidate' },
+    { label: 'Work', href: '/work' },
+    { label: 'Partners', href: '/partners' },
+    { label: 'About', href: '/about' },
+    { label: 'Contact', href: '/contact' },
   ];
 
   const tickerItems = [

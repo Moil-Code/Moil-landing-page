@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
+import '../business/business.css';
+import { BrandPageShell } from '../../src/common/components/BrandPageShell';
 
 export const metadata: Metadata = {
   title: 'Terms and Conditions',
@@ -23,5 +25,5 @@ export default function TermsLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return <BrandPageShell>{children}</BrandPageShell>;
 }

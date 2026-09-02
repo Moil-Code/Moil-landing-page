@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import { Globe, Moon, Sun } from 'lucide-react';
+import { ChevronDown, Globe, Moon, Sun, ArrowUpRight, Briefcase, Megaphone, UsersRound } from 'lucide-react';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
 import { getRegisterOrigin, getRegisterUrl } from '../preview/previewClient';
 
@@ -25,6 +25,8 @@ type BusinessNavProps = {
   ctaHref?: string;
   signinLabel?: string;
   signinHref?: string;
+  switchLabel?: string;
+  switchHref?: string;
   onLanguageChange?: (lang: 'en' | 'es') => void;
   currentLang?: 'en' | 'es';
   setShowLanguageModal?: (show: boolean) => void;
@@ -43,11 +45,14 @@ export function BusinessNav({
   ctaHref = getRegisterUrl(),
   signinLabel = 'Log In',
   signinHref = getRegisterOrigin(),
+  switchLabel = 'Switch to candidates',
+  switchHref = '/candidate',
   onLanguageChange,
   currentLang,
 }: BusinessNavProps) {
   const [lang, setLang] = useState<'en' | 'es'>('en');
   const [showLangDropdown, setShowLangDropdown] = useState(false);
+  const [showProducts, setShowProducts] = useState(false);
 
   // Initialize from currentLang prop, URL, or localStorage
   useEffect(() => {
@@ -132,14 +137,57 @@ export function BusinessNav({
         )}
       </a>
 
-      {/* The For Job Seekers / For Businesses switcher was removed in Aug 2026.
-          The job marketplace at /candidate is still live and still its own product;
-          it simply no longer appears anywhere in the business narrative. See
-          research/seo-aeo-audit-and-plan.md section 3 — an entity that advertises
-          two unrelated products on one surface is harder for both people and
-          answer engines to classify. /candidate keeps its own nav and sitemap. */}
-
       <ul className="nav-links">
+        <li
+          className="nav-products"
+          onMouseEnter={() => setShowProducts(true)}
+          onMouseLeave={() => setShowProducts(false)}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setShowProducts(false);
+          }}
+        >
+          <button
+            className="nav-products-trigger"
+            type="button"
+            aria-expanded={showProducts}
+            aria-controls="products-mega-menu"
+            onClick={() => setShowProducts((open) => !open)}
+          >
+            Products <ChevronDown size={14} aria-hidden="true" />
+          </button>
+          <div id="products-mega-menu" className={`products-mega-menu ${showProducts ? 'is-open' : ''}`}>
+            <div className="products-mega-intro">
+              <span>ONE BUSINESS, LESS HAT-WEARING</span>
+              <strong>Tools that turn the work in front of you into a finished next step.</strong>
+            </div>
+            <div className="products-mega-links">
+              <a href="/business" className="products-mega-card" onClick={() => setShowProducts(false)}>
+                <span className="products-mega-icon"><Briefcase size={19} aria-hidden="true" /></span>
+                <span>
+                  <strong>Business Plan</strong>
+                  <small>Research, financials, and an investor-ready plan built around your business.</small>
+                </span>
+                <ArrowUpRight size={17} aria-hidden="true" />
+              </a>
+              <a href="/marketing" className="products-mega-card" onClick={() => setShowProducts(false)}>
+                <span className="products-mega-icon is-purple"><Megaphone size={19} aria-hidden="true" /></span>
+                <span>
+                  <strong>Moil Services</strong>
+                  <small>A month of strategic marketing, ready to review, publish, and repeat.</small>
+                </span>
+                <ArrowUpRight size={17} aria-hidden="true" />
+              </a>
+              <a href="/candidate" className="products-mega-card" onClick={() => setShowProducts(false)}>
+                <span className="products-mega-icon is-green"><UsersRound size={19} aria-hidden="true" /></span>
+                <span>
+                  <strong>Hiring</strong>
+                  <small>Connect growing businesses with job seekers ready for their next role.</small>
+                </span>
+                <ArrowUpRight size={17} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+        </li>
         {items.map((item) => (
           <li key={item.href + item.label}>
             <a href={item.href} target={item.external ? '_blank' : undefined} rel={item.external ? 'noreferrer' : undefined}>
@@ -243,6 +291,10 @@ export function BusinessNav({
             </div>
           )}
         </div>
+
+        <a className="nav-switch" href={switchHref}>
+          {switchLabel} <ArrowUpRight size={13} aria-hidden="true" />
+        </a>
 
         <button className="theme-toggle" onClick={onToggleTheme} aria-label="Toggle theme">
           <div className="toggle-knob">

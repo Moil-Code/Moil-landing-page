@@ -87,7 +87,10 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
           <div className="footer-links">
             <a href="https://blog.moilapp.com" target="_blank" rel="noreferrer">{t.footer.resourceLinks.blog}</a>
             <a href="/about">{t.footer.resourceLinks.aboutUs}</a>
-            <a href={appendLangToUrl("https://moilapp.com/contact", lang)} target="_blank" rel="noreferrer">{t.footer.resourceLinks.contact}</a>
+            <a href="/work">Our work</a>
+            <a href="/partners">Partners</a>
+            <a href="/team">Our team</a>
+            <a href="/contact">{t.footer.resourceLinks.contact}</a>
             <a href="/privacy">{t.footer.resourceLinks.privacyPolicy}</a>
             <a href="/terms">{t.footer.resourceLinks.termsOfService}</a>
             <a href="/cookies">{t.footer.resourceLinks.cookiePolicy}</a>
@@ -100,6 +103,7 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
             <a href="/compare/moil-vs-later">Moil vs Later</a>
             <a href="/compare/moil-vs-hootsuite">Moil vs Hootsuite</a>
             <a href="/compare/moil-vs-chatgpt">Moil vs ChatGPT</a>
+            <a href="/compare/moil-vs-claude">Moil vs Claude</a>
             <a href="/compare/best-ai-content-calendar-tools">Best AI content calendar tools</a>
             <a href="/compare/done-for-you-social-media-alternatives">Done-for-you social media</a>
             <a href="/compare/moil-vs-agency">Moil vs a marketing agency</a>

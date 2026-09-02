@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
-import { Bebas_Neue, Inter, Poppins } from 'next/font/google';
+import { Inter } from 'next/font/google';
 
 import './globals.css';
 import Analytics from '../src/common/components/analytics';
@@ -11,32 +11,20 @@ import { HTML_LANG_HEADER } from '../src/common/i18n/pathLocale';
 import { moilOffers } from '../src/common/seo/offers';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
 
-const bebas = Bebas_Neue({ weight: ['400'], subsets: ['latin'], display: 'swap' });
-
-// Inter and Poppins used to arrive via three `@import url(fonts.googleapis…)`
-// statements inside globals.css / business.css. A CSS `@import` of a remote
+// Inter is self-hosted rather than loaded with a CSS `@import`. A remote
 // stylesheet is the worst case for render-blocking: the browser must download
 // our CSS, parse it, then open a second origin and download another stylesheet
-// before it can paint. Lighthouse costed that chain at ~955 ms on mobile.
-// next/font self-hosts the woff2 files from our own origin, inlines the
-// @font-face rules into the build's CSS, and preloads them, so the round trip
-// to fonts.googleapis.com / fonts.gstatic.com disappears entirely.
+// before it can paint. next/font self-hosts the woff2 files from our own origin,
+// inlines the @font-face rules into the build's CSS, and preloads them.
+//
+// Inter is the single typeface across the marketing site. Keeping the variable
+// on <html> means its scoped business/marketing tokens resolve on every route.
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
 });
 
-// preload:false because Poppins is only referenced by /candidate and a couple of
-// shared widgets. Left on, next/font preloads all four weights at VeryHigh
-// priority on every route — 32 KB that /business never paints with.
-const poppins = Poppins({
-  weight: ['400', '500', '600', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-poppins',
-  preload: false,
-});
 
 export const metadata: Metadata = {
   title: {
@@ -153,7 +141,7 @@ export default async function RootLayout({
     // property referencing an undefined variable is invalid at computed-value
     // time — which silently drops every font-family on the page to the Tailwind
     // fallback stack. Keep them here so :root can resolve them.
-    <html lang={lang} className={`scroll-smooth ${inter.variable} ${poppins.variable}`} data-theme="light" suppressHydrationWarning>
+    <html lang={lang} className={`scroll-smooth ${inter.variable}`} data-theme="light" suppressHydrationWarning>
       <head>
         {/* Pre-paint theme restore. The server starts in light mode, then this
             blocking script applies a saved dark preference before the browser
@@ -237,7 +225,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className={`${bebas.className} antialiased`} suppressHydrationWarning={true}>
+      <body className="antialiased" suppressHydrationWarning={true}>
         {/* Every tracker (GA4, Clarity, FB Pixel, Apollo) lives inside
             <Analytics />, which renders nothing until the visitor consents.
             Do not add a tracking <Script> here — it would bypass the gate. */}

@@ -20,7 +20,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        'poppins': ['var(--font-poppins)', 'Poppins', 'sans-serif'],
+        'poppins': ['var(--font-inter)', 'Inter', 'sans-serif'],
         'inter': ['var(--font-inter)', 'Inter', 'sans-serif'],
       },
       height: {
@@ -163,4 +163,3 @@ export default {
   },
   plugins: [],
 }
-
