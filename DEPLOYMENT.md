@@ -21,23 +21,31 @@ A failed health check rolls back (rebuilds the previous commit).
 
 | File | Role |
 |---|---|
-| `.github/workflows/deploy.yml` | `workflow_dispatch` only, SSH, `environment: staging` |
+| `.github/workflows/deploy.yml` | push to `main` + `workflow_dispatch`, SSH, `environment: staging` |
 | `.github/workflows/tests.yml` | The gate (`workflow_call`ed by deploy; also on every PR) |
 | `.github/deploy.sh` | Everything that happens **on the server** |
 | `ecosystem.config.js` | The PM2 process definition |
 
-## Gap: SERVER_SSH_KEY is not proven on this repo
+## SERVER_SSH_KEY is present on this repo, and main auto-deploys
 
-This repo's last deploy workflow was a copy of production landing SSM
+This repo's deploy workflow was once a copy of production landing SSM
 (OIDC + `SSM_INSTANCE_ID` + `environment: production`). There is no proof
-that instance is stagebeta, so SSM is not wired.
+that instance is stagebeta, so SSM stays unwired — SSH is the transport.
 
-Stagebeta SSH secrets (`SERVER_SSH_KEY`, `SERVER_HOST`, `SERVER_USER`,
-`APP_PATH`, `PM2_NAME`) are **not** assumed to exist here yet. Until they
-are added (Settings → Secrets and variables → Actions), a dispatch fails
-at "Check deploy configuration" and **nothing on any host is touched**.
-Do not guess instance IDs. Copy the names from Business-plan-Staging and
-point them at the stagebeta host that already serves Next behind nginx
+The stagebeta SSH secrets (`SERVER_SSH_KEY`, `SERVER_HOST`, `SERVER_USER`,
+`APP_PATH`, `PM2_NAME`) are in place, so **a merge to `main` deploys**.
+`workflow_dispatch` remains for re-runs and rollbacks.
+
+That trigger is safe because of the preflight, not because someone is
+watching: if any of those secrets goes missing, "Check deploy
+configuration" fails there and **nothing on any host is touched** — it
+never proceeds on an empty value and silently falls back to whatever
+transport is left wired. It also refuses a `SERVER_HOST` that looks like
+production. `evals/stagebetaDeploy.test.js` pins both, so removing the
+preflight fails CI rather than quietly re-arming the original hazard.
+
+Do not guess instance IDs. Secret names come from Business-plan-Staging
+and point at the stagebeta host that already serves Next behind nginx
 (`/` → `/business`).
 
 ## Stagebeta Next build env

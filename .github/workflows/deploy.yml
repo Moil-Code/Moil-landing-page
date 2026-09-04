@@ -9,11 +9,14 @@ name: Deploy to stagebeta
 # reach the stagebeta host (SERVER_SSH_KEY), piping `.github/deploy.sh`
 # so the Next build / PM2 reload / health-check / rollback live in the repo.
 #
-# This workflow is workflow_dispatch-only on purpose. SERVER_SSH_KEY is not
-# proven present on this repo (it was copied from the production landing
-# SSM pipeline). A push-to-main trigger would either no-op on missing
-# secrets or, worse, reuse leftover production SSM if that were still
-# wired. CoS merges; a human dispatches deploy after the SSH secrets exist.
+# Main auto-deploys; workflow_dispatch stays for re-runs and rollbacks.
+# This was dispatch-only while SERVER_SSH_KEY was unproven on this repo (the
+# workflow was copied from the production landing SSM pipeline, so a trigger
+# could have reused leftover production SSM). The stagebeta SSH secrets are
+# present now. The trigger was never the risk on its own: "Check deploy
+# configuration" below hard-fails before ANY transport when a secret is
+# missing, and refuses a production-looking SERVER_HOST — that gate is what
+# makes running on every push safe, and evals/stagebetaDeploy.test.js pins it.
 #
 # Setup: DEPLOYMENT.md
 
