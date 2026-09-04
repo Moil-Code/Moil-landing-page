@@ -1214,7 +1214,10 @@ footer {
 .footer-copy {
   font-family: var(--mono);
   font-size: 10px;
-  color: rgba(255,255,255,0.55);
+  /* Was rgba(255,255,255,0.55). `footer` is `background: var(--surface)`, which
+     is #FFFFFF in the light theme — so the copyright line was white on white and
+     invisible on every page carrying this footer. Token, not literal. */
+  color: var(--text2);
   letter-spacing: 1px;
   text-align: center;
   white-space: nowrap;
@@ -1235,15 +1238,17 @@ footer {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.55);
+  /* Same white-on-white defect as .footer-copy: these circles and their
+     glyphs disappeared entirely against the light theme's footer. */
+  border: 1px solid var(--border2);
+  color: var(--text2);
   font-size: 11px;
   font-family: var(--mono);
   font-weight: 700;
   text-decoration: none;
   transition: border-color 0.2s, color 0.2s;
 }
-.footer-social a:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+.footer-social a:hover { border-color: var(--text3); color: var(--text); }
 
 .footer-badges { display: flex; gap: 8px; flex-wrap: wrap; }
 .f-badge { font-family: var(--mono); font-size: 9px; padding: 3px 9px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; }
@@ -1251,7 +1256,7 @@ footer {
 .fb-p { background: var(--purple-dim); color: var(--purple-light); border: 1px solid rgba(124,58,237,0.18); }
 .fb-o { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(255,92,26,0.18); }
 .lang-toggle { display: flex; gap: 2px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
-.lang-btn { padding: 6px 12px; font-family: var(--mono); font-size: 10px; cursor: pointer; border: none; background: transparent; color: rgba(255,255,255,0.72); letter-spacing: 1px; transition: all 0.2s; }
+.lang-btn { padding: 6px 12px; font-family: var(--mono); font-size: 10px; cursor: pointer; border: none; background: transparent; color: var(--text2); letter-spacing: 1px; transition: all 0.2s; }
 .lang-btn.active { background: var(--orange); color: white; }
 
 /* ===================================================

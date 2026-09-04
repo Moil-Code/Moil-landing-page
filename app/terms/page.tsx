@@ -225,7 +225,7 @@ export default function TermsPage() {
   // erroring. One shell, one place to fix it.
   return (
     <LegalPage title="Moil Terms and Conditions" lastUpdated={lastUpdated} page="terms" sections={terms}>
-      <p className="text-sm text-[#5C6178]">
+      <p className="text-sm text-[var(--text2)]">
         Changelog — {lastUpdated}: added Automated Actions and Standing Instructions (Section 14) and Beta Features
         (Section 15); expanded the professional-advice disclaimer (Section 8), the content license and no-training
         commitment (Section 10), and the job-marketplace rules (Section 12); added the job-seeker age rule (Section 2);
@@ -234,7 +234,7 @@ export default function TermsPage() {
         (Section 21); moved venue to Hays County, Texas (Section 23); expanded the arbitration terms (Section 24); and
         added a language clause (Section 26). Sections were renumbered accordingly.
       </p>
-      <p className="text-sm text-[#5C6178]">
+      <p className="text-sm text-[var(--text2)]">
         See also our{" "}
         <Link href="/privacy" className="text-[#FF6633] underline">Privacy Policy</Link>. Versión en español:{" "}
         <Link href="/es/terms" className="text-[#FF6633] underline">Términos y Condiciones</Link>.

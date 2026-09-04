@@ -65,7 +65,7 @@ export default function CookiesPage() {
       page="cookies"
       sections={sections}
     >
-      <p className="text-sm text-[#5C6178]">
+      <p className="text-sm text-[var(--text2)]">
         Related:{" "}
         <Link href="/privacy" className="text-[#FF6633] underline">Privacy Policy</Link>,{" "}
         <Link href="/privacy-choices" className="text-[#FF6633] underline">Your Privacy Choices</Link>, and{" "}
