@@ -147,11 +147,22 @@ function handleSubmitBody(input) {
 }
 
 function classifyHttp(status, json) {
-	if (status === 200 && json && json.slug) {
-		return { ok: true, kind: 'accepted', status, body: json };
-	}
+	// READY IS TESTED FIRST, AND THE ORDER IS THE POINT. A ready body is
+	// a ready body whether or not it also carries a slug — and the GET
+	// payload is one field away from carrying one, because POST already
+	// answers `{slug, status}`. Under the old order that day would have
+	// classified every finished preview as `accepted`, and `accepted` is
+	// the arm the magnet keeps POLLING: the founder would sit on the
+	// wait card forever with the answer already in hand.
+	//
+	// Submit is unaffected — it reads `body.slug` / `body.status`
+	// directly rather than the kind, so `{slug, status:'ready'}` still
+	// reaches beginWait.
 	if (status === 200 && json && json.status === 'ready') {
 		return { ok: true, kind: 'ready', status, body: json };
+	}
+	if (status === 200 && json && json.slug) {
+		return { ok: true, kind: 'accepted', status, body: json };
 	}
 	if (status === 200 && json && (json.status === 'building' || json.status === 'failed')) {
 		return { ok: true, kind: json.status, status, body: json };

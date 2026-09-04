@@ -9,6 +9,7 @@ import {
 	toggle,
 } from '../preview/platformPickerView';
 import { headingKeyFor, profileSections, revealDelays } from '../preview/gettingToKnowYou';
+import { postCards } from '../preview/previewPosts';
 
 type MagnetCopy = Record<string, string | undefined>;
 
@@ -37,7 +38,7 @@ type Draft = {
 };
 
 type Props = {
-	body: { brand?: object; positioning?: object } | null;
+	body: { brand?: object; positioning?: object; content?: object } | null;
 	website: string;
 	platforms: string[];
 	onPlatforms: (next: string[] | ((prev: string[]) => string[])) => void;
@@ -177,6 +178,14 @@ export function GettingToKnowYou({
 	const knowing = painted.filter((section) => KNOWING_IDS.includes(section.id));
 	const proof = painted.find((section) => section.id === 'proof');
 
+	// PROOF OF WORK, not proof of reading. Everything above this line
+	// hands the founder their own words back; these are the first
+	// things we would MAKE for them, and the server has been composing
+	// them all along. Zero provider spend: the captions are the
+	// founder's own product names carried verbatim under an angle from
+	// our closed set, and the creative is painted here in the DOM.
+	const cards = useMemo(() => postCards(body), [body]);
+
 	// The sentences the founder already watched are instant; only what
 	// sits below them cascades. The signup CTA is deliberately absent
 	// from this list — an action must never be delayed behind an
@@ -187,12 +196,13 @@ export function GettingToKnowYou({
 				[
 					...knowing.map((section) => section.id),
 					...(proof ? ['proof'] : []),
+					...(cards.length ? ['posts'] : []),
 					'picker',
 				],
 				watched,
 				reduceMotion,
 			),
-		[knowing, proof, watched, reduceMotion],
+		[knowing, proof, cards, watched, reduceMotion],
 	);
 	const reveal = (id: string) => ({
 		className: 'preview-reveal',
@@ -211,7 +221,8 @@ export function GettingToKnowYou({
 	};
 
 	// leftover-4 dest HOLD: local state only. Hydrate persist is Onboarding.
-	// leftover-6 OFF: no posts magnet, no second scrape, no website builder.
+	// leftover-6, remaining OFF: no second scrape, no website builder.
+	// The posts magnet is ON — PostStrip below, rules in previewPosts.js.
 	const commitEdit = (id: string) => {
 		setDraft((prev) => {
 			const next: Draft = { ...prev };
@@ -311,6 +322,7 @@ export function GettingToKnowYou({
 				<div className="flex flex-col gap-5 pb-2">
 					{knowing.map(renderSection)}
 					{proof ? <ProofStrip section={proof} reveal={reveal('proof')} /> : null}
+					{cards.length ? <PostStrip cards={cards} copy={m} reveal={reveal('posts')} /> : null}
 				</div>
 
 				<fieldset
@@ -376,6 +388,142 @@ export function GettingToKnowYou({
 					{m.tryAgain}
 				</button>
 			</div>
+		</div>
+	);
+}
+
+type PostCard = {
+	caption: string;
+	headline: string;
+	lead: string;
+	last: string;
+	subhead: string;
+	photo: string;
+	logo: string;
+	primary: string;
+	accent: string;
+	surface: string;
+};
+
+/**
+ * The creative is PAINTED HERE, never loaded from the server's
+ * `data:image/svg+xml` fallback. A data-URI document has an opaque
+ * origin, so every external reference inside it is blocked — and
+ * Chromium paints its broken-image icon in the blocked slot rather than
+ * skipping it, which would stamp a broken glyph on the creative of
+ * every founder who has a logo. Painting in the DOM loads their real
+ * mark and their real photograph, which is the difference between a
+ * mock-up and their post.
+ *
+ * The last word carries the accent, matching `buildCreativeSvg` — the
+ * design a visitor sees before the wall has to be the design the
+ * product composes after it.
+ */
+function PostCreative({ card }: { card: PostCard }) {
+	const surface = card.surface ? hex(card.surface) : 'var(--bg)';
+	const primary = card.primary ? hex(card.primary) : 'var(--text)';
+	const accent = card.accent ? hex(card.accent) : primary;
+	return (
+		<div
+			className="relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-[var(--border2)]"
+			style={{ background: surface }}
+		>
+			{/* ONE TREATMENT PER CARD — TYPE IS NEVER PAINTED OVER THE
+			    PHOTOGRAPH. The headline is the brand's own primary and
+			    the last word its accent; a photograph we did not take
+			    has no luminance we control, so type over it has no
+			    contrast guarantee and would vanish on some brands and
+			    some pictures. `buildCreativeSvg`, the creative the
+			    product actually composes, has no photo in it at all
+			    for exactly this reason — so a headline card here
+			    renders what the product would make, and a card with no
+			    headline is where their photograph goes. Rendered and
+			    looked at before this rule existed: brand primary over
+			    a mid-tone picture was legible on the test brand and
+			    had nothing keeping it that way. */}
+			{card.photo && !card.last ? (
+				// eslint-disable-next-line @next/next/no-img-element
+				<img
+					src={card.photo}
+					alt=""
+					className="absolute inset-0 h-full w-full object-cover"
+					onError={(e) => {
+						(e.currentTarget as HTMLImageElement).style.display = 'none';
+					}}
+				/>
+			) : null}
+			<div
+				aria-hidden
+				className="absolute inset-0"
+				style={{
+					background: `radial-gradient(60% 55% at 8% 12%, ${accent}8C 0%, transparent 100%), radial-gradient(55% 50% at 92% 88%, ${primary}73 0%, transparent 100%)`,
+				}}
+			/>
+			{/* A row stored before the creative existed carries a caption
+			    and a photograph and no headline. That is still a real
+			    post, so it paints their picture under our wash rather
+			    than an empty type block — and the caption is NEVER
+			    promoted into a headline to fill the frame, which would
+			    print the same sentence twice. */}
+			{card.last ? (
+				<div className="absolute inset-0 flex flex-col justify-center p-3">
+					<p
+						className="text-[15px] font-bold leading-[1.12] tracking-[-0.02em]"
+						style={{ color: primary }}
+					>
+						{card.lead ? <span>{card.lead} </span> : null}
+						<span style={{ color: accent }}>{card.last}</span>
+					</p>
+					{card.subhead ? (
+						<p className="mt-1 text-[11px] leading-snug opacity-80" style={{ color: primary }}>
+							{card.subhead}
+						</p>
+					) : null}
+				</div>
+			) : null}
+			{card.logo ? (
+				// eslint-disable-next-line @next/next/no-img-element
+				<img
+					src={card.logo}
+					alt=""
+					className="absolute bottom-2 left-2 h-7 w-7 rounded bg-white/90 object-contain p-0.5"
+					onError={(e) => {
+						(e.currentTarget as HTMLImageElement).style.display = 'none';
+					}}
+				/>
+			) : null}
+		</div>
+	);
+}
+
+function PostStrip({
+	cards,
+	copy: m,
+	reveal,
+}: {
+	cards: PostCard[];
+	copy: MagnetCopy;
+	reveal?: { className: string; style: { animationDelay: string } };
+}) {
+	return (
+		<div
+			className={`flex flex-col gap-2 pt-1 ${reveal ? reveal.className : ''}`}
+			style={reveal ? reveal.style : undefined}
+		>
+			<p className="text-[14px] font-semibold text-[var(--text)]">{m.postsTitle}</p>
+			<div className="grid grid-cols-3 gap-2">
+				{cards.map((card) => (
+					<div key={card.caption} className="flex min-w-0 flex-col gap-1">
+						<PostCreative card={card} />
+						<p className="line-clamp-3 text-[11px] leading-snug text-[var(--text)] opacity-70">
+							{card.caption}
+						</p>
+					</div>
+				))}
+			</div>
+			{m.postsNote ? (
+				<p className="text-[12px] leading-snug text-[var(--text)] opacity-70">{m.postsNote}</p>
+			) : null}
 		</div>
 	);
 }

@@ -22,7 +22,7 @@ import {
 	TYPEOUT_FLUSH_MS_PER_CHAR,
 	READY_HOLD_MAX_MS,
 } from '../preview/gettingToKnowYou';
-import { nextPollDelayMs, waitCopyKey } from '../preview/previewWaitCopy';
+import { nextPollDelayMs, shouldGiveUpWaiting, waitCopyKey } from '../preview/previewWaitCopy';
 import { GettingToKnowYou } from './GettingToKnowYou';
 
 type Phase = 'form' | 'wait' | 'ready' | 'failed' | 'down' | 'identity' | 'ceiling';
@@ -46,9 +46,25 @@ type ReadyBrand = {
 	language?: string;
 };
 
+type ReadyPost = {
+	caption?: string;
+	imageUrl?: string;
+	creative?: {
+		headline?: string;
+		subhead?: string;
+		image?: string;
+	};
+};
+
 type ReadyPayload = {
 	slug: string;
 	brand: ReadyBrand;
+	// THE SERVER HAS ALWAYS SENT THIS AND THE CARD NEVER DECLARED IT.
+	// `shapeReadyPayload` ships finished posts in `content.posts`;
+	// with no key here they were composed, sent, and dropped on the
+	// floor — the founder saw what we READ about them and nothing we
+	// would MAKE for them.
+	content?: { kind?: string; posts?: ReadyPost[] };
 	positioning?: {
 		audience?: string;
 		voice?: string | string[];
@@ -103,6 +119,14 @@ export function PreviewMagnet() {
 	const startedAt = useRef(0);
 	const cancelled = useRef(false);
 	const committed = useRef(false);
+	// A RESET MUST OUTRANK A POLL ALREADY IN FLIGHT. `stopWaitClock`
+	// clears the timer and cannot cancel a `viewPreview` fetch that has
+	// already left, and `cancelled` is only ever set on unmount — so a
+	// response landing a beat after "try another business" would call
+	// onReady, re-write the cookie and put the old card back, after the
+	// founder explicitly asked for it to be gone. Every poll carries the
+	// run it belongs to; a stale run writes nothing.
+	const runId = useRef(0);
 	// commitReady reads the typing state through refs on purpose. Taking
 	// waitBeats/typedChars as deps would change its identity on every
 	// tick, and the backstop effect below clears and re-arms its timeout
@@ -167,7 +191,14 @@ export function PreviewMagnet() {
 	}, [m.failed]);
 
 	const onReady = useCallback(
-		(nextSlug: string, body: { brand?: ReadyBrand; positioning?: ReadyPayload['positioning'] }) => {
+		(
+			nextSlug: string,
+			body: {
+				brand?: ReadyBrand;
+				content?: ReadyPayload['content'];
+				positioning?: ReadyPayload['positioning'];
+			},
+		) => {
 			const brand = (body && body.brand) || {};
 			if (!canShowReadyCard(brand)) {
 				refuseNamelessReady();
@@ -179,6 +210,7 @@ export function PreviewMagnet() {
 			setReady({
 				slug: nextSlug,
 				brand,
+				content: body && body.content,
 				positioning: body && body.positioning,
 			});
 			setPhase('ready');
@@ -187,10 +219,10 @@ export function PreviewMagnet() {
 	);
 
 	const poll = useCallback(
-		async (nextSlug: string, attempt: number) => {
-			if (cancelled.current) return;
+		async (nextSlug: string, attempt: number, rid: number) => {
+			if (cancelled.current || runId.current !== rid) return;
 			const result = await viewPreview(nextSlug);
-			if (cancelled.current) return;
+			if (cancelled.current || runId.current !== rid) return;
 			if (result.kind === 'ready' && result.body) {
 				// Stop polling — the payload is in hand. The swap itself
 				// waits on the type-out (see the two effects below), so a
@@ -220,9 +252,28 @@ export function PreviewMagnet() {
 					return;
 				}
 			}
+			// A WAIT THAT CANNOT END IS A DEAD END WITH AN ANIMATION ON IT.
+			// Nothing here ever stopped for `building`, so a row the server
+			// had abandoned polled at 1s forever: five sentences typed out,
+			// a pulsing bar, and no card behind it — no logo, no colours,
+			// nothing to press. The server closes an abandoned build out on
+			// its own bound, which is SHORTER than this one, so on a
+			// reachable API the founder gets the server's honest `failed`
+			// (and a row a re-submission can regenerate); this only fires
+			// when the API itself cannot be reached.
+			if (shouldGiveUpWaiting(Date.now() - startedAt.current)) {
+				stopWaitClock();
+				setPhase('failed');
+				setErrorMessage(m.failed);
+				return;
+			}
+			// A 429 here is OUR OWN poll against the view limiter. Retrying
+			// at the same rate keeps it limited for as long as we ask, so the
+			// GET carrying the finished preview would never get through.
+			const rateLimited = result.kind === 'ceiling';
 			pollTimer.current = setTimeout(() => {
-				void poll(nextSlug, attempt + 1);
-			}, nextPollDelayMs(attempt)); // ~1s while wait; not 2/4/8/10 backoff
+				void poll(nextSlug, attempt + 1, rid);
+			}, nextPollDelayMs(attempt, { rateLimited })); // ~1s early, then slower
 		},
 		[onReady, m.failed],
 	);
@@ -292,9 +343,10 @@ export function PreviewMagnet() {
 		const saved = readPreviewSlugCookie();
 		if (!saved) return;
 		let live = true;
+		const rid = ++runId.current;
 		void (async () => {
 			const result = await viewPreview(saved);
-			if (!live || cancelled.current) return;
+			if (!live || cancelled.current || runId.current !== rid) return;
 			if (result.kind === 'ready' && result.body) {
 				onReady(saved, result.body);
 				return;
@@ -303,11 +355,22 @@ export function PreviewMagnet() {
 				setSlug(saved);
 				setPhase('wait');
 				startWaitClock();
-				void poll(saved, 0);
+				void poll(saved, 0, rid);
 				return;
 			}
 			if (result.kind === 'failed' || result.kind === 'missing') {
 				clearPreviewSlugCookie();
+				return;
+			}
+			// `down` is a server we could not read, NOT a preview that is
+			// gone — the slug stays and we resume waiting rather than
+			// dropping the founder back on the form. Bounded by the
+			// give-up above, so an API that never returns still ends.
+			if (result.kind === 'down') {
+				setSlug(saved);
+				setPhase('wait');
+				startWaitClock();
+				void poll(saved, 0, rid);
 			}
 		})();
 		return () => {
@@ -317,6 +380,7 @@ export function PreviewMagnet() {
 	}, []);
 
 	const beginWait = (nextSlug: string, status?: string) => {
+		const rid = ++runId.current;
 		setSlug(nextSlug);
 		setPreviewSlugCookie(nextSlug);
 		setWaitProgress('');
@@ -328,7 +392,7 @@ export function PreviewMagnet() {
 		if (status === 'ready') {
 			setPhase('wait');
 			startWaitClock();
-			void poll(nextSlug, 0);
+			void poll(nextSlug, 0, rid);
 			return;
 		}
 		if (status === 'failed') {
@@ -338,7 +402,7 @@ export function PreviewMagnet() {
 		}
 		setPhase('wait');
 		startWaitClock();
-		void poll(nextSlug, 0);
+		void poll(nextSlug, 0, rid);
 	};
 
 	const onSubmit = async (event: FormEvent) => {
@@ -377,12 +441,27 @@ export function PreviewMagnet() {
 		setErrorMessage((result.body && result.body.message) || m.down);
 	};
 
+	// THE ONLY THING THAT WIPES A PREVIEW, and it is EXPLICIT.
+	// Everything else about the magnet is built to RESUME: the cookie
+	// survives a reload, a `down` server keeps the slug, and a founder
+	// who simply comes back finds their business waiting. So the founder
+	// who wants a different one needs an action that genuinely forgets —
+	// and without the cookie clear this control was a dead one across a
+	// refresh: the form came back, the old business came back with it.
 	const reset = () => {
+		// Retire the in-flight run FIRST. A poll resolving after this
+		// point must not re-set the cookie we are about to clear.
+		runId.current += 1;
 		stopWaitClock();
+		clearPreviewSlugCookie();
 		setPhase('form');
 		setErrorMessage('');
 		setReady(null);
 		setSlug('');
+		// The field is the thing they are replacing. Leaving the old
+		// address in it makes "try another business" a form that
+		// re-submits the one they just left.
+		setWebsite('');
 		setElapsedMs(0);
 		setWaitProgress('');
 		setWaitBeats([]);
@@ -477,13 +556,30 @@ export function PreviewMagnet() {
 						</div>
 					)}
 					<p className="text-[12px] leading-snug text-[var(--text)] opacity-70">{m.waitReturn}</p>
+					{/* THE WAIT IS THE SCREEN A STUCK FOUNDER IS LOOKING AT, and
+					    until now the only way out of it was on the READY card they
+					    could not reach. The line above promises their preview will
+					    be here when they come back, which is exactly what makes a
+					    dead wait unescapable: the cookie brings them straight back
+					    to it. */}
+					<button
+						type="button"
+						onClick={reset}
+						className="w-fit text-[12px] text-[var(--text)] opacity-70 underline-offset-2 hover:underline"
+					>
+						{m.tryAgain}
+					</button>
 				</div>
 			)}
 
 			{showReadyCard && ready && (
 				<GettingToKnowYou
 					key={ready.slug}
-					body={{ brand: ready.brand, positioning: ready.positioning }}
+					body={{
+						brand: ready.brand,
+						content: ready.content,
+						positioning: ready.positioning,
+					}}
 					website={website.trim() || ready.brand.website || ''}
 					platforms={platforms}
 					onPlatforms={setPlatforms}
