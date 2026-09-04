@@ -11,9 +11,16 @@
  * the knowing, not the story. Does not paint content.posts. Cadence is
  * never Posting Schedule.
  *
+ * The posts magnet is ON and lives in `previewPosts.js` — a typed
+ * strip, not a heading section, which is why `posts` stays in
+ * BANNED_HEADING_IDS: that list stops a GET key becoming a text
+ * heading, and the strip is a deliberate render rather than a walked
+ * key.
+ *
  * leftover-4 dest HOLD: this module does not persist. Hydrate lives on
  * Onboarding. Local edits in the card die with the session.
- * leftover-6 OFF: no posts magnet, no second scrape, no website builder.
+ * leftover-6, remaining OFF: no second scrape, no website builder. The
+ * posts magnet is ON — see `previewPosts.js`.
  *
  * Pure: no I/O, no clock, no React.
  */
