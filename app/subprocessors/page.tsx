@@ -63,17 +63,17 @@ function Table({ rows }: { rows: Row[] }) {
       <table className="w-full border-collapse text-sm">
         <thead>
           <tr className="text-left">
-            <th className="border-b border-gray-300 py-2 pr-4 font-[700] text-[#22263A]">Provider</th>
-            <th className="border-b border-gray-300 py-2 pr-4 font-[700] text-[#22263A]">What it processes</th>
-            <th className="border-b border-gray-300 py-2 font-[700] text-[#22263A]">Headquarters</th>
+            <th className="border-b border-[var(--border2)] py-2 pr-4 font-[700] text-[var(--text)]">Provider</th>
+            <th className="border-b border-[var(--border2)] py-2 pr-4 font-[700] text-[var(--text)]">What it processes</th>
+            <th className="border-b border-[var(--border2)] py-2 font-[700] text-[var(--text)]">Headquarters</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((s) => (
             <tr key={s.name} className="align-top">
-              <td className="border-b border-gray-100 py-2 pr-4 font-medium text-[#22263A]">{s.name}</td>
-              <td className="border-b border-gray-100 py-2 pr-4 text-[#5C6178]">{s.purpose}</td>
-              <td className="border-b border-gray-100 py-2 text-[#5C6178]">{s.hq}</td>
+              <td className="border-b border-[var(--border)] py-2 pr-4 font-medium text-[var(--text)]">{s.name}</td>
+              <td className="border-b border-[var(--border)] py-2 pr-4 text-[var(--text2)]">{s.purpose}</td>
+              <td className="border-b border-[var(--border)] py-2 text-[var(--text2)]">{s.hq}</td>
             </tr>
           ))}
         </tbody>

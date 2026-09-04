@@ -144,25 +144,25 @@ export default function PrivacyPage() {
     <div className="overflow-x-auto">
       <table className="w-full min-w-[720px] border-collapse text-sm">
         <thead>
-          <tr className="bg-[#EFF1F8] text-left">
-            <th className="border border-[#D7DBEA] px-3 py-2 font-semibold">Category</th>
-            <th className="border border-[#D7DBEA] px-3 py-2 font-semibold">Where it comes from</th>
-            <th className="border border-[#D7DBEA] px-3 py-2 font-semibold">Why we process it</th>
-            <th className="border border-[#D7DBEA] px-3 py-2 font-semibold">Who else sees it</th>
-            <th className="border border-[#D7DBEA] px-3 py-2 font-semibold">How long we keep it</th>
+          <tr className="bg-[var(--surface2)] text-left">
+            <th className="border border-[var(--border2)] px-3 py-2 font-semibold">Category</th>
+            <th className="border border-[var(--border2)] px-3 py-2 font-semibold">Where it comes from</th>
+            <th className="border border-[var(--border2)] px-3 py-2 font-semibold">Why we process it</th>
+            <th className="border border-[var(--border2)] px-3 py-2 font-semibold">Who else sees it</th>
+            <th className="border border-[var(--border2)] px-3 py-2 font-semibold">How long we keep it</th>
           </tr>
         </thead>
         <tbody>
           {COLLECTION_ROWS.map((row) => (
             <tr key={row[0]} className="align-top">
               {row.map((cell, i) => (
-                <td key={i} className="border border-[#D7DBEA] px-3 py-2">{cell}</td>
+                <td key={i} className="border border-[var(--border2)] px-3 py-2">{cell}</td>
               ))}
             </tr>
           ))}
         </tbody>
       </table>
-      <p className="mt-2 text-xs text-[#5C6178]">
+      <p className="mt-2 text-xs text-[var(--text2)]">
         We do not use any of these categories for cross-context behavioral advertising inside the
         logged-in Moil application. Marketing and analytics tools run on our public website only,
         and only after you accept them — see section 8.
@@ -325,7 +325,7 @@ export default function PrivacyPage() {
       page="privacy"
       sections={sections}
     >
-      <p className="text-sm text-[#5C6178]">
+      <p className="text-sm text-[var(--text2)]">
         Related:{" "}
         <Link href="/cookies" className="text-[#FF6633] underline">Cookie Policy</Link>,{" "}
         <Link href="/subprocessors" className="text-[#FF6633] underline">Subprocessors</Link>,{" "}

@@ -51,7 +51,7 @@ export default function PrivacyChoicesPage() {
       intro="Use this page to understand and exercise your privacy rights."
       sections={sections}
     >
-      <p className="text-sm text-[#5C6178]">
+      <p className="text-sm text-[var(--text2)]">
         See also our{" "}
         <Link href="/privacy" className="text-[#FF6633] underline">Privacy Policy</Link> and{" "}
         <Link href="/cookies" className="text-[#FF6633] underline">Cookie Policy</Link>.
