@@ -26,6 +26,7 @@ export function Content360Footer({ themeEmoji, onToggleTheme }: Props) {
           </a>
           <a href="/terms">{lang === 'es' ? 'Términos' : 'Terms'}</a>
           <a href="/privacy">{lang === 'es' ? 'Privacidad' : 'Privacy'}</a>
+          <a href="/subprocessors">{lang === 'es' ? 'Subprocesadores' : 'Subprocessors'}</a>
         </div>
         <div className="lang-toggle">
           <button

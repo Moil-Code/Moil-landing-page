@@ -256,13 +256,13 @@ export const es: TranslationKeys = {
       headlineHighlight2: 'Sin nómina.',
       quote: 'Dirigir un pequeño negocio significa usar todos los sombreros — CEO, mercadólogo, reclutador, estratega — todo a la vez.',
       quoteEmphasis: 'Eso termina hoy.',
-      description: 'Moil es la primera plataforma de IA que conecta cada función crítica de un pequeño negocio en un único ecosistema inteligente. Inicia una conversación, responde 21 preguntas estratégicas y observa cómo tu co-fundador IA construye tu investigación de mercado, plan de negocios, estrategia de contenido y activos visuales — todo en un mismo lugar.',
+      description: 'Moil es la primera plataforma de IA que conecta cada función crítica de un pequeño negocio en un único ecosistema inteligente. Inicia una conversación, responde 16 preguntas estratégicas y observa cómo tu co-fundador IA construye tu investigación de mercado, plan de negocios, estrategia de contenido y activos visuales — todo en un mismo lugar.',
       footnote: 'Disponible en inglés y español · Cifrado en tránsito y en reposo · Sin tarifas de configuración',
       cardTitle: 'Tu Co-Fundador IA',
       cardSub: 'Plataforma de Inteligencia Moil · Siempre Activo',
       cofounder: {
         marketResearch: 'Investigación de Mercado',
-        marketResearchSub: '21 preguntas → 20–30 páginas de datos reales del mercado',
+        marketResearchSub: '16 preguntas → análisis del sitio → 20–30 páginas de datos reales del mercado',
         marketResearchBadge: 'Instantáneo',
         businessPlan: 'Plan de Negocios',
         businessPlanSub: 'PDF listo para inversores con proyecciones a 5 años',
@@ -320,8 +320,8 @@ export const es: TranslationKeys = {
       subheadline: 'Seis módulos poderosos, entrelazados en una sola conversación inteligente. Cada uno alimenta al siguiente.',
       marketResearch: {
         title: 'Investigación y Validación de Mercado',
-        description: 'Responde 21 preguntas estratégicas por voz o texto — en inglés o español. Análisis profundo del mercado de 8–10 fuentes reales. TAM/SAM/SOM, panorama competitivo, personas de clientes, puntuación de oportunidades.',
-        tag1: '21 Preguntas',
+        description: 'Responde 16 preguntas estratégicas por voz o texto — en inglés o español. Análisis profundo del mercado de 8–10 fuentes reales. TAM/SAM/SOM, panorama competitivo, personas de clientes, puntuación de oportunidades.',
+        tag1: '16 Preguntas',
         tag2: 'Fuentes Reales',
         tag3: 'TAM/SAM/SOM',
       },
@@ -361,25 +361,25 @@ export const es: TranslationKeys = {
     },
     journey: {
       tag: 'Tu Viaje Completo',
-      headline: 'De 21 Preguntas a',
+      headline: 'De 16 Preguntas a',
       headlineHighlight1: 'Control Total',
       headlineHighlight2: 'del Negocio.',
       subheadline: 'Todo automatizado. Cada resultado profesional. Cada decisión basada en datos reales del mercado.',
       steps: {
         step1: {
           time: '5–10 Minutos',
-          title: '21 Preguntas Estratégicas',
+          title: '16 Preguntas Estratégicas',
           desc: 'Voz o texto. Inglés o español. Tu co-fundador IA aprende tu modelo de negocio, mercado, brechas competitivas, metas y fortalezas. La base de todo lo que sigue.',
         },
         step2: {
           time: 'Automatizado',
-          title: '20–30 Páginas de Investigación de Mercado',
-          desc: 'Análisis profundo en tiempo real. Cálculos TAM/SAM/SOM. Mapeo de panorama competitivo. Personas de clientes. Puntuación de oportunidades. 8–10 fuentes autorizadas. No suposiciones — datos.',
+          title: 'Análisis del Sitio Web y de la Marca',
+          desc: 'Moil lee tu sitio web público para entender tus ofertas, posicionamiento, lenguaje, pruebas e identidad visual antes de crear algo para tu negocio.',
         },
         step3: {
-          time: 'Un Clic',
-          title: 'Plan de Negocios Listo para Inversores',
-          desc: 'Proyecciones a 5 años, modelos de ingresos, estrategia go-to-market, hoja de ruta operativa. Descarga un PDF pulido listo para inversores, bancos o socios. Minutos, no meses.',
+          time: 'Automatizado',
+          title: '20–30 Páginas de Investigación de Mercado',
+          desc: 'Análisis en tiempo real usando tus respuestas y el contexto del sitio. TAM/SAM/SOM, competencia, perfiles de clientes, oportunidades y 8–10 fuentes autorizadas.',
         },
         step4: {
           time: 'Moil360',
@@ -466,7 +466,7 @@ export const es: TranslationKeys = {
         },
         voice: {
           title: 'Entrada de Voz — Inglés y Español',
-          desc: 'Responde 21 preguntas por voz en tu idioma preferido',
+          desc: 'Responde 16 preguntas por voz en tu idioma preferido',
           badge: 'Ambos',
         },
         content: {
@@ -706,7 +706,7 @@ export const es: TranslationKeys = {
     },
     journey: {
       sectionTag: 'Tu Camino',
-      headLine1: 'De 21 Preguntas',
+      headLine1: 'De 16 Preguntas',
       headLine2: 'a la',
       headLine2Highlight: 'Dominación Total.',
       sub: 'Cada paso automatizado. Cada resultado profesional. Cada decisión respaldada por datos reales del mercado — no suposiciones.',

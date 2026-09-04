@@ -83,63 +83,68 @@ function Table({ rows }: { rows: Row[] }) {
 }
 
 export default function SubprocessorsPage() {
+  const sections = [
+    {
+      heading: "Infrastructure",
+      text: "These providers hold your account and content and support the core operation of Moil. They process data in the United States.",
+      block: <Table rows={INFRASTRUCTURE} />,
+    },
+    {
+      heading: "AI providers",
+      text: (
+        <>
+          Moil routes a request to the provider suited to the task, so one piece of content may be
+          processed by more than one provider. We send the request and only the business context
+          needed to answer it, such as your business name, industry, and saved brand details.
+          {"\n\n"}
+          <strong>DeepSeek and Alibaba Cloud are headquartered in China</strong>, and BytePlus is
+          part of the ByteDance group. If you need your account restricted to providers
+          headquartered in the United States, email {CONTACT_EMAIL} before uploading content you
+          would not want processed outside the US.
+          {"\n\n"}
+          We instruct providers not to use your content to train their models to the extent their
+          API terms allow. We do not control their internal practices or claim more than that.
+        </>
+      ),
+      block: <Table rows={AI} />,
+    },
+    {
+      heading: "Connected services",
+      text: "These services receive data only when you connect the corresponding account. Disconnecting it in Settings stops the flow.",
+      block: <Table rows={OPTIONAL} />,
+    },
+    {
+      heading: "Analytics and measurement",
+      text: (
+        <>
+          Marketing-site analytics load only after you choose “Accept all” in the cookie banner,
+          and never when your browser sends a Global Privacy Control signal. See our{" "}
+          <Link href="/cookies">Cookie Policy</Link> and{" "}
+          <Link href="/privacy-choices">Your Privacy Choices</Link>.
+        </>
+      ),
+      block: <Table rows={ANALYTICS} />,
+    },
+    {
+      heading: "Changes and questions",
+      text: (
+        <>
+          We update this page when we add or replace a provider. To request advance notice or ask a
+          question about a provider, email {CONTACT_EMAIL}. You can also review our{" "}
+          <Link href="/privacy">Privacy Policy</Link> and{" "}
+          <Link href="/dpa">Data Processing Addendum</Link>.
+        </>
+      ),
+    },
+  ];
+
   return (
     <LegalPage
       title="Moil Subprocessors"
       lastUpdated={LEGAL_LAST_UPDATED}
       page="subprocessors"
       intro="These are the third-party providers we use to deliver the Services. Each processes personal data on our behalf under a contract requiring confidentiality and appropriate security. We list a provider here only if our software actually sends data to it."
-    >
-      <h2 className="mt-8 text-lg font-[700] text-[#22263A]">Infrastructure</h2>
-      <p className="text-sm text-[#5C6178]">
-        These hold your account and your content. All of them process data in the United States.
-      </p>
-      <Table rows={INFRASTRUCTURE} />
-
-      <h2 className="mt-8 text-lg font-[700] text-[#22263A]">AI providers</h2>
-      <p className="text-sm text-[#5C6178]">
-        Moil routes a request to whichever provider is available and suited to the task, so a single
-        piece of content may be processed by more than one of these. What we send is the text of your
-        request plus the business context needed to answer it — for example your business name,
-        industry, and the brand details you have saved.
-      </p>
-      <p className="text-sm text-[#5C6178]">
-        <strong>Two of these companies are headquartered in China</strong> (DeepSeek and Alibaba
-        Cloud) and one is part of the ByteDance group (BytePlus). We name them because you should be
-        able to decide, with that in hand, what you put into the product. If you need your account
-        restricted to United States–headquartered providers, email {CONTACT_EMAIL} — say so before
-        you upload anything you would not want processed outside the US.
-      </p>
-      <p className="text-sm text-[#5C6178]">
-        We instruct providers not to use your content to train their models, to the extent each
-        provider&apos;s API terms allow. We do not control their internal practices and we do not
-        claim more than that.
-      </p>
-      <Table rows={AI} />
-
-      <h2 className="mt-8 text-lg font-[700] text-[#22263A]">Only when you connect them</h2>
-      <p className="text-sm text-[#5C6178]">
-        Nothing below receives your data unless you connect that account yourself. Disconnecting it
-        in Settings stops the flow.
-      </p>
-      <Table rows={OPTIONAL} />
-
-      <h2 className="mt-8 text-lg font-[700] text-[#22263A]">Analytics</h2>
-      <p className="text-sm text-[#5C6178]">
-        The four marketing-site tools load only after you choose &quot;Accept all&quot; on the cookie
-        banner, and never when your browser sends a Global Privacy Control signal. See{" "}
-        <Link href="/cookies" className="text-[#FF6633] underline">Cookies</Link> and{" "}
-        <Link href="/privacy-choices" className="text-[#FF6633] underline">Your Privacy Choices</Link>.
-      </p>
-      <Table rows={ANALYTICS} />
-
-      <h2 className="mt-8 text-lg font-[700] text-[#22263A]">Changes to this list</h2>
-      <p className="text-sm text-[#5C6178]">
-        We update this page when we add or replace a provider. To be notified of changes in advance,
-        or to ask a question about any provider here, email {CONTACT_EMAIL}. See also our{" "}
-        <Link href="/privacy" className="text-[#FF6633] underline">Privacy Policy</Link> and{" "}
-        <Link href="/dpa" className="text-[#FF6633] underline">Data Processing Addendum</Link>.
-      </p>
-    </LegalPage>
+      sections={sections}
+    />
   );
 }

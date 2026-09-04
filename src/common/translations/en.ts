@@ -270,7 +270,7 @@ export const en = {
       cardSub: 'Moil Intelligence Platform · Always On',
       cofounder: {
         marketResearch: 'Market Research',
-        marketResearchSub: '21 questions → 20–30 pages of real market data',
+        marketResearchSub: '16 questions → website analysis → 20–30 pages of real market data',
         marketResearchBadge: 'Instant',
         businessPlan: 'Business Plan',
         businessPlanSub: 'Investor-ready PDF with 5-year projections',
@@ -328,8 +328,8 @@ export const en = {
       subheadline: 'Six powerful modules, woven into a single intelligent conversation. Each one feeds the next.',
       marketResearch: {
         title: 'Market Research & Validation',
-        description: 'Answer 21 strategic questions by voice or text — in English or Spanish. Deep market analysis from 8–10 real sources. TAM/SAM/SOM, competitive landscape, customer personas, opportunity scoring.',
-        tag1: '21 Questions',
+        description: 'Answer 16 strategic questions by voice or text — in English or Spanish. Deep market analysis from 8–10 real sources. TAM/SAM/SOM, competitive landscape, customer personas, opportunity scoring.',
+        tag1: '16 Questions',
         tag2: 'Real Sources',
         tag3: 'TAM/SAM/SOM',
       },
@@ -369,25 +369,25 @@ export const en = {
     },
     journey: {
       tag: 'Your Complete Journey',
-      headline: 'From 21 Questions to',
+      headline: 'From 16 Questions to',
       headlineHighlight1: 'Total Business',
       headlineHighlight2: 'Command.',
       subheadline: 'Everything automated. Every output professional. Every decision grounded in real market data.',
       steps: {
         step1: {
           time: '5–10 Minutes',
-          title: '21 Strategic Questions',
+          title: '16 Strategic Questions',
           desc: 'Voice or text. English or Spanish. Your AI co-founder learns your business model, market, competitive gaps, goals, and strengths. The foundation for everything that follows.',
         },
         step2: {
           time: 'Automated',
-          title: '20–30 Pages Market Research',
-          desc: 'Real-time deep analysis. TAM/SAM/SOM calculations. Competitive landscape mapping. Customer personas. Opportunity scoring. 8–10 authoritative sources. Not guesses — data.',
+          title: 'Website Scraping & Brand Analysis',
+          desc: 'Moil reads your public website to understand your offers, positioning, language, proof, and visual identity before it builds anything for your business.',
         },
         step3: {
-          time: 'One Click',
-          title: 'Investor-Ready Business Plan',
-          desc: '5-year projections, revenue models, go-to-market strategy, operational roadmap. Download a polished PDF ready for investors, banks, or partners. Minutes, not months.',
+          time: 'Automated',
+          title: '20–30 Pages Market Research',
+          desc: 'Real-time analysis using your answers and website context. TAM/SAM/SOM, competitors, customer personas, opportunity scoring, and 8–10 authoritative sources.',
         },
         step4: {
           time: 'Moil360',
@@ -474,7 +474,7 @@ export const en = {
         },
         voice: {
           title: 'Voice Input — English & Spanish',
-          desc: 'Answer 21 questions by voice in your preferred language',
+          desc: 'Answer 16 questions by voice in your preferred language',
           badge: 'Both',
         },
         content: {
@@ -718,7 +718,7 @@ export const en = {
     },
     journey: {
       sectionTag: 'Your Journey',
-      headLine1: 'From 21 Questions',
+      headLine1: 'From 16 Questions',
       headLine2: 'to',
       headLine2Highlight: 'Total Domination.',
       sub: 'Every step automated. Every output professional. Every decision backed by real market data — not gut feelings.',

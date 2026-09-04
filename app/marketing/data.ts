@@ -63,26 +63,26 @@ export const journeySteps: JourneyStep[] = [
   {
     number: '01',
     time: '5–10 MIN',
-    title: '21 Strategic Questions',
+    title: '16 Strategic Questions',
     description:
-      'Answer 21 questions by voice or text — in English or Spanish. Your AI co-founder learns everything: your model, your market, your goals, your gaps.',
+      'Answer 16 questions by voice or text — in English or Spanish. Your AI co-founder learns everything: your model, your market, your goals, your gaps.',
     outputs: ['Business Model Analysis', 'Gap Identification', 'Strength Mapping', 'Bilingual EN/ES'],
   },
   {
     number: '02',
     time: 'AUTOMATED',
-    title: '20–30 Pages of Real Market Research',
+    title: 'Website Scraping & Brand Analysis',
     description:
-      'Deep analysis using your answers. TAM/SAM/SOM. Competitive landscape. Customer personas. Opportunity scoring. 8–10 authoritative sources. Real data. Not guesses.',
-    outputs: ['TAM/SAM/SOM', 'Competitor Analysis', 'Customer Personas', 'Validation Report'],
+      'Moil reads your public website to understand your offers, positioning, language, proof, and visual identity before it builds anything for your business.',
+    outputs: ['Offer Extraction', 'Brand Voice', 'Positioning Signals', 'Website Context'],
   },
   {
     number: '03',
-    time: 'ONE CLICK',
-    title: 'Investor-Ready Business Plan',
+    time: 'AUTOMATED',
+    title: '20–30 Pages of Real Market Research',
     description:
-      'Polished PDF ready for investors, banks, or partners. 5-year financial projections, go-to-market strategy, operational roadmap, funding requirements. Minutes, not months.',
-    outputs: ['5-Year Projections', 'Revenue Models', 'Go-To-Market', 'Funding Analysis'],
+      'Deep analysis using your answers and website context. TAM/SAM/SOM. Competitive landscape. Customer personas. Opportunity scoring. 8–10 authoritative sources. Real data. Not guesses.',
+    outputs: ['TAM/SAM/SOM', 'Competitor Analysis', 'Customer Personas', 'Validation Report'],
   },
   {
     number: '04',
@@ -408,26 +408,26 @@ const journeyStepsEs: JourneyStep[] = [
   {
     number: '01',
     time: '5–10 MIN',
-    title: '21 Preguntas Estratégicas',
+    title: '16 Preguntas Estratégicas',
     description:
-      'Responde 21 preguntas por voz o texto — en inglés o español. Tu co-fundador IA aprende todo: tu modelo, tu mercado, tus metas, tus brechas.',
+      'Responde 16 preguntas por voz o texto — en inglés o español. Tu co-fundador IA aprende todo: tu modelo, tu mercado, tus metas, tus brechas.',
     outputs: ['Análisis del Modelo', 'Identificación de Brechas', 'Mapeo de Fortalezas', 'Bilingüe EN/ES'],
   },
   {
     number: '02',
     time: 'AUTOMATIZADO',
-    title: '20–30 Páginas de Investigación de Mercado Real',
+    title: 'Análisis del Sitio Web y de la Marca',
     description:
-      'Análisis profundo usando tus respuestas. TAM/SAM/SOM. Panorama competitivo. Perfiles de clientes. Puntuación de oportunidades. 8–10 fuentes autorizadas. Datos reales. Sin suposiciones.',
-    outputs: ['TAM/SAM/SOM', 'Análisis Competitivo', 'Perfiles de Clientes', 'Reporte de Validación'],
+      'Moil lee tu sitio web público para entender tus ofertas, posicionamiento, lenguaje, pruebas e identidad visual antes de crear algo para tu negocio.',
+    outputs: ['Extracción de Ofertas', 'Voz de Marca', 'Señales de Posición', 'Contexto Web'],
   },
   {
     number: '03',
-    time: 'UN CLIC',
-    title: 'Plan de Negocio Listo para Inversores',
+    time: 'AUTOMATIZADO',
+    title: '20–30 Páginas de Investigación de Mercado Real',
     description:
-      'PDF pulido para inversores, bancos o socios. Proyecciones financieras a 5 años, estrategia de entrada al mercado, hoja de ruta operativa, requisitos de financiamiento. Minutos, no meses.',
-    outputs: ['Proyecciones 5 Años', 'Modelos de Ingresos', 'Entrada al Mercado', 'Análisis Financiero'],
+      'Análisis profundo usando tus respuestas y el contexto de tu sitio. TAM/SAM/SOM, panorama competitivo, perfiles de clientes, puntuación de oportunidades y 8–10 fuentes autorizadas.',
+    outputs: ['TAM/SAM/SOM', 'Análisis Competitivo', 'Perfiles de Clientes', 'Reporte de Validación'],
   },
   {
     number: '04',

@@ -94,6 +94,7 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
             <a href="/privacy">{t.footer.resourceLinks.privacyPolicy}</a>
             <a href="/terms">{t.footer.resourceLinks.termsOfService}</a>
             <a href="/cookies">{t.footer.resourceLinks.cookiePolicy}</a>
+            <a href="/subprocessors">Subprocessors</a>
           </div>
         </div>
         <div>

@@ -123,20 +123,20 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
               {
                 "@type": "HowToStep",
                 "position": 1,
-                "name": "Answer 21 Strategic Questions",
-                "text": "Answer 21 questions about your business in 5–10 minutes by voice or text, in English or Spanish. Your AI learns your brand, market, goals, and content gaps."
+                "name": "Answer 16 Strategic Questions",
+                "text": "Answer 16 questions about your business in 5–10 minutes by voice or text, in English or Spanish. Your AI learns your brand, market, goals, and content gaps."
               },
               {
                 "@type": "HowToStep",
                 "position": 2,
-                "name": "AI Conducts Your Market Research",
-                "text": "Content360 analyzes your industry, competitors, and audience to identify the exact topics and content types that will resonate with your customers."
+                "name": "Moil Reads Your Website",
+                "text": "Moil scrapes your public website to understand your offers, positioning, brand voice, proof points, and visual identity."
               },
               {
                 "@type": "HowToStep",
                 "position": 3,
-                "name": "Define Your Brand DNA",
-                "text": "Content360 builds a brand DNA profile from your answers — voice, values, visual style, and target customer — so every post matches how your business actually sounds."
+                "name": "Receive 20–30 Pages of Market Research",
+                "text": "Moil combines your answers and website context with authoritative sources to analyze your market, competitors, audience, and opportunities."
               },
               {
                 "@type": "HowToStep",
@@ -190,7 +190,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
                 "name": "How long does it take to generate a 30-day content calendar?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "After answering 21 questions (5–10 minutes), Content360 generates your complete 30-day content calendar automatically. The entire process from onboarding to ready-to-post content takes under 30 minutes."
+                  "text": "After answering 16 questions (5–10 minutes), Content360 generates your complete 30-day content calendar automatically. The entire process from onboarding to ready-to-post content takes under 30 minutes."
                 }
               },
               {

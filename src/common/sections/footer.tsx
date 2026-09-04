@@ -166,6 +166,11 @@ export default function FooterSection({ refQuery, lgQuery }: any) {
                 </Link>
               </li>
               <li>
+                <Link href={`/subprocessors${queryString}`} className="text-white/70 hover:text-white transition-colors text-sm">
+                  Subprocessors
+                </Link>
+              </li>
+              <li>
                 <Link href={`/accessibility${queryString}`} className="text-white/70 hover:text-white transition-colors text-sm">
                   Accessibility
                 </Link>
