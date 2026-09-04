@@ -63,17 +63,17 @@ function Table({ rows }: { rows: Row[] }) {
       <table className="w-full border-collapse text-sm">
         <thead>
           <tr className="text-left">
-            <th className="border-b border-gray-300 py-2 pr-4 font-[700] text-[#22263A]">Provider</th>
-            <th className="border-b border-gray-300 py-2 pr-4 font-[700] text-[#22263A]">What it processes</th>
-            <th className="border-b border-gray-300 py-2 font-[700] text-[#22263A]">Headquarters</th>
+            <th className="border-b border-[var(--border2)] py-2 pr-4 font-[700] text-[var(--text)]">Provider</th>
+            <th className="border-b border-[var(--border2)] py-2 pr-4 font-[700] text-[var(--text)]">What it processes</th>
+            <th className="border-b border-[var(--border2)] py-2 font-[700] text-[var(--text)]">Headquarters</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((s) => (
             <tr key={s.name} className="align-top">
-              <td className="border-b border-gray-100 py-2 pr-4 font-medium text-[#22263A]">{s.name}</td>
-              <td className="border-b border-gray-100 py-2 pr-4 text-[#5C6178]">{s.purpose}</td>
-              <td className="border-b border-gray-100 py-2 text-[#5C6178]">{s.hq}</td>
+              <td className="border-b border-[var(--border)] py-2 pr-4 font-medium text-[var(--text)]">{s.name}</td>
+              <td className="border-b border-[var(--border)] py-2 pr-4 text-[var(--text2)]">{s.purpose}</td>
+              <td className="border-b border-[var(--border)] py-2 text-[var(--text2)]">{s.hq}</td>
             </tr>
           ))}
         </tbody>
@@ -90,42 +90,42 @@ export default function SubprocessorsPage() {
       page="subprocessors"
       intro="These are the third-party providers we use to deliver the Services. Each processes personal data on our behalf under a contract requiring confidentiality and appropriate security. We list a provider here only if our software actually sends data to it."
     >
-      <h2 className="mt-8 text-lg font-[700] text-[#22263A]">Infrastructure</h2>
-      <p className="text-sm text-[#5C6178]">
+      <h2 className="mt-8 text-lg font-[700] text-[var(--text)]">Infrastructure</h2>
+      <p className="text-sm text-[var(--text2)]">
         These hold your account and your content. All of them process data in the United States.
       </p>
       <Table rows={INFRASTRUCTURE} />
 
-      <h2 className="mt-8 text-lg font-[700] text-[#22263A]">AI providers</h2>
-      <p className="text-sm text-[#5C6178]">
+      <h2 className="mt-8 text-lg font-[700] text-[var(--text)]">AI providers</h2>
+      <p className="text-sm text-[var(--text2)]">
         Moil routes a request to whichever provider is available and suited to the task, so a single
         piece of content may be processed by more than one of these. What we send is the text of your
         request plus the business context needed to answer it — for example your business name,
         industry, and the brand details you have saved.
       </p>
-      <p className="text-sm text-[#5C6178]">
+      <p className="text-sm text-[var(--text2)]">
         <strong>Two of these companies are headquartered in China</strong> (DeepSeek and Alibaba
         Cloud) and one is part of the ByteDance group (BytePlus). We name them because you should be
         able to decide, with that in hand, what you put into the product. If you need your account
         restricted to United States–headquartered providers, email {CONTACT_EMAIL} — say so before
         you upload anything you would not want processed outside the US.
       </p>
-      <p className="text-sm text-[#5C6178]">
+      <p className="text-sm text-[var(--text2)]">
         We instruct providers not to use your content to train their models, to the extent each
         provider&apos;s API terms allow. We do not control their internal practices and we do not
         claim more than that.
       </p>
       <Table rows={AI} />
 
-      <h2 className="mt-8 text-lg font-[700] text-[#22263A]">Only when you connect them</h2>
-      <p className="text-sm text-[#5C6178]">
+      <h2 className="mt-8 text-lg font-[700] text-[var(--text)]">Only when you connect them</h2>
+      <p className="text-sm text-[var(--text2)]">
         Nothing below receives your data unless you connect that account yourself. Disconnecting it
         in Settings stops the flow.
       </p>
       <Table rows={OPTIONAL} />
 
-      <h2 className="mt-8 text-lg font-[700] text-[#22263A]">Analytics</h2>
-      <p className="text-sm text-[#5C6178]">
+      <h2 className="mt-8 text-lg font-[700] text-[var(--text)]">Analytics</h2>
+      <p className="text-sm text-[var(--text2)]">
         The four marketing-site tools load only after you choose &quot;Accept all&quot; on the cookie
         banner, and never when your browser sends a Global Privacy Control signal. See{" "}
         <Link href="/cookies" className="text-[#FF6633] underline">Cookies</Link> and{" "}
@@ -133,8 +133,8 @@ export default function SubprocessorsPage() {
       </p>
       <Table rows={ANALYTICS} />
 
-      <h2 className="mt-8 text-lg font-[700] text-[#22263A]">Changes to this list</h2>
-      <p className="text-sm text-[#5C6178]">
+      <h2 className="mt-8 text-lg font-[700] text-[var(--text)]">Changes to this list</h2>
+      <p className="text-sm text-[var(--text2)]">
         We update this page when we add or replace a provider. To be notified of changes in advance,
         or to ask a question about any provider here, email {CONTACT_EMAIL}. See also our{" "}
         <Link href="/privacy" className="text-[#FF6633] underline">Privacy Policy</Link> and{" "}

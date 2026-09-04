@@ -48,7 +48,7 @@ export default function DmcaPage() {
 
   return (
     <LegalPage title="Copyright & DMCA Policy" lastUpdated={LEGAL_LAST_UPDATED} page="dmca" sections={sections}>
-      <p className="text-sm text-[#5C6178]">
+      <p className="text-sm text-[var(--text2)]">
         See also our{" "}
         <Link href="/terms" className="text-[#FF6633] underline">Terms and Conditions</Link>.
       </p>
