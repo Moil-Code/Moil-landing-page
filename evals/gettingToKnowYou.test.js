@@ -564,22 +564,28 @@ describe('wait beats — admit progress array, never scrape theatre', () => {
 	});
 });
 
-describe('the card does not paint posts or Munch theatre', () => {
+describe('the card paints its own posts, and none of the Munch theatre', () => {
 	const gtkSrc = read('app/business/components/GettingToKnowYou.tsx');
 	const magnet = read('app/business/components/PreviewMagnet.tsx');
 	const helper = read('app/business/preview/gettingToKnowYou.js');
 
-	it('Decide For Me is present; post cards are not', () => {
+	it('Decide For Me is present, and the posts strip is too', () => {
 		assert.match(gtkSrc, /platformDecideForMe/);
 		assert.match(gtkSrc, /chooseDecide\(/);
 		assert.match(gtkSrc, /decideChip\(/);
-		assert.doesNotMatch(gtkSrc, /realPosts\(/);
-		assert.doesNotMatch(magnet, /realPosts\(/);
-		assert.doesNotMatch(gtkSrc, /bg-gradient-to-br/);
-		assert.doesNotMatch(gtkSrc, /<article/);
-		assert.doesNotMatch(magnet, /<article/);
+		// PROOF OF WORK. The server has shipped content.posts all
+		// along; the card used to drop them, so a founder saw only
+		// what we READ about them and nothing we would MAKE.
+		assert.match(gtkSrc, /postCards\(/);
+		assert.match(gtkSrc, /<PostStrip/);
+		assert.match(magnet, /content: body && body\.content/);
+		// The posts are painted by previewPosts.js, NOT by the heading
+		// helper — `posts` stays banned as a heading id, because that
+		// list stops a GET key becoming a text section and the strip is
+		// a deliberate typed render rather than a walked key.
 		const helperBody = helper.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 		assert.doesNotMatch(helperBody, /content\.posts/);
+		assert.match(helper, /BANNED_HEADING_IDS/);
 	});
 
 	it('does not invent Munch wait lines, Reveal My First Posts, or cadence-as-schedule copy', () => {
@@ -604,15 +610,23 @@ describe('the card does not paint posts or Munch theatre', () => {
 		assert.doesNotMatch(magnet, /narrationPov/);
 	});
 
-	it('wall is Start free via buildRegisterUrl; leftover-4 dest HOLD (no persist); leftover-6 OFF', () => {
+	it('wall is Start free via buildRegisterUrl; leftover-4 dest HOLD (no persist); the REST of leftover-6 stays OFF', () => {
 		assert.match(magnet, /buildRegisterUrl\(/);
 		assert.match(magnet, /GettingToKnowYou/);
 		assert.match(gtkSrc, /\{m\.startFree\}/);
 		assert.match(gtkSrc, /leftover-4 dest HOLD/);
 		assert.match(helper, /leftover-4 dest HOLD/);
-		assert.match(gtkSrc, /leftover-6 OFF/);
-		assert.match(helper, /leftover-6 OFF/);
-		assert.match(helper, /no posts magnet, no second scrape, no website builder/);
+		// leftover-6 BUNDLED THREE THINGS and only the posts magnet
+		// shipped. The marker is narrowed rather than deleted, because
+		// the other two are still deferred and still cost real money: a
+		// second scrape is another fetch per visitor, and a website
+		// builder is a product. A marker that keeps claiming the magnet
+		// is off is a gate certifying a state that no longer holds.
+		assert.match(gtkSrc, /leftover-6, remaining OFF/);
+		assert.match(helper, /leftover-6, remaining OFF/);
+		assert.match(helper, /no second scrape, no website builder/);
+		assert.doesNotMatch(gtkSrc, /no posts magnet/);
+		assert.doesNotMatch(helper, /no posts magnet/);
 		assert.doesNotMatch(gtkSrc, /type="email"/);
 		assert.doesNotMatch(magnet, /type="email"/);
 		assert.doesNotMatch(gtkSrc, /fetch\(/);

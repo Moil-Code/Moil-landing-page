@@ -248,6 +248,70 @@ behaviourally against a fake document, the magnet's wiring bounded to each
 enclosing function with a found-the-slice assertion), red-verified **nine
 ways** — including both original bugs restored verbatim.
 
+### Proof of work, not proof of reading (`previewPosts.js`, 2026-09-04)
+
+The ready card showed a logo, five colour swatches, a positioning line and a
+list of what we had read off the site. Every word of it is about the SCRAPE.
+A founder arriving from an ad has no way to tell that apart from a clever
+summariser — the thing they came to find out is whether we can make the
+*posts*, and the card never showed one.
+
+**THE SERVER HAS BEEN SENDING THEM ALL ALONG.** `composePreview` composes up
+to three finished posts (`content.kind === 'posts'`), each with a caption, a
+headline and a §10 creative, and `shapeReadyPayload` has always put them on
+the wire. **The card dropped them twice over**: `PreviewMagnet`'s
+`ReadyPayload` type declared no `content` key so `onReady` never carried it,
+and `gettingToKnowYou.js` listed `posts` in `BANNED_HEADING_IDS`. Measured on
+a real business — three posts produced, zero shown. The repo's own
+`docs/CLOSING_THE_MUNCH_GAP.md` scores *"First hour, pre-paywall: Behind"* for
+exactly this.
+
+**A CARD NEEDS WORDS AND SOMETHING TO LOOK AT.** `postCards` requires a
+caption plus EITHER a headline (the type-led treatment) or a photo (their own
+picture under our wash). Neither is an empty frame, so such a post is DROPPED
+rather than padded — the `topicCandidates` rule, one surface over. **A caption
+is never promoted into a headline**: cutting a sentence to fit a type slot
+composes a claim the founder never made, which is what `brandProducts` refuses
+by declining prose rather than truncating it.
+
+**ONE TREATMENT PER CARD — TYPE IS NEVER PAINTED OVER THE PHOTOGRAPH.** With a
+headline we paint the brand-gradient ground; with none we show the photo. That
+matches `buildCreativeSvg`, which paints no photo at all, and it is the honest
+answer to a contrast question we cannot settle: the photo is an uncontrolled
+image off their own site, so brand-primary type over it has no legibility
+guarantee. Found by LOOKING at a render, not by reading the diff.
+
+**THE CREATIVE IS PAINTED IN THE DOM, NEVER LOADED AS A DATA URI.** A
+`data:image/svg+xml` document has an opaque origin, so every external
+reference inside it is blocked — and Chromium paints its BROKEN-IMAGE ICON in
+the blocked slot rather than skipping it. So the founders WITH a logo would
+have got a broken glyph and the ones without would have got clean art. The
+backend half of that is `buildCreativeSvg`, which no longer carries an
+`<image>` at all; the mark is this card's job, and it is a real `<img>` in the
+DOM with an `onError` that hides it.
+
+**COLOURS COME FROM THE BRAND, never from the post.** `creativePalette` reads
+`brand.colors` — the same swatches rendered above — so the card and the
+fallback cannot disagree about what this business looks like. A repeated
+colour never becomes the accent, or the last word is painted invisibly on its
+own ground.
+
+**The `leftover-6` marker was NARROWED, not deleted.** A second scrape and a
+website builder are still OFF and the eval still pins that; only the posts
+magnet moved. `posts` stays in `BANNED_HEADING_IDS` because that list stops a
+GET key becoming a prose HEADING SECTION — the strip is a typed render with
+its own rules, which is a different thing.
+
+Pinned by `evals/previewPosts.test.js` (24 checks), red-verified thirteen
+ways. **Two harness lessons, both of which cost a green run first:** the
+refusal checks matched the eval's own explanatory COMMENT, so the source is
+comment-stripped before any `doesNotMatch` (with a found-the-component
+assertion, or the refusals pass vacuously); and a
+`.replace('if (seen.has(key)) continue;', '', 1)` injection hit the FIRST of
+two identical lines — the colour dedup, not the caption dedup — so it proved
+nothing until it was redone by line index. **When an injection stays green,
+suspect the injection before the code.**
+
 ### Styling
 
 - Tailwind CSS with custom brand colors (`moil-navy`, `moil-blue`, `moil-orange`, `moil-green`) defined in `tailwind.config.js`

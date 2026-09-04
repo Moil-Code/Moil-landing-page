@@ -46,9 +46,25 @@ type ReadyBrand = {
 	language?: string;
 };
 
+type ReadyPost = {
+	caption?: string;
+	imageUrl?: string;
+	creative?: {
+		headline?: string;
+		subhead?: string;
+		image?: string;
+	};
+};
+
 type ReadyPayload = {
 	slug: string;
 	brand: ReadyBrand;
+	// THE SERVER HAS ALWAYS SENT THIS AND THE CARD NEVER DECLARED IT.
+	// `shapeReadyPayload` ships finished posts in `content.posts`;
+	// with no key here they were composed, sent, and dropped on the
+	// floor — the founder saw what we READ about them and nothing we
+	// would MAKE for them.
+	content?: { kind?: string; posts?: ReadyPost[] };
 	positioning?: {
 		audience?: string;
 		voice?: string | string[];
@@ -175,7 +191,14 @@ export function PreviewMagnet() {
 	}, [m.failed]);
 
 	const onReady = useCallback(
-		(nextSlug: string, body: { brand?: ReadyBrand; positioning?: ReadyPayload['positioning'] }) => {
+		(
+			nextSlug: string,
+			body: {
+				brand?: ReadyBrand;
+				content?: ReadyPayload['content'];
+				positioning?: ReadyPayload['positioning'];
+			},
+		) => {
 			const brand = (body && body.brand) || {};
 			if (!canShowReadyCard(brand)) {
 				refuseNamelessReady();
@@ -187,6 +210,7 @@ export function PreviewMagnet() {
 			setReady({
 				slug: nextSlug,
 				brand,
+				content: body && body.content,
 				positioning: body && body.positioning,
 			});
 			setPhase('ready');
@@ -551,7 +575,11 @@ export function PreviewMagnet() {
 			{showReadyCard && ready && (
 				<GettingToKnowYou
 					key={ready.slug}
-					body={{ brand: ready.brand, positioning: ready.positioning }}
+					body={{
+						brand: ready.brand,
+						content: ready.content,
+						positioning: ready.positioning,
+					}}
 					website={website.trim() || ready.brand.website || ''}
 					platforms={platforms}
 					onPlatforms={setPlatforms}

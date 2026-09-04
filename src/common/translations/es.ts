@@ -124,6 +124,8 @@ export const es: TranslationKeys = {
         emailHint: 'Opcional — no hace falta para ver la vista previa.',
         startFree: 'Empieza gratis — sin tarjeta',
         tryAgain: 'Probar otro negocio',
+        postsTitle: 'Tus primeras publicaciones',
+        postsNote: 'Creadas desde tu propio sitio — nada inventado. Podrás editarlo todo al empezar.',
         colorsLabel: 'Colores de marca',
         productsLabel: 'Lo que vendes',
         factCategory: 'Categoría',

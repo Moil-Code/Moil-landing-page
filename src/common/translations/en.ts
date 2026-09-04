@@ -122,6 +122,8 @@ export const en = {
         emailHint: 'Optional — not required to see the preview.',
         startFree: 'Start free — no card',
         tryAgain: 'Try another business',
+        postsTitle: 'Your first posts',
+        postsNote: 'Drafted from your own site — nothing invented. Edit anything after you start.',
         colorsLabel: 'Brand colours',
         productsLabel: 'What you sell',
         factCategory: 'Category',
