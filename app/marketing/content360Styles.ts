@@ -37,6 +37,12 @@ export const content360Styles = String.raw`
   --hero-shadow: 0 40px 120px rgba(0,0,0,0.8);
   --grid-color: rgba(255,92,26,0.04);
   --invert-icon: 0;
+  /* Content-type chip ink. These were inline literals (#34D399, #60A5FA,
+     #C084FC) picked against this near-black ground and reused unchanged on the
+     light theme's pale chips, where #34D399 measured 1.74:1 — unreadable. */
+  --ink-green: #34D399;
+  --ink-blue: #60A5FA;
+  --ink-violet: #C084FC;
 }
 
 /* LIGHT THEME */
@@ -57,6 +63,10 @@ export const content360Styles = String.raw`
   --hero-shadow: 0 20px 60px rgba(124,58,237,0.12);
   --grid-color: rgba(124,58,237,0.05);
   --invert-icon: 1;
+  /* Same hues, taken down to the shades that carry on a pale chip. */
+  --ink-green: #047857;
+  --ink-blue: #1D4ED8;
+  --ink-violet: #7E22CE;
 }
 
 /* ============================================================
@@ -479,11 +489,11 @@ nav.scrolled {
   border-radius: 3px; text-transform: uppercase; letter-spacing: 0.5px;
   margin-bottom: 4px; display: inline-block;
 }
-.type-edu  { background: var(--blue-dim);              color: #60A5FA; }
+.type-edu  { background: var(--blue-dim);              color: var(--ink-blue); }
 .type-promo{ background: var(--orange-dim);            color: var(--orange); }
-.type-eng  { background: rgba(16,185,129,0.15);        color: #34D399; }
+.type-eng  { background: rgba(16,185,129,0.15);        color: var(--ink-green); }
 .type-bts  { background: var(--purple-dim);            color: var(--purple-light); }
-.type-ent  { background: rgba(168,85,247,0.15);        color: #C084FC; }
+.type-ent  { background: rgba(168,85,247,0.15);        color: var(--ink-violet); }
 
 /* Day image thumbnail — type-specific rich gradients */
 .day-img {
@@ -679,8 +689,8 @@ nav.scrolled {
 .feature-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .f-tag { font-family: var(--mono); font-size: 9px; padding: 4px 10px; border-radius: 4px; letter-spacing: 1px; text-transform: uppercase; }
 .f-tag-o { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(255,92,26,0.2); }
-.f-tag-b { background: var(--blue-dim); color: #60A5FA; border: 1px solid rgba(59,130,246,0.2); }
-.f-tag-g { background: rgba(16,185,129,0.1); color: #34D399; border: 1px solid rgba(16,185,129,0.2); }
+.f-tag-b { background: var(--blue-dim); color: var(--ink-blue); border: 1px solid rgba(59,130,246,0.2); }
+.f-tag-g { background: rgba(16,185,129,0.1); color: var(--ink-green); border: 1px solid rgba(16,185,129,0.2); }
 .f-tag-a { background: var(--purple-dim); color: var(--purple-light); border: 1px solid rgba(124,58,237,0.25); }
 
 .mini-calendar-demo { display: grid; grid-template-columns: repeat(5,1fr); gap: 5px; margin-top: 16px; }

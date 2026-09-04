@@ -547,16 +547,20 @@ export function FeaturesSection() {
                       <div
                         className="mcc-label"
                         style={{
+                          // Same ink tokens as .type-* in content360Styles.ts.
+                          // These were the identical dark-theme literals a
+                          // second time, so the chips there were fixed while
+                          // the mini-calendar kept rendering 1.74:1 green.
                           color:
                             label === 'Edu'
-                              ? '#60A5FA'
+                              ? 'var(--ink-blue)'
                               : label === 'Promo'
                               ? 'var(--orange)'
                               : label === 'Engage'
-                              ? '#34D399'
+                              ? 'var(--ink-green)'
                               : label === 'BTS'
                               ? 'var(--purple-light)'
-                              : '#C084FC',
+                              : 'var(--ink-violet)',
                         }}
                       >
                         {label}

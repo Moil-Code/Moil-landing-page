@@ -72,7 +72,7 @@ export default function DpaPage() {
       intro="This is a plain-language summary for business customers and is not a substitute for the signed Data Processing Addendum, which governs in the event of any conflict."
       sections={sections}
     >
-      <p className="text-sm text-[#5C6178]">
+      <p className="text-sm text-[var(--text2)]">
         Related:{" "}
         <Link href="/subprocessors" className="text-[#FF6633] underline">Subprocessors</Link>,{" "}
         <Link href="/privacy" className="text-[#FF6633] underline">Privacy Policy</Link>, and{" "}
