@@ -1,5 +1,5 @@
 # Moil SEO / SEM / AEO Playbooks
- 
+
 Two playbooks, one system. Structural model adapted from
 [khasky/marketing-and-seo-playbook](https://github.com/khasky/marketing-and-seo-playbook), rewritten
 around Moil's actual product, stack, competitive set, and 2026 search conditions.
