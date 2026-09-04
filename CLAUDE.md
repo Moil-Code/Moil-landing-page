@@ -312,6 +312,59 @@ two identical lines — the colour dedup, not the caption dedup — so it proved
 nothing until it was redone by line index. **When an injection stays green,
 suspect the injection before the code.**
 
+### A `.d.ts` sidecar shadows its module, so drift breaks the BUILD alone (2026-09-04)
+
+`app/business/preview/*.js` are CommonJS modules with hand-written `.d.ts`
+sidecars beside them. **TypeScript resolves an import to the DECLARATION file
+and never looks at the JavaScript**, so a sidecar that has stopped listing what
+its module exports is not a stale comment — it is the only thing the compiler
+believes.
+
+**That is invisible to `npm test` by construction.** `node --test` loads the
+`.js`, so every eval stays green while `next build` fails. It happened: the
+wait-termination work added `shouldGiveUpWaiting`, a second `opts` argument to
+`nextPollDelayMs` and four constants to `previewWaitCopy.js` and left the
+sidecar declaring the original five. **276/276 passed and CI was red**, on
+
+```
+TS2305: Module '"../preview/previewWaitCopy"' has no exported member 'shouldGiveUpWaiting'.
+TS2554: Expected 0-1 arguments, but got 2.
+```
+
+`evals/dtsSidecarParity.test.js` closes it — exhaustive over every `.d.ts` with
+a `.js` sibling. Rules:
+- **VALUE exports must match; TYPE exports may not.** `export type ReadFail` in
+  `previewInput.d.ts` is a legitimate declaration-only name, and demanding one
+  in `module.exports` would fail for a reason that is not the defect the gate
+  guards — how a gate gets weakened by whoever has to get past it.
+- **Both directions are named with the consequence attached.** A name the
+  module exports and the sidecar omits fails the BUILD; a name the sidecar
+  declares and the module does not export TYPECHECKS and is `undefined` at
+  runtime, which is the worse of the two.
+- **A module with no readable export block is REPORTED, never silently
+  passed**, and there is a reachability floor plus a canary — a clean result
+  and a broken walker look identical.
+- **HONEST LIMIT, written down rather than assumed away:** it checks NAMES, not
+  signatures. The TS2554 half above — a changed parameter list — is beyond a
+  text scan, and a guard read as stronger than it is becomes the reason nobody
+  adds the real one.
+
+**The scan's own canary caught two defects in the scan, and that is the
+transferable part.** Ending the brace match at `\n};` skips a one-line export
+block, and matching one key per LINE reads only the first of `{ a, b }` —
+`platformPickerView.js` is one line carrying five exports and hit both, so the
+first cut reported a real module as exporting one name out of five. **A sweep
+that under-reports looks exactly like a clean repo.** It brace-matches and
+splits on top-level commas now.
+
+**Do not run `prettier` over `evals/`.** The repo ships no `.prettierrc`, so
+prettier's defaults (2-space, double quotes) are not this codebase's style
+(tabs, single quotes) and it reformats the whole file around a one-line change
+— the same reviewability cost the sister repo records for
+`moil360Agent.service.js`.
+
+Red-verified both directions, including the real CI failure restored verbatim.
+
 ### Styling
 
 - Tailwind CSS with custom brand colors (`moil-navy`, `moil-blue`, `moil-orange`, `moil-green`) defined in `tailwind.config.js`
