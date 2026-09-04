@@ -44,8 +44,10 @@ export default function OptOutButton() {
   }
 
   return (
-    <div className="rounded-lg border border-gray-200 p-4">
-      <p className="mb-3 text-sm text-[#22263A]">
+    <div className="rounded-lg border border-[var(--border2)] p-4">
+      {/* Theme tokens, not literals: this paragraph sits directly on the
+          page ground, so a fixed near-black would be unreadable in dark. */}
+      <p className="mb-3 text-sm text-[var(--text)]">
         Opting out stops Google Analytics, Microsoft Clarity, the Meta Pixel and Apollo from loading
         on this browser. It takes effect immediately and nothing on the site stops working.
       </p>

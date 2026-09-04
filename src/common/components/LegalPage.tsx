@@ -51,7 +51,11 @@ export default function LegalPage({
   const backLabel = labels?.back ?? "Back";
   const lastUpdatedLabel = labels?.lastUpdated ?? "Last updated";
   return (
-    <div className="bg-[#F7F8FC]">
+    // Every colour here is a theme token, never a literal. The route
+    // layouts set `html[data-theme]` and load `app/business/business.css`,
+    // so a hard-coded light ground under theme-following chrome is exactly
+    // how these pages shipped white-on-white in dark mode.
+    <div className="bg-[var(--bg)] text-[var(--text)]">
       {/* The shared nav is fixed. This spacing keeps the article's back link
           clear of it at every breakpoint. */}
       <div className="pt-14 md:pt-16 lg:pt-20 py-4 flex justify-center items-center">
@@ -70,18 +74,18 @@ export default function LegalPage({
                 Audit reported 13 pages with no h1 and flagged this template for
                 low semantic HTML usage. The classes are unchanged, so nothing
                 moves visually. */}
-            <h1 className="text-[24px] md:text-[40px] font-[800] text-[#22263A] leading-normal">{title}</h1>
-            {lastUpdated && <p className="text-sm text-[#5C6178]">{lastUpdatedLabel}: {lastUpdated}</p>}
+            <h1 className="text-[24px] md:text-[40px] font-[800] text-[var(--text)] leading-normal">{title}</h1>
+            {lastUpdated && <p className="text-sm text-[var(--text2)]">{lastUpdatedLabel}: {lastUpdated}</p>}
           </div>
 
           {intro && (
-            <p className="text-base leading-normal font-medium text-[#22263A]">{intro}</p>
+            <p className="text-base leading-normal font-medium text-[var(--text)]">{intro}</p>
           )}
 
           {sections && (
             <div className="flex flex-col gap-y-6">
               {sections.map((s, i) => (
-                <div key={i} className="text-base leading-normal font-medium">
+                <div key={i} className="text-base leading-normal font-medium text-[var(--text)]">
                   <h2 className="font-[700]">{s.heading}</h2>
                   <p className="whitespace-pre-line">{s.text}</p>
                   {s.block && <div className="mt-3">{s.block}</div>}
