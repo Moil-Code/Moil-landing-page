@@ -150,6 +150,57 @@ Prices and offer bodies live in `src/common/seo/offers.ts` and nowhere else, for
 the same reason the Blog keeps positioning in `brand.ts`: they were hand-written
 in four files and had already drifted.
 
+### The wait card must be able to end (2026-09-04)
+
+Reported with a screenshot: five wait sentences typed out, a pulsing bar,
+*"Come back to this page any time and your preview will be here"*, and **no
+logo, no branding, nothing**. That is the WAIT phase rendering correctly —
+`GettingToKnowYou` is the only surface carrying the logo and the colour
+swatches, so the missing branding is the missing READY CARD, not a branding
+bug. The magnet simply never left `wait`.
+
+**`poll` handled `ready`, `failed`, and `missing` past attempt 8. Everything
+else — `building`, `accepted`, `down`, and `ceiling` — fell through to an
+unconditional re-arm at a flat 1s, forever.** Two of those are worse than
+merely endless:
+
+- **The view limiter is 60 requests a minute per IP and a flat 1s poll sits
+  exactly on it.** A second tab, an office NAT or a mobile carrier's CGNAT
+  pushes a real founder over, and every GET after that is a 429 — **including
+  the one carrying their finished preview**. `ceiling` was unhandled, so the
+  retry came back at the same rate and held itself rate-limited. So a server
+  that finished perfectly could still never be collected. `nextPollDelayMs`
+  keeps ~1s for `WAIT_FAST_ATTEMPTS` (30 — far longer than a healthy
+  generation, which is what the 1s cadence exists to catch) and steps down
+  after; a 429 backs off further.
+- **`classifyHttp` tested `json.slug` BEFORE `json.status === 'ready'`.** That
+  works today only because the ready GET happens to carry no top-level slug —
+  and POST already answers with one, so the day the GET payload gains it,
+  **every finished preview classifies as `accepted`, which is the arm that keeps
+  polling.** The reported bug, one field away from itself. Ready is tested
+  first now; submit is unaffected because it reads `result.body.slug` /
+  `result.body.status` directly rather than the kind.
+
+**`WAIT_GIVE_UP_MS` (6 min) is deliberately LONGER than the server's own build
+bound** (`PREVIEW_BUILD_TIMEOUT_MS`, 5 min). On a reachable API the founder
+learns `failed` from the SERVER — on a row a re-submission can now actually
+regenerate — and a client-invented failure must not pre-empt that honest one.
+This bound only fires when the API cannot be reached at all, and it exists so
+the card can never spin forever.
+
+**`down` on the resume path no longer clears the saved slug.** A server we
+could not read is not a preview that is gone; the founder is put back into the
+wait rather than dropped on the form, bounded by the give-up above. The backend
+half of that is the same distinction: `findBySlug` answers `undefined` for a
+failed LOOKUP and `null` for no row, and the view path collapsed both into a
+404 that the client reads as `missing` — which is what CLEARED the slug.
+
+Pinned by `evals/previewWaitTermination.test.js` (10 cases, pure rules proved
+behaviourally, the magnet's wiring bounded to the `poll` and resume slices),
+red-verified six ways: the flat cadence restored, the 429 backoff removed, the
+client bound dropped below the server's, the give-up removed from `poll`, the
+classify order restored, and `down` clearing the slug again.
+
 ### Styling
 
 - Tailwind CSS with custom brand colors (`moil-navy`, `moil-blue`, `moil-orange`, `moil-green`) defined in `tailwind.config.js`

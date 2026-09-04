@@ -22,7 +22,7 @@ import {
 	TYPEOUT_FLUSH_MS_PER_CHAR,
 	READY_HOLD_MAX_MS,
 } from '../preview/gettingToKnowYou';
-import { nextPollDelayMs, waitCopyKey } from '../preview/previewWaitCopy';
+import { nextPollDelayMs, shouldGiveUpWaiting, waitCopyKey } from '../preview/previewWaitCopy';
 import { GettingToKnowYou } from './GettingToKnowYou';
 
 type Phase = 'form' | 'wait' | 'ready' | 'failed' | 'down' | 'identity' | 'ceiling';
@@ -220,9 +220,28 @@ export function PreviewMagnet() {
 					return;
 				}
 			}
+			// A WAIT THAT CANNOT END IS A DEAD END WITH AN ANIMATION ON IT.
+			// Nothing here ever stopped for `building`, so a row the server
+			// had abandoned polled at 1s forever: five sentences typed out,
+			// a pulsing bar, and no card behind it — no logo, no colours,
+			// nothing to press. The server closes an abandoned build out on
+			// its own bound, which is SHORTER than this one, so on a
+			// reachable API the founder gets the server's honest `failed`
+			// (and a row a re-submission can regenerate); this only fires
+			// when the API itself cannot be reached.
+			if (shouldGiveUpWaiting(Date.now() - startedAt.current)) {
+				stopWaitClock();
+				setPhase('failed');
+				setErrorMessage(m.failed);
+				return;
+			}
+			// A 429 here is OUR OWN poll against the view limiter. Retrying
+			// at the same rate keeps it limited for as long as we ask, so the
+			// GET carrying the finished preview would never get through.
+			const rateLimited = result.kind === 'ceiling';
 			pollTimer.current = setTimeout(() => {
 				void poll(nextSlug, attempt + 1);
-			}, nextPollDelayMs(attempt)); // ~1s while wait; not 2/4/8/10 backoff
+			}, nextPollDelayMs(attempt, { rateLimited })); // ~1s early, then slower
 		},
 		[onReady, m.failed],
 	);
@@ -308,6 +327,17 @@ export function PreviewMagnet() {
 			}
 			if (result.kind === 'failed' || result.kind === 'missing') {
 				clearPreviewSlugCookie();
+				return;
+			}
+			// `down` is a server we could not read, NOT a preview that is
+			// gone — the slug stays and we resume waiting rather than
+			// dropping the founder back on the form. Bounded by the
+			// give-up above, so an API that never returns still ends.
+			if (result.kind === 'down') {
+				setSlug(saved);
+				setPhase('wait');
+				startWaitClock();
+				void poll(saved, 0);
 			}
 		})();
 		return () => {
