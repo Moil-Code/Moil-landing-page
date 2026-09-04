@@ -1,10 +1,20 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Bug, Copyright, HeartHandshake, Mail, PanelsTopLeft, ShieldCheck } from 'lucide-react';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
 import { COMPANY_ADDRESS, COMPANY_NAME, CONTACT_EMAIL } from '../../src/common/constants/company';
 import styles from '../showcase-pages.module.css';
+import { PartnershipInquiryButton } from '../partners/PartnershipInquiryButton';
+
+const contactRoutes = [
+  { number: '01', title: 'General questions & support', copy: 'Account questions, product guidance, or help finding the right place to start.', subject: 'General question', icon: Mail },
+  { number: '02', title: 'Partnerships & community programs', copy: 'Programs for chambers, EDCs, associations, and organizations supporting local owners.', subject: 'Moil partnership inquiry', icon: HeartHandshake },
+  { number: '03', title: 'Small-business website projects', copy: 'Talk with us about a clearer, more credible digital home for your business.', subject: 'Website project inquiry', icon: PanelsTopLeft },
+  { number: '04', title: 'Privacy requests', copy: 'Access, correct, delete, or ask questions about the personal information we hold.', subject: 'Privacy Request', icon: ShieldCheck },
+  { number: '05', title: 'Copyright & DMCA notices', copy: 'Report copyrighted material or send a formal notice to our designated contact.', subject: 'DMCA Notice', icon: Copyright },
+  { number: '06', title: 'Report a security issue', copy: 'Let us know privately about a potential vulnerability or security concern.', subject: 'Security Report', icon: Bug },
+] as const;
 
 export const metadata: Metadata = {
   title: 'Contact Moil',
@@ -27,16 +37,18 @@ export default function ContactPage() {
     </section>
     <section className={styles.section}>
       <div className={styles.contactGrid}>
-        <div className={styles.contactCard}>
-          <span className={styles.eyebrow}>START A CONVERSATION</span>
-          <h2>What can we help with?</h2>
+        <div className={`${styles.contactCard} ${styles.contactPrimary}`}>
+          <div className={styles.contactIntro}>
+            <div><span className={styles.eyebrow}>START A CONVERSATION</span><h2>Choose the right starting point.</h2></div>
+            <p>Pick the route closest to what you need. Your message will reach the team best placed to help.</p>
+          </div>
           <div className={styles.contactLinks}>
-            <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=General%20question`}>General questions & support <ArrowUpRight size={18} /></a>
-            <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=Moil%20partnership%20inquiry`}>Partnerships & community programs <ArrowUpRight size={18} /></a>
-            <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=Website%20project%20inquiry`}>Small-business website projects <ArrowUpRight size={18} /></a>
-            <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=Privacy%20Request`}>Privacy requests <ArrowUpRight size={18} /></a>
-            <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=DMCA%20Notice`}>Copyright &amp; DMCA notices <ArrowUpRight size={18} /></a>
-            <a className={styles.contactLink} href={`mailto:${CONTACT_EMAIL}?subject=Security%20Report`}>Report a security issue <ArrowUpRight size={18} /></a>
+            {contactRoutes.map((route) => {
+              const Icon = route.icon;
+              const content = <><span className={styles.contactLinkTop}><span className={styles.contactIcon}><Icon size={18} aria-hidden="true" /></span><span>{route.number}</span></span><strong>{route.title}</strong><small>{route.copy}</small><span className={styles.contactLinkAction}>Start here <ArrowUpRight size={14} aria-hidden="true" /></span></>;
+
+              return <PartnershipInquiryButton key={route.number} className={styles.contactLink} label={route.title} defaultSubject={route.subject} destination="contact">{content}</PartnershipInquiryButton>;
+            })}
           </div>
           <p className={styles.contactNote}>
             For a privacy request we confirm receipt within 10 business days and respond within 45

@@ -30,6 +30,7 @@
     "nanoid": "^5.0.7",
     "next": "16.3.4",
     "next-google-translate-widget": "^1.0.1",
+    "nodemailer": "^10.0.0",
     "react": "19.2.6",
     "react-dom": "19.2.6",
     "react-google-autocomplete": "^2.7.3",
@@ -46,6 +47,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
+    "@types/nodemailer": "^8.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.16",
