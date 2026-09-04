@@ -18,6 +18,8 @@ name: Deploy to stagebeta
 # Setup: DEPLOYMENT.md
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 # Never run two deploys at once — a second `git reset --hard` landing while
