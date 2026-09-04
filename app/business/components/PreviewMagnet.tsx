@@ -103,6 +103,14 @@ export function PreviewMagnet() {
 	const startedAt = useRef(0);
 	const cancelled = useRef(false);
 	const committed = useRef(false);
+	// A RESET MUST OUTRANK A POLL ALREADY IN FLIGHT. `stopWaitClock`
+	// clears the timer and cannot cancel a `viewPreview` fetch that has
+	// already left, and `cancelled` is only ever set on unmount — so a
+	// response landing a beat after "try another business" would call
+	// onReady, re-write the cookie and put the old card back, after the
+	// founder explicitly asked for it to be gone. Every poll carries the
+	// run it belongs to; a stale run writes nothing.
+	const runId = useRef(0);
 	// commitReady reads the typing state through refs on purpose. Taking
 	// waitBeats/typedChars as deps would change its identity on every
 	// tick, and the backstop effect below clears and re-arms its timeout
@@ -187,10 +195,10 @@ export function PreviewMagnet() {
 	);
 
 	const poll = useCallback(
-		async (nextSlug: string, attempt: number) => {
-			if (cancelled.current) return;
+		async (nextSlug: string, attempt: number, rid: number) => {
+			if (cancelled.current || runId.current !== rid) return;
 			const result = await viewPreview(nextSlug);
-			if (cancelled.current) return;
+			if (cancelled.current || runId.current !== rid) return;
 			if (result.kind === 'ready' && result.body) {
 				// Stop polling — the payload is in hand. The swap itself
 				// waits on the type-out (see the two effects below), so a
@@ -240,7 +248,7 @@ export function PreviewMagnet() {
 			// GET carrying the finished preview would never get through.
 			const rateLimited = result.kind === 'ceiling';
 			pollTimer.current = setTimeout(() => {
-				void poll(nextSlug, attempt + 1);
+				void poll(nextSlug, attempt + 1, rid);
 			}, nextPollDelayMs(attempt, { rateLimited })); // ~1s early, then slower
 		},
 		[onReady, m.failed],
@@ -311,9 +319,10 @@ export function PreviewMagnet() {
 		const saved = readPreviewSlugCookie();
 		if (!saved) return;
 		let live = true;
+		const rid = ++runId.current;
 		void (async () => {
 			const result = await viewPreview(saved);
-			if (!live || cancelled.current) return;
+			if (!live || cancelled.current || runId.current !== rid) return;
 			if (result.kind === 'ready' && result.body) {
 				onReady(saved, result.body);
 				return;
@@ -322,7 +331,7 @@ export function PreviewMagnet() {
 				setSlug(saved);
 				setPhase('wait');
 				startWaitClock();
-				void poll(saved, 0);
+				void poll(saved, 0, rid);
 				return;
 			}
 			if (result.kind === 'failed' || result.kind === 'missing') {
@@ -337,7 +346,7 @@ export function PreviewMagnet() {
 				setSlug(saved);
 				setPhase('wait');
 				startWaitClock();
-				void poll(saved, 0);
+				void poll(saved, 0, rid);
 			}
 		})();
 		return () => {
@@ -347,6 +356,7 @@ export function PreviewMagnet() {
 	}, []);
 
 	const beginWait = (nextSlug: string, status?: string) => {
+		const rid = ++runId.current;
 		setSlug(nextSlug);
 		setPreviewSlugCookie(nextSlug);
 		setWaitProgress('');
@@ -358,7 +368,7 @@ export function PreviewMagnet() {
 		if (status === 'ready') {
 			setPhase('wait');
 			startWaitClock();
-			void poll(nextSlug, 0);
+			void poll(nextSlug, 0, rid);
 			return;
 		}
 		if (status === 'failed') {
@@ -368,7 +378,7 @@ export function PreviewMagnet() {
 		}
 		setPhase('wait');
 		startWaitClock();
-		void poll(nextSlug, 0);
+		void poll(nextSlug, 0, rid);
 	};
 
 	const onSubmit = async (event: FormEvent) => {
@@ -407,12 +417,27 @@ export function PreviewMagnet() {
 		setErrorMessage((result.body && result.body.message) || m.down);
 	};
 
+	// THE ONLY THING THAT WIPES A PREVIEW, and it is EXPLICIT.
+	// Everything else about the magnet is built to RESUME: the cookie
+	// survives a reload, a `down` server keeps the slug, and a founder
+	// who simply comes back finds their business waiting. So the founder
+	// who wants a different one needs an action that genuinely forgets —
+	// and without the cookie clear this control was a dead one across a
+	// refresh: the form came back, the old business came back with it.
 	const reset = () => {
+		// Retire the in-flight run FIRST. A poll resolving after this
+		// point must not re-set the cookie we are about to clear.
+		runId.current += 1;
 		stopWaitClock();
+		clearPreviewSlugCookie();
 		setPhase('form');
 		setErrorMessage('');
 		setReady(null);
 		setSlug('');
+		// The field is the thing they are replacing. Leaving the old
+		// address in it makes "try another business" a form that
+		// re-submits the one they just left.
+		setWebsite('');
 		setElapsedMs(0);
 		setWaitProgress('');
 		setWaitBeats([]);
@@ -507,6 +532,19 @@ export function PreviewMagnet() {
 						</div>
 					)}
 					<p className="text-[12px] leading-snug text-[var(--text)] opacity-70">{m.waitReturn}</p>
+					{/* THE WAIT IS THE SCREEN A STUCK FOUNDER IS LOOKING AT, and
+					    until now the only way out of it was on the READY card they
+					    could not reach. The line above promises their preview will
+					    be here when they come back, which is exactly what makes a
+					    dead wait unescapable: the cookie brings them straight back
+					    to it. */}
+					<button
+						type="button"
+						onClick={reset}
+						className="w-fit text-[12px] text-[var(--text)] opacity-70 underline-offset-2 hover:underline"
+					>
+						{m.tryAgain}
+					</button>
 				</div>
 			)}
 

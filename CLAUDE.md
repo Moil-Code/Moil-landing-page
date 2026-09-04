@@ -201,6 +201,53 @@ red-verified six ways: the flat cadence restored, the 429 backoff removed, the
 client bound dropped below the server's, the give-up removed from `poll`, the
 classify order restored, and `down` clearing the slug again.
 
+### "Try another business" has to actually forget the old one (2026-09-04)
+
+Everything about the magnet is built to RESUME — the `preview_slug` cookie
+survives a reload for seven days, a server we could not read keeps the slug
+rather than dropping the founder on the form, and the wait card promises in
+as many words that the preview will be here when they come back. That is the
+right default, and it is exactly what makes the escape hatch load-bearing:
+the ONE founder who wants a different business needs an action that genuinely
+forgets, or the cookie hands them the old one again on the next page load.
+
+**`reset()` cleared every piece of React state and NOT the cookie.** So the
+control worked until the next refresh and then silently undid itself — a dead
+control with a delay on it, which is the class this product has removed
+several times over.
+
+**It was rendered on the READY card only**, and the screen a stuck founder is
+looking at is the WAIT card. So the one surface with no way out was the one
+the resume cookie returns them to every time.
+
+**AND A RESET CANNOT CANCEL A FETCH ALREADY IN FLIGHT**, which is the half no
+amount of reading the label finds. `stopWaitClock()` clears a timer;
+`cancelled.current` is only ever set on unmount. A `viewPreview` resolving a
+beat after the wipe called `onReady`, which **re-sets the cookie** and flips
+back to the ready card — after the founder explicitly asked for it to be gone.
+Every poll now carries the RUN it belongs to (`runId`), checked **after** the
+await as well as before; a stale run writes nothing. Two orderings are
+load-bearing: the reset **retires the run before clearing the cookie** (a poll
+landing between the two would re-set the cookie we just cleared), and the
+re-arm passes its OWN `rid` rather than minting a fresh one, which would let a
+poll escape the reset it should obey. Both starters — the resume effect and
+`beginWait` — mint a run, because a run minted in one place only leaves the
+other un-retirable.
+
+**The wipe is total and EXPLICIT-ONLY**, and the asymmetry decides both
+halves: under-clearing leaves a founder stuck with a business they asked to
+leave and no way to say so twice, while over-clearing costs one re-typed URL —
+but a *resume* that stops resuming loses a preview for every founder who
+simply came back, which is far commoner. So `reset` also clears the website
+field (leaving the old address makes "try another business" a form that
+re-submits the one they left), and the eval **counts the clear sites** so a new
+one needs a human.
+
+Pinned by `evals/previewWipe.test.js` (18 checks; the cookie module proved
+behaviourally against a fake document, the magnet's wiring bounded to each
+enclosing function with a found-the-slice assertion), red-verified **nine
+ways** — including both original bugs restored verbatim.
+
 ### Styling
 
 - Tailwind CSS with custom brand colors (`moil-navy`, `moil-blue`, `moil-orange`, `moil-green`) defined in `tailwind.config.js`
