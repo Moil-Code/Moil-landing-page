@@ -814,3 +814,143 @@ describe('ready-card headings are the wait GET headings', () => {
 		assert.doesNotMatch(headingName, /Nombre del negocio/);
 	});
 });
+
+describe('wait type-out pacing', () => {
+	const beats = [
+		{ heading: 'framing', text: 'abcde' },
+		{ heading: 'audience', text: 'xy' },
+	];
+
+	it('paints finished beats plus the one being written, and nothing after it', () => {
+		// Nothing started yet: an empty line under a heading is a gap,
+		// not a beat arriving.
+		assert.equal(gtk.visibleBeatCount(beats, {}, false), 0);
+		assert.equal(gtk.visibleBeatCount(beats, { framing: 1 }, false), 1);
+		assert.equal(gtk.visibleBeatCount(beats, { framing: 5 }, false), 1);
+		assert.equal(gtk.visibleBeatCount(beats, { framing: 5, audience: 1 }, false), 2);
+		assert.equal(gtk.visibleBeatCount(beats, { framing: 5, audience: 2 }, false), 2);
+	});
+
+	it('never paints a later beat over an unfinished earlier one', () => {
+		// A poll can deliver every beat in one write, so the client must
+		// be the thing that sequences them. Beat 2 typed while beat 1 is
+		// mid-word is the parallel growth this replaces.
+		assert.equal(gtk.visibleBeatCount(beats, { framing: 2, audience: 2 }, false), 1);
+	});
+
+	it('reduceMotion shows everything, settled', () => {
+		assert.equal(gtk.visibleBeatCount(beats, {}, true), 2);
+		assert.equal(gtk.beatsSettled(beats, {}, true), true);
+	});
+
+	it('settled is false while any beat is mid-word', () => {
+		assert.equal(gtk.beatsSettled(beats, { framing: 3 }, false), false);
+		assert.equal(gtk.beatsSettled(beats, { framing: 5 }, false), false);
+		assert.equal(gtk.beatsSettled(beats, { framing: 5, audience: 2 }, false), true);
+	});
+
+	it('a founder with no beats never waits for a type-out', () => {
+		// Ready must not be held back for a show that is not happening.
+		assert.equal(gtk.beatsSettled([], {}, false), true);
+		assert.equal(gtk.beatsSettled(null, {}, false), true);
+		assert.equal(gtk.visibleBeatCount([], {}, false), 0);
+		assert.equal(gtk.visibleBeatCount(null, {}, false), 0);
+	});
+
+	it('junk typed counts are read as not-started, never as done', () => {
+		// A missing or malformed count must never let the card swap over
+		// a sentence nobody has read.
+		for (const junk of [undefined, null, NaN, -3, 'seven', {}]) {
+			assert.equal(gtk.beatsSettled(beats, { framing: junk }, false), false, String(junk));
+			assert.equal(gtk.visibleBeatCount(beats, { framing: junk }, false), 0, String(junk));
+		}
+	});
+
+	it('the flush pace is faster than the reading pace, and the backstop is real', () => {
+		assert.ok(gtk.TYPEOUT_FLUSH_MS_PER_CHAR < gtk.TYPEOUT_MS_PER_CHAR);
+		assert.ok(gtk.TYPEOUT_FLUSH_MS_PER_CHAR > 0);
+		assert.ok(gtk.READY_HOLD_MAX_MS > 0 && gtk.READY_HOLD_MAX_MS <= 5000);
+	});
+});
+
+describe('ready card reveal', () => {
+	const IDS = ['name', 'framing', 'audience', 'services', 'problem', 'UVP', 'ctas', 'slogans', 'voice', 'proof', 'picker'];
+	const FIVE = ['framing', 'audience', 'services', 'problem', 'UVP'];
+
+	it('never moves a sentence the founder is already reading', () => {
+		// Everything at or above the last watched section is instant, so
+		// the card opens looking like the wait card and grows downward.
+		const d = gtk.revealDelays(IDS, FIVE, false);
+		for (const id of ['name', ...FIVE]) assert.equal(d[id], 0, id);
+		assert.ok(d.ctas > 0 && d.slogans > d.ctas && d.voice > d.slogans);
+	});
+
+	it('leaves a gap between what was there and what is new', () => {
+		// The first unseen section does NOT land on the same frame as the
+		// settled ones, or the cascade reads as a late repaint.
+		const d = gtk.revealDelays(IDS, FIVE, false);
+		assert.equal(d.ctas, gtk.REVEAL_STEP_MS);
+	});
+
+	it('a partly-watched wait only settles what was actually watched', () => {
+		const d = gtk.revealDelays(IDS, ['framing'], false);
+		assert.equal(d.name, 0);
+		assert.equal(d.framing, 0);
+		assert.ok(d.audience > 0, 'a beat never shown still gets its reveal');
+	});
+
+	it('nothing watched means the whole card is new and cascades from the top', () => {
+		const d = gtk.revealDelays(IDS, [], false);
+		assert.equal(d.name, 0);
+		assert.equal(d.framing, gtk.REVEAL_STEP_MS);
+		assert.equal(d.audience, gtk.REVEAL_STEP_MS * 2);
+	});
+
+	it('reduceMotion lands everything at once', () => {
+		const d = gtk.revealDelays(IDS, FIVE, true);
+		for (const id of IDS) assert.equal(d[id], 0, id);
+	});
+
+	it('junk in, no delay out — never an undefined animation-delay', () => {
+		for (const junk of [null, undefined, 'nope', [1, 2], [{}]]) {
+			const d = gtk.revealDelays(IDS, junk, false);
+			for (const id of IDS) assert.equal(typeof d[id], 'number', id);
+		}
+		assert.deepEqual(gtk.revealDelays(null, FIVE, false), {});
+		assert.deepEqual(gtk.revealDelays([], FIVE, false), {});
+	});
+
+	it('the signup CTA is never delayed behind the cascade', () => {
+		// An action must not wait on an animation. The CTA is deliberately
+		// absent from the id list the card builds.
+		const src = read('app/business/components/GettingToKnowYou.tsx');
+		const list = src.slice(src.indexOf('revealDelays('), src.indexOf('const reveal ='));
+		assert.doesNotMatch(list, /signupHref|startFree/);
+		const cta = src.slice(src.indexOf('href={signupHref}'), src.indexOf('{m.tryAgain}'));
+		// `reveal(` too, not just the strings it expands to: spreading the
+		// helper is how anyone would actually add this, and an assertion
+		// that only sees the literals passes straight over it.
+		assert.doesNotMatch(cta, /preview-reveal|animationDelay|reveal\(/);
+	});
+
+	it('the delay rides a CSS property, never a Tailwind class', () => {
+		// Tailwind compiles arbitrary values by scanning source, so a
+		// delay class built at runtime does not exist in the stylesheet
+		// and the section would never animate — or never appear.
+		const src = read('app/business/components/GettingToKnowYou.tsx');
+		assert.match(src, /animationDelay: `\$\{delays\[id\] \|\| 0\}ms`/);
+		assert.doesNotMatch(src, /\[animation-delay:/);
+		assert.doesNotMatch(src, /delay-\[/);
+	});
+
+	it('a section is visible by default — the animation only fades IN', () => {
+		// Content parked at opacity 0 waiting on a script is the failure
+		// this avoids: if animations are unavailable the section renders.
+		const css = read('app/business/business.css');
+		const rule = css.slice(css.indexOf('@keyframes previewReveal'), css.indexOf('@keyframes previewReveal') + 600);
+		assert.match(rule, /from \{\s*opacity: 0;/);
+		assert.match(rule, /to \{\s*opacity: 1;/);
+		assert.match(rule, /animation: previewReveal [^;]*backwards;/);
+		assert.match(rule, /prefers-reduced-motion: reduce/);
+	});
+});

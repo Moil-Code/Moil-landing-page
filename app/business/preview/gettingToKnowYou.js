@@ -43,6 +43,25 @@ const WAIT_BEAT_HEADING_KEY = Object.freeze({
 /** Character type-out pace once a beat has landed on poll. */
 const TYPEOUT_MS_PER_CHAR = 24;
 
+/**
+ * Pace once the ready payload is in hand and the card is waiting on
+ * the sentence in flight. Faster, because the answer is already here
+ * and the founder should not be made to watch a countdown.
+ */
+const TYPEOUT_FLUSH_MS_PER_CHAR = 8;
+
+/** Stagger between one revealed card section and the next. */
+const REVEAL_STEP_MS = 90;
+
+/**
+ * Longest the ready card may be held back for a beat still being
+ * written. A backstop, not the mechanism: beats are emitted during the
+ * scrape now, so by the time a job finishes the typing has usually been
+ * done for a while and this never binds. It exists so a pathological
+ * beat cannot park the card indefinitely.
+ */
+const READY_HOLD_MAX_MS = 2500;
+
 const SECTION_ORDER = Object.freeze([
 	'name',
 	'framing',
@@ -210,6 +229,129 @@ function waitBeatsFromBody(body) {
 
 function waitBeatHeadingKey(heading) {
 	return WAIT_BEAT_HEADING_KEY[heading] || '';
+}
+
+/**
+ * Entrance delay per card section, in DOM order.
+ *
+ * The founder has already watched some of these sentences type out. Re-
+ * typing them on the card would be the fake replay the ready path
+ * rightly refuses, and MOVING them would be worse than either — so
+ * everything at or above the LAST watched section is instant, and only
+ * what sits below it cascades in. The card opens looking like the wait
+ * card and grows downward; nothing already being read is pushed around.
+ *
+ * With nothing watched — a thin site, a cookie replay — the whole card
+ * is new to them and the cascade starts at the top.
+ *
+ * Returns a map rather than a list because Tailwind compiles arbitrary
+ * values by scanning source: a delay class built at runtime does not
+ * exist in the stylesheet, so the caller must set the CSS property.
+ *
+ * @param {string[]} ids section ids, in the order they are painted
+ * @param {string[]} watched headings the founder saw type out
+ * @param {boolean} [reduceMotion] everything lands at once
+ * @returns {Record<string, number>} id -> delay in ms
+ */
+function revealDelays(ids, watched, reduceMotion) {
+	const list = (Array.isArray(ids) ? ids : []).filter(
+		(v) => typeof v === 'string' && v,
+	);
+	const out = {};
+	if (!list.length) return out;
+	const seen = new Set(
+		(Array.isArray(watched) ? watched : []).filter(
+			(v) => typeof v === 'string' && v,
+		),
+	);
+	let lastWatched = -1;
+	for (let i = 0; i < list.length; i++) {
+		if (seen.has(list[i])) lastWatched = i;
+	}
+	// A gap between what was already on screen and what is new, so the
+	// cascade reads as the card growing rather than as a late repaint.
+	let step = lastWatched >= 0 ? 1 : 0;
+	for (let i = 0; i < list.length; i++) {
+		if (reduceMotion || i <= lastWatched) {
+			out[list[i]] = 0;
+			continue;
+		}
+		out[list[i]] = step * REVEAL_STEP_MS;
+		step += 1;
+	}
+	return out;
+}
+
+function typedCountFor(typedChars, beat) {
+	const map =
+		typedChars && typeof typedChars === 'object'
+			? typedChars
+			: {};
+	const n = Number(map[beat && beat.heading]);
+	return Number.isFinite(n) && n > 0 ? n : 0;
+}
+
+function beatTextOf(beat) {
+	return beat && typeof beat.text === 'string' ? beat.text : '';
+}
+
+/**
+ * How many beats the wait card may paint: every finished beat, plus the
+ * one currently being written, and nothing after it.
+ *
+ * The type-out used to advance EVERY incomplete beat on the same tick,
+ * so three lines grew at once — which reads as a block filling in, not
+ * as something being written. A typewriter writes one line at a time.
+ *
+ * A beat with no characters yet is not painted: an empty line under a
+ * heading is not a beat arriving, it is a gap.
+ *
+ * @param {{heading:string,text:string}[]} beats
+ * @param {Record<string, number>} typedChars
+ * @param {boolean} [reduceMotion] show everything, settled
+ * @returns {number}
+ */
+function visibleBeatCount(beats, typedChars, reduceMotion) {
+	const list = Array.isArray(beats) ? beats : [];
+	if (!list.length) return 0;
+	if (reduceMotion) return list.length;
+	let n = 0;
+	for (let i = 0; i < list.length; i++) {
+		const typed = typedCountFor(typedChars, list[i]);
+		if (typed <= 0) break;
+		n = i + 1;
+		if (typed < beatTextOf(list[i]).length) break;
+	}
+	return n;
+}
+
+/**
+ * True when nothing is mid-word. The ready card waits on this so a
+ * sentence is never snatched away as it is being read — the swap used
+ * to unmount the wait block the instant the payload landed, which on a
+ * one-beat site meant 42 of 150 characters.
+ *
+ * Empty beats and reduceMotion are settled by definition, so a founder
+ * who never had a type-out is never made to wait for one.
+ *
+ * @param {{heading:string,text:string}[]} beats
+ * @param {Record<string, number>} typedChars
+ * @param {boolean} [reduceMotion]
+ * @returns {boolean}
+ */
+function beatsSettled(beats, typedChars, reduceMotion) {
+	const list = Array.isArray(beats) ? beats : [];
+	if (!list.length) return true;
+	if (reduceMotion) return true;
+	for (let i = 0; i < list.length; i++) {
+		if (
+			typedCountFor(typedChars, list[i]) <
+			beatTextOf(list[i]).length
+		) {
+			return false;
+		}
+	}
+	return true;
 }
 
 /**
@@ -447,6 +589,9 @@ module.exports = {
 	WAIT_BEAT_HEADINGS,
 	WAIT_BEAT_HEADING_KEY,
 	TYPEOUT_MS_PER_CHAR,
+	TYPEOUT_FLUSH_MS_PER_CHAR,
+	READY_HOLD_MAX_MS,
+	REVEAL_STEP_MS,
 	SECTION_ORDER,
 	HEADING_KEY,
 	BANNED_HEADING_IDS,
@@ -457,6 +602,9 @@ module.exports = {
 	foldBeatHeading,
 	waitBeatsFromBody,
 	waitBeatHeadingKey,
+	visibleBeatCount,
+	beatsSettled,
+	revealDelays,
 	typedText,
 	overviewFromBrand,
 	httpsPhotos,

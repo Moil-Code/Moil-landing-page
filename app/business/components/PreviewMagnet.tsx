@@ -12,7 +12,16 @@ import {
 import { clearPreviewSlugCookie, readPreviewSlugCookie, setPreviewSlugCookie } from '../preview/previewCookie';
 import { readWebsite } from '../preview/previewInput';
 import { canShowReadyCard, progressFromBody, websiteFieldDecision } from '../preview/previewReveal';
-import { waitBeatsFromBody, waitBeatHeadingKey, typedText, TYPEOUT_MS_PER_CHAR } from '../preview/gettingToKnowYou';
+import {
+	waitBeatsFromBody,
+	waitBeatHeadingKey,
+	typedText,
+	visibleBeatCount,
+	beatsSettled,
+	TYPEOUT_MS_PER_CHAR,
+	TYPEOUT_FLUSH_MS_PER_CHAR,
+	READY_HOLD_MAX_MS,
+} from '../preview/gettingToKnowYou';
 import { nextPollDelayMs, waitCopyKey } from '../preview/previewWaitCopy';
 import { GettingToKnowYou } from './GettingToKnowYou';
 
@@ -81,11 +90,25 @@ export function PreviewMagnet() {
 	const [waitBeats, setWaitBeats] = useState<WaitBeat[]>([]);
 	const [typedChars, setTypedChars] = useState<Record<string, number>>({});
 	const [reduceMotion, setReduceMotion] = useState(false);
+	// The ready payload, held back while a sentence is still being
+	// written. Swapping the card in the instant the GET returns used to
+	// cut the type-out off mid-word.
+	const [pendingReady, setPendingReady] = useState<{ slug: string; body: ReadyPayload } | null>(null);
+	// Headings the founder actually watched. The card leaves these
+	// settled and cascades only what sits below them.
+	const [watchedHeadings, setWatchedHeadings] = useState<string[]>([]);
 
 	const pollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const tickTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 	const startedAt = useRef(0);
 	const cancelled = useRef(false);
+	const committed = useRef(false);
+	// commitReady reads the typing state through refs on purpose. Taking
+	// waitBeats/typedChars as deps would change its identity on every
+	// tick, and the backstop effect below clears and re-arms its timeout
+	// whenever that happens — so the bound would never fire.
+	const waitBeatsRef = useRef<WaitBeat[]>([]);
+	const typedCharsRef = useRef<Record<string, number>>({});
 
 	useEffect(() => {
 		const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -169,7 +192,12 @@ export function PreviewMagnet() {
 			const result = await viewPreview(nextSlug);
 			if (cancelled.current) return;
 			if (result.kind === 'ready' && result.body) {
-				onReady(nextSlug, result.body);
+				// Stop polling — the payload is in hand. The swap itself
+				// waits on the type-out (see the two effects below), so a
+				// founder is never cut off mid-sentence by an answer that
+				// has already arrived.
+				stopWaitClock();
+				setPendingReady({ slug: nextSlug, body: result.body as ReadyPayload });
 				return;
 			}
 			if (result.kind === 'failed') {
@@ -201,23 +229,64 @@ export function PreviewMagnet() {
 
 	useEffect(() => {
 		if (phase !== 'wait' || reduceMotion || waitBeats.length === 0) return;
+		// ONE line at a time. Advancing every incomplete beat on the same
+		// tick grew three lines at once, which reads as a block filling in
+		// rather than as something being written.
+		const pace = pendingReady ? TYPEOUT_FLUSH_MS_PER_CHAR : TYPEOUT_MS_PER_CHAR;
 		const id = window.setInterval(() => {
 			setTypedChars((prev) => {
-				let changed = false;
-				const next = { ...prev };
 				for (let i = 0; i < waitBeats.length; i++) {
 					const beat = waitBeats[i];
-					const cur = next[beat.heading] || 0;
+					const cur = prev[beat.heading] || 0;
 					if (cur < beat.text.length) {
-						next[beat.heading] = cur + 1;
-						changed = true;
+						return { ...prev, [beat.heading]: cur + 1 };
 					}
 				}
-				return changed ? next : prev;
+				return prev;
 			});
-		}, TYPEOUT_MS_PER_CHAR);
+		}, pace);
 		return () => window.clearInterval(id);
-	}, [phase, reduceMotion, waitBeats]);
+	}, [phase, reduceMotion, waitBeats, pendingReady]);
+
+	useEffect(() => {
+		waitBeatsRef.current = waitBeats;
+	}, [waitBeats]);
+	useEffect(() => {
+		typedCharsRef.current = typedChars;
+	}, [typedChars]);
+
+	const commitReady = useCallback(
+		(next: { slug: string; body: ReadyPayload }) => {
+			if (committed.current) return;
+			committed.current = true;
+			// Only beats actually painted count as watched — a backstop
+			// commit can land before the last one was ever shown, and
+			// claiming a founder saw a sentence they did not is how a
+			// section ends up silently skipping its reveal.
+			const beats = waitBeatsRef.current;
+			const shown = visibleBeatCount(beats, typedCharsRef.current, reduceMotion);
+			setWatchedHeadings(beats.slice(0, shown).map((beat) => beat.heading));
+			onReady(next.slug, next.body);
+		},
+		[onReady, reduceMotion],
+	);
+
+	// Commit the moment nothing is mid-word. typedChars advances every
+	// tick, so this re-runs until the sentence lands.
+	useEffect(() => {
+		if (!pendingReady) return;
+		if (beatsSettled(waitBeats, typedChars, reduceMotion)) {
+			commitReady(pendingReady);
+		}
+	}, [pendingReady, waitBeats, typedChars, reduceMotion, commitReady]);
+
+	// Backstop, armed once. A held card is a courtesy, not a queue —
+	// nothing may park the answer indefinitely.
+	useEffect(() => {
+		if (!pendingReady) return;
+		const id = window.setTimeout(() => commitReady(pendingReady), READY_HOLD_MAX_MS);
+		return () => window.clearTimeout(id);
+	}, [pendingReady, commitReady]);
 
 	useEffect(() => {
 		const saved = readPreviewSlugCookie();
@@ -253,6 +322,9 @@ export function PreviewMagnet() {
 		setWaitProgress('');
 		setWaitBeats([]);
 		setTypedChars({});
+		setPendingReady(null);
+		setWatchedHeadings([]);
+		committed.current = false;
 		if (status === 'ready') {
 			setPhase('wait');
 			startWaitClock();
@@ -315,9 +387,13 @@ export function PreviewMagnet() {
 		setWaitProgress('');
 		setWaitBeats([]);
 		setTypedChars({});
+		setPendingReady(null);
+		setWatchedHeadings([]);
+		committed.current = false;
 		setPlatforms([]);
 	};
 
+	const revealCount = visibleBeatCount(waitBeats, typedChars, reduceMotion);
 	const waitKey = waitCopyKey(elapsedMs);
 	const waitText = waitKey === 'waitLeave' ? m.waitLeave : waitKey === 'waitLonger' ? m.waitLonger : m.waitCalm;
 	const showReadyCard = phase === 'ready' && ready && canShowReadyCard(ready.brand);
@@ -367,9 +443,9 @@ export function PreviewMagnet() {
 							{website.trim()}
 						</p>
 					) : null}
-					{waitBeats.length > 0 ? (
+					{revealCount > 0 ? (
 						<div className="flex flex-col gap-2.5">
-							{waitBeats.map((beat) => {
+							{waitBeats.slice(0, revealCount).map((beat) => {
 								const label = waitBeatHeadingCopy(magnetCopy, beat.heading);
 								const typed = typedText(
 									beat.text,
@@ -414,6 +490,8 @@ export function PreviewMagnet() {
 					signupHref={signupHref}
 					onReset={reset}
 					copy={magnetCopy}
+					watched={watchedHeadings}
+					reduceMotion={reduceMotion}
 				/>
 			)}
 		</div>

@@ -8,7 +8,7 @@ import {
 	pickerState,
 	toggle,
 } from '../preview/platformPickerView';
-import { headingKeyFor, profileSections } from '../preview/gettingToKnowYou';
+import { headingKeyFor, profileSections, revealDelays } from '../preview/gettingToKnowYou';
 
 type MagnetCopy = Record<string, string | undefined>;
 
@@ -44,6 +44,9 @@ type Props = {
 	signupHref: string;
 	onReset: () => void;
 	copy: MagnetCopy;
+	/** Headings the founder actually watched type out during the wait. */
+	watched?: string[];
+	reduceMotion?: boolean;
 };
 
 /** First-brain copy. Picker and proof sit below this, not above overview. */
@@ -156,6 +159,8 @@ export function GettingToKnowYou({
 	signupHref,
 	onReset,
 	copy: m,
+	watched,
+	reduceMotion,
 }: Props) {
 	const [draft, setDraft] = useState<Draft>({});
 	const [editing, setEditing] = useState<string | null>(null);
@@ -171,6 +176,28 @@ export function GettingToKnowYou({
 	const painted = sections.map((section) => draftValue(section, draft));
 	const knowing = painted.filter((section) => KNOWING_IDS.includes(section.id));
 	const proof = painted.find((section) => section.id === 'proof');
+
+	// The sentences the founder already watched are instant; only what
+	// sits below them cascades. The signup CTA is deliberately absent
+	// from this list — an action must never be delayed behind an
+	// animation.
+	const delays = useMemo(
+		() =>
+			revealDelays(
+				[
+					...knowing.map((section) => section.id),
+					...(proof ? ['proof'] : []),
+					'picker',
+				],
+				watched,
+				reduceMotion,
+			),
+		[knowing, proof, watched, reduceMotion],
+	);
+	const reveal = (id: string) => ({
+		className: 'preview-reveal',
+		style: { animationDelay: `${delays[id] || 0}ms` },
+	});
 
 	const beginEdit = (section: Section) => {
 		setEditing(section.id);
@@ -222,8 +249,13 @@ export function GettingToKnowYou({
 	const renderSection = (section: Section) => {
 		const heading = m[headingKeyFor(section.id)] || '';
 		const editingThis = editing === section.id;
+		const anim = reveal(section.id);
 		return (
-			<section key={section.id} className="min-w-0">
+			<section
+				key={section.id}
+				className={`min-w-0 ${anim.className}`}
+				style={anim.style}
+			>
 				{heading ? (
 					<div className="mb-1.5 flex items-center">
 						<p className="text-[14px] font-semibold text-[var(--text)]">{heading}</p>
@@ -278,10 +310,13 @@ export function GettingToKnowYou({
 
 				<div className="flex flex-col gap-5 pb-2">
 					{knowing.map(renderSection)}
-					{proof ? <ProofStrip section={proof} /> : null}
+					{proof ? <ProofStrip section={proof} reveal={reveal('proof')} /> : null}
 				</div>
 
-				<fieldset className="m-0 mb-2 mt-6 border-0 p-0">
+				<fieldset
+					className={`m-0 mb-2 mt-6 border-0 p-0 ${reveal('picker').className}`}
+					style={reveal('picker').style}
+				>
 					<legend className="mb-2 p-0 text-[14px] font-semibold text-[var(--text)]">
 						{m.platformsLabel}
 					</legend>
@@ -345,11 +380,21 @@ export function GettingToKnowYou({
 	);
 }
 
-function ProofStrip({ section }: { section: Section }) {
+function ProofStrip({
+	section,
+	reveal,
+}: {
+	section: Section;
+	reveal?: { className: string; style: { animationDelay: string } };
+}) {
 	const colors = section.colors || [];
 	const photos = section.photos || [];
 	return (
-		<div className="flex flex-wrap items-center gap-3 pt-1" aria-hidden>
+		<div
+			className={`flex flex-wrap items-center gap-3 pt-1 ${reveal ? reveal.className : ''}`}
+			style={reveal ? reveal.style : undefined}
+			aria-hidden
+		>
 			{section.logo ? (
 				// eslint-disable-next-line @next/next/no-img-element
 				<img

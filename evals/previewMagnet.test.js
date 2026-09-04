@@ -226,15 +226,72 @@ describe('wait copy B25 ladder', () => {
 		const failedIdx = pollFn.indexOf("result.kind === 'failed'");
 		assert.ok(readyIdx >= 0 && failedIdx > readyIdx, 'ready arm in poll');
 		const readyArm = pollFn.slice(readyIdx, failedIdx);
-		assert.match(readyArm, /onReady\(/);
+		// The ready arm hands the payload to the ready card. It MAY hold
+		// the swap until the sentence in flight finishes writing — that is
+		// setPendingReady — because the beats it waits on are the ones the
+		// founder already watched during `building`. What it must never do
+		// is derive fresh beats from the ready body and replay them.
+		assert.match(readyArm, /onReady\(|setPendingReady\(/);
 		assert.doesNotMatch(readyArm, /waitBeatsFromBody/);
 		assert.doesNotMatch(readyArm, /typedText/);
 		assert.doesNotMatch(readyArm, /setWaitBeats/);
 		assert.doesNotMatch(src, /waitBeatsFromReady/);
 		assert.doesNotMatch(src, /beatsFromBrand/);
 		assert.doesNotMatch(src, /typeFromReady/);
+		// A held swap must still terminate in the ready card, once. Bound
+		// to commitReady's own body — a fixed character window breaks the
+		// moment anything is added between the guard and the handoff, which
+		// is a gate failing for a reason that is not the defect it guards.
+		const commit = src.slice(
+			src.indexOf('const commitReady'),
+			src.indexOf('// Commit the moment nothing is mid-word'),
+		);
+		assert.ok(commit.length > 80, 'commitReady slice was FOUND');
+		assert.match(commit, /if \(committed\.current\) return;/);
+		assert.match(commit, /onReady\(/);
+		assert.ok(
+			commit.indexOf('committed.current = true') < commit.indexOf('onReady('),
+			'the guard is set before the handoff',
+		);
 		const buildingArm = pollFn.slice(pollFn.indexOf("result.kind === 'building'"));
 		assert.match(buildingArm, /waitBeatsFromBody/);
+	});
+
+	it('the ready swap waits on the type-out, and is bounded', () => {
+		const src = read('app/business/components/PreviewMagnet.tsx');
+		// Ready no longer unmounts the wait block the instant it lands —
+		// on a one-beat site that showed 42 of 150 characters.
+		assert.match(src, /beatsSettled\(waitBeats, typedChars, reduceMotion\)/);
+		assert.match(src, /READY_HOLD_MAX_MS/);
+		// …and it is a courtesy, not a queue: something must always
+		// commit, however long the remaining text is.
+		assert.match(src, /setTimeout\(\(\) => commitReady\(pendingReady\), READY_HOLD_MAX_MS\)/);
+		// Both the settle path and the backstop go through one guarded
+		// commit, so the card can never be handed over twice.
+		assert.match(src, /if \(committed\.current\) return;/);
+		// A new wait clears the deferral, or a second preview inherits
+		// the first one's committed flag and never reveals.
+		const beginWait = src.slice(src.indexOf('const beginWait'), src.indexOf('const onSubmit'));
+		assert.match(beginWait, /setPendingReady\(null\)/);
+		assert.match(beginWait, /committed\.current = false/);
+	});
+
+	it('the wait card types one line at a time', () => {
+		const src = read('app/business/components/PreviewMagnet.tsx');
+		const effect = src.slice(
+			src.indexOf('const pace = pendingReady'),
+			src.indexOf('const commitReady'),
+		);
+		assert.ok(effect.length > 80, 'typing effect slice was FOUND');
+		// The loop RETURNS on the first incomplete beat. Advancing every
+		// incomplete beat on the same tick grew three lines at once, which
+		// reads as a block filling in rather than as a typewriter.
+		assert.match(effect, /return \{ \.\.\.prev, \[beat\.heading\]: cur \+ 1 \};/);
+		assert.doesNotMatch(effect, /changed = true/);
+		// Only started beats are painted.
+		assert.match(src, /visibleBeatCount\(waitBeats, typedChars, reduceMotion\)/);
+		assert.match(src, /waitBeats\.slice\(0, revealCount\)/);
+		assert.doesNotMatch(src, /\{waitBeats\.length > 0 \? \(/);
 	});
 });
 

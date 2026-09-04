@@ -2852,3 +2852,36 @@ footer {
 @media (max-width: 960px) {
   .guides { padding: 36px 20px 56px; }
 }
+
+/* ---- Preview ready card: cascade in what the founder has not seen ----
+   The five wait sentences are already on screen when the card opens, so
+   they are never re-typed and never moved. Only the sections BELOW them
+   cascade, which reads as the card growing rather than as a repaint.
+   Delays are set as a CSS property by revealDelays(), never as a class:
+   Tailwind compiles arbitrary values by scanning source, so a delay
+   class built at runtime does not exist in the stylesheet.
+
+   Default state is VISIBLE. The animation only ever fades IN, and
+   `backwards` holds the from-state during the delay — so if animations
+   are unavailable the section simply renders. Content parked at
+   opacity 0 waiting on a script is the failure this avoids. */
+@keyframes previewReveal {
+	from {
+		opacity: 0;
+		transform: translateY(6px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.preview-reveal {
+	animation: previewReveal 260ms ease-out backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.preview-reveal {
+		animation: none;
+	}
+}
