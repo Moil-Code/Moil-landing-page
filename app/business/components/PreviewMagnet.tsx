@@ -23,6 +23,7 @@ import {
 	READY_HOLD_MAX_MS,
 } from '../preview/gettingToKnowYou';
 import { nextPollDelayMs, shouldGiveUpWaiting, waitCopyKey } from '../preview/previewWaitCopy';
+import { emitFunnelEvent } from '../preview/funnelEvents';
 import { GettingToKnowYou } from './GettingToKnowYou';
 
 type Phase = 'form' | 'wait' | 'ready' | 'failed' | 'down' | 'identity' | 'ceiling';
@@ -84,6 +85,15 @@ function waitBeatHeadingCopy(m: MagnetCopy, heading: string): string {
 	return (key && m[key]) || '';
 }
 
+// WHICH DOOR. Today the magnet opens exactly one — a website field — so
+// this is a constant rather than a guess. P-NW adds the listing and handle
+// doors, and each will name its own; the point of the prop is that "the
+// website door converts and the listing door does not" is a sentence
+// somebody can check. MODULE scope so the hooks below close over a stable
+// value rather than declaring a dependency that changes identity on every
+// render.
+const DOOR = 'website';
+
 export function PreviewMagnet() {
 	const { t, lang } = useLanguageContext();
 	const m = t.business.hero.magnet;
@@ -127,6 +137,22 @@ export function PreviewMagnet() {
 	// founder explicitly asked for it to be gone. Every poll carries the
 	// run it belongs to; a stale run writes nothing.
 	const runId = useRef(0);
+
+	// When the founder pressed the button, so `ready_seen` can report how
+	// long they actually waited. NULL until they do — a founder who resumed
+	// a preview from the cookie never submitted in this session, and
+	// reporting 0 for them would put a fabricated wait into the one number
+	// this measures.
+	const submittedAt = useRef<number | null>(null);
+	// `magnet_view` is a VIEW, not a render. Without the guard every state
+	// change in the form phase would emit one and the denominator of every
+	// rate below it would be the re-render count.
+	const viewSent = useRef(false);
+	useEffect(() => {
+		if (viewSent.current) return;
+		viewSent.current = true;
+		emitFunnelEvent('magnet_view', { door: DOOR });
+	}, []);
 	// commitReady reads the typing state through refs on purpose. Taking
 	// waitBeats/typedChars as deps would change its identity on every
 	// tick, and the backstop effect below clears and re-arms its timeout
@@ -214,6 +240,27 @@ export function PreviewMagnet() {
 				positioning: body && body.positioning,
 			});
 			setPhase('ready');
+			// The card ACTUALLY RENDERED for a human — which is a different
+			// fact from `preview_ready` (the row finished) and is the one the
+			// submit-to-ready rate needs. `msSinceSubmit` is omitted, never
+			// zeroed, for a founder who resumed from the cookie rather than
+			// submitting in this session.
+			const startedAt = submittedAt.current;
+			const posts = body && body.content && body.content.posts;
+			emitFunnelEvent(
+				'ready_seen',
+				{
+					door: DOOR,
+					msSinceSubmit:
+						typeof startedAt === 'number'
+							? Date.now() - startedAt
+							: undefined,
+					postsShown: Array.isArray(posts)
+						? posts.length
+						: undefined,
+				},
+				nextSlug,
+			);
 		},
 		[refuseNamelessReady],
 	);
@@ -421,6 +468,11 @@ export function PreviewMagnet() {
 
 		setErrorMessage('');
 		setSubmitting(true);
+		submittedAt.current = Date.now();
+		emitFunnelEvent('magnet_submit', {
+			door: DOOR,
+			hasPlatforms: platforms.length > 0,
+		});
 		const result = await submitPreview(websiteSubmitBody({ website: decision.website, locale: lang }));
 		setSubmitting(false);
 		if (result.ok && result.body && result.body.slug) {
@@ -453,6 +505,11 @@ export function PreviewMagnet() {
 		// point must not re-set the cookie we are about to clear.
 		runId.current += 1;
 		stopWaitClock();
+		// Read the phase BEFORE it is reset: which screen a founder pressed
+		// "try another business" from is the whole content of this event.
+		// A reset from `wait` and a reset from `ready` are different
+		// failures, and one of them is ours.
+		emitFunnelEvent('magnet_reset', { phase });
 		clearPreviewSlugCookie();
 		setPhase('form');
 		setErrorMessage('');

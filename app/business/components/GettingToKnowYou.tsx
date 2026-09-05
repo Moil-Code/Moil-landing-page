@@ -11,6 +11,7 @@ import {
 import { headingKeyFor, profileSections, revealDelays } from '../preview/gettingToKnowYou';
 import { postCards } from '../preview/previewPosts';
 import { businessFacts } from '../preview/businessFacts';
+import { emitFunnelEvent } from '../preview/funnelEvents';
 
 import type { BusinessFacts } from '../preview/businessFacts';
 
@@ -258,6 +259,10 @@ export function GettingToKnowYou({
 			return next;
 		});
 		setEditing(null);
+		// WHICH section they corrected, never WHAT they typed. The ids are
+		// our own vocabulary, so this can say "the overview is the thing we
+		// get wrong" without carrying a word of the founder's business.
+		emitFunnelEvent('ready_edit', { section: id });
 	};
 
 	const chipClass = (on: boolean) =>
@@ -387,6 +392,15 @@ export function GettingToKnowYou({
 				<a
 					href={signupHref}
 					data-signup-cta="preview-ready"
+					// The navigation is NOT delayed on this. `emitFunnelEvent`
+					// sends with `keepalive`, which is exactly what survives an
+					// unload — awaiting it instead would put a network round
+					// trip between a founder and the button they just pressed.
+					onClick={() =>
+						emitFunnelEvent('cta_signup', {
+							platformsPicked: platforms.length,
+						})
+					}
 					className="inline-flex w-full items-center justify-center rounded-full bg-[var(--text)] px-4 py-3 text-[15px] font-bold text-[var(--bg)] hover:opacity-90"
 				>
 					{m.startFree}
