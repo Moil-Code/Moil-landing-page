@@ -10,6 +10,9 @@ import {
 } from '../preview/platformPickerView';
 import { headingKeyFor, profileSections, revealDelays } from '../preview/gettingToKnowYou';
 import { postCards } from '../preview/previewPosts';
+import { businessFacts } from '../preview/businessFacts';
+
+import type { BusinessFacts } from '../preview/businessFacts';
 
 type MagnetCopy = Record<string, string | undefined>;
 
@@ -186,6 +189,11 @@ export function GettingToKnowYou({
 	// our closed set, and the creative is painted here in the DOM.
 	const cards = useMemo(() => postCards(body), [body]);
 
+	// The hard facts the founder's own JSON-LD publishes — phone,
+	// hours, price range, the year they started, the rating their
+	// customers left. Verbatim or absent; rules in businessFacts.js.
+	const facts = useMemo(() => businessFacts(body), [body]);
+
 	// The sentences the founder already watched are instant; only what
 	// sits below them cascades. The signup CTA is deliberately absent
 	// from this list — an action must never be delayed behind an
@@ -196,13 +204,14 @@ export function GettingToKnowYou({
 				[
 					...knowing.map((section) => section.id),
 					...(proof ? ['proof'] : []),
+					...(facts ? ['facts'] : []),
 					...(cards.length ? ['posts'] : []),
 					'picker',
 				],
 				watched,
 				reduceMotion,
 			),
-		[knowing, proof, cards, watched, reduceMotion],
+		[knowing, proof, facts, cards, watched, reduceMotion],
 	);
 	const reveal = (id: string) => ({
 		className: 'preview-reveal',
@@ -322,6 +331,7 @@ export function GettingToKnowYou({
 				<div className="flex flex-col gap-5 pb-2">
 					{knowing.map(renderSection)}
 					{proof ? <ProofStrip section={proof} reveal={reveal('proof')} /> : null}
+					{facts ? <FactStrip facts={facts} copy={m} reveal={reveal('facts')} /> : null}
 					{cards.length ? <PostStrip cards={cards} copy={m} reveal={reveal('posts')} /> : null}
 				</div>
 
@@ -523,6 +533,65 @@ function PostStrip({
 			</div>
 			{m.postsNote ? (
 				<p className="text-[12px] leading-snug text-[var(--text)] opacity-70">{m.postsNote}</p>
+			) : null}
+		</div>
+	);
+}
+
+function FactStrip({
+	facts,
+	copy: m,
+	reveal,
+}: {
+	facts: BusinessFacts;
+	copy: MagnetCopy;
+	reveal?: { className: string; style: { animationDelay: string } };
+}) {
+	// Every value here is the founder's own markup, printed as written.
+	// The label beside it is OURS, so a build with no copy for a chip
+	// omits that chip rather than rendering a bare id.
+	const label: Record<string, string | undefined> = {
+		phone: m.factPhone,
+		price: m.factPrice,
+		since: m.factSince,
+	};
+	const chips = facts.chips.filter((chip) => !!label[chip.id]);
+	if (!chips.length && !facts.hours.length && !facts.rating) return null;
+	return (
+		<div
+			className={`flex flex-col gap-2 pt-1 ${reveal ? reveal.className : ''}`}
+			style={reveal ? reveal.style : undefined}
+		>
+			<p className="text-[14px] font-semibold text-[var(--text)]">{m.factsTitle}</p>
+			<div className="flex flex-wrap items-center gap-1.5">
+				{chips.map((chip) => (
+					<span
+						key={chip.id}
+						className="rounded-full border border-[var(--border2)] px-2.5 py-1 text-[12px] text-[var(--text)]"
+					>
+						<span className="opacity-60">{label[chip.id]} </span>
+						{chip.value}
+					</span>
+				))}
+				{facts.rating ? (
+					<span className="rounded-full border border-[var(--border2)] px-2.5 py-1 text-[12px] text-[var(--text)]">
+						{/* Both halves, always: a star with no denominator
+						    is the one line here worth fabricating. */}
+						{facts.rating.value} ({facts.rating.count})
+					</span>
+				) : null}
+			</div>
+			{facts.hours.length ? (
+				<ul className="m-0 flex list-none flex-col gap-0.5 p-0">
+					{facts.hours.map((line) => (
+						<li
+							key={`${line.days.join('')}${line.opens}${line.closes}`}
+							className="text-[12px] leading-snug text-[var(--text)] opacity-70"
+						>
+							{line.days.join(', ')} {line.opens}–{line.closes}
+						</li>
+					))}
+				</ul>
 			) : null}
 		</div>
 	);
