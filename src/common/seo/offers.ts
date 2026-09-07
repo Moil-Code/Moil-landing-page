@@ -30,9 +30,16 @@ export function priceValidUntil(): string {
   return d.toISOString().slice(0, 10);
 }
 
-type PlanKey = 'professional' | 'marketPro';
+export type PlanKey = 'professional' | 'marketPro';
 
-const PLANS: Record<PlanKey, { name: string; price: string; description: string; unitDescription: string }> = {
+/**
+ * Exported so `pricingCopy.ts` can read the NUMBERS from here. The prose that
+ * describes what each price buys lives there, in one place per language;
+ * this file keeps the schema.org bodies. Neither file retypes the other's
+ * facts, and `evals/pricingCopy.test.js` fails any file outside these two
+ * that ties a price to the month.
+ */
+export const PLANS: Record<PlanKey, { name: string; price: string; description: string; unitDescription: string }> = {
   professional: {
     name: 'Moil Professional',
     price: '25',

@@ -18,8 +18,13 @@ const root = path.join(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 
 const TITLE = 'AI co-founder that writes the plan and the month | Moil';
-const DESCRIPTION =
-	'Moil writes a plan you can take to a lender and a month of on-brand posts. Market Pro is $75. Professional is $25 if you only want the plan, not the month.';
+// 2026-09-05: the description is no longer a literal in the layout. Every
+// prose price claim reads from src/common/seo/pricingCopy.ts (evals/
+// pricingCopy.test.js is the gate), so this pins the layout to that import and
+// the import to the approved sentence — prices come from offers.ts, hence the
+// template placeholders.
+const DESCRIPTION_TEMPLATE =
+	'Moil, the AI co-founder for small business owners: research, a real plan, and a taste of the studio. ${pro}/mo. The whole month written for you: ${mp}.';
 const HATS_H1 = "You shouldn't have to be everything on top of the real job.";
 
 function metadataExport(src) {
@@ -73,11 +78,14 @@ describe('execute copy slice — /business metadata', () => {
 		assert.ok(!absolute.includes('$25'), '$25 must never go in the title');
 	});
 
-	it('description equals the draft', () => {
-		assert.equal(quoted(meta, 'description'), DESCRIPTION);
-		assert.equal(quoted(og, 'description'), DESCRIPTION);
-		assert.equal(quoted(twitter, 'description'), DESCRIPTION);
-		assert.ok(DESCRIPTION.includes('$25'), '$25 belongs in meta description only');
+	it('description is the one price-copy source, and that source equals the draft', () => {
+		assert.match(meta, /\n  description: META_EN,/);
+		assert.match(og, /description: META_EN,/);
+		assert.match(twitter, /description: META_EN,/);
+		const copy = read('src/common/seo/pricingCopy.ts');
+		assert.ok(copy.includes('export const META_EN = pricingCopy.en.meta;'));
+		assert.ok(copy.includes(`    meta: \`${DESCRIPTION_TEMPLATE}\`,`), 'en.meta template drifted from the draft');
+		assert.ok(DESCRIPTION_TEMPLATE.includes('${pro}'), 'the price belongs in the meta description, read from offers.ts');
 	});
 
 	it('H1 string in translations/en.ts is still the hats line', () => {

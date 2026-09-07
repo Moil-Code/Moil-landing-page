@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { getRegisterUrl } from '~~/app/business/preview/previewClient';
 import { BusinessFooter } from '../../../app/business/components/BusinessFooter';
 import { BusinessMobileMenu } from '../../../app/business/components/BusinessMobileMenu';
 import { BusinessNav, type NavItem } from '../../../app/business/components/BusinessNav';
@@ -17,7 +18,7 @@ const NAV_ITEMS: NavItem[] = [
 
 const MOBILE_ITEMS: NavItem[] = [
   { label: 'Business Plan', href: '/business' },
-  { label: 'Moil Services', href: '/marketing' },
+  { label: 'Moil360', href: '/business#pricing' },
   { label: 'Hiring', href: '/candidate' },
   ...NAV_ITEMS,
 ];
@@ -46,7 +47,7 @@ function PageChrome({ children }: { children: ReactNode }) {
         onToggleTheme={toggleTheme}
         theme={theme}
         items={NAV_ITEMS}
-        ctaHref="https://employer-beta.moilapp.com/register"
+        ctaHref={getRegisterUrl()}
         ctaLabel="Get Started"
         currentLang={lang}
         onLanguageChange={setLang}

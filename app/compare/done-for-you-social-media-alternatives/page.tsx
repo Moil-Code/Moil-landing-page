@@ -3,6 +3,7 @@ import { baseURL1 } from '../../../src/common/constants/baseUrl';
 import { RoundupPage, type RoundupEntry } from '../RoundupPage';
 import { ENTITY_LINE, faqPageJsonLd, type AeoFaq } from '../aeoLocks';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
+import { pricingCopy } from '../../../src/common/seo/pricingCopy';
 
 const H1 = 'Done-for-you social media: what it costs and the cheaper alternatives';
 
@@ -34,7 +35,7 @@ const ENTRIES: RoundupEntry[] = [
   {
     name: 'Moil',
     bestFor: 'owners who need the content written but not the account managed',
-    price: '$25–$75 a month',
+    price: pricingCopy.en.entityPrice,
     summary:
       'Learns your business once and produces the month: researched topics, captions in your voice, and 30 generated images, refreshed automatically and written in both English and Spanish. It removes the writing, not the posting or the replying.',
     pros: [

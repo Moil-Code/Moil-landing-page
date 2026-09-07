@@ -20,7 +20,7 @@ export function BusinessFinalCta() {
       <p className="final-sub rv">
         {t.business.finalCta.subheadline}
       </p>
-      <a className="final-btn rv" href={appendLangToUrl(getRegisterUrl(), lang)} rel="noreferrer">
+      <a className="final-btn rv" href={appendLangToUrl(getRegisterUrl(), lang)} rel="noreferrer" data-signup-cta="final">
         {t.business.finalCta.cta} <ArrowRight size={18} aria-hidden="true" />
       </a>
       <div className="final-trust rv">

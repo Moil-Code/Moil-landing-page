@@ -1,0 +1,17 @@
+/* /help and /es/ayuda — deliberately plain, like /ai-info: read by assistants
+   as often as by people, and a heavy layout gets in the way of extraction. */
+.help { max-width: 780px; margin: 0 auto; padding: 120px 24px 96px; display: flex; flex-direction: column; gap: 48px; color: var(--text); }
+.help__head { display: flex; flex-direction: column; gap: 14px; }
+.help__eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin: 0; }
+.help h1 { margin: 0; font-size: clamp(30px, 5vw, 44px); line-height: 1.1; }
+.help__lede { margin: 0; font-size: 17px; line-height: 1.7; color: var(--text2); }
+.help__toc { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.help__toc a { font-family: var(--mono); font-size: 12px; letter-spacing: 0.5px; color: var(--text2); border: 1px solid var(--border2); border-radius: 999px; padding: 6px 12px; text-decoration: none; }
+.help h2 { margin: 0 0 18px; font-size: 22px; line-height: 1.25; padding-bottom: 10px; border-bottom: 1px solid var(--border2); }
+.help__list { margin: 0; display: flex; flex-direction: column; gap: 14px; }
+.help__list > div { padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.help__list dt { font-weight: 600; margin: 0 0 6px; }
+.help__list dd { margin: 0; color: var(--text2); line-height: 1.65; }
+.help__contact { margin: 0; color: var(--text2); line-height: 1.65; }
+.help a { color: var(--orange); }
+@media (max-width: 640px) { .help { padding: 96px 20px 72px; } }

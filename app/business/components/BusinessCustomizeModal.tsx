@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { twinPath } from '../../../src/common/i18n/localeRoutes';
 
 interface BusinessCustomizeModalProps {
   isOpen: boolean;
@@ -21,7 +22,10 @@ export function BusinessCustomizeModal({ isOpen, onClose }: BusinessCustomizeMod
     sessionStorage.setItem('customizeModalShown', 'true');
 
     const targetPath = selectedPage === 'candidate' ? '/' : '/business';
-    router.push(`${targetPath}?lg=${selectedLanguage}`);
+    // A route with a twin gets the twin URL (the document Google indexes for
+    // that language); a route without one keeps the `?lg=` state switch.
+    const twin = twinPath(targetPath, selectedLanguage);
+    router.push(twin ?? `${targetPath}?lg=${selectedLanguage}`);
 
     onClose();
   };

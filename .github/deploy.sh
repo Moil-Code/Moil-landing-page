@@ -336,6 +336,19 @@ rm -f /tmp/deploy-health.$$
 
 if [ "$healthy" = "1" ]; then
 	log "Deployed $NEW_SHA"
+	# ── IndexNow (plan 8.3) ─────────────────────────────────────────────────
+	# Tell Bing which URLs changed, from the sitemap the app just started
+	# serving. Opt-in per host (INDEXNOW_SUBMIT=1): this script deploys
+	# STAGEBETA, whose sitemap lists PRODUCTION URLs, so a staging deploy must
+	# not announce production changes. Never fatal after a healthy reload — a
+	# refused submission is logged loudly, not rolled back.
+	if [ "${INDEXNOW_SUBMIT:-0}" = "1" ]; then
+		log "IndexNow: submitting the served sitemap"
+		node scripts/indexnow.mjs --base "${HEALTH_URL%/}" --host "${INDEXNOW_HOST:-www.moilapp.com}" \
+			|| info "IndexNow submission FAILED (see above) — the deploy itself is fine"
+	else
+		info "IndexNow: skipped (set INDEXNOW_SUBMIT=1 on a production host to submit)"
+	fi
 	exit 0
 fi
 

@@ -5,7 +5,10 @@ import type { ReactNode } from 'react';
 import Image from 'next/image';
 import { ChevronDown, Globe, Moon, Sun, ArrowUpRight } from 'lucide-react';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
+import { usePathname } from 'next/navigation';
+import { twinPath } from '../../../src/common/i18n/localeRoutes';
 import { getRegisterOrigin, getRegisterUrl } from '../preview/previewClient';
+import { documentLocaleFromPathname, isSpanishPath } from '../../../src/common/i18n/pathLocale';
 
 export type NavItem = {
   label: string;
@@ -56,11 +59,11 @@ const MEGA_MENUS: Record<MegaMenuName, MegaMenu> = {
       },
       {
         eyebrow: 'STAY CONSISTENT',
-        title: 'Moil Services',
-        copy: 'A month of strategic marketing, ready to review, publish, and repeat.',
-        href: '/marketing',
+        title: 'Moil360',
+        copy: 'A month of content, written for you, ready to review, publish, and repeat.',
+        href: '/business#pricing',
         image: 'https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_800/v1783460801/Moil_360_light_mzwasc.png',
-        imageAlt: 'Moil marketing workspace',
+        imageAlt: 'Moil360 content workspace',
       },
       {
         eyebrow: 'BUILD YOUR TEAM',
@@ -238,7 +241,13 @@ export function BusinessNav({
   onLanguageChange,
   currentLang,
 }: BusinessNavProps) {
-  const [lang, setLang] = useState<'en' | 'es'>('en');
+  const pathname = usePathname() || '/';
+  // The PATH is the locale source of truth (src/common/i18n/pathLocale.ts says so
+  // in its own header, and `langCookieValue` gives the path priority over `?lg=`
+  // and any stored value). These chrome components read only the prop, `?lg=` and
+  // localStorage — none of which a Spanish visitor arriving from Google has — so
+  // on /es/* they defaulted to English and every signup CTA carried ?lg=en.
+  const [lang, setLang] = useState<'en' | 'es'>(currentLang ?? documentLocaleFromPathname(pathname));
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const [openMegaMenu, setOpenMegaMenu] = useState<MegaMenuName | null>(null);
 
@@ -248,7 +257,7 @@ export function BusinessNav({
       setLang(currentLang);
     } else if (typeof window !== 'undefined') {
       const url = new URL(window.location.href);
-      const lgParam = url.searchParams.get('lg') as 'en' | 'es' | null;
+      const lgParam = isSpanishPath(pathname) ? 'es' : (url.searchParams.get('lg') as 'en' | 'es' | null);
       const storedLang = localStorage.getItem('tlang') as 'en' | 'es' | null;
       
       if (lgParam && (lgParam === 'en' || lgParam === 'es')) {
@@ -257,7 +266,7 @@ export function BusinessNav({
         setLang(storedLang);
       }
     }
-  }, [currentLang]);
+  }, [currentLang, pathname]);
 
   // Listen for language change events from other components
   useEffect(() => {
@@ -279,25 +288,27 @@ export function BusinessNav({
       localStorage.setItem('tlang', selectedLang);
       document.cookie = `googtrans=${selectedLang === 'en' ? '/auto/en' : '/auto/es'}; path=/`;
       window.dispatchEvent(new CustomEvent('languageChange', { detail: { lang: selectedLang } }));
-
-      // Map between the EN canonical URL and its /es/* counterpart when one
-      // exists. Keeps the hreflang signal consistent — users land on the
-      // same URL Google indexes for their locale.
-      const localeRouteMap: Record<'en' | 'es', Record<string, string>> = {
-        es: { '/business': '/es/business', '/business/pricing': '/es/business/pricing' },
-        en: { '/es/business': '/business', '/es/business/pricing': '/business/pricing' },
-      };
-      const url = new URL(window.location.href);
-      const mappedPath = localeRouteMap[selectedLang][url.pathname];
-      if (mappedPath) {
-        url.pathname = mappedPath;
-        url.searchParams.delete('lg');
-      } else {
-        url.searchParams.set('lg', selectedLang);
+      // Navigation is the provider's job (I18nProvider.setLang → localeRoutes),
+      // reached through onLanguageChange above. When no parent wires it, fall
+      // back to the twin ourselves so the control is never dead.
+      if (!onLanguageChange) {
+        const url = new URL(window.location.href);
+        const twin = twinPath(url.pathname, selectedLang);
+        if (twin) {
+          url.pathname = twin;
+          url.searchParams.delete('lg');
+        } else {
+          url.searchParams.set('lg', selectedLang);
+        }
+        window.location.href = url.toString();
       }
-      window.location.href = url.toString();
     }
   };
+
+  // A real anchor to this page's twin — hreflang is a relationship signal, not
+  // a link, and until this existed nothing on an English page linked /es/*.
+  const twinHref = twinPath(pathname, lang === 'en' ? 'es' : 'en');
+  const twinLabel = lang === 'en' ? 'Español' : 'English';
 
   const getFlagSrc = () => {
     return lang === 'en'
@@ -389,6 +400,17 @@ export function BusinessNav({
         })}
       </ul>
       <div className="nav-right">
+        {twinHref && (
+          <a
+            className="nav-twin-link"
+            href={twinHref}
+            hrefLang={lang === 'en' ? 'es' : 'en'}
+            lang={lang === 'en' ? 'es' : 'en'}
+            style={{ fontSize: '12px', fontFamily: 'var(--mono)', color: 'var(--text2)', marginRight: '10px', textDecoration: 'underline' }}
+          >
+            {twinLabel}
+          </a>
+        )}
         {/* Language Switcher */}
         <div className="lang-switcher" style={{ position: 'relative' }}>
           <button 
@@ -496,7 +518,7 @@ export function BusinessNav({
         <a className="nav-signin" href={appendLangToUrl(signinHref, lang)} target="_blank" rel="noreferrer">
           {signinLabel}
         </a>
-        <a className="nav-cta" href={appendLangToUrl(ctaHref, lang)} target="_blank" rel="noreferrer">
+        <a className="nav-cta" href={appendLangToUrl(ctaHref, lang)} target="_blank" rel="noreferrer" data-signup-cta="nav">
           {ctaLabel}
         </a>
         <button className={`hamburger ${menuOpen ? 'open' : ''}`} onClick={onToggleMenu} aria-label="Menu">

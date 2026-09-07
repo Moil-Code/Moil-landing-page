@@ -10,6 +10,8 @@ type ButtonProps = {
   target?: string;
   rel?: string;
   type?: 'button';
+  /** Names the CTA for the sign_up_start event (see SignupEventBridge). */
+  signupCta?: string;
 };
 
 /**
@@ -17,12 +19,13 @@ type ButtonProps = {
  * diagonal shimmer sweep on hover (done with a child span + group-hover instead
  * of a ::before pseudo-element, which inline utilities can't express).
  */
-export function PrimaryButton({ href, children, className = '', target, rel }: ButtonProps) {
+export function PrimaryButton({ href, children, className = '', target, rel, signupCta }: ButtonProps) {
   return (
     <a
       href={href}
       target={target}
       rel={rel}
+      data-signup-cta={signupCta}
       className={`group relative inline-flex items-center justify-center gap-[9px] overflow-hidden rounded-lg bg-[var(--orange)] px-[34px] py-[15px] text-[15px] font-bold tracking-[0.2px] text-white transition-all duration-[250ms] hover:-translate-y-0.5 hover:shadow-[0_14px_48px_var(--orange-glow)] hover:bg-[#FF7A40] ${className}`}
     >
       <span

@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
+import { META_EN } from '../src/common/seo/pricingCopy';
+import { SAME_AS } from '../src/common/seo/sameAs';
 import { headers } from 'next/headers';
 import { Inter } from 'next/font/google';
 
 import './globals.css';
 import Analytics from '../src/common/components/analytics';
+import SignupEventBridge from '../src/common/components/SignupEventBridge';
 import { SiteFooter } from '../src/common/components/SiteFooter';
 import CookieConsent from '../src/common/components/CookieConsent';
 import { baseURL1 } from '../src/common/constants/baseUrl';
@@ -31,7 +34,7 @@ export const metadata: Metadata = {
     default: 'Moil | AI Marketing for Small Business — English & Spanish',
     template: '%s | Moil'
   },
-  description: 'Moil learns your small business once, then writes your marketing: a 30-day content calendar with captions and images that refreshes every month. Bilingual English and Spanish. From $25 a month.',
+  description: META_EN,
   keywords: [
     'AI marketing for small business',
     'social media content calendar',
@@ -64,13 +67,13 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL(baseURL1),
   // NOTE: no `alternates.canonical` here — every leaf page (`/`, `/business`,
-  // `/candidate`, `/marketing`, `/privacy`, `/business/pricing`) declares its
+  // `/candidate`, `/privacy`, `/business/pricing`) declares its
   // own self-canonical via its own metadata. A root canonical here would
   // override every page that doesn't override it, which is exactly the bug
   // that consolidated the homepage's SEO authority into /business.
   openGraph: {
     title: 'Moil | AI Marketing for Small Business — English & Spanish',
-    description: 'Research, plan, and coaching for $25 a month. The full Moil360 calendar is Market Pro, $75. English and Spanish. Moil Enterprise Inc., Buda, Texas.',
+    description: META_EN,
     url: baseURL1,
     siteName: 'Moil',
     images: [
@@ -87,7 +90,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Moil | AI Marketing for Small Business — English & Spanish',
-    description: 'Research, plan, and coaching for $25 a month. The full Moil360 calendar is Market Pro, $75. English and Spanish. Moil Enterprise Inc., Buda, Texas.',
+    description: META_EN,
     images: ['/og-home.jpg'],
     creator: '@MoilApp',
     site: '@MoilApp',
@@ -193,14 +196,8 @@ export default async function RootLayout({
               // for each profile (verified Apr 2026). A typo (e.g. /moil-app vs
               // /moilapp on LinkedIn) breaks the entity-disambiguation signal
               // and lets Google confuse Moil with namesake brands.
-              // Mirror this list in src/common/components/SiteFooter.tsx.
-              "sameAs": [
-                "https://www.linkedin.com/company/moilapp",
-                "https://x.com/MoilApp",
-                "https://www.instagram.com/themoilapp/",
-                "https://www.tiktok.com/@moilapp",
-                "https://www.facebook.com/MoilWorks/"
-              ],
+              // One list: src/common/seo/sameAs.ts (SiteFooter reads it too).
+              "sameAs": SAME_AS,
               // Organization takes `makesOffer`, not `offers` — `offers` is a
               // Product/Service property and is silently dropped here. The offer
               // bodies come from src/common/seo/offers.ts so price, url and
@@ -219,6 +216,13 @@ export default async function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               "name": "Moil",
+              // "moil" is a dictionary word (to toil and moil) and the ticker of
+              // MOIL Limited, the NSE-listed manganese miner — so the bare term is
+              // not a navigational query for us and never will be. Google's site
+              // name docs say alternateName is what it falls back to when the
+              // preferred name is not selected; these are the qualified forms
+              // owners actually type, and the ones that convert in Search Console.
+              "alternateName": ["Moil App", "Moilapp"],
               "url": "https://www.moilapp.com",
               "description": "The co-founder who does the work you never get to — plans, posts, and flyers, produced from one profile of the business, in English and Spanish.",
             })
@@ -230,6 +234,8 @@ export default async function RootLayout({
             <Analytics />, which renders nothing until the visitor consents.
             Do not add a tracking <Script> here — it would bypass the gate. */}
         <Analytics />
+        {/* sign_up_start on every register CTA (data-signup-cta) — consent-gated inside. */}
+        <SignupEventBridge />
         <div id="modal"></div>
         <div className="flex flex-col min-h-screen">
           <main className="flex-grow">

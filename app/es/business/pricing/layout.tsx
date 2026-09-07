@@ -1,24 +1,22 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../../../src/common/constants/baseUrl';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
+import { pricingCopy } from '../../../../src/common/seo/pricingCopy';
 
 export const metadata: Metadata = {
   title: {
     absolute: 'Treinta días de contenido con tu marca | Moil',
   },
-  description:
-    'Market Pro es el socio: aprende una vez, piensa contigo, hace el trabajo y escribe el mes en inglés o en español. Professional es $25 si quieres la investigación, el plan y los documentos sin el mes.',
+  description: pricingCopy.es.metaPricing,
   openGraph: {
     title: 'Treinta días de contenido con tu marca | Moil',
-    description:
-      'Market Pro es el socio: aprende una vez, piensa contigo, hace el trabajo y escribe el mes en inglés o en español. Professional es $25 si quieres la investigación, el plan y los documentos sin el mes.',
+    description: pricingCopy.es.metaPricing,
     url: `${baseURL1}/es/business/pricing`,
     locale: 'es_US',
   },
   twitter: {
     title: 'Treinta días de contenido con tu marca | Moil',
-    description:
-      'Market Pro es el socio: aprende una vez, piensa contigo, hace el trabajo y escribe el mes en inglés o en español. Professional es $25 si quieres la investigación, el plan y los documentos sin el mes.',
+    description: pricingCopy.es.metaPricing,
   },
   alternates: {
     canonical: `${baseURL1}/es/business/pricing`,
@@ -40,8 +38,7 @@ export default function BusinessPricingEsLayout({ children }: { children: React.
             '@context': 'https://schema.org',
             '@type': 'WebPage',
             name: 'Treinta días de contenido con tu marca',
-            description:
-              'Market Pro es el socio: aprende una vez, piensa contigo, hace el trabajo y escribe el mes en inglés o en español. Professional es $25 si quieres la investigación, el plan y los documentos sin el mes.',
+            description: pricingCopy.es.heroSub,
             url: `${baseURL1}/es/business/pricing`,
             breadcrumb: {
               '@type': 'BreadcrumbList',

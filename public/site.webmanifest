@@ -1,7 +1,7 @@
 {
-  "name": "Moil - AI-Powered Business Growth Platform",
+  "name": "Moil — AI Co-Founder for Small Business",
   "short_name": "Moil",
-  "description": "Complete AI-powered platform for business growth and talent acquisition. Market research, business planning, smart hiring, and job search all in one place.",
+  "description": "Moil builds an AI co-founder for small business owners. It learns a business once, then produces the finished work the owner has no time to make — research, plans, documents and a month of on-brand content — in English and Spanish.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -29,7 +29,11 @@
       "type": "image/png"
     }
   ],
-  "categories": ["business", "productivity", "employment"],
+  "categories": [
+    "business",
+    "productivity",
+    "employment"
+  ],
   "lang": "en-US",
   "dir": "ltr"
 }

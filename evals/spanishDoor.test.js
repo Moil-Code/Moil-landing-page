@@ -78,9 +78,14 @@ describe('ES pricing first screen', () => {
 		assert.match(pricing, /headline: 'Treinta d\\u00edas de contenido con tu marca\. Investigaci\\u00f3n, planes, documentos\.'/);
 		assert.match(pricingPage, /heroHeadline: 'Treinta d\\u00edas de contenido con tu marca\. Investigaci\\u00f3n, planes, documentos\.'/);
 		assert.match(firstScreen, /Treinta d[ií]as de contenido con tu marca \| Moil/);
-		assert.match(firstScreen, /Market Pro es el socio/);
-		assert.match(firstScreen, /Market Pro \$75: el mes de contenido con tu marca/);
-		assert.match(firstScreen, /Professional \$25: la investigaci/);
+		assert.match(read('src/common/seo/pricingCopy.ts'), /heroSub: `Market Pro es el socio/);
+		// Routed through the one price-copy source (2026-09-05); pin the reference
+		// and the source's Spanish sentences.
+		assert.match(firstScreen, /pricingCopy\.es\.marketProTagline/);
+		assert.match(firstScreen, /pricingCopy\.es\.professionalTagline/);
+		const copy = read('src/common/seo/pricingCopy.ts');
+		assert.match(copy, /marketProTagline: `Market Pro \$\{mp\}: el mes completo escrito para ti/);
+		assert.match(copy, /professionalTagline: `Professional \$\{pro\}: la investigaci/);
 		assert.doesNotMatch(firstScreen, /10 publicaciones de empleo/);
 		assert.doesNotMatch(firstScreen, /Reclutador y Coach/);
 		assert.doesNotMatch(firstScreen, /SOC 2/);
@@ -114,7 +119,8 @@ describe('this PR stays inside S1', () => {
 		// deploy docs (tests.yml Build, DEPLOYMENT.md), not in the magnet.
 		// Scan the door, not the git diff — a full-tree bring-up from
 		// staging@0f7f5ae0 is supposed to touch magnet files.
-		assert.equal(fs.existsSync(path.join(root, 'app/es/compare')), false, 'do not add /es/compare');
+		// /es/compare exists now (plan 3.5) behind the review gate in
+		// src/common/es/esPages.ts — evals/spanishPages.test.js owns that rule.
 		assert.equal(fs.existsSync(path.join(root, 'app/es/ai-info')), false, 'do not add /es/ai-info');
 		const door = [
 			'app/business/components/PreviewMagnet.tsx',

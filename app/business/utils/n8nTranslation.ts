@@ -5,6 +5,8 @@
  * Configure your n8n webhook URL in the environment variables.
  */
 
+import { pricingCopy } from '../../../src/common/seo/pricingCopy';
+
 export type SupportedLanguage = 'en' | 'es';
 
 export interface TranslationConfig {
@@ -216,7 +218,7 @@ export const staticTranslations: Record<SupportedLanguage, Record<string, string
     'hero.headline2': 'Co-Founder',
     'hero.headline3': 'Every Small Business',
     'hero.headline4': 'Deserves.',
-    'hero.sub': 'Moil learns your business once — what you sell, who buys, how you talk — then writes your month of content and keeps it coming. English and Spanish. From $25 a month.',
+    'hero.sub': 'Moil learns your business once — what you sell, who buys, how you talk — then writes your month of content and keeps it coming. English and Spanish. ' + pricingCopy.en.split,
     'hero.cta.primary': 'Start With Your AI Co-Founder',
     'hero.cta.secondary': 'See What It Does',
 

@@ -114,6 +114,7 @@ export function BusinessPricingPageContent() {
                 href={appendLangToUrl(getRegisterUrl(), currentLang)}
                 target="_blank"
                 rel="noreferrer"
+                data-signup-cta="pricing-hero"
               >
                 {t.business.pricingPage.heroCta} <ArrowRight size={18} aria-hidden="true" />
               </a>

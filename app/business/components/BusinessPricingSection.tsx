@@ -201,6 +201,7 @@ export function BusinessPricingSection() {
               href={appendLangToUrl(getRegisterUrl(), lang)}
               target="_blank"
               rel="noreferrer"
+              data-signup-cta={`pricing-${plan.ctaClass}`}
               className={`price-btn ${plan.ctaClass}`}
             >
               {plan.cta} <ArrowRight size={16} aria-hidden="true" />

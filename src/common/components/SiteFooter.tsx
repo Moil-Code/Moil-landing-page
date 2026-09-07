@@ -15,19 +15,15 @@
  *
  * SEO-critical when editing:
  *   1. `rel="me"` on every social link — entity-disambiguation microformat.
- *   2. SOCIAL_LINKS URLs MUST match the `sameAs` array in app/layout.tsx.
+ *   2. SOCIAL_LINKS is the same list the `sameAs` arrays read (src/common/seo/sameAs.ts).
  */
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { SOCIAL_PROFILES } from '../seo/sameAs';
 
-const SOCIAL_LINKS = [
-  { name: 'LinkedIn', href: 'https://www.linkedin.com/company/moilapp', label: 'Moil on LinkedIn' },
-  { name: 'X', href: 'https://x.com/MoilApp', label: 'Moil on X (Twitter)' },
-  { name: 'Instagram', href: 'https://www.instagram.com/themoilapp/', label: 'Moil on Instagram' },
-  { name: 'TikTok', href: 'https://www.tiktok.com/@moilapp', label: 'Moil on TikTok' },
-  { name: 'Facebook', href: 'https://www.facebook.com/MoilWorks/', label: 'Moil on Facebook' },
-] as const;
+// One list with the JSON-LD sameAs arrays: src/common/seo/sameAs.ts.
+const SOCIAL_LINKS = SOCIAL_PROFILES;
 
 type NavLink = { label: string; href: string; external?: boolean };
 
@@ -35,7 +31,8 @@ const NAV_LINKS: readonly NavLink[] = [
   { label: 'Business', href: '/business' },
   { label: 'About', href: '/about' },
   { label: 'Pricing', href: '/business/pricing' },
-  { label: 'Marketing', href: '/marketing' },
+  { label: 'Español', href: '/es/business' },
+  { label: 'Help', href: '/help' },
   { label: 'Candidates', href: '/candidate' },
   { label: 'Job Search', href: '/candidate/searchjob' },
   { label: 'Blog', href: 'https://blog.moilapp.com', external: true },
@@ -73,7 +70,7 @@ const LEGAL_LINKS: readonly NavLink[] = [
 ];
 
 // Section routes that ship their own footer — hide the global one there.
-const OWN_FOOTER_PREFIXES = ['/business', '/es/business', '/candidate', '/marketing', '/compare', '/about', '/ai-info', '/reviews', '/work', '/partners', '/team', '/contact', '/privacy', '/terms', '/cookies', '/privacy-choices', '/dpa', '/subprocessors', '/dmca', '/accessibility'];
+const OWN_FOOTER_PREFIXES = ['/business', '/es/business', '/candidate', '/compare', '/about', '/ai-info', '/reviews', '/work', '/partners', '/team', '/contact', '/privacy', '/terms', '/cookies', '/privacy-choices', '/dpa', '/subprocessors', '/dmca', '/accessibility'];
 
 export function SiteFooter() {
   const pathname = usePathname() || '/';

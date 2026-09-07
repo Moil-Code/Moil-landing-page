@@ -7,8 +7,14 @@
  * links and consistent listings, and lives on /about now.
  */
 
+import { pricingCopy } from '../../src/common/seo/pricingCopy';
+
 export const ENTITY_LINE =
-  'Moil is an AI marketing platform for small businesses, built by Moil Enterprise Inc. in Buda, Texas. It learns a business once, then writes a 30-day content calendar with captions and images and refreshes it every month, in English and Spanish. Professional is $25 a month; the full Moil360 calendar is Market Pro at $75.';
+  `Moil is the AI co-founder for small business owners, built by Moil Enterprise Inc. in Buda, Texas. It learns a business once, then produces the finished work — research, plans, documents — and, on Market Pro, writes the whole month of content with captions and images and refreshes it every month, in English and Spanish. ${pricingCopy.en.entityPrice}`;
+
+/** The same sentence for the Spanish citation pages, from the same price source. */
+export const ENTITY_LINE_ES =
+  `Moil es el socio de IA para dueños de negocio, hecho por Moil Enterprise Inc. en Buda, Texas. Aprende el negocio una vez y produce el trabajo terminado — investigación, planes, documentos — y, en Market Pro, escribe el mes completo de contenido con textos e imágenes y lo renueva cada mes, en inglés y en español. ${pricingCopy.es.entityPrice}`;
 
 export type AeoFaq = {
   question: string;

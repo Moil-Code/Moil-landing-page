@@ -1,24 +1,23 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
+import { pricingCopy } from '../../../src/common/seo/pricingCopy';
 
 export const metadata: Metadata = {
   title: {
     absolute: 'Thirty days of content on brand. Research, plans, documents. | Moil',
   },
-  description:
-    'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.',
+  description: pricingCopy.en.metaPricing,
   keywords: [
     'AI co-founder pricing',
-    'Market Pro $75',
+    'Market Pro pricing',
     'thirty days of content on brand',
     'small business software cost',
     'content calendar tool price',
   ],
   openGraph: {
     title: 'Thirty days of content on brand. Research, plans, documents. | Moil',
-    description:
-      'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.',
+    description: pricingCopy.en.metaPricing,
     url: `${baseURL1}/business/pricing`,
     images: [
       {
@@ -31,8 +30,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     title: 'Thirty days of content on brand. Research, plans, documents. | Moil',
-    description:
-      'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.',
+    description: pricingCopy.en.metaPricing,
   },
   alternates: {
     canonical: `${baseURL1}/business/pricing`,
@@ -61,7 +59,7 @@ export default function BusinessPricingLayout({
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "Thirty days of content on brand. Research, plans, documents.",
-            "description": "Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.",
+            "description": pricingCopy.en.heroSub,
             "url": `${baseURL1}/business/pricing`,
             "breadcrumb": {
               "@type": "BreadcrumbList",

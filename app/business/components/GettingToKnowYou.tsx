@@ -386,6 +386,7 @@ export function GettingToKnowYou({
 			<div className="shrink-0 pt-4">
 				<a
 					href={signupHref}
+					data-signup-cta="preview-ready"
 					className="inline-flex w-full items-center justify-center rounded-full bg-[var(--text)] px-4 py-3 text-[15px] font-bold text-[var(--bg)] hover:opacity-90"
 				>
 					{m.startFree}

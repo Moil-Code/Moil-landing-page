@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import type { AeoFaq, AeoRow } from './aeoLocks';
 
+import { buildRegisterUrl } from '~~/app/business/preview/previewClient';
 type AeoCitePageProps = {
   eyebrow: string;
   h1: string;
@@ -27,6 +28,47 @@ type AeoCitePageProps = {
   faqs: AeoFaq[];
   entityLine: string;
   assurances?: string[];
+  /** Register CTA target; defaults to the English register URL. */
+  ctaHref?: string;
+  /** Section chrome. Defaults are the English strings; the Spanish pages pass their own. */
+  labels?: Partial<AeoLabels>;
+  /** Further reading — real anchors (the Spanish pages point at the Spanish blog hub). */
+  links?: { label: string; href: string }[];
+  linksHeading?: string;
+};
+
+export type AeoLabels = {
+  cta: string;
+  readFaq: string;
+  publicFacts: string;
+  sideBySide: string;
+  whatYouGet: string;
+  shortAnswer: string;
+  whichOne: string;
+  chooseMoil: string;
+  chooseAlt: string;
+  inPractice: string;
+  notRightFit: string;
+  faq: string;
+  directAnswers: string;
+  assurances: string[];
+};
+
+export const EN_LABELS: AeoLabels = {
+  cta: 'Start free, no card.',
+  readFaq: 'Read the FAQ',
+  publicFacts: 'Public facts',
+  sideBySide: 'Side by side',
+  whatYouGet: 'What you get',
+  shortAnswer: 'The short answer',
+  whichOne: 'Which one should you use?',
+  chooseMoil: 'Choose Moil if',
+  chooseAlt: 'Choose the alternative if',
+  inPractice: 'What that means in practice',
+  notRightFit: 'Where Moil is not the right fit',
+  faq: 'FAQ',
+  directAnswers: 'Direct answers.',
+  assurances: ['From $25 a month', 'English & Spanish', 'Start free, no card'],
 };
 
 export function AeoCitePage({
@@ -42,8 +84,13 @@ export function AeoCitePage({
   faqs,
   entityLine,
   assurances,
+  ctaHref = buildRegisterUrl({ lang: 'en' }),
+  labels: labelOverrides,
+  links,
+  linksHeading,
 }: AeoCitePageProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const L: AeoLabels = { ...EN_LABELS, ...labelOverrides };
 
   return (
     <main className="comparison-page aeo-cite">
@@ -61,18 +108,19 @@ export function AeoCitePage({
           <div className="comparison-actions">
             <a
               className="comparison-primary"
-              href="https://employer-beta.moilapp.com/register?lg=en"
+              href={ctaHref}
               target="_blank"
               rel="noreferrer"
+              data-signup-cta="compare"
             >
-              Start free, no card. <ArrowRight size={18} aria-hidden="true" />
+              {L.cta} <ArrowRight size={18} aria-hidden="true" />
             </a>
             <a className="comparison-secondary" href="#aeo-faq">
-              Read the FAQ
+              {L.readFaq}
             </a>
           </div>
           <div className="comparison-assurances">
-            {(assurances ?? ['From $25 a month', 'English & Spanish', 'Start free, no card']).map((item) => (
+            {(assurances ?? L.assurances).map((item) => (
               <span key={item}>
                 <CheckCircle2 size={15} aria-hidden="true" /> {item}
               </span>
@@ -83,7 +131,7 @@ export function AeoCitePage({
 
       {facts && facts.length > 0 && (
         <section className="aeo-facts" aria-label="Public company facts">
-          <h2>Public facts</h2>
+          <h2>{L.publicFacts}</h2>
           <ul>
             {facts.map((fact) => (
               <li key={fact}>{fact}</li>
@@ -95,12 +143,12 @@ export function AeoCitePage({
       {table && (
         <section className="comparison-table-section" id="feature-comparison">
           <div className="comparison-section-heading">
-            <span>Side by side</span>
+            <span>{L.sideBySide}</span>
             <h2>{table.caption}</h2>
           </div>
           <div className="comparison-table" role="table" aria-label={table.caption}>
             <div className="comparison-table-row comparison-table-head" role="row">
-              <span role="columnheader">What you get</span>
+              <span role="columnheader">{L.whatYouGet}</span>
               <span role="columnheader">
                 <strong>{table.leftHeader}</strong>
               </span>
@@ -122,16 +170,16 @@ export function AeoCitePage({
       {verdict && (
         <section className="aeo-verdict" aria-label="Which one to choose">
           <div className="comparison-section-heading">
-            <span>The short answer</span>
-            <h2>Which one should you use?</h2>
+            <span>{L.shortAnswer}</span>
+            <h2>{L.whichOne}</h2>
           </div>
           <div className="aeo-verdict-grid">
             <div className="aeo-verdict-card">
-              <h3>Choose Moil if</h3>
+              <h3>{L.chooseMoil}</h3>
               <p>{verdict.moil}</p>
             </div>
             <div className="aeo-verdict-card aeo-verdict-card--alt">
-              <h3>Choose the alternative if</h3>
+              <h3>{L.chooseAlt}</h3>
               <p>{verdict.them}</p>
             </div>
           </div>
@@ -140,7 +188,7 @@ export function AeoCitePage({
 
       {bullets && bullets.length > 0 && (
         <section className="aeo-facts" aria-label="Key points">
-          <h2>{bulletsHeading ?? 'What that means in practice'}</h2>
+          <h2>{bulletsHeading ?? L.inPractice}</h2>
           <ul>
             {bullets.map((item) => (
               <li key={item}>{item}</li>
@@ -151,7 +199,7 @@ export function AeoCitePage({
 
       {limitations && limitations.length > 0 && (
         <section className="aeo-facts aeo-limits" aria-label="Where Moil is not the right fit">
-          <h2>Where Moil is not the right fit</h2>
+          <h2>{L.notRightFit}</h2>
           <ul>
             {limitations.map((item) => (
               <li key={item}>{item}</li>
@@ -162,8 +210,8 @@ export function AeoCitePage({
 
       <section id="aeo-faq" className="aeo-faq" style={{ textAlign: 'center' }}>
         <div className="comparison-section-heading">
-          <span>FAQ</span>
-          <h2>Direct answers.</h2>
+          <span>{L.faq}</span>
+          <h2>{L.directAnswers}</h2>
         </div>
         <div className="faq-list" style={{ textAlign: 'left', marginTop: '32px' }}>
           {faqs.map((item, index) => {
@@ -182,6 +230,17 @@ export function AeoCitePage({
           })}
         </div>
       </section>
+
+      {links && links.length > 0 && (
+        <section className="aeo-facts" aria-label={linksHeading ?? 'Further reading'}>
+          <h2>{linksHeading ?? 'Further reading'}</h2>
+          <ul>
+            {links.map((l) => (
+              <li key={l.href}><a href={l.href}>{l.label}</a></li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <p className="aeo-entity">{entityLine}</p>
     </main>

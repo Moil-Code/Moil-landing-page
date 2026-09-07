@@ -3,6 +3,7 @@ import { baseURL1 } from '../../../src/common/constants/baseUrl';
 import { RoundupPage, type RoundupEntry } from '../RoundupPage';
 import { ENTITY_LINE, faqPageJsonLd, type AeoFaq } from '../aeoLocks';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
+import { pricingCopy } from '../../../src/common/seo/pricingCopy';
 
 const H1 = 'The best AI content calendar tools for small businesses';
 
@@ -25,7 +26,7 @@ const ENTRIES: RoundupEntry[] = [
   {
     name: 'Moil',
     bestFor: 'owners with nothing written and no time to write it',
-    price: '$25 a month; $75 for the full Moil360 calendar',
+    price: pricingCopy.en.entityPrice,
     summary:
       'Interviews you once about what you sell, who buys and how you talk, then researches your market and produces a 30-day calendar — topics, captions in your voice, and 30 generated images — refreshing it every month. Approve a post and it schedules and publishes it to your Facebook Page and Instagram. Every deliverable comes out in English and Spanish.',
     pros: [

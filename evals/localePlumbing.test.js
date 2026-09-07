@@ -195,3 +195,51 @@ describe('HTTP responses (optional, set LOCALE_TEST_ORIGIN)', { skip: !origin },
 		assert.doesNotMatch(html, /escrito en inglés/);
 	});
 });
+
+describe('the language control NAVIGATES to the twin document (plan 3.1)', () => {
+	// Before 2026-09-05 three places held their own copy of the EN⇄ES route
+	// map (the nav) or held none and rewrote `?lg=` (the footer, the customize
+	// modal, the provider). hreflang says two documents are twins; only the
+	// toggle landing on the twin makes the Spanish URL the one a Spanish reader
+	// shares. One list now, and every switcher reads it.
+	const routes = read('src/common/i18n/localeRoutes.ts');
+	const provider = read('src/common/components/I18nProvider.tsx');
+	const nav = read('app/business/components/BusinessNav.tsx');
+	const footer = read('app/business/components/BusinessFooter.tsx');
+	const modal = read('app/business/components/BusinessCustomizeModal.tsx');
+	const sitemap = read('app/sitemap.ts');
+
+	it('holds the twin list once and the sitemap alternates derive from it', () => {
+		assert.match(routes, /\{ en: '\/business', es: '\/es\/business' \}/);
+		assert.match(routes, /\{ en: '\/business\/pricing', es: '\/es\/business\/pricing' \}/);
+		assert.match(sitemap, /import \{ LOCALE_TWINS \} from '\.\.\/src\/common\/i18n\/localeRoutes'/);
+		assert.doesNotMatch(sitemap, /languages: \{\n\s+en: `\$\{baseUrl\}\/business`/, 'sitemap hand-types an alternates pair');
+		assert.equal((sitemap.match(/alternatesFor\('\/business(\/pricing)?'\)/g) || []).length, 4);
+	});
+
+	it('the provider navigates to the twin and only writes ?lg= where no twin exists', () => {
+		const setLang = provider.slice(provider.indexOf('const setLang = useCallback'), provider.indexOf('return (\n    <LanguageContext.Provider'));
+		assert.match(setLang, /twinPath\(url\.pathname, newLang\)/);
+		assert.ok(setLang.indexOf('window.location.assign') < setLang.indexOf("searchParams.set('lg'"), 'the twin navigation must come before the ?lg= fallback');
+		assert.match(setLang, /url\.searchParams\.delete\('lg'\)/);
+	});
+
+	it('no switcher keeps a private route map', () => {
+		for (const [name, src] of [['nav', nav], ['footer', footer], ['modal', modal]]) {
+			assert.doesNotMatch(src, /localeRouteMap/, `${name} re-enumerates the twins`);
+			assert.match(src, /twinPath\(/, `${name} does not read the one list`);
+		}
+		assert.doesNotMatch(modal, /router\.push\(`\$\{targetPath\}\?lg=\$\{selectedLanguage\}`\)/, 'the modal still pushes ?lg= for a route with a twin');
+	});
+
+	it('each English business page carries a real, server-rendered anchor to its Spanish twin (plan 3.2)', () => {
+		// usePathname answers on the server; a `typeof window` gate would hydrate
+		// the anchor in later, invisible to every crawler.
+		assert.match(nav, /const pathname = usePathname\(\) \|\| '\/'/);
+		assert.match(nav, /const twinHref = twinPath\(pathname/);
+		assert.match(nav, /<a\s+className="nav-twin-link"\s+href=\{twinHref\}\s+hrefLang=/);
+		assert.match(footer, /const pathname = usePathname\(\) \|\| '\/'/);
+		assert.match(footer, /href=\{twinEs\} hrefLang="es"/);
+		assert.match(read('src/common/components/SiteFooter.tsx'), /\{ label: 'Español', href: '\/es\/business' \}/);
+	});
+});

@@ -30,6 +30,32 @@ const walk = (dir, out = []) => {
 // /legacy is unmaintained and disallowed in robots.txt; it is not a live surface.
 const LIVE_SOURCES = [...walk('app'), ...walk('src')].filter((p) => !p.includes('legacy'));
 
+// The served text surfaces are NOT under app/ or src/, and `walk` only collects
+// .ts/.tsx. `public/llms.txt` is the machine-readable summary an assistant reads
+// before describing Moil — the widest-distribution positioning copy in the
+// property — and every rule below except the rating check was structurally
+// unable to see it. That is how "Not a hiring platform." survived Phase 0.4 in
+// the one file written for the readers that decision was about: the gate
+// reported 33/33 green over the exact sentence it exists to forbid.
+const walkPublic = (dir = 'public', out = []) => {
+	for (const entry of fs.readdirSync(path.join(root, dir), { withFileTypes: true })) {
+		const rel = path.join(dir, entry.name);
+		if (entry.isDirectory()) walkPublic(rel, out);
+		else if (/\.(txt|md|json|webmanifest)$/.test(entry.name)) out.push(rel);
+	}
+	return out;
+};
+const PUBLIC_TEXT = walkPublic();
+
+// Every published surface a positioning rule applies to.
+const POSITIONING_SURFACES = [...LIVE_SOURCES, ...PUBLIC_TEXT];
+
+// A rule that reads a source file must not have its own URLs eaten as comments.
+const positioningCopy = (file) =>
+	/\.(ts|tsx)$/.test(file)
+		? read(file).replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '')
+		: read(file);
+
 const COMPARE_PAGES = [
 	'app/compare/moil-vs-buffer/page.tsx',
 	'app/compare/moil-vs-later/page.tsx',
@@ -166,25 +192,31 @@ describe('no fabricated or unsourced social proof', () => {
 	});
 });
 
+describe('the walker reaches the surfaces these rules are about', () => {
+	// A clean result and a broken walker are indistinguishable from outside. This
+	// file passed 33/33 while the sentence below sat in `public/llms.txt`, so the
+	// coverage itself has to be asserted, not assumed.
+	it('collects the served text surfaces, not only app/ and src/', () => {
+		assert.ok(
+			PUBLIC_TEXT.includes(path.join('public', 'llms.txt')),
+			`public/llms.txt not collected; walker found: ${PUBLIC_TEXT.join(', ') || '(nothing)'}`,
+		);
+		assert.ok(LIVE_SOURCES.length > 50, `LIVE_SOURCES collapsed to ${LIVE_SOURCES.length} files`);
+	});
+});
+
 describe('hiring is available but not a pillar', () => {
 	it('never denies hiring, and never promotes it as a pillar', () => {
-		const surfaces = [
-			'app/business/BusinessPageContent.tsx',
-			'app/business/sections/HeroSection.tsx',
-			'app/business/components/BusinessFaqSection.tsx',
-			'app/business/components/BusinessFooter.tsx',
-			'app/business/components/BusinessNav.tsx',
-			'app/business/layout.tsx',
-			'app/layout.tsx',
-			'app/about/page.tsx',
-		];
-		for (const file of surfaces) {
+		// Was a hand-maintained list of eight files. A hand-maintained list answers
+		// a question about the files it was given, not the one it claims to answer —
+		// and `public/llms.txt` was never on it.
+		for (const file of POSITIONING_SURFACES) {
 			const src = read(file);
 			// Hiring is a real, available feature (3,000+ candidates) and a published
 			// customer review mentions it, so denying it would contradict the page.
 			// What must not come back is the denial, or hiring as a headline pillar.
 			assert.doesNotMatch(src, /not a hiring platform/i, `hiring denial in ${file}`);
-			const copy = src.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
+			const copy = positioningCopy(file);
 			assert.doesNotMatch(copy, /Smart Hiring/i, `hiring sold as a pillar in ${file}`);
 			assert.doesNotMatch(copy, /\b\d+[- ]day average to hire|95% (match )?accuracy/i, `unsourced hiring metric in ${file}`);
 		}
@@ -193,7 +225,7 @@ describe('hiring is available but not a pillar', () => {
 	it('states the MOIL Limited clarification once per surface, not as a refrain', () => {
 		// The audit found this denial repeated ~10 times, which teaches the association
 		// rather than breaking it. One statement per file is a clarification; more is a tic.
-		for (const file of LIVE_SOURCES) {
+		for (const file of POSITIONING_SURFACES) {
 			const hits = (read(file).match(/MOIL Limited/g) || []).length;
 			assert.ok(hits <= 2, `MOIL Limited repeated ${hits} times in ${file}`);
 		}
@@ -266,7 +298,8 @@ describe('answer-engine surfaces', () => {
 			assert.ok(llms.includes(url), `llms.txt is missing ${url}`);
 			assert.ok(!llms.includes(`${url}.md`), `llms.txt must use the HTML canonical, not ${url}.md`);
 		}
-		assert.match(en, /Guides: how to write the plan/);
+		assert.match(en, /sentence: pricingCopy\.en\.guides,/);
+		assert.match(read('src/common/seo/pricingCopy.ts'), /Guides: how to write the plan/);
 		assert.match(page, /id="guides"/);
 		assert.doesNotMatch(page, /employer-beta/);
 		assert.doesNotMatch(llms, /employer-beta/);
@@ -299,9 +332,10 @@ describe('answer-engine surfaces', () => {
 	});
 
 	it('retires the duplicate and shop-named comparison pages', () => {
-		// 87885a8 re-added /compare/moil-vs-claude as an extra page. Keep it;
-		// wiping it would drop later main. bilingual-local-shop stays retired.
-		assert.ok(fs.existsSync(path.join(root, 'app/compare/moil-vs-claude')));
+		// moil-vs-claude was a near-duplicate of the ChatGPT page and had BOTH a
+		// route and a permanent redirect away from itself (the redirect wins, so
+		// the route was dead code). Retired for real 2026-09-05 (plan WS5.2).
+		assert.ok(!fs.existsSync(path.join(root, 'app/compare/moil-vs-claude')));
 		assert.ok(!fs.existsSync(path.join(root, 'app/compare/bilingual-local-shop')));
 		const config = read('next.config.js');
 		assert.match(config, /source: '\/compare\/bilingual-local-shop'/);
@@ -337,9 +371,13 @@ describe('answer-engine surfaces', () => {
 
 		// Both prices must appear together wherever the offer is described, so a
 		// reader never sees one tier without the other.
+		// A surface may state both prices as literals (llms.txt is static text) or
+		// by importing a pricingCopy sentence that names both — never one alone.
+		const bothTiers = /pricingCopy\.(en|es)\.(entityPrice|split|faqCost|meta|trustBoth)/;
 		for (const file of ['public/llms.txt', 'app/ai-info/page.tsx']) {
 			const src = read(file);
-			assert.ok(src.includes('$25') && src.includes('$75'), `${file} states one tier but not the other`);
+			const literal = src.includes('$25') && src.includes('$75');
+			assert.ok(literal || bothTiers.test(src), `${file} states one tier but not the other`);
 		}
 	});
 

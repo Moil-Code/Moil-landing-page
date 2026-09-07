@@ -41,6 +41,19 @@ const nextConfig = {
         destination: '/compare/moil-vs-chatgpt',
         permanent: true,
       },
+      // /marketing was a second, older sell of the same product (Content360 /
+      // "Moil Services") whose copy contradicted /business on what $25 buys.
+      // Retired 2026-09-05 (plan WS5.1, decision D3): one product, one page.
+      {
+        source: '/marketing',
+        destination: '/business',
+        permanent: true,
+      },
+      {
+        source: '/es/marketing',
+        destination: '/es/business',
+        permanent: true,
+      },
       // Fix 2.6: 301 redirects for dead pages that are actively linked internally
       // and appear in GSC as 404 crawl errors
       {

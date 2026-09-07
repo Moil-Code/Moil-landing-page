@@ -25,6 +25,7 @@ A failed health check rolls back (rebuilds the previous commit).
 | `.github/workflows/tests.yml` | The gate (`workflow_call`ed by deploy; also on every PR) |
 | `.github/deploy.sh` | Everything that happens **on the server** |
 | `ecosystem.config.js` | The PM2 process definition |
+| `scripts/indexnow.mjs` | Runs after a healthy reload when `INDEXNOW_SUBMIT=1` is set on the host: submits the served sitemap's URLs to IndexNow (Bing, Yandex, Naver, Seznam). Off by default because stagebeta's sitemap lists production URLs. `npm run indexnow -- --dry-run` prints the payload. The key file `public/<key>.txt` must be served at `https://www.moilapp.com/<key>.txt`. |
 
 ## SERVER_SSH_KEY is present on this repo, and main auto-deploys
 
