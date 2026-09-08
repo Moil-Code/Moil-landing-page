@@ -243,8 +243,8 @@ export function PreviewMagnet() {
 			setReady({
 				slug: nextSlug,
 				brand,
-				content: filled && filled.content,
-				positioning: filled && filled.positioning,
+				content: filled.content,
+				positioning: filled.positioning,
 			});
 			setPhase('ready');
 			// The card ACTUALLY RENDERED for a human — which is a different

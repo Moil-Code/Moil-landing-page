@@ -580,7 +580,7 @@ describe('the card paints its own posts, and none of the Munch theatre', () => {
 		assert.match(gtkSrc, /<PostStrip/);
 		// Content still lands on the ready payload. fillBrandCity
 		// shallow-copies the body, so posts survive the city fill.
-		assert.match(magnet, /content: filled && filled\.content/);
+		assert.match(magnet, /content: filled\.content/);
 		assert.match(magnet, /fillBrandCity/);
 		// The posts are painted by previewPosts.js, NOT by the heading
 		// helper — `posts` stays banned as a heading id, because that
