@@ -40,6 +40,11 @@ jobs:
       # Do NOT export NEXT_PUBLIC_REGISTER_ORIGIN here: several evals pin the
       # unset-env fallback (production register) so a missing host env cannot
       # silently retarget www. The Build step is what bakes stagebeta origins.
+      #
+      # `yarn test` is scripts/run-evals.mjs, not raw `node --test`. Actions is
+      # not a TTY, so the default TAP reporter buries the failing name above
+      # `# fail N` (run 34226525018). The wrapper forces spec and reprints leaf
+      # names at the log tail.
       - name: Test
         run: yarn test
 
