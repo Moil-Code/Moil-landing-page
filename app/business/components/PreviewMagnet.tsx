@@ -24,6 +24,7 @@ import {
 } from '../preview/gettingToKnowYou';
 import { nextPollDelayMs, shouldGiveUpWaiting, waitCopyKey } from '../preview/previewWaitCopy';
 import { emitFunnelEvent } from '../preview/funnelEvents';
+import { fillBrandCity } from '../preview/previewCity';
 import { GettingToKnowYou } from './GettingToKnowYou';
 
 type Phase = 'form' | 'wait' | 'ready' | 'failed' | 'down' | 'identity' | 'ceiling';
@@ -45,6 +46,8 @@ type ReadyBrand = {
 	voiceChips?: string[];
 	photos?: string[];
 	language?: string;
+	city?: string;
+	address?: string;
 };
 
 type ReadyPost = {
@@ -225,7 +228,11 @@ export function PreviewMagnet() {
 				positioning?: ReadyPayload['positioning'];
 			},
 		) => {
-			const brand = (body && body.brand) || {};
+			// Same field hydrate reads (`brand.city`). If extract left it
+			// blank and the address already names a city, fill it here so
+			// convert is not the first time location exists on the payload.
+			const filled = fillBrandCity(body);
+			const brand = (filled && filled.brand) || {};
 			if (!canShowReadyCard(brand)) {
 				refuseNamelessReady();
 				return;
@@ -236,8 +243,8 @@ export function PreviewMagnet() {
 			setReady({
 				slug: nextSlug,
 				brand,
-				content: body && body.content,
-				positioning: body && body.positioning,
+				content: filled.content,
+				positioning: filled.positioning,
 			});
 			setPhase('ready');
 			// The card ACTUALLY RENDERED for a human — which is a different

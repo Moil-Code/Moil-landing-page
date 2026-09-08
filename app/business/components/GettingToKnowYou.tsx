@@ -11,6 +11,7 @@ import {
 import { headingKeyFor, profileSections, revealDelays } from '../preview/gettingToKnowYou';
 import { postCards } from '../preview/previewPosts';
 import { businessFacts } from '../preview/businessFacts';
+import { brandCity } from '../preview/previewCity';
 import { emitFunnelEvent } from '../preview/funnelEvents';
 import {
 	accessibleTextColor,
@@ -200,6 +201,11 @@ export function GettingToKnowYou({
 	// customers left. Verbatim or absent; rules in businessFacts.js.
 	const facts = useMemo(() => businessFacts(body), [body]);
 
+	// Location the GET already carried (or a parseable "Austin, TX"
+	// address when extract left city blank). Convert must not be the
+	// first time it appears. Fill/display only — never invented.
+	const city = brandCity(body && body.brand);
+
 	// The sentences the founder already watched are instant; only what
 	// sits below them cascades. The signup CTA is deliberately absent
 	// from this list — an action must never be delayed behind an
@@ -320,7 +326,14 @@ export function GettingToKnowYou({
 						</button>
 					</div>
 				) : (
-					<SectionView section={section} copy={m} />
+					<>
+						<SectionView section={section} copy={m} />
+						{section.id === 'name' && city ? (
+							<p className="mt-0.5 text-[12px] leading-snug text-[var(--text)] opacity-70">
+								{city}
+							</p>
+						) : null}
+					</>
 				)}
 			</section>
 		);
@@ -348,6 +361,11 @@ export function GettingToKnowYou({
 				) : null}
 
 				<div className="preview-profile-stack flex flex-col gap-3 pb-2">
+					{!knowing.some((section) => section.id === 'name') && city ? (
+						<p className="text-[12px] leading-snug text-[var(--text)] opacity-70">
+							{city}
+						</p>
+					) : null}
 					{knowing.map(renderSection)}
 					{proof ? <ProofStrip section={proof} reveal={reveal('proof')} /> : null}
 					{facts ? <FactStrip facts={facts} copy={m} reveal={reveal('facts')} /> : null}
