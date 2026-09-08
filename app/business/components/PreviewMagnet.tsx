@@ -231,8 +231,8 @@ export function PreviewMagnet() {
 			// Same field hydrate reads (`brand.city`). If extract left it
 			// blank and the address already names a city, fill it here so
 			// convert is not the first time location exists on the payload.
-			const filled = fillBrandCity(body) || {};
-			const brand = filled.brand || {};
+			const filled = fillBrandCity(body);
+			const brand = (filled && filled.brand) || {};
 			if (!canShowReadyCard(brand)) {
 				refuseNamelessReady();
 				return;
@@ -243,8 +243,8 @@ export function PreviewMagnet() {
 			setReady({
 				slug: nextSlug,
 				brand,
-				content: filled.content,
-				positioning: filled.positioning,
+				content: filled && filled.content,
+				positioning: filled && filled.positioning,
 			});
 			setPhase('ready');
 			// The card ACTUALLY RENDERED for a human — which is a different

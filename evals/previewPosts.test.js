@@ -284,7 +284,7 @@ describe('the magnet actually forwards what the server sent', () => {
 
 	it('ReadyPayload declares content, and onReady carries it', () => {
 		assert.match(magnet, /content\?: \{ kind\?: string; posts\?: ReadyPost\[\] \}/);
-		assert.match(magnet, /content: filled\.content/);
+		assert.match(magnet, /content: filled && filled\.content/);
 	});
 
 	it('and the card is handed it', () => {
