@@ -540,7 +540,7 @@ export function PreviewMagnet() {
 	return (
 		<div
 			id="preview-magnet"
-			className="preview-magnet-shell relative z-[2] mx-auto mb-12 w-full max-w-[640px] rounded-2xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_88%,transparent)] p-5 text-left shadow-[0_18px_60px_rgba(0,0,0,0.18)] backdrop-blur-md"
+			className="preview-magnet-shell relative z-[2] mx-auto mb-12 w-full max-w-[760px] rounded-2xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_88%,transparent)] p-6 text-left shadow-[0_18px_60px_rgba(0,0,0,0.18)] backdrop-blur-md"
 		>
 			{phase !== 'ready' && phase !== 'wait' && (
 				<form onSubmit={onSubmit} className="flex flex-col gap-3">
@@ -565,7 +565,7 @@ export function PreviewMagnet() {
 					<button
 						type="submit"
 						disabled={submitting}
-						className="preview-submit inline-flex items-center justify-center rounded-lg bg-[var(--orange)] px-4 py-2.5 text-[14px] font-semibold text-white transition-all disabled:cursor-not-allowed disabled:opacity-60"
+						className="preview-submit inline-flex items-center justify-center rounded-lg bg-[var(--orange)] px-4 py-2.5 text-[14px] font-semibold text-[#0D091C] transition-all disabled:cursor-not-allowed disabled:opacity-60"
 					>
 						{submitting ? m.submitting : m.submit}
 					</button>

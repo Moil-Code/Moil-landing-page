@@ -110,6 +110,17 @@ function lastChange(paths) {
   return iso ? iso.slice(0, 10) : null;
 }
 
+function hasWorkingTreeChange(paths) {
+  return Boolean(git(
+    'status',
+    '--porcelain',
+    '--untracked-files=all',
+    '--',
+    ...paths,
+    OUT_PATHSPEC,
+  ));
+}
+
 function main() {
   const shallow = git('rev-parse', '--is-shallow-repository') === 'true';
   const depth = Number(git('rev-list', '--count', 'HEAD'));
@@ -120,7 +131,13 @@ function main() {
   }
   const dates = {};
   for (const route of routes()) {
-    let d = lastChange(sourcesFor(route));
+    const sources = sourcesFor(route);
+    // Predict the date of the commit being prepared. Without this, an edit to
+    // an existing route is invisible until after commit, so the committed JSON
+    // becomes stale for the first time only in CI.
+    let d = hasWorkingTreeChange(sources)
+      ? new Date().toISOString().slice(0, 10)
+      : lastChange(sources);
     if (!d) {
       // An uncommitted route has no history yet: it is new TODAY, which is
       // the one case where "today" is the true answer rather than the lie

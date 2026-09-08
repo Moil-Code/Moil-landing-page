@@ -12,6 +12,11 @@ import { headingKeyFor, profileSections, revealDelays } from '../preview/getting
 import { postCards } from '../preview/previewPosts';
 import { businessFacts } from '../preview/businessFacts';
 import { emitFunnelEvent } from '../preview/funnelEvents';
+import {
+	accessibleTextColor,
+	DEFAULT_SURFACE,
+	normalizeHex,
+} from '../preview/creativeContrast';
 
 import type { BusinessFacts } from '../preview/businessFacts';
 
@@ -268,7 +273,7 @@ export function GettingToKnowYou({
 	const chipClass = (on: boolean) =>
 		'preview-platform-chip rounded-full border px-3 py-1.5 text-[13px] font-bold transition-all ' +
 		(on
-			? 'preview-platform-chip--active border-[var(--orange)] bg-[var(--orange)] text-white'
+			? 'preview-platform-chip--active border-[var(--orange)] bg-[var(--orange)] text-[#0D091C]'
 			: 'border-[var(--border2)] text-[var(--text)]');
 
 	const renderSection = (section: Section) => {
@@ -322,7 +327,7 @@ export function GettingToKnowYou({
 	};
 
 	return (
-		<div className="preview-ready flex max-h-[min(72vh,840px)] flex-col gap-0">
+		<div className="preview-ready flex max-h-[min(78vh,900px)] flex-col gap-0">
 			<div className="preview-ready-titlebar shrink-0">
 				<span className="preview-ready-mark" aria-hidden="true">
 					<svg viewBox="0 0 24 24" fill="none">
@@ -410,7 +415,7 @@ export function GettingToKnowYou({
 							platformsPicked: platforms.length,
 						})
 					}
-					className="preview-primary-cta inline-flex w-full items-center justify-center rounded-full bg-[var(--orange)] px-4 py-3 text-[15px] font-bold text-white"
+				className="preview-primary-cta inline-flex w-full items-center justify-center rounded-full bg-[var(--orange)] px-4 py-3 text-[15px] font-bold text-[#0D091C]"
 				>
 					{m.startFree}
 				</a>
@@ -449,22 +454,25 @@ type PostCard = {
  * mark and their real photograph, which is the difference between a
  * mock-up and their post.
  *
- * The last word carries the accent, matching `buildCreativeSvg` — the
- * design a visitor sees before the wall has to be the design the
- * product composes after it.
+ * Brand colours remain the starting point, then `accessibleTextColor`
+ * nudges only unsafe foregrounds toward light or dark ink until they
+ * meet WCAG AA against the card surface.
  */
 function PostCreative({ card }: { card: PostCard }) {
-	const surface = card.surface ? hex(card.surface) : 'var(--bg)';
-	const primary = card.primary ? hex(card.primary) : 'var(--text)';
-	const accent = card.accent ? hex(card.accent) : primary;
+	const surface = normalizeHex(card.surface, DEFAULT_SURFACE);
+	const primary = accessibleTextColor(surface, card.primary);
+	const accent = accessibleTextColor(surface, card.accent || card.primary);
+	const decorPrimary = normalizeHex(card.primary, '#7C3AED');
+	const decorAccent = normalizeHex(card.accent, '#FF5C1A');
 	return (
 		<div
 			className="preview-post-creative relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-[var(--border2)]"
 			style={{ background: surface }}
 		>
 			{/* ONE TREATMENT PER CARD — TYPE IS NEVER PAINTED OVER THE
-			    PHOTOGRAPH. The headline is the brand's own primary and
-			    the last word its accent; a photograph we did not take
+			    PHOTOGRAPH. The headline begins with the brand's primary and
+			    the last word its accent, with both contrast-corrected against
+			    the solid copy panel. A photograph we did not take
 			    has no luminance we control, so type over it has no
 			    contrast guarantee and would vanish on some brands and
 			    some pictures. `buildCreativeSvg`, the creative the
@@ -490,7 +498,7 @@ function PostCreative({ card }: { card: PostCard }) {
 				aria-hidden
 				className="absolute inset-0"
 				style={{
-					background: `radial-gradient(60% 55% at 8% 12%, ${accent}8C 0%, transparent 100%), radial-gradient(55% 50% at 92% 88%, ${primary}73 0%, transparent 100%)`,
+					background: `radial-gradient(65% 58% at 4% 8%, ${decorAccent}A3 0%, transparent 100%), radial-gradient(62% 58% at 96% 92%, ${decorPrimary}8F 0%, transparent 100%)`,
 				}}
 			/>
 			{/* A row stored before the creative existed carries a caption
@@ -500,7 +508,10 @@ function PostCreative({ card }: { card: PostCard }) {
 			    promoted into a headline to fill the frame, which would
 			    print the same sentence twice. */}
 			{card.last ? (
-				<div className="absolute inset-0 flex flex-col justify-center p-3">
+				<div
+					className="preview-post-copy-panel absolute inset-x-2.5 top-1/2 flex -translate-y-1/2 flex-col justify-center rounded-lg border p-3"
+					style={{ backgroundColor: surface, borderColor: primary }}
+				>
 					<p
 						className="text-[15px] font-bold leading-[1.12] tracking-[-0.02em]"
 						style={{ color: primary }}
@@ -509,7 +520,7 @@ function PostCreative({ card }: { card: PostCard }) {
 						<span style={{ color: accent }}>{card.last}</span>
 					</p>
 					{card.subhead ? (
-						<p className="mt-1 text-[11px] leading-snug opacity-80" style={{ color: primary }}>
+						<p className="mt-1.5 text-[11px] font-medium leading-snug" style={{ color: primary }}>
 							{card.subhead}
 						</p>
 					) : null}
@@ -541,18 +552,18 @@ function PostStrip({
 }) {
 	return (
 		<div
-			className={`flex flex-col gap-2 pt-1 ${reveal ? reveal.className : ''}`}
+			className={`preview-posts-section flex flex-col gap-2 pt-1 ${reveal ? reveal.className : ''}`}
 			style={reveal ? reveal.style : undefined}
 		>
 			<p className="text-[14px] font-semibold text-[var(--text)]">{m.postsTitle}</p>
-			<div className="grid grid-cols-3 gap-2">
+			<div className="preview-post-grid grid grid-cols-3 gap-2.5">
 				{cards.map((card) => (
-					<div key={card.caption} className="flex min-w-0 flex-col gap-1">
+					<article key={card.caption} className="preview-post-card flex min-w-0 flex-col gap-2">
 						<PostCreative card={card} />
-						<p className="line-clamp-3 text-[11px] leading-snug text-[var(--text)] opacity-70">
+						<p className="line-clamp-3 text-[11px] leading-snug text-[var(--text2)]">
 							{card.caption}
 						</p>
-					</div>
+					</article>
 				))}
 			</div>
 			{m.postsNote ? (
@@ -583,7 +594,7 @@ function FactStrip({
 	if (!chips.length && !facts.hours.length && !facts.rating) return null;
 	return (
 		<div
-			className={`flex flex-col gap-2 pt-1 ${reveal ? reveal.className : ''}`}
+			className={`preview-fact-strip flex flex-col gap-2 pt-1 ${reveal ? reveal.className : ''}`}
 			style={reveal ? reveal.style : undefined}
 		>
 			<p className="text-[14px] font-semibold text-[var(--text)]">{m.factsTitle}</p>
@@ -632,7 +643,7 @@ function ProofStrip({
 	const photos = section.photos || [];
 	return (
 		<div
-			className={`flex flex-wrap items-center gap-3 pt-1 ${reveal ? reveal.className : ''}`}
+			className={`preview-proof-strip flex flex-wrap items-center gap-3 pt-1 ${reveal ? reveal.className : ''}`}
 			style={reveal ? reveal.style : undefined}
 			aria-hidden
 		>

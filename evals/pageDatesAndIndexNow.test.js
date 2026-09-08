@@ -73,6 +73,11 @@ describe('page dates (8.4)', () => {
 			'committing pageDates.json must not make pageDates.json stale again',
 		);
 	});
+	it('dates dirty route sources before commit so a push cannot reveal staleness', () => {
+		const script = read('scripts/page-dates.mjs');
+		assert.match(script, /status[\s\S]*--porcelain[\s\S]*--untracked-files=all/);
+		assert.match(script, /hasWorkingTreeChange\(sources\)/);
+	});
 	it('the committed file is what git says now (only checked with full history)', () => {
 		const shallow = execFileSync('git', ['rev-parse', '--is-shallow-repository'], { cwd: root, encoding: 'utf8' }).trim() === 'true';
 		if (shallow) {
