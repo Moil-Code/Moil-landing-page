@@ -103,7 +103,7 @@ function Chips({ items }: { items: string[] }) {
 			{items.map((item) => (
 				<span
 					key={item}
-					className="rounded-full border border-[var(--border2)] px-2.5 py-1 text-[12px] text-[var(--text)]"
+					className="preview-chip rounded-full border border-[var(--border2)] px-2.5 py-1 text-[12px] text-[var(--text)]"
 				>
 					{item}
 				</span>
@@ -118,7 +118,7 @@ function Pencil({ label, onClick }: { label: string; onClick: () => void }) {
 			type="button"
 			aria-label={label}
 			onClick={onClick}
-			className="ml-1 inline-flex h-7 w-7 items-center justify-center rounded-full text-[var(--text)] opacity-55 hover:opacity-100"
+			className="preview-edit ml-1 inline-flex h-7 w-7 items-center justify-center rounded-full text-[var(--text)]"
 		>
 			<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
 				<path
@@ -266,10 +266,10 @@ export function GettingToKnowYou({
 	};
 
 	const chipClass = (on: boolean) =>
-		'rounded-full border px-3 py-1.5 text-[13px] font-bold transition-colors ' +
+		'preview-platform-chip rounded-full border px-3 py-1.5 text-[13px] font-bold transition-all ' +
 		(on
-			? 'border-[var(--text)] bg-[var(--text)] text-[var(--bg)]'
-			: 'border-[var(--border2)] text-[var(--text)] hover:border-[var(--text)]');
+			? 'preview-platform-chip--active border-[var(--orange)] bg-[var(--orange)] text-white'
+			: 'border-[var(--border2)] text-[var(--text)]');
 
 	const renderSection = (section: Section) => {
 		const heading = m[headingKeyFor(section.id)] || '';
@@ -278,12 +278,12 @@ export function GettingToKnowYou({
 		return (
 			<section
 				key={section.id}
-				className={`min-w-0 ${anim.className}`}
+				className={`preview-profile-section preview-profile-section--${section.id} min-w-0 ${anim.className}`}
 				style={anim.style}
 			>
 				{heading ? (
 					<div className="mb-1.5 flex items-center">
-						<p className="text-[14px] font-semibold text-[var(--text)]">{heading}</p>
+						<p className="preview-section-heading text-[14px] font-semibold text-[var(--text)]">{heading}</p>
 						{isEditable(section.kind, section.id) && !editingThis ? (
 							<Pencil label={m.editLabel || ''} onClick={() => beginEdit(section)} />
 						) : null}
@@ -322,18 +322,27 @@ export function GettingToKnowYou({
 	};
 
 	return (
-		<div className="flex max-h-[min(72vh,840px)] flex-col gap-0">
-			<p className="shrink-0 text-[17px] font-bold tracking-[-0.02em] text-[var(--text)]">
-				{m.knowingTitle}
-			</p>
-			<div className="mt-3 min-h-0 flex-1 overflow-y-auto pr-1">
+		<div className="preview-ready flex max-h-[min(72vh,840px)] flex-col gap-0">
+			<div className="preview-ready-titlebar shrink-0">
+				<span className="preview-ready-mark" aria-hidden="true">
+					<svg viewBox="0 0 24 24" fill="none">
+						<path d="M5 15.5 8.7 7l3.4 6.3L15.5 7l3.5 8.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+						<path d="M6 18h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+					</svg>
+				</span>
+				<p className="preview-ready-title text-[17px] font-bold tracking-[-0.02em] text-[var(--text)]">
+					{m.knowingTitle}
+				</p>
+				<span className="preview-ready-status" aria-hidden="true"><i /></span>
+			</div>
+			<div className="preview-ready-scroll mt-3 min-h-0 flex-1 overflow-y-auto pr-1">
 				{website.trim() ? (
-					<p className="mb-4 ml-auto w-fit max-w-[90%] rounded-full bg-[var(--border2)] px-3 py-1.5 text-[13px] text-[var(--text)]">
+					<p className="preview-website mb-4 ml-auto w-fit max-w-[90%] rounded-full px-3 py-1.5 text-[13px] text-[var(--text)]">
 						{website.trim()}
 					</p>
 				) : null}
 
-				<div className="flex flex-col gap-5 pb-2">
+				<div className="preview-profile-stack flex flex-col gap-3 pb-2">
 					{knowing.map(renderSection)}
 					{proof ? <ProofStrip section={proof} reveal={reveal('proof')} /> : null}
 					{facts ? <FactStrip facts={facts} copy={m} reveal={reveal('facts')} /> : null}
@@ -341,7 +350,7 @@ export function GettingToKnowYou({
 				</div>
 
 				<fieldset
-					className={`m-0 mb-2 mt-6 border-0 p-0 ${reveal('picker').className}`}
+					className={`preview-platform-card m-0 mb-2 mt-5 border-0 ${reveal('picker').className}`}
 					style={reveal('picker').style}
 				>
 					<legend className="mb-2 p-0 text-[14px] font-semibold text-[var(--text)]">
@@ -362,7 +371,7 @@ export function GettingToKnowYou({
 							) : (
 								<span
 									key={row.id}
-									className="cursor-default rounded-full border border-dashed border-[var(--border2)] px-3 py-1.5 text-[13px] text-[var(--text)] opacity-45"
+									className="preview-platform-chip preview-platform-chip--disabled cursor-default rounded-full border border-dashed border-[var(--border2)] px-3 py-1.5 text-[13px] text-[var(--text)]"
 									title={reasonCopy(m, row.reason)}
 								>
 									{platformCopy(m, row.id)}
@@ -388,7 +397,7 @@ export function GettingToKnowYou({
 				</fieldset>
 			</div>
 
-			<div className="shrink-0 pt-4">
+			<div className="preview-ready-actions shrink-0 pt-4">
 				<a
 					href={signupHref}
 					data-signup-cta="preview-ready"
@@ -401,14 +410,14 @@ export function GettingToKnowYou({
 							platformsPicked: platforms.length,
 						})
 					}
-					className="inline-flex w-full items-center justify-center rounded-full bg-[var(--text)] px-4 py-3 text-[15px] font-bold text-[var(--bg)] hover:opacity-90"
+					className="preview-primary-cta inline-flex w-full items-center justify-center rounded-full bg-[var(--orange)] px-4 py-3 text-[15px] font-bold text-white"
 				>
 					{m.startFree}
 				</a>
 				<button
 					type="button"
 					onClick={onReset}
-					className="mt-2 w-full text-[12px] text-[var(--text)] underline-offset-2 hover:underline"
+					className="preview-reset mt-2 w-full text-[12px] text-[var(--text)] underline-offset-2 hover:underline"
 				>
 					{m.tryAgain}
 				</button>
@@ -450,7 +459,7 @@ function PostCreative({ card }: { card: PostCard }) {
 	const accent = card.accent ? hex(card.accent) : primary;
 	return (
 		<div
-			className="relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-[var(--border2)]"
+			className="preview-post-creative relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-[var(--border2)]"
 			style={{ background: surface }}
 		>
 			{/* ONE TREATMENT PER CARD — TYPE IS NEVER PAINTED OVER THE

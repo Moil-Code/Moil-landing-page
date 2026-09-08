@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
 import { HelpPageBody } from '../../src/common/help/HelpPageBody';
-import './help.css';
 
 /**
  * /help — the support page assistants cite and the site never had (plan 8.6).

@@ -85,7 +85,7 @@ export default function WorkPage() {
       </section>
 
       <section className={styles.section} id="work">
-        <div className={styles.sectionHeader}><div><span className={styles.eyebrow}>THE WORK</span><h2 className={styles.sectionHeading}>Six businesses. Six unmistakable first impressions.</h2></div><p className={styles.sectionCopy}>Each site begins with the way its business actually earns trust—then gives people a clear reason to take the next step.</p></div>
+        <div className={styles.sectionHeader}><div><span className={styles.eyebrow}>THE WORK</span><h2 className={styles.sectionHeading}>A few of the websites we&apos;ve made unmistakable and many more.</h2></div><p className={styles.sectionCopy}>Each site begins with the way its business actually earns trust,then gives people a clear reason to take the next step.</p></div>
         <div className={styles.showcaseGrid}>
           {work.map((item) => <article className={styles.showcaseCard} key={item.name}>
             <a href={item.href} target="_blank" rel="noreferrer" aria-label={`Visit ${item.name}`}>

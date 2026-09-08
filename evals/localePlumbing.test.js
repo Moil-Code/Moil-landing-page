@@ -232,12 +232,12 @@ describe('the language control NAVIGATES to the twin document (plan 3.1)', () =>
 		assert.doesNotMatch(modal, /router\.push\(`\$\{targetPath\}\?lg=\$\{selectedLanguage\}`\)/, 'the modal still pushes ?lg= for a route with a twin');
 	});
 
-	it('each English business page carries a real, server-rendered anchor to its Spanish twin (plan 3.2)', () => {
-		// usePathname answers on the server; a `typeof window` gate would hydrate
-		// the anchor in later, invisible to every crawler.
+	it('each English business page links its Spanish twin without duplicating the header dropdown (plan 3.2)', () => {
+		// The dropdown owns language selection in the header. Crawlable anchors
+		// remain in both footers, so removing the duplicate text link does not
+		// remove the internal path between the documents.
 		assert.match(nav, /const pathname = usePathname\(\) \|\| '\/'/);
-		assert.match(nav, /const twinHref = twinPath\(pathname/);
-		assert.match(nav, /<a\s+className="nav-twin-link"\s+href=\{twinHref\}\s+hrefLang=/);
+		assert.doesNotMatch(nav, /nav-twin-link/);
 		assert.match(footer, /const pathname = usePathname\(\) \|\| '\/'/);
 		assert.match(footer, /href=\{twinEs\} hrefLang="es"/);
 		assert.match(read('src/common/components/SiteFooter.tsx'), /\{ label: 'Español', href: '\/es\/business' \}/);

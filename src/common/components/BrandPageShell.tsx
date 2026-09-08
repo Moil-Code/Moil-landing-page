@@ -58,9 +58,15 @@ function PageChrome({ children }: { children: ReactNode }) {
   );
 }
 
-export function BrandPageShell({ children }: { children: ReactNode }) {
+export function BrandPageShell({
+  children,
+  initialLang,
+}: {
+  children: ReactNode;
+  initialLang?: 'en' | 'es';
+}) {
   return (
-    <I18nProvider>
+    <I18nProvider initialLang={initialLang}>
       <PageChrome>{children}</PageChrome>
     </I18nProvider>
   );

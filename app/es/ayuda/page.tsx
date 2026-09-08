@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
 import { HelpPageBody } from '../../../src/common/help/HelpPageBody';
-import '../../help/help.css';
 
 /** /es/ayuda — the Spanish twin of /help. Same list, same schema, Spanish document. */
 export const metadata: Metadata = {

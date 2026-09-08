@@ -305,11 +305,6 @@ export function BusinessNav({
     }
   };
 
-  // A real anchor to this page's twin — hreflang is a relationship signal, not
-  // a link, and until this existed nothing on an English page linked /es/*.
-  const twinHref = twinPath(pathname, lang === 'en' ? 'es' : 'en');
-  const twinLabel = lang === 'en' ? 'Español' : 'English';
-
   const getFlagSrc = () => {
     return lang === 'en'
       ? 'https://res.cloudinary.com/drlcisipo/image/upload/v1714663084/English_1_z3fa77.png'
@@ -400,17 +395,6 @@ export function BusinessNav({
         })}
       </ul>
       <div className="nav-right">
-        {twinHref && (
-          <a
-            className="nav-twin-link"
-            href={twinHref}
-            hrefLang={lang === 'en' ? 'es' : 'en'}
-            lang={lang === 'en' ? 'es' : 'en'}
-            style={{ fontSize: '12px', fontFamily: 'var(--mono)', color: 'var(--text2)', marginRight: '10px', textDecoration: 'underline' }}
-          >
-            {twinLabel}
-          </a>
-        )}
         {/* Language Switcher */}
         <div className="lang-switcher" style={{ position: 'relative' }}>
           <button 

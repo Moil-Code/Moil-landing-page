@@ -70,7 +70,7 @@ const LEGAL_LINKS: readonly NavLink[] = [
 ];
 
 // Section routes that ship their own footer — hide the global one there.
-const OWN_FOOTER_PREFIXES = ['/business', '/es/business', '/candidate', '/compare', '/about', '/ai-info', '/reviews', '/work', '/partners', '/team', '/contact', '/privacy', '/terms', '/cookies', '/privacy-choices', '/dpa', '/subprocessors', '/dmca', '/accessibility'];
+const OWN_FOOTER_PREFIXES = ['/business', '/es', '/help', '/candidate', '/compare', '/about', '/ai-info', '/reviews', '/work', '/partners', '/team', '/contact', '/privacy', '/terms', '/cookies', '/privacy-choices', '/dpa', '/subprocessors', '/dmca', '/accessibility'];
 
 export function SiteFooter() {
   const pathname = usePathname() || '/';
