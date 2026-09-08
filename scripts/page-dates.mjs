@@ -31,6 +31,7 @@ import path from 'node:path';
 
 const root = path.resolve(new URL('.', import.meta.url).pathname, '..');
 const OUT = path.join(root, 'src/common/seo/pageDates.json');
+const OUT_PATHSPEC = ':(exclude)src/common/seo/pageDates.json';
 const args = new Set(process.argv.slice(2));
 const log = (...a) => { if (!args.has('--quiet')) console.log('[page-dates]', ...a); };
 
@@ -102,7 +103,10 @@ function sourcesFor(route) {
 }
 
 function lastChange(paths) {
-  const iso = git('log', '-1', '--format=%cI', '--', ...paths);
+  // The output lives under src/common/seo, one of the shared source trees.
+  // Excluding it prevents a commit of this generated file from changing the
+  // result and making that same file stale immediately after the push.
+  const iso = git('log', '-1', '--format=%cI', '--', ...paths, OUT_PATHSPEC);
   return iso ? iso.slice(0, 10) : null;
 }
 

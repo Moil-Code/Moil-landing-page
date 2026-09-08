@@ -65,6 +65,14 @@ describe('page dates (8.4)', () => {
 		assert.match(script, /is-shallow-repository/);
 		assert.match(script, /Keeping the committed pageDates\.json/);
 	});
+	it('does not count its generated output as a page change', () => {
+		const script = read('scripts/page-dates.mjs');
+		assert.match(
+			script,
+			/:\(exclude\)src\/common\/seo\/pageDates\.json/,
+			'committing pageDates.json must not make pageDates.json stale again',
+		);
+	});
 	it('the committed file is what git says now (only checked with full history)', () => {
 		const shallow = execFileSync('git', ['rev-parse', '--is-shallow-repository'], { cwd: root, encoding: 'utf8' }).trim() === 'true';
 		if (shallow) {
