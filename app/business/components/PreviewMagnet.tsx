@@ -572,7 +572,7 @@ export function PreviewMagnet() {
 					<button
 						type="submit"
 						disabled={submitting}
-						className="preview-submit inline-flex items-center justify-center rounded-lg bg-[var(--orange)] px-4 py-2.5 text-[14px] font-semibold text-[#0D091C] transition-all disabled:cursor-not-allowed disabled:opacity-60"
+						className="preview-submit inline-flex items-center justify-center rounded-lg bg-[#CC3D00] px-4 py-2.5 text-[14px] font-semibold text-white transition-all disabled:cursor-not-allowed disabled:opacity-60"
 					>
 						{submitting ? m.submitting : m.submit}
 					</button>

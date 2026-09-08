@@ -279,7 +279,7 @@ export function GettingToKnowYou({
 	const chipClass = (on: boolean) =>
 		'preview-platform-chip rounded-full border px-3 py-1.5 text-[13px] font-bold transition-all ' +
 		(on
-			? 'preview-platform-chip--active border-[var(--orange)] bg-[var(--orange)] text-[#0D091C]'
+			? 'preview-platform-chip--active border-[#CC3D00] bg-[#CC3D00] text-white'
 			: 'border-[var(--border2)] text-[var(--text)]');
 
 	const renderSection = (section: Section) => {
@@ -433,7 +433,7 @@ export function GettingToKnowYou({
 							platformsPicked: platforms.length,
 						})
 					}
-				className="preview-primary-cta inline-flex w-full items-center justify-center rounded-full bg-[var(--orange)] px-4 py-3 text-[15px] font-bold text-[#0D091C]"
+				className="preview-primary-cta inline-flex w-full items-center justify-center rounded-full bg-[#CC3D00] px-4 py-3 text-[15px] font-bold text-white"
 				>
 					{m.startFree}
 				</a>

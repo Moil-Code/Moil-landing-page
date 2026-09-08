@@ -42,10 +42,10 @@ describe('preview creative contrast', () => {
 		assert.match(source, /backgroundColor: surface/);
 	});
 
-	it('orange controls use dark ink and active chips keep their fill', () => {
+	it('preview action orange supports white text and active chips keep their fill', () => {
 		const css = read('app/business/business.css');
-		assert.ok(contrast.contrastRatio('#FF5C1A', '#0D091C') >= 4.5);
-		assert.match(css, /\.preview-platform-chip--active\s*\{[^}]*background:\s*var\(--orange\)[^}]*color:\s*#0D091C/s);
-		assert.match(css, /\.preview-primary-cta[^}]*color:\s*#0D091C/s);
+		assert.ok(contrast.contrastRatio('#CC3D00', '#FFFFFF') >= 4.5);
+		assert.match(css, /\.preview-platform-chip--active\s*\{[^}]*background:\s*#CC3D00[^}]*color:\s*#FFFFFF/s);
+		assert.match(css, /\.preview-primary-cta\s*\{[^}]*color:\s*#FFFFFF[^}]*background:\s*#CC3D00/s);
 	});
 });
