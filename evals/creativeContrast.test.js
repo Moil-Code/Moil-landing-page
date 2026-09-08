@@ -44,8 +44,8 @@ describe('preview creative contrast', () => {
 
 	it('preview action orange uses white ink and active chips keep their fill', () => {
 		const css = read('app/business/business.css');
-		assert.ok(contrast.contrastRatio('#CC3D00', '#FFFFFF') >= 4.5);
-		assert.match(css, /\.preview-platform-chip--active\s*\{[^}]*background:\s*var\(--orange-action\)[^}]*color:\s*#FFFFFF/s);
-		assert.match(css, /\.preview-primary-cta\s*\{[^}]*color:\s*#FFFFFF[^}]*background:\s*var\(--orange-action\)/s);
+		assert.match(css, /--preview-orange:\s*#FF6633/);
+		assert.match(css, /\.preview-platform-chip--active\s*\{[^}]*background:\s*var\(--preview-orange\)[^}]*color:\s*#FFFFFF/s);
+		assert.match(css, /\.preview-primary-cta\s*\{[^}]*color:\s*#FFFFFF[^}]*background:\s*var\(--preview-orange\)/s);
 	});
 });

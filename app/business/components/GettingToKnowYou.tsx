@@ -279,7 +279,7 @@ export function GettingToKnowYou({
 	const chipClass = (on: boolean) =>
 		'preview-platform-chip rounded-full border px-3 py-1.5 text-[13px] font-bold transition-all ' +
 		(on
-			? 'preview-platform-chip--active border-[var(--orange-action)] bg-[var(--orange-action)] text-white'
+			? 'preview-platform-chip--active border-[var(--preview-orange)] bg-[var(--preview-orange)] text-white'
 			: 'border-[var(--border2)] text-[var(--text)]');
 
 	const renderSection = (section: Section) => {
@@ -433,7 +433,7 @@ export function GettingToKnowYou({
 							platformsPicked: platforms.length,
 						})
 					}
-				className="preview-primary-cta inline-flex w-full items-center justify-center rounded-full bg-[var(--orange-action)] px-4 py-3 text-[15px] font-bold text-white"
+				className="preview-primary-cta inline-flex w-full items-center justify-center rounded-full bg-[var(--preview-orange)] px-4 py-3 text-[15px] font-bold text-white"
 				>
 					{m.startFree}
 				</a>
@@ -481,7 +481,7 @@ function PostCreative({ card }: { card: PostCard }) {
 	const primary = accessibleTextColor(surface, card.primary);
 	const accent = accessibleTextColor(surface, card.accent || card.primary);
 	const decorPrimary = normalizeHex(card.primary, '#7C3AED');
-	const decorAccent = normalizeHex(card.accent, '#FF5C1A');
+	const decorAccent = normalizeHex(card.accent, '#FF6633');
 	return (
 		<div
 			className="preview-post-creative relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-[var(--border2)]"

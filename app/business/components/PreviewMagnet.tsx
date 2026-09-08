@@ -572,7 +572,7 @@ export function PreviewMagnet() {
 					<button
 						type="submit"
 						disabled={submitting}
-						className="preview-submit inline-flex items-center justify-center rounded-lg bg-[var(--orange-action)] px-4 py-2.5 text-[14px] font-semibold text-white transition-all disabled:cursor-not-allowed disabled:opacity-60"
+						className="preview-submit inline-flex items-center justify-center rounded-lg bg-[var(--preview-orange)] px-4 py-2.5 text-[14px] font-semibold text-white transition-all disabled:cursor-not-allowed disabled:opacity-60"
 					>
 						{submitting ? m.submitting : m.submit}
 					</button>
@@ -616,7 +616,7 @@ export function PreviewMagnet() {
 					)}
 					{!reduceMotion && (
 						<div aria-hidden className="h-1 w-full overflow-hidden rounded-full bg-[var(--border2)]">
-							<div className="h-full w-1/3 animate-pulse rounded-full bg-[var(--orange)]" />
+							<div className="h-full w-1/3 animate-pulse rounded-full bg-[var(--preview-orange)]" />
 						</div>
 					)}
 					<p className="text-[12px] leading-snug text-[var(--text)] opacity-70">{m.waitReturn}</p>
