@@ -35,11 +35,11 @@ describe('preview creative contrast', () => {
 		assert.ok(contrast.contrastRatio(contrast.DEFAULT_SURFACE, repaired) >= 4.5);
 	});
 
-	it('the preview renderer uses the contrast result for every text layer', () => {
+	it('the free ready card has no post text layers that need the contrast helper', () => {
 		const source = read('app/business/components/GettingToKnowYou.tsx');
-		assert.match(source, /accessibleTextColor\(surface, card\.primary\)/);
-		assert.match(source, /accessibleTextColor\(surface, card\.accent/);
-		assert.match(source, /backgroundColor: surface/);
+		assert.doesNotMatch(source, /accessibleTextColor\(/);
+		assert.doesNotMatch(source, /backgroundColor: surface/);
+		assert.equal(typeof contrast.accessibleTextColor, 'function');
 	});
 
 	it('preview action orange uses white ink and active chips keep their fill', () => {

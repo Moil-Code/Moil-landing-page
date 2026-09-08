@@ -76,6 +76,7 @@ type ReadyPayload = {
 		uvp?: string;
 		keyTerms?: string[];
 		cadence?: string;
+		trustSignals?: string | string[];
 	};
 };
 
@@ -253,7 +254,6 @@ export function PreviewMagnet() {
 			// zeroed, for a founder who resumed from the cookie rather than
 			// submitting in this session.
 			const startedAt = submittedAt.current;
-			const posts = body && body.content && body.content.posts;
 			emitFunnelEvent(
 				'ready_seen',
 				{
@@ -262,9 +262,7 @@ export function PreviewMagnet() {
 						typeof startedAt === 'number'
 							? Date.now() - startedAt
 							: undefined,
-					postsShown: Array.isArray(posts)
-						? posts.length
-						: undefined,
+					postsShown: 0,
 				},
 				nextSlug,
 			);
@@ -586,6 +584,9 @@ export function PreviewMagnet() {
 							{website.trim()}
 						</p>
 					) : null}
+					<p className="text-[15px] font-medium text-[var(--text)]">
+						{waitProgress || waitText}
+					</p>
 					{revealCount > 0 ? (
 						<div className="flex flex-col gap-2.5">
 							{waitBeats.slice(0, revealCount).map((beat) => {
@@ -611,9 +612,7 @@ export function PreviewMagnet() {
 								);
 							})}
 						</div>
-					) : (
-						<p className="text-[15px] font-medium text-[var(--text)]">{waitProgress || waitText}</p>
-					)}
+					) : null}
 					{!reduceMotion && (
 						<div aria-hidden className="h-1 w-full overflow-hidden rounded-full bg-[var(--border2)]">
 							<div className="h-full w-1/3 animate-pulse rounded-full bg-[var(--preview-orange)]" />
@@ -641,7 +640,6 @@ export function PreviewMagnet() {
 					key={ready.slug}
 					body={{
 						brand: ready.brand,
-						content: ready.content,
 						positioning: ready.positioning,
 					}}
 					website={website.trim() || ready.brand.website || ''}

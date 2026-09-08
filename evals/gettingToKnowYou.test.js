@@ -34,6 +34,9 @@ const MAGNET_NEW_KEYS = [
 	'headingColors',
 	'headingPhotos',
 	'headingSchedule',
+	'headingTagline',
+	'headingLanguage',
+	'headingTrust',
 	'platformDecideForMe',
 	'platformsOr',
 	'editLabel',
@@ -68,13 +71,15 @@ describe('wzP6PJqiVxqG paint — filled in, empty/banned out', () => {
 	const sections = gtk.profileSections(fixture, { selected: [] });
 	const byId = Object.fromEntries(sections.map((s) => [s.id, s]));
 
-	it('paints name, the five-sentence lead, folded slogans, voice, proof, schedule — not a SECTION_ORDER chip dump', () => {
+	it('paints name, composed overview, lifted tagline/cadence, folded slogans, voice, proof, schedule — not a SECTION_ORDER chip dump', () => {
 		assert.deepEqual(
 			sections.map((s) => s.id),
 			[
 				'name',
 				'framing',
+				'tagline',
 				'services',
+				'cadence',
 				'slogans',
 				'voice',
 				'proof',
@@ -87,6 +92,7 @@ describe('wzP6PJqiVxqG paint — filled in, empty/banned out', () => {
 		assert.equal(idsHas('logo'), false);
 		assert.equal(idsHas('colors'), false);
 		assert.equal(idsHas('photos'), false);
+		assert.equal(idsHas('posts'), false);
 		function idsHas(id) {
 			return sections.some((s) => s.id === id);
 		}
@@ -131,13 +137,19 @@ describe('wzP6PJqiVxqG paint — filled in, empty/banned out', () => {
 		assert.ok(voiceView.indexOf('section.sentence') < voiceView.indexOf('section.chips'), 'sentence before chips');
 	});
 
-	it('omits empty audience and problem; still omits keyTerms, language, tagline, cadence, posts', () => {
+	it('omits empty audience and problem; paints tagline and cadence; still walls posts', () => {
 		const ids = new Set(sections.map((s) => s.id));
 		for (const banned of gtk.BANNED_HEADING_IDS) {
 			assert.equal(ids.has(banned), false, banned);
 		}
 		assert.equal(ids.has('audience'), false);
 		assert.equal(ids.has('problem'), false);
+		assert.equal(ids.has('keyTerms'), false);
+		assert.equal(ids.has('language'), false);
+		assert.equal(ids.has('tagline'), true);
+		assert.equal(byId.tagline.value, fixture.brand.tagline);
+		assert.equal(ids.has('cadence'), true);
+		assert.equal(byId.cadence.value, 'A few times a week');
 		assert.equal(fixture.positioning.audience, '');
 		assert.equal(fixture.positioning.problem, '');
 		assert.equal(fixture.positioning.keyTerms, '');
@@ -208,20 +220,20 @@ describe('audience and problem paint when GET has them', () => {
 		assert.equal(byId.framing.value, 'Scratch cooking on Main Street.');
 		assert.equal(byId.audience.value, 'Locals who want weeknight dinner.');
 		assert.equal(byId.problem.value, 'Nowhere nearby that feels like home.');
-		assert.equal(gtk.headingKeyFor('framing'), 'waitBeatFraming');
-		assert.equal(gtk.headingKeyFor('audience'), 'waitBeatAudience');
-		assert.equal(gtk.headingKeyFor('services'), 'waitBeatServices');
-		assert.equal(gtk.headingKeyFor('problem'), 'waitBeatProblem');
+		assert.equal(gtk.headingKeyFor('framing'), 'headingOverview');
+		assert.equal(gtk.headingKeyFor('audience'), 'headingAudience');
+		assert.equal(gtk.headingKeyFor('services'), 'headingServices');
+		assert.equal(gtk.headingKeyFor('problem'), 'headingProblem');
 		assert.equal(gtk.headingKeyFor('UVP'), 'waitBeatUvp');
-		assert.equal(gtk.HEADING_KEY.framing, 'waitBeatFraming');
-		assert.equal(gtk.HEADING_KEY.audience, 'waitBeatAudience');
-		assert.equal(gtk.HEADING_KEY.services, 'waitBeatServices');
-		assert.equal(gtk.HEADING_KEY.problem, 'waitBeatProblem');
+		assert.equal(gtk.HEADING_KEY.framing, 'headingOverview');
+		assert.equal(gtk.HEADING_KEY.audience, 'headingAudience');
+		assert.equal(gtk.HEADING_KEY.services, 'headingServices');
+		assert.equal(gtk.HEADING_KEY.problem, 'headingProblem');
 		assert.equal(gtk.HEADING_KEY.UVP, 'waitBeatUvp');
-		assert.notEqual(gtk.HEADING_KEY.framing, 'headingOverview');
-		assert.notEqual(gtk.HEADING_KEY.audience, 'headingAudience');
-		assert.notEqual(gtk.HEADING_KEY.services, 'headingServices');
-		assert.notEqual(gtk.HEADING_KEY.problem, 'headingProblem');
+		assert.notEqual(gtk.HEADING_KEY.framing, 'waitBeatFraming');
+		assert.notEqual(gtk.HEADING_KEY.audience, 'waitBeatAudience');
+		assert.notEqual(gtk.HEADING_KEY.services, 'waitBeatServices');
+		assert.notEqual(gtk.HEADING_KEY.problem, 'waitBeatProblem');
 		assert.ok(gtk.SECTION_ORDER.indexOf('audience') > gtk.SECTION_ORDER.indexOf('framing'));
 		assert.ok(gtk.SECTION_ORDER.indexOf('audience') < gtk.SECTION_ORDER.indexOf('services'));
 		assert.ok(gtk.SECTION_ORDER.indexOf('problem') > gtk.SECTION_ORDER.indexOf('services'));
@@ -294,7 +306,7 @@ describe('audience and problem paint when GET has them', () => {
 		assert.equal(ids.includes('problem'), false);
 	});
 
-	it('unbans uvp when GET has it; still omits keyTerms, language, tagline, cadence, narrationPov, trustSignals, posts', () => {
+	it('unbans uvp when GET has it; lifts keyTerms, language, tagline, cadence, trustSignals; still walls posts and narrationPov', () => {
 		const sections = gtk.profileSections(
 			{
 				brand: {
@@ -330,25 +342,30 @@ describe('audience and problem paint when GET has them', () => {
 		assert.ok(ids.includes('problem'));
 		assert.ok(ids.includes('UVP'));
 		assert.equal(sections.find((s) => s.id === 'UVP').value, 'Home cooking.');
+		assert.ok(ids.includes('keyTerms'));
+		assert.deepEqual(sections.find((s) => s.id === 'keyTerms').value, ['weeknight']);
+		assert.ok(ids.includes('language'));
+		assert.equal(sections.find((s) => s.id === 'language').value, 'English');
+		assert.ok(ids.includes('tagline'));
+		assert.ok(ids.includes('cadence'));
+		assert.equal(sections.find((s) => s.id === 'cadence').value, 'A few times a week');
+		assert.ok(ids.includes('trustSignals'));
+		assert.equal(sections.find((s) => s.id === 'trustSignals').value, 'Since 2019');
 		for (const banned of gtk.BANNED_HEADING_IDS) {
 			assert.equal(ids.includes(banned), false, banned);
 		}
 		assert.equal(ids.includes('uvp'), false, 'section id is UVP, matching wait');
 		assert.equal(ids.includes('competitors'), false);
 		assert.equal(ids.includes('market'), false);
-		assert.deepEqual(
-			gtk.BANNED_HEADING_IDS,
-			[
-				'keyTerms',
-				'language',
-				'tagline',
-				'cadence',
-				'narrationPov',
-				'trustSignals',
-				'posts',
-			],
-		);
+		assert.equal(ids.includes('narrationPov'), false);
+		assert.equal(ids.includes('posts'), false);
+		assert.deepEqual(gtk.BANNED_HEADING_IDS, ['narrationPov', 'posts']);
 		assert.equal(gtk.BANNED_HEADING_IDS.includes('uvp'), false);
+		assert.equal(gtk.BANNED_HEADING_IDS.includes('cadence'), false);
+		assert.equal(gtk.BANNED_HEADING_IDS.includes('trustSignals'), false);
+		assert.equal(gtk.headingKeyFor('cadence'), 'posCadence');
+		assert.equal(gtk.headingKeyFor('keyTerms'), 'posKeyTerms');
+		assert.equal(gtk.headingKeyFor('tagline'), 'headingTagline');
 		const helperBody = read('app/business/preview/gettingToKnowYou.js')
 			.replace(/\/\*[\s\S]*?\*\//g, '')
 			.replace(/^\s*\/\/.*$/gm, '');
@@ -564,31 +581,34 @@ describe('wait beats — admit progress array, never scrape theatre', () => {
 	});
 });
 
-describe('the card paints its own posts, and none of the Munch theatre', () => {
+describe('the free card walls posts, and none of the Munch theatre', () => {
 	const gtkSrc = read('app/business/components/GettingToKnowYou.tsx');
 	const magnet = read('app/business/components/PreviewMagnet.tsx');
 	const helper = read('app/business/preview/gettingToKnowYou.js');
 
-	it('Decide For Me is present, and the posts strip is too', () => {
+	it('Decide For Me is present; posts are walled off the free ready card', () => {
 		assert.match(gtkSrc, /platformDecideForMe/);
 		assert.match(gtkSrc, /chooseDecide\(/);
 		assert.match(gtkSrc, /decideChip\(/);
-		// PROOF OF WORK. The server has shipped content.posts all
-		// along; the card used to drop them, so a founder saw only
-		// what we READ about them and nothing we would MAKE.
-		assert.match(gtkSrc, /postCards\(/);
-		assert.match(gtkSrc, /<PostStrip/);
-		// Content still lands on the ready payload. fillBrandCity
-		// shallow-copies the body, so posts survive the city fill.
-		assert.match(magnet, /content: filled\.content/);
+		// Jimmy lock: BANNED_HEADING_IDS was not enough — PostStrip
+		// painted content.posts beside the heading helper. The free
+		// card must not call that path.
+		assert.doesNotMatch(gtkSrc, /postCards\(/);
+		assert.doesNotMatch(gtkSrc, /<PostStrip/);
+		assert.doesNotMatch(gtkSrc, /function PostCreative/);
+		assert.doesNotMatch(gtkSrc, /preview-posts-section/);
+		assert.doesNotMatch(gtkSrc, /previewPosts/);
+		assert.doesNotMatch(gtkSrc, /postsBeforeCta/);
+		assert.doesNotMatch(magnet, /postsBeforeCta/);
+		assert.doesNotMatch(magnet, /previewPosts/);
+		const gtkCall = magnet.slice(magnet.indexOf('<GettingToKnowYou'), magnet.indexOf('signupHref='));
+		assert.doesNotMatch(gtkCall, /content:/);
 		assert.match(magnet, /fillBrandCity/);
-		// The posts are painted by previewPosts.js, NOT by the heading
-		// helper — `posts` stays banned as a heading id, because that
-		// list stops a GET key becoming a text section and the strip is
-		// a deliberate typed render rather than a walked key.
 		const helperBody = helper.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 		assert.doesNotMatch(helperBody, /content\.posts/);
 		assert.match(helper, /BANNED_HEADING_IDS/);
+		assert.match(helper, /Posts walled on the free card/);
+		assert.deepEqual(gtk.BANNED_HEADING_IDS, ['narrationPov', 'posts']);
 	});
 
 	it('does not invent Munch wait lines, Reveal My First Posts, or cadence-as-schedule copy', () => {
@@ -619,17 +639,13 @@ describe('the card paints its own posts, and none of the Munch theatre', () => {
 		assert.match(gtkSrc, /\{m\.startFree\}/);
 		assert.match(gtkSrc, /leftover-4 dest HOLD/);
 		assert.match(helper, /leftover-4 dest HOLD/);
-		// leftover-6 BUNDLED THREE THINGS and only the posts magnet
-		// shipped. The marker is narrowed rather than deleted, because
-		// the other two are still deferred and still cost real money: a
-		// second scrape is another fetch per visitor, and a website
-		// builder is a product. A marker that keeps claiming the magnet
-		// is off is a gate certifying a state that no longer holds.
+		// leftover-6 remaining OFF: no second scrape, no website builder.
+		// Posts are walled on the free card (Jimmy lock).
 		assert.match(gtkSrc, /leftover-6, remaining OFF/);
 		assert.match(helper, /leftover-6, remaining OFF/);
 		assert.match(helper, /no second scrape, no website builder/);
-		assert.doesNotMatch(gtkSrc, /no posts magnet/);
-		assert.doesNotMatch(helper, /no posts magnet/);
+		assert.match(helper, /Posts walled on the free card/);
+		assert.match(gtkSrc, /Posts walled on the free card/);
 		assert.doesNotMatch(gtkSrc, /type="email"/);
 		assert.doesNotMatch(magnet, /type="email"/);
 		assert.doesNotMatch(gtkSrc, /fetch\(/);
@@ -808,6 +824,8 @@ describe('ready-card headings are the wait GET headings', () => {
 		assert.equal(gtk.foldBeatHeading(EN.waitBeatProblem), 'problem');
 		assert.equal(gtk.foldBeatHeading(EN.waitBeatUvp), 'UVP');
 		assert.equal(gtk.headingKeyFor('name'), 'headingName');
+		assert.equal(gtk.headingKeyFor('framing'), 'headingOverview');
+		assert.equal(magnetQuoted('src/common/translations/en.ts', 'headingOverview'), 'Overview');
 		const gtkSrc = read('app/business/components/GettingToKnowYou.tsx');
 		assert.match(gtkSrc, /headingKeyFor\(section\.id\)/);
 		assert.match(gtkSrc, /\{heading \? \(/);
@@ -968,6 +986,129 @@ describe('ready card reveal', () => {
 		assert.match(rule, /from \{\s*opacity: 0;/);
 		assert.match(rule, /to \{\s*opacity: 1;/);
 		assert.match(rule, /animation: previewReveal [^;]*backwards;/);
+		assert.match(css, /preview-ready-actions--sticky/);
 		assert.match(rule, /prefers-reduced-motion: reduce/);
+	});
+});
+
+describe('composed research card — markdown-safe, identity, problem ≠ UVP', () => {
+	it('strips markdown so type-out never leaks raw markers', () => {
+		assert.equal(gtk.stripMarkdown('**Moil** learns the business.'), 'Moil learns the business.');
+		assert.equal(
+			gtk.composeProse('## Overview\n\n**Moil** learns the business once.'),
+			'Overview Moil learns the business once.',
+		);
+		assert.deepEqual(
+			gtk.waitBeatsFromBody({
+				progress: [
+					{
+						heading: 'What this business is',
+						text: '## What we are\n\n**Moil** learns the business.',
+					},
+				],
+			}),
+			[{ heading: 'framing', text: 'What we are Moil learns the business.' }],
+		);
+	});
+
+	it('overview is composed overview, not messaging-as-framing', () => {
+		const sections = gtk.profileSections(
+			{
+				brand: {
+					name: 'Shop',
+					overview: 'Scratch cooking on Main Street.',
+					messaging: 'Warm and local.',
+				},
+			},
+			{ selected: [] },
+		);
+		const byId = Object.fromEntries(sections.map((s) => [s.id, s]));
+		assert.equal(byId.framing.value, 'Scratch cooking on Main Street.');
+		assert.notEqual(byId.framing.value, 'Warm and local.');
+		assert.equal(gtk.headingKeyFor('framing'), 'headingOverview');
+	});
+
+	it('omits trades/roofing audience when the brand is not that business', () => {
+		const moil = gtk.profileSections(
+			{
+				brand: {
+					name: 'Moil',
+					overview: 'The AI co-founder for small business owners.',
+				},
+				positioning: {
+					audience: 'Trades and roofing crews in Kyle.',
+				},
+			},
+			{ selected: [] },
+		);
+		assert.equal(moil.some((s) => s.id === 'audience'), false);
+
+		const roofer = gtk.profileSections(
+			{
+				brand: {
+					name: 'Buda Roofing',
+					overview: 'Roofing and HVAC for Kyle and Buda.',
+				},
+				positioning: {
+					audience: 'Homeowners who need a roofer.',
+				},
+			},
+			{ selected: [] },
+		);
+		const audience = roofer.find((s) => s.id === 'audience');
+		assert.equal(audience.value, 'Homeowners who need a roofer.');
+	});
+
+	it('omits a tag-dump audience rather than painting chips as composed who-for', () => {
+		const sections = gtk.profileSections(
+			{
+				brand: { name: 'Taste On Main', overview: 'Scratch cooking on Main Street.' },
+				positioning: { audience: 'tacos, burritos, salsa, catering' },
+			},
+			{ selected: [] },
+		);
+		assert.equal(sections.some((s) => s.id === 'audience'), false);
+	});
+
+	it('drops UVP when it is the same line as problem', () => {
+		const sections = gtk.profileSections(
+			{
+				brand: { name: 'Shop', overview: 'Dinner.' },
+				positioning: {
+					problem: 'Too many hats.',
+					uvp: 'Too many hats.',
+				},
+			},
+			{ selected: [] },
+		);
+		const ids = sections.map((s) => s.id);
+		assert.equal(ids.includes('problem'), true);
+		assert.equal(ids.includes('UVP'), false);
+	});
+
+	it('maps language codes; paints cadence from positioning, not the picker', () => {
+		assert.equal(gtk.languageLabel('en'), 'English');
+		assert.equal(gtk.languageLabel('es-MX'), 'Spanish');
+		assert.equal(gtk.languageLabel('zz'), '');
+		const sections = gtk.profileSections(
+			{
+				brand: { name: 'Shop', language: 'en' },
+				positioning: { cadence: 'Four posts a week' },
+			},
+			{ selected: ['instagram'] },
+		);
+		const byId = Object.fromEntries(sections.map((s) => [s.id, s]));
+		assert.equal(byId.language.value, 'English');
+		assert.equal(byId.cadence.value, 'Four posts a week');
+		assert.deepEqual(byId.schedule.value, ['instagram']);
+		assert.doesNotMatch(JSON.stringify(byId.schedule), /Four posts a week/);
+	});
+
+	it('the convert CTA is sticky on the ready card', () => {
+		const gtkSrc = read('app/business/components/GettingToKnowYou.tsx');
+		const css = read('app/business/business.css');
+		assert.match(gtkSrc, /preview-ready-actions--sticky/);
+		assert.match(css, /preview-ready-actions--sticky/);
+		assert.match(css, /position:\s*sticky/);
 	});
 });

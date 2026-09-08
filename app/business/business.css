@@ -3129,10 +3129,17 @@ footer {
 	overflow-wrap: anywhere;
 }
 .preview-ready-actions {
-	position: relative;
+	position: sticky;
+	bottom: 0;
+	z-index: 3;
 	margin-top: 1px;
 	border-top: 1px solid color-mix(in srgb, var(--border2) 70%, transparent);
-	background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--surface) 82%, transparent) 22%);
+	background: color-mix(in srgb, var(--bg) 94%, transparent);
+	backdrop-filter: blur(10px);
+}
+.preview-ready-actions--sticky {
+	position: sticky;
+	bottom: 0;
 }
 .preview-primary-cta {
 	color: #FFFFFF;
