@@ -279,7 +279,7 @@ export function GettingToKnowYou({
 	const chipClass = (on: boolean) =>
 		'preview-platform-chip rounded-full border px-3 py-1.5 text-[13px] font-bold transition-all ' +
 		(on
-			? 'preview-platform-chip--active border-[#CC3D00] bg-[#CC3D00] text-white'
+			? 'preview-platform-chip--active border-[var(--orange)] bg-[var(--orange)] text-[#0D091C]'
 			: 'border-[var(--border2)] text-[var(--text)]');
 
 	const renderSection = (section: Section) => {
@@ -433,7 +433,7 @@ export function GettingToKnowYou({
 							platformsPicked: platforms.length,
 						})
 					}
-				className="preview-primary-cta inline-flex w-full items-center justify-center rounded-full bg-[#CC3D00] px-4 py-3 text-[15px] font-bold text-white"
+				className="preview-primary-cta inline-flex w-full items-center justify-center rounded-full bg-[var(--orange)] px-4 py-3 text-[15px] font-bold text-[#0D091C]"
 				>
 					{m.startFree}
 				</a>
@@ -487,21 +487,10 @@ function PostCreative({ card }: { card: PostCard }) {
 			className="preview-post-creative relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-[var(--border2)]"
 			style={{ background: surface }}
 		>
-			{/* ONE TREATMENT PER CARD — TYPE IS NEVER PAINTED OVER THE
-			    PHOTOGRAPH. The headline begins with the brand's primary and
-			    the last word its accent, with both contrast-corrected against
-			    the solid copy panel. A photograph we did not take
-			    has no luminance we control, so type over it has no
-			    contrast guarantee and would vanish on some brands and
-			    some pictures. `buildCreativeSvg`, the creative the
-			    product actually composes, has no photo in it at all
-			    for exactly this reason — so a headline card here
-			    renders what the product would make, and a card with no
-			    headline is where their photograph goes. Rendered and
-			    looked at before this rule existed: brand primary over
-			    a mid-tone picture was legible on the test brand and
-			    had nothing keeping it that way. */}
-			{card.photo && !card.last ? (
+			{/* The submitted site's own photography brings the subject matter
+			    into the concept. Copy never sits directly on that uncontrolled
+			    image: it has its own opaque, contrast-checked panel below. */}
+			{card.photo ? (
 				// eslint-disable-next-line @next/next/no-img-element
 				<img
 					src={card.photo}
@@ -514,9 +503,9 @@ function PostCreative({ card }: { card: PostCard }) {
 			) : null}
 			<div
 				aria-hidden
-				className="absolute inset-0"
+				className="preview-post-image-shade absolute inset-0"
 				style={{
-					background: `radial-gradient(65% 58% at 4% 8%, ${decorAccent}A3 0%, transparent 100%), radial-gradient(62% 58% at 96% 92%, ${decorPrimary}8F 0%, transparent 100%)`,
+					background: `linear-gradient(180deg, ${decorPrimary}1F 0%, ${decorPrimary}75 100%), radial-gradient(65% 58% at 4% 8%, ${decorAccent}94 0%, transparent 100%), radial-gradient(62% 58% at 96% 92%, ${decorPrimary}80 0%, transparent 100%)`,
 				}}
 			/>
 			{/* A row stored before the creative existed carries a caption
@@ -527,7 +516,7 @@ function PostCreative({ card }: { card: PostCard }) {
 			    print the same sentence twice. */}
 			{card.last ? (
 				<div
-					className="preview-post-copy-panel absolute inset-x-2.5 top-1/2 flex -translate-y-1/2 flex-col justify-center rounded-lg border p-3"
+					className="preview-post-copy-panel absolute inset-x-2.5 bottom-2.5 flex flex-col justify-center rounded-lg border p-3"
 					style={{ backgroundColor: surface, borderColor: primary }}
 				>
 					<p

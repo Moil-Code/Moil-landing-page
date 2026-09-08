@@ -68,6 +68,17 @@ describe('a card needs words and something to look at', () => {
 		}
 	});
 
+	it('uses a relevant image from the queried site when a post has no image of its own', () => {
+		const cards = posts.postCards(
+			body(
+				[{ caption: 'A closer look at automation', creative: { headline: 'Automate engineering workflows' } }],
+				{ ...BRAND, photos: ['https://evermendsolutions.com/workflow.jpg'] },
+			),
+		);
+		assert.equal(cards.length, 1);
+		assert.equal(cards[0].photo, 'https://evermendsolutions.com/workflow.jpg');
+	});
+
 	it('a caption with neither is dropped, never padded', () => {
 		const cards = posts.postCards(
 			body([{ caption: 'nothing to look at' }]),
@@ -236,15 +247,10 @@ describe('the creative is painted in the DOM, never loaded as a data URI', () =>
 		assert.match(gtkBody, /function PostCreative/);
 	});
 
-	it('type is never painted over a photograph we did not take', () => {
-		// The headline is the brand's primary and the last word its
-		// accent. A photograph has no luminance we control, so type on
-		// it has no contrast guarantee — and `buildCreativeSvg`, the
-		// creative the product actually composes, carries no photo for
-		// the same reason. A headline card therefore shows what the
-		// product would make; a card with no headline is where their
-		// photograph goes.
-		assert.match(gtkBody, /card\.photo && !card\.last \?/);
+	it('uses website imagery only behind a solid contrast-safe copy panel', () => {
+		assert.match(gtkBody, /card\.photo \?/);
+		assert.match(gtkBody, /preview-post-copy-panel/);
+		assert.match(gtkBody, /backgroundColor: surface/);
 	});
 
 	it('a broken founder image hides itself rather than showing a broken glyph', () => {

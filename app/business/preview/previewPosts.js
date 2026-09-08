@@ -70,6 +70,21 @@ function httpsUrl(value) {
 	return /^https:\/\//i.test(v) ? v : '';
 }
 
+/** Usable editorial photography discovered while reading the founder's site. */
+function sitePhotos(brand) {
+	const raw = brand && brand.photos;
+	const values = Array.isArray(raw) ? raw : [raw];
+	const out = [];
+	const seen = new Set();
+	for (const value of values) {
+		const url = httpsUrl(value);
+		if (!url || seen.has(url)) continue;
+		seen.add(url);
+		out.push(url);
+	}
+	return out;
+}
+
 function hexList(raw) {
 	if (!Array.isArray(raw)) return [];
 	const out = [];
@@ -138,6 +153,7 @@ function postCards(body) {
 	const raw = Array.isArray(content.posts) ? content.posts : [];
 	const palette = creativePalette(brand);
 	const logo = httpsUrl(brand.logoUrl) || httpsUrl(brand.logo);
+	const photos = sitePhotos(brand);
 
 	const cards = [];
 	const seen = new Set();
@@ -149,10 +165,14 @@ function postCards(body) {
 		const caption = str(post.caption, CAPTION_MAX);
 		if (!caption) continue;
 		const headline = str(creative.headline, HEADLINE_MAX);
-		// Their own photograph when the site gave us one. Absent is not
-		// a failure — the treatment is type-led either way, which is why
-		// nothing here substitutes a stock image.
-		const photo = httpsUrl(creative.image) || httpsUrl(post.imageUrl);
+		// Prefer a topic-specific image from the post. When the backend has
+		// not selected one, use the queried site's own editorial photography
+		// as a brand-relevant background. We never substitute unrelated stock.
+		const photo =
+			httpsUrl(creative.image) ||
+			httpsUrl(post.imageUrl) ||
+			photos[cards.length % Math.max(photos.length, 1)] ||
+			'';
 		// SOMETHING TO LOOK AT. A headline gives the type-led treatment;
 		// a photo alone gives their picture under our wash. Neither is
 		// an empty frame, so it is dropped rather than padded.
@@ -184,5 +204,6 @@ module.exports = {
 	CAPTION_MAX,
 	splitHeadline,
 	creativePalette,
+	sitePhotos,
 	postCards,
 };

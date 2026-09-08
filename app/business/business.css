@@ -2948,8 +2948,8 @@ footer {
 	pointer-events: none;
 }
 .preview-magnet-shell > * { position: relative; z-index: 1; }
-.preview-submit { color: #FFFFFF; background: #CC3D00; box-shadow: 0 10px 26px var(--orange-glow); }
-.preview-submit:hover { transform: translateY(-1px); background: #B73500; box-shadow: 0 14px 34px var(--orange-glow); }
+.preview-submit { color: #0D091C; background: var(--orange); box-shadow: 0 10px 26px var(--orange-glow); }
+.preview-submit:hover { transform: translateY(-1px); background: #FF7440; box-shadow: 0 14px 34px var(--orange-glow); }
 .preview-submit:focus-visible,
 .preview-primary-cta:focus-visible,
 .preview-platform-chip:focus-visible,
@@ -3088,8 +3088,8 @@ footer {
 	color: var(--orange);
 }
 .preview-platform-chip--active {
-	background: #CC3D00;
-	color: #FFFFFF;
+	background: var(--orange);
+	color: #0D091C;
 	box-shadow: 0 7px 18px color-mix(in srgb, var(--orange) 22%, transparent);
 }
 .preview-platform-chip--disabled {
@@ -3120,7 +3120,9 @@ footer {
 	background: var(--surface);
 }
 .preview-post-creative { box-shadow: 0 10px 22px color-mix(in srgb, var(--purple) 13%, transparent); }
+.preview-post-image-shade { mix-blend-mode: multiply; }
 .preview-post-copy-panel {
+	min-height: 42%;
 	box-shadow: 0 8px 24px rgba(6, 8, 13, .18);
 	overflow-wrap: anywhere;
 }
@@ -3131,12 +3133,12 @@ footer {
 	background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--surface) 82%, transparent) 22%);
 }
 .preview-primary-cta {
-	color: #FFFFFF;
-	background: #CC3D00;
+	color: #0D091C;
+	background: var(--orange);
 	box-shadow: 0 12px 30px var(--orange-glow);
 	transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
 }
-.preview-primary-cta:hover { transform: translateY(-1px); background: #B73500; box-shadow: 0 16px 38px var(--orange-glow); }
+.preview-primary-cta:hover { transform: translateY(-1px); background: #FF7440; box-shadow: 0 16px 38px var(--orange-glow); }
 .preview-reset { color: var(--text2); }
 
 [data-theme="dark"] .preview-profile-section--name > p,
