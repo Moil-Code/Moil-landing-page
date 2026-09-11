@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 import { twinPath } from '../../../src/common/i18n/localeRoutes';
 import { getRegisterOrigin, getRegisterUrl } from '../preview/previewClient';
 import { documentLocaleFromPathname, isSpanishPath } from '../../../src/common/i18n/pathLocale';
+import { productHref } from '../productLinks';
 
 export type NavItem = {
   label: string;
@@ -53,7 +54,7 @@ const MEGA_MENUS: Record<MegaMenuName, MegaMenu> = {
         eyebrow: 'PLAN WITH CLARITY',
         title: 'Business Plan',
         copy: 'Research, financials, and an investor-ready plan built around your business.',
-        href: '/business',
+        href: productHref('businessPlan'),
         image: 'https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_800/v1783460386/Business_plan_light_vswzyt.png',
         imageAlt: 'Moil business plan workspace',
       },
@@ -61,7 +62,7 @@ const MEGA_MENUS: Record<MegaMenuName, MegaMenu> = {
         eyebrow: 'STAY CONSISTENT',
         title: 'Moil360',
         copy: 'A month of content, written for you, ready to review, publish, and repeat.',
-        href: '/business#pricing',
+        href: productHref('moil360'),
         image: 'https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_800/v1783460801/Moil_360_light_mzwasc.png',
         imageAlt: 'Moil360 content workspace',
       },
@@ -69,7 +70,7 @@ const MEGA_MENUS: Record<MegaMenuName, MegaMenu> = {
         eyebrow: 'BUILD YOUR TEAM',
         title: 'Hiring',
         copy: 'Connect growing businesses with job seekers ready for their next role.',
-        href: '/candidate',
+        href: productHref('hiring'),
         image: '/BackgroundEmployerDesktop.png',
         imageAlt: 'Employer hiring experience',
       },
