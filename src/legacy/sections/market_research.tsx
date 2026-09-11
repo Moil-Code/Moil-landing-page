@@ -7,7 +7,7 @@ const journeySteps = [
   {
     id: 1,
     step: "STEP 1",
-    title: "Answer 21 Strategic Questions",
+    title: "Answer 16 Strategic Questions",
     duration: "5-10 min",
     description: "Kickstart with our AI business coach via voice or text (English/Spanish).",
     valueDelivered: [
@@ -22,34 +22,33 @@ const journeySteps = [
   {
     id: 2,
     step: "STEP 2",
-    title: "Comprehensive Market Research",
+    title: "Website Scraping & Brand Analysis",
     duration: "Automated",
-    description: "Your AI business coach instantly runs deep automated market research using your answers—analyzing real data on size, competition, demographics, and validation.",
+    description: "Moil reads your public website to understand your offers, positioning, brand voice, proof points, and visual identity.",
     valueDelivered: [
-      "TAM/SAM/SOM calculations",
-      "Competitive landscape mapping",
-      "Detailed customer personas",
-      "Opportunity scoring & validation"
+      "Offers and services extracted",
+      "Brand voice and positioning mapped",
+      "Proof points identified",
+      "Website context prepared for research"
     ],
     tagline: "",
-    icon: <Search className="w-7 h-7" />,
+    icon: <FileText className="w-7 h-7" />,
     color: "from-[#FF6633] to-[#e55a2b]"
   },
   {
     id: 3,
     step: "STEP 3",
-    title: "Generate Investor-Ready Business Plan",
-    duration: "One Click",
-    description: "Download a polished PDF ready for investors, banks, or partners—built fast and smart with AI for small business.",
+    title: "20–30 Pages of Market Research",
+    duration: "Automated",
+    description: "Deep market analysis combines your answers and website context with authoritative sources, real competitive data, and customer insight.",
     valueDelivered: [
-      "Compelling executive summary",
-      "5-year financial projections & revenue/cost models",
-      "Go-to-market + marketing strategy",
-      "Operational roadmap",
-      "Funding requirements analysis"
+      "TAM/SAM/SOM calculations",
+      "Competitive landscape mapping",
+      "Detailed customer personas",
+      "Opportunity scoring and validation"
     ],
     tagline: "",
-    icon: <FileText className="w-7 h-7" />,
+    icon: <Search className="w-7 h-7" />,
     color: "from-[#5843BD] to-[#FF6633]"
   },
   {

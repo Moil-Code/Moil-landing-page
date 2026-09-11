@@ -4,13 +4,16 @@ import { moilOffers, priceValidUntil } from '../../src/common/seo/offers';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
 import { en } from '../../src/common/translations/en';
 import { faqJsonLd } from '../../src/common/utils/faqJsonLd';
+import { pricingCopy, META_EN } from '../../src/common/seo/pricingCopy';
+import { SAME_AS } from '../../src/common/seo/sameAs';
+import pageDates from '../../src/common/seo/pageDates.json';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 export const metadata: Metadata = {
   title: {
     absolute: 'AI co-founder that writes the plan and the month | Moil',
   },
-  description: 'Moil writes a plan you can take to a lender and a month of on-brand posts. Market Pro is $75. Professional is $25 if you only want the plan, not the month.',
+  description: META_EN,
   keywords: [
     'AI marketing for small business',
     'social media content calendar',
@@ -39,7 +42,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'AI co-founder that writes the plan and the month | Moil',
-    description: 'Moil writes a plan you can take to a lender and a month of on-brand posts. Market Pro is $75. Professional is $25 if you only want the plan, not the month.',
+    description: META_EN,
     url: `${baseURL1}/business`,
     images: [
       {
@@ -52,7 +55,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     title: 'AI co-founder that writes the plan and the month | Moil',
-    description: 'Moil writes a plan you can take to a lender and a month of on-brand posts. Market Pro is $75. Professional is $25 if you only want the plan, not the month.',
+    description: META_EN,
   },
   alternates: {
     canonical: `${baseURL1}/business`,
@@ -103,13 +106,7 @@ export default function BusinessLayout({
               "email": "cs@moilapp.com",
               "url": "https://www.moilapp.com"
             },
-            "sameAs": [
-              "https://www.linkedin.com/company/moilapp",
-              "https://x.com/MoilApp",
-              "https://www.instagram.com/themoilapp/",
-              "https://www.tiktok.com/@moilapp",
-              "https://www.facebook.com/MoilWorks/"
-            ]
+            "sameAs": SAME_AS
           })
         }}
       />
@@ -150,7 +147,7 @@ export default function BusinessLayout({
             "@type": "Service",
             "name": "Moil Professional",
             "serviceType": "AI business assistant subscription",
-            "description": "Professional $25/month — ask the co-founder for anything and it produces the finished work: research, plans, documents, brand assets, flyers, decks. It also schedules and publishes the posts you approve to Facebook and Instagram.",
+            "description": pricingCopy.en.professional,
             "brand": {
               "@type": "Brand",
               "name": "Moil"
@@ -197,7 +194,7 @@ export default function BusinessLayout({
             "@type": "Service",
             "name": "Moil Market Pro",
             "serviceType": "AI marketing calendar subscription",
-            "description": "Market Pro $75/month — everything in Professional at higher limits, plus Moil360, which writes the 30-day content calendar automatically, and AI video.",
+            "description": pricingCopy.en.marketPro,
             "brand": {
               "@type": "Brand",
               "name": "Moil"
@@ -229,7 +226,7 @@ export default function BusinessLayout({
                 "priceCurrency": "USD",
                 "billingDuration": "P1M"
               },
-              "description": "Market Pro — full Moil360 calendar. $75/month."
+              "description": pricingCopy.en.marketProTagline
             }
           })
         }}
@@ -245,7 +242,7 @@ export default function BusinessLayout({
             "name": "Moil",
             "applicationCategory": "BusinessApplication",
             "operatingSystem": "Web",
-            "description": "Moil is the AI co-founder for small business owners. Owners shouldn\u2019t have to be everything on top of the real job. Moil learns the business once, builds a brain that compounds, thinks with them, and does the work \u2014 research, plans, documents \u2014 and automates content creation thirty days at a time, on brand, in English or Spanish.",
+            "description": "Moil is the AI co-founder for small business owners. Owners shouldn\u2019t have to be everything on top of the real job. Moil learns the business once, builds a brain that compounds, thinks with them, and does the work \u2014 research, plans, documents \u2014 and, on Market Pro, writes the whole month of content, on brand, in English or Spanish.",
             "url": `${baseURL1}/business`,
             "screenshot": `${baseURL1}/og_image_v2.jpg`,
             // Shared offer bodies — see src/common/seo/offers.ts.
@@ -257,7 +254,7 @@ export default function BusinessLayout({
               "AI Market Research",
               "24/7 Coaching",
               "Documents",
-              "Moil360 30-Day Calendar (Market Pro $75)",
+              "Moil360 — the month written automatically (Market Pro)",
               "Bilingual English & Spanish"
             ]
           })
@@ -283,10 +280,11 @@ export default function BusinessLayout({
             "@context": "https://schema.org",
             "@type": "Article",
             "headline": "Moil is the AI co-founder for small business owners",
-            "description": "Moil learns the business once, builds a brain that compounds, thinks with them, and does the work \u2014 research, plans, documents \u2014 and automates content creation thirty days at a time, on brand, in English or Spanish.",
+            "description": "Moil learns the business once, builds a brain that compounds, thinks with them, and does the work \u2014 research, plans, documents \u2014 and, on Market Pro, writes the whole month of content, on brand, in English or Spanish.",
             "url": `${baseURL1}/business`,
             "datePublished": "2025-01-15",
-            "dateModified": "2026-08-18",
+            // From scripts/page-dates.mjs — the same date the sitemap declares.
+            "dateModified": pageDates["/business"],
             "author": {
               "@type": "Organization",
               "name": "Moil Enterprise Inc.",
@@ -394,7 +392,7 @@ export default function BusinessLayout({
                 "@type": "HowToStep",
                 "position": 4,
                 "name": "Review the 30-day calendar",
-                "text": "Moil360 lays out 30 days of topics, captions and images. You review and approve rather than write. The full calendar is Market Pro at $75 a month."
+                "text": `Moil360 lays out 30 days of topics, captions and images. You review and approve rather than write. ${pricingCopy.en.split}`
               },
               {
                 "@type": "HowToStep",

@@ -162,7 +162,7 @@ export function HeroSection() {
       </div>
 
       <div data-hero-item className="relative z-[2] mb-[48px] flex flex-wrap justify-center gap-3 max-[960px]:flex-col max-[960px]:items-center">
-        <PrimaryButton href={buildRegisterUrl({ lang, appendLang: appendLangToUrl })} rel="noreferrer">
+        <PrimaryButton href={buildRegisterUrl({ lang, appendLang: appendLangToUrl })} rel="noreferrer" signupCta="hero">
           {t.business.hero.cta} <span>→</span>
         </PrimaryButton>
         <SecondaryButton href="#pricing">

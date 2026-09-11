@@ -33,6 +33,12 @@ const PRODUCT_GUIDE_LINKS = [
     key: 'calendar' as const,
     href: 'https://blog.moilapp.com/article/30-day-social-media-content-calendar-small-business',
   },
+  {
+    // Plan 5.3: the one blog post within reach of page one (~position 32).
+    // A link from the site's strongest page is the cheapest signal it can get.
+    key: 'edcGrants' as const,
+    href: 'https://blog.moilapp.com/article/free-capital-how-to-unlock-edc-grants-in-texas',
+  },
 ];
 
 export function BusinessPageContent() {
@@ -62,7 +68,7 @@ export function BusinessPageContent() {
 
   const mobileItems: NavItem[] = [
     { label: 'Business Plan', href: '/business' },
-    { label: 'Moil Services', href: '/marketing' },
+    { label: 'Moil360', href: '/business#pricing' },
     { label: 'Hiring', href: '/candidate' },
     { label: 'Work', href: '/work' },
     { label: 'Partners', href: '/partners' },
@@ -353,7 +359,7 @@ export function BusinessPageContent() {
                   </p>
                 </div>
                 </ProductShot>
-                <a className="btn-secondary btn-wave" style={{ marginTop: '18px', width: '100%', justifyContent: 'center' }} href={appendLangToUrl(getRegisterUrl(), currentLang)} target="_blank" rel="noreferrer">
+                <a className="btn-secondary btn-wave" data-signup-cta="content360" style={{ marginTop: '18px', width: '100%', justifyContent: 'center' }} href={appendLangToUrl(getRegisterUrl(), currentLang)} target="_blank" rel="noreferrer">
                   {t.business.capabilities.content360.exploreCta}
                 </a>
               </div>
@@ -446,7 +452,7 @@ export function BusinessPageContent() {
                 </defs>
               </svg>
             </div>
-            <a className="btn-primary" href={appendLangToUrl(getRegisterUrl(), currentLang)} target="_blank" rel="noreferrer">
+            <a className="btn-primary" href={appendLangToUrl(getRegisterUrl(), currentLang)} target="_blank" rel="noreferrer" data-signup-cta="journey">
               {t.business.journey.journeyCta}
             </a>
             <p style={{ fontFamily: 'var(--mono)', fontSize: '10px', color: 'var(--text3)', marginTop: '14px', textTransform: 'uppercase', letterSpacing: '1px' }}>
@@ -618,6 +624,7 @@ export function BusinessPageContent() {
                   href={appendLangToUrl(getRegisterUrl(), currentLang)}
                   target="_blank"
                   rel="noreferrer"
+                  data-signup-cta="problem"
                 >
                   {t.business.problem.moilCta}
                 </a>

@@ -4,13 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
+    "prebuild": "node scripts/page-dates.mjs",
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "test:preview": "node --test evals/previewMagnet.test.js",
-    "test": "node --test evals/*.test.js",
+    "test": "node scripts/run-evals.mjs",
     "test:positioning": "node --test evals/positioning.test.js",
-    "audit:seo": "node scripts/seo-audit.mjs"
+    "audit:seo": "node scripts/seo-audit.mjs",
+    "indexnow": "node scripts/indexnow.mjs",
+    "page-dates": "node scripts/page-dates.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -30,6 +33,7 @@
     "nanoid": "^5.0.7",
     "next": "16.3.4",
     "next-google-translate-widget": "^1.0.1",
+    "nodemailer": "^10.0.0",
     "react": "19.2.6",
     "react-dom": "19.2.6",
     "react-google-autocomplete": "^2.7.3",
@@ -46,6 +50,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
+    "@types/nodemailer": "^8.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.16",

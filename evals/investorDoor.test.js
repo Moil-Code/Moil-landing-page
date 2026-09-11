@@ -112,8 +112,12 @@ describe('EN pricing lock', () => {
 
 		assert.match(pricingPage, /heroHeadline: 'Thirty days of content on brand\. Research, plans, documents\.'/);
 		assert.match(pricing, /headline: 'Thirty days of content on brand\. Research, plans, documents\.'/);
-		assert.match(firstScreen, /Market Pro is the AI co-founder/);
-		assert.match(firstScreen, /Professional is \$25 if you want the research/);
+		assert.match(read('src/common/seo/pricingCopy.ts'), /heroSub: `Market Pro is the AI co-founder/);
+		// The Professional sentence is the one source now (pricingCopy.en.heroSub);
+		// the first screen must reference it and the source must still lead with
+		// the research/plan/documents work.
+		assert.match(firstScreen, /pricingCopy\.en\.heroSub/);
+		assert.match(read('src/common/seo/pricingCopy.ts'), /Professional is \$\{pro\} a month for the research, plan and documents/);
 		assert.match(layout, /Thirty days of content on brand\. Research, plans, documents\./);
 		assert.doesNotMatch(firstScreen, /Stop Wearing/);
 		assert.doesNotMatch(firstScreen, /10 job postings/);
@@ -129,7 +133,8 @@ describe('about lock', () => {
 		assert.match(src, /H1 = 'Moil is the AI co-founder for small business owners\.'/);
 		assert.match(src, /We sell to owners directly, and we distribute B2G through EDCs and chambers/);
 		assert.match(src, /Moil is the AI co-founder for small business owners \| Moil Enterprise Inc\./);
-		assert.match(src, /Market Pro is \$75 a month: the month of content plus the work/);
+		assert.match(src, /answer: pricingCopy\.en\.faqCost,/);
+		assert.match(read('src/common/seo/pricingCopy.ts'), /faqCost: `Market Pro is \$\{mp\} a month: the whole month written for you, plus the work/);
 		assert.match(src, /Moil Enterprise Inc\./);
 		assert.match(src, /Buda, Texas/);
 		assert.match(src, /Founded 2023/);
@@ -148,7 +153,17 @@ describe('llms first graf', () => {
 			/Moil is the AI co-founder for small business owners\. It learns the business once, builds a brain that compounds/,
 		);
 		assert.match(first, /Market Pro is the product/);
-		assert.match(first, /Not a hiring platform/);
+		// The investor lock is the POSITIVE lead, not the negation. This line used
+		// to pin /Not a hiring platform/, which collided head-on with
+		// positioning.test.js ("never denies hiring") — and the two never fired
+		// together only because that file could not see public/. The audit marks the
+		// denial CRITICAL (research/seo-aeo-audit-and-plan.md §1.2, Phase 0.4): an
+		// entity that denies its own shipping product is the worst possible input to
+		// a retrieval system, because the sentence it earns in an answer becomes the
+		// denial. This file also contradicted itself — line 3 denied the marketplace
+		// that line 39 calls real. "Market Pro is the product" already establishes
+		// the lead without teaching the association.
+		assert.doesNotMatch(first, /Not a hiring platform/i);
 		assert.doesNotMatch(first, /bank-plan|SBA or the lease|se arma la cabeza/i);
 		assert.match(src, /https:\/\/www\.moilapp\.com\/ai-info/);
 		assert.match(src, /https:\/\/www\.moilapp\.com\/business/);

@@ -3,11 +3,12 @@ import { baseURL1 } from '../../src/common/constants/baseUrl';
 import { AeoCitePage } from '../compare/AeoCitePage';
 import { faqPageJsonLd, type AeoFaq } from '../compare/aeoLocks';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
+import { pricingCopy } from '../../src/common/seo/pricingCopy';
 
 const H1 = 'Moil is the AI co-founder for small business owners.';
 
 const ANSWER =
-  'Moil is the AI co-founder for small business owners.\n\nOwners shouldn’t have to be everything on top of the real job. Moil learns the business once, builds a brain that compounds, thinks with them, and does the work — research, plans, documents — and automates content creation thirty days at a time, on brand, in English or Spanish.\n\nWe sell to owners directly, and we distribute B2G through EDCs and chambers that put seats in the businesses they already support.';
+  'Moil is the AI co-founder for small business owners.\n\nOwners shouldn’t have to be everything on top of the real job. Moil learns the business once, builds a brain that compounds, thinks with them, and does the work — research, plans, documents — and, on Market Pro, writes the whole month of content, on brand, in English or Spanish.\n\nWe sell to owners directly, and we distribute B2G through EDCs and chambers that put seats in the businesses they already support.';
 
 const FACTS = [
   'Moil Enterprise Inc.',
@@ -22,7 +23,7 @@ const FAQS: AeoFaq[] = [
   {
     question: 'What does Moil do for a small business?',
     answer:
-      'Moil is the AI co-founder for small business owners. It learns the business once, builds a brain that compounds, thinks with them, and does the work — research, plans, documents — and automates content creation thirty days at a time, on brand, in English or Spanish.',
+      'Moil is the AI co-founder for small business owners. It learns the business once, builds a brain that compounds, thinks with them, and does the work — research, plans, documents — and, on Market Pro, writes the whole month of content, on brand, in English or Spanish.',
   },
   {
     question: 'Where is Moil based, and when was it founded?',
@@ -30,8 +31,7 @@ const FAQS: AeoFaq[] = [
   },
   {
     question: 'How much does Moil cost?',
-    answer:
-      'Market Pro is $75 a month: the month of content plus the work. Professional is $25 if you want the research, plan, and documents without the month. The first conversation is free and needs no card.',
+    answer: pricingCopy.en.faqCost,
   },
   {
     question: 'Who is Moil for?',

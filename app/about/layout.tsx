@@ -1,6 +1,7 @@
 'use client';
 
 import { BusinessFooter } from '../business/components/BusinessFooter';
+import { getRegisterUrl } from '~~/app/business/preview/previewClient';
 import { BusinessMobileMenu } from '../business/components/BusinessMobileMenu';
 import { BusinessNav, type NavItem } from '../business/components/BusinessNav';
 import { useBusinessUi } from '../business/hooks/useBusinessUi';
@@ -39,7 +40,7 @@ function AboutShell({ children }: { children: React.ReactNode }) {
         onToggleTheme={toggleTheme}
         theme={theme}
         items={NAV_ITEMS}
-        ctaHref="https://business.moilapp.com/register"
+        ctaHref={getRegisterUrl()}
         ctaLabel="Get Started Free"
         currentLang={lang}
         onLanguageChange={setLang}

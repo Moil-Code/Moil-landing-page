@@ -1,21 +1,15 @@
-"use client";
-
+import type { ReactNode } from "react";
 import Link from "next/link";
+import styles from "./LegalPage.module.css";
 
 export type LegalSection = {
   heading: string;
-  /** Plain text, or inline JSX (e.g. with <Link>s). Newlines in strings are preserved. */
-  text: React.ReactNode;
-  /**
-   * Optional block content rendered AFTER the paragraph, inside a <div> rather
-   * than the <p>. A <table> cannot live inside a <p> (the browser closes the
-   * paragraph early), so the Privacy Policy's Notice at Collection table needs
-   * its own slot to sit at its section rather than at the bottom of the page.
-   */
-  block?: React.ReactNode;
+  /** Plain text or inline JSX. Newlines in strings are preserved. */
+  text: ReactNode;
+  /** Block content such as a wide table, rendered after the section copy. */
+  block?: ReactNode;
 };
 
-/** Chrome strings for the shell. Spanish pages pass translated labels. */
 export type LegalPageLabels = {
   back?: string;
   lastUpdated?: string;
@@ -24,79 +18,83 @@ export type LegalPageLabels = {
 type LegalPageProps = {
   title: string;
   lastUpdated?: string;
-  /** Value passed to the shared nav for active-state purposes. */
   page: string;
-  /** Optional lead paragraph rendered above the numbered sections. */
-  intro?: React.ReactNode;
+  intro?: ReactNode;
   sections?: LegalSection[];
-  /** Optional custom content rendered after the sections (tables, link lists, etc.). */
-  children?: React.ReactNode;
-  /** "Back" / "Last updated" labels — default English; `/es/*` pages pass Spanish. */
+  children?: ReactNode;
   labels?: LegalPageLabels;
 };
 
-/**
- * Shared content frame for all legal / compliance pages. The route layouts own
- * the site-wide header and footer; this component keeps the article itself
- * consistent without reintroducing the former candidate-only navigation.
- */
 export default function LegalPage({
   title,
   lastUpdated,
+  page,
   intro,
-  sections,
+  sections = [],
   children,
   labels,
 }: LegalPageProps) {
-  const backLabel = labels?.back ?? "Back";
+  const backLabel = labels?.back ?? "Back to Moil";
   const lastUpdatedLabel = labels?.lastUpdated ?? "Last updated";
-  return (
-    // Every colour here is a theme token, never a literal. The route
-    // layouts set `html[data-theme]` and load `app/business/business.css`,
-    // so a hard-coded light ground under theme-following chrome is exactly
-    // how these pages shipped white-on-white in dark mode.
-    <div className="bg-[var(--bg)] text-[var(--text)]">
-      {/* The shared nav is fixed. This spacing keeps the article's back link
-          clear of it at every breakpoint. */}
-      <div className="pt-14 md:pt-16 lg:pt-20 py-4 flex justify-center items-center">
-        <div className="flex flex-col gap-y-6 md:max-w-[700px] lg:max-w-[750px] px-6 py-6 md:py-10">
-          <Link className="w-max flex items-center gap-x-1" href="/">
-            <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M7.65625 16.4062H29.5312C29.8213 16.4062 30.0995 16.5215 30.3046 16.7266C30.5098 16.9317 30.625 17.2099 30.625 17.5C30.625 17.7901 30.5098 18.0683 30.3046 18.2734C30.0995 18.4785 29.8213 18.5938 29.5312 18.5938H7.65625C7.36617 18.5938 7.08797 18.4785 6.88285 18.2734C6.67773 18.0683 6.5625 17.7901 6.5625 17.5C6.5625 17.2099 6.67773 16.9317 6.88285 16.7266C7.08797 16.5215 7.36617 16.4062 7.65625 16.4062Z" fill="#FF6633" />
-              <path d="M8.10906 17.4994L17.1806 26.5688C17.386 26.7742 17.5014 27.0527 17.5014 27.3432C17.5014 27.6336 17.386 27.9122 17.1806 28.1176C16.9753 28.3229 16.6967 28.4383 16.4063 28.4383C16.1158 28.4383 15.8373 28.3229 15.6319 28.1176L5.78813 18.2738C5.68627 18.1722 5.60546 18.0515 5.55032 17.9186C5.49518 17.7857 5.4668 17.6433 5.4668 17.4994C5.4668 17.3556 5.49518 17.2131 5.55032 17.0802C5.60546 16.9474 5.68627 16.8267 5.78813 16.7251L15.6319 6.8813C15.8373 6.67593 16.1158 6.56055 16.4063 6.56055C16.6967 6.56055 16.9753 6.67593 17.1806 6.8813C17.386 7.08668 17.5014 7.36523 17.5014 7.65568C17.5014 7.94613 17.386 8.22468 17.1806 8.43005L8.10906 17.4994Z" fill="#FF6633" />
-            </svg>
-            <span className="text-[#FF6633] text-base leading-normal text-center">{backLabel}</span>
-          </Link>
+  const contents = sections.map((section, index) => ({
+    id: `section-${index + 1}`,
+    label: section.heading,
+  }));
 
-          <div className="flex flex-col gap-y-2">
-            {/* The page title is an <h1>, not a styled <p>. It rendered as a
-                paragraph for every legal page, which is why the Aug 2026 Site
-                Audit reported 13 pages with no h1 and flagged this template for
-                low semantic HTML usage. The classes are unchanged, so nothing
-                moves visually. */}
-            <h1 className="text-[24px] md:text-[40px] font-[800] text-[var(--text)] leading-normal">{title}</h1>
-            {lastUpdated && <p className="text-sm text-[var(--text2)]">{lastUpdatedLabel}: {lastUpdated}</p>}
+  return (
+    <main className={styles.root} data-legal-page={page}>
+      <header className={styles.hero}>
+        <div className={styles.heroInner}>
+          <Link className={styles.backLink} href="/" aria-label={backLabel}>
+            <span aria-hidden="true">←</span> {backLabel}
+          </Link>
+          <span className={styles.kicker}>LEGAL &amp; COMPLIANCE</span>
+          <h1>{title}</h1>
+          <div className={styles.heroMeta}>
+            {lastUpdated && <span>{lastUpdatedLabel}: {lastUpdated}</span>}
+            <span>Moil Enterprise Inc.</span>
+          </div>
+        </div>
+      </header>
+
+      <div className={styles.layout}>
+        {contents.length > 0 && (
+          <aside className={styles.toc} aria-label="Policy contents">
+            <span>ON THIS PAGE</span>
+            <nav>
+              {contents.map((item) => <a key={item.id} href={`#${item.id}`}>{item.label}</a>)}
+            </nav>
+          </aside>
+        )}
+
+        <article className={styles.article}>
+          {contents.length > 0 && (
+            <details className={styles.mobileToc}>
+              <summary>View policy contents <span aria-hidden="true">＋</span></summary>
+              <nav>
+                {contents.map((item) => <a key={item.id} href={`#${item.id}`}>{item.label}</a>)}
+              </nav>
+            </details>
+          )}
+
+          {intro && <div className={styles.intro}>{intro}</div>}
+
+          <div className={styles.sections}>
+            {sections.map((section, index) => (
+              <section id={`section-${index + 1}`} className={styles.section} key={section.heading}>
+                <span className={styles.sectionNumber}>{String(index + 1).padStart(2, "0")}</span>
+                <div className={styles.sectionBody}>
+                  <h2>{section.heading.replace(/^\d+\.\s*/, "")}</h2>
+                  <p>{section.text}</p>
+                  {section.block && <div className={styles.block}>{section.block}</div>}
+                </div>
+              </section>
+            ))}
           </div>
 
-          {intro && (
-            <p className="text-base leading-normal font-medium text-[var(--text)]">{intro}</p>
-          )}
-
-          {sections && (
-            <div className="flex flex-col gap-y-6">
-              {sections.map((s, i) => (
-                <div key={i} className="text-base leading-normal font-medium text-[var(--text)]">
-                  <h2 className="font-[700]">{s.heading}</h2>
-                  <p className="whitespace-pre-line">{s.text}</p>
-                  {s.block && <div className="mt-3">{s.block}</div>}
-                </div>
-              ))}
-            </div>
-          )}
-
-          {children}
-        </div>
+          {children && <footer className={styles.related}>{children}</footer>}
+        </article>
       </div>
-    </div>
+    </main>
   );
 }

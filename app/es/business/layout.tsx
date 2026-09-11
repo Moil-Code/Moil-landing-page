@@ -3,13 +3,15 @@ import '../../business/business.css';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
 import { es } from '../../../src/common/translations/es';
 import { faqJsonLd } from '../../../src/common/utils/faqJsonLd';
+import { META_ES, pricingCopy } from '../../../src/common/seo/pricingCopy';
+import pageDates from '../../../src/common/seo/pageDates.json';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 export const metadata: Metadata = {
   title: {
     absolute: 'El socio que trabaja el negocio contigo | Moil',
   },
-  description: 'Moil aprende el negocio una vez, piensa contigo y hace el trabajo. Investigación, planes, documentos, y treinta días de contenido con tu marca, en inglés o en español. Market Pro es $75. Professional es $25 si no quieres el mes.',
+  description: META_ES,
   keywords: [
     'calendario de contenidos para redes sociales',
     'contenido para redes sociales negocio pequeno',
@@ -26,7 +28,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'El socio que trabaja el negocio contigo | Moil',
-    description: 'Moil aprende el negocio una vez, piensa contigo y hace el trabajo. Investigación, planes, documentos, y treinta días de contenido con tu marca, en inglés o en español. Market Pro es $75. Professional es $25 si no quieres el mes.',
+    description: META_ES,
     url: `${baseURL1}/es/business`,
     locale: 'es_US',
     images: [
@@ -40,7 +42,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     title: 'El socio que trabaja el negocio contigo | Moil',
-    description: 'Moil aprende el negocio una vez, piensa contigo y hace el trabajo. Investigación, planes, documentos, y treinta días de contenido con tu marca, en inglés o en español. Market Pro es $75. Professional es $25 si no quieres el mes.',
+    description: META_ES,
   },
   alternates: {
     canonical: `${baseURL1}/es/business`,
@@ -55,8 +57,34 @@ export const metadata: Metadata = {
 export default function BusinessEsLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      {/* hreflang pairing — Article + Speakable + Breadcrumb live on the English layout;
-          this Spanish surface only needs locale-specific metadata + the alternates above. */}
+      {/* Article — the Spanish document's own E-E-A-T block. It used to be
+          absent (only the English layout carried one), so the Spanish page had
+          no dateModified at all. Same date source as the sitemap. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLd({
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: 'Moil es el socio de IA para dueños de negocio',
+            description: pricingCopy.es.meta,
+            url: `${baseURL1}/es/business`,
+            inLanguage: 'es',
+            datePublished: '2025-01-15',
+            dateModified: pageDates['/es/business'],
+            image: `${baseURL1}/og-business-es.jpg`,
+            author: { '@type': 'Organization', name: 'Moil Enterprise Inc.', url: baseURL1 },
+            publisher: {
+              '@type': 'Organization',
+              name: 'Moil Enterprise Inc.',
+              url: baseURL1,
+              logo: { '@type': 'ImageObject', url: `${baseURL1}/moil-512.png`, width: 512, height: 512 },
+            },
+          }),
+        }}
+      />
+      {/* hreflang pairing — Speakable + Breadcrumb live on the English layout;
+          this Spanish surface needs locale-specific metadata + the alternates above. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

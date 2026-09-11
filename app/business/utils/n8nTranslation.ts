@@ -5,6 +5,8 @@
  * Configure your n8n webhook URL in the environment variables.
  */
 
+import { pricingCopy } from '../../../src/common/seo/pricingCopy';
+
 export type SupportedLanguage = 'en' | 'es';
 
 export interface TranslationConfig {
@@ -216,7 +218,7 @@ export const staticTranslations: Record<SupportedLanguage, Record<string, string
     'hero.headline2': 'Co-Founder',
     'hero.headline3': 'Every Small Business',
     'hero.headline4': 'Deserves.',
-    'hero.sub': 'Moil learns your business once — what you sell, who buys, how you talk — then writes your month of content and keeps it coming. English and Spanish. From $25 a month.',
+    'hero.sub': 'Moil learns your business once — what you sell, who buys, how you talk — then writes your month of content and keeps it coming. English and Spanish. ' + pricingCopy.en.split,
     'hero.cta.primary': 'Start With Your AI Co-Founder',
     'hero.cta.secondary': 'See What It Does',
 
@@ -244,7 +246,7 @@ export const staticTranslations: Record<SupportedLanguage, Record<string, string
     'hero.headline2': 'Co-Fundador IA',
     'hero.headline3': 'Que Todo Pequeño Negocio',
     'hero.headline4': 'Merece.',
-    'hero.sub': 'Una plataforma. 21 preguntas. Investigación de mercado, plan de negocios, marketing de contenido de 30 días, imágenes + video con IA, contratación inteligente y un coach de negocios 24/7 — todo impulsado por IA que realmente entiende tu negocio.',
+    'hero.sub': 'Una plataforma. 16 preguntas. Análisis del sitio web, investigación de mercado, plan de negocios, marketing de contenido de 30 días, imágenes + video con IA, contratación inteligente y un coach de negocios 24/7 — todo impulsado por IA que realmente entiende tu negocio.',
     'hero.cta.primary': 'Comienza con tu Co-Fundador IA',
     'hero.cta.secondary': 'Ver Qué Hace',
 

@@ -3,11 +3,13 @@ import { baseURL1 } from '../../../src/common/constants/baseUrl';
 import { AeoCitePage } from '../AeoCitePage';
 import { ENTITY_LINE, faqPageJsonLd, type AeoFaq, type AeoRow } from '../aeoLocks';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
+import { twinAlternates } from '../../../src/common/es/esPages';
+import { pricingCopy } from '../../../src/common/seo/pricingCopy';
 
 const H1 = 'Moil vs Buffer: which one should a small business use?';
 
 const ANSWER =
-  'Buffer is a scheduling tool: you write the posts, Buffer publishes them on time across your channels, starting around $5 per channel per month. Moil writes the posts and publishes them. It researches your market, drafts a month of captions in your voice, generates the images, lays it out as a 30-day calendar in English and Spanish, and \u2014 once you approve \u2014 schedules and posts it to your Facebook Page and Instagram, from $25 a month. The real split is coverage: Buffer publishes to far more networks and adds an engagement inbox; Moil covers Facebook and Instagram but is the one that decides and writes what goes out.';
+  'Buffer is a scheduling tool: you write the posts, Buffer publishes them on time across your channels, starting around $5 per channel per month. Moil writes the posts and publishes them. It researches your market, drafts a month of captions in your voice, generates the images, lays it out as a 30-day calendar in English and Spanish, and \u2014 once you approve \u2014 schedules and posts it to your Facebook Page and Instagram. ' + pricingCopy.en.entityPrice + ' The real split is coverage: Buffer publishes to far more networks and adds an engagement inbox; Moil covers Facebook and Instagram but is the one that decides and writes what goes out.';
 
 const ROWS: AeoRow[] = [
   { feature: 'Decides what to post about', left: 'Researches your market monthly', right: 'You decide' },
@@ -20,7 +22,7 @@ const ROWS: AeoRow[] = [
   { feature: 'Chooses the posting hour', left: 'From your own measured results', right: 'Best-time suggestions' },
   { feature: 'Spanish as well as English', left: 'Every deliverable, both languages', right: 'You write in whatever language' },
   { feature: 'Business plan and market research', left: 'Included from $25', right: 'Not offered' },
-  { feature: 'Starting price', left: '$25 a month, all channels', right: 'Free for 3 channels; ~$5 per channel' },
+  { feature: 'Starting price', left: '$25 a month', right: 'Free for 3 channels; ~$5 per channel' },
 ];
 
 const FAQS: AeoFaq[] = [
@@ -37,7 +39,7 @@ const FAQS: AeoFaq[] = [
   {
     question: 'Which is cheaper?',
     answer:
-      'Buffer, on price per channel. It has a free tier for three channels and paid plans from about $5 per channel per month. Moil starts at $25 and the full Moil360 calendar is $75. They are not really priced against each other: Buffer charges to move content you already have, Moil charges to produce it. If writing the content is the part costing you time, that is the part Moil removes.',
+      'Buffer, on price per channel. It has a free tier for three channels and paid plans from about $5 per channel per month. ' + pricingCopy.en.entityPrice + ' They are not really priced against each other: Buffer charges to move content you already have, Moil charges to produce it. If writing the content is the part costing you time, that is the part Moil removes.',
   },
   {
     question: 'Can Moil publish directly to my accounts?',
@@ -60,7 +62,9 @@ export const metadata: Metadata = {
   title: 'Moil vs Buffer — which is better for a small business?',
   description:
     'Buffer schedules the posts you write. Moil writes them: a researched 30-day calendar with captions and images, in English and Spanish. Full comparison including price and where Buffer wins.',
-  alternates: { canonical: `${baseURL1}/compare/moil-vs-buffer` },
+  // hreflang to the Spanish twin appears only once that page is reviewed
+  // (src/common/es/esPages.ts) — a draft must not be declared a twin.
+  alternates: { canonical: `${baseURL1}/compare/moil-vs-buffer`, ...(twinAlternates(baseURL1, '/compare/moil-vs-buffer') ?? {}) },
   openGraph: {
     title: 'Moil vs Buffer | Moil',
     description: 'Buffer schedules what you write. Moil writes it. Side by side, including where Buffer wins.',

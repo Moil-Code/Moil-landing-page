@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import type { AeoFaq } from './aeoLocks';
 
+import { buildRegisterUrl } from '~~/app/business/preview/previewClient';
 /**
  * Ranked roundup layout ("best X for Y").
  *
@@ -66,10 +67,10 @@ export function RoundupPage({
           <div className="comparison-actions">
             <a
               className="comparison-primary"
-              href="https://business.moilapp.com/register?lg=en"
+              href={buildRegisterUrl({ lang: 'en' })}
               target="_blank"
               rel="noreferrer"
-            >
+             data-signup-cta="compare">
               Start free, no card. <ArrowRight size={18} aria-hidden="true" />
             </a>
             <a className="comparison-secondary" href="#aeo-faq">

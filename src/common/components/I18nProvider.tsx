@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { en, es, type TranslationKeys } from '../translations';
 import { isEnglishBusinessPath, isSpanishPath } from '../i18n/pathLocale';
+import { twinPath } from '../i18n/localeRoutes';
 
 type Language = 'en' | 'es';
 
@@ -85,13 +86,26 @@ export function I18nProvider({ children, initialLang }: { children: ReactNode; i
 
     setLangState(newLang);
     localStorage.setItem('tlang', newLang);
-
-    const url = new URL(window.location.href);
-    url.searchParams.set('lg', newLang);
-    window.history.replaceState({}, '', url.toString());
-
     document.cookie = `googtrans=${newLang === 'en' ? '/auto/en' : '/auto/es'}; path=/`;
     window.dispatchEvent(new CustomEvent('languageChange', { detail: { lang: newLang } }));
+
+    const url = new URL(window.location.href);
+    // A page with a twin NAVIGATES to it: the URL is the locale source of truth
+    // (pathLocale.ts), so the toggle must write the URL Google indexes for that
+    // language, never `?lg=` on the other language's document. Arrival still
+    // reads `?lg=` (detectInitialLang) so old links keep working; it is simply
+    // not what the toggle writes any more.
+    const twin = twinPath(url.pathname, newLang);
+    if (twin && twin !== url.pathname) {
+      url.pathname = twin;
+      url.searchParams.delete('lg');
+      window.location.assign(url.toString());
+      return;
+    }
+    if (twin) return; // already on this language's document
+    // No twin exists yet: state-only, as before.
+    url.searchParams.set('lg', newLang);
+    window.history.replaceState({}, '', url.toString());
   }, []);
 
   return (

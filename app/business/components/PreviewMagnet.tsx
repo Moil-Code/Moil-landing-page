@@ -12,8 +12,19 @@ import {
 import { clearPreviewSlugCookie, readPreviewSlugCookie, setPreviewSlugCookie } from '../preview/previewCookie';
 import { readWebsite } from '../preview/previewInput';
 import { canShowReadyCard, progressFromBody, websiteFieldDecision } from '../preview/previewReveal';
-import { waitBeatsFromBody, waitBeatHeadingKey, typedText, TYPEOUT_MS_PER_CHAR } from '../preview/gettingToKnowYou';
-import { nextPollDelayMs, waitCopyKey } from '../preview/previewWaitCopy';
+import {
+	waitBeatsFromBody,
+	waitBeatHeadingKey,
+	typedText,
+	visibleBeatCount,
+	beatsSettled,
+	TYPEOUT_MS_PER_CHAR,
+	TYPEOUT_FLUSH_MS_PER_CHAR,
+	READY_HOLD_MAX_MS,
+} from '../preview/gettingToKnowYou';
+import { nextPollDelayMs, shouldGiveUpWaiting, waitCopyKey } from '../preview/previewWaitCopy';
+import { emitFunnelEvent } from '../preview/funnelEvents';
+import { fillBrandCity } from '../preview/previewCity';
 import { GettingToKnowYou } from './GettingToKnowYou';
 
 type Phase = 'form' | 'wait' | 'ready' | 'failed' | 'down' | 'identity' | 'ceiling';
@@ -35,11 +46,29 @@ type ReadyBrand = {
 	voiceChips?: string[];
 	photos?: string[];
 	language?: string;
+	city?: string;
+	address?: string;
+};
+
+type ReadyPost = {
+	caption?: string;
+	imageUrl?: string;
+	creative?: {
+		headline?: string;
+		subhead?: string;
+		image?: string;
+	};
 };
 
 type ReadyPayload = {
 	slug: string;
 	brand: ReadyBrand;
+	// THE SERVER HAS ALWAYS SENT THIS AND THE CARD NEVER DECLARED IT.
+	// `shapeReadyPayload` ships finished posts in `content.posts`;
+	// with no key here they were composed, sent, and dropped on the
+	// floor — the founder saw what we READ about them and nothing we
+	// would MAKE for them.
+	content?: { kind?: string; posts?: ReadyPost[] };
 	positioning?: {
 		audience?: string;
 		voice?: string | string[];
@@ -47,6 +76,7 @@ type ReadyPayload = {
 		uvp?: string;
 		keyTerms?: string[];
 		cadence?: string;
+		trustSignals?: string | string[];
 	};
 };
 
@@ -58,6 +88,15 @@ function waitBeatHeadingCopy(m: MagnetCopy, heading: string): string {
 	const key = waitBeatHeadingKey(heading);
 	return (key && m[key]) || '';
 }
+
+// WHICH DOOR. Today the magnet opens exactly one — a website field — so
+// this is a constant rather than a guess. P-NW adds the listing and handle
+// doors, and each will name its own; the point of the prop is that "the
+// website door converts and the listing door does not" is a sentence
+// somebody can check. MODULE scope so the hooks below close over a stable
+// value rather than declaring a dependency that changes identity on every
+// render.
+const DOOR = 'website';
 
 export function PreviewMagnet() {
 	const { t, lang } = useLanguageContext();
@@ -81,11 +120,49 @@ export function PreviewMagnet() {
 	const [waitBeats, setWaitBeats] = useState<WaitBeat[]>([]);
 	const [typedChars, setTypedChars] = useState<Record<string, number>>({});
 	const [reduceMotion, setReduceMotion] = useState(false);
+	// The ready payload, held back while a sentence is still being
+	// written. Swapping the card in the instant the GET returns used to
+	// cut the type-out off mid-word.
+	const [pendingReady, setPendingReady] = useState<{ slug: string; body: ReadyPayload } | null>(null);
+	// Headings the founder actually watched. The card leaves these
+	// settled and cascades only what sits below them.
+	const [watchedHeadings, setWatchedHeadings] = useState<string[]>([]);
 
 	const pollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const tickTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 	const startedAt = useRef(0);
 	const cancelled = useRef(false);
+	const committed = useRef(false);
+	// A RESET MUST OUTRANK A POLL ALREADY IN FLIGHT. `stopWaitClock`
+	// clears the timer and cannot cancel a `viewPreview` fetch that has
+	// already left, and `cancelled` is only ever set on unmount — so a
+	// response landing a beat after "try another business" would call
+	// onReady, re-write the cookie and put the old card back, after the
+	// founder explicitly asked for it to be gone. Every poll carries the
+	// run it belongs to; a stale run writes nothing.
+	const runId = useRef(0);
+
+	// When the founder pressed the button, so `ready_seen` can report how
+	// long they actually waited. NULL until they do — a founder who resumed
+	// a preview from the cookie never submitted in this session, and
+	// reporting 0 for them would put a fabricated wait into the one number
+	// this measures.
+	const submittedAt = useRef<number | null>(null);
+	// `magnet_view` is a VIEW, not a render. Without the guard every state
+	// change in the form phase would emit one and the denominator of every
+	// rate below it would be the re-render count.
+	const viewSent = useRef(false);
+	useEffect(() => {
+		if (viewSent.current) return;
+		viewSent.current = true;
+		emitFunnelEvent('magnet_view', { door: DOOR });
+	}, []);
+	// commitReady reads the typing state through refs on purpose. Taking
+	// waitBeats/typedChars as deps would change its identity on every
+	// tick, and the backstop effect below clears and re-arms its timeout
+	// whenever that happens — so the bound would never fire.
+	const waitBeatsRef = useRef<WaitBeat[]>([]);
+	const typedCharsRef = useRef<Record<string, number>>({});
 
 	useEffect(() => {
 		const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -144,8 +221,19 @@ export function PreviewMagnet() {
 	}, [m.failed]);
 
 	const onReady = useCallback(
-		(nextSlug: string, body: { brand?: ReadyBrand; positioning?: ReadyPayload['positioning'] }) => {
-			const brand = (body && body.brand) || {};
+		(
+			nextSlug: string,
+			body: {
+				brand?: ReadyBrand;
+				content?: ReadyPayload['content'];
+				positioning?: ReadyPayload['positioning'];
+			},
+		) => {
+			// Same field hydrate reads (`brand.city`). If extract left it
+			// blank and the address already names a city, fill it here so
+			// convert is not the first time location exists on the payload.
+			const filled = fillBrandCity(body);
+			const brand = (filled && filled.brand) || {};
 			if (!canShowReadyCard(brand)) {
 				refuseNamelessReady();
 				return;
@@ -156,20 +244,44 @@ export function PreviewMagnet() {
 			setReady({
 				slug: nextSlug,
 				brand,
-				positioning: body && body.positioning,
+				content: filled.content,
+				positioning: filled.positioning,
 			});
 			setPhase('ready');
+			// The card ACTUALLY RENDERED for a human — which is a different
+			// fact from `preview_ready` (the row finished) and is the one the
+			// submit-to-ready rate needs. `msSinceSubmit` is omitted, never
+			// zeroed, for a founder who resumed from the cookie rather than
+			// submitting in this session.
+			const startedAt = submittedAt.current;
+			emitFunnelEvent(
+				'ready_seen',
+				{
+					door: DOOR,
+					msSinceSubmit:
+						typeof startedAt === 'number'
+							? Date.now() - startedAt
+							: undefined,
+					postsShown: 0,
+				},
+				nextSlug,
+			);
 		},
 		[refuseNamelessReady],
 	);
 
 	const poll = useCallback(
-		async (nextSlug: string, attempt: number) => {
-			if (cancelled.current) return;
+		async (nextSlug: string, attempt: number, rid: number) => {
+			if (cancelled.current || runId.current !== rid) return;
 			const result = await viewPreview(nextSlug);
-			if (cancelled.current) return;
+			if (cancelled.current || runId.current !== rid) return;
 			if (result.kind === 'ready' && result.body) {
-				onReady(nextSlug, result.body);
+				// Stop polling — the payload is in hand. The swap itself
+				// waits on the type-out (see the two effects below), so a
+				// founder is never cut off mid-sentence by an answer that
+				// has already arrived.
+				stopWaitClock();
+				setPendingReady({ slug: nextSlug, body: result.body as ReadyPayload });
 				return;
 			}
 			if (result.kind === 'failed') {
@@ -192,40 +304,101 @@ export function PreviewMagnet() {
 					return;
 				}
 			}
+			// A WAIT THAT CANNOT END IS A DEAD END WITH AN ANIMATION ON IT.
+			// Nothing here ever stopped for `building`, so a row the server
+			// had abandoned polled at 1s forever: five sentences typed out,
+			// a pulsing bar, and no card behind it — no logo, no colours,
+			// nothing to press. The server closes an abandoned build out on
+			// its own bound, which is SHORTER than this one, so on a
+			// reachable API the founder gets the server's honest `failed`
+			// (and a row a re-submission can regenerate); this only fires
+			// when the API itself cannot be reached.
+			if (shouldGiveUpWaiting(Date.now() - startedAt.current)) {
+				stopWaitClock();
+				setPhase('failed');
+				setErrorMessage(m.failed);
+				return;
+			}
+			// A 429 here is OUR OWN poll against the view limiter. Retrying
+			// at the same rate keeps it limited for as long as we ask, so the
+			// GET carrying the finished preview would never get through.
+			const rateLimited = result.kind === 'ceiling';
 			pollTimer.current = setTimeout(() => {
-				void poll(nextSlug, attempt + 1);
-			}, nextPollDelayMs(attempt)); // ~1s while wait; not 2/4/8/10 backoff
+				void poll(nextSlug, attempt + 1, rid);
+			}, nextPollDelayMs(attempt, { rateLimited })); // ~1s early, then slower
 		},
 		[onReady, m.failed],
 	);
 
 	useEffect(() => {
 		if (phase !== 'wait' || reduceMotion || waitBeats.length === 0) return;
+		// ONE line at a time. Advancing every incomplete beat on the same
+		// tick grew three lines at once, which reads as a block filling in
+		// rather than as something being written.
+		const pace = pendingReady ? TYPEOUT_FLUSH_MS_PER_CHAR : TYPEOUT_MS_PER_CHAR;
 		const id = window.setInterval(() => {
 			setTypedChars((prev) => {
-				let changed = false;
-				const next = { ...prev };
 				for (let i = 0; i < waitBeats.length; i++) {
 					const beat = waitBeats[i];
-					const cur = next[beat.heading] || 0;
+					const cur = prev[beat.heading] || 0;
 					if (cur < beat.text.length) {
-						next[beat.heading] = cur + 1;
-						changed = true;
+						return { ...prev, [beat.heading]: cur + 1 };
 					}
 				}
-				return changed ? next : prev;
+				return prev;
 			});
-		}, TYPEOUT_MS_PER_CHAR);
+		}, pace);
 		return () => window.clearInterval(id);
-	}, [phase, reduceMotion, waitBeats]);
+	}, [phase, reduceMotion, waitBeats, pendingReady]);
+
+	useEffect(() => {
+		waitBeatsRef.current = waitBeats;
+	}, [waitBeats]);
+	useEffect(() => {
+		typedCharsRef.current = typedChars;
+	}, [typedChars]);
+
+	const commitReady = useCallback(
+		(next: { slug: string; body: ReadyPayload }) => {
+			if (committed.current) return;
+			committed.current = true;
+			// Only beats actually painted count as watched — a backstop
+			// commit can land before the last one was ever shown, and
+			// claiming a founder saw a sentence they did not is how a
+			// section ends up silently skipping its reveal.
+			const beats = waitBeatsRef.current;
+			const shown = visibleBeatCount(beats, typedCharsRef.current, reduceMotion);
+			setWatchedHeadings(beats.slice(0, shown).map((beat) => beat.heading));
+			onReady(next.slug, next.body);
+		},
+		[onReady, reduceMotion],
+	);
+
+	// Commit the moment nothing is mid-word. typedChars advances every
+	// tick, so this re-runs until the sentence lands.
+	useEffect(() => {
+		if (!pendingReady) return;
+		if (beatsSettled(waitBeats, typedChars, reduceMotion)) {
+			commitReady(pendingReady);
+		}
+	}, [pendingReady, waitBeats, typedChars, reduceMotion, commitReady]);
+
+	// Backstop, armed once. A held card is a courtesy, not a queue —
+	// nothing may park the answer indefinitely.
+	useEffect(() => {
+		if (!pendingReady) return;
+		const id = window.setTimeout(() => commitReady(pendingReady), READY_HOLD_MAX_MS);
+		return () => window.clearTimeout(id);
+	}, [pendingReady, commitReady]);
 
 	useEffect(() => {
 		const saved = readPreviewSlugCookie();
 		if (!saved) return;
 		let live = true;
+		const rid = ++runId.current;
 		void (async () => {
 			const result = await viewPreview(saved);
-			if (!live || cancelled.current) return;
+			if (!live || cancelled.current || runId.current !== rid) return;
 			if (result.kind === 'ready' && result.body) {
 				onReady(saved, result.body);
 				return;
@@ -234,11 +407,22 @@ export function PreviewMagnet() {
 				setSlug(saved);
 				setPhase('wait');
 				startWaitClock();
-				void poll(saved, 0);
+				void poll(saved, 0, rid);
 				return;
 			}
 			if (result.kind === 'failed' || result.kind === 'missing') {
 				clearPreviewSlugCookie();
+				return;
+			}
+			// `down` is a server we could not read, NOT a preview that is
+			// gone — the slug stays and we resume waiting rather than
+			// dropping the founder back on the form. Bounded by the
+			// give-up above, so an API that never returns still ends.
+			if (result.kind === 'down') {
+				setSlug(saved);
+				setPhase('wait');
+				startWaitClock();
+				void poll(saved, 0, rid);
 			}
 		})();
 		return () => {
@@ -248,15 +432,19 @@ export function PreviewMagnet() {
 	}, []);
 
 	const beginWait = (nextSlug: string, status?: string) => {
+		const rid = ++runId.current;
 		setSlug(nextSlug);
 		setPreviewSlugCookie(nextSlug);
 		setWaitProgress('');
 		setWaitBeats([]);
 		setTypedChars({});
+		setPendingReady(null);
+		setWatchedHeadings([]);
+		committed.current = false;
 		if (status === 'ready') {
 			setPhase('wait');
 			startWaitClock();
-			void poll(nextSlug, 0);
+			void poll(nextSlug, 0, rid);
 			return;
 		}
 		if (status === 'failed') {
@@ -266,7 +454,7 @@ export function PreviewMagnet() {
 		}
 		setPhase('wait');
 		startWaitClock();
-		void poll(nextSlug, 0);
+		void poll(nextSlug, 0, rid);
 	};
 
 	const onSubmit = async (event: FormEvent) => {
@@ -285,6 +473,11 @@ export function PreviewMagnet() {
 
 		setErrorMessage('');
 		setSubmitting(true);
+		submittedAt.current = Date.now();
+		emitFunnelEvent('magnet_submit', {
+			door: DOOR,
+			hasPlatforms: platforms.length > 0,
+		});
 		const result = await submitPreview(websiteSubmitBody({ website: decision.website, locale: lang }));
 		setSubmitting(false);
 		if (result.ok && result.body && result.body.slug) {
@@ -305,19 +498,43 @@ export function PreviewMagnet() {
 		setErrorMessage((result.body && result.body.message) || m.down);
 	};
 
+	// THE ONLY THING THAT WIPES A PREVIEW, and it is EXPLICIT.
+	// Everything else about the magnet is built to RESUME: the cookie
+	// survives a reload, a `down` server keeps the slug, and a founder
+	// who simply comes back finds their business waiting. So the founder
+	// who wants a different one needs an action that genuinely forgets —
+	// and without the cookie clear this control was a dead one across a
+	// refresh: the form came back, the old business came back with it.
 	const reset = () => {
+		// Retire the in-flight run FIRST. A poll resolving after this
+		// point must not re-set the cookie we are about to clear.
+		runId.current += 1;
 		stopWaitClock();
+		// Read the phase BEFORE it is reset: which screen a founder pressed
+		// "try another business" from is the whole content of this event.
+		// A reset from `wait` and a reset from `ready` are different
+		// failures, and one of them is ours.
+		emitFunnelEvent('magnet_reset', { phase });
+		clearPreviewSlugCookie();
 		setPhase('form');
 		setErrorMessage('');
 		setReady(null);
 		setSlug('');
+		// The field is the thing they are replacing. Leaving the old
+		// address in it makes "try another business" a form that
+		// re-submits the one they just left.
+		setWebsite('');
 		setElapsedMs(0);
 		setWaitProgress('');
 		setWaitBeats([]);
 		setTypedChars({});
+		setPendingReady(null);
+		setWatchedHeadings([]);
+		committed.current = false;
 		setPlatforms([]);
 	};
 
+	const revealCount = visibleBeatCount(waitBeats, typedChars, reduceMotion);
 	const waitKey = waitCopyKey(elapsedMs);
 	const waitText = waitKey === 'waitLeave' ? m.waitLeave : waitKey === 'waitLonger' ? m.waitLonger : m.waitCalm;
 	const showReadyCard = phase === 'ready' && ready && canShowReadyCard(ready.brand);
@@ -328,7 +545,7 @@ export function PreviewMagnet() {
 	return (
 		<div
 			id="preview-magnet"
-			className="relative z-[2] mx-auto mb-12 w-full max-w-[640px] rounded-2xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_88%,transparent)] p-5 text-left shadow-[0_18px_60px_rgba(0,0,0,0.18)] backdrop-blur-md"
+			className="preview-magnet-shell relative z-[2] mx-auto mb-12 w-full max-w-[760px] rounded-2xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_88%,transparent)] p-6 text-left shadow-[0_18px_60px_rgba(0,0,0,0.18)] backdrop-blur-md"
 		>
 			{phase !== 'ready' && phase !== 'wait' && (
 				<form onSubmit={onSubmit} className="flex flex-col gap-3">
@@ -353,7 +570,7 @@ export function PreviewMagnet() {
 					<button
 						type="submit"
 						disabled={submitting}
-						className="inline-flex items-center justify-center rounded-lg bg-[var(--purple)] px-4 py-2.5 text-[14px] font-semibold text-white transition-colors hover:bg-[var(--purple-light)] disabled:cursor-not-allowed disabled:opacity-60"
+						className="preview-submit inline-flex items-center justify-center rounded-lg bg-[var(--preview-orange)] px-4 py-2.5 text-[14px] font-semibold text-white transition-all disabled:cursor-not-allowed disabled:opacity-60"
 					>
 						{submitting ? m.submitting : m.submit}
 					</button>
@@ -367,9 +584,12 @@ export function PreviewMagnet() {
 							{website.trim()}
 						</p>
 					) : null}
-					{waitBeats.length > 0 ? (
+					<p className="text-[15px] font-medium text-[var(--text)]">
+						{waitProgress || waitText}
+					</p>
+					{revealCount > 0 ? (
 						<div className="flex flex-col gap-2.5">
-							{waitBeats.map((beat) => {
+							{waitBeats.slice(0, revealCount).map((beat) => {
 								const label = waitBeatHeadingCopy(magnetCopy, beat.heading);
 								const typed = typedText(
 									beat.text,
@@ -392,28 +612,44 @@ export function PreviewMagnet() {
 								);
 							})}
 						</div>
-					) : (
-						<p className="text-[15px] font-medium text-[var(--text)]">{waitProgress || waitText}</p>
-					)}
+					) : null}
 					{!reduceMotion && (
 						<div aria-hidden className="h-1 w-full overflow-hidden rounded-full bg-[var(--border2)]">
-							<div className="h-full w-1/3 animate-pulse rounded-full bg-[var(--orange)]" />
+							<div className="h-full w-1/3 animate-pulse rounded-full bg-[var(--preview-orange)]" />
 						</div>
 					)}
 					<p className="text-[12px] leading-snug text-[var(--text)] opacity-70">{m.waitReturn}</p>
+					{/* THE WAIT IS THE SCREEN A STUCK FOUNDER IS LOOKING AT, and
+					    until now the only way out of it was on the READY card they
+					    could not reach. The line above promises their preview will
+					    be here when they come back, which is exactly what makes a
+					    dead wait unescapable: the cookie brings them straight back
+					    to it. */}
+					<button
+						type="button"
+						onClick={reset}
+						className="w-fit text-[12px] text-[var(--text)] opacity-70 underline-offset-2 hover:underline"
+					>
+						{m.tryAgain}
+					</button>
 				</div>
 			)}
 
 			{showReadyCard && ready && (
 				<GettingToKnowYou
 					key={ready.slug}
-					body={{ brand: ready.brand, positioning: ready.positioning }}
+					body={{
+						brand: ready.brand,
+						positioning: ready.positioning,
+					}}
 					website={website.trim() || ready.brand.website || ''}
 					platforms={platforms}
 					onPlatforms={setPlatforms}
 					signupHref={signupHref}
 					onReset={reset}
 					copy={magnetCopy}
+					watched={watchedHeadings}
+					reduceMotion={reduceMotion}
 				/>
 			)}
 		</div>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { ArrowRight, ArrowUpRight, Gauge, Palette, Search } from 'lucide-react';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
 import styles from '../showcase-pages.module.css';
@@ -10,9 +11,54 @@ export const metadata: Metadata = {
 };
 
 const work = [
-  { kind: 'Restaurant & hospitality', name: 'A considered first impression', copy: 'Clear next steps, useful booking paths, and a visual identity that feels as thoughtful as the service.', tone: 'Restaurant' },
-  { kind: 'Beauty & wellness', name: 'Confidence before the appointment', copy: 'A calm, polished service experience that makes it easier for new customers to understand, choose, and book.', tone: 'Studio' },
-  { kind: 'Trades & home services', name: 'Proof that earns the call', copy: 'A dependable digital front door built around service areas, trust signals, and simple ways to request help.', tone: 'Trades' },
+  {
+    number: '01',
+    name: 'Bluebonnet Bookkeeping',
+    kind: 'Financial services · Buda, Texas',
+    copy: 'A poised, high-trust digital presence that turns bookkeeping into a clear and confident next step.',
+    image: '/work-sites/bluebonnet-bookkeeping.png',
+    href: 'https://bluebonnetbookkeepingtx.com/',
+  },
+  {
+    number: '02',
+    name: 'Refinery Fitness of Buda',
+    kind: 'Personal training · Buda, Texas',
+    copy: 'A high-energy training site with a visual system built to move visitors directly toward an introduction.',
+    image: '/work-sites/refinery-fitness.png',
+    href: 'https://www.refineryfitness.biz/',
+  },
+  {
+    number: '03',
+    name: 'Meridian Buda',
+    kind: 'Coffee, live music & community · Buda, Texas',
+    copy: 'A warm, editorial home for a destination where hospitality, events, and atmosphere all matter.',
+    image: '/work-sites/meridian-buda.png',
+    href: 'https://www.meridianbuda.com/',
+  },
+  {
+    number: '04',
+    name: 'Barber Addy',
+    kind: 'Personal grooming · South Austin, Texas',
+    copy: 'An appointment-first experience that pairs refined service detail with an unmistakably personal point of view.',
+    image: '/work-sites/barber-addy.png',
+    href: 'https://www.barberaddy.com/',
+  },
+  {
+    number: '05',
+    name: 'Empowered Wellness with Inna',
+    kind: 'Root-cause nutrition · Austin, Texas',
+    copy: 'A reassuring, human site that makes a complex wellness journey feel understandable and approachable.',
+    image: '/work-sites/empowered-within.png',
+    href: 'https://www.empoweredwithinna.com/',
+  },
+  {
+    number: '06',
+    name: 'Connectex Solutions',
+    kind: 'Technology advisory · Austin, Texas',
+    copy: 'A focused technology brand built around clarity, credibility, and a strong reason to begin a conversation.',
+    image: '/work-sites/connectex-solutions.png',
+    href: 'https://www.connectex.net/',
+  },
 ] as const;
 
 export default function WorkPage() {
@@ -29,19 +75,24 @@ export default function WorkPage() {
               <a className={styles.secondary} href="#work">See the approach <ArrowRight size={17} aria-hidden="true" /></a>
             </div>
           </div>
-          <div className={styles.browser} aria-label="Illustrative small-business website preview">
-            <div className={styles.browserTop}><span className={styles.dots}><i /><i /><i /></span><span>LOCAL BUSINESS / ONLINE</span><span>MENU&nbsp;&nbsp; STORY&nbsp;&nbsp; CONTACT</span></div>
-            <div className={styles.browserVisual}><div className={styles.browserContent}><span className={styles.browserLabel}>YOUR BUSINESS, CLEARLY</span><div className={styles.browserHeading}>Built to be remembered.</div><div className={styles.browserLine} /><div className={styles.browserLine} /><span className={styles.browserButton}>Start here</span></div></div>
+          <div className={styles.workHeroVisual}>
+            <div className={styles.workHeroFrame}>
+              <Image src="/work-sites/bluebonnet-bookkeeping.png" alt="Bluebonnet Bookkeeping website homepage" fill priority sizes="(max-width: 900px) 100vw, 48vw" />
+            </div>
+            <div className={styles.workHeroCaption}><span>SELECTED WORK</span><strong>Distinct brands, made unmistakable.</strong></div>
           </div>
         </div>
       </section>
 
       <section className={styles.section} id="work">
-        <div className={styles.sectionHeader}><div><span className={styles.eyebrow}>THE WORK</span><h2 className={styles.sectionHeading}>Distinct businesses. One standard: make the next decision easier.</h2></div><p className={styles.sectionCopy}>These preview directions show how a thoughtful structure and a specific point of view can do more work than a generic template.</p></div>
-        <div className={styles.workGrid}>
-          {work.map((item, index) => <article className={styles.workCard} key={item.kind}>
-            <div className={`${styles.workVisual} ${index === 0 ? styles.workVisualRestaurant : index === 1 ? styles.workVisualStudio : styles.workVisualTrades}`}><div className={styles.workMiniNav}><span className={styles.workWordmark}>{index === 0 ? 'EMBER' : index === 1 ? 'HALO' : 'BUILT RIGHT'}</span><span>ABOUT&nbsp;&nbsp; SERVICES&nbsp;&nbsp; CONTACT</span></div><div className={styles.workVisualTitle}>{item.tone === 'Restaurant' ? 'A table worth booking.' : item.tone === 'Studio' ? 'Care, made clear.' : 'Work you can count on.'}</div></div>
-            <div className={styles.workMeta}><span>{item.kind}</span><h3>{item.name}</h3><p>{item.copy}</p></div>
+        <div className={styles.sectionHeader}><div><span className={styles.eyebrow}>THE WORK</span><h2 className={styles.sectionHeading}>A few of the websites we&apos;ve made unmistakable and many more.</h2></div><p className={styles.sectionCopy}>Each site begins with the way its business actually earns trust,then gives people a clear reason to take the next step.</p></div>
+        <div className={styles.showcaseGrid}>
+          {work.map((item) => <article className={styles.showcaseCard} key={item.name}>
+            <a href={item.href} target="_blank" rel="noreferrer" aria-label={`Visit ${item.name}`}>
+              <div className={styles.casePreview}><Image src={item.image} alt={`${item.name} website homepage`} fill sizes="(max-width: 780px) 100vw, 50vw" /></div>
+              <div className={styles.caseMeta}><span className={styles.caseNumber}>{item.number}</span><span className={styles.caseKind}>{item.kind}</span><ArrowUpRight size={18} aria-hidden="true" /></div>
+              <div className={styles.caseCopy}><h3>{item.name}</h3><p>{item.copy}</p></div>
+            </a>
           </article>)}
         </div>
       </section>

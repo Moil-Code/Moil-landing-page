@@ -1,3 +1,5 @@
+import { pricingCopy } from '../seo/pricingCopy';
+
 export const en = {
   // Common
   common: {
@@ -122,11 +124,17 @@ export const en = {
         emailHint: 'Optional — not required to see the preview.',
         startFree: 'Start free — no card',
         tryAgain: 'Try another business',
+        postsTitle: 'Your first posts',
+        postsNote: 'Drafted from your own site — nothing invented. Edit anything after you start.',
         colorsLabel: 'Brand colours',
         productsLabel: 'What you sell',
         factCategory: 'Category',
         factAddress: 'Address',
         factSource: 'Read from',
+        factsTitle: 'From your listing',
+        factPhone: 'Phone',
+        factPrice: 'Price range',
+        factSince: 'Since',
         revealEyebrow: 'Your preview',
         posAudience: 'Who you serve',
         posVoice: 'Voice',
@@ -160,6 +168,9 @@ export const en = {
         headingColors: 'Brand Colors',
         headingPhotos: 'Photos and Videos',
         headingSchedule: 'Posting Schedule',
+        headingTagline: 'Tagline',
+        headingLanguage: 'Language',
+        headingTrust: 'Why people trust them',
         editLabel: 'Edit',
         doneLabel: 'Done',
         waitBeatFraming: 'What this business is',
@@ -171,8 +182,8 @@ export const en = {
     },
     aeoAnswer: {
       label: 'What is Moil?',
-      body: 'Moil is the AI co-founder for small business owners.\n\nOwners shouldn\u2019t have to be everything on top of the real job. Moil learns the business once, builds a brain that compounds, thinks with them, and does the work \u2014 research, plans, documents \u2014 and automates content creation thirty days at a time, on brand, in English or Spanish.',
-      lastUpdated: 'Last updated: August 2026',
+      body: 'Moil is the AI co-founder for small business owners.\n\nOwners shouldn\u2019t have to be everything on top of the real job. Moil learns the business once, builds a brain that compounds, thinks with them, and does the work \u2014 research, plans, documents \u2014 and, on Market Pro, writes the whole month of content, on brand, in English or Spanish.',
+      lastUpdated: 'Last updated: September 2026',
     },
     // Breadth made visible. "Does everything" reads as nothing; a list of real
     // deliverables reads as everything. Every item below maps to a capability that
@@ -268,7 +279,7 @@ export const en = {
       cardSub: 'Moil Intelligence Platform · Always On',
       cofounder: {
         marketResearch: 'Market Research',
-        marketResearchSub: '21 questions → 20–30 pages of real market data',
+        marketResearchSub: '16 questions → website analysis → 20–30 pages of real market data',
         marketResearchBadge: 'Instant',
         businessPlan: 'Business Plan',
         businessPlanSub: 'Investor-ready PDF with 5-year projections',
@@ -307,7 +318,7 @@ export const en = {
       moilPeriod: 'Per month · Instant access · No setup fees',
       moilList: [
         'Instant AI coaching & insights — now',
-        'Market Pro $75 — thirty days of content on brand',
+        pricingCopy.en.marketProTagline,
         'Personalized to YOUR business, always',
         'Unlimited conversations & revisions',
         'Integrated: research → plan → content → calendar',
@@ -326,8 +337,8 @@ export const en = {
       subheadline: 'Six powerful modules, woven into a single intelligent conversation. Each one feeds the next.',
       marketResearch: {
         title: 'Market Research & Validation',
-        description: 'Answer 21 strategic questions by voice or text — in English or Spanish. Deep market analysis from 8–10 real sources. TAM/SAM/SOM, competitive landscape, customer personas, opportunity scoring.',
-        tag1: '21 Questions',
+        description: 'Answer 16 strategic questions by voice or text — in English or Spanish. Deep market analysis from 8–10 real sources. TAM/SAM/SOM, competitive landscape, customer personas, opportunity scoring.',
+        tag1: '16 Questions',
         tag2: 'Real Sources',
         tag3: 'TAM/SAM/SOM',
       },
@@ -367,25 +378,25 @@ export const en = {
     },
     journey: {
       tag: 'Your Complete Journey',
-      headline: 'From 21 Questions to',
+      headline: 'From 16 Questions to',
       headlineHighlight1: 'Total Business',
       headlineHighlight2: 'Command.',
       subheadline: 'Everything automated. Every output professional. Every decision grounded in real market data.',
       steps: {
         step1: {
           time: '5–10 Minutes',
-          title: '21 Strategic Questions',
+          title: '16 Strategic Questions',
           desc: 'Voice or text. English or Spanish. Your AI co-founder learns your business model, market, competitive gaps, goals, and strengths. The foundation for everything that follows.',
         },
         step2: {
           time: 'Automated',
-          title: '20–30 Pages Market Research',
-          desc: 'Real-time deep analysis. TAM/SAM/SOM calculations. Competitive landscape mapping. Customer personas. Opportunity scoring. 8–10 authoritative sources. Not guesses — data.',
+          title: 'Website Scraping & Brand Analysis',
+          desc: 'Moil reads your public website to understand your offers, positioning, language, proof, and visual identity before it builds anything for your business.',
         },
         step3: {
-          time: 'One Click',
-          title: 'Investor-Ready Business Plan',
-          desc: '5-year projections, revenue models, go-to-market strategy, operational roadmap. Download a polished PDF ready for investors, banks, or partners. Minutes, not months.',
+          time: 'Automated',
+          title: '20–30 Pages Market Research',
+          desc: 'Real-time analysis using your answers and website context. TAM/SAM/SOM, competitors, customer personas, opportunity scoring, and 8–10 authoritative sources.',
         },
         step4: {
           time: 'Moil360',
@@ -472,7 +483,7 @@ export const en = {
         },
         voice: {
           title: 'Voice Input — English & Spanish',
-          desc: 'Answer 21 questions by voice in your preferred language',
+          desc: 'Answer 16 questions by voice in your preferred language',
           badge: 'Both',
         },
         content: {
@@ -497,7 +508,7 @@ export const en = {
       headline: 'Thirty days of content on brand. Research, plans, documents.',
       headlineLine2: '',
       headlineHighlight: '',
-      subheadline: 'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.',
+      subheadline: pricingCopy.en.heroSub,
       subheadlineEmphasis: '',
       annualSaving: 'Save up to 25% with annual billing',
       seeDetailed: 'See Detailed Pricing',
@@ -510,14 +521,14 @@ export const en = {
       save: 'Save',
       professional: {
         name: 'Professional',
-        tagline: 'Professional $25: research, plan, and documents. Without the month.',
+        tagline: pricingCopy.en.professionalTagline,
         cta: 'Get Started',
         monthlyPrice: '$25',
         annualPrice: '$240',
         annualOriginalPrice: '$300',
         features: [
           'Research, plans, and documents',
-          'Without the month of content',
+          pricingCopy.en.professionalFeature,
           '200 AI-generated images',
           '200 AI image edits',
           '15 min audio generation',
@@ -528,14 +539,14 @@ export const en = {
       },
       marketPro: {
         name: 'Market Pro',
-        tagline: 'Market Pro $75: thirty days of content on brand, plus research, plans, and documents.',
+        tagline: pricingCopy.en.marketProTagline,
         cta: 'Start Market Pro',
         badge: 'BEST VALUE',
         monthlyPrice: '$75',
         annualPrice: '$700',
         annualOriginalPrice: '$900',
         features: [
-          'Thirty days of content on brand',
+          pricingCopy.en.marketProFeature,
           'Research, plans, and documents',
           'Unlimited AI images & edits',
           '30 min audio generation',
@@ -576,7 +587,7 @@ export const en = {
         },
         {
           question: 'How much does Moil cost?',
-          answer: 'Market Pro is $75 a month: the month of content plus the work \u2014 research, plans, documents. Professional is $25 if you want the research, plan, and documents without the month. The first conversation is free and needs no card.',
+          answer: pricingCopy.en.faqCost,
         },
         {
           question: 'What is Moil360?',
@@ -622,11 +633,11 @@ export const en = {
     // Three A-money product guides — one sentence + three text links.
     // Keep this a product page, not a blog dump. Do not grow this into cards.
     guides: {
-      sentence:
-        'Guides: how to write the plan, which AI plan generator to use, and how to get a 30-day calendar — Professional $25/month, full Moil360 on Market Pro $75/month.',
+      sentence: pricingCopy.en.guides,
       writePlan: 'How to Write a Business Plan for a Small Business (With AI)',
       compareGenerators: 'Best AI Business Plan Generator (2026): 6 Tools Compared',
       calendar: '30-Day Social Media Content Calendar for Small Business',
+      edcGrants: 'EDC Grants in Texas: How to Get Funding From Your Local EDC',
     },
     pricingPage: {
       heroEyebrow: 'The AI co-founder for small business owners',
@@ -634,7 +645,7 @@ export const en = {
       heroHighlight1: '',
       heroMiddle: '',
       heroHighlight2: '',
-      heroSub: 'Market Pro is the AI co-founder: learns once, thinks with you, does the work, and writes the month in English or Spanish. Professional is $25 if you want the research, plan, and documents without the month.',
+      heroSub: pricingCopy.en.heroSub,
       heroCta: 'Start free \u2014 no card',
       heroCtaSecondary: 'See Market Pro',
       trust30Day: 'Cancel anytime',
@@ -648,134 +659,12 @@ export const en = {
       headline: 'Stop running',
       headlineMiddle: 'your business',
       headlineHighlight: 'alone.',
-      subheadline: 'Your business plan, your market research, and a 30-day content calendar that refreshes every month — written in your voice, in English and Spanish. From $25 a month.',
+      subheadline: pricingCopy.en.finalCta,
       cta: 'Start free — no credit card',
-      trust: ['Free to start', 'Cancel anytime', 'No credit card', 'Market Pro $75', 'Bilingual EN/ES'],
+      trust: ['Free to start', 'Cancel anytime', 'No credit card', pricingCopy.en.trustBoth, 'Bilingual EN/ES'],
     },
   },
 
-  // Moil360 Marketing Page
-  marketing: {
-    nav: {
-      howItWorks: 'How It Works',
-      features: 'Features',
-      pricing: 'Pricing',
-      compare: 'Compare',
-      start: 'Start →',
-      getStarted: '🚀 Get Started',
-      theme: 'Theme',
-    },
-    hero: {
-      eyebrow: 'Powered by Moil — bilingual content, every month',
-      line1: 'Your Entire Month',
-      line2: 'of Marketing.',
-      line3: 'Built by AI.',
-      line4: 'Ready in Minutes.',
-      sub: 'Stop guessing. Moil360 researches your market, writes every post, generates your visuals, creates AI video — and assembles your complete 30-day content calendar automatically.',
-      cta: '🚀 Get My Content Strategy',
-      ctaSecondary: '▶ See How It Works',
-      dashboardTitle: 'CONTENT360 — 30-DAY STRATEGY ENGINE',
-      scoreLabel: 'STRATEGY SCORE',
-      chip30Posts: '30 posts',
-      chipLang: 'EN / ES',
-      chip6Types: '6 types',
-      postHandle: '@yourbusiness',
-      dayBadgePrefix: 'Day',
-      post1Caption: "Big news — we just crossed a milestone. Here's what we built for you this month →",
-      post1Tags: '#SmallBiz #AI #Milestone',
-      post2Caption: 'This one change saved our team 8 hours last week. Want to know what it is? 👇',
-      post2Tags: '#Productivity #BusinessGrowth',
-      post3Caption: 'POV: you finally stop doing everything manually 😅',
-      post3Tags: '#ContentCreator #Community',
-      post4Caption: 'The AI that runs your content while you run your business. Real results. 📊',
-      post4Tags: '#AI #Moil360 #SmallBusiness',
-    },
-    problem: {
-      sectionTag: 'The Reality',
-      headLine1: "You're Running",
-      headLine2: 'a Business.',
-      headLine3: 'Not an',
-      headLine3Highlight: 'Agency.',
-      quoteBody: "Every Monday you tell yourself this week will be different — then a customer calls, a job runs late, and",
-      quoteEmphasis: 'marketing falls through the cracks again.',
-      body: "You're posting inconsistently. Using recycled captions. Guessing at what works. While competitors with marketing teams show up every single day — building trust, building brand, building revenue.",
-      betterWay: 'There is a better way →',
-      calendarTitle: 'YOUR CURRENT MONTH',
-      missedDays: '● 8 missed days',
-      reuseLabel: 'reused',
-      calendarNote: '⚠ Last post was 11 days ago. Engagement down 67%.',
-    },
-    solution: {
-      sectionTag: 'The Solution',
-      headLine1: 'Meet Your',
-      headLine1Highlight: 'AI Marketing',
-      headLine2: 'Department.',
-      sub: 'Watch Moil360 assemble a real 30-day strategy — live — based on your actual business and real market data.',
-      terminalTitle: 'CONTENT360 VANGUARD ENGINE — STRATEGY ASSEMBLY IN PROGRESS',
-      progressLabel: 'STRATEGY HEALTH',
-    },
-    journey: {
-      sectionTag: 'Your Journey',
-      headLine1: 'From 21 Questions',
-      headLine2: 'to',
-      headLine2Highlight: 'Total Domination.',
-      sub: 'Every step automated. Every output professional. Every decision backed by real market data — not gut feelings.',
-    },
-    features: {
-      sectionTag: 'Moil360 Deep Dive',
-      headLine1: 'Every Feature.',
-      headLine1Highlight: 'Done Right.',
-      postPreviewLabel: 'POST PREVIEW',
-    },
-    stats: {
-      sectionTag: 'Proven Results',
-      headLine: "Numbers Don't Lie.",
-    },
-    pricing: {
-      sectionTag: 'Simple Pricing',
-      headLine1: 'A Full Marketing Team.',
-      headLine1Highlight: 'For Less Than Netflix.',
-      intro: '"A marketing agency, a business consultant, a recruiter, and a 24/7 AI coach — all in one platform, starting at $25 a month."',
-      annualBadge: '✓ Save up to 25% with annual billing',
-      featuredBadge: '⭐ BEST VALUE',
-      trust: ['No Setup Fees', 'Cancel Anytime', 'Encrypted in Transit & at Rest', 'Bilingual EN/ES'],
-    },
-    comparison: {
-      sectionTag: 'The Real Comparison',
-      headLine1: 'Moil vs.',
-      headLine1Highlight: 'Everything Else.',
-      sub: 'Traditional consultants and generic AI tools both fall short of what Moil delivers — for a fraction of the price.',
-      colFeature: 'Feature',
-      colMoil: 'MOIL',
-      colConsultant: 'Traditional Consultant',
-      colAiTool: 'Generic AI Tool',
-      moilBest: 'BEST',
-    },
-    testimonials: {
-      sectionTag: 'Real Businesses. Real Results.',
-      headLine1: 'Built for owners',
-      headLine1Highlight: 'who do it all.',
-    },
-    finalCta: {
-      eyebrow: "While you're reading this...",
-      headLine1: 'Your Competitors',
-      headLine2: 'Are Posting',
-      headLine2Highlight: 'Right Now.',
-      sub: 'Another owner just got their next 30 days of content — researched, written, and ready to publish. In their voice. In both languages.',
-      cta: 'Start free — no card',
-      trust: ['🔒 Secure', 'No Setup Fees', 'Cancel Anytime'],
-    },
-    footer: {
-      howItWorks: 'How It Works',
-      features: 'Features',
-      pricing: 'Pricing',
-      getStarted: 'Get Started',
-      copy: '© 2026 MOIL. ALL RIGHTS RESERVED.',
-      mode: 'Mode',
-    },
-  },
-
-  // Footer
   footer: {
     tagline: 'Moil learns your small business once, then writes your marketing — research, plan, a 30-day content calendar, and coaching. English and Spanish.',
     badges: {
@@ -801,6 +690,7 @@ export const en = {
       privacyChoices: 'Your Privacy Choices',
       accessibility: 'Accessibility',
       forJobSeekers: 'For Job Seekers',
+      help: 'Help center',
     },
     getStarted: 'Get Started',
     getStartedLinks: {

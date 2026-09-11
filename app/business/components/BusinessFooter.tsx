@@ -3,8 +3,11 @@
 import { useState, useEffect } from 'react';
 import { Moon, Sun, Globe } from 'lucide-react';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
+import { usePathname } from 'next/navigation';
+import { twinPath } from '../../../src/common/i18n/localeRoutes';
 import { getLoginUrl, getRegisterUrl } from '../preview/previewClient';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
+import { documentLocaleFromPathname, isSpanishPath } from '../../../src/common/i18n/pathLocale';
 
 type BusinessFooterProps = {
   theme: 'dark' | 'light';
@@ -15,7 +18,13 @@ type BusinessFooterProps = {
 
 export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, currentLang }: BusinessFooterProps) {
   const { t } = useLanguageContext();
-  const [lang, setLang] = useState<'en' | 'es'>('en');
+  const pathname = usePathname() || '/';
+  // The PATH is the locale source of truth (src/common/i18n/pathLocale.ts says so
+  // in its own header, and `langCookieValue` gives the path priority over `?lg=`
+  // and any stored value). These chrome components read only the prop, `?lg=` and
+  // localStorage — none of which a Spanish visitor arriving from Google has — so
+  // on /es/* they defaulted to English and every signup CTA carried ?lg=en.
+  const [lang, setLang] = useState<'en' | 'es'>(currentLang ?? documentLocaleFromPathname(pathname));
 
   // Sync with external language state or initialize from localStorage/URL
   useEffect(() => {
@@ -23,7 +32,7 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
       setLang(currentLang);
     } else if (typeof window !== 'undefined') {
       const url = new URL(window.location.href);
-      const lgParam = url.searchParams.get('lg') as 'en' | 'es' | null;
+      const lgParam = isSpanishPath(pathname) ? 'es' : (url.searchParams.get('lg') as 'en' | 'es' | null);
       const storedLang = localStorage.getItem('tlang') as 'en' | 'es' | null;
       
       if (lgParam && (lgParam === 'en' || lgParam === 'es')) {
@@ -32,7 +41,7 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
         setLang(storedLang);
       }
     }
-  }, [currentLang]);
+  }, [currentLang, pathname]);
 
   // Listen for language change events from other components
   useEffect(() => {
@@ -51,16 +60,27 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
     }
     if (typeof window !== 'undefined') {
       localStorage.setItem('tlang', newLang);
-      const url = new URL(window.location.href);
-      url.searchParams.set('lg', newLang);
-      // Set Google Translate cookie
       document.cookie = `googtrans=${newLang === 'en' ? '/auto/en' : '/auto/es'}; path=/`;
-      // Dispatch event for other components to sync
       window.dispatchEvent(new CustomEvent('languageChange', { detail: { lang: newLang } }));
-      // Reload page to apply translation
-      window.location.href = url.toString();
+      // Navigation is the provider's job (I18nProvider.setLang → localeRoutes).
+      // Only when no parent wired it does the footer move itself, to the twin
+      // when one exists and to `?lg=` otherwise.
+      if (!onLanguageChange) {
+        const url = new URL(window.location.href);
+        const twin = twinPath(url.pathname, newLang);
+        if (twin) {
+          url.pathname = twin;
+          url.searchParams.delete('lg');
+        } else {
+          url.searchParams.set('lg', newLang);
+        }
+        window.location.href = url.toString();
+      }
     }
   };
+
+  const twinEn = twinPath(pathname, 'en');
+  const twinEs = twinPath(pathname, 'es');
 
   return (
     <footer className="has-footer-2">
@@ -79,6 +99,7 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
             <a href="/business#pricing">{t.footer.platformLinks.pricing}</a>
             <a href="/reviews">Customer reviews</a>
             <a href="/ai-info">AI info</a>
+            <a href={lang === 'es' ? '/es/ayuda' : '/help'}>{t.footer.resourceLinks.help}</a>
             <a href={lang === 'es' ? '/candidate?lg=es' : '/candidate'}>{t.footer.resourceLinks.forJobSeekers}</a>
           </div>
         </div>
@@ -94,6 +115,7 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
             <a href="/privacy">{t.footer.resourceLinks.privacyPolicy}</a>
             <a href="/terms">{t.footer.resourceLinks.termsOfService}</a>
             <a href="/cookies">{t.footer.resourceLinks.cookiePolicy}</a>
+            <a href="/subprocessors">Subprocessors</a>
           </div>
         </div>
         <div>
@@ -103,7 +125,6 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
             <a href="/compare/moil-vs-later">Moil vs Later</a>
             <a href="/compare/moil-vs-hootsuite">Moil vs Hootsuite</a>
             <a href="/compare/moil-vs-chatgpt">Moil vs ChatGPT</a>
-            <a href="/compare/moil-vs-claude">Moil vs Claude</a>
             <a href="/compare/best-ai-content-calendar-tools">Best AI content calendar tools</a>
             <a href="/compare/done-for-you-social-media-alternatives">Done-for-you social media</a>
             <a href="/compare/moil-vs-agency">Moil vs a marketing agency</a>
@@ -112,7 +133,7 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
         <div>
           <div className="footer-col-title">{t.footer.getStarted}</div>
           <div className="footer-links">
-            <a href={appendLangToUrl(getRegisterUrl(), lang)} target="_blank" rel="noreferrer">
+            <a href={appendLangToUrl(getRegisterUrl(), lang)} target="_blank" rel="noreferrer" data-signup-cta="footer">
               {t.footer.getStartedLinks.freeConsultation}
             </a>
             <a href={appendLangToUrl(getLoginUrl(), lang)} target="_blank" rel="noreferrer">
@@ -149,8 +170,16 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
           {/* Lang toggle */}
           <div className="lang-toggle" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
             <Globe size={13} style={{ color: 'rgba(255,255,255,0.5)', marginRight: '2px' }} />
-            <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => handleLangChange('en')}>EN</button>
-            <button className={`lang-btn ${lang === 'es' ? 'active' : ''}`} onClick={() => handleLangChange('es')}>ES</button>
+            {twinEn ? (
+              <a className={`lang-btn ${lang === 'en' ? 'active' : ''}`} href={twinEn} hrefLang="en" lang="en">EN</a>
+            ) : (
+              <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => handleLangChange('en')}>EN</button>
+            )}
+            {twinEs ? (
+              <a className={`lang-btn ${lang === 'es' ? 'active' : ''}`} href={twinEs} hrefLang="es" lang="es">ES</a>
+            ) : (
+              <button className={`lang-btn ${lang === 'es' ? 'active' : ''}`} onClick={() => handleLangChange('es')}>ES</button>
+            )}
           </div>
           {/* Theme toggle */}
           <button className="theme-toggle" onClick={onToggleTheme} aria-label="Toggle theme">

@@ -3,6 +3,7 @@ import { baseURL1 } from '../../../src/common/constants/baseUrl';
 import { AeoCitePage } from '../AeoCitePage';
 import { ENTITY_LINE, faqPageJsonLd, type AeoFaq, type AeoRow } from '../aeoLocks';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
+import { twinAlternates } from '../../../src/common/es/esPages';
 
 /**
  * Rewritten 2026-08. The previous version claimed "ChatGPT is a blank chat, every
@@ -68,7 +69,9 @@ export const metadata: Metadata = {
   title: 'Moil vs ChatGPT for small business marketing',
   description:
     'ChatGPT answers what you ask. Moil holds your business context and produces a finished 30-day content calendar every month, in English and Spanish. An honest comparison, including where ChatGPT wins.',
-  alternates: { canonical: `${baseURL1}/compare/moil-vs-chatgpt` },
+  // hreflang to the Spanish twin appears only once that page is reviewed
+  // (src/common/es/esPages.ts) — a draft must not be declared a twin.
+  alternates: { canonical: `${baseURL1}/compare/moil-vs-chatgpt`, ...(twinAlternates(baseURL1, '/compare/moil-vs-chatgpt') ?? {}) },
   openGraph: {
     title: 'Moil vs ChatGPT | Moil',
     description:

@@ -12,6 +12,7 @@ commit — rebuilding it — and fails the run.
 | `.github/workflows/tests.yml` | The gate (`workflow_call`ed by deploy) |
 | `.github/deploy.sh` | Everything that happens **on the server** |
 | `ecosystem.config.js` | The PM2 process definition |
+| `scripts/indexnow.mjs` | Runs after a healthy reload when `INDEXNOW_SUBMIT=1` is set on the host: submits the served sitemap's URLs to IndexNow (Bing, Yandex, Naver, Seznam). **This is the host that serves `www.moilapp.com`, so set it here.** `npm run indexnow -- --dry-run` prints the payload. The key file `public/<key>.txt` must be served at `https://www.moilapp.com/<key>.txt`. |
 
 ## This app shares a server with the employer API, and inherits most of its setup
 
@@ -148,6 +149,8 @@ Variables:
 | `DEPLOY_TIMEOUT_SECONDS` | `2400` | how long CI waits for the script |
 | `DEPLOY_ROLLBACK` | `1` | `0` disables the automatic rollback |
 | `DEPLOY_WRITE_ENV` | *(unset)* | `true` rewrites the env file from the `ENV` secret every deploy |
+| `INDEXNOW_SUBMIT` | `0` | `1` submits the served sitemap to IndexNow after a healthy reload. **Set `INDEXNOW_SUBMIT=1` on this host** — it is the one that serves the URLs the sitemap lists. A refused submission is logged and never rolls the deploy back. |
+| `INDEXNOW_HOST` | `www.moilapp.com` | the host whose URLs may be announced; anything else in the sitemap is dropped |
 
 Also create the **`production` environment** (Settings → Environments) and set
 its Deployment branches to `main`. Because the environment name replaces the

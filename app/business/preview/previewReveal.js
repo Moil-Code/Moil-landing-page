@@ -7,7 +7,7 @@
  * stop — never a handle generate, never a door switch.
  */
 
-const { foldBeatHeading } = require('./gettingToKnowYou');
+const { foldBeatHeading, stripMarkdown } = require('./gettingToKnowYou');
 
 const INTERSTITIAL = [
 	'verifying your access',
@@ -299,7 +299,9 @@ function progressFromBody(body) {
 		if (stepId.test(s.replace(/\s+/g, '_'))) continue;
 		if (foldBeatHeading(s)) continue;
 		if (/posts_composing/i.test(s)) continue;
-		return s;
+		const prose = stripMarkdown(s);
+		if (!prose) continue;
+		return prose;
 	}
 	return '';
 }
