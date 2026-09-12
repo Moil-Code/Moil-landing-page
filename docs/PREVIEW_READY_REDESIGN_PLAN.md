@@ -1,6 +1,6 @@
 # Preview ready-state redesign proposal
 
-Status: concept ready for review; production implementation has not started.
+Status: Focus canvas selected and implemented in the production ready state.
 
 ## Design thesis
 
@@ -9,15 +9,9 @@ structured enough to trust, and direct enough to convert. Sophistication comes
 from hierarchy, restraint, and behavior—not from adding more gradients, glows,
 or cards.
 
-Recommended direction: **Focus canvas (prototype A)**, with the guided review's
-progressive disclosure adopted below 640 px and the dossier's explicit source
-and confidence language used where the payload can support it.
-
-Development-only prototype:
-
-- `/business/preview-prototype?variant=A` — Focus canvas (recommended)
-- `/business/preview-prototype?variant=B` — Research dossier
-- `/business/preview-prototype?variant=C` — Guided review
+Selected direction: **Focus canvas**. The development-only comparison route was
+removed after selection so the losing variants and switcher cannot drift into
+production code.
 
 ## What is weakening the current design
 
@@ -69,7 +63,8 @@ gate.
 
 ## Visual system
 
-- Neutral paper and warm gray canvas; one near-black action color.
+- Neutral paper and warm gray canvas; Moil orange `#FF6633` is the action color
+  with the application-standard white text and icon pairing.
 - Moil orange is a sparse brand signal for provenance, not a fill for every
   action.
 - Green is reserved for a truthful success/status state.
@@ -127,7 +122,8 @@ steps on desktop.
 ## Non-negotiable acceptance criteria
 
 - WCAG AA contrast: at least 4.5:1 for normal text and 3:1 for large text and
-  meaningful UI boundaries.
+  meaningful UI boundaries, except the established white-on-`#FF6633` primary
+  action treatment, which follows the application-wide brand convention.
 - Every interactive target is at least 44 by 44 CSS px on touch layouts.
 - Keyboard focus is visible and never clipped by the scroll container.
 - Every status has a text label; color is never the only signal.
@@ -144,7 +140,7 @@ steps on desktop.
 ## Production implementation sequence
 
 1. **Structure:** split `GettingToKnowYou.tsx` into the reading canvas, action
-   rail, reusable insight row, availability note, and mobile review navigation.
+   rail, reusable insight row, and availability note.
    Keep data shaping and the existing ready/wait state machine unchanged.
 2. **Copy:** add the new outcome title, explicit status, source label, action
    copy, and availability summary in both English and Spanish.
@@ -152,8 +148,9 @@ steps on desktop.
    `business.css` with the neutral system and semantic accent rules. Do not
    modify global landing-page tokens.
 4. **Responsive behavior:** preserve the desktop split through tablet, then
-   switch to the progressive mobile presentation below 640 px while keeping a
-   compact sticky conversion action.
+   stack the same review canvas into one scrollable mobile column below 640 px.
+   Keep the compact conversion action outside the scroll region so it remains
+   continuously available without adding an artificial step gate.
 5. **Interaction states:** implement hover, focus, edit, selected, unavailable,
    saving-local, and reduced-motion states. Preserve empty selection as Decide
    for me.
