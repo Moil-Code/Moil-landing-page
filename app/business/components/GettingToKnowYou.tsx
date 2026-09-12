@@ -109,7 +109,7 @@ function parseLines(raw: string): string[] {
 
 function Chips({ items }: { items: string[] }) {
 	return (
-		<div className="flex flex-wrap gap-1.5">
+		<div className="preview-chip-list flex flex-wrap gap-1.5">
 			{items.map((item) => (
 				<span
 					key={item}
@@ -128,9 +128,9 @@ function Pencil({ label, onClick }: { label: string; onClick: () => void }) {
 			type="button"
 			aria-label={label}
 			onClick={onClick}
-			className="preview-edit ml-1 inline-flex h-7 w-7 items-center justify-center rounded-full text-[var(--text)]"
+			className="preview-edit inline-flex items-center justify-center gap-1.5 text-[var(--text)]"
 		>
-			<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
+			<svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden>
 				<path
 					d="M4 20h4.5L19 9.5 14.5 5 4 15.5V20z"
 					stroke="currentColor"
@@ -138,6 +138,7 @@ function Pencil({ label, onClick }: { label: string; onClick: () => void }) {
 					strokeLinejoin="round"
 				/>
 			</svg>
+			<span>{label}</span>
 		</button>
 	);
 }
@@ -195,7 +196,12 @@ export function GettingToKnowYou({
 	const decide = decideChip({ selected: platforms });
 	const painted = sections.map((section) => draftValue(section, draft));
 	const knowing = painted.filter((section) => KNOWING_IDS.includes(section.id));
+	const canvasSections = knowing.filter((section) => section.id !== 'cadence');
+	const cadence = knowing.find((section) => section.id === 'cadence');
 	const proof = painted.find((section) => section.id === 'proof');
+	const platformRows = pickerRows({ selected: platforms });
+	const offeredRows = platformRows.filter((row) => row.selectable);
+	const comingRows = platformRows.filter((row) => !row.selectable);
 
 	// The hard facts the founder's own JSON-LD publishes — phone,
 	// hours, price range, the year they started, the rating their
@@ -287,50 +293,58 @@ export function GettingToKnowYou({
 	};
 
 	const chipClass = (on: boolean) =>
-		'preview-platform-chip rounded-full border px-3 py-1.5 text-[13px] font-bold transition-all ' +
+		'preview-platform-chip inline-flex w-full items-center gap-2 rounded-[10px] border px-3 py-2.5 text-[12px] font-semibold transition-all ' +
 		(on
-			? 'preview-platform-chip--active border-[var(--preview-orange)] bg-[var(--preview-orange)] text-white'
+			? 'preview-platform-chip--active border-[var(--preview-orange)] bg-[var(--preview-orange)]'
 			: 'border-[var(--border2)] text-[var(--text)]');
 
-	const renderSection = (section: Section) => {
+	const renderSection = (section: Section, index: number) => {
 		const heading = m[headingKeyFor(section.id)] || '';
 		const editingThis = editing === section.id;
 		const anim = reveal(section.id);
+		const isIdentity = section.id === 'name';
+		const isOverview = section.id === 'framing';
 		return (
 			<section
 				key={section.id}
 				className={`preview-profile-section preview-profile-section--${section.id} min-w-0 ${anim.className}`}
 				style={anim.style}
 			>
-				{heading ? (
-					<div className="mb-1.5 flex items-center">
-						<p className="preview-section-heading text-[14px] font-semibold text-[var(--text)]">{heading}</p>
-						{isEditable(section.kind, section.id) && !editingThis ? (
-							<Pencil label={m.editLabel || ''} onClick={() => beginEdit(section)} />
+				<div className="preview-section-heading-row">
+					<div className="flex items-center gap-2">
+						{!isIdentity && !isOverview ? (
+							<span className="preview-section-index" aria-hidden>{String(index + 1).padStart(2, '0')}</span>
+						) : null}
+						{isIdentity ? <p className="preview-section-kicker">{m.identityLabel}</p> : null}
+						{heading ? (
+							<p className="preview-section-heading text-[12px] font-semibold text-[var(--text)]">{heading}</p>
 						) : null}
 					</div>
-				) : null}
+					{isEditable(section.kind, section.id) && !editingThis ? (
+						<Pencil label={m.editLabel || ''} onClick={() => beginEdit(section)} />
+					) : null}
+				</div>
 
 				{editingThis ? (
-					<div className="flex flex-col gap-2">
+					<div className="preview-inline-editor flex flex-col gap-2">
 						{section.kind === 'voice' ? (
 							<textarea
 								value={editSentence}
 								onChange={(e) => setEditSentence(e.target.value)}
 								rows={2}
-								className="w-full rounded-lg border border-[var(--border2)] bg-[var(--bg)] px-3 py-2 text-[14px] text-[var(--text)] outline-none focus:border-[var(--orange)]"
+								className="w-full rounded-lg border border-[var(--border2)] bg-[var(--bg)] px-3 py-2 text-[14px] text-[var(--text)] outline-none focus:border-[var(--preview-orange)]"
 							/>
 						) : null}
 						<textarea
 							value={editText}
 							onChange={(e) => setEditText(e.target.value)}
 							rows={section.kind === 'text' ? 4 : 3}
-							className="w-full rounded-lg border border-[var(--border2)] bg-[var(--bg)] px-3 py-2 text-[14px] text-[var(--text)] outline-none focus:border-[var(--orange)]"
+							className="w-full rounded-lg border border-[var(--border2)] bg-[var(--bg)] px-3 py-2 text-[14px] text-[var(--text)] outline-none focus:border-[var(--preview-orange)]"
 						/>
 						<button
 							type="button"
 							onClick={() => commitEdit(section.id)}
-							className="self-start rounded-full border border-[var(--border2)] px-3 py-1 text-[12px] font-semibold text-[var(--text)]"
+							className="preview-edit-done self-start rounded-lg px-3 py-1.5 text-[12px] font-semibold"
 						>
 							{m.doneLabel}
 						</button>
@@ -339,7 +353,11 @@ export function GettingToKnowYou({
 					<>
 						<SectionView section={section} copy={m} />
 						{section.id === 'name' && city ? (
-							<p className="mt-0.5 text-[12px] leading-snug text-[var(--text)] opacity-70">
+							<p className="preview-profile-location">
+								<svg viewBox="0 0 24 24" fill="none" aria-hidden>
+									<path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" stroke="currentColor" strokeWidth="1.7" />
+									<circle cx="12" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.7" />
+								</svg>
 								{city}
 							</p>
 						) : null}
@@ -350,47 +368,58 @@ export function GettingToKnowYou({
 	};
 
 	return (
-		<div className="preview-ready flex max-h-[min(78vh,900px)] flex-col gap-0">
+		<div className="preview-ready flex max-h-[min(82vh,940px)] flex-col gap-0">
 			<div className="preview-ready-titlebar shrink-0">
-				<span className="preview-ready-mark" aria-hidden="true">
-					<svg viewBox="0 0 24 24" fill="none">
-						<path d="M5 15.5 8.7 7l3.4 6.3L15.5 7l3.5 8.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-						<path d="M6 18h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-					</svg>
-				</span>
-				<p className="preview-ready-title text-[17px] font-bold tracking-[-0.02em] text-[var(--text)]">
-					{m.knowingTitle}
-				</p>
-				<span className="preview-ready-status" aria-hidden="true"><i /></span>
-			</div>
-			<div className="preview-ready-scroll mt-3 min-h-0 flex-1 overflow-y-auto pr-1">
-				{website.trim() ? (
-					<p className="preview-website mb-4 ml-auto w-fit max-w-[90%] rounded-full px-3 py-1.5 text-[13px] text-[var(--text)]">
-						{website.trim()}
-					</p>
-				) : null}
-
-				<div className="preview-profile-stack flex flex-col gap-3 pb-2">
-					{!knowing.some((section) => section.id === 'name') && city ? (
-						<p className="text-[12px] leading-snug text-[var(--text)] opacity-70">
-							{city}
-						</p>
-					) : null}
-					{knowing.map(renderSection)}
-					{proof ? <ProofStrip section={proof} reveal={reveal('proof')} /> : null}
-					{facts ? <FactStrip facts={facts} copy={m} reveal={reveal('facts')} /> : null}
+				<div className="preview-ready-title-group">
+					<span className="preview-ready-mark" aria-hidden="true">
+						<svg viewBox="0 0 24 24" fill="none">
+							<path d="M5 15.5 8.7 7l3.4 6.3L15.5 7l3.5 8.5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+							<path d="M6 18h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+						</svg>
+					</span>
+					<div>
+						<p className="preview-ready-eyebrow">{m.readyEyebrow}</p>
+						<p className="preview-ready-title text-[var(--text)]">{m.knowingTitle}</p>
+					</div>
 				</div>
+				<span className="preview-ready-status" role="status">
+					<svg viewBox="0 0 24 24" fill="none" aria-hidden><path d="m6.5 12.5 3.3 3.2 7.7-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+					{m.readyStatus}
+				</span>
+			</div>
 
-				<fieldset
-					className={`preview-platform-card m-0 mb-2 mt-5 border-0 ${reveal('picker').className}`}
-					style={reveal('picker').style}
-				>
-					<legend className="mb-2 p-0 text-[14px] font-semibold text-[var(--text)]">
-						{m.platformsLabel}
-					</legend>
-					<div className="flex flex-wrap items-center gap-1.5">
-						{pickerRows({ selected: platforms }).map((row) =>
-							row.selectable ? (
+			<div className="preview-ready-workspace min-h-0 flex-1">
+				<main className="preview-ready-scroll min-h-0 overflow-y-auto">
+					{website.trim() ? (
+						<div className="preview-source">
+							<svg viewBox="0 0 24 24" fill="none" aria-hidden><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6" /><path d="M3.5 12h17M12 3c2.2 2.5 3.3 5.5 3.3 9S14.2 18.5 12 21M12 3C9.8 5.5 8.7 8.5 8.7 12s1.1 6.5 3.3 9" stroke="currentColor" strokeWidth="1.4" /></svg>
+							<span>{m.sourceLabel}</span>
+							<strong>{website.trim()}</strong>
+						</div>
+					) : null}
+
+					<div className="preview-profile-stack">
+						{!canvasSections.some((section) => section.id === 'name') && city ? (
+							<p className="preview-profile-location">{city}</p>
+						) : null}
+						{canvasSections.map(renderSection)}
+						{proof ? <ProofStrip section={proof} reveal={reveal('proof')} /> : null}
+						{facts ? <FactStrip facts={facts} copy={m} reveal={reveal('facts')} /> : null}
+					</div>
+				</main>
+
+				<aside className="preview-action-rail">
+					<fieldset
+						className={`preview-platform-card m-0 border-0 ${reveal('picker').className}`}
+						style={reveal('picker').style}
+					>
+						<legend>
+							<span className="preview-section-kicker">{m.publishingEyebrow}</span>
+							<span className="preview-platform-title">{m.platformsLabel}</span>
+						</legend>
+						<p className="preview-platform-hint">{m.publishingHint}</p>
+						<div className="preview-platform-options">
+							{offeredRows.map((row) => (
 								<button
 									key={row.id}
 									type="button"
@@ -398,61 +427,67 @@ export function GettingToKnowYou({
 									onClick={() => onPlatforms((p) => toggle(p, row.id))}
 									className={chipClass(row.checked)}
 								>
-									{platformCopy(m, row.id)}
-								</button>
-							) : (
-								<span
-									key={row.id}
-									className="preview-platform-chip preview-platform-chip--disabled cursor-default rounded-full border border-dashed border-[var(--border2)] px-3 py-1.5 text-[13px] text-[var(--text)]"
-									title={reasonCopy(m, row.reason)}
-								>
-									{platformCopy(m, row.id)}
-									<span className="ml-1.5 text-[11px] font-normal">
-										{reasonCopy(m, row.reason)}
+									<span className="preview-platform-glyph" aria-hidden>
+										{row.id === 'facebook' ? 'f' : (
+											<svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" strokeWidth="1.8" /><circle cx="12" cy="12" r="3.5" stroke="currentColor" strokeWidth="1.8" /><circle cx="17.4" cy="6.8" r="1" fill="currentColor" /></svg>
+										)}
 									</span>
-								</span>
-							),
-						)}
-						<span className="px-1 text-[12px] text-[var(--text)] opacity-60">{m.platformsOr}</span>
-						<button
-							type="button"
-							aria-pressed={decide.checked}
-							onClick={() => onPlatforms(chooseDecide())}
-							className={chipClass(decide.checked)}
-						>
-							{m.platformDecideForMe}
-						</button>
-					</div>
-					<p className="mt-2 text-[12px] leading-snug text-[var(--text)] opacity-70">
-						{pickerState(platforms) === 'decide' ? m.platformsDecide : m.platformsChosen}
-					</p>
-				</fieldset>
+									{platformCopy(m, row.id)}
+									<span className="preview-platform-check" aria-hidden>{row.checked ? '✓' : ''}</span>
+								</button>
+							))}
+							<button
+								type="button"
+								aria-pressed={decide.checked}
+								onClick={() => onPlatforms(chooseDecide())}
+								className={chipClass(decide.checked)}
+							>
+								<span className="preview-platform-glyph" aria-hidden>✦</span>
+								{m.platformDecideForMe}
+								<span className="preview-platform-check" aria-hidden>{decide.checked ? '✓' : ''}</span>
+							</button>
+						</div>
+						<p className="preview-platform-state">
+							{pickerState(platforms) === 'decide' ? m.platformsDecide : m.platformsChosen}
+						</p>
+						{comingRows.length ? (
+							<div className="preview-platform-unavailable">
+								<span>{m.availabilityLabel}</span>
+								<p>{comingRows.map((row) => `${platformCopy(m, row.id)} — ${reasonCopy(m, row.reason)}`).join(' · ')}</p>
+							</div>
+						) : null}
+					</fieldset>
+
+					{cadence ? (
+						<div className={`preview-rail-meta ${reveal('cadence').className}`} style={reveal('cadence').style}>
+							<svg viewBox="0 0 24 24" fill="none" aria-hidden><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6" /><path d="M12 7v5l3 2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
+							<div><span>{m.cadenceLabel}</span><strong>{asLines(cadence.value)}</strong></div>
+						</div>
+					) : null}
+				</aside>
 			</div>
 
-			<div className="preview-ready-actions preview-ready-actions--sticky shrink-0 pt-4">
-				<a
-					href={signupHref}
-					data-signup-cta="preview-ready"
-					// The navigation is NOT delayed on this. `emitFunnelEvent`
-					// sends with `keepalive`, which is exactly what survives an
-					// unload — awaiting it instead would put a network round
-					// trip between a founder and the button they just pressed.
-					onClick={() =>
-						emitFunnelEvent('cta_signup', {
-							platformsPicked: platforms.length,
-						})
-					}
-				className="preview-primary-cta inline-flex w-full items-center justify-center rounded-full bg-[var(--preview-orange)] px-4 py-3 text-[15px] font-bold text-white"
-				>
-					{m.startFree}
-				</a>
-				<button
-					type="button"
-					onClick={onReset}
-					className="preview-reset mt-2 w-full text-[12px] text-[var(--text)] underline-offset-2 hover:underline"
-				>
-					{m.tryAgain}
-				</button>
+			<div className="preview-ready-actions preview-ready-actions--sticky shrink-0">
+				<p className="preview-action-trust">{m.actionTrust}</p>
+				<div className="preview-action-controls">
+					<a
+						href={signupHref}
+						data-signup-cta="preview-ready"
+						onClick={() =>
+							emitFunnelEvent('cta_signup', {
+								platformsPicked: platforms.length,
+							})
+						}
+						className="preview-primary-cta"
+					>
+						<span>{m.continueWithProfile}</span>
+						<svg viewBox="0 0 24 24" fill="none" aria-hidden><path d="M5 12h14m-5-5 5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+					</a>
+					<div className="preview-action-meta">
+						<span>{m.startFree}</span>
+						<button type="button" onClick={onReset} className="preview-reset">{m.tryAgain}</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	);
@@ -576,18 +611,18 @@ function ProofStrip({
 
 function SectionView({ section, copy }: { section: Section; copy: MagnetCopy }) {
 	if (section.kind === 'text') {
-		return <p className="text-[14px] leading-snug text-[var(--text)]">{section.value as string}</p>;
+		return <p className="preview-section-value text-[14px] text-[var(--text)]">{section.value as string}</p>;
 	}
 	if (section.kind === 'line') {
 		const items = (section.value as string[]) || [];
-		return <p className="text-[14px] leading-snug text-[var(--text)]">{items.join(' · ')}</p>;
+		return <p className="preview-section-value text-[14px] text-[var(--text)]">{items.join(' · ')}</p>;
 	}
 	if (section.kind === 'list') {
-		return <Chips items={(section.value as string[]) || []} />;
+		return <div className="preview-section-value"><Chips items={(section.value as string[]) || []} /></div>;
 	}
 	if (section.kind === 'voice') {
 		return (
-			<div className="flex flex-col gap-2">
+			<div className="preview-section-value flex flex-col gap-2">
 				{section.sentence ? (
 					<p className="text-[14px] leading-snug text-[var(--text)]">{section.sentence}</p>
 				) : null}
@@ -597,7 +632,7 @@ function SectionView({ section, copy }: { section: Section; copy: MagnetCopy }) 
 	}
 	if (section.kind === 'platforms') {
 		const ids = (section.value as string[]) || [];
-		return <Chips items={ids.map((id) => platformCopy(copy, id)).filter(Boolean)} />;
+		return <div className="preview-section-value"><Chips items={ids.map((id) => platformCopy(copy, id)).filter(Boolean)} /></div>;
 	}
 	return null;
 }

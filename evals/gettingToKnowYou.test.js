@@ -39,6 +39,16 @@ const MAGNET_NEW_KEYS = [
 	'headingTrust',
 	'platformDecideForMe',
 	'platformsOr',
+	'readyEyebrow',
+	'readyStatus',
+	'sourceLabel',
+	'identityLabel',
+	'publishingEyebrow',
+	'publishingHint',
+	'availabilityLabel',
+	'cadenceLabel',
+	'actionTrust',
+	'continueWithProfile',
 	'editLabel',
 	'doneLabel',
 	'waitBeatFraming',
@@ -659,15 +669,26 @@ describe('the free card walls posts, and none of the Munch theatre', () => {
 		assert.doesNotMatch(magnet, /Official FREE/);
 	});
 
-	it('picker sits below the knowing; LinkedIn is not a to-do above overview', () => {
+	it('the reading canvas precedes the decision rail; LinkedIn stays an unavailable note', () => {
 		assert.ok(gtkSrc.indexOf('KNOWING_IDS') > 0);
-		const knowingRender = gtkSrc.indexOf('{knowing.map(renderSection)}');
-		const pickerRender = gtkSrc.indexOf('pickerRows({ selected: platforms })');
+		const knowingRender = gtkSrc.indexOf('{canvasSections.map(renderSection)}');
+		const pickerRender = gtkSrc.indexOf('<aside className="preview-action-rail">');
 		const proofRender = gtkSrc.indexOf('{proof ? <ProofStrip');
-		assert.ok(knowingRender > 0 && pickerRender > knowingRender, 'picker after knowing');
-		assert.ok(proofRender > knowingRender && proofRender < pickerRender, 'proof under knowing, picker after');
+		assert.ok(knowingRender > 0 && pickerRender > knowingRender, 'decision rail after reading canvas');
+		assert.ok(proofRender > knowingRender && proofRender < pickerRender, 'proof remains with the reading canvas');
+		assert.match(gtkSrc, /preview-platform-unavailable/);
 		assert.match(gtkSrc, /First-brain copy/);
 		assert.match(gtkSrc, /platformDecideForMe/);
+	});
+
+	it('uses the exact Moil orange for ready-card actions with the standard white foreground', () => {
+		const css = read('app/business/business.css');
+		const readyV2 = css.slice(css.indexOf('Preview ready v2: Focus canvas'));
+		assert.match(css, /--preview-orange:\s*#FF6633/);
+		assert.match(readyV2, /\.preview-magnet-shell--ready/);
+		assert.match(readyV2, /\.preview-magnet-shell--ready \.preview-primary-cta\s*\{[^}]*color:\s*#FFFFFF[^}]*background:\s*#FF6633/s);
+		assert.match(gtkSrc, /preview-primary-cta/);
+		assert.match(gtkSrc, /continueWithProfile/);
 	});
 });
 
@@ -767,7 +788,7 @@ describe('EN/ES magnet key parity for Getting To Know You', () => {
 		const esSrc = read('src/common/translations/es.ts');
 		const esMagnet = esSrc.slice(esSrc.indexOf('magnet: {'), esSrc.indexOf('aeoAnswer:'));
 		assert.match(esMagnet, /Que elija Moil/);
-		assert.match(esMagnet, /Así conocemos tu negocio/);
+		assert.match(esMagnet, /Tu estrategia, resumida/);
 		assert.match(esMagnet, /Cómo se habla del negocio/);
 		assert.match(esMagnet, /Dónde se publica/);
 		assert.doesNotMatch(esMagnet, /Llegando a conocerte/);
