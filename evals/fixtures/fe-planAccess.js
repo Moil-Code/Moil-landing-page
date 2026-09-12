@@ -71,9 +71,21 @@ const PLAN_FEATURES = {
   // ─── PROFESSIONAL ─────────────────────────────
   // The $25 base tier: MANUAL studio only. `content360` opens `/moil-360`.
   // `marketPro` stays false — Autopilot, video/b-roll gen, carousel gen,
-  // and the second-language toggle are Market Pro. `keywordResearch` is
-  // false to match BE. generatedPhotosPerWeek stays 3 on the server; do
+  // and the second-language toggle are Market Pro.
+  // generatedPhotosPerWeek stays 3 on the server; do
   // not flatten this into a caption-only week.
+  //
+  // `keywordResearch` IS TRUE HERE AND THE THREE COPIES DISAGREE. This
+  // comment read "false to match BE" until 2026-09-12, describing the
+  // value 65d517cf had already reversed on the line below — and a comment
+  // that contradicts the code beside it is the first thing the next reader
+  // believes. Measured 2026-09-12: backend routes (planFeatures.js) false,
+  // gateway screen (planConfig.js) false, this client fallback true. The
+  // flip landed in ONE of three copies, so a Professional founder whose
+  // profile predates the server entitlement block is offered a feature the
+  // routes then refuse. Settling it is a pricing call and needs all three
+  // flipped in one window; the backend's evals/planTierLockstep.test.js is
+  // what reports the disagreement.
   //
   // History: both repos read `content360: true` until 2026-08-20 with
   // NOTHING limiting a Professional account (the $25/$75 giveaway); then
@@ -85,14 +97,14 @@ const PLAN_FEATURES = {
   // failure is loud in one direction and silent in the other.
   professional_monthly: {
     businessPlan: true,
-    keywordResearch: false,
+    keywordResearch: true,
     businessCoach: true,
     content360: true,
     marketPro: false,
   },
   professional_yearly: {
     businessPlan: true,
-    keywordResearch: false,
+    keywordResearch: true,
     businessCoach: true,
     content360: true,
     marketPro: false,
