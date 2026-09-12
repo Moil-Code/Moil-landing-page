@@ -148,7 +148,7 @@ test('the screen renders the rows it is given, and refuses through toggle', () =
 	assert.ok(/toggle\(p, row\.id\)/.test(src));
 	assert.ok(/chooseDecide\(/.test(src));
 	assert.ok(/platformDecideForMe/.test(src));
-	const coming = src.slice(src.indexOf('cursor-default'), src.indexOf('platformsOr'));
+	const coming = src.slice(src.indexOf('preview-platform-unavailable'), src.indexOf('</fieldset>'));
 	assert.ok(coming.length > 20, 'coming rows missing');
 	assert.ok(!/onClick/.test(coming), 'a "not yet" row is clickable');
 });

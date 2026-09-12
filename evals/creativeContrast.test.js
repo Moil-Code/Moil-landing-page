@@ -42,10 +42,11 @@ describe('preview creative contrast', () => {
 		assert.equal(typeof contrast.accessibleTextColor, 'function');
 	});
 
-	it('preview action orange uses white ink and active chips keep their fill', () => {
+	it('preview actions use exact brand orange with the application-standard white ink', () => {
 		const css = read('app/business/business.css');
 		assert.match(css, /--preview-orange:\s*#FF6633/);
-		assert.match(css, /\.preview-platform-chip--active\s*\{[^}]*background:\s*var\(--preview-orange\)[^}]*color:\s*#FFFFFF/s);
-		assert.match(css, /\.preview-primary-cta\s*\{[^}]*color:\s*#FFFFFF[^}]*background:\s*var\(--preview-orange\)/s);
+		const ready = css.slice(css.indexOf('Preview ready v2: Focus canvas'));
+		assert.match(ready, /\.preview-magnet-shell--ready \.preview-platform-chip--active\s*\{[^}]*color:\s*#FFFFFF[^}]*background:\s*#FF6633/s);
+		assert.match(ready, /\.preview-magnet-shell--ready \.preview-primary-cta\s*\{[^}]*color:\s*#FFFFFF[^}]*background:\s*#FF6633/s);
 	});
 });

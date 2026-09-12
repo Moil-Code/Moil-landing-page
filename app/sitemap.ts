@@ -21,7 +21,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const alternatesFor = (p: string) => {
     const pair = LOCALE_TWINS.find((tw) => tw.en === p || tw.es === p)
     if (!pair) throw new Error(`sitemap: ${p} has no locale twin`)
-    return { languages: { en: `${baseUrl}${pair.en}`, es: `${baseUrl}${pair.es}` } }
+    return {
+      languages: {
+        en: `${baseUrl}${pair.en}`,
+        es: `${baseUrl}${pair.es}`,
+        // A language-neutral visitor belongs on the canonical English page.
+        // This makes the sitemap's hreflang cluster match the page metadata.
+        'x-default': `${baseUrl}${pair.en}`,
+      },
+    }
   }
 
   // The Spanish pages built for the Spanish query (plan 3.4/3.5) enter the

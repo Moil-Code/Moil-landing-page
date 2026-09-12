@@ -545,7 +545,7 @@ export function PreviewMagnet() {
 	return (
 		<div
 			id="preview-magnet"
-			className="preview-magnet-shell relative z-[2] mx-auto mb-12 w-full max-w-[760px] rounded-2xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_88%,transparent)] p-6 text-left shadow-[0_18px_60px_rgba(0,0,0,0.18)] backdrop-blur-md"
+			className={`preview-magnet-shell relative z-[2] mx-auto mb-12 w-full max-w-[760px] rounded-2xl border border-[var(--border2)] bg-[color-mix(in_srgb,var(--bg)_88%,transparent)] p-6 text-left shadow-[0_18px_60px_rgba(0,0,0,0.18)] backdrop-blur-md ${showReadyCard ? 'preview-magnet-shell--ready' : ''}`}
 		>
 			{phase !== 'ready' && phase !== 'wait' && (
 				<form onSubmit={onSubmit} className="flex flex-col gap-3">
