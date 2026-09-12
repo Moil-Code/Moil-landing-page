@@ -214,53 +214,26 @@ describe('the design matches what the product composes after the wall', () => {
 	});
 });
 
-describe('the creative is painted in the DOM, never loaded as a data URI', () => {
+describe('the free ready card does not paint posts', () => {
 	const gtk = read('app/business/components/GettingToKnowYou.tsx');
-	// COMMENTS ARE STRIPPED BEFORE THE REFUSAL CHECKS. The note beside
-	// PostCreative explains the data-URI rule and therefore quotes the
-	// very strings the check forbids — a raw match hits the
-	// explanation and reports the opposite of the truth.
 	const gtkBody = gtk
 		.replace(/\/\*[\s\S]*?\*\//g, '')
 		.replace(/\{\/\*[\s\S]*?\*\/\}/g, '')
 		.replace(/^\s*\/\/.*$/gm, '');
 
-	it('the strip is wired and reveals with the rest of the card', () => {
-		assert.match(gtk, /postCards\(/);
-		assert.match(gtk, /<PostStrip/);
-		assert.match(gtk, /reveal\('posts'\)/);
-	});
-
-	it('nothing renders the server SVG fallback as an image', () => {
-		// A data-URI document has an opaque origin, so every external
-		// reference inside it is blocked — and Chromium paints its
-		// BROKEN-IMAGE ICON in the blocked slot rather than skipping
-		// it. Measured in headless Chromium: broken inside
-		// `<img src=data:>`, correct when inlined in the DOM. Painting
-		// here also loads their real logo and real photograph, which is
-		// the difference between a mock-up and their post.
-		assert.doesNotMatch(gtkBody, /creative\.imageUrl/);
+	it('PostStrip is unwired — BANNED_HEADING_IDS was not enough', () => {
+		assert.doesNotMatch(gtk, /postCards\(/);
+		assert.doesNotMatch(gtk, /<PostStrip/);
+		assert.doesNotMatch(gtk, /reveal\('posts'\)/);
+		assert.doesNotMatch(gtk, /postsBeforeCta/);
+		assert.doesNotMatch(gtk, /previewPosts/);
+		assert.doesNotMatch(gtkBody, /function PostCreative/);
+		assert.doesNotMatch(gtkBody, /preview-posts-section/);
 		assert.doesNotMatch(gtkBody, /data:image\/svg/);
 		assert.doesNotMatch(gtkBody, /dangerouslySetInnerHTML/);
-		// and the strip really is in there, so the refusals above are
-		// not passing over an absent component
-		assert.match(gtkBody, /function PostCreative/);
-	});
-
-	it('uses website imagery only behind a solid contrast-safe copy panel', () => {
-		assert.match(gtkBody, /card\.photo \?/);
-		assert.match(gtkBody, /preview-post-copy-panel/);
-		assert.match(gtkBody, /backgroundColor: surface/);
-	});
-
-	it('a broken founder image hides itself rather than showing a broken glyph', () => {
-		const strip = gtk.slice(gtk.indexOf('function PostCreative'), gtk.indexOf('function PostStrip'));
-		assert.ok(strip.length > 200, 'the PostCreative slice was FOUND');
-		assert.equal((strip.match(/onError=/g) || []).length, 2, 'photo AND logo');
-	});
-
-	it('the strip is absent when there is nothing to paint', () => {
-		assert.match(gtk, /cards\.length \? <PostStrip/);
+		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		assert.doesNotMatch(magnet, /postsBeforeCta/);
+		assert.doesNotMatch(magnet, /previewPosts/);
 	});
 });
 
@@ -288,12 +261,11 @@ describe('the copy exists in both languages', () => {
 describe('the magnet actually forwards what the server sent', () => {
 	const magnet = read('app/business/components/PreviewMagnet.tsx');
 
-	it('ReadyPayload declares content, and onReady carries it', () => {
+	it('ReadyPayload may still hold what the server sent, and the card is not handed it', () => {
 		assert.match(magnet, /content\?: \{ kind\?: string; posts\?: ReadyPost\[\] \}/);
 		assert.match(magnet, /content: filled\.content/);
-	});
-
-	it('and the card is handed it', () => {
-		assert.match(magnet, /content: ready\.content/);
+		const cardCall = magnet.slice(magnet.indexOf('<GettingToKnowYou'), magnet.indexOf('</GettingToKnowYou>'));
+		assert.doesNotMatch(cardCall, /content:/);
+		assert.match(magnet, /postsShown: 0/);
 	});
 });

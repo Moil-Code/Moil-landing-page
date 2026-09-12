@@ -9,15 +9,9 @@ import {
 	toggle,
 } from '../preview/platformPickerView';
 import { headingKeyFor, profileSections, revealDelays } from '../preview/gettingToKnowYou';
-import { postCards } from '../preview/previewPosts';
 import { businessFacts } from '../preview/businessFacts';
 import { brandCity } from '../preview/previewCity';
 import { emitFunnelEvent } from '../preview/funnelEvents';
-import {
-	accessibleTextColor,
-	DEFAULT_SURFACE,
-	normalizeHex,
-} from '../preview/creativeContrast';
 
 import type { BusinessFacts } from '../preview/businessFacts';
 
@@ -37,10 +31,15 @@ type Section = {
 type Draft = {
 	name?: string;
 	framing?: string;
+	tagline?: string;
 	audience?: string;
 	services?: string;
 	problem?: string;
 	UVP?: string;
+	keyTerms?: string[];
+	language?: string;
+	cadence?: string;
+	trustSignals?: string[];
 	ctas?: string[];
 	slogans?: string[];
 	voiceChips?: string[];
@@ -48,7 +47,7 @@ type Draft = {
 };
 
 type Props = {
-	body: { brand?: object; positioning?: object; content?: object } | null;
+	body: { brand?: object; positioning?: object } | null;
 	website: string;
 	platforms: string[];
 	onPlatforms: (next: string[] | ((prev: string[]) => string[])) => void;
@@ -64,10 +63,15 @@ type Props = {
 const KNOWING_IDS = Object.freeze([
 	'name',
 	'framing',
+	'tagline',
 	'audience',
 	'services',
 	'problem',
 	'UVP',
+	'keyTerms',
+	'language',
+	'cadence',
+	'trustSignals',
 	'ctas',
 	'slogans',
 	'voice',
@@ -146,10 +150,15 @@ function isEditable(kind: string, id: string) {
 function draftValue(section: Section, draft: Draft): Section {
 	if (section.id === 'name' && draft.name != null) return { ...section, value: draft.name };
 	if (section.id === 'framing' && draft.framing != null) return { ...section, value: draft.framing };
+	if (section.id === 'tagline' && draft.tagline != null) return { ...section, value: draft.tagline };
 	if (section.id === 'audience' && draft.audience != null) return { ...section, value: draft.audience };
 	if (section.id === 'services' && draft.services != null) return { ...section, value: draft.services };
 	if (section.id === 'problem' && draft.problem != null) return { ...section, value: draft.problem };
 	if (section.id === 'UVP' && draft.UVP != null) return { ...section, value: draft.UVP };
+	if (section.id === 'keyTerms' && draft.keyTerms) return { ...section, value: draft.keyTerms };
+	if (section.id === 'language' && draft.language != null) return { ...section, value: draft.language };
+	if (section.id === 'cadence' && draft.cadence != null) return { ...section, value: draft.cadence };
+	if (section.id === 'trustSignals' && draft.trustSignals) return { ...section, value: draft.trustSignals };
 	if (section.id === 'ctas' && draft.ctas) return { ...section, value: draft.ctas };
 	if (section.id === 'slogans' && draft.slogans) return { ...section, value: draft.slogans };
 	if (section.id === 'voice') {
@@ -188,14 +197,6 @@ export function GettingToKnowYou({
 	const knowing = painted.filter((section) => KNOWING_IDS.includes(section.id));
 	const proof = painted.find((section) => section.id === 'proof');
 
-	// PROOF OF WORK, not proof of reading. Everything above this line
-	// hands the founder their own words back; these are the first
-	// things we would MAKE for them, and the server has been composing
-	// them all along. Zero provider spend: the captions are the
-	// founder's own product names carried verbatim under an angle from
-	// our closed set, and the creative is painted here in the DOM.
-	const cards = useMemo(() => postCards(body), [body]);
-
 	// The hard facts the founder's own JSON-LD publishes — phone,
 	// hours, price range, the year they started, the rating their
 	// customers left. Verbatim or absent; rules in businessFacts.js.
@@ -209,7 +210,7 @@ export function GettingToKnowYou({
 	// The sentences the founder already watched are instant; only what
 	// sits below them cascades. The signup CTA is deliberately absent
 	// from this list — an action must never be delayed behind an
-	// animation.
+	// animation. Posts are walled: they never join this list.
 	const delays = useMemo(
 		() =>
 			revealDelays(
@@ -217,13 +218,12 @@ export function GettingToKnowYou({
 					...knowing.map((section) => section.id),
 					...(proof ? ['proof'] : []),
 					...(facts ? ['facts'] : []),
-					...(cards.length ? ['posts'] : []),
 					'picker',
 				],
 				watched,
 				reduceMotion,
 			),
-		[knowing, proof, facts, cards, watched, reduceMotion],
+		[knowing, proof, facts, watched, reduceMotion],
 	);
 	const reveal = (id: string) => ({
 		className: 'preview-reveal',
@@ -243,7 +243,7 @@ export function GettingToKnowYou({
 
 	// leftover-4 dest HOLD: local state only. Hydrate persist is Onboarding.
 	// leftover-6, remaining OFF: no second scrape, no website builder.
-	// The posts magnet is ON — PostStrip below, rules in previewPosts.js.
+	// Posts walled on the free card (Jimmy lock) — no PostStrip.
 	const commitEdit = (id: string) => {
 		setDraft((prev) => {
 			const next: Draft = { ...prev };
@@ -254,10 +254,16 @@ export function GettingToKnowYou({
 				next.ctas = parseLines(editText);
 			} else if (id === 'slogans') {
 				next.slogans = parseLines(editText);
+			} else if (id === 'keyTerms') {
+				next.keyTerms = parseLines(editText);
+			} else if (id === 'trustSignals') {
+				next.trustSignals = parseLines(editText);
 			} else if (id === 'name') {
 				next.name = editText.trim();
 			} else if (id === 'framing') {
 				next.framing = editText.trim();
+			} else if (id === 'tagline') {
+				next.tagline = editText.trim();
 			} else if (id === 'audience') {
 				next.audience = editText.trim();
 			} else if (id === 'services') {
@@ -266,6 +272,10 @@ export function GettingToKnowYou({
 				next.problem = editText.trim();
 			} else if (id === 'UVP') {
 				next.UVP = editText.trim();
+			} else if (id === 'language') {
+				next.language = editText.trim();
+			} else if (id === 'cadence') {
+				next.cadence = editText.trim();
 			}
 			return next;
 		});
@@ -369,7 +379,6 @@ export function GettingToKnowYou({
 					{knowing.map(renderSection)}
 					{proof ? <ProofStrip section={proof} reveal={reveal('proof')} /> : null}
 					{facts ? <FactStrip facts={facts} copy={m} reveal={reveal('facts')} /> : null}
-					{cards.length ? <PostStrip cards={cards} copy={m} reveal={reveal('posts')} /> : null}
 				</div>
 
 				<fieldset
@@ -420,7 +429,7 @@ export function GettingToKnowYou({
 				</fieldset>
 			</div>
 
-			<div className="preview-ready-actions shrink-0 pt-4">
+			<div className="preview-ready-actions preview-ready-actions--sticky shrink-0 pt-4">
 				<a
 					href={signupHref}
 					data-signup-cta="preview-ready"
@@ -445,137 +454,6 @@ export function GettingToKnowYou({
 					{m.tryAgain}
 				</button>
 			</div>
-		</div>
-	);
-}
-
-type PostCard = {
-	caption: string;
-	headline: string;
-	lead: string;
-	last: string;
-	subhead: string;
-	photo: string;
-	logo: string;
-	primary: string;
-	accent: string;
-	surface: string;
-};
-
-/**
- * The creative is PAINTED HERE, never loaded from the server's
- * `data:image/svg+xml` fallback. A data-URI document has an opaque
- * origin, so every external reference inside it is blocked — and
- * Chromium paints its broken-image icon in the blocked slot rather than
- * skipping it, which would stamp a broken glyph on the creative of
- * every founder who has a logo. Painting in the DOM loads their real
- * mark and their real photograph, which is the difference between a
- * mock-up and their post.
- *
- * Brand colours remain the starting point, then `accessibleTextColor`
- * nudges only unsafe foregrounds toward light or dark ink until they
- * meet WCAG AA against the card surface.
- */
-function PostCreative({ card }: { card: PostCard }) {
-	const surface = normalizeHex(card.surface, DEFAULT_SURFACE);
-	const primary = accessibleTextColor(surface, card.primary);
-	const accent = accessibleTextColor(surface, card.accent || card.primary);
-	const decorPrimary = normalizeHex(card.primary, '#7C3AED');
-	const decorAccent = normalizeHex(card.accent, '#FF6633');
-	return (
-		<div
-			className="preview-post-creative relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-[var(--border2)]"
-			style={{ background: surface }}
-		>
-			{/* The submitted site's own photography brings the subject matter
-			    into the concept. Copy never sits directly on that uncontrolled
-			    image: it has its own opaque, contrast-checked panel below. */}
-			{card.photo ? (
-				// eslint-disable-next-line @next/next/no-img-element
-				<img
-					src={card.photo}
-					alt=""
-					className="absolute inset-0 h-full w-full object-cover"
-					onError={(e) => {
-						(e.currentTarget as HTMLImageElement).style.display = 'none';
-					}}
-				/>
-			) : null}
-			<div
-				aria-hidden
-				className="preview-post-image-shade absolute inset-0"
-				style={{
-					background: `linear-gradient(180deg, ${decorPrimary}1F 0%, ${decorPrimary}75 100%), radial-gradient(65% 58% at 4% 8%, ${decorAccent}94 0%, transparent 100%), radial-gradient(62% 58% at 96% 92%, ${decorPrimary}80 0%, transparent 100%)`,
-				}}
-			/>
-			{/* A row stored before the creative existed carries a caption
-			    and a photograph and no headline. That is still a real
-			    post, so it paints their picture under our wash rather
-			    than an empty type block — and the caption is NEVER
-			    promoted into a headline to fill the frame, which would
-			    print the same sentence twice. */}
-			{card.last ? (
-				<div
-					className="preview-post-copy-panel absolute inset-x-2.5 bottom-2.5 flex flex-col justify-center rounded-lg border p-3"
-					style={{ backgroundColor: surface, borderColor: primary }}
-				>
-					<p
-						className="text-[15px] font-bold leading-[1.12] tracking-[-0.02em]"
-						style={{ color: primary }}
-					>
-						{card.lead ? <span>{card.lead} </span> : null}
-						<span style={{ color: accent }}>{card.last}</span>
-					</p>
-					{card.subhead ? (
-						<p className="mt-1.5 text-[11px] font-medium leading-snug" style={{ color: primary }}>
-							{card.subhead}
-						</p>
-					) : null}
-				</div>
-			) : null}
-			{card.logo ? (
-				// eslint-disable-next-line @next/next/no-img-element
-				<img
-					src={card.logo}
-					alt=""
-					className="absolute bottom-2 left-2 h-7 w-7 rounded bg-white/90 object-contain p-0.5"
-					onError={(e) => {
-						(e.currentTarget as HTMLImageElement).style.display = 'none';
-					}}
-				/>
-			) : null}
-		</div>
-	);
-}
-
-function PostStrip({
-	cards,
-	copy: m,
-	reveal,
-}: {
-	cards: PostCard[];
-	copy: MagnetCopy;
-	reveal?: { className: string; style: { animationDelay: string } };
-}) {
-	return (
-		<div
-			className={`preview-posts-section flex flex-col gap-2 pt-1 ${reveal ? reveal.className : ''}`}
-			style={reveal ? reveal.style : undefined}
-		>
-			<p className="text-[14px] font-semibold text-[var(--text)]">{m.postsTitle}</p>
-			<div className="preview-post-grid grid grid-cols-3 gap-2.5">
-				{cards.map((card) => (
-					<article key={card.caption} className="preview-post-card flex min-w-0 flex-col gap-2">
-						<PostCreative card={card} />
-						<p className="line-clamp-3 text-[11px] leading-snug text-[var(--text2)]">
-							{card.caption}
-						</p>
-					</article>
-				))}
-			</div>
-			{m.postsNote ? (
-				<p className="text-[12px] leading-snug text-[var(--text)] opacity-70">{m.postsNote}</p>
-			) : null}
 		</div>
 	);
 }

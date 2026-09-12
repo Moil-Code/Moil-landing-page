@@ -3,24 +3,24 @@
 /**
  * Getting To Know You — paint plan from a ready GET body.
  *
- * Ready lead is the five wait sentences as composed prose (omit empty):
- * What this business is / Who it is for / What it offers / The problem it
- * solves / Why it wins. Unban uvp when GET has it. Unique CTAs and slogans
- * fold to one line from 1–2 real shop lines that are not Moil nav, or omit.
- * Voice: sentence first. Logo / colors / photos are a proof strip under
- * the knowing, not the story. Does not paint content.posts. Cadence is
- * never Posting Schedule.
+ * Ready card is a COMPOSED research card, markdown-safe, not a tag dump
+ * and not a replay of wait-beat headings. Overview is brand.overview
+ * (then description), never messaging-as-framing. Audience omits empty,
+ * tag dumps, and trades/roofing bleed that the rest of the brand does
+ * not support. Problem and UVP are distinct; a duplicate UVP omits.
+ * Lifted when present: keyTerms, language, tagline, cadence,
+ * trustSignals. Cadence is positioning.cadence, never the picker.
  *
- * The posts magnet is ON and lives in `previewPosts.js` — a typed
- * strip, not a heading section, which is why `posts` stays in
- * BANNED_HEADING_IDS: that list stops a GET key becoming a text
- * heading, and the strip is a deliberate render rather than a walked
- * key.
+ * POSTS WALLED on the free ready card (Jimmy lock). `posts` stays in
+ * BANNED_HEADING_IDS so a GET key cannot become a heading — AND this
+ * module never emits a posts section. The heading ban alone was not
+ * enough: PostStrip painted content.posts beside it. The free card
+ * does not call that path.
  *
  * leftover-4 dest HOLD: this module does not persist. Hydrate lives on
  * Onboarding. Local edits in the card die with the session.
- * leftover-6, remaining OFF: no second scrape, no website builder. The
- * posts magnet is ON — see `previewPosts.js`.
+ * leftover-6, remaining OFF: no second scrape, no website builder.
+ * Posts walled on the free card.
  *
  * Pure: no I/O, no clock, no React.
  */
@@ -72,10 +72,15 @@ const READY_HOLD_MAX_MS = 2500;
 const SECTION_ORDER = Object.freeze([
 	'name',
 	'framing',
+	'tagline',
 	'audience',
 	'services',
 	'problem',
 	'UVP',
+	'keyTerms',
+	'language',
+	'cadence',
+	'trustSignals',
 	'ctas',
 	'slogans',
 	'voice',
@@ -85,11 +90,16 @@ const SECTION_ORDER = Object.freeze([
 
 const HEADING_KEY = Object.freeze({
 	name: 'headingName',
-	framing: 'waitBeatFraming',
-	audience: 'waitBeatAudience',
-	services: 'waitBeatServices',
-	problem: 'waitBeatProblem',
+	framing: 'headingOverview',
+	tagline: 'headingTagline',
+	audience: 'headingAudience',
+	services: 'headingServices',
+	problem: 'headingProblem',
 	UVP: 'waitBeatUvp',
+	keyTerms: 'posKeyTerms',
+	language: 'headingLanguage',
+	cadence: 'posCadence',
+	trustSignals: 'headingTrust',
 	ctas: 'headingCtas',
 	slogans: 'headingSlogans',
 	voice: 'headingVoice',
@@ -97,16 +107,45 @@ const HEADING_KEY = Object.freeze({
 	schedule: 'headingSchedule',
 });
 
-/** Never become section ids, even when the GET has values. */
+/**
+ * Never become section ids, even when the GET has values.
+ * Lifted: keyTerms, language, tagline, cadence, trustSignals.
+ * posts STAY banned — walled on the free card (Jimmy lock).
+ */
 const BANNED_HEADING_IDS = Object.freeze([
-	'keyTerms',
-	'language',
-	'tagline',
-	'cadence',
 	'narrationPov',
-	'trustSignals',
 	'posts',
 ]);
+
+/** Longest composed prose on the ready card. Sentence-boundary cut. */
+const COMPOSE_MAX = 720;
+
+/** Wait type-out cap — a markdown dump must not park the card. */
+const WAIT_COMPOSE_MAX = 320;
+
+const LANGUAGE_LABEL = Object.freeze({
+	en: 'English',
+	eng: 'English',
+	english: 'English',
+	'en-us': 'English',
+	'en-gb': 'English',
+	es: 'Spanish',
+	spa: 'Spanish',
+	spanish: 'Spanish',
+	'es-mx': 'Spanish',
+	'es-es': 'Spanish',
+	'es-us': 'Spanish',
+	bilingual: 'English and Spanish',
+	'en, es': 'English and Spanish',
+	'en/es': 'English and Spanish',
+	'en + es': 'English and Spanish',
+	'en and es': 'English and Spanish',
+	'english and spanish': 'English and Spanish',
+});
+
+/** Audience bleed that is not this business. */
+const TRADE_BLEED =
+	/\b(roofing|roofers?|hvac|plumbers?|plumbing|electricians?|welding|tradesmen|tradespeople|trades?|contractors?|construction crew)\b/i;
 
 /** Max real shop CTAs / slogans on the ready card. The rest omit. */
 const FOLDED_LINE_MAX = 2;
@@ -144,6 +183,103 @@ function unique(list) {
 }
 
 /**
+ * Markdown-safe prose. Never paints `#`, `**`, fences, or link syntax.
+ * Does not interpret markdown as HTML.
+ * @param {unknown} raw
+ * @returns {string}
+ */
+function stripMarkdown(raw) {
+	let s = typeof raw === 'string' ? raw : '';
+	if (!s) return '';
+	s = s.replace(/```[\s\S]*?```/g, ' ');
+	s = s.replace(/`([^`]+)`/g, '$1');
+	s = s.replace(/!\[[^\]]*\]\([^)]*\)/g, ' ');
+	s = s.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1');
+	s = s.replace(/^#{1,6}\s+/gm, '');
+	s = s.replace(/^\s*>\s?/gm, '');
+	s = s.replace(/^\s*[-*+]\s+/gm, '');
+	s = s.replace(/^\s*\d+\.\s+/gm, '');
+	s = s.replace(/(\*\*|__)([\s\S]*?)\1/g, '$2');
+	s = s.replace(/(\*|_)([\s\S]*?)\1/g, '$2');
+	s = s.replace(/~~([\s\S]*?)~~/g, '$1');
+	s = s.replace(/[#*_~]+/g, ' ');
+	return s.replace(/\s+/g, ' ').trim();
+}
+
+/**
+ * Composed prose from a GET field. Strip markdown, collapse space,
+ * cut at a sentence boundary rather than mid-claim when over max.
+ * @param {unknown} raw
+ * @param {number} [max]
+ * @returns {string}
+ */
+function composeProse(raw, max) {
+	const limit = typeof max === 'number' && max > 0 ? max : COMPOSE_MAX;
+	const source = typeof raw === 'string' || typeof raw === 'number' ? String(raw) : asText(raw);
+	const s = stripMarkdown(source);
+	if (!s) return '';
+	if (s.length <= limit) return s;
+	const cut = s.slice(0, limit);
+	const last = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '));
+	if (last >= Math.min(80, Math.floor(limit / 4))) return cut.slice(0, last + 1).trim();
+	return cut.trim();
+}
+
+function languageLabel(raw) {
+	const items = asList(raw);
+	const out = [];
+	for (let i = 0; i < items.length; i++) {
+		const folded = items[i]
+			.toLowerCase()
+			.replace(/_/g, '-')
+			.replace(/\s+/g, ' ')
+			.trim();
+		const mapped = LANGUAGE_LABEL[folded];
+		if (mapped) {
+			if (!out.includes(mapped)) out.push(mapped);
+			continue;
+		}
+		if (/^[a-z]{2}(?:-[a-z]{2})?$/.test(folded)) continue;
+		const prose = composeProse(items[i], 80);
+		if (prose && !out.includes(prose)) out.push(prose);
+	}
+	return out.join(', ');
+}
+
+function isTagDump(text) {
+	const s = composeProse(text);
+	if (!s) return true;
+	const words = s.split(/\s+/).length;
+	if (/[.?!]/.test(s) && words >= 5) return false;
+	const parts = s.split(/[,|;/•·]+/).map((x) => x.trim()).filter(Boolean);
+	if (parts.length >= 3 && parts.every((p) => p.split(/\s+/).length <= 3)) return true;
+	return false;
+}
+
+function audienceLooksWrong(audience, brand) {
+	if (!TRADE_BLEED.test(audience)) return false;
+	const identity = [
+		asText(brand && brand.overview),
+		asText(brand && brand.description),
+		asText(brand && brand.services),
+		asText(brand && brand.category),
+	].join(' ');
+	if (!composeProse(identity)) return false;
+	const ctx = identity + ' ' + asText(brand && brand.name);
+	return !TRADE_BLEED.test(ctx);
+}
+
+function paintTagline(raw) {
+	const s = composeProse(raw, 180);
+	if (!s) return '';
+	if (/^https?:\/\//i.test(s) || /^www\./i.test(s)) return '';
+	if (/security verification|verify you are human|just a moment|cloudflare|unusual traffic/i.test(s)) {
+		return '';
+	}
+	return s;
+}
+
+/**
  * Live building GET headings (English strings) and id aliases.
  * Order is WAIT_BEAT_HEADINGS. scrape_started / pages_read / tokens_ready → ''.
  * @param {unknown} raw
@@ -173,10 +309,15 @@ function foldBeatHeading(raw) {
 
 function beatText(raw) {
 	if (raw == null) return '';
-	if (typeof raw === 'string' || typeof raw === 'number') return asText(raw);
+	if (typeof raw === 'string' || typeof raw === 'number') {
+		return composeProse(String(raw), WAIT_COMPOSE_MAX);
+	}
 	if (Array.isArray(raw)) return '';
 	if (typeof raw === 'object') {
-		return asText(raw.text || raw.value || raw.body || raw.message || raw.copy);
+		return composeProse(
+			raw.text || raw.value || raw.body || raw.message || raw.copy,
+			WAIT_COMPOSE_MAX,
+		);
 	}
 	return '';
 }
@@ -379,9 +520,9 @@ function typedText(text, charCount, reduceMotion) {
 }
 
 function overviewFromBrand(brand) {
-	const overview = asText(brand && brand.overview);
-	const description = asText(brand && brand.description);
-	return overview || description;
+	const overview = composeProse(asText(brand && brand.overview));
+	if (overview) return overview;
+	return composeProse(asText(brand && brand.description));
 }
 
 function httpsPhotos(brand) {
@@ -412,10 +553,10 @@ function colorRow(brand) {
 function voiceFromBody(body) {
 	const brand = (body && body.brand) || {};
 	const positioning = (body && body.positioning) || {};
-	const chips = asList(brand.voiceChips);
-	let sentence = asText(positioning.voice);
+	const chips = asList(brand.voiceChips).map((c) => composeProse(c, 40)).filter(Boolean);
+	let sentence = composeProse(asText(positioning.voice));
 	if (Array.isArray(positioning.voice)) {
-		sentence = asList(positioning.voice).join(' ');
+		sentence = composeProse(asList(positioning.voice).join(' '));
 	}
 	return { chips, sentence };
 }
@@ -435,7 +576,16 @@ function pickFolded(positioning, brand, key) {
 function foldedFact(body, key) {
 	const brand = (body && body.brand) || {};
 	const positioning = (body && body.positioning) || {};
-	return asList(pickFolded(positioning, brand, key)).join(' ');
+	return composeProse(asList(pickFolded(positioning, brand, key)).join(' '));
+}
+
+function audienceFromBody(body) {
+	const brand = (body && body.brand) || {};
+	const audience = foldedFact(body, 'audience');
+	if (!audience) return '';
+	if (isTagDump(audience)) return '';
+	if (audienceLooksWrong(audience, brand)) return '';
+	return audience;
 }
 
 /**
@@ -514,7 +664,8 @@ function foldShopSlogans(raw) {
 }
 
 /**
- * The five wait sentences, as ready prose. Empty omitted. No type-out:
+ * The five wait sentences, as ready prose. Empty omitted. Overview is
+ * composed overview, not wait-beat framing / messaging. No type-out:
  * this is the ready payload, not a fake replay of wait.
  * @param {{ brand?: object, positioning?: object } | null | undefined} body
  * @returns {{ heading: string, text: string }[]}
@@ -522,15 +673,16 @@ function foldShopSlogans(raw) {
 function knowingLeadFromBody(body) {
 	const brand = (body && body.brand) || {};
 	const out = [];
-	const framing = overviewFromBrand(brand) || asText(brand.messaging);
+	const framing = overviewFromBrand(brand);
 	if (framing) out.push({ heading: 'framing', text: framing });
-	const audience = foldedFact(body, 'audience');
+	const audience = audienceFromBody(body);
 	if (audience) out.push({ heading: 'audience', text: audience });
-	const services = asText(brand.services);
+	const services = composeProse(asText(brand.services));
 	if (services) out.push({ heading: 'services', text: services });
 	const problem = foldedFact(body, 'problem');
 	if (problem) out.push({ heading: 'problem', text: problem });
-	const uvp = foldedFact(body, 'uvp') || foldedFact(body, 'UVP');
+	let uvp = foldedFact(body, 'uvp') || foldedFact(body, 'UVP');
+	if (uvp && problem && collapsedLine(uvp) === collapsedLine(problem)) uvp = '';
 	if (uvp) out.push({ heading: 'UVP', text: uvp });
 	return out;
 }
@@ -549,46 +701,80 @@ function proofFromBrand(brand) {
  */
 function profileSections(body, opts) {
 	const brand = (body && body.brand) || {};
+	const positioning = (body && body.positioning) || {};
 	const selected = opts && Array.isArray(opts.selected) ? opts.selected : [];
-	const sections = [];
+	const byId = Object.create(null);
 
 	const name = asText(brand.name);
-	if (name) sections.push({ id: 'name', kind: 'text', value: name });
+	if (name) byId.name = { id: 'name', kind: 'text', value: name };
 
 	const lead = knowingLeadFromBody(body);
 	for (let i = 0; i < lead.length; i++) {
-		sections.push({ id: lead[i].heading, kind: 'text', value: lead[i].text });
+		byId[lead[i].heading] = { id: lead[i].heading, kind: 'text', value: lead[i].text };
+	}
+
+	const tagline = paintTagline(brand.tagline);
+	if (tagline) byId.tagline = { id: 'tagline', kind: 'text', value: tagline };
+
+	const terms = unique(
+		asList(pickFolded(positioning, brand, 'keyTerms'))
+			.map((t) => composeProse(t, 40))
+			.filter(Boolean),
+	).slice(0, 8);
+	if (terms.length) byId.keyTerms = { id: 'keyTerms', kind: 'list', value: terms };
+
+	const language = languageLabel(pickFolded(positioning, brand, 'language') || brand.language);
+	if (language) byId.language = { id: 'language', kind: 'text', value: language };
+
+	const cadence = foldedFact(body, 'cadence');
+	if (cadence) byId.cadence = { id: 'cadence', kind: 'text', value: cadence };
+
+	const trust = unique(
+		asList(pickFolded(positioning, brand, 'trustSignals'))
+			.map((t) => composeProse(t, 180))
+			.filter(Boolean),
+	).slice(0, 3);
+	if (trust.length) {
+		byId.trustSignals =
+			trust.length === 1
+				? { id: 'trustSignals', kind: 'text', value: trust[0] }
+				: { id: 'trustSignals', kind: 'line', value: trust };
 	}
 
 	const ctas = foldShopCtas(brand.ctas);
-	if (ctas.length) sections.push({ id: 'ctas', kind: 'line', value: ctas });
+	if (ctas.length) byId.ctas = { id: 'ctas', kind: 'line', value: ctas };
 
 	const slogans = foldShopSlogans(brand.slogans);
-	if (slogans.length) sections.push({ id: 'slogans', kind: 'line', value: slogans });
+	if (slogans.length) byId.slogans = { id: 'slogans', kind: 'line', value: slogans };
 
 	const voice = voiceFromBody(body);
 	if (voice.chips.length || voice.sentence) {
-		sections.push({
+		byId.voice = {
 			id: 'voice',
 			kind: 'voice',
 			chips: voice.chips,
 			sentence: voice.sentence,
-		});
+		};
 	}
 
 	const proof = proofFromBrand(brand);
-	if (proof) sections.push(proof);
+	if (proof) byId.proof = proof;
 
 	const schedule = scheduleFromPick(selected);
 	if (schedule.length) {
-		sections.push({ id: 'schedule', kind: 'platforms', value: schedule });
+		byId.schedule = { id: 'schedule', kind: 'platforms', value: schedule };
 	}
 
+	const sections = [];
+	for (let i = 0; i < SECTION_ORDER.length; i++) {
+		const id = SECTION_ORDER[i];
+		if (BANNED_HEADING_IDS.indexOf(id) !== -1) continue;
+		if (byId[id]) sections.push(byId[id]);
+	}
 	return sections;
 }
 
 function headingKeyFor(id) {
-	if (WAIT_BEAT_HEADING_KEY[id]) return WAIT_BEAT_HEADING_KEY[id];
 	return HEADING_KEY[id] || '';
 }
 
@@ -603,9 +789,14 @@ module.exports = {
 	HEADING_KEY,
 	BANNED_HEADING_IDS,
 	FOLDED_LINE_MAX,
+	COMPOSE_MAX,
+	WAIT_COMPOSE_MAX,
 	asText,
 	asList,
 	httpsUrl,
+	stripMarkdown,
+	composeProse,
+	languageLabel,
 	foldBeatHeading,
 	waitBeatsFromBody,
 	waitBeatHeadingKey,
