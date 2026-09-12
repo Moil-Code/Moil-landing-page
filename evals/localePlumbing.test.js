@@ -215,6 +215,7 @@ describe('the language control NAVIGATES to the twin document (plan 3.1)', () =>
 		assert.match(sitemap, /import \{ LOCALE_TWINS \} from '\.\.\/src\/common\/i18n\/localeRoutes'/);
 		assert.doesNotMatch(sitemap, /languages: \{\n\s+en: `\$\{baseUrl\}\/business`/, 'sitemap hand-types an alternates pair');
 		assert.equal((sitemap.match(/alternatesFor\('\/business(\/pricing)?'\)/g) || []).length, 4);
+		assert.match(sitemap, /'x-default': `\$\{baseUrl\}\$\{pair\.en\}`/);
 	});
 
 	it('the provider navigates to the twin and only writes ?lg= where no twin exists', () => {

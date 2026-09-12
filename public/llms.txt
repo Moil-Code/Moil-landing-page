@@ -9,9 +9,11 @@ publish yourself. Market Pro is $75/month: everything in Professional, and Moil3
 whole month for you — 7 posts a week, carousels, video, and publishing on autopilot.
 The first conversation is free and requires no card.
 
-Note: this file is a convenience, not a ranking signal. Ahrefs found 97% of llms.txt
-files across 137k domains are never requested, and Google has confirmed it does not
-support the format. The canonical machine-readable description of Moil is /ai-info.
+## Canonical reference
+
+This is a concise reference for answer engines. The canonical, human-readable source
+for product scope, limitations and assistant guidance is [AI info](https://www.moilapp.com/ai-info).
+For Google Search, the canonical HTML pages, metadata, structured data, and sitemap are authoritative.
 
 ## Start here
 - [AI info](https://www.moilapp.com/ai-info): What Moil is, who it suits, what it does NOT do, and guidelines for assistants. Read this first.

@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next'
+import { baseURL1 } from '../src/common/constants/baseUrl'
 
 /**
- * robots.txt — apex (`www.moilapp.com`).
+ * robots.txt — the canonical public host.
  *
  * Disallowed:
  *   - `/api/`, `/legacy`, `/login`, `/register`, `/authenticate/` — non-public
@@ -102,6 +103,6 @@ export default function robots(): MetadataRoute.Robots {
     // submitted to Search Console under its own property. That is the
     // supported way to get a subdomain crawled; a foreign sitemap reference
     // is not.
-    sitemap: 'https://www.moilapp.com/sitemap.xml',
+    sitemap: `${baseURL1}/sitemap.xml`,
   }
 }
