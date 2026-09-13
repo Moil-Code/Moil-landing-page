@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { ProductShot } from './components/ProductShot';
+import { TestimonialCarousel } from './components/TestimonialCarousel';
 import { BilingualSlider } from './components/BilingualSlider';
 import { JourneyVisual } from './components/JourneyVisual';
 import { productShots } from './productShots';
@@ -155,11 +156,11 @@ export function BusinessPageContent() {
   // Reviews come from src/common/data/reviews.ts — one array feeds both this row
   // and /reviews, so the two surfaces cannot disagree about what a customer said.
   const testimonials = businessReviews().map((review, i) => ({
-    testimonialImage: testimonialImages[i % testimonialImages.length],
+    testimonialImage: testimonialImages[i],
     testimonialName: review.name,
     testimonial: review.text,
     role: review.role?.[currentLang] ?? '',
-    source: review.sourceLabel[currentLang],
+    source: `${review.sourceLabel[currentLang]} · ${review.displayDate[currentLang]}`,
     // Quotes stay verbatim English. On Spanish surfaces, label that — never rewrite.
     writtenInEnglishLabel:
       currentLang === 'es' ? t.business.testimonials.writtenInEnglish : '',
@@ -207,19 +208,22 @@ export function BusinessPageContent() {
       {/* WHAT IT MADE — breadth made concrete. "Does everything" reads as nothing;
           a list of real deliverables reads as everything. Sits directly under the
           answer block so the range is established before any feature copy. */}
-      <section id="what-it-made" className="made">
+      <section id="what-it-made" className="made made-v3" aria-labelledby="made-heading">
         <div className="made__inner">
-          <div className="section-tag rv" style={{ justifyContent: 'center' }}>{t.business.made.tag}</div>
-          <h2 className="section-headline rv" style={{ textAlign: 'center' }}>
+          <div className="section-tag rv">{t.business.made.tag}</div>
+          <h2 id="made-heading" className="section-headline rv">
             {t.business.made.headline}{' '}
             <span style={{ color: 'var(--orange)' }}>{t.business.made.headlineHighlight}</span>
           </h2>
           <ul className={`made__list rv d1${currentLang === 'es' ? ' made__list--jobs' : ''}`}>
-            {t.business.made.items.map((item) => {
+            {t.business.made.items.map((item, index) => {
+              const icon = ['chart', 'document', 'palette', 'calendar', 'clipboard', 'calendar', 'document', 'message'][index % 8];
+              const ornament = <><span className="made__icon" aria-hidden="true">{IconMap[icon]}</span><span className="made__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span></>;
               const split = currentLang === 'es' ? item.indexOf('. ') : -1;
               if (split > 0) {
                 return (
                   <li key={item} className="made__item made__item--job">
+                    {ornament}
                     <div>
                       <strong>{item.slice(0, split + 1)}</strong>
                       <p>{item.slice(split + 2)}</p>
@@ -227,10 +231,15 @@ export function BusinessPageContent() {
                   </li>
                 );
               }
-              return <li key={item} className="made__item">{item}</li>;
+              return <li key={item} className="made__item">{ornament}<span className="made__copy">{item}</span></li>;
             })}
           </ul>
-          <p className="made__footnote rv d2">{t.business.made.footnote}</p>
+          <div className="made__footer rv d2">
+            <p className="made__footnote"><span aria-hidden="true">{IconMap.bot}</span>{t.business.made.footnote}</p>
+            <a href={appendLangToUrl(getRegisterUrl(), currentLang)} className="made__cta" data-signup-cta="finished-work">
+              {t.business.hero.cta}<span aria-hidden="true">{IconMap.arrowRight}</span>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -754,11 +763,11 @@ export function BusinessPageContent() {
           The quotes are transcribed verbatim and carry a dated source; do not edit
           them for length or positioning. See CLAUDE.md -> Testimonials. */}
       {testimonials.length > 0 && (
-        <section id="testimonials" className="business-system-section testimonials-v2" style={{ textAlign: 'center' }}>
+        <section id="testimonials" className="business-system-section testimonials-reference has-head" aria-labelledby="reviews-heading" style={{ textAlign: 'center' }}>
           <div className="section-tag rv" style={{ justifyContent: 'center' }}>
             {t.business.testimonials.tag}
           </div>
-          <h2 className="section-headline rv">
+          <h2 id="reviews-heading" className="section-headline rv">
             {t.business.testimonials.headline}
             <br />
             <span style={{ color: 'var(--orange)' }}>{t.business.testimonials.headlineHighlight}</span>
@@ -766,18 +775,17 @@ export function BusinessPageContent() {
           {t.business.testimonials.originalNote && (
             <p className="testi-original-note rv">{t.business.testimonials.originalNote}</p>
           )}
-          <div className="testi-marquee rv">
-            <div className="testi-track">
+          <TestimonialCarousel lang={currentLang}>
               {testimonials.map((item, index) => (
                 <div className="testi-card2" key={`testimonial-${index}`}>
                   <div className="testi-card2__body">
-                    <div className="t-stars">★★★★★</div>
+                    <span className="review-quote" aria-hidden="true">“</span>
                     <p className="testi-card2__text" {...(item.writtenInEnglishLabel ? { lang: 'en' } : {})}>{item.testimonial}</p>
                     {item.writtenInEnglishLabel && (
                       <p className="t-lang">{item.writtenInEnglishLabel}</p>
                     )}
                     <div className="t-author">
-                      <Image
+                      {item.testimonialImage ? <Image
                         src={item.testimonialImage}
                         alt={item.testimonialName}
                         width={44}
@@ -785,7 +793,7 @@ export function BusinessPageContent() {
                         loading="lazy"
                         className="t-av-img"
                         style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border2)' }}
-                      />
+                      /> : <span className="review-avatar" aria-hidden="true">{item.testimonialName.split(' ').map(word => word[0]).slice(0, 2).join('')}</span>}
                       <div>
                         <div className="t-name">{item.testimonialName}</div>
                         <div className="t-role">{item.role}</div>
@@ -795,8 +803,7 @@ export function BusinessPageContent() {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
+          </TestimonialCarousel>
           <a className="testi-readall" href="/reviews">
             {t.business.testimonials.readAll} <span aria-hidden="true">→</span>
           </a>

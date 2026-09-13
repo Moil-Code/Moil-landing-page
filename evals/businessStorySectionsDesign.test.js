@@ -15,11 +15,11 @@ describe('business story sections editorial system', () => {
   const v2 = css.slice(css.indexOf('BUSINESS STORY SYSTEM'));
 
   it('connects all four requested sections to one shared design system', () => {
-    assert.match(page, /id="identity" className="business-system-section identity-v2"/);
+    assert.match(page, /id="identity" className="business-system-section identity-v2(?:\s[^"]*)?"/);
     assert.match(page, /id="capabilities" className="business-system-section capabilities-v2/);
     assert.match(page, /id="journey" className="business-system-section journey-v2/);
     assert.match(page, /id="bilingual" className="section-wrap business-system-section bilingual-v2"/);
-    assert.equal((page.match(/business-section-header__rail/g) || []).length, 4);
+    assert.equal((page.match(/business-section-header__rail/g) || []).length, 5);
   });
 
   it('uses section-specific structures instead of repeating a generic card grid', () => {

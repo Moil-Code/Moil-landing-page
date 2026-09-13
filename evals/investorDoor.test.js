@@ -97,12 +97,9 @@ describe('EN door lock', () => {
 		const problem = namedBlock(business, 'problem');
 		const heroCopy = namedBlock(business, 'hero');
 
-		// The magnet used to sit above Start free in one stacked column. The
-		// two-column hero puts it in the shell's own <aside> beside the copy, so
-		// SOURCE order no longer tracks what a founder sees first. What the lock
-		// still means, and all that is checkable from here: the magnet is the
-		// HERO's own invite — inside the first-fold shell, not a later section.
-		const shell = hero.slice(hero.indexOf('business-hero-v3__shell'));
+		// Keep the preview inside the first-fold hero, independent of whether
+		// the visual composition is stacked or uses columns.
+		const shell = hero.slice(hero.indexOf('<section className="business-hero"'), hero.lastIndexOf('</section>'));
 		assert.ok(
 			shell.indexOf('<PreviewMagnet') > 0,
 			'URL magnet is the first-fold invite, inside the hero shell',

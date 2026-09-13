@@ -2417,6 +2417,36 @@
   }
 }
 /* Hero controls stay compact on phones and gain a two-field tablet layout. */
+:global([data-theme="dark"]) .jobSearch {
+  background: rgb(20 16 36 / 90%);
+  border-color: rgb(169 152 245 / 25%);
+  color: #f6f3ff;
+  box-shadow: 0 20px 55px rgb(0 0 0 / 25%);
+}
+:global([data-theme="dark"]) .searchLead {
+  background: rgb(88 67 190 / 10%);
+}
+:global([data-theme="dark"]) .searchField {
+  background: rgb(255 255 255 / 4%);
+  border-color: rgb(169 152 245 / 16%);
+}
+:global([data-theme="dark"]) .searchField:focus-within {
+  border-color: #a998f5;
+  background: rgb(88 67 190 / 15%);
+  box-shadow: 0 0 0 2px rgb(88 67 190 / 20%);
+}
+:global([data-theme="dark"]) .searchLeadCopy strong,
+:global([data-theme="dark"]) .searchField input { color: #f6f3ff; }
+:global([data-theme="dark"]) .searchKicker,
+:global([data-theme="dark"]) .searchField > span:last-child,
+:global([data-theme="dark"]) .searchField input::placeholder { color: #bbb2cf; }
+:global([data-theme="dark"]) .searchIcon,
+:global([data-theme="dark"]) .searchLeadIcon {
+  background: rgb(88 67 190 / 16%);
+  color: #b2a0ff;
+  border-color: rgb(169 152 245 / 25%);
+  box-shadow: none;
+}
 @media (max-width: 1100px) {
   .hero { min-height: 0; padding: 120px 0 64px; }
   .heroContainer { width: min(900px, calc(100% - 48px)); }
@@ -2458,7 +2488,7 @@
   .searchField, .searchField:first-of-type { min-height: 65px; padding: 9px 10px; gap: 10px; }
   .searchField > span:last-child { font-size: 9px; letter-spacing: .07em; }
   .searchButton { min-height: 48px; padding-block: 8px; }
-  .heroActions { flex-direction: column; }
+  .heroActions { flex-direction: column; width: 100%; }
   .heroPrimary, .heroSecondary { flex: auto; width: 100%; }
   .heroFeatureRow { grid-template-columns: 1fr; }
   .heroFeature { flex-direction: row; align-items: center; padding: 11px 13px; border-right: 0; border-bottom: 1px solid rgb(88 67 190 / 13%); }

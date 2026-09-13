@@ -11,7 +11,17 @@ The centered hero uses two coordinated backgrounds inspired by the user's `Group
 
 Motion uses gentle periodic displacement, scale, distortion, and lighting. All parameters return to their starting values over the loop. The hero only loads the active theme's video, pauses offscreen or in a hidden tab, provides a user pause control, and uses the poster when reduced motion is requested or playback is unavailable.
 
-## Final light-image prompt
+## Section companions
+
+Three transparent WebP variants extend the same embossed microdot material without repeating the full hero behind every section:
+
+- `public/business/shaders/cofounder-corner-v1.webp`: curved lower-right field behind Your AI Co-Founder.
+- `public/business/shaders/capabilities-corner-v1.webp`: intersecting lower-left ribbons for Platform Capabilities.
+- `public/business/shaders/value-corner-v1.webp`: a low crescent along the bottom of What You Actually Get.
+
+Generated with ImageGen from the light hero reference, using purple `#5843BE`, lavender highlights, and restrained `#FF6633` accents. The compositions reserve 70–80% negative space for content. Transparent assets work on both theme surfaces; CSS reduces opacity and shifts the texture toward the corners on mobile. The three optimized assets total approximately 484 KB.
+
+## Light hero generation prompt
 
 Use case: stylized-concept. Create a premium LIGHT MODE shader background image for Moil's business landing-page hero, wide 16:9 landscape. Image 1 is a pattern/composition reference, not a color reference. Transform its overlapping halftone dot fields into sophisticated finely embossed ceramic microdots arranged in fluid curved sheets with subtle moire interference. Brand palette: clean warm-white #FAF9FD background, exact brand purple #5843BE with pale lavender and tiny restrained #FF6633 peach-orange edge accents. Composition designed for CENTERED single-column website hero: central 65% and upper central 70% must remain quiet almost white negative space for large dark headline and centered input form. Texture hugs far left and right edges and lower corners, denser sculptural wave of microdots in bottom quarter; soft feathered blending toward center, no hard boundaries. Dimensional but restrained, refined editorial technology aesthetic, very fine detail and diffuse studio lighting. No rainbow CMYK, no saturated red, no black dots, no text, logos, UI, watermark or objects. This is the complete background asset only.
 
