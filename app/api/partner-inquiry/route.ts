@@ -1,5 +1,10 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import {
+  classifyMailFailure,
+  failureResponse,
+  undeliveredRecord,
+} from './deliveryOutcome';
 
 export const runtime = 'nodejs';
 
@@ -83,14 +88,33 @@ export async function POST(request: Request) {
     : process.env.EMAIL_TO;
 
   if (!sender || !password || !recipient) {
+    // THE SAME LEAD LOSS, ONE BRANCH EARLIER, and this is the likelier of
+    // the two: a host missing EMAIL_TO drops every inquiry it ever receives,
+    // silently, for as long as the variable is unset. It also cannot be
+    // retried into working, so the copy must not ask anyone to.
+    console.error(
+      undeliveredRecord({
+        destination,
+        email,
+        subject,
+        message,
+        reason: 'not_configured',
+      }),
+    );
     console.error('Partner inquiry email is not configured.');
-    return NextResponse.json({ error: 'Messaging is temporarily unavailable. Please try again later.' }, { status: 503 });
+    const { error: copy, status } = failureResponse('config');
+    return NextResponse.json({ error: copy }, { status });
   }
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: { user: sender, pass: password },
   });
+
+  // The lead, kept in one place so both the send and the failure record
+  // describe the same thing. A second literal here is how the log and the
+  // email start disagreeing about what somebody wrote.
+  const lead = { destination, email, subject, message };
 
   try {
     await transporter.sendMail({
@@ -103,7 +127,25 @@ export async function POST(request: Request) {
     });
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error('Partner inquiry email failed:', error instanceof Error ? error.message : 'Unknown mail error');
-    return NextResponse.json({ error: 'We could not send your message. Please try again.' }, { status: 502 });
+    const { kind } = classifyMailFailure(error);
+
+    // KEEP THE LEAD FIRST — before anything in this block can RETURN.
+    // This is the only copy of what the person wrote, and every way a
+    // lead is lost from here looks the same: some path answers and
+    // leaves without recording. Keeping it at the top is what makes a
+    // guard or a branch added below this line safe by default.
+    // See deliveryOutcome.js for why a log is the store here, and what
+    // that honestly does and does not guarantee.
+    console.error(undeliveredRecord({ ...lead, reason: kind }));
+    console.error(
+      'Partner inquiry email failed:',
+      kind,
+      error instanceof Error ? error.message : 'Unknown mail error',
+    );
+
+    // "Try again" is an instruction, and an instruction that cannot work is
+    // worse than none: a rejected credential fails identically every time.
+    const { error: message, status } = failureResponse(kind);
+    return NextResponse.json({ error: message }, { status });
   }
 }

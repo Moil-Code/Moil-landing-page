@@ -17,6 +17,7 @@ import { useBusinessUi } from './hooks/useBusinessUi';
 import { useLanguageContext } from '../../src/common/components/I18nProvider';
 import { appendLangToUrl } from './utils/appendLangToUrl';
 import { getRegisterUrl } from './preview/previewClient';
+import { PRODUCT_ANCHORS, PRODUCT_LINKS } from './productLinks';
 import { IconMap, testimonialImages } from './sections/iconMap';
 import { HeroSection } from './sections/HeroSection';
 
@@ -67,9 +68,11 @@ export function BusinessPageContent() {
   ];
 
   const mobileItems: NavItem[] = [
-    { label: 'Business Plan', href: '/business' },
-    { label: 'Moil360', href: '/business#pricing' },
-    { label: 'Hiring', href: '/candidate' },
+    // ONE VOCABULARY. These three were written out here AND in
+    // components/BusinessNav.tsx, which is why the same wrong href existed
+    // twice and why fixing one would have left the other pointing at the
+    // pricing table. See app/business/productLinks.js.
+    ...PRODUCT_LINKS.map((p) => ({ label: p.label, href: p.href })),
     { label: 'Work', href: '/work' },
     { label: 'Partners', href: '/partners' },
     { label: 'About', href: '/about' },
@@ -102,6 +105,10 @@ export function BusinessPageContent() {
       ],
     },
     {
+      // The anchor the product menu points at. It lives on the CARD rather
+      // than on the section, so "Business Plan" lands on the business plan
+      // instead of on six modules the visitor then has to scan.
+      anchorId: PRODUCT_ANCHORS.businessPlan,
       icon: 'clipboard',
       title: t.business.capabilities.businessPlan.title,
       desc: t.business.capabilities.businessPlan.description,
@@ -324,7 +331,7 @@ export function BusinessPageContent() {
         <div className="capability-registry">
           <div className="capability-registry__index">
             {capabilityCards.map((card, index) => (
-              <article key={`cap-card-${index}`} className={`capability-registry__row rv ${index === 1 ? 'd1' : ''} ${index === 2 ? 'd2' : ''}`}>
+              <article key={`cap-card-${index}`} id={card.anchorId} className={`capability-registry__row rv ${index === 1 ? 'd1' : ''} ${index === 2 ? 'd2' : ''}`}>
                 <span className="capability-registry__number">0{index + 1}</span>
                 <span className="capability-registry__icon" aria-hidden="true">{IconMap[card.icon]}</span>
                 <div className="capability-registry__copy">
@@ -343,7 +350,7 @@ export function BusinessPageContent() {
           </div>
 
           <div className="capability-registry__feature-stack">
-            <article className="capability-registry__feature rv d1">
+            <article id={PRODUCT_ANCHORS.moil360} className="capability-registry__feature rv d1">
               <div className="capability-registry__feature-copy">
                 <div className="capability-registry__feature-topline">
                   <span>04</span>
