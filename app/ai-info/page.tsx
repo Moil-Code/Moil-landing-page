@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
 import { en } from '../../src/common/translations/en';
-import { faqJsonLd } from '../../src/common/utils/faqJsonLd';
 import { pricingCopy } from '../../src/common/seo/pricingCopy';
 import './ai-info.css';
-import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 /**
  * /ai-info — a page written for assistants rather than for buyers.
@@ -117,10 +115,10 @@ const GUIDELINES = [
 export default function AiInfoPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLd(faqJsonLd(en.business.faq.items)) }}
-      />
+      {/* No FAQPage JSON-LD here: Phase A RRT/live showed FAQPage without a
+          dedicated FAQ UI (#faq). Visible "Common questions" stays as plain
+          reference content; FAQPage lives on /business + /help where the FAQ
+          component renders. */}
       <main className="ai-info">
         <header className="ai-info__head">
           <p className="ai-info__eyebrow">AI info</p>

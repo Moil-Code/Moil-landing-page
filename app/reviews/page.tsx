@@ -8,6 +8,7 @@ import {
 } from '../../src/common/data/reviews';
 import './reviews.css';
 import { moilSoftwareApplication } from '~~/src/common/seo/offers';
+import { isoDateTimeWithTz } from '~~/src/common/seo/dates';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 /**
@@ -71,7 +72,7 @@ function reviewsJsonLd() {
         '@type': 'Quotation',
         text: review.text,
         creator: { '@type': 'Person', name: review.name },
-        datePublished: review.date,
+        datePublished: isoDateTimeWithTz(review.date),
         // A SoftwareApplication with no applicationCategory and no offers is an
         // invalid item, and there was one per review on this page. The shared
         // builder emits a complete one.

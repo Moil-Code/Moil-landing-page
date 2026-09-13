@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { META_EN } from '../src/common/seo/pricingCopy';
-import { SAME_AS } from '../src/common/seo/sameAs';
+import { moilOrganization } from '../src/common/seo/organization';
 import { headers } from 'next/headers';
 import { Inter } from 'next/font/google';
 
@@ -11,7 +11,6 @@ import { SiteFooter } from '../src/common/components/SiteFooter';
 import CookieConsent from '../src/common/components/CookieConsent';
 import { baseURL1 } from '../src/common/constants/baseUrl';
 import { HTML_LANG_HEADER } from '../src/common/i18n/pathLocale';
-import { moilOffers } from '../src/common/seo/offers';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 // Inter is self-hosted rather than loaded with a CSS `@import`. A remote
@@ -160,50 +159,11 @@ export default async function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="format-detection" content="telephone=no" />
 
-        {/* Organization Structured Data */}
+        {/* Organization Structured Data — single sitewide block (see organization.ts). */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: jsonLd({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              "name": "Moil Enterprise Inc.",
-              "alternateName": "Moil",
-              "url": "https://www.moilapp.com",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://www.moilapp.com/moil-512.png",
-                "width": 512,
-                "height": 512
-              },
-              "description": "Moil builds an AI co-founder for small business owners. It learns a business once, then produces the finished work the owner has no time to make, in English and Spanish.",
-              "foundingDate": "2023",
-              "industry": "Business Software",
-              "numberOfEmployees": "2-10",
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Buda",
-                "addressRegion": "TX",
-                "addressCountry": "US"
-              },
-              "contactPoint": {
-                "@type": "ContactPoint",
-                "contactType": "customer service",
-                "email": "cs@moilapp.com",
-                "url": "https://www.moilapp.com"
-              },
-              // sameAs MUST exactly match the canonical URLs Google has indexed
-              // for each profile (verified Apr 2026). A typo (e.g. /moil-app vs
-              // /moilapp on LinkedIn) breaks the entity-disambiguation signal
-              // and lets Google confuse Moil with namesake brands.
-              // One list: src/common/seo/sameAs.ts (SiteFooter reads it too).
-              "sameAs": SAME_AS,
-              // Organization takes `makesOffer`, not `offers` — `offers` is a
-              // Product/Service property and is silently dropped here. The offer
-              // bodies come from src/common/seo/offers.ts so price, url and
-              // priceValidUntil cannot drift between the pages that declare them.
-              "makesOffer": moilOffers()
-            })
+            __html: jsonLd(moilOrganization({ includeOffers: true }))
           }}
         />
 

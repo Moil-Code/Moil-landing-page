@@ -3,8 +3,7 @@ import '../../business/business.css';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
 import { es } from '../../../src/common/translations/es';
 import { faqJsonLd } from '../../../src/common/utils/faqJsonLd';
-import { META_ES, pricingCopy } from '../../../src/common/seo/pricingCopy';
-import pageDates from '../../../src/common/seo/pageDates.json';
+import { META_ES } from '../../../src/common/seo/pricingCopy';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 export const metadata: Metadata = {
@@ -54,37 +53,14 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Spanish money-page JSON-LD (Phase B): Breadcrumb + FAQPage only.
+ * Article removed (redundant with EN money-page slim). Organization/WebSite
+ * come from root layout. FAQ matches BusinessFaqSection via es.business.faq.
+ */
 export default function BusinessEsLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      {/* Article — the Spanish document's own E-E-A-T block. It used to be
-          absent (only the English layout carried one), so the Spanish page had
-          no dateModified at all. Same date source as the sitemap. */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: jsonLd({
-            '@context': 'https://schema.org',
-            '@type': 'Article',
-            headline: 'Moil es el socio de IA para dueños de negocio',
-            description: pricingCopy.es.meta,
-            url: `${baseURL1}/es/business`,
-            inLanguage: 'es',
-            datePublished: '2025-01-15',
-            dateModified: pageDates['/es/business'],
-            image: `${baseURL1}/og-business-es.jpg`,
-            author: { '@type': 'Organization', name: 'Moil Enterprise Inc.', url: baseURL1 },
-            publisher: {
-              '@type': 'Organization',
-              name: 'Moil Enterprise Inc.',
-              url: baseURL1,
-              logo: { '@type': 'ImageObject', url: `${baseURL1}/moil-512.png`, width: 512, height: 512 },
-            },
-          }),
-        }}
-      />
-      {/* hreflang pairing — Speakable + Breadcrumb live on the English layout;
-          this Spanish surface needs locale-specific metadata + the alternates above. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -98,8 +74,6 @@ export default function BusinessEsLayout({ children }: { children: React.ReactNo
           }),
         }}
       />
-      {/* Spanish FAQPage, generated from the Spanish translation array so the
-          structured data matches what a Spanish visitor actually reads. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

@@ -16,10 +16,13 @@ import { baseURL1 } from '../src/common/constants/baseUrl'
  *     leave crawlable. The Spanish documents live at `/es/*`.
  *   - `/_next/static/media/` — see the note on the rule below.
  *
- * SEO data-harvesting bots (Ahrefs, MJ12, DotBot, Semrush) blocked entirely —
- * they don't drive traffic, only crawl budget consumption and competitive
- * intel that flows the wrong direction. Note this does not stop a Semrush Site
- * Audit the account owner runs against their own property.
+ * SEO data-harvesting bots (Ahrefs, MJ12, DotBot) blocked entirely — they
+ * don't drive traffic, only crawl budget consumption and competitive intel
+ * that flows the wrong direction.
+ *
+ * SemrushBot is ALLOWED (same public-surface Disallows as `*`) so SEMrush Site
+ * Audit can crawl with fidelity. AhrefsBot / MJ12bot / DotBot stay Disallow:/.
+ * AI answer-engine Allows above are untouched.
  */
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -86,8 +89,24 @@ export default function robots(): MetadataRoute.Robots {
           '/*?*gclid=',
         ],
       },
+      // SemrushBot — allow for Site Audit fidelity (same surface rules as `*`).
       {
-        userAgent: ['AhrefsBot', 'MJ12bot', 'DotBot', 'SemrushBot'],
+        userAgent: 'SemrushBot',
+        allow: '/',
+        disallow: [
+          '/api/',
+          '/legacy',
+          '/login',
+          '/register',
+          '/authenticate/',
+          '/*?*ref=',
+          '/*?*trk=',
+          '/*?*fbclid=',
+          '/*?*gclid=',
+        ],
+      },
+      {
+        userAgent: ['AhrefsBot', 'MJ12bot', 'DotBot'],
         disallow: '/',
       },
     ],
