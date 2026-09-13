@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
+import { selfAlternates } from '../../../src/common/es/esPages';
 import { AeoCitePage } from '../AeoCitePage';
 import { ENTITY_LINE, faqPageJsonLd, type AeoFaq, type AeoRow } from '../aeoLocks';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
@@ -58,7 +59,7 @@ export const metadata: Metadata = {
   title: 'Cheaper alternative to a small business consultant',
   description:
     'Consultants charge $5,000–$15,000 per engagement for a plan and market research. Moil produces both for $25 a month and then writes the marketing — but brings no judgement about your situation. Honest comparison.',
-  alternates: { canonical: `${baseURL1}/compare/alternative-to-consultant` },
+  alternates: { canonical: `${baseURL1}/compare/alternative-to-consultant`, ...selfAlternates(baseURL1, '/compare/alternative-to-consultant') },
   openGraph: {
     title: 'A cheaper alternative to a business consultant | Moil',
     description: 'Substitutes for the deliverable, not the advice. What each one is worth.',

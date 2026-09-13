@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
+import { selfAlternates } from '../../../src/common/es/esPages';
 import { RoundupPage, type RoundupEntry } from '../RoundupPage';
 import { ENTITY_LINE, faqPageJsonLd, type AeoFaq } from '../aeoLocks';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
@@ -107,7 +108,7 @@ export const metadata: Metadata = {
   title: 'Done-for-you social media: real costs and cheaper alternatives',
   description:
     'What agencies, freelancers, virtual assistants and AI tools actually cost for small-business social media, and which one fits depending on whether you need thinking or writing.',
-  alternates: { canonical: `${baseURL1}/compare/done-for-you-social-media-alternatives` },
+  alternates: { canonical: `${baseURL1}/compare/done-for-you-social-media-alternatives`, ...selfAlternates(baseURL1, '/compare/done-for-you-social-media-alternatives') },
   openGraph: {
     title: 'Done-for-you social media alternatives | Moil',
     description: 'Agency, freelancer, VA, AI tool or DIY — real prices and honest trade-offs.',

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
+import { selfAlternates } from '../../../src/common/es/esPages';
 import { AeoCitePage } from '../AeoCitePage';
 import { ENTITY_LINE, faqPageJsonLd, type AeoFaq, type AeoRow } from '../aeoLocks';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
@@ -59,7 +60,7 @@ export const metadata: Metadata = {
   title: 'Moil vs Later — visual scheduling or written content?',
   description:
     'Later plans how your feed looks and schedules what you upload. Moil writes the month and generates the images, in English and Spanish. Honest comparison including where Later wins.',
-  alternates: { canonical: `${baseURL1}/compare/moil-vs-later` },
+  alternates: { canonical: `${baseURL1}/compare/moil-vs-later`, ...selfAlternates(baseURL1, '/compare/moil-vs-later') },
   openGraph: {
     title: 'Moil vs Later | Moil',
     description: 'Later plans the feed. Moil writes the month. Where each one wins.',

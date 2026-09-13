@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
+import { selfAlternates } from '../../../src/common/es/esPages';
 import { AeoCitePage } from '../AeoCitePage';
 import { ENTITY_LINE, faqPageJsonLd, type AeoFaq, type AeoRow } from '../aeoLocks';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
@@ -58,7 +59,7 @@ export const metadata: Metadata = {
   title: 'Moil vs Hootsuite — for owners without a marketing team',
   description:
     'Hootsuite is a management suite for social media teams. Moil writes the month for businesses that do not have one, in English and Spanish. Honest comparison including where Hootsuite wins.',
-  alternates: { canonical: `${baseURL1}/compare/moil-vs-hootsuite` },
+  alternates: { canonical: `${baseURL1}/compare/moil-vs-hootsuite`, ...selfAlternates(baseURL1, '/compare/moil-vs-hootsuite') },
   openGraph: {
     title: 'Moil vs Hootsuite | Moil',
     description: 'A suite for social teams vs a tool for owners with no team. Where each wins.',

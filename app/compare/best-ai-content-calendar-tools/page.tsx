@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
+import { selfAlternates } from '../../../src/common/es/esPages';
 import { RoundupPage, type RoundupEntry } from '../RoundupPage';
 import { ENTITY_LINE, faqPageJsonLd, type AeoFaq } from '../aeoLocks';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
@@ -117,7 +118,7 @@ export const metadata: Metadata = {
   title: 'Best AI content calendar tools for small businesses (2026)',
   description:
     'Buffer, Moil, Later, SocialBee, Hootsuite and Publer compared on one question: after you sign up, do you still have to write the posts? Prices, best-for labels and trade-offs for each.',
-  alternates: { canonical: `${baseURL1}/compare/best-ai-content-calendar-tools` },
+  alternates: { canonical: `${baseURL1}/compare/best-ai-content-calendar-tools`, ...selfAlternates(baseURL1, '/compare/best-ai-content-calendar-tools') },
   openGraph: {
     title: 'Best AI content calendar tools for small businesses | Moil',
     description: 'Six tools compared on whether they organise your content or actually write it.',

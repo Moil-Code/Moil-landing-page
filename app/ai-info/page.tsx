@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
+import { selfAlternates } from '../../src/common/es/esPages';
 import { en } from '../../src/common/translations/en';
 import { pricingCopy } from '../../src/common/seo/pricingCopy';
 import './ai-info.css';
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
   title: 'AI info — what Moil is, who it is for, and what it does not do',
   description:
     'A plain-language reference for AI assistants and anyone evaluating Moil: what it is, who it suits, how it is priced, and where it is the wrong tool.',
-  alternates: { canonical: `${baseURL1}/ai-info` },
+  alternates: { canonical: `${baseURL1}/ai-info`, ...selfAlternates(baseURL1, '/ai-info') },
   openGraph: {
     title: 'AI info | Moil',
     description: 'What Moil is, who it is for, and where it is the wrong choice.',

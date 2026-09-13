@@ -62,8 +62,7 @@ export const metadata: Metadata = {
   title: 'Moil vs Buffer — which is better for a small business?',
   description:
     'Buffer schedules the posts you write. Moil writes them: a researched 30-day calendar with captions and images, in English and Spanish. Full comparison including price and where Buffer wins.',
-  // hreflang to the Spanish twin appears only once that page is reviewed
-  // (src/common/es/esPages.ts) — a draft must not be declared a twin.
+  // hreflang via twinAlternates — Spanish twin reviewed=true (C1).
   alternates: { canonical: `${baseURL1}/compare/moil-vs-buffer`, ...(twinAlternates(baseURL1, '/compare/moil-vs-buffer') ?? {}) },
   openGraph: {
     title: 'Moil vs Buffer | Moil',

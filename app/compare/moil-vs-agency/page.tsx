@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
+import { selfAlternates } from '../../../src/common/es/esPages';
 import { AeoCitePage } from '../AeoCitePage';
 import { ENTITY_LINE, faqPageJsonLd, type AeoFaq, type AeoRow } from '../aeoLocks';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
@@ -58,7 +59,7 @@ export const metadata: Metadata = {
   title: 'Moil vs a marketing agency for a small business',
   description:
     'Agency retainers run $3,000–$8,000 a month. Moil produces the same monthly content for $25–$75 — but not the judgement or the accountability. An honest comparison of what each one is for.',
-  alternates: { canonical: `${baseURL1}/compare/moil-vs-agency` },
+  alternates: { canonical: `${baseURL1}/compare/moil-vs-agency`, ...selfAlternates(baseURL1, '/compare/moil-vs-agency') },
   openGraph: {
     title: 'Moil vs a marketing agency | Moil',
     description: 'Replaces the output, not the relationship. What each one is actually for.',
