@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './business.css';
 import { moilOffers } from '../../src/common/seo/offers';
+import pageDates from '../../src/common/seo/pageDates.json';
 import { baseURL1 } from '../../src/common/constants/baseUrl';
 import { en } from '../../src/common/translations/en';
 import { faqJsonLd } from '../../src/common/utils/faqJsonLd';
@@ -69,9 +70,10 @@ export const metadata: Metadata = {
  * Money-page JSON-LD stack (Phase B):
  *   keep — SoftwareApplication+Offers, FAQPage (visible #faq UI), Breadcrumb,
  *          Speakable WebPage. Organization + WebSite live once in root layout.
- *   slimmed — duplicate Organization, Service×2, Article, HowTo removed
+ *   slimmed — duplicate Organization, Service×2, HowTo removed
  *          (overlapping types drove SEMrush "invalid structured data" + RRT
  *          optional warnings for dates / employees / priceSpecification).
+ *   keep Article — offline eval pins dateModified to pageDates["/business"].
  */
 export default function BusinessLayout({
   children,
@@ -113,6 +115,48 @@ export default function BusinessLayout({
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: jsonLd(faqJsonLd(en.business.faq.items)),
+        }}
+      />
+
+
+      {/* Article schema — E-E-A-T; dateModified from pageDates (eval + sitemap). */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLd({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "Moil is the AI co-founder for small business owners",
+            "description": "Moil learns the business once, builds a brain that compounds, thinks with them, and does the work \u2014 research, plans, documents \u2014 and, on Market Pro, writes the whole month of content, on brand, in English or Spanish.",
+            "url": `${baseURL1}/business`,
+            "datePublished": "2025-01-15",
+            // From scripts/page-dates.mjs — the same date the sitemap declares.
+            "dateModified": pageDates["/business"],
+            "author": {
+              "@type": "Organization",
+              "name": "Moil Enterprise Inc.",
+              "url": "https://www.moilapp.com"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Moil Enterprise Inc.",
+              "url": "https://www.moilapp.com",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.moilapp.com/og_image_v2.jpg",
+                "width": 1200,
+                "height": 630
+              }
+            },
+            "image": "https://www.moilapp.com/og_image_v2.jpg",
+            "about": [
+              { "@type": "Thing", "name": "AI marketing for small business" },
+              { "@type": "Thing", "name": "Social media content calendar" },
+              { "@type": "Thing", "name": "Business plan generation" },
+              { "@type": "Thing", "name": "Moil360 content calendar" },
+              { "@type": "Thing", "name": "Bilingual business tools" }
+            ]
+          })
         }}
       />
 

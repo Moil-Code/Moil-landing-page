@@ -4,6 +4,7 @@ import { baseURL1 } from '../../../src/common/constants/baseUrl';
 import { es } from '../../../src/common/translations/es';
 import { faqJsonLd } from '../../../src/common/utils/faqJsonLd';
 import { META_ES } from '../../../src/common/seo/pricingCopy';
+import pageDates from '../../../src/common/seo/pageDates.json';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 export const metadata: Metadata = {
@@ -54,13 +55,37 @@ export const metadata: Metadata = {
 };
 
 /**
- * Spanish money-page JSON-LD (Phase B): Breadcrumb + FAQPage only.
- * Article removed (redundant with EN money-page slim). Organization/WebSite
- * come from root layout. FAQ matches BusinessFaqSection via es.business.faq.
+ * Spanish money-page JSON-LD (Phase B): Breadcrumb + FAQPage + Article.
+ * Article kept so dateModified stays wired to pageDates (offline eval).
+ * Organization/WebSite come from root layout. FAQ matches BusinessFaqSection.
  */
 export default function BusinessEsLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
+      {/* Article — Spanish E-E-A-T; dateModified from pageDates (eval + sitemap). */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLd({
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: 'Moil es el socio de IA para dueños de negocio',
+            description: META_ES,
+            url: `${baseURL1}/es/business`,
+            inLanguage: 'es',
+            datePublished: '2025-01-15',
+            dateModified: pageDates['/es/business'],
+            image: `${baseURL1}/og-business-es.jpg`,
+            author: { '@type': 'Organization', name: 'Moil Enterprise Inc.', url: baseURL1 },
+            publisher: {
+              '@type': 'Organization',
+              name: 'Moil Enterprise Inc.',
+              url: baseURL1,
+              logo: { '@type': 'ImageObject', url: `${baseURL1}/moil-512.png`, width: 512, height: 512 },
+            },
+          }),
+        }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
