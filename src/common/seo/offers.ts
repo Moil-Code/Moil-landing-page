@@ -77,11 +77,14 @@ export function moilOffer(plan: PlanKey) {
       name: 'Moil Enterprise Inc.',
       url: baseURL1,
     },
+    // PriceSpecification (not UnitPriceSpecification): Google RRT on
+    // SoftwareApplication Offers flagged UnitPriceSpecification as an invalid
+    // object type. Offer already carries price + currency; this block restates
+    // them in the parent PriceSpecification type RRT accepts.
     priceSpecification: {
-      '@type': 'UnitPriceSpecification',
+      '@type': 'PriceSpecification',
       price: p.price,
       priceCurrency: 'USD',
-      billingDuration: 'P1M',
       description: p.unitDescription,
     },
   };
