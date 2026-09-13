@@ -2416,6 +2416,56 @@
     font-size: 12px;
   }
 }
+/* Hero controls stay compact on phones and gain a two-field tablet layout. */
+@media (max-width: 1100px) {
+  .hero { min-height: 0; padding: 120px 0 64px; }
+  .heroContainer { width: min(900px, calc(100% - 48px)); }
+  .jobSearch { grid-template-columns: 1fr 1fr; }
+  .searchLead { grid-column: 1 / -1; display: flex; padding: 5px 10px 9px; border: 0; background: none; text-align: left; }
+  .searchLeadIcon { width: 28px; height: 28px; border: 0; background: none; box-shadow: none; }
+  .searchLeadCopy { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .searchLeadCopy strong { margin: 0; }
+  .searchButton { grid-column: 1 / -1; min-height: 48px; justify-content: center; }
+  .searchButton > span { margin-left: 0; }
+  .searchField { text-align: left; min-height: 67px; border-color: rgb(88 67 190 / 12%); }
+  .searchField input, .searchInput { font-size: 16px; font-weight: 450; }
+  .heroFeature { padding: 15px 12px; gap: 9px; }
+}
+@media (max-width: 760px) {
+  .hero { padding: 103px 0 46px; }
+  .heroContainer { width: calc(100% - 32px); }
+  .hero h1 { max-width: 610px; font-size: clamp(35px, 7.8vw, 50px); line-height: 1.06; letter-spacing: -.05em; }
+  .heroIntro { max-width: 570px; margin-top: 17px; font-size: 14px; line-height: 1.65; }
+  .heroSearch { margin-top: 23px; }
+  .heroActions { margin-top: 17px; gap: 9px; }
+  .heroPrimary, .heroSecondary { min-height: 48px; padding: 12px 16px; font-size: 13px; }
+  .heroFeatureRow { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 20px; }
+  .heroFeature { flex-direction: column; align-items: flex-start; border-bottom: 0; border-right: 1px solid rgb(88 67 190 / 13%); padding: 14px 11px; }
+  .heroFeature strong { font-size: 11px; line-height: 1.4; }
+  .heroFeature small { font-size: 10px; line-height: 1.45; }
+  .heroFeature > span { width: 28px; height: 28px; }
+}
+@media (max-width: 540px) {
+  .hero { padding-top: 96px; }
+  .heroBadge { max-width: 100%; font-size: 9px; padding-inline: 10px; }
+  .hero h1 { margin-top: 19px; font-size: clamp(32px, 9.2vw, 44px); }
+  .heroIntro { font-size: 13px; line-height: 1.65; }
+  .jobSearch { grid-template-columns: 1fr; padding: 8px; gap: 6px; box-shadow: 0 16px 40px rgb(58 38 134 / 12%); }
+  .searchKicker { display: none; }
+  .searchLead { padding: 0 5px 5px; gap: 7px; }
+  .searchLeadCopy strong { font-size: 12px; }
+  .searchIcon { width: 31px; height: 31px; border-radius: 9px; box-shadow: none; }
+  .searchField, .searchField:first-of-type { min-height: 65px; padding: 9px 10px; gap: 10px; }
+  .searchField > span:last-child { font-size: 9px; letter-spacing: .07em; }
+  .searchButton { min-height: 48px; padding-block: 8px; }
+  .heroActions { flex-direction: column; }
+  .heroPrimary, .heroSecondary { flex: auto; width: 100%; }
+  .heroFeatureRow { grid-template-columns: 1fr; }
+  .heroFeature { flex-direction: row; align-items: center; padding: 11px 13px; border-right: 0; border-bottom: 1px solid rgb(88 67 190 / 13%); }
+  .heroFeature > div { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 7px; }
+  .heroFeature small { margin-top: 0; }
+  .heroFeature:last-child { border-bottom: 0; }
+}
 @media (prefers-reduced-motion: reduce) {
   .heroVideo {
     display: none;

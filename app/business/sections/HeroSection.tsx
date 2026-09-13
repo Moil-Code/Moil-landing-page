@@ -1,166 +1,138 @@
 'use client';
 
-import Image from 'next/image';
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
+import { useEffect, useRef, useState } from 'react';
+import { Pause, Play } from 'lucide-react';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
+import type { ThemeMode } from '../../../src/common/hooks/usePersistentTheme';
 import { PreviewMagnet } from '../components/PreviewMagnet';
 import { buildRegisterUrl } from '../preview/previewClient';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
 import { IconMap } from './iconMap';
 import { PrimaryButton, SecondaryButton } from './ui';
 
-/**
- * Business hero — an editorial introduction paired with the real preview flow.
- * The interaction is unchanged; its framing now explains the three things Moil
- * does before asking a visitor to submit their business.
- */
-export function HeroSection() {
-  const { t, lang } = useLanguageContext();
-  const root = useRef<HTMLElement>(null);
+function HeroShader({ theme, lang }: { theme: ThemeMode; lang: string }) {
+  const video = useRef<HTMLVideoElement>(null);
+  const [motionAllowed, setMotionAllowed] = useState(false);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    const el = root.current;
-    if (!el) return;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    const ctx = gsap.context(() => {
-      if (reduce) return;
-
-      gsap.from('[data-hero-item]', {
-        autoAlpha: 0,
-        y: 26,
-        duration: 0.85,
-        ease: 'power2.out',
-        stagger: 0.12,
-        clearProps: 'opacity,visibility,transform',
-      });
-
-      gsap.set('[data-orb="1"]', { xPercent: -50 });
-      gsap.to('[data-orb="1"]', { y: -18, duration: 5, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-      gsap.to('[data-orb="2"]', { y: 22, duration: 6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-      gsap.to('[data-orb="3"]', { y: -16, duration: 7, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-
-      gsap.fromTo(
-        '[data-hero-bg]',
-        { scale: 1.03, xPercent: -1.2 },
-        { scale: 1.08, xPercent: 1.2, duration: 24, ease: 'sine.inOut', yoyo: true, repeat: -1 },
-      );
-
-      gsap.to('[data-pulse]', {
-        scale: 0.72,
-        opacity: 0.45,
-        duration: 1.1,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-      });
-    }, root);
-
-    return () => ctx.revert();
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setMotionAllowed(!preference.matches);
+    sync();
+    preference.addEventListener('change', sync);
+    return () => preference.removeEventListener('change', sync);
   }, []);
 
-  const previewSteps = [
-    t.business.hero.previewStep1,
-    t.business.hero.previewStep2,
-    t.business.hero.previewStep3,
-  ];
+  useEffect(() => {
+    const player = video.current;
+    if (!player || !motionAllowed) return;
+    let visible = true;
+    const syncPlayback = () => {
+      if (paused || !visible || document.hidden) player.pause();
+      else void player.play().catch(() => { /* The theme poster remains visible if autoplay is unavailable. */ });
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      syncPlayback();
+    });
+    observer.observe(player);
+    document.addEventListener('visibilitychange', syncPlayback);
+    syncPlayback();
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', syncPlayback);
+      player.pause();
+    };
+  }, [theme, motionAllowed, paused]);
 
   return (
-    <section ref={root} className="business-hero-v3" aria-labelledby="business-hero-heading">
-      <div data-hero-bg aria-hidden className="business-hero-v3__backdrop">
-        <Image src="/hero_bg.jpg" alt="" fill priority sizes="100vw" className="hero-bg-dark" />
-        <Image
-          src="https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1920/v1783442089/hero_bg_light_eeeazi.png"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="hero-bg-light"
-        />
+    <>
+      <div className="business-hero__art" aria-hidden="true">
+        {motionAllowed && (
+          <video
+            ref={video}
+            key={theme}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster={`/business/shaders/hero-${theme}-v1.jpg`}
+            src={`/business/shaders/hero-${theme}-loop-v1.mp4`}
+          />
+        )}
       </div>
+      {motionAllowed && (
+        <button
+          type="button"
+          className="business-hero__motion"
+          onClick={() => setPaused((value) => !value)}
+          aria-label={lang === 'es'
+            ? (paused ? 'Reproducir animación de fondo' : 'Pausar animación de fondo')
+            : (paused ? 'Play background animation' : 'Pause background animation')}
+        >
+          {paused ? <Play size={13} aria-hidden /> : <Pause size={13} aria-hidden />}
+          <span>{lang === 'es' ? (paused ? 'Reproducir' : 'Pausar') : (paused ? 'Play motion' : 'Pause motion')}</span>
+        </button>
+      )}
+    </>
+  );
+}
 
-      <div aria-hidden className="business-hero-v3__grid" />
-      <div data-orb="1" aria-hidden className="business-hero-v3__orb business-hero-v3__orb--one" />
-      <div data-orb="2" aria-hidden className="business-hero-v3__orb business-hero-v3__orb--two" />
-      <div data-orb="3" aria-hidden className="business-hero-v3__orb business-hero-v3__orb--three" />
+/** One continuous reading path: promise, business preview, actions, reassurance. */
+export function HeroSection({ theme }: { theme: ThemeMode }) {
+  const { t, lang } = useLanguageContext();
+  const copy = t.business.hero;
+  const previewSteps = [copy.previewStep1, copy.previewStep2, copy.previewStep3];
 
-      <div className="business-hero-v3__shell">
-        <div className="business-hero-v3__copy">
-          <div data-hero-item className="business-hero-v3__eyebrow">
-            <span data-pulse aria-hidden className="business-hero-v3__pulse" />
-            <span aria-hidden className="business-hero-v3__eyebrow-icon">{IconMap.rocket}</span>
-            {t.business.hero.eyebrow}
+  return (
+    <section className="business-hero" aria-labelledby="business-hero-heading">
+      <HeroShader theme={theme} lang={lang} />
+      <div className="business-hero__content">
+        <div className="business-hero__eyebrow">
+          <span aria-hidden>{IconMap.rocket}</span>
+          {copy.eyebrow}
+        </div>
+        <h1 id="business-hero-heading">
+          {copy.headline} <strong>{copy.headlineHighlight}</strong>{' '}
+          <span>{copy.headlineLine2}</span>
+        </h1>
+        <p className="business-hero__intro">{copy.subheadline}</p>
+
+        <div className="business-hero__preview" aria-labelledby="business-preview-heading">
+          <div className="business-hero__preview-heading">
+            <span className="business-hero__preview-mark" aria-hidden>{IconMap.globe}</span>
+            <h2 id="business-preview-heading">{copy.previewTitle}</h2>
+            <span className="business-hero__preview-note">
+              {lang === 'es' ? 'Empieza con tu sitio web' : 'Start with your website'}
+            </span>
           </div>
-
-          <h1 data-hero-item id="business-hero-heading">
-            <span>{t.business.hero.headline}</span>{' '}
-            <strong>{t.business.hero.headlineHighlight}</strong>
-            <span className="business-hero-v3__headline-tail">{t.business.hero.headlineLine2}</span>
-          </h1>
-
-          <p data-hero-item className="business-hero-v3__intro">
-            {t.business.hero.subheadline}
-          </p>
-
-          <div data-hero-item className="business-hero-v3__actions">
-            <PrimaryButton
-              href={buildRegisterUrl({ lang, appendLang: appendLangToUrl })}
-              rel="noreferrer"
-              signupCta="hero"
-              className="business-hero-v3__primary"
-            >
-              {t.business.hero.cta} <span>→</span>
-            </PrimaryButton>
-            <SecondaryButton href="#pricing" className="business-hero-v3__secondary">
-              <span aria-hidden className="business-hero-v3__play">{IconMap.play}</span>
-              {t.business.hero.ctaSecondary}
-            </SecondaryButton>
-          </div>
-
-          <div data-hero-item className="business-hero-v3__trust" aria-label={t.business.hero.trustLabel}>
-            {t.business.hero.trust.map((label, index) => (
-              <div key={label}>
+          <PreviewMagnet />
+          <ol className="business-hero__steps" aria-label={copy.previewStepsLabel}>
+            {previewSteps.map((step, index) => (
+              <li key={step}>
                 <span>{String(index + 1).padStart(2, '0')}</span>
-                <p>{label}</p>
-              </div>
+                {step}
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
 
-        <aside data-hero-item className="business-hero-v3__workbench" aria-labelledby="business-preview-heading">
-          <div className="business-hero-v3__workbench-bar">
-            <span>
-              <i aria-hidden />
-              {t.business.hero.previewKicker}
-            </span>
-            <strong>{t.business.hero.previewStatus}</strong>
-          </div>
+        <div className="business-hero__actions">
+          <PrimaryButton
+            href={buildRegisterUrl({ lang, appendLang: appendLangToUrl })}
+            rel="noreferrer"
+            signupCta="hero"
+          >
+            {copy.cta} <span aria-hidden>→</span>
+          </PrimaryButton>
+          <SecondaryButton href="#pricing">
+            {copy.ctaSecondary} <span aria-hidden>↗</span>
+          </SecondaryButton>
+        </div>
 
-          <div className="business-hero-v3__workbench-copy">
-            <span>{t.business.hero.previewEyebrow}</span>
-            <h2 id="business-preview-heading">{t.business.hero.previewTitle}</h2>
-            <p>{t.business.hero.previewDescription}</p>
-          </div>
-
-          <PreviewMagnet />
-
-          <div className="business-hero-v3__preview-steps" aria-label={t.business.hero.previewStepsLabel}>
-            {previewSteps.map((step, index) => (
-              <div key={step}>
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <i aria-hidden />
-                <p>{step}</p>
-              </div>
-            ))}
-          </div>
-        </aside>
-      </div>
-
-      <div aria-hidden className="business-hero-v3__edge-label">
-        <span>MOIL / BUSINESS</span>
-        <i />
-        <span>01</span>
+        <ul className="business-hero__trust" aria-label={copy.trustLabel}>
+          {copy.trust.map((label) => <li key={label}>{label}</li>)}
+        </ul>
       </div>
     </section>
   );

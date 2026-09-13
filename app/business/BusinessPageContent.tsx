@@ -189,8 +189,8 @@ export function BusinessPageContent() {
         setShowLanguageModal={setShowLanguageModal}
       />
 
-      {/* HERO — extracted to sections/HeroSection.tsx (Tailwind + GSAP) */}
-      <HeroSection />
+      {/* HERO */}
+      <HeroSection theme={theme} />
 
       {/* DIRECT ANSWER — the self-contained paragraph an assistant can lift whole.
           This existed in the translation bundle but was never rendered; shipping it
@@ -256,7 +256,7 @@ export function BusinessPageContent() {
 
       {/* IDENTITY — first-body proof. Traditional Consultants / $25 compare is
           demoted to sit with pricing: Market Pro $75 is the sell; $25 is a way in. */}
-      <section id="identity" className="business-system-section identity-v2">
+      <section id="identity" className="business-system-section identity-v2 section-shader section-shader--cofounder">
         <div className="identity-v2__shell">
           <header className="business-section-header identity-v2__header">
             <div className="business-section-header__rail rv" aria-hidden="true">
@@ -313,7 +313,7 @@ export function BusinessPageContent() {
       <div className="divider"></div>
 
       {/* CAPABILITIES */}
-      <section id="capabilities" className="business-system-section capabilities-v2 has-footer-2 has-footer-blend">
+      <section id="capabilities" className="business-system-section capabilities-v2 section-shader section-shader--capabilities">
         <header className="business-section-header capabilities-v2__header">
           <div className="business-section-header__rail rv" aria-hidden="true">
             <span>02</span><i /><span>04</span>
@@ -630,31 +630,22 @@ export function BusinessPageContent() {
 
       {/* PROBLEM / VS — demoted out of the first body. Market Pro $75 is the
           sell; Professional $25 is a way in, stated later with pricing. */}
-      <section id="problem" className="has-footer-1">
+      <section id="problem" className="business-system-section value-v2 section-shader section-shader--value">
         <div className="problem-inner">
-          <div className="section-tag rv" style={{ justifyContent: 'center' }}>
-            {t.business.problem.tag}
-          </div>
-          <h2 className="section-headline rv" style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto 12px' }}>
-            {t.business.problem.headline}
-            <br /><span style={{ color: 'var(--orange)' }}>{t.business.problem.headlineHighlight}</span>{t.business.problem.headlineEnd}
-          </h2>
-          <p
-            className="rv"
-            style={{
-              textAlign: 'center',
-              fontSize: '16px',
-              color: 'var(--text2)',
-              maxWidth: '580px',
-              margin: '0 auto 60px',
-              fontWeight: 300,
-            }}
-          >
-            {t.business.problem.subheadline}
-          </p>
+          <header className="business-section-header value-v2__header">
+            <div className="business-section-header__rail rv" aria-hidden="true"><span>05</span><i /><span>MOIL</span></div>
+            <div>
+              <div className="section-tag rv">{t.business.problem.tag}</div>
+              <h2 className="section-headline rv">
+                {t.business.problem.headline}{' '}
+                <span className="business-accent-text">{t.business.problem.headlineHighlight}</span>{t.business.problem.headlineEnd}
+              </h2>
+            </div>
+            <p className="section-sub rv">{t.business.problem.subheadline}</p>
+          </header>
 
-          <div className="vs-grid-wrap" style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: '32px', alignItems: 'stretch' }}>
-            <div className="cost-card old wave-old rv" style={{ display: 'flex', flexDirection: 'column' }}>
+          <div className="vs-grid-wrap">
+            <div className="cost-card old rv" style={{ display: 'flex', flexDirection: 'column' }}>
               <div className="cost-badge old-b">{t.business.problem.oldMethod}</div>
               <div className="cost-title">{t.business.problem.oldTitle}</div>
               <div className="cost-price strike">{t.business.problem.oldPrice}</div>
@@ -668,30 +659,9 @@ export function BusinessPageContent() {
               </ul>
             </div>
 
-            <div className="rv" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '12px', padding: '0 8px' }}>
-              <div style={{ width: '1px', flex: 1, background: 'linear-gradient(180deg,transparent,var(--border2),transparent)', minHeight: '60px' }}></div>
-              <div
-                style={{
-                  width: '56px',
-                  height: '56px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg,var(--orange-dim),var(--purple-dim))',
-                  border: '1px solid var(--border2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontFamily: 'var(--display)',
-                  fontSize: '20px',
-                  color: 'var(--orange)',
-                  flexShrink: 0,
-                }}
-              >
-                VS
-              </div>
-              <div style={{ width: '1px', flex: 1, background: 'linear-gradient(180deg,transparent,var(--border2),transparent)', minHeight: '60px' }}></div>
-            </div>
+            <div className="value-v2__versus" aria-hidden="true">VS</div>
 
-            <div className="cost-card new wave-new rv d2" style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className="cost-card new rv d2" style={{ display: 'flex', flexDirection: 'column' }}>
               <div className="cost-badge new-b" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>{IconMap.star} {t.business.problem.moilBadge}</div>
               <div className="cost-title">{t.business.problem.moilTitle}</div>
               <div className="cost-price moil-price">{t.business.problem.moilPrice}</div>
@@ -738,7 +708,7 @@ export function BusinessPageContent() {
       {/* TIERS — the split stated once, plainly. $25 makes things when asked;
           $75 also runs the month unasked. Every other pricing mention on the site
           is reconciled to this table. */}
-      <section id="tiers" className="tiers">
+      <section id="tiers" className="business-system-section tiers tiers-v2">
         <div className="tiers__inner">
           <div className="section-tag rv" style={{ justifyContent: 'center' }}>{t.business.tiers.tag}</div>
           <h2 className="section-headline rv" style={{ textAlign: 'center' }}>
@@ -784,7 +754,7 @@ export function BusinessPageContent() {
           The quotes are transcribed verbatim and carry a dated source; do not edit
           them for length or positioning. See CLAUDE.md -> Testimonials. */}
       {testimonials.length > 0 && (
-        <section id="testimonials" className="has-head has-head-blend" style={{ textAlign: 'center' }}>
+        <section id="testimonials" className="business-system-section testimonials-v2" style={{ textAlign: 'center' }}>
           <div className="section-tag rv" style={{ justifyContent: 'center' }}>
             {t.business.testimonials.tag}
           </div>
@@ -798,7 +768,7 @@ export function BusinessPageContent() {
           )}
           <div className="testi-marquee rv">
             <div className="testi-track">
-              {[...testimonials, ...testimonials, ...testimonials, ...testimonials].map((item, index) => (
+              {testimonials.map((item, index) => (
                 <div className="testi-card2" key={`testimonial-${index}`}>
                   <div className="testi-card2__body">
                     <div className="t-stars">★★★★★</div>
