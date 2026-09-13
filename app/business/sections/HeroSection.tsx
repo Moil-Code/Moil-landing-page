@@ -106,10 +106,42 @@ export function HeroSection({ theme }: { theme: ThemeMode }) {
               {lang === 'es' ? 'Empieza con tu sitio web' : 'Start with your website'}
             </span>
           </div>
+<<<<<<< HEAD
           <PreviewMagnet />
           <ol className="business-hero__steps" aria-label={copy.previewStepsLabel}>
             {previewSteps.map((step, index) => (
               <li key={step}>
+=======
+
+          <h1 data-hero-item id="business-hero-heading">
+            <span>{t.business.hero.headline}</span>{' '}
+            <strong>{t.business.hero.headlineHighlight}</strong>{' '}
+            <span className="business-hero-v3__headline-tail">{t.business.hero.headlineLine2}</span>
+          </h1>
+
+          <p data-hero-item className="business-hero-v3__intro">
+            {t.business.hero.subheadline}
+          </p>
+
+          <div data-hero-item className="business-hero-v3__actions">
+            <PrimaryButton
+              href={buildRegisterUrl({ lang, appendLang: appendLangToUrl })}
+              rel="noreferrer"
+              signupCta="hero"
+              className="business-hero-v3__primary"
+            >
+              {t.business.hero.cta} <span>→</span>
+            </PrimaryButton>
+            <SecondaryButton href="#pricing" className="business-hero-v3__secondary">
+              <span aria-hidden className="business-hero-v3__play">{IconMap.play}</span>
+              {t.business.hero.ctaSecondary}
+            </SecondaryButton>
+          </div>
+
+          <div data-hero-item className="business-hero-v3__trust" aria-label={t.business.hero.trustLabel}>
+            {t.business.hero.trust.map((label, index) => (
+              <div key={label}>
+>>>>>>> ac466258ee9b1d580606182141397f62a614839a
                 <span>{String(index + 1).padStart(2, '0')}</span>
                 {step}
               </li>
