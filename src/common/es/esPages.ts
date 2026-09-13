@@ -22,8 +22,8 @@ export const ES_PAGES: readonly EsPage[] = [
   { path: '/es/calendario-de-contenidos-para-redes-sociales', en: null, reviewed: false },
   { path: '/es/que-publicar-en-redes-sociales-para-mi-negocio', en: null, reviewed: false },
   { path: '/es/plan-de-marketing-para-mi-negocio', en: null, reviewed: false },
-  { path: '/es/compare/moil-vs-buffer', en: '/compare/moil-vs-buffer', reviewed: false },
-  { path: '/es/compare/moil-vs-chatgpt', en: '/compare/moil-vs-chatgpt', reviewed: false },
+  { path: '/es/compare/moil-vs-buffer', en: '/compare/moil-vs-buffer', reviewed: true },
+  { path: '/es/compare/moil-vs-chatgpt', en: '/compare/moil-vs-chatgpt', reviewed: true },
 ];
 
 export function esPage(path: string): EsPage {
@@ -42,4 +42,10 @@ export function twinAlternates(baseUrl: string, enPath: string): { languages: Re
   const es = ES_PAGES.find((x) => x.en === enPath);
   if (!es || !es.reviewed) return undefined;
   return { languages: { en: `${baseUrl}${enPath}`, es: `${baseUrl}${es.path}`, 'x-default': `${baseUrl}${enPath}` } };
+}
+
+/** Self-referencing en + x-default when a page has no reviewed Spanish twin. */
+export function selfAlternates(baseUrl: string, path: string): { languages: Record<string, string> } {
+  const url = `${baseUrl}${path}`;
+  return { languages: { en: url, 'x-default': url } };
 }

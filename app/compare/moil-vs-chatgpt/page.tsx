@@ -69,8 +69,7 @@ export const metadata: Metadata = {
   title: 'Moil vs ChatGPT for small business marketing',
   description:
     'ChatGPT answers what you ask. Moil holds your business context and produces a finished 30-day content calendar every month, in English and Spanish. An honest comparison, including where ChatGPT wins.',
-  // hreflang to the Spanish twin appears only once that page is reviewed
-  // (src/common/es/esPages.ts) — a draft must not be declared a twin.
+  // hreflang via twinAlternates — Spanish twin reviewed=true (C1).
   alternates: { canonical: `${baseURL1}/compare/moil-vs-chatgpt`, ...(twinAlternates(baseURL1, '/compare/moil-vs-chatgpt') ?? {}) },
   openGraph: {
     title: 'Moil vs ChatGPT | Moil',
