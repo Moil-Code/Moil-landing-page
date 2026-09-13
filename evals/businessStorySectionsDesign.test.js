@@ -33,13 +33,15 @@ describe('business story sections editorial system', () => {
     assert.match(v2, /--business-accent:\s*#FF6633/);
     assert.match(v2, /\.capability-registry__icon,[\s\S]*?color:\s*#FFFFFF;[\s\S]*?background:\s*var\(--business-accent\)/);
     assert.match(v2, /\.capability-registry__cta,[\s\S]*?color:\s*#FFFFFF;[\s\S]*?background:\s*var\(--business-accent\)/);
-    assert.match(v2, /\.journey-v2 \.jnum\s*\{[^}]*color:\s*#FFFFFF;[^}]*background:\s*var\(--business-accent\)/s);
+    // .jnum rests as an outline chip and FILLS on hover, so the filled control
+    // to lock is the hover rule — the base rule is accent-on-tint, not white.
+    assert.match(v2, /\.journey-v2 \.jstep:hover \.jnum\s*\{[^}]*color:\s*#FFFFFF;[^}]*background:\s*var\(--business-accent\)/s);
     assert.match(v2, /\.bilingual-v2 \.bislider__handle\s*\{[^}]*color:\s*#FFFFFF;[^}]*background:\s*var\(--business-accent\)/s);
   });
 
   it('keeps semantic regions, ordered process steps, and accessible decorative icons', () => {
     assert.match(page, /<header className="business-section-header/);
-    assert.match(page, /<article className="capability-registry__feature/);
+    assert.match(page, /<article[^>]*className="capability-registry__feature/);
     assert.match(page, /<aside className="journey-v2__visual/);
     assert.match(page, /<ol className="journey-steps">/);
     assert.match(page, /aria-hidden="true">\{IconMap\.arrowRight\}/);

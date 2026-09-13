@@ -95,7 +95,7 @@ export function HeroSection() {
 
           <h1 data-hero-item id="business-hero-heading">
             <span>{t.business.hero.headline}</span>{' '}
-            <strong>{t.business.hero.headlineHighlight}</strong>
+            <strong>{t.business.hero.headlineHighlight}</strong>{' '}
             <span className="business-hero-v3__headline-tail">{t.business.hero.headlineLine2}</span>
           </h1>
 

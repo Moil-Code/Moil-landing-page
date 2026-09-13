@@ -80,8 +80,8 @@ export const es: TranslationKeys = {
     hero: {
       eyebrow: 'El socio de los dueños de negocio',
       headline: 'No deber\u00edas tener que encargarte de',
-      headlineHighlight: 'todo',
-      headlineLine2: 'adem\u00e1s del trabajo que realmente importa.',
+      headlineHighlight: 'todo,',
+      headlineLine2: 'adem\u00e1s de hacer el trabajo que realmente importa.',
       subheadline: 'Moil aprende el negocio una vez y no empieza de cero. Piensa contigo y hace el trabajo: investigaci\u00f3n, planes, documentos, y treinta d\u00edas de contenido con tu marca, en ingl\u00e9s o en espa\u00f1ol.',
       cta: 'Empieza gratis \u2014 sin tarjeta',
       ctaSecondary: 'Ver Market Pro',

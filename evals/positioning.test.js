@@ -269,6 +269,29 @@ describe('bilingual parity', () => {
 	});
 });
 
+function quoted(src, key) {
+	const m = src.match(new RegExp(`${key}:\\s*'((?:\\\\'|[^'])*)'`));
+	assert.ok(m, `missing quoted ${key}`);
+	return m[1]
+		.replace(/\\u([0-9a-fA-F]{4})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+		.replace(/\\'/g, "'");
+}
+
+// The H1 ships as three keys (headline + headlineHighlight + headlineLine2) so
+// the hero can colour one word. The LOCK is the sentence they compose — what a
+// crawler and the accessibility tree read off the <h1> — not how it is split.
+// Join on the single space the JSX emits between the three spans, and decode
+// the \uXXXX escapes so the lock below is written as a reader sees it.
+function composedH1(hero) {
+	return ['headline', 'headlineHighlight', 'headlineLine2']
+		.map((key) => quoted(hero, key))
+		.filter(Boolean)
+		.join(' ');
+}
+
+const EN_H1 = "You shouldn't have to be everything on top of the real job.";
+const ES_H1 = 'No deberías tener que encargarte de todo, además de hacer el trabajo que realmente importa.';
+
 describe('answer-engine surfaces', () => {
 	it('renders the direct-answer block', () => {
 		const page = read('app/business/BusinessPageContent.tsx');
@@ -278,8 +301,11 @@ describe('answer-engine surfaces', () => {
 
 	it('keeps the live H1 as the investor lock', () => {
 		const en = read('src/common/translations/en.ts');
-		const hero = en.slice(en.indexOf('    hero: {'), en.indexOf('    aeoAnswer: {'));
-		assert.match(hero, /headline: 'You shouldn\\'t have to be everything on top of the real job\.'/);
+		// From the BUSINESS block: `hero: {` also names the candidate section's
+		// hero, which comes first in the file and carries its own `headline`.
+		const business = en.slice(en.indexOf('\n  business: {'));
+		const hero = business.slice(business.indexOf('    hero: {'), business.indexOf('    aeoAnswer: {'));
+		assert.equal(composedH1(hero), EN_H1);
 		assert.doesNotMatch(hero, /You\\u2019re the marketing team/);
 		assert.doesNotMatch(en, /Meet the AI co-founder for your shop/);
 	});
