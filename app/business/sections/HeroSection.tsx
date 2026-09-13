@@ -2,19 +2,18 @@
 
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
-import { PreviewMagnet } from '../components/PreviewMagnet';
 import gsap from 'gsap';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
-import { appendLangToUrl } from '../utils/appendLangToUrl';
+import { PreviewMagnet } from '../components/PreviewMagnet';
 import { buildRegisterUrl } from '../preview/previewClient';
+import { appendLangToUrl } from '../utils/appendLangToUrl';
 import { IconMap } from './iconMap';
 import { PrimaryButton, SecondaryButton } from './ui';
 
 /**
- * Hero — first fold. Fully Tailwind-styled (arbitrary values reference the theme
- * CSS vars so light/dark still work) with all motion driven by GSAP: a staggered
- * entrance timeline, floating background orbs, a slow background drift, and the
- * pulsing eyebrow dot. Replaces the old CSS `#hero`/`.hero-*` rules + keyframes.
+ * Business hero — an editorial introduction paired with the real preview flow.
+ * The interaction is unchanged; its framing now explains the three things Moil
+ * does before asking a visitor to submit their business.
  */
 export function HeroSection() {
   const { t, lang } = useLanguageContext();
@@ -26,38 +25,32 @@ export function HeroSection() {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const ctx = gsap.context(() => {
-      // Reduced-motion: leave everything in its natural (visible) resting state.
       if (reduce) return;
 
-      // Staggered entrance for the stacked hero items. clearProps on finish so the
-      // items settle to their natural CSS state and never stay stuck hidden.
       gsap.from('[data-hero-item]', {
         autoAlpha: 0,
-        y: 30,
-        duration: 0.9,
+        y: 26,
+        duration: 0.85,
         ease: 'power2.out',
-        stagger: 0.15,
+        stagger: 0.12,
         clearProps: 'opacity,visibility,transform',
       });
 
-      // Floating orbs (orb 1 is centred, so drive its x + y together via GSAP).
       gsap.set('[data-orb="1"]', { xPercent: -50 });
-      gsap.to('[data-orb="1"]', { y: -24, duration: 4.5, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-      gsap.to('[data-orb="2"]', { y: 28, duration: 5.5, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-      gsap.to('[data-orb="3"]', { y: -20, duration: 6.5, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+      gsap.to('[data-orb="1"]', { y: -18, duration: 5, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+      gsap.to('[data-orb="2"]', { y: 22, duration: 6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+      gsap.to('[data-orb="3"]', { y: -16, duration: 7, ease: 'sine.inOut', yoyo: true, repeat: -1 });
 
-      // Slow background drift.
       gsap.fromTo(
         '[data-hero-bg]',
-        { scale: 1.04, xPercent: -1.6 },
-        { scale: 1.11, xPercent: 1.6, duration: 22, ease: 'sine.inOut', yoyo: true, repeat: -1 },
+        { scale: 1.03, xPercent: -1.2 },
+        { scale: 1.08, xPercent: 1.2, duration: 24, ease: 'sine.inOut', yoyo: true, repeat: -1 },
       );
 
-      // Pulsing eyebrow dot.
       gsap.to('[data-pulse]', {
-        scale: 0.7,
-        opacity: 0.4,
-        duration: 1,
+        scale: 0.72,
+        opacity: 0.45,
+        duration: 1.1,
         ease: 'sine.inOut',
         yoyo: true,
         repeat: -1,
@@ -67,123 +60,107 @@ export function HeroSection() {
     return () => ctx.revert();
   }, []);
 
+  const previewSteps = [
+    t.business.hero.previewStep1,
+    t.business.hero.previewStep2,
+    t.business.hero.previewStep3,
+  ];
+
   return (
-    <section
-      ref={root}
-      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-6 pb-[60px] pt-[100px] text-center max-[960px]:px-5 max-[960px]:pb-12 max-[960px]:pt-[88px]"
-    >
-      {/* Background wave image, masked to fade into the page at the top. */}
-      <div
-        data-hero-bg
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[68%] [mask-image:linear-gradient(to_top,#000_60%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_top,#000_60%,transparent_100%)]"
-      >
-        <Image src="/hero_bg.jpg" alt="" fill priority sizes="100vw" className="hero-bg-dark object-cover object-[center_bottom]" />
+    <section ref={root} className="business-hero-v3" aria-labelledby="business-hero-heading">
+      <div data-hero-bg aria-hidden className="business-hero-v3__backdrop">
+        <Image src="/hero_bg.jpg" alt="" fill priority sizes="100vw" className="hero-bg-dark" />
         <Image
           src="https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1920/v1783442089/hero_bg_light_eeeazi.png"
           alt=""
           fill
+          priority
           sizes="100vw"
-          className="hero-bg-light object-cover object-[center_bottom]"
+          className="hero-bg-light"
         />
       </div>
 
-      {/* Faint grid overlay, radially masked to the centre. */}
-      <div
-        aria-hidden
-        className="absolute inset-0 [mask-image:radial-gradient(ellipse_80%_70%_at_50%_50%,black_0%,transparent_100%)]"
-        style={{
-          backgroundImage:
-            'linear-gradient(var(--grid-a) 1px, transparent 1px), linear-gradient(90deg, var(--grid-a) 1px, transparent 1px), linear-gradient(var(--grid-b) 1px, transparent 1px), linear-gradient(90deg, var(--grid-b) 1px, transparent 1px)',
-          backgroundSize: '80px 80px, 80px 80px, 20px 20px, 20px 20px',
-        }}
-      />
+      <div aria-hidden className="business-hero-v3__grid" />
+      <div data-orb="1" aria-hidden className="business-hero-v3__orb business-hero-v3__orb--one" />
+      <div data-orb="2" aria-hidden className="business-hero-v3__orb business-hero-v3__orb--two" />
+      <div data-orb="3" aria-hidden className="business-hero-v3__orb business-hero-v3__orb--three" />
 
-      {/* Ambient blurred orbs. */}
-      <div
-        data-orb="1"
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-[-150px] h-[min(700px,120vw)] w-[min(700px,120vw)] rounded-full blur-[110px]"
-        style={{ background: 'radial-gradient(circle, rgba(255,92,26,0.13) 0%, transparent 70%)' }}
-      />
-      <div
-        data-orb="2"
-        aria-hidden
-        className="pointer-events-none absolute bottom-[10%] right-[-5%] h-[min(450px,80vw)] w-[min(450px,80vw)] rounded-full blur-[110px]"
-        style={{ background: 'radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%)' }}
-      />
-      <div
-        data-orb="3"
-        aria-hidden
-        className="pointer-events-none absolute bottom-[20%] left-[-5%] h-[min(350px,70vw)] w-[min(350px,70vw)] rounded-full blur-[110px]"
-        style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%)' }}
-      />
-
-      {/* Eyebrow */}
-      <div
-        data-hero-item
-        className="relative z-[2] mb-[30px] inline-flex items-center gap-2 rounded-full border border-[rgba(255,92,26,0.22)] bg-[var(--orange-dim)] px-[18px] py-[7px] text-[10px] uppercase tracking-[1.5px] text-[var(--orange)]"
-      >
-        <span data-pulse className="h-1.5 w-1.5 rounded-full bg-[var(--orange)]" />
-        <span className="mr-1.5 inline-flex items-center">{IconMap.rocket}</span> {t.business.hero.eyebrow}
-      </div>
-
-      <h1
-        data-hero-item
-        className="relative z-[2] mb-7 max-w-[1200px] text-[clamp(32px,5vw,64px)] font-bold leading-[1.1] tracking-[-0.03em] max-[960px]:text-[clamp(28px,6vw,46px)] max-[480px]:text-[clamp(24px,7.5vw,36px)]"
-      >
-        {t.business.hero.headline}
-        {t.business.hero.headlineLine2 ? (
-          <>
-            <br />
-            {t.business.hero.headlineLine2}
-          </>
-        ) : null}
-        {t.business.hero.headlineHighlight ? (
-          <>
-            <br />
-            <span className="text-[var(--orange)]">{t.business.hero.headlineHighlight}</span>
-          </>
-        ) : null}
-      </h1>
-
-      {/* Subheadline — the mechanism, including the continuity that drives retention. */}
-      <p
-        data-hero-item
-        className="relative z-[2] mb-11 max-w-[780px] text-[clamp(14px,2vw,18px)] font-light leading-[1.55] text-[var(--text)]"
-      >
-        {t.business.hero.subheadline}
-      </p>
-
-      {/* First fold invite is the URL magnet. Start free stays. Market Pro is
-          the sell ($75) via the secondary CTA — not a $25 card. */}
-      <div data-hero-item className="relative z-[2] mb-6 w-full">
-        <PreviewMagnet />
-      </div>
-
-      <div data-hero-item className="relative z-[2] mb-[48px] flex flex-wrap justify-center gap-3 max-[960px]:flex-col max-[960px]:items-center">
-        <PrimaryButton href={buildRegisterUrl({ lang, appendLang: appendLangToUrl })} rel="noreferrer" signupCta="hero">
-          {t.business.hero.cta} <span>→</span>
-        </PrimaryButton>
-        <SecondaryButton href="#pricing">
-          <span className="mr-1.5 inline-flex items-center">{IconMap.play}</span> {t.business.hero.ctaSecondary}
-        </SecondaryButton>
-      </div>
-
-      {/* Trust strip — outcome claims only; nothing here asserts a number we cannot source. */}
-      <div data-hero-item className="relative z-[2] flex flex-wrap items-center justify-center gap-8">
-        {t.business.hero.trust.map((label, i) => (
-          <div
-            key={label}
-            className="flex items-center gap-2 text-[10px] uppercase tracking-[1px] text-[var(--text)]"
-          >
-            <span
-              className="h-[5px] w-[5px] rounded-full"
-              style={{ background: ['var(--green)', 'var(--orange)', 'var(--purple-light)', 'var(--green)'][i % 4] }}
-            />{' '}
-            {label}
+      <div className="business-hero-v3__shell">
+        <div className="business-hero-v3__copy">
+          <div data-hero-item className="business-hero-v3__eyebrow">
+            <span data-pulse aria-hidden className="business-hero-v3__pulse" />
+            <span aria-hidden className="business-hero-v3__eyebrow-icon">{IconMap.rocket}</span>
+            {t.business.hero.eyebrow}
           </div>
-        ))}
+
+          <h1 data-hero-item id="business-hero-heading">
+            <span>{t.business.hero.headline}</span>{' '}
+            <strong>{t.business.hero.headlineHighlight}</strong>
+            <span className="business-hero-v3__headline-tail">{t.business.hero.headlineLine2}</span>
+          </h1>
+
+          <p data-hero-item className="business-hero-v3__intro">
+            {t.business.hero.subheadline}
+          </p>
+
+          <div data-hero-item className="business-hero-v3__actions">
+            <PrimaryButton
+              href={buildRegisterUrl({ lang, appendLang: appendLangToUrl })}
+              rel="noreferrer"
+              signupCta="hero"
+              className="business-hero-v3__primary"
+            >
+              {t.business.hero.cta} <span>→</span>
+            </PrimaryButton>
+            <SecondaryButton href="#pricing" className="business-hero-v3__secondary">
+              <span aria-hidden className="business-hero-v3__play">{IconMap.play}</span>
+              {t.business.hero.ctaSecondary}
+            </SecondaryButton>
+          </div>
+
+          <div data-hero-item className="business-hero-v3__trust" aria-label={t.business.hero.trustLabel}>
+            {t.business.hero.trust.map((label, index) => (
+              <div key={label}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <p>{label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <aside data-hero-item className="business-hero-v3__workbench" aria-labelledby="business-preview-heading">
+          <div className="business-hero-v3__workbench-bar">
+            <span>
+              <i aria-hidden />
+              {t.business.hero.previewKicker}
+            </span>
+            <strong>{t.business.hero.previewStatus}</strong>
+          </div>
+
+          <div className="business-hero-v3__workbench-copy">
+            <span>{t.business.hero.previewEyebrow}</span>
+            <h2 id="business-preview-heading">{t.business.hero.previewTitle}</h2>
+            <p>{t.business.hero.previewDescription}</p>
+          </div>
+
+          <PreviewMagnet />
+
+          <div className="business-hero-v3__preview-steps" aria-label={t.business.hero.previewStepsLabel}>
+            {previewSteps.map((step, index) => (
+              <div key={step}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <i aria-hidden />
+                <p>{step}</p>
+              </div>
+            ))}
+          </div>
+        </aside>
+      </div>
+
+      <div aria-hidden className="business-hero-v3__edge-label">
+        <span>MOIL / BUSINESS</span>
+        <i />
+        <span>01</span>
       </div>
     </section>
   );

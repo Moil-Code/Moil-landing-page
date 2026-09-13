@@ -1,11 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, BadgeCheck, Quote } from "lucide-react";
-import {
-  FACEBOOK_RECOMMENDATION_COUNT,
-  REVIEWS,
-} from "../../common/data/reviews";
+import { useEffect, useRef, useState } from "react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Quote } from "lucide-react";
 import { useLanguageContext } from "../../common/components/I18nProvider";
 import {
   SectionLabel,
@@ -13,15 +11,101 @@ import {
   styles,
 } from "../components/landing/elements";
 
-// Candidate testimonials must remain verbatim and sourced. The job-marketplace
-// review is the only published review specifically about the candidate tools.
-const candidateReview = REVIEWS.find((review) => review.topic === "jobs");
+const testimonials = [
+  {
+    image:
+      "https://res.cloudinary.com/drlcisipo/image/upload/v1721126417/Website%20images/image_1_abc62e.png",
+    name: "Sierra Givhaan",
+    quote:
+      "This is a very straightforward and easy site to navigate when creating a quick and accurate resume using AI. Each step of the process is explained well, and from start to finish I was able to update my resume to a more detailed and professional version within minutes. It saved so much time and money... I highly recommend!",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/drlcisipo/image/upload/v1721126418/Website%20images/Frame_427320687_wjdblt.png",
+    name: "Carlos Zuluaga",
+    quote:
+      "The app is extremely easy to use and the amazing thing is that you will only write your job duties and the app will develop a well written paragraph about it. With only a few words the app will create a professional resume that will get you hired. I highly recommend using this app for your next job search, you won't be disappointed.",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/drlcisipo/image/upload/v1721126418/Website%20images/Frame_427320687_1_lfowbv.png",
+    name: "Contreras Ed",
+    quote:
+      "Easy to navigate app, simple format to search for all kinds of jobs currently hiring in your area. Recently quit my job and used Moil to update my resume. Impressed on how easy it was to create a new one. Definitely recommended Moil as I used other apps in the past and none compared to its effectiveness and user-friendly features 10/10.",
+  },
+  {
+    image:
+      "https://res.cloudinary.com/drlcisipo/image/upload/v1721126417/Website%20images/Frame_427320687_2_fnbgix.png",
+    name: "Christian Jose Torres",
+    quote:
+      "Excellent tool to create your resume in a few steps, helped me get a job in Bixby, Oklahoma. Thanks. I recommend her 100%. What I liked most was that the app has AI assistance.",
+  },
+];
 
 export default function TestimonialsSection() {
   const copy = useCandidateCopy();
   const { lang } = useLanguageContext();
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const scrollFrame = useRef<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [slidesPerView, setSlidesPerView] = useState(1);
+  const lastIndex = Math.max(0, testimonials.length - slidesPerView);
 
-  if (!candidateReview) return null;
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 761px)");
+    const syncSlidesPerView = () => setSlidesPerView(media.matches ? 2 : 1);
+
+    syncSlidesPerView();
+    media.addEventListener("change", syncSlidesPerView);
+    return () => media.removeEventListener("change", syncSlidesPerView);
+  }, []);
+
+  useEffect(() => {
+    if (activeIndex > lastIndex) {
+      setActiveIndex(lastIndex);
+    }
+  }, [activeIndex, lastIndex]);
+
+  useEffect(
+    () => () => {
+      if (scrollFrame.current !== null) {
+        cancelAnimationFrame(scrollFrame.current);
+      }
+    },
+    [],
+  );
+
+  const goTo = (index: number) => {
+    const nextIndex = Math.min(Math.max(index, 0), lastIndex);
+    const viewport = viewportRef.current;
+    const slide = viewport?.children[0]?.children[nextIndex] as
+      | HTMLElement
+      | undefined;
+
+    setActiveIndex(nextIndex);
+    viewport?.scrollTo({ left: slide?.offsetLeft ?? 0, behavior: "smooth" });
+  };
+
+  const syncActiveSlide = () => {
+    if (scrollFrame.current !== null) cancelAnimationFrame(scrollFrame.current);
+
+    scrollFrame.current = requestAnimationFrame(() => {
+      const viewport = viewportRef.current;
+      const track = viewport?.children[0];
+      if (!viewport || !track) return;
+
+      const slides = Array.from(track.children) as HTMLElement[];
+      const nearest = slides.reduce((best, slide, index) => {
+        if (index > lastIndex) return best;
+        return Math.abs(slide.offsetLeft - viewport.scrollLeft) <
+          Math.abs(slides[best].offsetLeft - viewport.scrollLeft)
+          ? index
+          : best;
+      }, 0);
+
+      setActiveIndex(nearest);
+    });
+  };
 
   return (
     <section
@@ -35,93 +119,105 @@ export default function TestimonialsSection() {
 
         <div className={styles.testimonialHeading}>
           <h2 id="testimonials-heading">
-            {copy("Real progress,", "Progreso real,")}{" "}
+            {copy("What our users", "Lo que dicen nuestros")}{" "}
             <span className={styles.accent}>
-              {copy("in their own words.", "en sus propias palabras.")}
+              {copy("are saying.", "usuarios.")}
             </span>
           </h2>
           <div>
             <p className={styles.intro}>
               {copy(
-                "A story from the Moil community, published exactly as it was shared.",
-                "Una historia de la comunidad Moil, publicada exactamente como fue compartida.",
+                "Real experiences from people using Moil to strengthen their resumes and move their job search forward.",
+                "Experiencias reales de personas que usan Moil para mejorar sus currículums y avanzar en su búsqueda de empleo.",
               )}
             </p>
             <Link className={styles.textLink} href={`/reviews?lg=${lang}`}>
-              {copy(
-                "Read every review, with sources",
-                "Lee todas las reseñas y sus fuentes",
-              )}
+              {copy("Visit the reviews page", "Visita la página de reseñas")}
               <ArrowUpRight size={17} aria-hidden="true" />
             </Link>
           </div>
         </div>
 
-        <figure className={styles.testimonialCard}>
-          <div className={styles.testimonialQuote}>
-            <Quote size={42} strokeWidth={1.15} aria-hidden="true" />
-            <blockquote lang="en">
-              {candidateReview.text.split("\n\n").map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </blockquote>
-            <figcaption>
-              <span className={styles.avatar} aria-hidden="true">
-                HL
-              </span>
-              <div>
-                <strong>{candidateReview.name}</strong>
-                <span>{candidateReview.displayDate[lang]}</span>
-              </div>
-              {candidateReview.sourceUrl && (
-                <a
-                  href={candidateReview.sourceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {candidateReview.sourceLabel[lang]}
-                  <ArrowUpRight size={14} aria-hidden="true" />
-                </a>
-              )}
-            </figcaption>
+        <div
+          className={styles.testimonialViewport}
+          ref={viewportRef}
+          onScroll={syncActiveSlide}
+          tabIndex={0}
+          role="region"
+          aria-roledescription="carousel"
+          aria-label={copy("Customer testimonials", "Testimonios de clientes")}
+        >
+          <div className={styles.testimonialTrack}>
+            {testimonials.map((testimonial, index) => (
+              <article
+                className={styles.testimonialCard}
+                key={testimonial.name}
+                aria-label={`${index + 1} / ${testimonials.length}`}
+              >
+                <div className={styles.testimonialCardTop}>
+                  <Image
+                    src={testimonial.image}
+                    alt={`${testimonial.name}, Moil customer`}
+                    width={64}
+                    height={64}
+                    className={styles.testimonialPortrait}
+                    sizes="64px"
+                  />
+                  <div>
+                    <strong>{testimonial.name}</strong>
+                    <span>{copy("Moil user", "Usuario de Moil")}</span>
+                  </div>
+                  <span className={styles.testimonialQuoteMark} aria-hidden="true">
+                    <Quote size={24} strokeWidth={1.5} />
+                  </span>
+                </div>
+                <blockquote lang="en">{testimonial.quote}</blockquote>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.testimonialControls}>
+          <p className={styles.testimonialCounter} aria-live="polite">
+            <span>{String(activeIndex + 1).padStart(2, "0")}</span>
+            <span aria-hidden="true">—</span>
+            <span>
+              {String(
+                Math.min(activeIndex + slidesPerView, testimonials.length),
+              ).padStart(2, "0")}
+            </span>
+            <small>/ {String(testimonials.length).padStart(2, "0")}</small>
+          </p>
+
+          <div className={styles.testimonialDots} aria-hidden="true">
+            {Array.from({ length: lastIndex + 1 }).map((_, index) => (
+              <span
+                className={styles.testimonialDot}
+                data-active={activeIndex === index}
+                key={index}
+              />
+            ))}
           </div>
 
-          <aside className={styles.testimonialProof}>
-            <span className={styles.proofIcon}>
-              <BadgeCheck size={23} aria-hidden="true" />
-            </span>
-            <p className={styles.proofEyebrow}>
-              {copy("VERIFIABLE CUSTOMER WORDS", "PALABRAS VERIFICABLES")}
-            </p>
-            <h3>
-              {copy(
-                "Trust comes from the full story.",
-                "La confianza nace de la historia completa.",
-              )}
-            </h3>
-            <p>
-              {copy(
-                "We keep the original wording, date, context, and public source together. We do not invent star ratings.",
-                "Conservamos juntos el texto original, la fecha, el contexto y la fuente pública. No inventamos calificaciones.",
-              )}
-            </p>
-            <div className={styles.proofStats}>
-              <div>
-                <strong>{FACEBOOK_RECOMMENDATION_COUNT}</strong>
-                <span>
-                  {copy(
-                    "Facebook recommendations",
-                    "recomendaciones en Facebook",
-                  )}
-                </span>
-              </div>
-              <div>
-                <strong>100%</strong>
-                <span>{copy("original wording", "texto original")}</span>
-              </div>
-            </div>
-          </aside>
-        </figure>
+          <div className={styles.testimonialArrows}>
+            <button
+              type="button"
+              onClick={() => goTo(activeIndex - 1)}
+              disabled={activeIndex === 0}
+              aria-label={copy("Previous testimonial", "Testimonio anterior")}
+            >
+              <ArrowLeft size={18} aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              onClick={() => goTo(activeIndex + 1)}
+              disabled={activeIndex === lastIndex}
+              aria-label={copy("Next testimonial", "Siguiente testimonio")}
+            >
+              <ArrowRight size={18} aria-hidden="true" />
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );

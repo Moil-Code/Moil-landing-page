@@ -413,6 +413,35 @@ export function BusinessPageContent() {
             </article>
           </div>
         </div>
+
+        <div className="capabilities-v2__cta rv d2">
+          <div className="capabilities-v2__cta-index" aria-hidden="true">
+            <span>01</span>
+            <i />
+            <span>05</span>
+          </div>
+          <div className="capabilities-v2__cta-copy">
+            <span>{t.business.capabilities.ctaEyebrow}</span>
+            <h3>{t.business.capabilities.ctaTitle}</h3>
+            <p>{t.business.capabilities.ctaDescription}</p>
+          </div>
+          <div className="capabilities-v2__cta-actions">
+            <a
+              className="capabilities-v2__cta-primary"
+              data-signup-cta="capabilities"
+              href={appendLangToUrl(getRegisterUrl(), currentLang)}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span>{t.business.capabilities.ctaPrimary}</span>
+              <span aria-hidden="true">{IconMap.arrowRight}</span>
+            </a>
+            <a className="capabilities-v2__cta-secondary" href="#journey">
+              {t.business.capabilities.ctaSecondary}
+              <span aria-hidden="true">↓</span>
+            </a>
+          </div>
+        </div>
       </section>
 
       <div className="divider divider-seamless"></div>
@@ -436,42 +465,54 @@ export function BusinessPageContent() {
             <p className="section-sub rv d1">{t.business.journey.subheadline}</p>
           </header>
 
-          <div className="journey-inner-grid">
-            <ol className="journey-steps">
-              {journeySteps.map((step, index) => {
-                const delayClass = index === 1 || index === 2 ? 'd1' : index === 3 || index === 4 ? 'd2' : index === 5 ? 'd3' : '';
-                return (
-                <li key={`jstep-${index}`} className={`jstep rv ${delayClass}`}>
-                  <div className="jnum">{step.number}</div>
-                  <div className="jstep-body">
-                    <div className="jstep-time">{step.time}</div>
-                    <div className="jstep-title">{step.title}</div>
-                    <p className="jstep-desc">{step.desc}</p>
-                  </div>
-                </li>
-              );
-              })}
-            </ol>
-
-            <aside className="journey-v2__visual rv d2">
-              <div className="journey-v2__visual-bar">
-                <span><i aria-hidden="true" />{t.business.journey.convoTitle}</span>
-                <strong>{t.business.journey.convoActive}</strong>
+          <div className="journey-v2__progress" aria-hidden="true">
+            {journeySteps.map((step) => (
+              <div key={`journey-progress-${step.number}`}>
+                <span>{step.number}</span>
+                <i />
+                <strong>{step.time}</strong>
               </div>
-              <JourneyVisual
-                startAlt={`Moil — ${t.business.journey.convoTitle}`}
-                chatAlt={`Moil — ${t.business.journey.convoTitle}`}
-                theme={theme}
-              />
-            </aside>
+            ))}
           </div>
 
-          <div className="rv journey-cta">
-            <p>{t.business.journey.journeyCtaSub}</p>
-            <a className="journey-v2__cta" href={appendLangToUrl(getRegisterUrl(), currentLang)} target="_blank" rel="noreferrer" data-signup-cta="journey">
-              <span>{t.business.journey.journeyCta}</span>
-              <span aria-hidden="true">{IconMap.arrowRight}</span>
-            </a>
+          <div className="journey-v2__workspace">
+            <div className="journey-inner-grid">
+              <ol className="journey-steps">
+                {journeySteps.map((step, index) => {
+                  const delayClass = index === 1 || index === 2 ? 'd1' : index === 3 || index === 4 ? 'd2' : index === 5 ? 'd3' : '';
+                  return (
+                    <li key={`jstep-${index}`} className={`jstep rv ${delayClass}`}>
+                      <div className="jnum">{step.number}</div>
+                      <div className="jstep-body">
+                        <div className="jstep-time">{step.time}</div>
+                        <div className="jstep-title">{step.title}</div>
+                        <p className="jstep-desc">{step.desc}</p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+
+              <aside className="journey-v2__visual rv d2">
+                <div className="journey-v2__visual-bar">
+                  <span><i aria-hidden="true" />{t.business.journey.convoTitle}</span>
+                  <strong>{t.business.journey.convoActive}</strong>
+                </div>
+                <JourneyVisual
+                  startAlt={`Moil — ${t.business.journey.convoTitle}`}
+                  chatAlt={`Moil — ${t.business.journey.convoTitle}`}
+                  theme={theme}
+                />
+              </aside>
+            </div>
+
+            <div className="rv journey-cta">
+              <p>{t.business.journey.journeyCtaSub}</p>
+              <a className="journey-v2__cta" href={appendLangToUrl(getRegisterUrl(), currentLang)} target="_blank" rel="noreferrer" data-signup-cta="journey">
+                <span>{t.business.journey.journeyCta}</span>
+                <span aria-hidden="true">{IconMap.arrowRight}</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -553,8 +594,8 @@ export function BusinessPageContent() {
                 afterAlt={`Moil — ${t.business.bilingualSection.esLabel}`}
                 beforeLabel="EN"
                 afterLabel="ES"
-                width={3020}
-                height={1510}
+                width={600}
+                height={450}
                 hint="EN ←→ ES"
               />
             </div>

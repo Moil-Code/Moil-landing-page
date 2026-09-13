@@ -14,7 +14,7 @@ export default function VoiceAssistantSection(props: CandidateSectionProps) {
   const copy = useCandidateCopy();
   return (
     <section
-      className={`${styles.section} ${styles.softSection}`}
+      className={`${styles.section} ${styles.softSection} ${styles.voiceSection}`}
       aria-labelledby="voice-heading"
     >
       <div className={styles.container}>

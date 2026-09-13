@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Autocomplete from "react-google-autocomplete";
-import { ArrowRight, Briefcase, MapPin } from "lucide-react";
+import { ArrowRight, Briefcase, MapPin, Search } from "lucide-react";
 import styles from "./landing/landing.module.css";
 
 export default function SearchComponent({ lgQuery }: { lgQuery?: string }) {
@@ -24,16 +24,23 @@ export default function SearchComponent({ lgQuery }: { lgQuery?: string }) {
   return (
     <form className={styles.jobSearch} onSubmit={handleSearch}>
       <div className={styles.searchLead}>
-        <span className={styles.searchKicker}>
-          {spanish ? "BÚSQUEDA DE EMPLEO" : "JOB SEARCH"}
+        <span className={styles.searchLeadIcon} aria-hidden="true">
+          <Search size={18} />
         </span>
-        <strong>
-          {spanish ? "Encuentra trabajo cerca de ti" : "Find work near you"}
-        </strong>
+        <span className={styles.searchLeadCopy}>
+          <span className={styles.searchKicker}>
+            {spanish ? "BÚSQUEDA DE EMPLEO" : "JOB SEARCH"}
+          </span>
+          <strong>
+            {spanish ? "Encuentra trabajo cerca de ti" : "Find work near you"}
+          </strong>
+        </span>
       </div>
 
       <label className={styles.searchField}>
-        <Briefcase size={18} aria-hidden="true" />
+        <span className={styles.searchIcon} aria-hidden="true">
+          <Briefcase size={18} />
+        </span>
         <span>
           {spanish ? "Puesto o habilidad" : "Role or skill"}
           <input
@@ -47,7 +54,9 @@ export default function SearchComponent({ lgQuery }: { lgQuery?: string }) {
       </label>
 
       <label className={styles.searchField}>
-        <MapPin size={18} aria-hidden="true" />
+        <span className={styles.searchIcon} aria-hidden="true">
+          <MapPin size={18} />
+        </span>
         <span>
           {spanish ? "Ubicación" : "Location"}
           <Autocomplete
@@ -67,7 +76,9 @@ export default function SearchComponent({ lgQuery }: { lgQuery?: string }) {
 
       <button type="submit" className={styles.searchButton}>
         {spanish ? "Buscar empleos" : "Search jobs"}
-        <ArrowRight size={17} aria-hidden="true" />
+        <span aria-hidden="true">
+          <ArrowRight size={17} />
+        </span>
       </button>
     </form>
   );

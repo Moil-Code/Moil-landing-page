@@ -34,10 +34,37 @@ export default function CandidateHero({ refQuery, lgQuery }: CandidateHeroProps)
 
   return (
     <section className={styles.hero} aria-labelledby="candidate-hero-heading">
-      <div className={styles.heroPattern} aria-hidden="true">
-        <span />
-        <span />
-      </div>
+      <video
+        className={`${styles.heroVideo} ${styles.heroVideoLight}`}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster="/candidate/shaders/hero-shader-v2.webp"
+        aria-hidden="true"
+      >
+        <source
+          src="/candidate/shaders/hero-shader-loop-v1.mp4"
+          type="video/mp4"
+        />
+      </video>
+
+      <video
+        className={`${styles.heroVideo} ${styles.heroVideoDark}`}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster="/candidate/shaders/hero-shader-dark-poster-v1.jpg"
+        aria-hidden="true"
+      >
+        <source
+          src="/candidate/shaders/hero-shader-dark-loop-v1.mp4"
+          type="video/mp4"
+        />
+      </video>
 
       <div className={styles.heroContainer}>
         <div className={styles.heroBadge}>

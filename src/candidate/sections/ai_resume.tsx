@@ -50,7 +50,10 @@ export default function AIResumeSection(props: CandidateSectionProps) {
     },
   ];
   return (
-    <section className={styles.section} aria-labelledby="resume-heading">
+    <section
+      className={`${styles.section} ${styles.resumeSection}`}
+      aria-labelledby="resume-heading"
+    >
       <div className={styles.container}>
         <SectionLabel number="01">
           {copy("AI-Powered Resume Builder", "Creador de currículums con IA")}

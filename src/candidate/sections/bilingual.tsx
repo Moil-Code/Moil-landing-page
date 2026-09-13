@@ -16,7 +16,10 @@ export default function BilingualSection(props: CandidateSectionProps) {
   const [previewLanguage, setPreviewLanguage] = useState<"en" | "es">("en");
   const spanish = previewLanguage === "es";
   return (
-    <section className={styles.section} aria-labelledby="bilingual-heading">
+    <section
+      className={`${styles.section} ${styles.bilingualSection}`}
+      aria-labelledby="bilingual-heading"
+    >
       <div className={styles.container}>
         <SectionLabel number="03">
           {copy("Bilingual Voice Platform", "Plataforma bilingüe por voz")}
