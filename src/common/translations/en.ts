@@ -355,6 +355,11 @@ export const en = {
       headlineEnd: 'Needs.',
       headlineHighlight: 'One Platform.',
       subheadline: 'Six powerful modules, woven into a single intelligent conversation. Each one feeds the next.',
+      ctaEyebrow: 'Start with your business — not a blank dashboard',
+      ctaTitle: 'One conversation activates the whole system.',
+      ctaDescription: 'Tell Moil what you are building once. Your research, plan, content, visuals, and documents stay connected from there.',
+      ctaPrimary: 'Start free — no card',
+      ctaSecondary: 'See the complete journey',
       marketResearch: {
         title: 'Market Research & Validation',
         description: 'Answer 16 strategic questions by voice or text — in English or Spanish. Deep market analysis from 8–10 real sources. TAM/SAM/SOM, competitive landscape, customer personas, opportunity scoring.',
