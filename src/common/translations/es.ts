@@ -352,6 +352,11 @@ export const es: TranslationKeys = {
       headlineEnd: 'Necesita.',
       headlineHighlight: 'Una Plataforma.',
       subheadline: 'Seis módulos poderosos, entrelazados en una sola conversación inteligente. Cada uno alimenta al siguiente.',
+      ctaEyebrow: 'Empieza con tu negocio — no con un panel vacío',
+      ctaTitle: 'Una conversación activa todo el sistema.',
+      ctaDescription: 'Cuéntale a Moil lo que estás construyendo una sola vez. Tu investigación, plan, contenido, imágenes y documentos permanecen conectados.',
+      ctaPrimary: 'Empieza gratis — sin tarjeta',
+      ctaSecondary: 'Ver el viaje completo',
       marketResearch: {
         title: 'Investigación y Validación de Mercado',
         description: 'Responde 16 preguntas estratégicas por voz o texto — en inglés o español. Análisis profundo del mercado de 8–10 fuentes reales. TAM/SAM/SOM, panorama competitivo, personas de clientes, puntuación de oportunidades.',
