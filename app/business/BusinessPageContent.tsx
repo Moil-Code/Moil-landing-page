@@ -183,7 +183,7 @@ export function BusinessPageContent() {
       />
 
       {/* HERO — extracted to sections/HeroSection.tsx (Tailwind + GSAP) */}
-      <HeroSection />
+      <HeroSection theme={theme} />
 
       {/* DIRECT ANSWER — the self-contained paragraph an assistant can lift whole.
           This existed in the translation bundle but was never rendered; shipping it

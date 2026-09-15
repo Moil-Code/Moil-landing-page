@@ -43,7 +43,9 @@ function git(...argv) {
 // the sitemap deliberately omits. Keep this exclusion list in step with
 // app/robots.ts and app/sitemap.ts; the eval asserts every sitemap route has
 // a date, so a route missing here fails the build rather than reading "today".
-const EXCLUDED = new Set(['/legacy', '/login', '/register']);
+// `/plan/preview` is the magnet door (noindex, canonical /business) — a
+// filesystem GET so the Next rewrite cannot 404 the Business Plan API.
+const EXCLUDED = new Set(['/legacy', '/login', '/register', '/plan/preview']);
 const DIR_OF = new Map();
 function routes() {
   const out = [];

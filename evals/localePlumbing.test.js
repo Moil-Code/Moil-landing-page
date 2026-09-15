@@ -140,14 +140,32 @@ describe('English quotes stay English and are labelled on ES', () => {
 	});
 });
 
+function quotedHero(src, key) {
+	const m = src.match(new RegExp(`${key}:\\s*'((?:\\\\'|[^'])*)'`));
+	assert.ok(m, `missing quoted ${key}`);
+	return m[1]
+		.replace(/\\u([0-9a-fA-F]{4})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+		.replace(/\\'/g, "'");
+}
+function composedH1(hero) {
+	return ['headline', 'headlineHighlight', 'headlineLine2']
+		.map((key) => quotedHero(hero, key))
+		.filter(Boolean)
+		.join(' ');
+}
+const EN_H1 = "You shouldn't have to be everything on top of the real job.";
+const ES_H1 = 'No deberías tener que encargarte de todo, además de hacer el trabajo que realmente importa.';
+
 describe('this PR keeps EN and ES documents on their own paths', () => {
 	it('pins the investor EN door and the Spanish socio door', () => {
 		const en = read('src/common/translations/en.ts');
 		const es = read('src/common/translations/es.ts');
-		const enHero = en.slice(en.indexOf('    hero: {'), en.indexOf('    aeoAnswer: {'));
-		const esHero = es.slice(es.indexOf('    hero: {'), es.indexOf('    aeoAnswer: {'));
-		assert.match(enHero, /headline: 'You shouldn\\'t have to be everything on top of the real job\.'/);
-		assert.match(esHero, /headline: 'No deber\\u00edas tener que encargarte de todo, adem\\u00e1s de hacer el trabajo que realmente importa\.'/);
+		const enBusiness = en.slice(en.indexOf('\n  business: {'));
+		const esBusiness = es.slice(es.indexOf('\n  business: {'));
+		const enHero = enBusiness.slice(enBusiness.indexOf('    hero: {'), enBusiness.indexOf('    aeoAnswer: {'));
+		const esHero = esBusiness.slice(esBusiness.indexOf('    hero: {'), esBusiness.indexOf('    aeoAnswer: {'));
+		assert.equal(composedH1(enHero), EN_H1);
+		assert.equal(composedH1(esHero), ES_H1);
 		assert.match(
 			read('app/business/layout.tsx'),
 			/AI co-founder that writes the plan and the month \| Moil/,
