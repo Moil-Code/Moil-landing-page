@@ -49,6 +49,17 @@ function quoted(src, key) {
 	return m[1].replace(/\\'/g, "'");
 }
 
+// The H1 ships as three keys (headline + headlineHighlight + headlineLine2) so
+// the hero can colour one word. The LOCK is the sentence they compose — what a
+// crawler and the accessibility tree read off the <h1> — not how it is split,
+// so read all three and join on the single space the JSX emits between them.
+function composedH1(hero) {
+	return ['headline', 'headlineHighlight', 'headlineLine2']
+		.map((key) => quoted(hero, key))
+		.filter(Boolean)
+		.join(' ');
+}
+
 function namedBlock(src, name) {
 	const start = src.search(new RegExp(`(?:^|\\n)\\s*${name}: \\{`));
 	assert.ok(start >= 0, `missing ${name} block`);
@@ -91,6 +102,6 @@ describe('execute copy slice — /business metadata', () => {
 	it('H1 string in translations/en.ts is still the hats line', () => {
 		const en = read('src/common/translations/en.ts');
 		const hero = namedBlock(en.slice(en.indexOf('\n  business: {')), 'hero');
-		assert.equal(quoted(hero, 'headline'), HATS_H1);
+		assert.equal(composedH1(hero), HATS_H1);
 	});
 });

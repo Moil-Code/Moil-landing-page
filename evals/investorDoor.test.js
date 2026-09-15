@@ -29,6 +29,24 @@ function namedBlock(src, name) {
 	return src.slice(start);
 }
 
+function quoted(src, key) {
+	const m = src.match(new RegExp(`${key}:\\s*'((?:\\\\'|[^'])*)'`));
+	assert.ok(m, `missing quoted ${key}`);
+	return m[1].replace(/\\'/g, "'");
+}
+
+// The H1 ships as three keys so the hero can colour one word. The LOCK is the
+// sentence they compose — what a crawler and the accessibility tree read off
+// the <h1> — not how it is split. Join on the single space the JSX emits.
+function composedH1(hero) {
+	return ['headline', 'headlineHighlight', 'headlineLine2']
+		.map((key) => quoted(hero, key))
+		.filter(Boolean)
+		.join(' ');
+}
+
+const HATS_H1 = "You shouldn't have to be everything on top of the real job.";
+
 describe('EN door lock', () => {
 	const en = read('src/common/translations/en.ts');
 	const hero = namedBlock(en.slice(en.indexOf('\n  business: {')), 'hero');
@@ -37,9 +55,7 @@ describe('EN door lock', () => {
 	it('pins the locked title, H1, sub, and CTAs', () => {
 		assert.match(layout, /AI co-founder that writes the plan and the month \| Moil/);
 		assert.match(hero, /eyebrow: 'The AI co-founder for small business owners'/);
-		assert.match(hero, /headline: 'You shouldn\\'t have to be everything on top of the real job\.'/);
-		assert.match(hero, /headlineLine2: ''/);
-		assert.match(hero, /headlineHighlight: ''/);
+		assert.equal(composedH1(hero), HATS_H1);
 		assert.match(
 			hero,
 			/Moil learns the business once, builds a brain that compounds, thinks with you, and does the work/,
@@ -57,9 +73,18 @@ describe('EN door lock', () => {
 		assert.doesNotMatch(aeo, /B2G|EDCs and chambers/);
 	});
 
-	it('HeroSection is one sentence and secondary CTA is #pricing', () => {
+	it('HeroSection renders the H1 as ONE SPACED sentence and secondary CTA is #pricing', () => {
 		const hero = read('app/business/sections/HeroSection.tsx');
-		assert.match(hero, /headlineLine2 \?/);
+		const h1 = hero.slice(hero.indexOf('<h1 '), hero.indexOf('</h1>'));
+		assert.ok(h1.length > 0, 'found no <h1> in HeroSection');
+		// The three keys are three elements and the tail span is display:block —
+		// so the sentence LOOKS right on screen whether or not the JSX emits a
+		// space between them. It does not read right to anything that takes
+		// textContent: without these {' '} the H1 is "…be everythingon top…",
+		// which is the string Googlebot, the SEO audit and a screen reader get.
+		assert.match(h1, /hero\.headline\}<\/span>\{' '\}/);
+		assert.match(h1, /hero\.headlineHighlight\}<\/strong>\{' '\}/);
+		assert.match(h1, /hero\.headlineLine2\}/);
 		assert.match(hero, /href="#pricing"/);
 		assert.doesNotMatch(hero, /getElementById\('preview-magnet'\)/);
 	});
@@ -72,10 +97,14 @@ describe('EN door lock', () => {
 		const problem = namedBlock(business, 'problem');
 		const heroCopy = namedBlock(business, 'hero');
 
+		// Keep the preview inside the first-fold hero, independent of whether
+		// the visual composition is stacked or uses columns.
+		const shell = hero.slice(hero.indexOf('<section className="business-hero"'), hero.lastIndexOf('</section>'));
 		assert.ok(
-			hero.indexOf('<PreviewMagnet') < hero.indexOf('<PrimaryButton'),
-			'URL magnet is the invite, above Start free',
+			shell.indexOf('<PreviewMagnet') > 0,
+			'URL magnet is the first-fold invite, inside the hero shell',
 		);
+		assert.doesNotMatch(page, /<PreviewMagnet/);
 		assert.match(hero, /t\.business\.hero\.cta/);
 		assert.doesNotMatch(heroCopy, /\$25/);
 		assert.doesNotMatch(heroCopy, /Moil is \$25/);
@@ -97,7 +126,7 @@ describe('EN door lock', () => {
 		);
 		assert.doesNotMatch(hero, /BusinessPricingSection/);
 		assert.match(read('app/business/layout.tsx'), /AI co-founder that writes the plan and the month \| Moil/);
-		assert.match(heroCopy, /headline: 'You shouldn\\'t have to be everything on top of the real job\.'/);
+		assert.equal(composedH1(heroCopy), HATS_H1);
 	});
 });
 

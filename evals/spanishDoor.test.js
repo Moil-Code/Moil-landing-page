@@ -32,6 +32,29 @@ function namedBlock(src, name) {
 	return src.slice(start);
 }
 
+function quoted(src, key) {
+	const m = src.match(new RegExp(`${key}:\\s*'((?:\\\\'|[^'])*)'`));
+	assert.ok(m, `missing quoted ${key}`);
+	return m[1]
+		.replace(/\\u([0-9a-fA-F]{4})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+		.replace(/\\'/g, "'");
+}
+
+// The H1 ships as three keys (headline + headlineHighlight + headlineLine2) so
+// the hero can colour one word. The LOCK is the sentence they compose — what a
+// crawler and the accessibility tree read off the <h1> — not how it is split.
+// Join on the single space the JSX emits between the three spans, and decode
+// the \uXXXX escapes so the lock below is written as a reader sees it.
+function composedH1(hero) {
+	return ['headline', 'headlineHighlight', 'headlineLine2']
+		.map((key) => quoted(hero, key))
+		.filter(Boolean)
+		.join(' ');
+}
+
+const EN_H1 = "You shouldn't have to be everything on top of the real job.";
+const ES_H1 = 'No deberías tener que encargarte de todo, además de hacer el trabajo que realmente importa.';
+
 describe('ES door copy', () => {
 	const es = read('src/common/translations/es.ts');
 	const esLayout = read('app/es/business/layout.tsx');
@@ -40,9 +63,7 @@ describe('ES door copy', () => {
 	it('pins the ES first screen: title, eyebrow, H1, sub', () => {
 		assert.match(esLayout, /El socio que trabaja el negocio contigo \| Moil/);
 		assert.match(esHero, /eyebrow: 'El socio de los dueños de negocio'/);
-		assert.match(esHero, /headline: 'No deber\\u00edas tener que encargarte de todo, adem\\u00e1s de hacer el trabajo que realmente importa\.'/);
-		assert.match(esHero, /headlineLine2: ''/);
-		assert.match(esHero, /headlineHighlight: ''/);
+		assert.equal(composedH1(esHero), ES_H1);
 		assert.match(esHero, /Moil aprende el negocio una vez y no empieza de cero/);
 	});
 
