@@ -8,8 +8,9 @@
  * viewPreview only issues GET.
  *
  * The browser never fetches NEXT_PUBLIC_PLAN_API_ORIGIN. The
- * next.config.js rewrite sends /plan/preview to PLAN_API_ORIGIN
- * (server-only). Fetch failure is the down-state.
+ * next.config.js beforeFiles rewrite sends JSON POST /plan/preview
+ * to PLAN_API_ORIGIN (server-only). A document GET of that same
+ * path is the filesystem door. Fetch failure is the down-state.
  *
  * Register / login come from NEXT_PUBLIC_REGISTER_ORIGIN.
  * Unset, that origin is production https://business.moilapp.com
