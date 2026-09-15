@@ -433,6 +433,26 @@ describe('structural refusals', () => {
 		assert.doesNotMatch(cfg, /destination: 'https:\/\/business\.moilapp\.com\/login'/);
 	});
 
+	it('JSON POST /plan/preview rewrites before the filesystem door page', () => {
+		// The GET door at app/plan/preview/page.tsx wins over afterFiles.
+		// A flat rewrite for exact /plan/preview therefore never ran, POST
+		// returned HTML 200, and the magnet painted `down`. JSON must go
+		// through beforeFiles, gated on Content-Type application/json.
+		const cfg = read('next.config.js');
+		assert.match(cfg, /beforeFiles:/);
+		assert.match(cfg, /key: ['"]content-type['"]/);
+		assert.match(cfg, /application\/json/);
+		assert.match(cfg, /source: ['"]\/plan\/preview['"]/);
+		assert.match(cfg, /source: ['"]\/plan\/preview\/:slug['"]/);
+		assert.match(cfg, /afterFiles:/);
+		const door = read('app/plan/preview/page.tsx');
+		assert.match(door, /beforeFiles/);
+		assert.match(door, /application\/json/);
+		const env = read('.env.example');
+		assert.match(env, /never reads NEXT_PUBLIC_PLAN_API_ORIGIN/);
+		assert.match(env, /PLAN_API_ORIGIN=/);
+	});
+
 	it('EN and ES have the same magnet key set', () => {
 		// Compares the ACTUAL key sets both ways rather than walking a hardcoded
 		// list. The list version could only catch a key going missing from both

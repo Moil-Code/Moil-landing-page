@@ -211,20 +211,38 @@ const nextConfig = {
     // rewrite is the CORS-safe path. Fires when PLAN_API_ORIGIN (or
     // NEXT_PUBLIC_PLAN_API_ORIGIN as a leftover fallback) is set.
     // No model call lives here.
+    //
+    // app/plan/preview/page.tsx is the public GET door. Next applies
+    // afterFiles rewrites AFTER the filesystem, so a flat rewrite for
+    // exact /plan/preview never runs — POST returned the HTML page,
+    // res.json() failed, and the magnet painted "unavailable".
+    // JSON POST/GET must go in beforeFiles (checked BEFORE the page).
+    // Document GET has no application/json Content-Type, so the page still wins.
     const planOrigin = String(
       process.env.PLAN_API_ORIGIN || process.env.NEXT_PUBLIC_PLAN_API_ORIGIN || "",
     ).replace(/\/+$/, "");
     if (!planOrigin) return [];
-    return [
-      {
-        source: "/plan/preview",
-        destination: `${planOrigin}/plan/preview`,
-      },
-      {
-        source: "/plan/preview/:slug",
-        destination: `${planOrigin}/plan/preview/:slug`,
-      },
-    ];
+    return {
+      beforeFiles: [
+        {
+          source: "/plan/preview",
+          has: [
+            {
+              type: "header",
+              key: "content-type",
+              value: "(?<ct>application/json.*)",
+            },
+          ],
+          destination: `${planOrigin}/plan/preview`,
+        },
+      ],
+      afterFiles: [
+        {
+          source: "/plan/preview/:slug",
+          destination: `${planOrigin}/plan/preview/:slug`,
+        },
+      ],
+    };
   },
   webpack: config => {
     config.resolve.fallback = { fs: false, net: false, tls: false };

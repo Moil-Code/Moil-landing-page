@@ -6,9 +6,13 @@ import { PreviewMagnet } from '../../business/components/PreviewMagnet';
 /**
  * GET /plan/preview is the public magnet door.
  *
- * The Next rewrite still proxies POST /plan/preview and GET /plan/preview/:slug
- * to the Business Plan API. This page only wins for document GET (no slug),
- * so visiting the URL no longer 404s on the API.
+ * Next filesystem pages win over afterFiles rewrites, so this page
+ * would also swallow POST /plan/preview (HTML 200 → magnet "down").
+ * next.config.js puts the JSON rewrite in beforeFiles, gated on
+ * Content-Type: application/json, so POST (and JSON GET) still proxy
+ * to the Business Plan API. Document GET has no that header, so this
+ * page still wins. GET /plan/preview/:slug has no page and stays an
+ * afterFiles rewrite.
  */
 function Door() {
   const { t } = useLanguageContext();
