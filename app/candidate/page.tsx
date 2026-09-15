@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 import SelectLanguage from "../../src/common/components/selectLanguage";
-import FooterSection from "../../src/common/sections/footer";
+import CandidateFooter from "../../src/candidate/components/landing/footer";
+import styles from "../../src/candidate/components/landing/landing.module.css";
 import { I18nProvider, useLanguageContext } from "../../src/common/components/I18nProvider";
 
 // Candidate Components
@@ -102,26 +103,28 @@ function CandidatePageContent() {
           onToggleTheme={toggleTheme}
         />
         <CandidateHero onGetStarted={handleGetStarted} refQuery={refQuery || undefined} lgQuery={queryLg} />
-        <div id="ai-resume">
-          <AIResumeSection refQuery={refQuery || undefined} lgQuery={queryLg} />
+        <div className={styles.landing}>
+          <div id="ai-resume">
+            <AIResumeSection refQuery={refQuery || undefined} lgQuery={queryLg} />
+          </div>
+          <div id="voice-assistant">
+            <VoiceAssistantSection refQuery={refQuery || undefined} lgQuery={queryLg} />
+          </div>
+          <div id="bilingual">
+            <BilingualSection refQuery={refQuery || undefined} lgQuery={queryLg} />
+          </div>
+          <div id="stats">
+            <StatsSection refQuery={refQuery || undefined} lgQuery={queryLg} />
+          </div>
+          <div id="testimonials">
+            <TestimonialsSection />
+          </div>
+          <div id="faq">
+            <FAQSection />
+          </div>
+          <NewsletterSection refQuery={refQuery || undefined} lgQuery={queryLg} />
+          <CandidateFooter refQuery={refQuery || undefined} lgQuery={queryLg} />
         </div>
-        <div id="voice-assistant">
-          <VoiceAssistantSection refQuery={refQuery || undefined} lgQuery={queryLg} />
-        </div>
-        <div id="bilingual">
-          <BilingualSection refQuery={refQuery || undefined} lgQuery={queryLg} />
-        </div>
-        <div id="stats">
-          <StatsSection refQuery={refQuery || undefined} lgQuery={queryLg} />
-        </div>
-        <div id="testimonials">
-          <TestimonialsSection />
-        </div>
-        <div id="faq">
-          <FAQSection />
-        </div>
-        <NewsletterSection />
-        <FooterSection refQuery={refQuery} lgQuery={queryLg} />
         {showModal}
       </div>
 
