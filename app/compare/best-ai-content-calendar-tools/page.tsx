@@ -35,7 +35,7 @@ const ENTRIES: RoundupEntry[] = [
       'Includes market research and a business plan',
     ],
     cons: [
-      'Publishes to Facebook and Instagram only — no LinkedIn, X or TikTok',
+      'Publishes to Facebook, Instagram, TikTok and YouTube — no LinkedIn, X or Pinterest',
       'No engagement inbox, social listening or reporting dashboard',
       'Several times the price of a scheduler',
       'Single-business profile — not built for multi-location teams',

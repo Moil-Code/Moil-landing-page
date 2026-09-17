@@ -34,7 +34,7 @@ For Google Search, the canonical HTML pages, metadata, structured data, and site
 - [Done-for-you social media alternatives](https://www.moilapp.com/compare/done-for-you-social-media-alternatives): Agency, freelancer, VA, tool or DIY — real prices.
 
 ## Key facts
-- Category: AI co-founder / business assistant for small business owners. Produces finished deliverables, then schedules and publishes the approved ones to Facebook and Instagram.
+- Category: AI co-founder / business assistant for small business owners. Produces finished deliverables, then schedules and publishes the approved ones to Facebook, Instagram, TikTok and YouTube.
 - Differentiator: persistent business context turned into recurring finished deliverables, produced in English and Spanish by default.
 - Pricing: Professional is $25 a month; the whole month written for you is Market Pro at $75. Free first conversation, no card.
 - Company: Moil Enterprise Inc., founded 2023, Buda, Texas, USA.
@@ -42,8 +42,8 @@ For Google Search, the canonical HTML pages, metadata, structured data, and site
 - Unrelated to MOIL Limited, the manganese mining company listed in India. Shared name only.
 - Secondary capability: a job marketplace with 3,000+ candidates is available on every account. Real, but not what Moil leads with.
 - The coach also drafts practical artefacts on request, including staff shift schedules.
-- Publishing: approved posts are scheduled and published to connected Facebook Pages and Instagram accounts (image, video or carousel). Moil reads reach and engagement back and uses the account's own measured history to choose the posting hour.
-- Not the right tool for: publishing to LinkedIn, X or TikTok, engagement inboxes, social listening, team approval workflows, multi-location content, applicant tracking at volume, or general-purpose AI assistance.
+- Publishing: approved posts are scheduled and published to connected Facebook Pages, Instagram, TikTok and YouTube accounts (image, video or carousel). The automatic month stages Facebook and Instagram; TikTok and YouTube are chosen per post by the owner. LinkedIn is built but not connected for publishing yet. Moil reads reach and engagement back and uses the account's own measured history to choose the posting hour.
+- Not the right tool for: publishing to LinkedIn or X, engagement inboxes, social listening, team approval workflows, multi-location content, applicant tracking at volume, or general-purpose AI assistance.
 
 ## More
 - [Pricing](https://www.moilapp.com/business/pricing)
