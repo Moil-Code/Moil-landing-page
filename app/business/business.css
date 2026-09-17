@@ -139,14 +139,14 @@ body::before {
 /* ===================================================
    NAV
    =================================================== */
-nav {
+#nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
   padding: 14px 40px;
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   transition: background 0.4s, border-color 0.4s, backdrop-filter 0.4s;
   border-bottom: 1px solid transparent;
 }
-nav.scrolled {
+#nav.scrolled {
   background: var(--nav-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
   border-color: var(--border);
 }
@@ -1187,7 +1187,7 @@ nav.scrolled {
 /* ===================================================
    FOOTER
    =================================================== */
-footer {
+#site-footer {
   background: var(--surface);
   border-top: 1px solid var(--border);
   padding: 72px 52px 48px;
@@ -1288,7 +1288,7 @@ footer {
    RESPONSIVE — MOBILE
    =================================================== */
 @media (max-width: 960px) {
-  nav { padding: 12px 20px; }
+  #nav { padding: 12px 20px; }
   .nav-links, .nav-signin, .nav-switch { display: none; }
   .hamburger { display: flex; }
   .nav-cta { display: none; }
@@ -1335,7 +1335,7 @@ footer {
   .final-btn { width: 100%; max-width: 360px; justify-content: center; }
 
   /* Footer */
-  footer { padding: 48px 20px 40px; }
+  #site-footer { padding: 48px 20px 40px; }
   .footer-hero-tagline { font-size: clamp(26px, 6vw, 38px); margin-bottom: 44px; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
   .footer-bottom { grid-template-columns: minmax(0, 1fr); gap: 20px; }
