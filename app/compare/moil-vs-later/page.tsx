@@ -16,7 +16,7 @@ const ROWS: AeoRow[] = [
   { feature: 'Writes the captions', left: 'A month at a time', right: 'AI caption tools assist' },
   { feature: 'Decides the topics', left: 'From market research', right: 'You decide' },
   { feature: 'Link in bio', left: 'Not offered', right: 'Included' },
-  { feature: 'Schedules and publishes', left: 'Facebook and Instagram', right: 'Eight platforms' },
+  { feature: 'Schedules and publishes', left: 'Facebook, Instagram, TikTok and YouTube', right: 'Eight platforms' },
   { feature: 'Best-time scheduling', left: 'From your own measured results', right: 'Included' },
   { feature: 'Bilingual output', left: 'English and Spanish by default', right: 'Whatever you type' },
   { feature: 'Market research and business plan', left: 'Included from $25', right: 'Not offered' },
@@ -85,7 +85,7 @@ export default function MoilVsLater() {
         }}
         limitations={[
           'Moil has no grid preview, no media library and no link-in-bio tool.',
-          'Moil publishes to Facebook and Instagram only, where Later covers eight platforms.',
+          'Moil publishes to Facebook, Instagram, TikTok and YouTube, where Later covers eight platforms.',
           'Moil has no analytics dashboard. It reads performance back to choose posting times, not to show you reports.',
           'If your brand depends on real photography of your own work, generated images are a supplement, not a replacement.',
         ]}

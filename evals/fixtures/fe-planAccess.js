@@ -1,12 +1,15 @@
 /*
- * COMMITTED PIN — a verbatim copy of
- *   Moil-Employer-FE-Staging/src/utils/subscriptionHelper/planAccess.js
- * taken 2026-09-11 from branch claude/qa-validation-testing-65lasb.
+ * COMMITTED PIN — a verbatim copy of the employer frontend's
+ *   src/utils/subscriptionHelper/planAccess.js
+ * taken 2026-09-17. That file lives in a repo known by two names —
+ * `Moil-Employer-FE-Staging` and `Moilapp_business` — whose code lines were
+ * verified identical when this was refreshed; `evals/pricingCopy.test.js`
+ * resolves whichever is checked out.
  * Why a copy: CI has no sibling checkout, and a skip-if-missing check is a
- * check that never runs on the suite that gates merge. evals/pricingCopy.test.js
- * reads this file always and the live sibling when one is present (skipping
- * LOUDLY otherwise), so a stale pin is caught locally even though CI can only
- * check the pin. Refresh by copying the file over this one when planAccess.js
+ * check that never runs on the suite that gates merge. That test reads this
+ * file always and the live sibling when one is present (skipping LOUDLY
+ * otherwise), so a stale pin is caught locally even though CI can only check
+ * the pin. Refresh by copying the file over this one when planAccess.js
  * changes; do not edit by hand.
  */
 /**
@@ -71,9 +74,33 @@ const PLAN_FEATURES = {
   // ─── PROFESSIONAL ─────────────────────────────
   // The $25 base tier: MANUAL studio only. `content360` opens `/moil-360`.
   // `marketPro` stays false — Autopilot, video/b-roll gen, carousel gen,
-  // and the second-language toggle are Market Pro. `keywordResearch` is
-  // false to match BE. generatedPhotosPerWeek stays 3 on the server; do
+  // and the second-language toggle are Market Pro.
+  // generatedPhotosPerWeek stays 3 on the server; do
   // not flatten this into a caption-only week.
+  //
+  // `keywordResearch` IS TRUE HERE AND ALL THREE COPIES AGREE. It was false
+  // until 2026-09-11, which left Professional lacking a feature the CHEAPER
+  // Starter tier has — a hole no surface can describe to a founder without
+  // telling them to downgrade.
+  //
+  // THIS COMMENT HAS NOW BEEN WRONG IN BOTH DIRECTIONS, which is the reason
+  // it is worth reading rather than skimming. It read "false to match BE"
+  // while the line below already said true; it was then corrected to say the
+  // three copies DISAGREE — measured against sibling checkouts that predated
+  // the backend and gateway merges, so it described a drift that was already
+  // closed. Re-measured 2026-09-12 against all three default branches
+  // (BE master, GW main, FE main): routes true, screen true, client true, and
+  // the backend's evals/planTierLockstep.test.js passes 12/12 including its
+  // cell-by-cell comparison against the LIVE siblings and a monotonicity walk
+  // over PLAN_TIER_ORDER.
+  //
+  // THE STRUCTURAL GAP UNDERNEATH IS REAL AND IS NOT FIXED BY THAT. The
+  // lockstep gate SKIPS when the sibling repos are not checked out, which is
+  // always true in CI — so the only thing that ever runs it is a person
+  // holding all three. That is why this cell has drifted three times, and why
+  // a claim here about the other two copies is worth nothing unless whoever
+  // wrote it had those repos at their current default branch. Measure before
+  // you edit this paragraph.
   //
   // History: both repos read `content360: true` until 2026-08-20 with
   // NOTHING limiting a Professional account (the $25/$75 giveaway); then
