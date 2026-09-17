@@ -9,7 +9,7 @@
  */
 module.exports = {
   "pinnedFrom": "Business-plan-Staging/utils/planLimits.js + service/content360/dropTargets.js",
-  "pinnedOn": "2026-09-06",
+  "pinnedOn": "2026-09-17",
   "professional": {
     "postsPerWeek": 3,
     "generatedPhotosPerWeek": 3,
@@ -30,12 +30,12 @@ module.exports = {
     "platforms": [
       "instagram",
       "facebook",
-      "linkedin"
+      "tiktok",
+      "youtube"
     ]
   },
   "autopilotPlatforms": [
     "instagram",
-    "facebook",
-    "linkedin"
+    "facebook"
   ]
 };

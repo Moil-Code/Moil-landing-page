@@ -12,11 +12,22 @@
  * something to leave to a request that can fail. A pin that is checked beats a
  * fetch that is not.
  *
- * Pinned from: Business-plan-Staging/utils/planLimits.js (2026-09-06)
+ * Pinned from: Business-plan-Staging/utils/planLimits.js (2026-09-17)
  *   professional  postsPerWeek 3 · generatedPhotosPerWeek 3 · brollReelsPerWeek 0
  *                 generativeVideosPerMonth 0 · autoPromote false · platforms IG+FB
  *   marketing_pro postsPerWeek 7 · generatedPhotosPerWeek 7 · brollReelsPerWeek 3
- *                 generativeVideosPerMonth 12 · autoPromote true · platforms all
+ *                 generativeVideosPerMonth 12 · autoPromote true
+ *                 platforms IG+FB+TikTok+YouTube
+ *
+ * TWO DIFFERENT QUESTIONS LIVE HERE AND THE COPY MUST NOT BLEND THEM.
+ * "Where can this tier PUBLISH" (`TierLimits.platforms`) and "where does the
+ * AUTOMATIC month go" (`AUTOPILOT_PLATFORMS`) stopped having the same answer
+ * on the backend's 2026-09-14 cut, and this file said the opposite of the
+ * truth on both: it claimed LinkedIn — which publishes NOWHERE, it is built
+ * and locked behind SOCIAL_APPROVED_PLATFORMS — and it did not know that
+ * TikTok and YouTube had gone live. Stale in both directions at once, which
+ * is the shape that survives review: the over-claim reads as a feature and
+ * the under-claim reads as modesty.
  */
 
 export type TierId = 'professional' | 'marketPro';
@@ -56,7 +67,7 @@ export const TIER_LIMITS: Readonly<Record<TierId, TierLimits>> = {
     generativeVideosPerMonth: 12,
     autoPromote: true,
     carousels: true,
-    platforms: ['instagram', 'facebook', 'linkedin'],
+    platforms: ['instagram', 'facebook', 'tiktok', 'youtube'],
   },
 };
 
@@ -65,29 +76,65 @@ export const TIER_LIMITS: Readonly<Record<TierId, TierLimits>> = {
  * `dropTargets.PROMOTABLE_PLATFORMS`, which is what `_runWeeklyDropForUser`
  * reads as its `stageable` set (moil360Agent.service.js).
  *
- * It is deliberately NOT `socialPlatforms.FAN_OUT_ALIASES.both`. That constant
- * is the frozen stored meaning of the legacy `platform: 'both'` string — the
- * networks a founder picked when "both" meant two — and the backend's own note
- * says so in as many words. It answers a different question from "where does
- * the automatic month go", and the two stopped agreeing on 2026-09-05 when
- * Autopilot learned to promote LinkedIn end to end (backend P3, `dropTargets.js`).
- * Reading the alias made `marketProExtraNetworks()` a control that could never
- * fire — both of its inputs derived from the same frozen pair — so Market Pro's
- * copy silently dropped a real $75-only differentiator.
+ * It is deliberately NOT `TIER_LIMITS.marketPro.platforms`. Autopilot can only
+ * stage a network whose PROMOTE branch can finish unattended, and the backend
+ * derives that set as `META_PLATFORMS + NON_META_PROMOTABLE filtered by
+ * isPublishable` — so TikTok and YouTube are publishable and NOT promotable
+ * (`platform_manual_only`), and LinkedIn has a promote branch but is not
+ * publishable, which removes it from both. Naming a publish-only network as an
+ * autopilot destination promises a founder a post that nothing will send.
  *
- * The marketing copy describes the automatic month, so the network it may name
- * as a Market Pro extra is `autopilot minus professional`.
+ * It is also not `socialPlatforms.FAN_OUT_ALIASES.both` — that constant is the
+ * frozen stored meaning of the legacy `platform: 'both'` string, i.e. what a
+ * PAST choice meant, not where the month goes.
  */
-export const AUTOPILOT_PLATFORMS: readonly string[] = ['instagram', 'facebook', 'linkedin'];
+export const AUTOPILOT_PLATFORMS: readonly string[] = ['instagram', 'facebook'];
 
+/**
+ * Display names. A label is a VOCABULARY, never a claim — `linkedin` keeps one
+ * although nothing publishes there, so the day it is promoted the copy renders
+ * a name rather than a raw id.
+ */
 export const PLATFORM_LABELS: Readonly<Record<string, string>> = {
   instagram: 'Instagram',
   facebook: 'Facebook',
+  tiktok: 'TikTok',
+  youtube: 'YouTube',
   linkedin: 'LinkedIn',
 };
+
+/**
+ * Built and connectable, but publishing NOWHERE today — the honest limit that
+ * has to travel with any claim about publishing, or the next correction is a
+ * founder expecting a post that never goes out. Pin of the backend's
+ * `socialPlatforms.GATED_PLATFORMS`.
+ */
+export const GATED_NETWORKS: readonly string[] = ['linkedin'];
+
+const label = (p: string) => PLATFORM_LABELS[p] ?? p;
+
+/** Every network a founder can publish to today, widest tier first. */
+export function publishNetworks(): string[] {
+  return TIER_LIMITS.marketPro.platforms.map(label);
+}
+
+/** The honest limit, for the surfaces that make a publishing claim. */
+export function gatedNetworks(): string[] {
+  return GATED_NETWORKS.map(label);
+}
+
+/**
+ * Networks Market Pro can PUBLISH to that Professional cannot. This is a real
+ * $75-only differentiator and it is NOT an autopilot claim: these are posts the
+ * founder sends from the studio, so the copy that names them must say so.
+ */
+export function marketProExtraPublishNetworks(): string[] {
+  const pro = new Set(TIER_LIMITS.professional.platforms);
+  return TIER_LIMITS.marketPro.platforms.filter((p) => !pro.has(p)).map(label);
+}
 
 /** Networks the automatic month reaches that Professional does not. */
 export function marketProExtraNetworks(): string[] {
   const pro = new Set(TIER_LIMITS.professional.platforms);
-  return AUTOPILOT_PLATFORMS.filter((p) => !pro.has(p)).map((p) => PLATFORM_LABELS[p] ?? p);
+  return AUTOPILOT_PLATFORMS.filter((p) => !pro.has(p)).map(label);
 }

@@ -428,6 +428,61 @@ describe('answer-engine surfaces', () => {
 	});
 });
 
+
+/**
+ * The networks the product can publish to, and the ones it cannot, read from
+ * `src/common/seo/tierLimits.ts` — the committed pin of the backend's
+ * `planLimits.js` that `evals/pricingCopy.test.js` checks against the live
+ * sibling. A second list here would be the copy that drifts, and it would
+ * drift in the direction that keeps the site denying a shipped network.
+ */
+function labelFor(src, id) {
+	const lm = new RegExp(`\\b${id}: '([^']+)'`).exec(src);
+	assert.ok(lm, `tierLimits.ts has no PLATFORM_LABELS entry for ${id}`);
+	return lm[1];
+}
+
+function idsIn(src, pattern, what, min) {
+	const m = pattern.exec(src);
+	assert.ok(m, `tierLimits.ts no longer declares ${what}`);
+	const ids = [...m[1].matchAll(/'([a-z]+)'/g)].map((x) => x[1]);
+	assert.ok(ids.length >= min, `${what} parsed too small — the reader is broken`);
+	return ids;
+}
+
+/** Market Pro's publish reach = every network the product can publish to. */
+function publishableNetworks() {
+	const src = read('src/common/seo/tierLimits.ts');
+	return idsIn(src, /marketPro: \{[\s\S]*?platforms: \[([^\]]*)\]/, 'marketPro.platforms', 2)
+		.map((id) => labelFor(src, id));
+}
+
+/**
+ * THE LINES THAT MAKE A PUBLISHING CLAIM, never the whole file.
+ *
+ * The first cut of the assertion below matched each network name anywhere in
+ * the translation file — and both files carry `platformTiktok: 'TikTok'` and
+ * `platformLinkedin: 'LinkedIn'` as PICKER LABELS in the preview magnet, so
+ * every network was always "named" and the check could not fail. Red-verified:
+ * stripping TikTok and YouTube out of the publishing answer left it GREEN, and
+ * so did deleting the honest limit. A claim about the FILE is not a claim
+ * about the sentence the gate exists to protect.
+ */
+function publishingLines(file) {
+	const lines = read(file)
+		.split('\n')
+		.filter((l) => /(schedules? and publishes|scheduled and published|publishes to|programa y publica|se programa y se publica|publica en)/i.test(l));
+	assert.ok(lines.length > 0, `${file} makes no publishing claim at all`);
+	return lines.join('\n');
+}
+
+/** Built, connectable, publishing nowhere — the limit the claim must carry. */
+function gatedNetworks() {
+	const src = read('src/common/seo/tierLimits.ts');
+	return idsIn(src, /GATED_NETWORKS[^=]*=\s*\[([^\]]*)\]/, 'GATED_NETWORKS', 1)
+		.map((id) => labelFor(src, id));
+}
+
 describe('publishing is described accurately', () => {
 	// August 2026: the site told buyers, and told assistants in /ai-info and
 	// llms.txt, that Moil "is not a social media scheduler" and "does not post to
@@ -490,9 +545,38 @@ describe('publishing is described accurately', () => {
 		}
 	});
 
-	it('both languages carry the publishing answer', () => {
-		assert.match(read('src/common/translations/en.ts'), /Facebook Page and Instagram/);
-		assert.match(read('src/common/translations/es.ts'), /Facebook e Instagram/);
+	it('both languages carry the publishing answer, naming every live network', () => {
+		// THE NETWORK LIST IS DERIVED, NEVER TYPED. This assertion used to pin
+		// the literal phrase "Facebook Page and Instagram", which made it a
+		// hand-kept copy of a list that moves — and it moved: the backend's
+		// 2026-09-14 cut made TikTok and YouTube publishable and locked
+		// LinkedIn, so the phrase this test demanded was the stale claim. It
+		// now reads the networks out of `tierLimits.ts` (itself a checked pin
+		// of the backend), so the day a network goes live the copy has to name
+		// it or this goes red.
+		for (const file of ['src/common/translations/en.ts', 'src/common/translations/es.ts']) {
+			const claim = publishingLines(file);
+			for (const network of publishableNetworks()) {
+				assert.match(
+					claim,
+					new RegExp(network, 'i'),
+					`${file} says Moil publishes without naming ${network}, which it publishes to`,
+				);
+			}
+		}
+		// The honest limit travels with the claim, in both languages, or the
+		// next correction is a founder expecting a LinkedIn post that never
+		// goes out.
+		for (const file of ['src/common/translations/en.ts', 'src/common/translations/es.ts']) {
+			const claim = publishingLines(file);
+			for (const network of gatedNetworks()) {
+				assert.match(
+					claim,
+					new RegExp(network, 'i'),
+					`${file} claims publishing without naming ${network}, which is built and not connected`,
+				);
+			}
+		}
 	});
 });
 

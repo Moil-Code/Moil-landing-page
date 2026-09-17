@@ -26,8 +26,8 @@ const ROWS: AeoRow[] = [
   { feature: 'Decide de qué publicar', left: 'Investiga tu mercado cada mes', right: 'Tú decides' },
   { feature: 'Escribe los textos', left: 'Un mes completo, con tu voz', right: 'Su asistente de IA te ayuda a reescribir' },
   { feature: 'Crea las imágenes', left: '30 al mes, con tu marca', right: 'Las pones tú' },
-  { feature: 'Publica según un calendario', left: 'Facebook e Instagram, después de que apruebas', right: 'Su fuerte: colas y mejores horas' },
-  { feature: 'Redes cubiertas', left: 'Páginas de Facebook e Instagram', right: 'La mayoría de las redes' },
+  { feature: 'Publica según un calendario', left: 'Facebook, Instagram, TikTok y YouTube, después de que apruebas', right: 'Su fuerte: colas y mejores horas' },
+  { feature: 'Redes cubiertas', left: 'Facebook, Instagram, TikTok y YouTube', right: 'La mayoría de las redes' },
   { feature: 'Bandeja de interacción y respuestas', left: 'No la ofrece', right: 'Incluida en planes de pago' },
   { feature: 'Métricas por publicación', left: 'Alcance e interacción, leídos de vuelta', right: 'Incluidas' },
   { feature: 'Elige la hora de publicar', left: 'A partir de tus propios resultados', right: 'Sugerencias de mejor hora' },
@@ -40,7 +40,7 @@ const FAQS: AeoFaq[] = [
   {
     question: '¿Moil reemplaza a Buffer?',
     answer:
-      'Para Facebook e Instagram puede hacerlo, porque Moil programa y publica ahí por sí mismo. Buffer sigue siendo mejor opción si publicas en LinkedIn, X, TikTok o Pinterest, o si quieres una bandeja para responder. La diferencia honesta: Buffer responde a "tengo publicaciones y necesito publicarlas en todos los canales"; Moil responde a "no tengo nada escrito ni tiempo para escribirlo".',
+      'Para Facebook, Instagram, TikTok y YouTube puede hacerlo, porque Moil programa y publica ahí por sí mismo. Buffer sigue siendo mejor opción si publicas en LinkedIn, X, TikTok o Pinterest, o si quieres una bandeja para responder. La diferencia honesta: Buffer responde a "tengo publicaciones y necesito publicarlas en todos los canales"; Moil responde a "no tengo nada escrito ni tiempo para escribirlo".',
   },
   {
     question: 'Buffer ya tiene un asistente de IA. ¿Es lo mismo?',
@@ -55,7 +55,7 @@ const FAQS: AeoFaq[] = [
   {
     question: '¿Moil puede publicar directamente en mis cuentas?',
     answer:
-      'Sí, en páginas de Facebook y en Instagram. Revisas el mes, apruebas lo que quieras y Moil lo programa y lo publica — imagen, video o carrusel — y después lee el alcance y la interacción y usa tus propios resultados para elegir la hora de publicar. LinkedIn, X y TikTok no están conectados, así que ahí tomas la publicación terminada y la subes tú.',
+      'Sí, en páginas de Facebook, en Instagram, TikTok y YouTube. Revisas el mes, apruebas lo que quieras y Moil lo programa y lo publica — imagen, video o carrusel — y después lee el alcance y la interacción y usa tus propios resultados para elegir la hora de publicar. LinkedIn, X y TikTok no están conectados, así que ahí tomas la publicación terminada y la subes tú.',
   },
   {
     question: '¿Buffer funciona en español?',
@@ -99,7 +99,7 @@ export default function MoilVsBufferEs() {
             'Ya escribes tu contenido, o alguien de tu equipo lo hace, y el trabajo es moverlo a muchos canales — LinkedIn, X, TikTok, Pinterest — con colas y una bandeja para responder. Para eso está hecho Buffer, por unos dólares por canal.',
         }}
         limitations={[
-          'Moil publica solo en páginas de Facebook e Instagram. LinkedIn, X, TikTok y Pinterest no están conectados; Buffer los cubre.',
+          'Moil publica en páginas de Facebook, en Instagram, TikTok y YouTube. LinkedIn, X y Pinterest no están conectados; Buffer los cubre.',
           'Moil no tiene bandeja de interacción ni escucha social. Lee el alcance y la interacción de lo que publicó; no te muestra respuestas ni menciones.',
           'Moil cuesta varias veces más que los planes de entrada de Buffer. Si publicar es todo lo que necesitas, es la compra equivocada.',
           'Si tu contenido ya está escrito, la mayor parte de lo que hace Moil es trabajo que ya hiciste.',
