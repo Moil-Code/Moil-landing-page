@@ -245,7 +245,7 @@ export const es: TranslationKeys = {
         ['Brand DNA \u2014 colores, tipograf\u00edas, voz', 'S\u00ed', 'S\u00ed'],
         ['Im\u00e1genes, volantes y documentos cuando los pidas', 'S\u00ed', 'L\u00edmites m\u00e1s altos'],
         ['Documentos de Word, hojas de c\u00e1lculo y presentaciones', 'S\u00ed', 'S\u00ed'],
-        ['Programa y publica en Facebook e Instagram', 'S\u00ed', 'S\u00ed'],
+        ['Programa y publica en Facebook, Instagram, TikTok y YouTube', 'S\u00ed', 'S\u00ed'],
         ['Coaching y seguimiento', 'S\u00ed', 'S\u00ed'],
         ['Ingl\u00e9s y espa\u00f1ol', 'S\u00ed', 'S\u00ed'],
         ['Moil360 \u2014 tu mes escrito autom\u00e1ticamente', 'No incluido', 'Incluido'],
@@ -484,10 +484,10 @@ export const es: TranslationKeys = {
         ['Sabe de tu negocio el mes que viene', 'Lo recuerda todo', 'Sin contexto', 'Brief nuevo cada campaña'],
         ['Inglés y español', 'De principio a fin', 'Rara vez', 'Costo aparte'],
         ['Plan de negocios e investigación', 'Incluido', 'No lo ofrece', 'Proyecto aparte'],
-        ['Programa y publica por ti', 'Facebook e Instagram', 'Su punto fuerte', 'Gestionado'],
+        ['Programa y publica por ti', 'Facebook, Instagram, TikTok y YouTube', 'Su punto fuerte', 'Gestionado'],
         ['Precio mensual', '$25–$75', '$4–$29 por canal', '$3,000–$8,000'],
       ],
-      honest: 'Dónde ganan ellos: los programadores cubren muchas más redes que Facebook e Instagram, incluyen bandeja de mensajes para responder y cuestan unos pocos dólares por canal. Si ya sabes qué publicar y solo necesitas distribuirlo, esa es la compra más ajustada. Moil es para el mes que todavía no has escrito.',
+      honest: 'Dónde ganan ellos: los programadores cubren más redes que Moil — LinkedIn y X entre ellas —, incluyen bandeja de mensajes para responder y cuestan unos pocos dólares por canal. Si ya sabes qué publicar y solo necesitas distribuirlo, esa es la compra más ajustada. Moil es para el mes que todavía no has escrito.',
       cta: 'Empieza gratis — sin tarjeta',
     },
     bilingualSection: {
@@ -615,7 +615,7 @@ export const es: TranslationKeys = {
         },
         {
           question: '¿En qué se diferencia de Buffer, Later o Hootsuite?',
-          answer: 'Esas herramientas publican contenido que tú ya escribiste. Moil lo escribe y además lo publica. Investiga temas para tu mercado, redacta los textos con tu voz, genera las imágenes y publica en tu página de Facebook e Instagram lo que tú apruebas. Donde ellas siguen ganando es en alcance de redes: también publican en LinkedIn, X y TikTok, y tienen bandeja de mensajes para responder.',
+          answer: 'Esas herramientas publican contenido que tú ya escribiste. Moil lo escribe y además lo publica. Investiga temas para tu mercado, redacta los textos con tu voz, genera las imágenes y publica en tu página de Facebook, en Instagram, TikTok y YouTube lo que tú apruebas. Donde ellas siguen ganando es en alcance de redes: también publican en LinkedIn y X, y tienen bandeja de mensajes para responder.',
         },
         {
           question: '¿En qué se diferencia de ChatGPT?',
@@ -632,7 +632,7 @@ export const es: TranslationKeys = {
         {
           question: '¿Moil publica en mis cuentas por mí?',
           answer:
-            'Sí, en Facebook e Instagram. Conectas las cuentas una vez y revisas lo que Moil escribe; lo que apruebas se programa y se publica por ti \u2014 imagen, video o carrusel \u2014 y después Moil lee el alcance y la interacción, así que con el tiempo publica a la hora que de verdad le ha funcionado a tu negocio. LinkedIn, X y TikTok todavía no están conectados, así que para esas redes tomas la publicación terminada y la subes tú.',
+            'Sí — en Facebook, Instagram, TikTok y YouTube. Conectas las cuentas una vez y revisas lo que Moil escribe; lo que apruebas se programa y se publica por ti \u2014 imagen, video o carrusel \u2014 y después Moil lee el alcance y la interacción, así que con el tiempo publica a la hora que de verdad le ha funcionado a tu negocio. El mes automático sale en Facebook e Instagram; TikTok y YouTube son redes que tú eliges para cada publicación. LinkedIn y X todavía no están conectados, así que para esas redes tomas la publicación terminada y la subes tú.',
         },
         {
           question: '¿Moil puede armar horarios del personal?',

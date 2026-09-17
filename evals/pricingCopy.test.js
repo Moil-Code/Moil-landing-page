@@ -156,11 +156,12 @@ describe('(c) tierLimits.ts is the backend pin', () => {
 		assert.deepEqual(auto, pinBe.autopilotPlatforms);
 	});
 	it('the pin matches the live backend when the sibling is checked out', () => {
-		const live = path.join(root, '..', 'Business-plan-Staging', 'utils', 'planLimits.js');
-		if (!fs.existsSync(live)) {
-			console.log('  skip  Business-plan-Staging not checked out — be-planLimits pin NOT verified against live source (this is not a pass)');
+		if (!BE_REPO) {
+			console.log('  skip  backend sibling not checked out — be-planLimits pin NOT verified against live source (this is not a pass)');
 			return;
 		}
+		const live = path.join(BE_REPO, 'utils', 'planLimits.js');
+		assert.ok(fs.existsSync(live), `${BE_REPO} has no utils/planLimits.js`);
 		const p = require(live);
 		// The drop's OWN target set, never socialPlatforms.FAN_OUT_ALIASES.both.
 		// That alias is the frozen stored meaning of the legacy `platform: 'both'`
@@ -168,7 +169,7 @@ describe('(c) tierLimits.ts is the backend pin', () => {
 		// automatic month go". Pinning it made this check unable to see the drift
 		// it exists for — Autopilot gained LinkedIn on 2026-09-05 and this stayed
 		// green, so Market Pro's copy silently lost a $75-only differentiator.
-		const d = require(path.join(root, '..', 'Business-plan-Staging', 'service', 'content360', 'dropTargets.js'));
+		const d = require(path.join(BE_REPO, 'service', 'content360', 'dropTargets.js'));
 		const pick = (t) => ({
 			postsPerWeek: t.postsPerWeek,
 			generatedPhotosPerWeek: t.generatedPhotosPerWeek,
@@ -182,6 +183,58 @@ describe('(c) tierLimits.ts is the backend pin', () => {
 		assert.deepEqual([...d.PROMOTABLE_PLATFORMS], pinBe.autopilotPlatforms, 'be-planLimits.js is stale: autopilot networks');
 	});
 });
+
+/**
+ * THE SIBLING IS RESOLVED, NEVER TYPED.
+ *
+ * Both cross-checks below named one literal directory (`Business-plan-Staging`,
+ * `Moil-Employer-FE-Staging`) and took their loud-skip branch on any checkout
+ * that spells it differently — which is every checkout that clones the repo
+ * under its GitHub name. So the gate that exists to catch tier drift had never
+ * run on a machine holding both repos, and the drift it exists for shipped: the
+ * backend's 2026-09-14 cut moved TikTok and YouTube into PUBLISHABLE and left
+ * LinkedIn locked, while this site kept claiming the opposite of both.
+ *
+ * A hardcoded path is wrong the day the host changes AND IT CANNOT SAY SO — it
+ * is indistinguishable from "no sibling here", which is the one reading that
+ * looks like coverage. Candidates are an env override first, then every name
+ * the repo is known by; an older checkout still gets the stronger check.
+ */
+function siblingRepo(names, envVar) {
+	const fromEnv = process.env[envVar];
+	const candidates = fromEnv ? [fromEnv, ...names] : names;
+	for (const name of candidates) {
+		const dir = path.isAbsolute(name) ? name : path.join(root, '..', name);
+		if (fs.existsSync(dir)) return dir;
+	}
+	return null;
+}
+
+// THIS repo's own sibling is listed FIRST, in every spelling a clone produces
+// — `git clone` of the GitHub name gives `Business-plan-Staging`, while the
+// session tooling clones lower-case. Case matters on Linux, so omitting the
+// lower-case spelling sent this gate past its own sibling and onto the
+// PRODUCTION backend sitting beside it, which grades staging against a
+// different deployment: measured, that reported marketing_pro as
+// IG+FB+TikTok+YouTube and failed three checks about code that is correct
+// here. A cross-environment fallback is kept only as the LAST resort, where
+// it is better than no check at all.
+const BE_REPO = siblingRepo(
+	[
+		'Business-plan-Staging',
+		'business-plan-staging',
+		'Business-Plan-Backend-End-Prod',
+	],
+	'MOIL_BE_REPO',
+);
+const FE_REPO = siblingRepo(
+	[
+		'Moil-Employer-FE-Staging',
+		'moil-employer-fe-staging',
+		'Moilapp_business',
+	],
+	'MOIL_FE_REPO',
+);
 
 describe('(d) the app ships the tier the landing describes', () => {
 	const pinFe = read('evals/fixtures/fe-planAccess.js');
@@ -200,11 +253,12 @@ describe('(d) the app ships the tier the landing describes', () => {
 		assert.ok(!professionalHas(pinFe, 'professional_yearly', 'marketPro'));
 	});
 	it('the pin matches the live frontend when the sibling is checked out', () => {
-		const live = path.join(root, '..', 'Moil-Employer-FE-Staging', 'src', 'utils', 'subscriptionHelper', 'planAccess.js');
-		if (!fs.existsSync(live)) {
-			console.log('  skip  Moil-Employer-FE-Staging not checked out — fe-planAccess pin NOT verified against live source (this is not a pass)');
+		if (!FE_REPO) {
+			console.log('  skip  employer frontend sibling not checked out — fe-planAccess pin NOT verified against live source (this is not a pass)');
 			return;
 		}
+		const live = path.join(FE_REPO, 'src', 'utils', 'subscriptionHelper', 'planAccess.js');
+		assert.ok(fs.existsSync(live), `${FE_REPO} has no subscriptionHelper/planAccess.js`);
 		const header = pinFe.indexOf('*/\n') + 3;
 		assert.equal(pinFe.slice(header), fs.readFileSync(live, 'utf8'), 'evals/fixtures/fe-planAccess.js is stale — copy planAccess.js over it');
 	});

@@ -51,6 +51,27 @@ const NAV_CSS = read('app/business/business.css');
 const LEGAL = read('src/common/components/LegalPage.tsx');
 const LEGAL_CSS = read('src/common/components/LegalPage.module.css');
 
+/**
+ * THE NAV RULE IS FOUND BY THE ID THE COMPONENT RENDERS, never by the bare
+ * element name. `business.css` used to style `nav` — a (0,0,1) element
+ * selector in a stylesheet 23 layouts import — so the fixed bar leaked onto
+ * every unrelated `<nav>` on those pages: both of SiteFooter's link groups,
+ * and the two bare `<nav>`s inside LegalPage itself, which stacked three
+ * fixed bars at the top of all eight compliance pages. Scoping it to `#nav`
+ * fixes that, and it is also what this gate should have been anchored on all
+ * along — `BusinessNav`'s root is `<nav id="nav">`, so the id is the thing
+ * that identifies the bar, while the element name identifies every nav on the
+ * page. The selector is DERIVED from the component rather than typed here, so
+ * a future rename fails loudly instead of matching nothing and reporting a
+ * nav with no rules.
+ */
+const NAV_ID = (() => {
+	const m = /<nav\s+id="([A-Za-z0-9_-]+)"/.exec(NAV);
+	assert.ok(m, 'BusinessNav root carries no id — the nav rule cannot be located');
+	return m[1];
+})();
+const NAV_SELECTOR = `#${NAV_ID}`;
+
 const LEGAL_ROUTES = [
 	'cookies', 'terms', 'privacy', 'dmca',
 	'dpa', 'subprocessors', 'accessibility', 'privacy-choices',
@@ -141,11 +162,14 @@ function navHeightFloor(width) {
 	const logo = NAV.match(/height:\s*'(\d+)px'/);
 	assert.ok(logo, 'nav logo declares no explicit height — the floor cannot be derived');
 
-	const rules = rulesFor(NAV_CSS, 'nav');
-	assert.ok(rules.length >= 2, 'expected `nav` to declare a responsive padding');
+	const rules = rulesFor(NAV_CSS, NAV_SELECTOR);
+	assert.ok(
+		rules.length >= 2,
+		`expected \`${NAV_SELECTOR}\` to declare a responsive padding`,
+	);
 
 	const pad = valueAt(rules, width, topPadding);
-	assert.ok(pad !== null, `nav declares no padding at ${width}px`);
+	assert.ok(pad !== null, `${NAV_SELECTOR} declares no padding at ${width}px`);
 
 	const border = /border-bottom:\s*(\d+)px/.exec(rules[0].body);
 	return Number(logo[1]) + pad * 2 + (border ? Number(border[1]) : 0);
@@ -188,8 +212,8 @@ describe('legal pages clear the fixed nav', () => {
 		assert.match(SHELL, /<BusinessNav/, 'BrandPageShell no longer mounts BusinessNav');
 		assert.match(NAV, /<nav id="nav"/, 'BusinessNav root is no longer the #nav element');
 
-		const base = rulesFor(NAV_CSS, 'nav')[0];
-		assert.ok(base, '`nav` has no base rule in business.css');
+		const base = rulesFor(NAV_CSS, NAV_SELECTOR)[0];
+		assert.ok(base, `\`${NAV_SELECTOR}\` has no base rule in business.css`);
 		assert.match(base.body, /position:\s*fixed/, 'nav is not fixed — this whole gate assumes it is');
 		assert.match(base.body, /top:\s*0/, 'nav is not pinned to the top');
 	});

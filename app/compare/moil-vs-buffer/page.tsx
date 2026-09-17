@@ -15,7 +15,7 @@ const ROWS: AeoRow[] = [
   { feature: 'Decides what to post about', left: 'Researches your market monthly', right: 'You decide' },
   { feature: 'Writes the captions', left: 'A month at a time, in your voice', right: 'AI Assistant helps you rewrite' },
   { feature: 'Creates the images', left: '30 a month, brand-aligned', right: 'You supply them' },
-  { feature: 'Publishes on a schedule', left: 'Facebook and Instagram, after you approve', right: 'Core strength — queues, best times' },
+  { feature: 'Publishes on a schedule', left: 'Facebook, Instagram, TikTok and YouTube, after you approve', right: 'Core strength — queues, best times' },
   { feature: 'Networks covered', left: 'Facebook Pages and Instagram', right: 'Most major networks' },
   { feature: 'Engagement inbox and replies', left: 'Not offered', right: 'Included on paid plans' },
   { feature: 'Analytics per post', left: 'Reach and engagement, read back', right: 'Included' },
@@ -29,7 +29,7 @@ const FAQS: AeoFaq[] = [
   {
     question: 'Is Moil a replacement for Buffer?',
     answer:
-      'For Facebook and Instagram it can be, because Moil schedules and publishes to those itself. Buffer stays the better fit if you publish to LinkedIn, X, TikTok or Pinterest, or if you want an inbox for replies. The honest split: Buffer answers "I have posts and need them published across every channel"; Moil answers "I have nothing written and no time to write it."',
+      'For Facebook, Instagram, TikTok and YouTube it can be, because Moil schedules and publishes to those itself. Buffer stays the better fit if you publish to LinkedIn, X, TikTok or Pinterest, or if you want an inbox for replies. The honest split: Buffer answers "I have posts and need them published across every channel"; Moil answers "I have nothing written and no time to write it."',
   },
   {
     question: 'Buffer has an AI assistant now. Is that the same thing?',
@@ -44,7 +44,7 @@ const FAQS: AeoFaq[] = [
   {
     question: 'Can Moil publish directly to my accounts?',
     answer:
-      'Yes, to Facebook Pages and Instagram. You review the month, approve what you want, and Moil schedules and posts it — image, video or carousel — then reads reach and engagement back and uses your own results to pick the hour it posts. LinkedIn, X and TikTok are not connected, so for those you take the finished post and upload it yourself.',
+      'Yes, to Facebook Pages, Instagram, TikTok and YouTube. You review the month, approve what you want, and Moil schedules and posts it — image, video or carousel — then reads reach and engagement back and uses your own results to pick the hour it posts. LinkedIn, X and TikTok are not connected, so for those you take the finished post and upload it yourself.',
   },
   {
     question: 'Does Buffer work in Spanish?',
@@ -96,7 +96,7 @@ export default function MoilVsBuffer() {
             'You already write your content, or someone on your team does, and the job is moving it across many channels — LinkedIn, X, TikTok, Pinterest — with queues and an inbox for replies. That is what Buffer is built for, at a few dollars a channel.',
         }}
         limitations={[
-          'Moil publishes to Facebook Pages and Instagram only. LinkedIn, X, TikTok and Pinterest are not connected — Buffer covers them.',
+          'Moil publishes to Facebook Pages, Instagram, TikTok and YouTube. LinkedIn, X and Pinterest are not connected — Buffer covers them.',
           'Moil has no engagement inbox and no social listening. It reads reach and engagement back on what it posted; it will not show you replies or mentions.',
           'Moil is several times the price of Buffer’s entry plans. If publishing is all you need, it is the wrong thing to buy.',
           'If your content is already written, most of what Moil does is work you have already done.',
