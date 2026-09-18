@@ -4,7 +4,7 @@ import { jsonLd } from '~~/src/common/seo/jsonLd';
 
 export const metadata: Metadata = {
   title: 'Search Jobs — Bilingual Job Opportunities Near You',
-  description: 'Search thousands of job opportunities with Moil\'s AI-powered job search. Filter by location, industry, and language. Find bilingual jobs (English/Spanish) and apply in minutes. Free for candidates.',
+  description: 'Search current job opportunities by role and location. Find bilingual English and Spanish job-search tools, prepare your profile, and apply for relevant openings.',
   keywords: [
     'search jobs',
     'job search',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Search Jobs — Bilingual Job Opportunities Near You',
-    description: 'Search thousands of bilingual job opportunities. AI-powered matching connects you with the right employer. Free for candidates.',
+    description: 'Search current job opportunities by role and location, prepare your profile, and use bilingual English and Spanish candidate tools.',
     url: `${baseURL1}/candidate/searchjob`,
     images: [
       {
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     title: 'Search Jobs — Bilingual Job Opportunities Near You',
-    description: 'Search thousands of bilingual job opportunities with AI matching. Free for candidates.',
+    description: 'Search current job opportunities by role and location with bilingual English and Spanish candidate tools.',
   },
   alternates: {
     canonical: `${baseURL1}/candidate/searchjob`,
@@ -68,7 +68,7 @@ export default function SearchJobLayout({
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "Job Search — Moil",
-            "description": "Search thousands of bilingual job opportunities on Moil",
+            "description": "Search current job opportunities by role and location on Moil",
             "url": `${baseURL1}/candidate/searchjob`,
             "breadcrumb": {
               "@type": "BreadcrumbList",
@@ -77,7 +77,7 @@ export default function SearchJobLayout({
                   "@type": "ListItem",
                   "position": 1,
                   "name": "Home",
-                  "item": baseURL1
+                  "item": `${baseURL1}/business`
                 },
                 {
                   "@type": "ListItem",

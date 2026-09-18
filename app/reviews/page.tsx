@@ -115,7 +115,10 @@ export default function ReviewsPage() {
 
         <ol className="reviews__list">
           {sorted.map((review) => (
-            <li key={`${review.name}-${review.date}`} className="review">
+            <li
+              key={`${review.name}-${review.date}`}
+              className={`review ${review.topic === 'jobs' ? 'review--featured' : ''}`}
+            >
               <div className="review__meta">
                 <span className="review__topic">{TOPIC_LABEL[review.topic]}</span>
                 <span className="review__date">{review.displayDate.en}</span>

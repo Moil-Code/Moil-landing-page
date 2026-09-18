@@ -351,7 +351,7 @@ export const es: TranslationKeys = {
       headline: 'Todo Lo Que Tu Negocio',
       headlineEnd: 'Necesita.',
       headlineHighlight: 'Una Plataforma.',
-      subheadline: 'Seis módulos poderosos, entrelazados en una sola conversación inteligente. Cada uno alimenta al siguiente.',
+      subheadline: 'Cinco módulos poderosos, entrelazados en una sola conversación inteligente. Cada uno alimenta al siguiente.',
       ctaEyebrow: 'Empieza con tu negocio — no con un panel vacío',
       ctaTitle: 'Una conversación activa todo el sistema.',
       ctaDescription: 'Cuéntale a Moil lo que estás construyendo una sola vez. Tu investigación, plan, contenido, imágenes y documentos permanecen conectados.',

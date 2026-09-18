@@ -123,13 +123,29 @@ async function inspect(route) {
     headers: { 'User-Agent': 'Mozilla/5.0 (compatible; MoilSeoAudit)' },
   });
   const html = await res.text();
-  const page = { route, status: res.status };
+  const page = { route, status: res.status, finalRoute: relOf(res.url) };
 
   page.htmlLang = (html.match(/<html[^>]*\slang="([^"]*)"/i) || [])[1] || null;
   page.h1s = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((m) => textOf(m[1]).slice(0, 60));
   page.canonical = (html.match(/<link[^>]+rel="canonical"[^>]+href="([^"]+)"/i) || [])[1] || null;
+  page.robots = [...html.matchAll(/<meta[^>]+name="(?:robots|googlebot)"[^>]+content="([^"]+)"/gi)]
+    .map((m) => m[1].toLowerCase());
   page.hreflang = [...html.matchAll(/<link[^>]+rel="alternate"[^>]+hreflang="([^"]+)"[^>]+href="([^"]+)"/gi)]
     .map((m) => ({ lang: m[1], href: m[2] }));
+  page.internalLinks = [...html.matchAll(/<a\b[^>]*\shref="([^"]+)"[^>]*>/gi)]
+    .map((m) => m[1].replaceAll('&amp;', '&'))
+    .map((href) => {
+      try {
+        const url = new URL(href, `${PROD}${route}`);
+        if (!['www.moilapp.com', 'moilapp.com'].includes(url.hostname)) return null;
+        if (url.pathname.startsWith('/_next/') || url.pathname.startsWith('/api/')) return null;
+        if (/\.[a-z0-9]{2,8}$/i.test(url.pathname)) return null;
+        return url.pathname.replace(/\/$/, '') || '/';
+      } catch {
+        return null;
+      }
+    })
+    .filter(Boolean);
 
   page.schema = [];
   const blocks = [...html.matchAll(/<script[^>]+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)];
@@ -162,12 +178,17 @@ async function routes() {
   // Pages that are deliberately not in the sitemap but are still crawlable and
   // still have to be correct.
   const extras = ['/', '/legacy'];
-  return [...new Set([...fromSitemap, ...extras])];
+  return {
+    sitemap: [...new Set(fromSitemap)],
+    all: [...new Set([...fromSitemap, ...extras])],
+  };
 }
 
 // ── run ──────────────────────────────────────────────────────────────────────
+const routeSet = await routes();
+const sitemapRoutes = new Set(routeSet.sitemap);
 const pages = [];
-for (const route of await routes()) {
+for (const route of routeSet.all) {
   try {
     pages.push(await inspect(route));
   } catch (e) {
@@ -178,6 +199,41 @@ for (const route of await routes()) {
 const failures = [];
 const soft = [];
 
+// A sitemap is a discovery hint, not a substitute for crawlable navigation.
+// Record which rendered pages actually link to every canonical sitemap route.
+const inbound = new Map(routeSet.sitemap.map((route) => [route, new Set()]));
+for (const page of pages) {
+  // Only an indexable sitemap page can pass crawl equity to another sitemap
+  // page. `/legacy` is deliberately robots-blocked, and `/` only redirects.
+  if (page.fatal || !sitemapRoutes.has(page.route)) continue;
+  for (const target of new Set(page.internalLinks || [])) {
+    if (target !== page.route && inbound.has(target)) inbound.get(target).add(page.route);
+  }
+}
+for (const [route, sources] of inbound) {
+  if (sources.size === 0) failures.push(`${route}: sitemap orphan — no rendered internal link points to it`);
+}
+
+// Catch real internal 404s. Redirecting links are reported softly below because
+// a few logo links intentionally use `/`; a link that ends at 404 is never OK.
+const internalTargets = new Set(
+  pages
+    .filter((p) => !p.fatal && sitemapRoutes.has(p.route))
+    .flatMap((p) => p.internalLinks || []),
+);
+for (const target of internalTargets) {
+  try {
+    const res = await fetch(BASE + target, {
+      redirect: 'manual',
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; MoilSeoAudit)' },
+    });
+    if (res.status >= 400) failures.push(`${target}: internal link returns HTTP ${res.status}`);
+    else if (res.status >= 300) soft.push(`${target}: internal link redirects (${res.status})`);
+  } catch (e) {
+    failures.push(`${target}: internal link could not be checked — ${e}`);
+  }
+}
+
 for (const p of pages) {
   if (p.fatal) {
     failures.push(`${p.route}: could not be fetched — ${p.fatal}`);
@@ -186,6 +242,16 @@ for (const p of pages) {
   if (p.status >= 400) {
     failures.push(`${p.route}: HTTP ${p.status}`);
     continue;
+  }
+
+  if (sitemapRoutes.has(p.route)) {
+    if (p.finalRoute !== p.route) failures.push(`${p.route}: sitemap URL redirects to ${p.finalRoute}`);
+    if (!p.canonical) failures.push(`${p.route}: sitemap page has no canonical`);
+    else if (relOf(p.canonical) !== p.route) failures.push(`${p.route}: canonical points to ${relOf(p.canonical)}`);
+    if (p.robots.some((value) => /(?:^|,\s*)noindex(?:,|$)/.test(value))) {
+      failures.push(`${p.route}: sitemap page is noindex`);
+    }
+    if (p.words < 150) failures.push(`${p.route}: only ${p.words} rendered words — too thin for a sitemap landing page`);
   }
 
   for (const s of p.schema) {
@@ -241,5 +307,5 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log('  PASSED — schema valid, every page has one h1, every image has alt,');
-console.log('  every hreflang cluster is reciprocal and canonical-consistent.\n');
+console.log('  PASSED — sitemap pages are indexable, internally linked and substantive;');
+console.log('  schema, headings, images, canonicals and hreflang are consistent.\n');

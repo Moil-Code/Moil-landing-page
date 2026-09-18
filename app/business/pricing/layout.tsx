@@ -68,7 +68,7 @@ export default function BusinessPricingLayout({
                   "@type": "ListItem",
                   "position": 1,
                   "name": "Home",
-                  "item": baseURL1
+                  "item": `${baseURL1}/business`
                 },
                 {
                   "@type": "ListItem",
