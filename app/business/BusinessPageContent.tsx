@@ -64,7 +64,7 @@ export function BusinessPageContent() {
   const navItems: NavItem[] = [
     { label: 'Work', href: '/work' },
     { label: 'Partners', href: '/partners' },
-    { label: 'About', href: '/about' },
+    { label: 'Blog', href: 'https://blog.moilapp.com', external: true },
     { label: 'Contact', href: '/contact' },
   ];
 
@@ -76,7 +76,7 @@ export function BusinessPageContent() {
     ...PRODUCT_LINKS.map((p) => ({ label: p.label, href: p.href })),
     { label: 'Work', href: '/work' },
     { label: 'Partners', href: '/partners' },
-    { label: 'About', href: '/about' },
+    { label: 'Blog', href: 'https://blog.moilapp.com', external: true },
     { label: 'Contact', href: '/contact' },
   ];
 
