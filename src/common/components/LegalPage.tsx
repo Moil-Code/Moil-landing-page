@@ -45,7 +45,7 @@ export default function LegalPage({
     <main className={styles.root} data-legal-page={page}>
       <header className={styles.hero}>
         <div className={styles.heroInner}>
-          <Link className={styles.backLink} href="/" aria-label={backLabel}>
+          <Link className={styles.backLink} href="/business" aria-label={backLabel}>
             <span aria-hidden="true">←</span> {backLabel}
           </Link>
           <span className={styles.kicker}>LEGAL &amp; COMPLIANCE</span>

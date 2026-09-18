@@ -6,9 +6,12 @@ import { appendLangToUrl } from '../utils/appendLangToUrl';
 import { getRegisterUrl } from '../preview/previewClient';
 import { useLanguageContext } from '../../../src/common/components/I18nProvider';
 
-export function BusinessPricingSection() {
+type Props = {
+  detailed?: boolean;
+};
+
+export function BusinessPricingSection({ detailed = false }: Props) {
   const { t, lang } = useLanguageContext();
-  const pricingPage = typeof window !== 'undefined' && window.location.pathname.includes('/pricing');
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
 
   const plans = [
@@ -35,6 +38,8 @@ export function BusinessPricingSection() {
       features: t.business.pricing.professional.features,
       cta: t.business.pricing.professional.cta,
       ctaClass: 'pbtn-sec',
+      featured: false,
+      badge: undefined,
     },
   ];
 
@@ -46,188 +51,137 @@ export function BusinessPricingSection() {
     t.business.pricing.trust.bilingual,
   ];
 
-  // Feature keys that should be highlighted in the Market Pro plan
   const highlightFeatures = [t.business.pricing.marketPro.features[3], t.business.pricing.marketPro.features[4]];
+  const registerHref = appendLangToUrl(getRegisterUrl(), lang);
 
   return (
-    <section id="pricing">
-      <div className="section-tag rv" style={{ justifyContent: 'center' }}>
-        {t.business.pricing.tag}
-      </div>
-      <h2 className="section-headline rv">
-        {t.business.pricing.headline}
-        {t.business.pricing.headlineLine2 ? (
-          <>
-            <br />
-            {t.business.pricing.headlineLine2}{' '}
-          </>
-        ) : null}
-        {t.business.pricing.headlineHighlight ? (
-          <span style={{ color: 'var(--orange)' }}>{t.business.pricing.headlineHighlight}</span>
-        ) : null}
-      </h2>
-      <p className="pricing-sub rv">
-        {t.business.pricing.subheadline}{' '}
-        <strong>{t.business.pricing.subheadlineEmphasis}</strong>
-        {/^[“"]/.test(t.business.pricing.subheadline) ? '\u201d' : ''}
-      </p>
-      
-      {/* Billing Cycle Toggle */}
-      <div className="rv" style={{ display: 'flex', justifyContent: 'center', marginBottom: '32px' }}>
-        <div
-          style={{
-            display: 'inline-flex',
-            background: 'var(--surface2)',
-            border: '1px solid var(--border)',
-            borderRadius: '100px',
-            padding: '4px',
-          }}
-        >
+    <section id="pricing" className="pricing-section-v2">
+      <header className="pricing-section-v2__intro">
+        <div className="section-tag rv" style={{ justifyContent: 'center' }}>
+          {t.business.pricing.tag}
+        </div>
+        <h2 className="section-headline rv">
+          {t.business.pricing.headline}
+          {t.business.pricing.headlineLine2 ? (
+            <>
+              <br />
+              {t.business.pricing.headlineLine2}{' '}
+            </>
+          ) : null}
+          {t.business.pricing.headlineHighlight ? (
+            <span className="pricing-section-v2__highlight">{t.business.pricing.headlineHighlight}</span>
+          ) : null}
+        </h2>
+        <p className="pricing-sub rv">
+          {t.business.pricing.subheadline}{' '}
+          <strong>{t.business.pricing.subheadlineEmphasis}</strong>
+          {/^[“"]/.test(t.business.pricing.subheadline) ? '\u201d' : ''}
+        </p>
+      </header>
+
+      <div className="pricing-billing-bar rv">
+        <div className="pricing-billing-toggle" role="group" aria-label={t.business.pricing.billed}>
           <button
+            type="button"
+            className={billingCycle === 'monthly' ? 'is-active' : ''}
+            aria-pressed={billingCycle === 'monthly'}
             onClick={() => setBillingCycle('monthly')}
-            style={{
-              padding: '10px 24px',
-              borderRadius: '100px',
-              border: 'none',
-              background: billingCycle === 'monthly' ? 'var(--orange)' : 'transparent',
-              color: billingCycle === 'monthly' ? 'white' : 'var(--text2)',
-              fontFamily: 'var(--mono)',
-              fontSize: '12px',
-              fontWeight: 600,
-              cursor: 'pointer',
-              transition: 'all 0.3s',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-            }}
           >
             {t.business.pricing.monthly}
           </button>
           <button
+            type="button"
+            className={billingCycle === 'annual' ? 'is-active' : ''}
+            aria-pressed={billingCycle === 'annual'}
             onClick={() => setBillingCycle('annual')}
-            style={{
-              padding: '10px 24px',
-              borderRadius: '100px',
-              border: 'none',
-              background: billingCycle === 'annual' ? 'var(--purple)' : 'transparent',
-              color: billingCycle === 'annual' ? 'white' : 'var(--text2)',
-              fontFamily: 'var(--mono)',
-              fontSize: '12px',
-              fontWeight: 600,
-              cursor: 'pointer',
-              transition: 'all 0.3s',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-            }}
           >
             {t.business.pricing.annual}
           </button>
         </div>
-      </div>
-      <div
-        className="rv"
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '8px',
-          background: 'var(--green-dim)',
-          border: '1px solid rgba(16,185,129,0.2)',
-          padding: '7px 18px',
-          borderRadius: '100px',
-          fontFamily: 'var(--mono)',
-          fontSize: '10px',
-          color: 'var(--green)',
-          letterSpacing: '1px',
-          textTransform: 'uppercase',
-          marginBottom: '52px',
-        }}
-      >
-        <Check size={14} strokeWidth={2.5} aria-hidden="true" />
-        {t.business.pricing.annualSaving}
+        <div className="pricing-saving-note">
+          <Check size={14} strokeWidth={2.5} aria-hidden="true" />
+          {t.business.pricing.annualSaving}
+        </div>
       </div>
 
-      <div className="pricing-inner-grid">
+      <div className="pricing-plan-stage">
         {plans.map((plan, index) => (
-          <div key={plan.id} className={`price-card rv ${plan.featured ? 'star' : ''} ${index === 1 ? 'd1' : ''} ${index === 2 ? 'd2' : ''}`}>
-            {plan.featured && plan.badge && (
-              <span className="price-badge">
-                <Sparkles size={12} aria-hidden="true" />
-                {plan.badge}
-              </span>
-            )}
-            <div className="price-tier">{plan.tier}</div>
-            <p className="price-tagline">{plan.tagline}</p>
-            <div className="price-amt">
-              {plan.originalPrice && (
-                <div style={{ marginBottom: '8px' }}>
-                  <span style={{ 
-                    fontSize: '18px', 
-                    color: 'var(--text3)', 
-                    textDecoration: 'line-through',
-                    fontFamily: 'var(--mono)',
-                  }}>
-                    {plan.originalPrice}
-                  </span>
-                </div>
-              )}
-              <span className={`price-num ${plan.featured ? 'featured' : ''}`}>{plan.price}</span>
-              <span className="price-per">{plan.per}</span>
-              {billingCycle === 'annual' && (
-                <div style={{ 
-                  fontSize: '11px', 
-                  color: 'var(--text3)', 
-                  marginTop: '6px',
-                  fontFamily: 'var(--mono)',
-                }}>
-                  {t.business.pricing.billedAnnually}
-                </div>
+          <article
+            key={plan.id}
+            className={`price-card pricing-plan-card rv ${plan.featured ? 'star pricing-plan-card--featured' : ''} ${index === 1 ? 'd1' : ''}`}
+          >
+            <div className="pricing-plan-card__topline">
+              <span className="pricing-plan-card__index">0{index + 1}</span>
+              {plan.featured && plan.badge ? (
+                <span className="price-badge">
+                  <Sparkles size={12} aria-hidden="true" />
+                  {plan.badge}
+                </span>
+              ) : (
+                <span className="pricing-plan-card__tier-note">{t.business.pricing.monthly}</span>
               )}
             </div>
-            <div className="p-divider"></div>
-            <ul className="price-list">
-              {plan.features.map((feature, featureIndex) => (
-                <li key={`${plan.id}-feature-${featureIndex}`}>
-                  <span className={plan.featured ? 'li-star' : 'li-check'}>
-                    {plan.featured ? <Sparkles size={15} aria-hidden="true" /> : <Check size={15} aria-hidden="true" />}
-                  </span>
-                  {plan.featured && highlightFeatures.includes(feature) ? (
-                    <strong style={{ color: 'var(--orange)' }}>{feature}</strong>
-                  ) : (
-                    feature
-                  )}
-                </li>
-              ))}
-            </ul>
+
+            <div className="pricing-plan-card__header">
+              <div>
+                <h3 className="price-tier">{plan.tier}</h3>
+                <p className="price-tagline">{plan.tagline}</p>
+              </div>
+              <div className="price-amt">
+                {plan.originalPrice ? <span className="price-original">{plan.originalPrice}</span> : null}
+                <div>
+                  <span className={`price-num ${plan.featured ? 'featured' : ''}`}>{plan.price}</span>
+                  <span className="price-per">{plan.per}</span>
+                </div>
+                {billingCycle === 'annual' ? (
+                  <span className="price-billed">{t.business.pricing.billedAnnually}</span>
+                ) : null}
+              </div>
+            </div>
+
             <a
-              href={appendLangToUrl(getRegisterUrl(), lang)}
+              href={registerHref}
               target="_blank"
               rel="noreferrer"
               data-signup-cta={`pricing-${plan.ctaClass}`}
               className={`price-btn ${plan.ctaClass}`}
             >
-              {plan.cta} <ArrowRight size={16} aria-hidden="true" />
+              <span>{plan.cta}</span>
+              <ArrowRight size={16} aria-hidden="true" />
             </a>
-          </div>
+
+            <div className="p-divider" />
+
+            <ul className="price-list">
+              {plan.features.map((feature, featureIndex) => (
+                <li key={`${plan.id}-feature-${featureIndex}`}>
+                  <span className={plan.featured ? 'li-star' : 'li-check'}>
+                    {plan.featured ? <Sparkles size={14} aria-hidden="true" /> : <Check size={15} aria-hidden="true" />}
+                  </span>
+                  {plan.featured && highlightFeatures.includes(feature) ? <strong>{feature}</strong> : feature}
+                </li>
+              ))}
+            </ul>
+          </article>
         ))}
       </div>
 
       <div className="price-trust rv">
         {trustItems.map((item, index) => (
           <div className="pt-item" key={`trust-${index}`}>
-            <span className="g"><Check size={14} aria-hidden="true" /></span> {item}
+            <span className="g"><Check size={14} aria-hidden="true" /></span>
+            {item}
           </div>
         ))}
       </div>
 
-
-      {!pricingPage && (<div style={{ textAlign: 'center', marginTop: '40px' }} className="rv">
-        <a
-          href={lang === 'es' ? '/es/business/pricing' : '/business/pricing'}
-          className="btn-secondary"
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
-        >
-          {t.business.pricing.seeDetailed}
-        </a>
-      </div>)}
+      {!detailed ? (
+        <div className="pricing-detail-link rv">
+          <a href={lang === 'es' ? '/es/business/pricing' : '/business/pricing'} className="btn-secondary">
+            {t.business.pricing.seeDetailed} <ArrowRight size={16} aria-hidden="true" />
+          </a>
+        </div>
+      ) : null}
     </section>
   );
 }

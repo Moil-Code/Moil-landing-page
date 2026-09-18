@@ -60,7 +60,7 @@ const NotFoundPage = () => {
               Page not found
             </p>
             <Link
-              href="/"
+              href="/business"
               className="bg-[#FF6633] rounded-[28px] p-4 max-w-max no-underline"
             >
               <span className="text-[16px] leading-[1.5] font-[500] text-white md:text-[20px]">

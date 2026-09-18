@@ -200,40 +200,75 @@ describe('(c) tierLimits.ts is the backend pin', () => {
  * looks like coverage. Candidates are an env override first, then every name
  * the repo is known by; an older checkout still gets the stronger check.
  */
-function siblingRepo(names, envVar) {
+function siblingRepo(names, envVar, requiredFiles) {
 	const fromEnv = process.env[envVar];
 	const candidates = fromEnv ? [fromEnv, ...names] : names;
 	for (const name of candidates) {
 		const dir = path.isAbsolute(name) ? name : path.join(root, '..', name);
-		if (fs.existsSync(dir)) return dir;
+		if (!fs.existsSync(dir)) continue;
+		if (requiredFiles.every((file) => fs.existsSync(path.join(dir, file)))) return dir;
+		if (fromEnv && name === fromEnv) {
+			throw new Error(`${envVar} points to ${dir}, but it lacks: ${requiredFiles.join(', ')}`);
+		}
 	}
 	return null;
 }
 
 const BE_REPO = siblingRepo(
-	['Business-plan-Staging', 'Business-Plan-Backend-End-Prod'],
+	[
+		'Business-Plan-Backend-End-Prod',
+		'business-plan-backend-end-prod',
+		'Business-plan-Staging',
+		'business-plan-staging',
+	],
 	'MOIL_BE_REPO',
+	['utils/planLimits.js', 'service/content360/dropTargets.js'],
 );
 const FE_REPO = siblingRepo(
-	['Moil-Employer-FE-Staging', 'Moilapp_business'],
+	[
+		'Moilapp_business',
+		'moilapp_business',
+		'Moil-Employer-FE-Staging',
+		'moil-employer-fe-staging',
+		'Moil-codeEmployer-beta',
+	],
 	'MOIL_FE_REPO',
+	['src/utils/subscriptionHelper/planAccess.js'],
 );
 
 describe('(d) the app ships the tier the landing describes', () => {
 	const pinFe = read('evals/fixtures/fe-planAccess.js');
-	const professionalHas = (src, key, flag) => {
-		const start = src.indexOf(`  ${key}: {`);
-		assert.ok(start > -1, `${key} block missing`);
-		const block = src.slice(start, src.indexOf('  },', start));
-		return new RegExp(`${flag}: true`).test(block);
+	const planKeys = [
+		'basic_monthly',
+		'basic_yearly',
+		'standard_monthly',
+		'standard_yearly',
+		'professional_monthly',
+		'professional_yearly',
+		'marketing_pro_monthly',
+		'marketing_pro_yearly',
+	];
+	const featureKeys = ['businessPlan', 'keywordResearch', 'businessCoach', 'content360', 'marketPro'];
+	const planFeatureMatrix = (src) => Object.fromEntries(planKeys.map((plan) => {
+		const match = src.match(new RegExp(`\\b${plan}\\s*:\\s*\\{([\\s\\S]*?)\\n\\s*\\},`));
+		assert.ok(match, `${plan} block missing`);
+		return [plan, Object.fromEntries(featureKeys.map((feature) => {
+			const flag = match[1].match(new RegExp(`\\b${feature}\\s*:\\s*(true|false)`));
+			assert.ok(flag, `${plan}.${feature} missing`);
+			return [feature, flag[1] === 'true'];
+		}))];
+	}));
+	const pinMatrix = planFeatureMatrix(pinFe);
+	const professionalHas = (key, flag) => {
+		return pinMatrix[key][flag];
 	};
 	it('content360 is true for professional_* in the pin', () => {
-		assert.ok(professionalHas(pinFe, 'professional_monthly', 'content360'));
-		assert.ok(professionalHas(pinFe, 'professional_yearly', 'content360'));
+		assert.ok(professionalHas('professional_monthly', 'content360'));
+		assert.ok(professionalHas('professional_yearly', 'content360'));
 	});
 	it('marketPro is false for professional_* in the pin — the month is not the $25 tier', () => {
-		assert.ok(!professionalHas(pinFe, 'professional_monthly', 'marketPro'));
-		assert.ok(!professionalHas(pinFe, 'professional_yearly', 'marketPro'));
+		assert.ok(!professionalHas('professional_monthly', 'marketPro'));
+		assert.ok(!professionalHas('professional_yearly', 'marketPro'));
 	});
 	it('the pin matches the live frontend when the sibling is checked out', () => {
 		if (!FE_REPO) {
@@ -241,9 +276,11 @@ describe('(d) the app ships the tier the landing describes', () => {
 			return;
 		}
 		const live = path.join(FE_REPO, 'src', 'utils', 'subscriptionHelper', 'planAccess.js');
-		assert.ok(fs.existsSync(live), `${FE_REPO} has no subscriptionHelper/planAccess.js`);
-		const header = pinFe.indexOf('*/\n') + 3;
-		assert.equal(pinFe.slice(header), fs.readFileSync(live, 'utf8'), 'evals/fixtures/fe-planAccess.js is stale — copy planAccess.js over it');
+		assert.deepEqual(
+			planFeatureMatrix(fs.readFileSync(live, 'utf8')),
+			pinMatrix,
+			'evals/fixtures/fe-planAccess.js has a stale PLAN_FEATURES contract',
+		);
 	});
 });
 

@@ -171,7 +171,7 @@ export function BusinessPricingPageContent() {
 
       <div className="divider"></div>
 
-      <BusinessPricingSection />
+      <BusinessPricingSection detailed />
 
       <div className="divider"></div>
 

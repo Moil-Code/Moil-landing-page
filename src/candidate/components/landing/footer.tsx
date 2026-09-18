@@ -23,6 +23,10 @@ export default function CandidateFooter({
       title: copy("For Job Seekers", "Para candidatos"),
       links: [
         [
+          copy("Browse All Jobs", "Explora todos los empleos"),
+          lgQuery === "es" ? "/candidate/searchjob?lg=es" : "/candidate/searchjob",
+        ],
+        [
           copy("Find Jobs", "Encuentra empleos"),
           `${local("/candidate")}#job-search`,
         ],
@@ -34,22 +38,22 @@ export default function CandidateFooter({
     {
       title: copy("For Businesses", "Para empresas"),
       links: [
-        ["Moil Business", local("/business")],
+        ["Moil Business", lgQuery === "es" ? "/es/business" : "/business"],
         [
           copy("AI Business Tools", "Herramientas de IA"),
-          `${local("/business")}#capabilities`,
+          `${lgQuery === "es" ? "/es/business" : "/business"}#capabilities`,
         ],
-        [copy("Pricing Plans", "Planes y precios"), local("/business/pricing")],
-        [copy("Post a Job", "Publica un empleo"), local("/business")],
+        [copy("Pricing Plans", "Planes y precios"), lgQuery === "es" ? "/es/business/pricing" : "/business/pricing"],
+        [copy("Post a Job", "Publica un empleo"), lgQuery === "es" ? "/es/business" : "/business"],
       ],
     },
     {
       title: copy("Company", "Empresa"),
       links: [
-        [copy("About Us", "Nosotros"), local("/about")],
-        [copy("Contact", "Contacto"), local("/contact")],
+        [copy("About Us", "Nosotros"), "/about"],
+        [copy("Contact", "Contacto"), "/contact"],
         ["Blog", "https://blog.moilapp.com"],
-        [copy("Customer reviews", "Reseñas de clientes"), local("/reviews")],
+        [copy("Customer reviews", "Reseñas de clientes"), "/reviews"],
       ],
     },
   ];
@@ -128,7 +132,7 @@ export default function CandidateFooter({
               [copy("Subprocessors", "Subencargados"), "/subprocessors"],
               [copy("Accessibility", "Accesibilidad"), "/accessibility"],
             ].map(([title, href]) => (
-              <Link key={href} href={local(href)}>
+              <Link key={href} href={href}>
                 {title}
               </Link>
             ))}

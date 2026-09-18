@@ -354,7 +354,7 @@ export const en = {
       headline: 'Everything Your Business',
       headlineEnd: 'Needs.',
       headlineHighlight: 'One Platform.',
-      subheadline: 'Six powerful modules, woven into a single intelligent conversation. Each one feeds the next.',
+      subheadline: 'Five powerful modules, woven into a single intelligent conversation. Each one feeds the next.',
       ctaEyebrow: 'Start with your business — not a blank dashboard',
       ctaTitle: 'One conversation activates the whole system.',
       ctaDescription: 'Tell Moil what you are building once. Your research, plan, content, visuals, and documents stay connected from there.',

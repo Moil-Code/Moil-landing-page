@@ -18,7 +18,7 @@ export function BusinessFaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" style={{ textAlign: 'center' }}>
+    <section id="faq" className="business-system-section faq-v2" style={{ textAlign: 'center' }}>
       <div className="section-tag rv" style={{ justifyContent: 'center' }}>
         {t.business.faq.tag}
       </div>
@@ -31,11 +31,11 @@ export function BusinessFaqSection() {
           const isOpen = openIndex === index;
           return (
             <div key={item.question} className={`faq-item ${isOpen ? 'open' : ''}`}>
-              <div className="faq-q" onClick={() => setOpenIndex(isOpen ? null : index)}>
+              <button type="button" className="faq-q" aria-expanded={isOpen} aria-controls={`business-faq-answer-${index}`} onClick={() => setOpenIndex(isOpen ? null : index)}>
                 {item.question}
-                <span className="faq-icon">+</span>
-              </div>
-              <div className="faq-a">
+                <span className="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div className="faq-a" id={`business-faq-answer-${index}`} hidden={!isOpen}>
                 <div className="faq-a-inner">{item.answer}</div>
               </div>
             </div>

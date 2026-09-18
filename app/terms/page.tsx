@@ -236,8 +236,8 @@ export default function TermsPage() {
       </p>
       <p className="text-sm text-[var(--text2)]">
         See also our{" "}
-        <Link href="/privacy" className="text-[#FF6633] underline">Privacy Policy</Link>. Versión en español:{" "}
-        <Link href="/es/terms" className="text-[#FF6633] underline">Términos y Condiciones</Link>.
+        <Link href="/privacy" className="text-[#FF6633] underline">Privacy Policy</Link>.
+        {/* No /es/terms route yet — do not link a 404. Spanish copy ships when the page does. */}
       </p>
     </LegalPage>
   );

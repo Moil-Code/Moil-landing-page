@@ -188,7 +188,7 @@ export default function CandidateLayout({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "Home", "item": baseURL1 },
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": `${baseURL1}/business` },
               { "@type": "ListItem", "position": 2, "name": "For Candidates", "item": `${baseURL1}/candidate` }
             ]
           })
