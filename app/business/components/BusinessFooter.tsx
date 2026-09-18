@@ -83,7 +83,7 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
   const twinEs = twinPath(pathname, 'es');
 
   return (
-    <footer className="has-footer-2">
+    <footer id="site-footer" className="has-footer-2">
       {/* Large italic tagline — Manus-style */}
       <div className="footer-hero-tagline">
         One platform.<br />Every tool your<br />business needs.

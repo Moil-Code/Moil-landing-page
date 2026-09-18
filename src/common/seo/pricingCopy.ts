@@ -18,9 +18,16 @@
  *     publish to Instagram and Facebook by hand today; whether the $25 tier
  *     should be single-network is an open owner call (plan WS1.0), and copy
  *     that says neither number cannot need rewriting when it is made.
- *   - The Market Pro line names an extra network only when the AUTOMATIC
- *     month actually reaches one Professional does not (`marketProExtraNetworks`).
- *     Today that set is empty, so the clause is omitted — never rendered blank.
+ *   - The Market Pro line names an extra AUTOPILOT network only when the
+ *     automatic month actually reaches one Professional does not
+ *     (`marketProExtraNetworks`). Today that set is empty, so the clause is
+ *     omitted — never rendered blank.
+ *   - PUBLISH REACH IS A SEPARATE CLAUSE AND SAYS SO. Market Pro can publish
+ *     to TikTok and YouTube, which Professional cannot, and Autopilot does
+ *     NOT stage either — the backend's `PROMOTABLE_PLATFORMS` is the Meta pair
+ *     alone. Folding them into the autopilot sentence would promise a founder
+ *     an automatic post that nothing sends, which is the same over-claim, one
+ *     network over, that this file just had to remove for LinkedIn.
  *   - "A taste of the studio" / "una probadita del estudio" is the product's
  *     own word for the $25 tier (backend `tasteWeek.js`). It is honest about
  *     $25 and sells $75 without describing $25 by what it lacks.
@@ -31,7 +38,11 @@
  */
 
 import { PLANS } from './offers';
-import { TIER_LIMITS, marketProExtraNetworks } from './tierLimits';
+import {
+  TIER_LIMITS,
+  marketProExtraNetworks,
+  marketProExtraPublishNetworks,
+} from './tierLimits';
 
 export type CopyLang = 'en' | 'es';
 
@@ -52,6 +63,20 @@ function extraNetworksClause(lang: CopyLang): string {
   return lang === 'en'
     ? `${joinNames(extra, 'and')} as well as Instagram and Facebook, `
     : `${joinNames(extra, 'y')} además de Instagram y Facebook, `;
+}
+
+/**
+ * " TikTok and YouTube are connected too, for the posts you send yourself." —
+ * or nothing at all. Never rendered blank, and never merged into the autopilot
+ * clause above it: these are networks the founder publishes to, not networks
+ * the automatic month goes out to.
+ */
+function extraPublishClause(lang: CopyLang): string {
+  const extra = marketProExtraPublishNetworks();
+  if (extra.length === 0) return '';
+  return lang === 'en'
+    ? ` ${joinNames(extra, 'and')} are connected too, for the posts you send yourself.`
+    : ` ${joinNames(extra, 'y')} también están conectados, para las publicaciones que envías tú.`;
 }
 
 export type PricingCopy = {
@@ -93,7 +118,7 @@ export const pricingCopy: Readonly<Record<CopyLang, PricingCopy>> = {
     meta: `Moil, the AI co-founder for small business owners: research, a real plan, and a taste of the studio. ${pro}/mo. The whole month written for you: ${mp}.`,
     metaPricing: `Professional, ${pro} a month: research, a plan, documents and a taste of the studio. Market Pro, ${mp}: Moil360 writes your whole month. English and Spanish.`,
     professional: `Professional, ${pro} a month: the co-founder — research, a plan you can take to a lender, coaching and documents — plus a taste of the studio: ${proPosts} posts a week with generated images, which you approve and publish yourself. No automatic month, no video, no carousels.`,
-    marketPro: `Market Pro, ${mp} a month: everything in Professional, and Moil360 writes your whole month — ${mpPosts} posts a week, carousels, video, ${extraNetworksClause('en')}and publishing on autopilot.`,
+    marketPro: `Market Pro, ${mp} a month: everything in Professional, and Moil360 writes your whole month — ${mpPosts} posts a week, carousels, video, ${extraNetworksClause('en')}and publishing on autopilot to Instagram and Facebook.${extraPublishClause('en')}`,
     split: `Professional is ${pro} a month; the whole month written for you is Market Pro at ${mp}.`,
     professionalTagline: `Professional ${pro}: research, plan and documents, plus a taste of the studio.`,
     marketProTagline: `Market Pro ${mp}: the whole month written for you, plus research, plans and documents.`,
@@ -111,7 +136,7 @@ export const pricingCopy: Readonly<Record<CopyLang, PricingCopy>> = {
     meta: `Moil, el socio de IA para dueños de negocio: investigación, un plan real y una probadita del estudio. ${pro}/mes. El mes completo escrito para ti: ${mp}.`,
     metaPricing: `Professional, ${pro} al mes: investigación, plan, documentos y una probadita del estudio. Market Pro, ${mp}: Moil360 escribe tu mes completo. Inglés y español.`,
     professional: `Professional, ${pro} al mes: el socio — investigación, un plan que puedes llevar al banco, asesoría y documentos — más una probadita del estudio: ${proPosts} publicaciones a la semana con imágenes generadas, que tú apruebas y publicas. Sin mes automático, sin video, sin carruseles.`,
-    marketPro: `Market Pro, ${mp} al mes: todo lo de Professional, y Moil360 escribe tu mes completo: ${mpPosts} publicaciones a la semana, carruseles, video, ${extraNetworksClause('es')}y publicación en piloto automático.`,
+    marketPro: `Market Pro, ${mp} al mes: todo lo de Professional, y Moil360 escribe tu mes completo: ${mpPosts} publicaciones a la semana, carruseles, video, ${extraNetworksClause('es')}y publicación en piloto automático en Instagram y Facebook.${extraPublishClause('es')}`,
     split: `Professional es ${pro} al mes; el mes completo escrito para ti es Market Pro a ${mp}.`,
     professionalTagline: `Professional ${pro}: la investigación, el plan y los documentos, más una probadita del estudio.`,
     marketProTagline: `Market Pro ${mp}: el mes completo escrito para ti, más la investigación, los planes y los documentos.`,

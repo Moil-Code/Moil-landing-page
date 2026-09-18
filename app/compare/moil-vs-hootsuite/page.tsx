@@ -13,7 +13,7 @@ const ROWS: AeoRow[] = [
   { feature: 'Built for', left: 'An owner with no marketing staff', right: 'Teams with a social media manager' },
   { feature: 'Decides the topics', left: 'From monthly market research', right: 'Your team decides' },
   { feature: 'Writes a full month', left: 'Yes, in your voice', right: 'OwlyGPT assists per post' },
-  { feature: 'Schedules and publishes', left: 'Facebook and Instagram', right: 'Bulk, across many channels' },
+  { feature: 'Schedules and publishes', left: 'Facebook, Instagram, TikTok and YouTube', right: 'Bulk, across many channels' },
   { feature: 'Monitoring and social listening', left: 'Not offered', right: 'Included' },
   { feature: 'Approvals and team roles', left: 'Single owner', right: 'Built for multi-seat teams' },
   { feature: 'Reporting', left: 'Reach and engagement, used to time posts', right: 'Extensive dashboards' },
