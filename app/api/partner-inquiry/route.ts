@@ -82,6 +82,7 @@ export async function POST(request: Request) {
   }
 
   const sender = process.env.EMAIL;
+  const alias = "noreply@moilapp.com";
   const password = process.env.EMAIL_PASS;
   const recipient = destination === 'contact'
     ? process.env.EMAIL_CONTACT_TO || 'cs@moilapp.com'
@@ -107,8 +108,17 @@ export async function POST(request: Request) {
   }
 
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.office365.com', // ✅ This is correct
+    port: 587,
+    secure: false,
     auth: { user: sender, pass: password },
+    // Nodemailer's defaults wait 2 minutes to connect and 10 minutes on an
+    // idle socket, per resolved address. On a network that blocks SMTP or
+    // has a broken IPv6 route, the visitor watched a spinner for 76s before
+    // a 502. Fail fast; the lead is kept in the catch either way.
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 20_000,
   });
 
   // The lead, kept in one place so both the send and the failure record
@@ -118,7 +128,7 @@ export async function POST(request: Request) {
 
   try {
     await transporter.sendMail({
-      from: `Moil Partnerships <${sender}>`,
+      from: `Moil Partnerships <${alias}>`,
       to: recipient,
       replyTo: email,
       subject: `[${destination === 'contact' ? 'Contact' : 'Partner inquiry'}] ${subject}`,

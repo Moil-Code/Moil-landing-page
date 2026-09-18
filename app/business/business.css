@@ -170,7 +170,11 @@ nav.scrolled {
 }
 .nav-links a:hover { color: var(--text); }
 .nav-menu { position: relative; }
-.nav-menu::after { content: ''; position: absolute; top: 100%; left: -20px; width: 900px; height: 22px; }
+/* Hover bridge across the gap between trigger and panel. It only exists while
+   this menu is already open: an always-on 900px strip made the whole band under
+   the header (right of Partners) a hover target that opened the Partners menu. */
+.nav-menu::after { content: ''; position: absolute; top: 100%; left: -20px; width: 900px; height: 22px; display: none; }
+.nav-menu:hover::after, .nav-menu:focus-within::after { display: block; }
 .nav-menu-trigger {
   display: inline-flex; align-items: center; gap: 4px; padding: 0; border: 0;
   background: transparent; color: var(--text2); font: 500 13px var(--body);
