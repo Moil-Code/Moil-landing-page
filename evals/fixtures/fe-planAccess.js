@@ -1,13 +1,13 @@
 /*
- * COMMITTED PIN — a verbatim copy of
+ * COMMITTED PIN — a contract snapshot based on
  *   Moil-Employer-FE-Staging/src/utils/subscriptionHelper/planAccess.js
  * taken 2026-09-06 from branch claude/qa-validation-testing-65lasb.
  * Why a copy: CI has no sibling checkout, and a skip-if-missing check is a
  * check that never runs on the suite that gates merge. evals/pricingCopy.test.js
- * reads this file always and the live sibling when one is present (skipping
- * LOUDLY otherwise), so a stale pin is caught locally even though CI can only
- * check the pin. Refresh by copying the file over this one when planAccess.js
- * changes; do not edit by hand.
+ * reads this file always and compares its PLAN_FEATURES matrix with the live
+ * sibling when one is present (skipping LOUDLY otherwise). Helper functions
+ * may evolve independently; the landing page contract is the tier/feature
+ * matrix, so unrelated implementation differences must not break this gate.
  */
 /**
  * Plan Access Helper — mirrors the feature flags from planConfig.js on the backend.

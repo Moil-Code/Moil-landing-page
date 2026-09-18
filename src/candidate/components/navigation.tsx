@@ -93,7 +93,7 @@ export default function CandidateNavigation({
 
           <div className={styles.actions}>
             <Link
-              href={`/business?lg=${lgQuery}`}
+              href={lgQuery === 'es' ? '/es/business' : '/business'}
               className={styles.businessLink}
             >
               Switch to Business <ArrowUpRight size={14} aria-hidden="true" />
@@ -161,7 +161,7 @@ export default function CandidateNavigation({
                 </a>
               ))}
               <Link
-                href={`/business?lg=${lgQuery}`}
+                href={lgQuery === 'es' ? '/es/business' : '/business'}
                 className={styles.navLink}
                 onClick={() => setIsMobileMenuOpen(false)}
               >

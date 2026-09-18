@@ -28,6 +28,20 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // Search Console, Sep 2026: every page was reachable on BOTH hosts.
+      // https://moilapp.com served a 200 copy of the whole site (only
+      // http:// was redirected, by nginx), so Google filed each apex URL as
+      // "Alternate page with proper canonical tag" and split crawl budget
+      // across two copies. The canonical host is www (baseUrl.tsx); anything
+      // that reaches this app on the apex is sent there permanently. Nginx
+      // should do the same one hop earlier — this is the fallback that ships
+      // with the code and cannot be forgotten on a new server.
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'moilapp.com' }],
+        destination: 'https://www.moilapp.com/:path*',
+        permanent: true,
+      },
       // Retired comparison pages (Aug 2026). `bilingual-local-shop` baked the
       // "shop" wording into a URL; `moil-vs-claude` was a near-duplicate of the
       // ChatGPT page, which is the scaled-content pattern we are moving away from.
@@ -46,6 +60,14 @@ const nextConfig = {
       // Retired 2026-09-05 (plan WS5.1, decision D3): one product, one page.
       {
         source: '/marketing',
+        destination: '/business',
+        permanent: true,
+      },
+      // Historical malformed URL reported by Search Console. It is an obvious
+      // typo of the retired /marketing route, so preserve any external signal
+      // instead of leaving Google on a permanent 404.
+      {
+        source: '/marketing!!',
         destination: '/business',
         permanent: true,
       },

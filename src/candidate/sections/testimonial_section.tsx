@@ -131,7 +131,7 @@ export default function TestimonialsSection() {
                 "Experiencias reales de personas que usan Moil para mejorar sus currículums y avanzar en su búsqueda de empleo.",
               )}
             </p>
-            <Link className={styles.textLink} href={`/reviews?lg=${lang}`}>
+            <Link className={styles.textLink} href={lang === 'es' ? '/reviews?lg=es' : '/reviews'}>
               {copy("Visit the reviews page", "Visita la página de reseñas")}
               <ArrowUpRight size={17} aria-hidden="true" />
             </Link>

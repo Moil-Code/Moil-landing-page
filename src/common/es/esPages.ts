@@ -22,8 +22,11 @@ export const ES_PAGES: readonly EsPage[] = [
   { path: '/es/calendario-de-contenidos-para-redes-sociales', en: null, reviewed: false },
   { path: '/es/que-publicar-en-redes-sociales-para-mi-negocio', en: null, reviewed: false },
   { path: '/es/plan-de-marketing-para-mi-negocio', en: null, reviewed: false },
-  { path: '/es/compare/moil-vs-buffer', en: '/compare/moil-vs-buffer', reviewed: false },
-  { path: '/es/compare/moil-vs-chatgpt', en: '/compare/moil-vs-chatgpt', reviewed: false },
+  // These two reviewed twins are already live, indexable and present in the
+  // production sitemap. Keep source and production aligned so a deployment
+  // cannot silently remove them or reintroduce noindex.
+  { path: '/es/compare/moil-vs-buffer', en: '/compare/moil-vs-buffer', reviewed: true },
+  { path: '/es/compare/moil-vs-chatgpt', en: '/compare/moil-vs-chatgpt', reviewed: true },
 ];
 
 export function esPage(path: string): EsPage {
