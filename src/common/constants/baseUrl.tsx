@@ -3,5 +3,5 @@
 // Non-www (moilapp.com) 301s to www: in nginx, and as a fallback in next.config.js redirects().
 export const baseURL = 'https://www.moilapp.com';
 export const baseURL1 = 'https://www.moilapp.com';
-export const workerBaseUrl = "https://employee-beta.moilapp.com";
-export const businessBaseUrl = "https://employer-beta.moilapp.com";
+export const workerBaseUrl = "https://candidate.moilapp.com";
+export const businessBaseUrl = "https://business.moilapp.com";

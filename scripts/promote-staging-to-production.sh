@@ -20,6 +20,23 @@ DRY_RUN=0
 PROMOTION_STARTED=0
 PRODUCTION_DIR="${PRODUCTION_DIR:-}"
 
+# These files describe the environment, not the shared application. Production
+# keeps its own copy across every staging merge. Staging-only guards are removed
+# from the production result before validation.
+PRODUCTION_ONLY_PATHS=(
+  ".github/deploy.sh"
+  ".github/workflows/deploy.yml"
+  ".github/workflows/tests.yml"
+  "DEPLOYMENT.md"
+  "src/common/constants/baseUrl.tsx"
+  "evals/productionDeploy.test.js"
+  "evals/linkConfigProduction.test.js"
+)
+STAGING_ONLY_PATHS=(
+  "evals/stagebetaDeploy.test.js"
+  "evals/linkConfig.test.js"
+)
+
 bold=""
 green=""
 yellow=""
@@ -211,6 +228,23 @@ if ! git -C "$PRODUCTION_DIR" merge --no-ff "$STAGING_REMOTE_NAME/main" \
   warn "The repositories have a merge conflict. No production push occurred."
   warn "Resolve it in $PRODUCTION_DIR, or run: git -C '$PRODUCTION_DIR' merge --abort"
   exit 1
+fi
+
+# A normal merge cannot know that deployment transport, build origins, link
+# origins, and their safety tests intentionally differ between repositories.
+# Reapply the production side of that boundary before tests or push.
+for path in "${PRODUCTION_ONLY_PATHS[@]}"; do
+  if git -C "$PRODUCTION_DIR" cat-file -e "$PRODUCTION_SHA:$path" 2>/dev/null; then
+    git -C "$PRODUCTION_DIR" restore \
+      --source="$PRODUCTION_SHA" --staged --worktree -- "$path"
+  fi
+done
+for path in "${STAGING_ONLY_PATHS[@]}"; do
+  git -C "$PRODUCTION_DIR" rm --ignore-unmatch --quiet -- "$path"
+done
+
+if ! git -C "$PRODUCTION_DIR" diff --cached --quiet; then
+  git -C "$PRODUCTION_DIR" commit --amend --no-edit
 fi
 ok "merged staging $STAGING_SHA into $PROMOTION_BRANCH"
 ok "recovery branch: $BACKUP_BRANCH"

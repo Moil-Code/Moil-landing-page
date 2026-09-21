@@ -52,14 +52,7 @@ jobs:
       # evals, so it runs here too: a commit that cannot compile should fail on
       # the PR rather than on the server, where the fallout is a rollback.
       #
-      # STAGEBETA origins — do not bake production. Next inlines
-      # NEXT_PUBLIC_* at build time; PLAN_API_ORIGIN is the server rewrite
-      # target for same-origin /plan/preview. /api /plan /mail stay on Node
-      # (nginx on stagebeta); Next only rewrites /plan/preview*.
       - name: Build
-        env:
-          PLAN_API_ORIGIN: https://stagebeta.moilapp.com
-          NEXT_PUBLIC_REGISTER_ORIGIN: https://employer-beta.moilapp.com
         run: yarn build
 
       # Every defect in the Aug 2026 Semrush Site Audit was in RENDERED OUTPUT

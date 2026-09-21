@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 #
-# Server-side deploy for Moil-Landing-Page-Staging (STAGEBETA ONLY): fetch the
-# branch, install if the lockfile moved, BUILD, reload PM2, verify the site
-# answers, roll back if it does not.
+# Server-side deploy for the production Moil landing page: fetch the branch,
+# install if the lockfile moved, BUILD, reload PM2, verify the site answers,
+# and roll back if it does not.
 #
 # It runs ON THE SERVER but lives IN THE REPO: `.github/workflows/deploy.yml`
-# pipes it over SSH (the same pattern Business-plan-Staging uses) and runs it
-# there. It does NOT use production landing SSM. You can run the exact same
-# thing by hand:
+# ships it to the production instance over AWS SSM and runs it there. You can
+# run the exact same thing by hand:
 #
 #   APP_PATH=/srv/moil-landing-page PM2_NAME=moil-landing bash .github/deploy.sh
 #
@@ -70,8 +69,8 @@ die()  { printf '\n\033[31m✗ %s\033[0m\n' "$*" >&2; exit 1; }
 # are absent from PATH even though they work fine when you log in by hand. That
 # single difference is the most common way a working server fails its first
 # automated deploy, so source nvm explicitly before giving up. (The deploy
-# arrives over SSH as the deploy user, or via SSM as root dropping to this user
-# with `runuser … env -i`. HOME is set, and nvm is found from it.)
+# arrives via SSM as root and drops to this user with `runuser … env -i`, so
+# HOME is set explicitly and nvm is found from it.)
 if ! command -v pm2 >/dev/null 2>&1 || ! command -v yarn >/dev/null 2>&1; then
 	for nvm_sh in "$HOME/.nvm/nvm.sh" /usr/local/nvm/nvm.sh; do
 		# shellcheck disable=SC1090
@@ -214,32 +213,7 @@ NEEDS_BUILD=0
 [ "$ENV_CHANGED" = "1" ] && NEEDS_BUILD=1
 [ "$FORCE_BUILD" = "1" ] && NEEDS_BUILD=1
 
-# ── STAGEBETA origin guard ─────────────────────────────────────────────────
-# NEXT_PUBLIC_* is compiled into the bundle. Unset NEXT_PUBLIC_REGISTER_ORIGIN
-# falls back to https://business.moilapp.com, which would point stagebeta CTAs
-# at production. Refuse that. nginx on this host already serves Next at `/`
-# → `/business`; /api /plan /mail stay on Node. Next only rewrites
-# /plan/preview* to PLAN_API_ORIGIN.
-STAGEBETA_PLAN_ORIGIN='https://stagebeta.moilapp.com'
-STAGEBETA_REGISTER_ORIGIN='https://employer-beta.moilapp.com'
-
-read_env_val() {
-	local key="$1"
-	local file="$2"
-	[ -f "$file" ] || return 0
-	grep -E "^${key}=" "$file" 2>/dev/null | tail -n1 | cut -d= -f2- | sed -e 's/^["'\'']//' -e 's/["'\'']$//'
-}
-
-PLAN_NOW="${PLAN_API_ORIGIN:-$(read_env_val PLAN_API_ORIGIN "$ENV_FILE")}"
-REG_NOW="${NEXT_PUBLIC_REGISTER_ORIGIN:-$(read_env_val NEXT_PUBLIC_REGISTER_ORIGIN "$ENV_FILE")}"
-
 if [ "$NEEDS_BUILD" = "1" ]; then
-	[ "$PLAN_NOW" = "$STAGEBETA_PLAN_ORIGIN" ] \
-		|| die "STAGEBETA only: PLAN_API_ORIGIN must be $STAGEBETA_PLAN_ORIGIN (got '${PLAN_NOW:-unset}'). Put it in $ENV_FILE on the host. NOTHING was reloaded."
-	[ "$REG_NOW" = "$STAGEBETA_REGISTER_ORIGIN" ] \
-		|| die "STAGEBETA only: NEXT_PUBLIC_REGISTER_ORIGIN must be $STAGEBETA_REGISTER_ORIGIN (got '${REG_NOW:-unset}'). Unset compiles production register. NOTHING was reloaded."
-	export PLAN_API_ORIGIN="$STAGEBETA_PLAN_ORIGIN"
-	export NEXT_PUBLIC_REGISTER_ORIGIN="$STAGEBETA_REGISTER_ORIGIN"
 	log "Building (yarn build)"
 	# A failed build must not reach the reload: PM2 would restart onto a tree
 	# whose .next/ is half-written. Failing here leaves the OLD build running and
@@ -337,11 +311,9 @@ rm -f /tmp/deploy-health.$$
 if [ "$healthy" = "1" ]; then
 	log "Deployed $NEW_SHA"
 	# ── IndexNow (plan 8.3) ─────────────────────────────────────────────────
-	# Tell Bing which URLs changed, from the sitemap the app just started
-	# serving. Opt-in per host (INDEXNOW_SUBMIT=1): this script deploys
-	# STAGEBETA, whose sitemap lists PRODUCTION URLs, so a staging deploy must
-	# not announce production changes. Never fatal after a healthy reload — a
-	# refused submission is logged loudly, not rolled back.
+	# Tell Bing which production URLs changed, from the sitemap the app just
+	# started serving. Opt-in per host with INDEXNOW_SUBMIT=1. Never fatal after
+	# a healthy reload — a refused submission is logged, not rolled back.
 	if [ "${INDEXNOW_SUBMIT:-0}" = "1" ]; then
 		log "IndexNow: submitting the served sitemap"
 		node scripts/indexnow.mjs --base "${HEALTH_URL%/}" --host "${INDEXNOW_HOST:-www.moilapp.com}" \

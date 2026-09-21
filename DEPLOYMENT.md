@@ -1,73 +1,128 @@
-# Automated deployment (GitHub Actions → SSH → PM2) — STAGEBETA ONLY
+# Automated deployment (GitHub Actions → AWS SSM → PM2)
 
-This repository is **Moil-Landing-Page-Staging**. It deploys the landing
-page to **stagebeta**, not to www.moilapp.com / moilapp.com.
-
-- leftover-4 dest HOLD. leftover-6 OFF.
-- Do **not** fire Moil-Code/Moil-landing-page (production landing) GHA/SSM.
-- Do **not** point SSM at www. The production SSM workflow that was copied
-  onto this repo (`environment: production`, `deploy-landing-production`,
-  `SSM_INSTANCE_ID`) is gone.
-
-Push or merge to `main` does **not** deploy. Tests still run on every PR.
-A human (CoS) merges; a human then **Actions → Deploy to stagebeta → Run
-workflow** once the SSH secrets exist.
-
-The runner pipes `.github/deploy.sh` over SSH — the same transport
-Business-plan-Staging / Users-API already use to reach the stagebeta host
-(`SERVER_SSH_KEY`). The script pulls the commit, installs if the lockfile
-moved, **builds** with stagebeta origins, reloads PM2, and health-checks.
-A failed health check rolls back (rebuilds the previous commit).
+Push or merge to `main` → the eval suite and a real `next build` run → if both
+pass, GitHub hands `.github/deploy.sh` to the instance over AWS Systems Manager,
+which pulls the commit, installs if the lockfile moved, **builds**, reloads PM2
+and health-checks the result. A failed health check rolls back to the previous
+commit — rebuilding it — and fails the run.
 
 | File | Role |
 |---|---|
-| `.github/workflows/deploy.yml` | push to `main` + `workflow_dispatch`, SSH, `environment: staging` |
-| `.github/workflows/tests.yml` | The gate (`workflow_call`ed by deploy; also on every PR) |
+| `.github/workflows/deploy.yml` | Trigger, secrets, the SSM transport |
+| `.github/workflows/tests.yml` | The gate (`workflow_call`ed by deploy) |
 | `.github/deploy.sh` | Everything that happens **on the server** |
 | `ecosystem.config.js` | The PM2 process definition |
-| `scripts/indexnow.mjs` | Runs after a healthy reload when `INDEXNOW_SUBMIT=1` is set on the host: submits the served sitemap's URLs to IndexNow (Bing, Yandex, Naver, Seznam). Off by default because stagebeta's sitemap lists production URLs. `npm run indexnow -- --dry-run` prints the payload. The key file `public/<key>.txt` must be served at `https://www.moilapp.com/<key>.txt`. |
 
-## SERVER_SSH_KEY is present on this repo, and main auto-deploys
+## This app shares a server with the employer API, and inherits most of its setup
 
-This repo's deploy workflow was once a copy of production landing SSM
-(OIDC + `SSM_INSTANCE_ID` + `environment: production`). There is no proof
-that instance is stagebeta, so SSM stays unwired — SSH is the transport.
+The gateway (`Moil-codeProdbackend`) already deploys to this instance over SSM,
+and that works. So the instance profile, the SSM agent registration, the region
+and the IAM permissions policy are **already in place and already proven** — the
+permissions policy is scoped to this instance's id, and this is that instance.
 
-The stagebeta SSH secrets (`SERVER_SSH_KEY`, `SERVER_HOST`, `SERVER_USER`,
-`APP_PATH`, `PM2_NAME`) are in place, so **a merge to `main` deploys**.
-`workflow_dispatch` remains for re-runs and rollbacks.
+No inbound port is opened for any of this. The SSM agent holds an outbound
+connection to AWS and the deploy arrives over it, so port 22 can stay shut.
 
-That trigger is safe because of the preflight, not because someone is
-watching: if any of those secrets goes missing, "Check deploy
-configuration" fails there and **nothing on any host is touched** — it
-never proceeds on an empty value and silently falls back to whatever
-transport is left wired. It also refuses a `SERVER_HOST` that looks like
-production. `evals/stagebetaDeploy.test.js` pins both, so removing the
-preflight fails CI rather than quietly re-arming the original hazard.
+### The one thing that is NOT inherited: the OIDC trust policy
 
-Do not guess instance IDs. Secret names come from Business-plan-Staging
-and point at the stagebeta host that already serves Next behind nginx
-(`/` → `/business`).
-
-## Stagebeta Next build env
-
-Next inlines `NEXT_PUBLIC_*` at **build** time. Unset
-`NEXT_PUBLIC_REGISTER_ORIGIN` falls back to production
-`https://business.moilapp.com`. `deploy.sh` **refuses** a build that is
-not exactly:
+GitHub signs each deploy token with a subject naming **the repository it came
+from**. The deploy role currently trusts the employer API's subject only, so
+until this repo's is added, every run here fails at assume-role with:
 
 ```
-PLAN_API_ORIGIN=https://stagebeta.moilapp.com
-NEXT_PUBLIC_REGISTER_ORIGIN=https://employer-beta.moilapp.com
+Could not assume role with OIDC: Not authorized to perform sts:AssumeRoleWithWebIdentity
 ```
 
-Put those in `.env.local` on the host (gitignored). CI's Build step
-exports the same pair so the PR compile matches what stagebeta will
-serve. `/api` `/plan` `/mail` stay on Node (nginx); Next only rewrites
-`/plan/preview` and `/plan/preview/:slug`.
+That message is the same one AWS returns for a missing role, a wrong audience
+and a policy mismatch — it will not tell you which. So make this change first
+rather than debugging it later.
 
-Do not bake `www.moilapp.com`, `business.moilapp.com`, or `ai.moilapp.com`
-into the stagebeta bundle.
+Add this repo's subject to the existing deploy role's trust policy, alongside
+the one already there. `StringEquals` accepts a list:
+
+```bash
+ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
+ROLE=<the role the employer API's AWS_ROLE_ARN names>
+
+cat > /tmp/trust.json <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Principal": {
+      "Federated": "arn:aws:iam::${ACCOUNT}:oidc-provider/token.actions.githubusercontent.com"
+    },
+    "Action": "sts:AssumeRoleWithWebIdentity",
+    "Condition": {
+      "StringEquals": {
+        "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
+        "token.actions.githubusercontent.com:sub": [
+          "repo:Moil-Code/Moil-codeProdbackend:environment:production",
+          "repo:Moil-Code/Moil-landing-page:environment:production"
+        ]
+      }
+    }
+  }]
+}
+EOF
+
+aws iam update-assume-role-policy --role-name "$ROLE" --policy-document file:///tmp/trust.json
+aws iam get-role --role-name "$ROLE" --query 'Role.AssumeRolePolicyDocument'   # confirm it took
+```
+
+Note the `environment:` form rather than `ref:refs/heads/main`. The deploy job
+declares `environment: production`, and when a job references an environment
+GitHub **replaces** the branch component of the subject with the environment
+name. The branch form fails every run.
+
+Sharing one role across both repos means either pipeline can reach this
+instance. If you would rather they could not, create a second role with only
+this repo's subject and give it the same `ssm:SendCommand` permissions — the
+workflow reads whatever `AWS_ROLE_ARN` names.
+
+## Server prep (once)
+
+```bash
+sudo -iu <deploy user>
+
+git clone https://github.com/Moil-Code/Moil-landing-page /srv/moil-landing-page
+cd /srv/moil-landing-page && git checkout main
+
+# .env.local — gitignored, and not touched by a deploy unless you opt in to
+# DEPLOY_WRITE_ENV (below). See .env.example for what goes in it.
+vim .env.local
+
+# yarn is required — see "Why yarn" below. Either is fine:
+corepack enable    # or: npm i -g yarn
+
+yarn install --frozen-lockfile
+yarn build
+PM2_NAME=<your PM2_NAME> pm2 startOrReload ecosystem.config.js --update-env
+pm2 save
+pm2 startup        # so it comes back after a reboot; run the line it prints
+```
+
+**Pick a port that the gateway is not already using.** `ecosystem.config.js`
+defaults to 3000 and passes `PORT` to Next explicitly, so the port the app
+listens on and the port the health check polls cannot drift apart. Point nginx
+at that port for the landing page's hostname.
+
+### Why yarn, and not `npm ci`
+
+`npm ci` cannot work in this repo, for two independent reasons:
+
+- The committed `package-lock.json` is **out of sync** with `package.json` — it
+  is missing `caniuse-lite`, and `npm ci` refuses outright on that.
+- React 19 conflicts with `lucide-react`'s declared peer range, so npm also
+  needs `--legacy-peer-deps`.
+
+`yarn.lock` is in sync, and `vercel.json` already declares `yarn install` as this
+project's install command. `--frozen-lockfile` is the part that matters: it
+**refuses** rather than quietly resolving a different tree, which is what makes
+the server build the same thing CI tested.
+
+(The `.npmrc` here sets `strict-peer-dependencies`, which is a pnpm/yarn key.
+npm ignores it, so it does not help npm.)
 
 ## Secrets and variables
 
@@ -75,102 +130,142 @@ into the stagebeta bundle.
 
 | Name | Value |
 |---|---|
-| `SERVER_HOST` | stagebeta hostname or IP — **not** www |
-| `SERVER_USER` | SSH user that owns the checkout |
-| `SERVER_SSH_KEY` | the **private** key, entire file including the BEGIN/END lines |
-| `APP_PATH` | absolute path of the checkout on stagebeta |
-| `PM2_NAME` | the PM2 process name |
-| `SERVER_KNOWN_HOSTS` | *optional but recommended* — `ssh-keyscan -p 22 <host>` output |
+| `AWS_ROLE_ARN` | the deploy role's ARN (see trust policy above) |
+| `SSM_INSTANCE_ID` | the shared instance's id — the same one the employer API uses |
+| `SERVER_USER` | OS user that owns the checkout |
+| `APP_PATH` | absolute path of the checkout, e.g. `/srv/moil-landing-page` |
+| `PM2_NAME` | the PM2 process name, e.g. `moil-landing` |
+| `ENV` | *optional* — the whole `.env.local`; only read when `DEPLOY_WRITE_ENV=true` |
 
 Variables:
 
 | Name | Default | Meaning |
 |---|---|---|
-| `SERVER_SSH_PORT` | `22` | SSH port |
+| `AWS_REGION` | *(required)* | the instance's region |
 | `DEPLOY_BRANCH` | `main` | branch the server checks out |
-| `DEPLOY_HEALTH_URL` | `http://127.0.0.1:3000/business` | polled on the host after reload |
+| `DEPLOY_HEALTH_URL` | `http://127.0.0.1:3000/` | polled on the instance after reload |
+| `DEPLOY_ENV_FILE` | `.env.local` | which env file the `ENV` secret writes |
+| `DEPLOY_TIMEOUT_SECONDS` | `2400` | how long CI waits for the script |
 | `DEPLOY_ROLLBACK` | `1` | `0` disables the automatic rollback |
+| `DEPLOY_WRITE_ENV` | *(unset)* | `true` rewrites the env file from the `ENV` secret every deploy |
 
-Also create the **`staging`** environment (Settings → Environments) and
-restrict Deployment branches to `main`. Do **not** create or use a
-`production` environment on this repo.
+Also create the **`production` environment** (Settings → Environments) and set
+its Deployment branches to `main`. Because the environment name replaces the
+branch in the OIDC subject, that rule — not the trust policy — is what pins the
+deploy to `main`.
 
-## Server prep (once)
+`SERVER_USER` matters more than it looks: `AWS-RunShellScript` runs as **root**,
+and the wrapper drops to this user before touching anything. Deploying as root
+would leave `node_modules`, `.next` and the checkout root-owned, and the next
+by-hand deploy as the real user would fail on permissions.
 
-```bash
-sudo -iu <deploy user>
+## Updating `.env.local` without logging in
 
-git clone git@github.com:Moil-Code/Moil-Landing-Page-Staging.git /srv/moil-landing-page
-cd /srv/moil-landing-page && git checkout main
+Set the `ENV` secret to the entire file and `DEPLOY_WRITE_ENV` to `true`.
 
-# .env.local — gitignored. Required before the first yarn build:
-#   PLAN_API_ORIGIN=https://stagebeta.moilapp.com
-#   NEXT_PUBLIC_REGISTER_ORIGIN=https://employer-beta.moilapp.com
-vim .env.local
+**This app is different from the API repos here, and getting it wrong is a
+silent no-op.** Every variable this app reads is `NEXT_PUBLIC_*`, which Next
+**inlines into the client bundle at build time**. Writing the file and reloading
+PM2 changes nothing at all — only a rebuild does. So `deploy.sh` writes the file
+*before* the build, and a **changed** env file forces a rebuild even when no
+code moved. An unchanged one does not, so an unrelated deploy stays cheap.
 
-corepack enable    # or: npm i -g yarn
+Refusals before writes: a decode that fails or yields nothing aborts before
+touching the file; the previous file is copied to `.env.local.bak.<timestamp>`;
+mode is forced to `0600`.
 
-yarn install --frozen-lockfile
-yarn build
-PM2_NAME=<your PM2_NAME> pm2 startOrReload ecosystem.config.js --update-env
-pm2 save
-pm2 startup
-```
+**Worth knowing before turning it on.** Everything handed to `ssm:SendCommand`
+is retained as **SSM command history for 30 days**, readable by any principal
+with `ssm:GetCommandInvocation` in this account, and SSM exposes no delete for
+command invocations. The values here are `NEXT_PUBLIC_*` — they ship to every
+browser that loads the site, so this is a much smaller deal than it is for the
+API repos. Do not put a real secret in this file expecting it to stay one: the
+build compiles it into JavaScript anyone can read.
 
-Give the server a read-only deploy key on this repo so `git fetch` works.
-The public half of `SERVER_SSH_KEY` goes in the deploy user's
-`~/.ssh/authorized_keys` on stagebeta.
+## When a deploy fails, read the failing step
+
+It tells you whether the server changed at all.
+
+| Step that failed | Was the server touched? | What it means |
+|---|---|---|
+| Offline eval suite / Build | No | The commit fails tests or does not compile |
+| Check deploy configuration | No | A secret or variable is missing; the error names it |
+| Assume the deploy role | No | The trust policy is missing this repo's subject — see above |
+| Check the instance is registered | No | The SSM agent is not `Online`, or `AWS_REGION` is wrong |
+| Deploy, `send-command` rejected | No | IAM permissions on the role |
+| Deploy, script failed | **Yes** | It ran. A failed build leaves the OLD build serving; a failed health check has already rolled back |
+| Poll timed out | **Maybe** | Not a safe no-op. Read `/var/log/moil-landing-deploy.log` on the instance |
+
+The full transcript lives on the instance at
+`/var/log/moil-landing-deploy.log` — deliberately a different file from the
+employer API's, which shares this box. SSM truncates its own output at 24,000
+characters and a build comfortably exceeds that.
 
 ## Day-to-day
 
 ```bash
+# Shell in without an open port:
+aws ssm start-session --target <instance id> --region <region>
+
 # Deploy by hand — identical to what CI does:
-APP_PATH=$PWD PM2_NAME=<name> \
-  PLAN_API_ORIGIN=https://stagebeta.moilapp.com \
-  NEXT_PUBLIC_REGISTER_ORIGIN=https://employer-beta.moilapp.com \
-  bash .github/deploy.sh
+sudo -iu <deploy user>
+cd /srv/moil-landing-page
+APP_PATH=$PWD PM2_NAME=<name> bash .github/deploy.sh
+
+# Roll back to a known-good commit (rebuild is required — see below):
+git reset --hard <sha>
+yarn install --frozen-lockfile && yarn build
+pm2 reload <PM2_NAME> --update-env
 ```
 
-A red deploy run means one of three things: the eval suite failed
-(nothing reached the server), SSH failed (the server is untouched), or
-the health check failed (the server rolled itself back).
+**A rollback on this app always rebuilds.** `.next/` holds the output of
+whatever was built last, so resetting the source alone leaves the old code being
+served from the new build. `deploy.sh` does this for you; by hand, do not skip
+the `yarn build`.
 
-## Promote staging code to the production repository
+## Things that will bite you
 
-Use the promotion wizard from either the staging checkout or the production
-checkout. It verifies both SSH remotes, updates both `main` branches, merges
-staging into a temporary production promotion branch, runs the complete test
-suite and production build, creates a recovery branch, and asks before pushing.
-It never force-pushes production.
+- **`next build` writes `.next/` in place.** There is a window during a deploy
+  where the running server and the build on disk disagree. It is short and Next
+  tolerates it, but it is why a failed build stops before the reload rather than
+  after.
+- **A build needs memory.** If deploys start dying with no useful error, check
+  for the OOM killer (`dmesg | tail`) before suspecting the code — this box also
+  runs the employer API.
+- **`pm2 reload` keeps the script path an app was ORIGINALLY started with.** An
+  app first started as `pm2 start yarn --name x -- start` will reload yarn
+  forever and silently ignore `ecosystem.config.js`. If a deploy reports success
+  but nothing changes, `pm2 delete <name>` once and let the next deploy recreate
+  it from the config.
+- **Two apps, one box.** Deploy logs, PM2 names and ports are all deliberately
+  distinct. Keep them that way.
+
+## Promote staging code into this production repository
+
+The shared promotion command may be run from either checkout:
 
 ```bash
 npm run promote:production
 ```
 
-For a validation run that does not push:
+It preserves production-owned deployment files, build configuration, link
+origins, and production safety tests while merging shared application code from
+staging. It creates a recovery branch, runs the complete test suite and build,
+and never force-pushes production.
+
+Use `npm run promote:production -- --dry-run` to validate without pushing.
+The configured GitHub SSH key is `~/.ssh/id_ed25519_andres`; if it is locked,
+the command calls `ssh-add` and asks for the passphrase locally.
+
+## IndexNow after a healthy production deploy
+
+IndexNow submission is disabled unless the production host sets:
 
 ```bash
-npm run promote:production -- --dry-run
+INDEXNOW_SUBMIT=1
 ```
 
-After the process is familiar, the final confirmation can be skipped:
-
-```bash
-npm run promote:production -- --yes
-```
-
-The checkouts are discovered as sibling directories named
-`Moil-Landing-Page-Staging` and `Moil-landing-page`. Override either location
-when necessary:
-
-```bash
-STAGING_DIR=/path/to/staging PRODUCTION_DIR=/path/to/production \
-  npm run promote:production
-```
-
-The configured GitHub SSH key is `~/.ssh/id_ed25519_andres`. If it has a
-passphrase and is not already loaded, the wizard calls `ssh-add` and prompts
-for the passphrase locally. The passphrase is never written to a file.
-
-This promotes Git history into the production repository. It does not bypass
-or replace the production repository's deployment workflow.
+After PM2 reloads and the health check passes, `.github/deploy.sh` submits the
+URLs from the served sitemap using `npm run indexnow`. A refused submission is
+logged but does not roll back an otherwise healthy deployment. Leave this unset
+on stagebeta because its sitemap describes production URLs.
