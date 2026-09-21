@@ -174,3 +174,10 @@ for the passphrase locally. The passphrase is never written to a file.
 
 This promotes Git history into the production repository. It does not bypass
 or replace the production repository's deployment workflow.
+
+The promotion deliberately preserves production's deployment script, GitHub
+workflows, documentation, production application origins, and production-only
+safety tests. Stagebeta-only deployment and link tests are removed from the
+production merge result before validation. This boundary prevents a staging
+merge from retargeting production users to beta applications or replacing the
+production SSM deployment with the stagebeta SSH deployment.
