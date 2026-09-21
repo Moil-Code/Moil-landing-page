@@ -39,4 +39,3 @@ describe('staging-to-production promotion boundary', () => {
 		assert.match(script, /push origin "\$PROMOTION_BRANCH:main"/);
 	});
 });
-

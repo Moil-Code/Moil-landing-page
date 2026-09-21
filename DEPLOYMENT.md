@@ -265,7 +265,31 @@ IndexNow submission is disabled unless the production host sets:
 INDEXNOW_SUBMIT=1
 ```
 
-After PM2 reloads and the health check passes, `.github/deploy.sh` submits the
-URLs from the served sitemap using `npm run indexnow`. A refused submission is
-logged but does not roll back an otherwise healthy deployment. Leave this unset
-on stagebeta because its sitemap describes production URLs.
+After the process is familiar, the final confirmation can be skipped:
+
+```bash
+npm run promote:production -- --yes
+```
+
+The checkouts are discovered as sibling directories named
+`Moil-Landing-Page-Staging` and `Moil-landing-page`. Override either location
+when necessary:
+
+```bash
+STAGING_DIR=/path/to/staging PRODUCTION_DIR=/path/to/production \
+  npm run promote:production
+```
+
+The configured GitHub SSH key is `~/.ssh/id_ed25519_andres`. If it has a
+passphrase and is not already loaded, the wizard calls `ssh-add` and prompts
+for the passphrase locally. The passphrase is never written to a file.
+
+This promotes Git history into the production repository. It does not bypass
+or replace the production repository's deployment workflow.
+
+The promotion deliberately preserves production's deployment script, GitHub
+workflows, documentation, production application origins, and production-only
+safety tests. Stagebeta-only deployment and link tests are removed from the
+production merge result before validation. This boundary prevents a staging
+merge from retargeting production users to beta applications or replacing the
+production SSM deployment with the stagebeta SSH deployment.
