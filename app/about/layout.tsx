@@ -37,7 +37,6 @@ function AboutShell({ children }: { children: React.ReactNode }) {
         scrolled={scrolled}
         menuOpen={menuOpen}
         onToggleMenu={() => setMenuOpen((open) => !open)}
-        onToggleTheme={toggleTheme}
         theme={theme}
         items={NAV_ITEMS}
         ctaHref={getRegisterUrl()}
