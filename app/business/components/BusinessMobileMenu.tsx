@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import type { MouseEvent } from 'react';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Moon, Sun } from 'lucide-react';
 import type { NavItem } from './BusinessNav';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
 import { getRegisterUrl } from '../preview/previewClient';
@@ -12,6 +12,8 @@ import { documentLocaleFromPathname, isSpanishPath } from '../../../src/common/i
 type BusinessMobileMenuProps = {
   open: boolean;
   onClose: () => void;
+  onToggleTheme: () => void;
+  theme: 'dark' | 'light';
   items: NavItem[];
   ctaLabel?: string;
   ctaHref?: string;
@@ -21,6 +23,8 @@ type BusinessMobileMenuProps = {
 export function BusinessMobileMenu({
   open,
   onClose,
+  onToggleTheme,
+  theme,
   items,
   ctaLabel = 'Start free — no credit card',
   ctaHref = getRegisterUrl(),
@@ -155,6 +159,24 @@ export function BusinessMobileMenu({
             </a>
           );
         })}
+      </div>
+      <div className="mob-menu-preferences">
+        <a className="mob-product-switch" href={`/candidate?lg=${lang}`} onClick={onClose}>
+          <span>
+            <strong>{lang === 'es' ? 'Cambiar a candidatos' : 'Switch to candidate'}</strong>
+            <small>{lang === 'es' ? 'Empleos, currículum y entrevistas' : 'Jobs, resumes, and interview tools'}</small>
+          </span>
+          <ArrowUpRight size={18} aria-hidden="true" />
+        </a>
+        <div className="mob-theme-control">
+          <span>
+            <strong>{lang === 'es' ? 'Tema' : 'Theme'}</strong>
+            <small>{theme === 'dark' ? (lang === 'es' ? 'Modo oscuro' : 'Dark mode') : (lang === 'es' ? 'Modo claro' : 'Light mode')}</small>
+          </span>
+          <button type="button" onClick={onToggleTheme} aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}>
+            {theme === 'dark' ? <Moon size={17} aria-hidden="true" /> : <Sun size={17} aria-hidden="true" />}
+          </button>
+        </div>
       </div>
       <a className="mob-cta" href={appendLangToUrl(ctaHref, lang)} target="_blank" rel="noreferrer" onClick={onClose} data-signup-cta="mobile-menu">
         <span>{ctaLabel}</span>

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Menu, Moon, Sun, X } from "lucide-react";
 import { buildCandidateUrl, openCandidateRegister } from "../utils/urlBuilder";
 import CustomTranslateButton from "../../common/components/CustomTranslateButton";
 import styles from "./navigation.module.css";
@@ -13,6 +13,8 @@ interface CandidateNavigationProps {
   lgQuery: string;
   setQueryLg: (query: string) => void;
   setShowLanguageModal: (show: boolean) => void;
+  theme: "dark" | "light";
+  onToggleTheme: () => void;
 }
 
 const sectionLinks = [
@@ -49,6 +51,8 @@ export default function CandidateNavigation({
   lgQuery,
   setQueryLg,
   setShowLanguageModal,
+  theme,
+  onToggleTheme,
 }: CandidateNavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -247,11 +251,29 @@ export default function CandidateNavigation({
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 <span className={styles.mobileLinkCopy}>
-                  <strong>{language === "es" ? "Moil para empresas" : "Moil for business"}</strong>
+                  <strong>{language === "es" ? "Cambiar a empresas" : "Switch to business"}</strong>
                   <small>{language === "es" ? "Cambia a herramientas empresariales" : "Switch to business tools"}</small>
                 </span>
                 <ArrowUpRight size={17} aria-hidden="true" />
               </Link>
+            </div>
+            <div className={styles.mobileThemeRow}>
+              <span className={styles.mobileLinkCopy}>
+                <strong>{language === "es" ? "Tema" : "Theme"}</strong>
+                <small>
+                  {theme === "dark"
+                    ? language === "es" ? "Modo oscuro" : "Dark mode"
+                    : language === "es" ? "Modo claro" : "Light mode"}
+                </small>
+              </span>
+              <button
+                type="button"
+                onClick={onToggleTheme}
+                className={styles.mobileThemeButton}
+                aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+              >
+                {theme === "dark" ? <Moon size={17} aria-hidden="true" /> : <Sun size={17} aria-hidden="true" />}
+              </button>
             </div>
             <div className={styles.mobileAuth}>
               <button

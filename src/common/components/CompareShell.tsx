@@ -31,6 +31,8 @@ export function CompareShell({ children }: { children: React.ReactNode }) {
       <BusinessMobileMenu
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
+        onToggleTheme={toggleTheme}
+        theme={theme}
         items={NAV_ITEMS}
         ctaLabel="Start free — no credit card"
         currentLang={lang}

@@ -174,6 +174,8 @@ export function BusinessPageContent() {
         <BusinessMobileMenu
           open={menuOpen}
           onClose={() => setMenuOpen(false)}
+          onToggleTheme={toggleTheme}
+          theme={theme}
           items={mobileItems}
           currentLang={currentLang}
         />
