@@ -71,6 +71,26 @@
    =================================================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+:is(
+  #what-is-moil,
+  #what-it-made,
+  #identity,
+  #capabilities,
+  #product-business-plan,
+  #product-moil360,
+  #journey,
+  #stats,
+  #bilingual,
+  #problem,
+  #tiers,
+  #testimonials,
+  #guides,
+  #pricing
+) { scroll-margin-top: 82px; }
+/* Product anchors are also reveal targets. Their entrance animation removes a
+   32px translate after scrolling, so reserve that distance as well or the
+   fixed header ends up covering the product title once the animation settles. */
+:is(#product-business-plan, #product-moil360) { scroll-margin-top: 116px; }
 body {
   background: var(--bg); color: var(--text);
   /* The root layout (app/layout.tsx) applies Bebas Neue to <body> via
@@ -283,28 +303,63 @@ body::before {
 /* Mobile menu */
 .mob-menu {
   display: none; position: fixed; inset: 0; z-index: 199;
-  background: var(--surface); flex-direction: column; gap: 6px;
-  padding: 88px 32px 40px; overflow-y: auto;
-  transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  background: color-mix(in srgb, var(--surface) 98%, transparent); flex-direction: column;
+  padding: 88px 28px max(28px, env(safe-area-inset-bottom)); overflow-y: auto;
+  overscroll-behavior: contain; visibility: hidden; pointer-events: none;
+  transform: translateX(100%); transition: transform 0.36s cubic-bezier(0.22,0.75,0.25,1), visibility 0.36s;
+  backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
 }
-.mob-menu.open { transform: none; }
+.mob-menu.open { transform: none; visibility: visible; pointer-events: auto; }
 @media (max-width: 960px) { .mob-menu { display: flex; } }
-.mob-menu a, .mob-menu .mob-cta {
-  font-family: var(--display); font-size: 38px; letter-spacing: 2px;
-  color: var(--text); text-decoration: none; text-transform: uppercase;
-  padding: 10px 0; border-bottom: 1px solid var(--border); display: block;
-  transition: color 0.2s;
+.mob-menu-intro { margin-bottom: 22px; }
+.mob-menu-intro span {
+  color: var(--orange); font: 750 10px var(--mono); letter-spacing: .14em; text-transform: uppercase;
 }
-.mob-menu a:hover { color: var(--orange); }
+.mob-menu-intro p { margin-top: 7px; color: var(--text2); font-size: 14px; line-height: 1.5; }
+.mob-menu-links { border-top: 1px solid var(--border); }
+.mob-menu-links > a {
+  display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 12px;
+  min-height: 70px; padding: 12px 4px; border-bottom: 1px solid var(--border);
+  color: var(--text); text-decoration: none; transition: color .2s, background .2s;
+}
+.mob-menu-links > a:hover { color: var(--orange); }
+.mob-menu-links > a > svg { color: var(--text3); }
+.mob-menu-index { color: var(--orange); font: 700 10px var(--mono); letter-spacing: .08em; }
+.mob-menu-copy { min-width: 0; }
+.mob-menu-copy strong, .mob-menu-copy small { display: block; }
+.mob-menu-copy strong { font-size: 16px; font-weight: 680; letter-spacing: -.02em; }
+.mob-menu-copy small { margin-top: 3px; color: var(--text2); font-size: 11px; font-weight: 400; line-height: 1.35; }
+.mob-menu-preferences { display: grid; gap: 10px; margin-top: 16px; }
+.mob-product-switch,
+.mob-theme-control {
+  min-height: 62px; padding: 12px 14px; border: 1px solid var(--border2); border-radius: 12px;
+  background: var(--surface2); color: var(--text); text-decoration: none;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.mob-product-switch span,
+.mob-theme-control > span { min-width: 0; }
+.mob-product-switch strong,
+.mob-product-switch small,
+.mob-theme-control strong,
+.mob-theme-control small { display: block; }
+.mob-product-switch strong,
+.mob-theme-control strong { font-size: 14px; font-weight: 700; letter-spacing: -.015em; }
+.mob-product-switch small,
+.mob-theme-control small { margin-top: 3px; color: var(--text2); font-size: 10px; font-weight: 400; line-height: 1.35; }
+.mob-product-switch > svg { flex: 0 0 auto; color: var(--text3); }
+.mob-theme-control button {
+  width: 38px; height: 38px; flex: 0 0 38px; display: grid; place-items: center;
+  border: 1px solid var(--border2); border-radius: 10px; background: var(--surface); color: var(--text);
+  cursor: pointer;
+}
 .mob-cta {
   background: var(--orange) !important; color: white !important;
   border: none !important; border-radius: 10px !important;
-  padding: 16px 24px !important; margin-top: 12px; font-size: 22px !important;
-  cursor: pointer; text-align: center; text-transform: uppercase;
-  font-family: var(--display);
+  min-height: 52px; padding: 14px 18px !important; margin-top: auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  cursor: pointer; text-align: left; text-decoration: none;
+  font-family: var(--body); font-size: 14px !important; font-weight: 700;
 }
-.mob-footer { margin-top: auto; display: flex; align-items: center; gap: 14px; padding-top: 24px; }
-.mob-theme-label { font-family: var(--mono); font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 2px; }
 
 /* ===================================================
    HERO
@@ -1293,10 +1348,24 @@ body::before {
    =================================================== */
 @media (max-width: 960px) {
   #nav { padding: 12px 20px; }
-  .nav-links, .nav-signin, .nav-switch { display: none; }
+  .nav-links, .nav-switch { display: none; }
   .hamburger { display: flex; }
   .nav-cta { display: none; }
   .page-switcher { display: none !important; }
+  .lang-toggle-btn {
+    width: 34px; height: 34px; justify-content: center;
+    gap: 0 !important; padding: 0 !important; border-radius: 10px !important;
+  }
+  .lang-toggle-label, .lang-toggle-globe { display: none; }
+  .lang-toggle-btn img { width: 17px !important; height: 17px !important; }
+  .nav-signin {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 38px; padding: 7px 12px; border: 1px solid var(--border2);
+    color: var(--text); border-radius: 10px; font-size: 12px; font-weight: 650;
+    line-height: 1; text-decoration: none;
+  }
+  .nav-logo-img { height: 38px !important; width: auto !important; }
+  .hamburger { width: 38px; height: 38px; align-items: center; justify-content: center; padding: 0; }
 
   .section-wrap, .problem-inner, .journey-inner, #identity, #capabilities, #hiring, #faq, #testimonials, #pricing, #stats { padding: 72px 20px; }
   .demo-section { padding: 78px 20px 86px; }
@@ -1354,6 +1423,9 @@ body::before {
   .footer-hero-tagline { font-size: clamp(22px, 8vw, 30px); }
   .hero-headline { font-size: clamp(30px, 10vw, 46px); }
   .nav-logo { font-size: 22px; }
+  #nav { padding-inline: 14px; }
+  .nav-right { gap: 5px; }
+  .nav-signin { padding-inline: 10px; }
   .nav-logo .ai-badge { display: none; }
   .problem-grid { grid-template-columns: 1fr; }
   .hiring-stats { grid-template-columns: repeat(2, 1fr); }

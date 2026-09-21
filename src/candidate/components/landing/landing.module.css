@@ -49,6 +49,7 @@
   --hero-ink: #fffaf7;
   --hero-muted: #c9c0d5;
   position: relative;
+  scroll-margin-top: 64px;
   isolation: isolate;
   overflow: hidden;
   min-height: 880px;

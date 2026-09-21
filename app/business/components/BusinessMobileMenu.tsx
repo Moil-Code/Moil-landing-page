@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import type { MouseEvent } from 'react';
+import { ArrowRight, ArrowUpRight, Moon, Sun } from 'lucide-react';
 import type { NavItem } from './BusinessNav';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
 import { getRegisterUrl } from '../preview/previewClient';
@@ -59,28 +61,127 @@ export function BusinessMobileMenu({
     return () => window.removeEventListener('languageChange', handleLanguageChange as EventListener);
   }, []);
 
+  const localizeHref = (href: string) => {
+    if (lang === 'es' && href.startsWith('/business')) return `/es${href}`;
+    if (lang === 'en' && href.startsWith('/es/business')) return href.slice(3);
+    return href;
+  };
+
+  const itemDescription = (item: NavItem) => {
+    const href = item.href.toLowerCase();
+    const spanish = lang === 'es';
+    if (href.includes('product-business-plan')) return spanish ? 'Planes y proyecciones para tu negocio' : 'Plans and projections for your business';
+    if (href.includes('product-moil360')) return spanish ? 'Contenido de marca listo para publicar' : 'On-brand content ready to publish';
+    if (href.includes('/candidate')) return spanish ? 'Herramientas profesionales para candidatos' : 'Career tools for candidates';
+    if (href.includes('/work')) return spanish ? 'Sitios que hemos creado' : 'See websites we have built';
+    if (href.includes('/partners')) return spanish ? 'Programas para comunidades empresariales' : 'Programs for business communities';
+    if (href.includes('blog.moilapp.com')) return spanish ? 'Ideas prácticas para crecer' : 'Practical ideas for growing';
+    if (href.includes('/contact')) return spanish ? 'Habla con el equipo de Moil' : 'Talk with the Moil team';
+    if (href.includes('#capabilities')) return spanish ? 'Explora lo que Moil puede hacer' : 'Explore what Moil can do';
+    if (href.includes('#journey')) return spanish ? 'Mira cómo funciona' : 'See how it works';
+    if (href.includes('#pricing')) return spanish ? 'Compara planes y precios' : 'Compare plans and pricing';
+    if (href.includes('#identity')) return spanish ? 'Conoce qué es Moil' : 'Learn what Moil is';
+    return spanish ? 'Explora esta sección' : 'Explore this section';
+  };
+
+  const handleItemClick = (event: MouseEvent<HTMLAnchorElement>, href: string, external?: boolean) => {
+    if (external) {
+      onClose();
+      return;
+    }
+
+    const url = new URL(href, window.location.href);
+    const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+    const targetPath = url.pathname.replace(/\/$/, '') || '/';
+    const target = url.hash ? document.getElementById(url.hash.slice(1)) : null;
+
+    if (!url.hash || currentPath !== targetPath || !target) {
+      onClose();
+      return;
+    }
+
+    event.preventDefault();
+    onClose();
+    window.history.pushState(null, '', `${window.location.pathname}${window.location.search}${url.hash}`);
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        const headerHeight = document.getElementById('nav')?.getBoundingClientRect().height ?? 64;
+        const revealOffset = target.classList.contains('rv') && !target.classList.contains('in') ? 32 : 0;
+        const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 20 - revealOffset;
+        const canAnimate = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          && Math.abs(top - window.scrollY) < window.innerHeight * 1.5;
+
+        if (canAnimate) {
+          window.scrollTo({ top, behavior: 'smooth' });
+          return;
+        }
+
+        // Long smooth-scroll animations are easily interrupted by videos and
+        // reveal effects higher on this page. Jump long distances exactly so
+        // a menu choice always lands on its heading, not midway between blocks.
+        const root = document.documentElement;
+        const previousScrollBehavior = root.style.scrollBehavior;
+        root.style.scrollBehavior = 'auto';
+        window.scrollTo({ top, behavior: 'auto' });
+        root.style.scrollBehavior = previousScrollBehavior;
+      });
+    });
+  };
+
   return (
-    <div className={`mob-menu ${open ? 'open' : ''}`} id="mobMenu">
-      {items.map((item) => (
-        <a
-          key={item.href + item.label}
-          href={item.href}
-          target={item.external ? '_blank' : undefined}
-          rel={item.external ? 'noreferrer' : undefined}
-          onClick={onClose}
-        >
-          {item.label}
-        </a>
-      ))}
-      <a className="mob-cta" href={appendLangToUrl(ctaHref, lang)} target="_blank" rel="noreferrer" onClick={onClose} data-signup-cta="mobile-menu">
-        {ctaLabel}
-      </a>
-      <div className="mob-footer">
-        <span className="mob-theme-label">Theme</span>
-        <button className="theme-toggle" onClick={onToggleTheme} aria-label="Toggle theme">
-          <div className="toggle-knob">{theme === 'dark' ? <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>}</div>
-        </button>
+    <nav
+      className={`mob-menu ${open ? 'open' : ''}`}
+      id="business-mobile-menu"
+      aria-label="Mobile business navigation"
+      aria-hidden={!open}
+    >
+      <div className="mob-menu-intro">
+        <span>{lang === 'es' ? 'Explorar Moil' : 'Explore Moil'}</span>
+        <p>{lang === 'es' ? 'Elige dónde quieres ir.' : 'Choose where you want to go.'}</p>
       </div>
-    </div>
+      <div className="mob-menu-links">
+        {items.map((item, index) => {
+          const href = localizeHref(item.href);
+          return (
+            <a
+              key={item.href + item.label}
+              href={href}
+              target={item.external ? '_blank' : undefined}
+              rel={item.external ? 'noreferrer' : undefined}
+              onClick={(event) => handleItemClick(event, href, item.external)}
+            >
+              <span className="mob-menu-index">{String(index + 1).padStart(2, '0')}</span>
+              <span className="mob-menu-copy">
+                <strong>{item.label}</strong>
+                <small>{itemDescription(item)}</small>
+              </span>
+              {item.external ? <ArrowUpRight size={18} aria-hidden="true" /> : <ArrowRight size={18} aria-hidden="true" />}
+            </a>
+          );
+        })}
+      </div>
+      <div className="mob-menu-preferences">
+        <a className="mob-product-switch" href={`/candidate?lg=${lang}`} onClick={onClose}>
+          <span>
+            <strong>{lang === 'es' ? 'Cambiar a candidatos' : 'Switch to candidate'}</strong>
+            <small>{lang === 'es' ? 'Empleos, currículum y entrevistas' : 'Jobs, resumes, and interview tools'}</small>
+          </span>
+          <ArrowUpRight size={18} aria-hidden="true" />
+        </a>
+        <div className="mob-theme-control">
+          <span>
+            <strong>{lang === 'es' ? 'Tema' : 'Theme'}</strong>
+            <small>{theme === 'dark' ? (lang === 'es' ? 'Modo oscuro' : 'Dark mode') : (lang === 'es' ? 'Modo claro' : 'Light mode')}</small>
+          </span>
+          <button type="button" onClick={onToggleTheme} aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}>
+            {theme === 'dark' ? <Moon size={17} aria-hidden="true" /> : <Sun size={17} aria-hidden="true" />}
+          </button>
+        </div>
+      </div>
+      <a className="mob-cta" href={appendLangToUrl(ctaHref, lang)} target="_blank" rel="noreferrer" onClick={onClose} data-signup-cta="mobile-menu">
+        <span>{ctaLabel}</span>
+        <ArrowUpRight size={18} aria-hidden="true" />
+      </a>
+    </nav>
   );
 }

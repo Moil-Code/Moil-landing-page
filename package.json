@@ -13,7 +13,8 @@
     "test:positioning": "node --test evals/positioning.test.js",
     "audit:seo": "node scripts/seo-audit.mjs",
     "indexnow": "node scripts/indexnow.mjs",
-    "page-dates": "node scripts/page-dates.mjs"
+    "page-dates": "node scripts/page-dates.mjs",
+    "promote:production": "bash scripts/promote-staging-to-production.sh"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

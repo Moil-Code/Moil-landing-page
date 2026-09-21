@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import Image from 'next/image';
-import { ChevronDown, Globe, Moon, Sun, ArrowUpRight } from 'lucide-react';
+import { ChevronDown, Globe, ArrowUpRight } from 'lucide-react';
 import { appendLangToUrl } from '../utils/appendLangToUrl';
 import { usePathname } from 'next/navigation';
 import { twinPath } from '../../../src/common/i18n/localeRoutes';
-import { getRegisterOrigin, getRegisterUrl } from '../preview/previewClient';
+import { getLoginUrl, getRegisterUrl } from '../preview/previewClient';
 import { documentLocaleFromPathname, isSpanishPath } from '../../../src/common/i18n/pathLocale';
 import { productHref } from '../productLinks';
 
@@ -208,7 +208,6 @@ type BusinessNavProps = {
   scrolled: boolean;
   menuOpen: boolean;
   onToggleMenu: () => void;
-  onToggleTheme: () => void;
   theme: 'dark' | 'light';
   items: NavItem[];
   logo?: ReactNode;
@@ -228,7 +227,6 @@ export function BusinessNav({
   scrolled,
   menuOpen,
   onToggleMenu,
-  onToggleTheme,
   theme,
   items,
   logo,
@@ -236,7 +234,7 @@ export function BusinessNav({
   ctaLabel = 'Get Started',
   ctaHref = getRegisterUrl(),
   signinLabel = 'Log In',
-  signinHref = getRegisterOrigin(),
+  signinHref = getLoginUrl(),
   switchLabel = 'Switch to candidates',
   switchHref = '/candidate',
   onLanguageChange,
@@ -401,6 +399,10 @@ export function BusinessNav({
           <button 
             className="lang-toggle-btn"
             onClick={() => setShowLangDropdown(!showLangDropdown)}
+            aria-expanded={showLangDropdown}
+            aria-haspopup="menu"
+            aria-controls="business-language-menu"
+            aria-label={lang === 'en' ? 'Change language. Current language English' : 'Cambiar idioma. Idioma actual español'}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -421,12 +423,14 @@ export function BusinessNav({
               alt={lang === 'en' ? 'English' : 'Español'}
               style={{ width: '18px', height: '18px', objectFit: 'contain', borderRadius: '2px' }}
             />
-            <span>{lang === 'en' ? 'EN' : 'ES'}</span>
-            <Globe size={14} />
+            <span className="lang-toggle-label">{lang === 'en' ? 'EN' : 'ES'}</span>
+            <Globe className="lang-toggle-globe" size={14} />
           </button>
           {showLangDropdown && (
             <div 
+              id="business-language-menu"
               className="lang-dropdown"
+              role="menu"
               style={{
                 position: 'absolute',
                 top: '100%',
@@ -495,18 +499,19 @@ export function BusinessNav({
           {switchLabel} <ArrowUpRight size={13} aria-hidden="true" />
         </a>
 
-        <button className="theme-toggle" onClick={onToggleTheme} aria-label="Toggle theme">
-          <div className="toggle-knob">
-            {theme === 'dark' ? <Moon size={14} /> : <Sun size={14} />}
-          </div>
-        </button>
         <a className="nav-signin" href={appendLangToUrl(signinHref, lang)} target="_blank" rel="noreferrer">
           {signinLabel}
         </a>
         <a className="nav-cta" href={appendLangToUrl(ctaHref, lang)} target="_blank" rel="noreferrer" data-signup-cta="nav">
           {ctaLabel}
         </a>
-        <button className={`hamburger ${menuOpen ? 'open' : ''}`} onClick={onToggleMenu} aria-label="Menu">
+        <button
+          className={`hamburger ${menuOpen ? 'open' : ''}`}
+          onClick={onToggleMenu}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          aria-controls="business-mobile-menu"
+        >
           <span></span>
           <span></span>
           <span></span>

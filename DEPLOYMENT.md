@@ -134,3 +134,43 @@ APP_PATH=$PWD PM2_NAME=<name> \
 A red deploy run means one of three things: the eval suite failed
 (nothing reached the server), SSH failed (the server is untouched), or
 the health check failed (the server rolled itself back).
+
+## Promote staging code to the production repository
+
+Use the promotion wizard from either the staging checkout or the production
+checkout. It verifies both SSH remotes, updates both `main` branches, merges
+staging into a temporary production promotion branch, runs the complete test
+suite and production build, creates a recovery branch, and asks before pushing.
+It never force-pushes production.
+
+```bash
+npm run promote:production
+```
+
+For a validation run that does not push:
+
+```bash
+npm run promote:production -- --dry-run
+```
+
+After the process is familiar, the final confirmation can be skipped:
+
+```bash
+npm run promote:production -- --yes
+```
+
+The checkouts are discovered as sibling directories named
+`Moil-Landing-Page-Staging` and `Moil-landing-page`. Override either location
+when necessary:
+
+```bash
+STAGING_DIR=/path/to/staging PRODUCTION_DIR=/path/to/production \
+  npm run promote:production
+```
+
+The configured GitHub SSH key is `~/.ssh/id_ed25519_andres`. If it has a
+passphrase and is not already loaded, the wizard calls `ssh-add` and prompts
+for the passphrase locally. The passphrase is never written to a file.
+
+This promotes Git history into the production repository. It does not bypass
+or replace the production repository's deployment workflow.
