@@ -10,7 +10,6 @@ import { I18nProvider, useLanguageContext } from "../../src/common/components/I1
 
 // Candidate Components
 import CandidateNavigation from "../../src/candidate/components/navigation";
-import { useCandidateTheme } from "../../src/candidate/hooks/useCandidateTheme";
 import CandidateHero from "../../src/candidate/sections/hero";
 import AIResumeSection from "../../src/candidate/sections/ai_resume";
 import VoiceAssistantSection from "../../src/candidate/sections/voice_assistant";
@@ -22,7 +21,6 @@ import NewsletterSection from "../../src/candidate/sections/newsletter";
 
 function CandidatePageContent() {
   const { lang: currentLang } = useLanguageContext();
-  const { theme, toggleTheme } = useCandidateTheme();
   const [refQuery, setRefQuery] = useState<string | null>(null);
   const [queryLg, setQueryLg] = useState("");
   const [showLanguageModal, setShowLanguageModal] = useState(false);
@@ -99,8 +97,6 @@ function CandidatePageContent() {
           lgQuery={queryLg}
           setQueryLg={setQueryLg}
           setShowLanguageModal={setShowLanguageModal}
-          theme={theme}
-          onToggleTheme={toggleTheme}
         />
         <CandidateHero onGetStarted={handleGetStarted} refQuery={refQuery || undefined} lgQuery={queryLg} />
         <div className={styles.landing}>

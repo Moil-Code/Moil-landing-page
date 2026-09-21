@@ -27,8 +27,6 @@ function AboutShell({ children }: { children: React.ReactNode }) {
       <BusinessMobileMenu
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
-        onToggleTheme={toggleTheme}
-        theme={theme}
         items={NAV_ITEMS}
         ctaLabel="Start free — no credit card"
         currentLang={lang}
@@ -37,7 +35,6 @@ function AboutShell({ children }: { children: React.ReactNode }) {
         scrolled={scrolled}
         menuOpen={menuOpen}
         onToggleMenu={() => setMenuOpen((open) => !open)}
-        onToggleTheme={toggleTheme}
         theme={theme}
         items={NAV_ITEMS}
         ctaHref={getRegisterUrl()}

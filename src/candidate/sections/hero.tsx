@@ -33,7 +33,7 @@ export default function CandidateHero({ refQuery, lgQuery }: CandidateHeroProps)
   ];
 
   return (
-    <section className={styles.hero} aria-labelledby="candidate-hero-heading">
+    <section id="candidate-top" className={styles.hero} aria-labelledby="candidate-hero-heading">
       <video
         className={`${styles.heroVideo} ${styles.heroVideoLight}`}
         autoPlay

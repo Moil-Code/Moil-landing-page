@@ -34,8 +34,6 @@ function PageChrome({ children }: { children: ReactNode }) {
       <BusinessMobileMenu
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
-        onToggleTheme={toggleTheme}
-        theme={theme}
         items={MOBILE_ITEMS}
         ctaLabel="Get started"
         currentLang={lang}
@@ -44,7 +42,6 @@ function PageChrome({ children }: { children: ReactNode }) {
         scrolled={scrolled}
         menuOpen={menuOpen}
         onToggleMenu={() => setMenuOpen((open) => !open)}
-        onToggleTheme={toggleTheme}
         theme={theme}
         items={NAV_ITEMS}
         ctaHref={getRegisterUrl()}
