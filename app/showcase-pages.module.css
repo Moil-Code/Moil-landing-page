@@ -303,14 +303,57 @@
 .contactDetails span { display: block; color: var(--text3); font-size: 9px; font-weight: 800; letter-spacing: .14em; }
 .contactDetails strong { display: block; overflow-wrap: anywhere; margin-top: 6px; font-size: 13px; line-height: 1.45; }
 
+/* /partners: benefits, use cases, steps, cost case, limits, FAQ */
+.partnerProof { margin-top: 22px; color: var(--text3); font-size: 13px; line-height: 1.5; }
+.partnerProof a { color: var(--text2); text-decoration: underline; text-underline-offset: 3px; }
+.partnerProof a:hover { color: var(--orange); }
+.benefitCard, .useCard, .stepCard { padding: 26px; border: 1px solid var(--border2); border-radius: 12px; background: var(--surface); }
+.benefitCard h3, .stepCard h3, .useCard h3 { margin: 0 0 12px; font-size: 22px; line-height: 1.12; letter-spacing: -.045em; }
+.benefitCard p, .stepCard p, .useCard p { color: var(--text2); font-size: 14px; line-height: 1.7; }
+.splitPanel { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1fr); gap: 56px; align-items: start; }
+.splitCopy { max-width: 460px; margin-top: 18px; color: var(--text2); font-size: 15px; line-height: 1.7; }
+.splitNote { max-width: 460px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border2); color: var(--text3); font-size: 13px; line-height: 1.65; }
+.splitNote a, .costNote a { color: var(--orange); text-decoration: underline; text-underline-offset: 3px; }
+.checkList, .limitList { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.checkList li, .limitList li { display: grid; grid-template-columns: 24px 1fr; gap: 12px; align-items: start; padding: 16px 18px; border: 1px solid var(--border2); border-radius: 10px; background: var(--surface); color: var(--text2); font-size: 14px; line-height: 1.6; }
+.checkList svg { margin-top: 2px; color: var(--orange); }
+.limitList li { display: block; border-left: 3px solid var(--purple-light); }
+.useGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.useCard { display: flex; flex-direction: column; gap: 4px; min-height: 300px; padding: 30px; background: linear-gradient(145deg, color-mix(in srgb, var(--surface2) 82%, transparent), var(--surface)); }
+.useCard h3 { margin: 28px 0 12px; font-size: clamp(25px, 2.6vw, 34px); }
+.useCard small { margin-top: auto; padding-top: 22px; color: var(--text3); font-size: 11.5px; line-height: 1.6; }
+.inlineCta { display: flex; justify-content: center; margin-top: 30px; }
+.stepGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 0; padding: 0; list-style: none; }
+.stepCard { min-height: 240px; }
+.stepCard h3 { margin-top: 44px; font-size: 20px; }
+.costPanel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px 56px; align-items: start; padding: 42px; border: 1px solid rgba(255,92,26,.48); border-radius: 15px; background: linear-gradient(120deg, rgba(255,92,26,.11), var(--surface) 48%, rgba(124,58,237,.12)); }
+.costFigures { display: grid; gap: 14px; margin: 0; }
+.costFigures div { padding: 18px 20px; border: 1px solid var(--border2); border-radius: 10px; background: color-mix(in srgb, var(--surface) 86%, transparent); }
+.costFigures dt { color: var(--text3); font: 750 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+.costFigures dd { margin: 8px 0 4px; font-size: clamp(30px, 3.4vw, 44px); font-weight: 640; line-height: 1; letter-spacing: -.06em; }
+.costFigures small { color: var(--text3); font-size: 12px; line-height: 1.55; }
+.costNote { grid-column: 1 / -1; margin: 0; color: var(--text2); font-size: 14px; line-height: 1.65; }
+.faqList { display: grid; gap: 10px; max-width: 900px; }
+.faqItem { border: 1px solid var(--border2); border-radius: 10px; background: var(--surface); }
+.faqItem summary { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 18px 20px; cursor: pointer; list-style: none; }
+.faqItem summary::-webkit-details-marker { display: none; }
+.faqItem summary::after { content: '+'; flex: none; color: var(--orange); font-size: 22px; line-height: 1; }
+.faqItem[open] summary::after { content: '\2212'; }
+.faqItem summary h3 { margin: 0; font-size: 16.5px; font-weight: 640; line-height: 1.3; letter-spacing: -.02em; }
+.faqItem summary:focus-visible, .relatedLinks a:focus-visible { outline: 2px solid var(--purple-light); outline-offset: 3px; border-radius: 8px; }
+.faqItem p { margin: 0; padding: 0 20px 20px; color: var(--text2); font-size: 14.5px; line-height: 1.7; }
+.relatedLinks { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 34px; }
+.relatedLinks a { color: var(--text2); font-size: 13.5px; text-decoration: underline; text-underline-offset: 3px; }
+.relatedLinks a:hover { color: var(--orange); }
+
 @media (max-width: 900px) {
   .hero { min-height: 0; padding-top: 145px; }.heroInner { grid-template-columns: 1fr; }.browser { max-width: 600px; width: 100%; justify-self: center; transform: none; }.heroImage { width: 100%; max-width: 600px; min-height: 360px; justify-self: center; }
-  .workGrid, .showcaseGrid, .edcGrid, .pathGrid, .teamGrid { grid-template-columns: 1fr; }.workVisual { min-height: 310px; }.workHeroVisual { max-width: 600px; width: 100%; justify-self: center; transform: none; }.principles { grid-template-columns: 1fr; }.principleList { grid-template-columns: 1fr; }.partnerPanel { grid-template-columns: 1fr; }.simpleHero .heroInner, .contactGrid { grid-template-columns: 1fr; }
+  .workGrid, .showcaseGrid, .edcGrid, .pathGrid, .teamGrid { grid-template-columns: 1fr; }.workVisual { min-height: 310px; }.workHeroVisual { max-width: 600px; width: 100%; justify-self: center; transform: none; }.principles { grid-template-columns: 1fr; }.principleList { grid-template-columns: 1fr; }.partnerPanel, .splitPanel, .costPanel, .useGrid { grid-template-columns: 1fr; }.stepGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.simpleHero .heroInner, .contactGrid { grid-template-columns: 1fr; }
   .contactAside { min-height: 380px; }
 }
 
 @media (max-width: 600px) {
-  .hero { padding-inline: 24px; padding-bottom: 62px; }.title { margin-bottom: 24px; font-size: clamp(40px, 12vw, 56px); }.lede { font-size: 15px; }.section { width: min(100% - 40px, 1240px); padding: 76px 0; }.sectionHeader { display: grid; gap: 18px; margin-bottom: 28px; }.browser { min-height: 315px; }.browserContent { padding: 33px 25px; }.workHeroVisual { min-height: 292px; padding: 8px 8px 34px; }.workHeroFrame { min-height: 250px; }.workHeroCaption { min-width: 0; padding: 10px 13px; }.caseMeta { padding-inline: 16px; }.caseCopy { padding: 12px 16px 20px; }.caseKind { white-space: normal; }.edcCard a { min-height: 430px; padding: 23px; }.edcCard h3 { margin-top: 20px; }.edcBrand { height: 84px; margin-top: 21px; }.heroImage, .partnerImage { min-height: 300px; }.partnerPanel, .principles { padding: 24px; }
+  .hero { padding-inline: 24px; padding-bottom: 62px; }.title { margin-bottom: 24px; font-size: clamp(40px, 12vw, 56px); }.lede { font-size: 15px; }.section { width: min(100% - 40px, 1240px); padding: 76px 0; }.sectionHeader { display: grid; gap: 18px; margin-bottom: 28px; }.browser { min-height: 315px; }.browserContent { padding: 33px 25px; }.workHeroVisual { min-height: 292px; padding: 8px 8px 34px; }.workHeroFrame { min-height: 250px; }.workHeroCaption { min-width: 0; padding: 10px 13px; }.caseMeta { padding-inline: 16px; }.caseCopy { padding: 12px 16px 20px; }.caseKind { white-space: normal; }.edcCard a { min-height: 430px; padding: 23px; }.edcCard h3 { margin-top: 20px; }.edcBrand { height: 84px; margin-top: 21px; }.heroImage, .partnerImage { min-height: 300px; }.partnerPanel, .principles, .costPanel, .useCard { padding: 24px; }.stepGrid { grid-template-columns: 1fr; }.stepCard { min-height: 0; }.stepCard h3 { margin-top: 22px; }.useCard { min-height: 0; }.splitPanel { gap: 28px; }
   .inquiryBackdrop { align-items: end; padding: 8px; }.inquiryModal { max-height: calc(100dvh - 16px); border-radius: 16px; }.inquiryHeader { padding: 25px 54px 17px 21px; }.inquiryHeader h2, .inquirySuccess h2 { font-size: 31px; }.inquiryForm { gap: 11px; padding: 17px 21px 21px; }.inquiryFooter { align-items: stretch; flex-direction: column; gap: 10px; }.inquiryFooter > p { max-width: none; }.inquirySubmit { width: 100%; }.inquirySuccess { min-height: 390px; padding: 40px 23px; }
   .contactCard { padding: 23px; }.contactIntro, .contactLinks { grid-template-columns: 1fr; }.contactIntro { gap: 15px; }.contactIntro > p { max-width: none; }.contactLink { min-height: 158px; }.contactAside { min-height: 340px; }
 }
