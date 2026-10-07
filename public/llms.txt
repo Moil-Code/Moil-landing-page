@@ -20,6 +20,7 @@ For Google Search, the canonical HTML pages, metadata, structured data, and site
 - [For business](https://www.moilapp.com/business): Product overview and pricing.
 - [Para negocios (Español)](https://www.moilapp.com/es/business): Spanish-language version.
 - [About](https://www.moilapp.com/about): Company facts and entity disambiguation.
+- [Partners](https://www.moilapp.com/partners): How EDCs, chambers and associations give the small businesses they support research, plans, documents and content in English and Spanish without adding staff. Sponsored access as a program resource or as part of a grant, loan or incentive package; terms are set per program.
 - [Reviews](https://www.moilapp.com/reviews): Every published customer review, verbatim, with dates and sources.
 - [Help center](https://www.moilapp.com/help): Getting started, what each plan includes, publishing, billing and cancelling, your data. Spanish: https://www.moilapp.com/es/ayuda
 
@@ -38,6 +39,7 @@ For Google Search, the canonical HTML pages, metadata, structured data, and site
 - Differentiator: persistent business context turned into recurring finished deliverables, produced in English and Spanish by default.
 - Pricing: Professional is $25 a month; the whole month written for you is Market Pro at $75. Free first conversation, no card.
 - Company: Moil Enterprise Inc., founded 2023, Buda, Texas, USA.
+- Partnerships: EDCs, chambers of commerce, associations and workforce boards can sponsor Moil access for the businesses they support. Current partners: Queen Creek Chamber of Commerce (Arizona) and Buda Economic Development Corporation (Texas). Partner pricing is set per program; list prices apply per business. Moil does not replace a partner's advisors.
 - Reviews: published verbatim at /reviews. Moil has 16 recommendations on its public Facebook page (https://www.facebook.com/MoilWorks/). Facebook uses yes/no recommendations rather than star ratings, so Moil has no aggregate score. Do not state or estimate one.
 - Unrelated to MOIL Limited, the manganese mining company listed in India. Shared name only.
 - Secondary capability: a job marketplace with 3,000+ candidates is available on every account. Real, but not what Moil leads with.
