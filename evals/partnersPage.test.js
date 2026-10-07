@@ -33,7 +33,11 @@ const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 const stripComments = (s) =>
 	s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/[^\n]*$/gm, '');
 
-const PAGE = stripComments(read('app/partners/page.tsx'));
+// The page is a thin wrapper now: PartnersBody holds the layout and schema for
+// both languages, page.tsx holds the English metadata.
+const WRAPPER = stripComments(read('app/partners/page.tsx'));
+const BODY = stripComments(read('app/partners/PartnersBody.tsx'));
+const PAGE = BODY;
 const CONTENT_RAW = read('app/partners/partnerContent.ts');
 const CONTENT = stripComments(CONTENT_RAW);
 
@@ -66,8 +70,9 @@ check('the page reaches the content it is built from', () => {
 });
 
 check('the visible FAQ and the FAQPage schema are one array', () => {
-	assert.match(PAGE, /faqPageJsonLd\(FAQS\)/, 'schema must be generated from FAQS');
-	assert.match(PAGE, /FAQS\.map\(/, 'the visible list must be rendered from FAQS');
+	assert.match(PAGE, /faqPageJsonLd\(copy\.faq\.items\)/, 'schema must be generated from the copy FAQ array');
+	assert.match(PAGE, /copy\.faq\.items\.map\(/, 'the visible list must be rendered from the same array');
+	assert.match(CONTENT, /faq:\s*\{[^}]*items:\s*FAQS/, 'the English copy must point its FAQ at FAQS');
 	assert.doesNotMatch(PAGE, /acceptedAnswer/, 'no hand-written FAQ schema on the page');
 });
 
@@ -90,7 +95,7 @@ check('the page has exactly one h1 and question-led section headings', () => {
 		'How does the cost compare with doing it by hand?',
 		'What does Moil not do?',
 	]) {
-		assert.ok(PAGE.includes(q), `missing question heading: ${q}`);
+		assert.ok(CONTENT.includes(q), `missing question heading: ${q}`);
 	}
 });
 
@@ -104,10 +109,12 @@ check('structured data: WebPage, BreadcrumbList, Service and FAQPage', () => {
 });
 
 check('metadata: self-canonical, distinct title, description in range', () => {
-	assert.match(PAGE, /alternates:\s*\{\s*canonical:\s*PAGE_URL\s*\}/);
-	const desc = PAGE.match(/const DESCRIPTION =\s*'([^']+)'/)[1];
+	assert.match(WRAPPER, /canonical:\s*PAGE_URL/);
+	assert.match(WRAPPER, /PAGE_URL = `\$\{baseURL1\}\$\{PARTNER_EN\.path\}`/);
+	assert.match(CONTENT, /path:\s*'\/partners'/);
+	const desc = CONTENT.match(/meta:\s*\{\s*title:\s*'[^']+',\s*description:\s*'([^']+)'/)[1];
 	assert.ok(desc.length >= 120 && desc.length <= 165, `description is ${desc.length} chars`);
-	const title = PAGE.match(/const TITLE = '([^']+)'/)[1];
+	const title = CONTENT.match(/meta:\s*\{\s*title:\s*'([^']+)'/)[1];
 	assert.ok(title.length <= 60, `title is ${title.length} chars before the " | Moil" suffix`);
 	assert.match(title, /EDC|chamber/i, 'the title must name the audience');
 });
@@ -147,8 +154,9 @@ check('the agency range is the one /compare/moil-vs-agency publishes', () => {
 });
 
 check('both real partners are named, and links to them open safely', () => {
+	const orgs = stripComments(read('app/partners/partnerCopy.ts'));
 	for (const name of ['Queen Creek Chamber of Commerce', 'Buda Economic Development Corporation']) {
-		assert.ok(PAGE.includes(name), `${name} missing`);
+		assert.ok(orgs.includes(name), `${name} missing`);
 	}
 	assert.match(PAGE, /rel="noopener noreferrer"/);
 	assert.doesNotMatch(PAGE, /rel="noreferrer"/);
@@ -157,13 +165,14 @@ check('both real partners are named, and links to them open safely', () => {
 check('every inquiry button carries the partnership subject', () => {
 	const buttons = PAGE.match(/<PartnershipInquiryButton[^>]*\/>/g) || [];
 	assert.ok(buttons.length >= 3, `expected 3+ inquiry entry points, found ${buttons.length}`);
-	for (const b of buttons) assert.match(b, /defaultSubject=\{PARTNER_SUBJECT\}/, b);
+	for (const b of buttons) assert.match(b, /defaultSubject=\{copy\.inquirySubject\}/, b);
+	assert.match(CONTENT, /inquirySubject:\s*PARTNER_SUBJECT/);
 });
 
 check('every internal link on the page resolves to a real route', () => {
 	const hrefs = [
 		...[...CONTENT.matchAll(/href:\s*'(\/[^']*)'/g)].map((m) => m[1]),
-		...[...PAGE.matchAll(/href="(\/[^"#]*)"/g)].map((m) => m[1]),
+		...[...CONTENT.matchAll(/(?:pricingHref|compareHref):\s*'(\/[^']*)'/g)].map((m) => m[1]),
 	].filter((h) => h !== '/');
 	assert.ok(hrefs.length >= 6, `only ${hrefs.length} internal links found`);
 	for (const h of hrefs) {

@@ -19,6 +19,7 @@
 import { PLANS } from '../../src/common/seo/offers';
 import { pricingCopy } from '../../src/common/seo/pricingCopy';
 import type { AeoFaq } from '../compare/aeoLocks';
+import type { PartnerCopy } from './partnerCopy';
 
 export const PARTNER_SUBJECT = 'Moil partnership inquiry';
 
@@ -153,3 +154,118 @@ export const PARTNER_LINKS = [
   { label: 'What Moil is, and what it is not', href: '/ai-info' },
   { label: 'About Moil Enterprise Inc.', href: '/about' },
 ] as const;
+
+/** The English page, assembled from the constants above. */
+export const PARTNER_EN: PartnerCopy = {
+  lang: 'en',
+  inLanguage: 'en-US',
+  ogLocale: 'en_US',
+  path: '/partners',
+  meta: {
+    title: 'Moil for EDCs and chambers: more owners, no new hires',
+    description:
+      'Give the small businesses you support research, plans, documents and content in English and Spanish, without adding staff. For EDCs, chambers and associations.',
+    ogImageAlt: 'Moil, the AI co-founder for small business owners',
+    siteName: 'Moil',
+  },
+  breadcrumb: { home: 'Home', page: 'Partners' },
+  service: {
+    name: 'Moil for economic development organizations and chambers of commerce',
+    serviceType: 'Small-business support software for community organizations',
+    audienceType: 'Economic development corporations, chambers of commerce, business associations and workforce boards',
+  },
+  inquirySubject: PARTNER_SUBJECT,
+  hero: {
+    eyebrow: 'MOIL PARTNERSHIPS',
+    titleLead: 'Support more small businesses without adding to ',
+    titleAccent: 'your team.',
+    answer: PARTNER_ANSWER,
+    cta: 'Start a partnership conversation',
+    secondary: 'See how it works',
+    proofLead: 'Working with ',
+    proofLink: 'Queen Creek Chamber of Commerce and Buda EDC',
+  },
+  why: {
+    eyebrow: 'WHY PARTNERS USE MOIL',
+    heading: 'Serve more businesses without hiring more people.',
+    copy: 'Every business you support needs the same kinds of work: research, a plan, documents, marketing content. Doing that by hand for each one is why programs stall at the size of their staff.',
+    cards: WHY_CARDS,
+  },
+  gets: {
+    eyebrow: 'WHAT EACH BUSINESS GETS',
+    heading: 'What does each business in your program get?',
+    lead: 'Each owner gets a co-founder that knows their business. Depending on the plan, that includes:',
+    items: BUSINESS_GETS,
+    planLine: PLAN_LINE,
+    pricingHref: '/business/pricing',
+    pricingLabel: 'See plans and pricing',
+  },
+  fit: {
+    eyebrow: 'TWO WAYS TO USE IT',
+    heading: 'How can Moil fit the programs you already run?',
+    copy: `Use it as a resource you offer, as part of an incentive you already give, or both. ${USE_CASE_NOTE}`,
+    cases: USE_CASES,
+    cta: 'Tell us about your program',
+  },
+  steps: {
+    eyebrow: 'HOW IT WORKS',
+    heading: 'What does getting started look like?',
+    copy: 'A short conversation, a clear agreement on who is covered, and a first group working with real output.',
+    items: STEPS,
+  },
+  cost: {
+    eyebrow: 'THE COST CASE',
+    heading: 'How does the cost compare with doing it by hand?',
+    lead: 'Both figures below are monthly. List price is shown for scale. Partner pricing is set per program.',
+    agencyLabel: 'One business, with an agency',
+    agencyRange: COST_EXAMPLE.agencyRange,
+    agencyNote: 'The usual range for a small-business social and content retainer.',
+    moilLabel: `${COST_EXAMPLE.businesses} businesses, with Moil`,
+    moilTotal: COST_EXAMPLE.total,
+    moilNote: 'At list price on Market Pro, the higher of the two plans.',
+    noteBefore: 'An agency also gives judgement and accountability, which Moil does not. Read the ',
+    compareHref: '/compare/moil-vs-agency',
+    compareLabel: 'full comparison with a marketing agency',
+  },
+  partners: {
+    eyebrow: 'COMMUNITY PARTNERS',
+    heading: 'Who already partners with Moil?',
+    copy: 'Our community partners are already close to the business owners shaping their local economies. Moil helps make the next step more practical.',
+    visitAriaPrefix: 'Visit',
+    visitLabel: 'Visit organization',
+    cards: [
+      {
+        kind: 'CHAMBER PARTNER',
+        location: 'Queen Creek, Arizona',
+        copy: 'Queen Creek’s business community connector, bringing local organizations together through resources, advocacy, workforce support, and meaningful relationships.',
+        logoAlt: 'Queen Creek Chamber of Commerce logo',
+      },
+      {
+        kind: 'EDC PARTNER',
+        location: 'Buda, Texas',
+        copy: 'Buda’s economic-development organization, championing carefully managed growth, entrepreneurship, and a business community rooted in people and place.',
+        logoAlt: 'Buda Economic Development Corporation logo',
+      },
+    ],
+  },
+  limits: {
+    eyebrow: 'HONEST LIMITS',
+    heading: 'What does Moil not do?',
+    lead: 'A partnership works best when you know where Moil stops.',
+    items: LIMITS,
+  },
+  faq: {
+    eyebrow: 'QUESTIONS PARTNERS ASK',
+    heading: 'Direct answers for program leaders.',
+    copy: 'Not here? Send us the question and we will answer it plainly.',
+    items: FAQS,
+  },
+  relatedLabel: 'Related pages',
+  links: PARTNER_LINKS,
+  final: {
+    eyebrow: "LET'S MAKE IT USEFUL",
+    heading: 'Start with the owners you want to help most.',
+    copy: 'Tell us about your community, the businesses you support, and the work that keeps getting stuck. We will explore whether a Moil partnership can make that work lighter.',
+    cta: 'Talk to Moil',
+  },
+};

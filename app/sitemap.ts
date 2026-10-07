@@ -3,6 +3,7 @@ import { baseURL1 } from '../src/common/constants/baseUrl'
 import { LOCALE_TWINS } from '../src/common/i18n/localeRoutes'
 import pageDates from '../src/common/seo/pageDates.json'
 import { ES_PAGES } from '../src/common/es/esPages'
+import { ES_TWIN_PAGES } from '../src/common/es/esTwinPages'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = baseURL1
@@ -40,7 +41,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     languages: { en: `${baseUrl}${enPath}`, es: `${baseUrl}${esPath}`, 'x-default': `${baseUrl}${enPath}` },
   })
   const reviewedEs = ES_PAGES.filter((p) => p.reviewed)
-  const esEntries: MetadataRoute.Sitemap = reviewedEs.map((p) => ({
+  // Twins that are not AeoCitePage (src/common/es/esTwinPages.ts) ride the same
+  // mapped entry under the same one-flag rule, so a draft is neither in the
+  // sitemap nor in hreflang.
+  const reviewedTwins = ES_TWIN_PAGES.filter((t) => t.reviewed)
+  const esEntries: MetadataRoute.Sitemap = [...reviewedEs, ...reviewedTwins].map((p) => ({
     url: `${baseUrl}${p.path}`,
     lastModified: dateFor(p.path),
     changeFrequency: 'monthly' as const,
@@ -50,6 +55,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const esAlternatesFor = (enPath: string) => {
     const es = reviewedEs.find((p) => p.en === enPath)
     return es ? { alternates: twinLanguages(enPath, es.path) } : {}
+  }
+  const esTwinAlternatesFor = (enPath: string) => {
+    const t = reviewedTwins.find((x) => x.en === enPath)
+    return t ? { alternates: twinLanguages(enPath, t.path) } : {}
   }
 
   return [
@@ -115,6 +124,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: dateFor('/partners'),
       changeFrequency: 'monthly',
       priority: 0.7,
+      ...esTwinAlternatesFor('/partners'),
     },
     {
       url: `${baseUrl}/team`,
