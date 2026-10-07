@@ -9,6 +9,7 @@ import Analytics from '../src/common/components/analytics';
 import SignupEventBridge from '../src/common/components/SignupEventBridge';
 import { SiteFooter } from '../src/common/components/SiteFooter';
 import CookieConsent from '../src/common/components/CookieConsent';
+import PresenceBeacon from '../src/common/components/PresenceBeacon';
 import { baseURL1 } from '../src/common/constants/baseUrl';
 import { HTML_LANG_HEADER } from '../src/common/i18n/pathLocale';
 import { moilOffers } from '../src/common/seo/offers';
@@ -236,6 +237,10 @@ export default async function RootLayout({
         <Analytics />
         {/* sign_up_start on every register CTA (data-signup-cta) — consent-gated inside. */}
         <SignupEventBridge />
+        {/* Landing presence for the admin "Active users" page. Not a tracker:
+            without consent the id lives in this tab only. Off when
+            NEXT_PUBLIC_MOIL_GATEWAY_ORIGIN is unset. */}
+        <PresenceBeacon />
         <div id="modal"></div>
         <div className="flex flex-col min-h-screen">
           <main className="flex-grow">
