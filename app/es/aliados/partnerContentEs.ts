@@ -109,6 +109,7 @@ export const PARTNER_ES: PartnerCopy = {
     secondary: 'Ver cómo funciona',
     proofLead: 'Trabajamos con ',
     proofLink: 'la Cámara de Comercio de Queen Creek y Buda EDC',
+    imageAlt: 'Una dueña de negocio y aliados de desarrollo comunitario revisando un plan de crecimiento',
   },
   why: {
     eyebrow: 'POR QUÉ LOS ALIADOS USAN MOIL',
@@ -139,7 +140,7 @@ export const PARTNER_ES: PartnerCopy = {
       'Un plan de negocio con proyecciones, del tipo que pide un prestamista.',
       'Documentos en los formatos que los dueños realmente usan: Word, hojas de cálculo y presentaciones.',
       'Materiales de marca y volantes.',
-      'Publicaciones para redes con imágenes generadas, escritas con la voz del dueño. Las publicaciones esperan su aprobación antes de salir.',
+      'Publicaciones para redes con imágenes generadas, escritas con la voz del dueño. De forma predeterminada, las publicaciones esperan su aprobación antes de salir.',
       'Todo en español e inglés.',
     ],
     planLine: PLAN_LINE,
@@ -218,9 +219,9 @@ export const PARTNER_ES: PartnerCopy = {
     lead: 'Una alianza funciona mejor cuando sabes dónde se detiene Moil.',
     items: [
       'No reemplaza a tus asesores. Moil produce el trabajo. El criterio, las presentaciones y las decisiones de financiamiento siguen en manos de tu gente.',
-      'Los dueños controlan lo que se publica. Las publicaciones se preparan para que el dueño las revise; no salen sin él.',
+      'Los dueños controlan lo que se publica. De forma predeterminada, cada publicación espera a que el dueño la revise; publicar automáticamente es algo que el dueño activa.',
       'No es un sistema de gestión de casos ni de subvenciones para tu propia organización. Trabaja con los negocios que apoyas.',
-      'La publicación va a cuentas conectadas de Facebook e Instagram, con TikTok y YouTube elegidos por publicación. No a LinkedIn ni a X.',
+      'Moil publica en las cuentas que el dueño conecta, empezando por páginas de Facebook e Instagram. En una red a la que Moil no se conecta, prepara la publicación y el dueño la sube.',
     ],
   },
   faq: {

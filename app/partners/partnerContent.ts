@@ -48,7 +48,7 @@ export const BUSINESS_GETS = [
   'A business plan with projections, the kind a lender asks for.',
   'Documents in the formats owners actually use: Word, spreadsheets and presentation decks.',
   'Brand assets and flyers.',
-  'Social posts with generated images, written in the owner’s voice. Posts wait for the owner’s approval before they go out.',
+  'Social posts with generated images, written in the owner’s voice. By default, posts wait for the owner’s approval before they go out.',
   'All of it in English and Spanish.',
 ] as const;
 
@@ -91,9 +91,9 @@ export const COST_EXAMPLE = {
 
 export const LIMITS = [
   'It does not replace your advisors. Moil produces the work. Judgement, introductions and funding decisions stay with your people.',
-  'Owners stay in control of what is published. Posts are prepared for the owner to review, not sent without them.',
+  'Owners stay in control of what is published. By default every post waits for the owner to review it; automatic publishing is something an owner turns on.',
   'It is not a case-management or grant-management system for your own organization. It works with the businesses you support.',
-  'Publishing goes to connected Facebook and Instagram accounts, with TikTok and YouTube chosen per post. Not to LinkedIn or X.',
+  'Moil publishes to the social accounts an owner connects, starting with Facebook Pages and Instagram. On a network Moil does not connect to, it prepares the post and the owner uploads it.',
 ] as const;
 
 export const FAQS: AeoFaq[] = [
@@ -184,6 +184,7 @@ export const PARTNER_EN: PartnerCopy = {
     secondary: 'See how it works',
     proofLead: 'Working with ',
     proofLink: 'Queen Creek Chamber of Commerce and Buda EDC',
+    imageAlt: 'A small-business owner and community-development partners reviewing a growth plan',
   },
   why: {
     eyebrow: 'WHY PARTNERS USE MOIL',

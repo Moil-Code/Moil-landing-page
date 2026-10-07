@@ -146,7 +146,9 @@ export function PartnershipInquiryButton({ label, className, defaultSubject = ''
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, destination }),
       });
-      const result = (await response.json()) as { error?: string };
+      // A proxy or platform error page is HTML, not JSON. Reading it as JSON
+      // threw "Unexpected token '<'" straight into the visitor's error line.
+      const result = (await response.json().catch(() => ({}))) as { error?: string };
 
       if (!response.ok) throw new Error(lang === 'es' ? spanishFailure(response.status) : result.error || t.sendFailed);
 

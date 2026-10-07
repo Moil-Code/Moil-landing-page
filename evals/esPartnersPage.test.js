@@ -139,6 +139,29 @@ check('the inquiry form has a Spanish voice and the same fallback address', () =
 	assert.match(BODY, /lang=\{lang\}/);
 });
 
+check('a Spanish visit does not turn the English page Spanish', () => {
+	// The shell remembers the last language. Without an explicit initialLang the
+	// English page rendered with <html lang="es"> and a Spanish footer after a
+	// visit to /es/aliados (measured in Chromium).
+	assert.match(read('app/partners/layout.tsx'), /<BrandPageShell initialLang="en">/);
+});
+
+check('a non-JSON error response never reaches the visitor as a parse error', () => {
+	// A proxy 502 page is HTML; parsing it as JSON put "Unexpected token '<'"
+	// in the form's error line in both languages (measured in Chromium).
+	const btn = strip(read('app/partners/PartnershipInquiryButton.tsx'));
+	assert.match(btn, /await response\.json\(\)\.catch\(\(\) => \(\{\}\)\)/);
+});
+
+check('no network claim beyond what the site states elsewhere', () => {
+	// TikTok and YouTube are built but held for platform approval, and LinkedIn
+	// is publishable on the backend, so naming networks here goes stale.
+	const en = strip(read('app/partners/partnerContent.ts'));
+	for (const src of [en, ES]) {
+		assert.doesNotMatch(src, /TikTok|YouTube|LinkedIn|\bX\b\./, 'the limits name no network beyond Facebook Pages and Instagram');
+	}
+});
+
 check('reachability: every check above ran', () => {
 	const declared = (fs.readFileSync(__filename, 'utf8').match(/^check\('/gm) || []).length - 1;
 	assert.ok(declared >= 9, `only ${declared} checks declared`);

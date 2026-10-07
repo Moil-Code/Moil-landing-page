@@ -53,6 +53,7 @@ export type PartnerCopy = {
     secondary: string;
     proofLead: string;
     proofLink: string;
+    imageAlt: string;
   };
 
   why: { eyebrow: string; heading: string; copy: string; cards: readonly { title: string; copy: string }[] };

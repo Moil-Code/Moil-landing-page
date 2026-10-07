@@ -71,7 +71,7 @@ export function PartnersBody({ copy }: { copy: PartnerCopy }) {
             </div>
             <p className={styles.partnerProof}>{copy.hero.proofLead}<a href="#current-partners">{copy.hero.proofLink}</a>.</p>
           </div>
-          <div className={`${styles.heroImage} ${styles.partnerImage}`}><Image src="/page-heroes/partner-community-v2.png" alt={lang === 'es' ? 'Una dueña de negocio y aliados de desarrollo comunitario revisando un plan de crecimiento' : 'A small-business owner and community-development partners reviewing a growth plan'} fill priority sizes="(max-width: 900px) 100vw, 45vw" /></div>
+          <div className={`${styles.heroImage} ${styles.partnerImage}`}><Image src="/page-heroes/partner-community-v2.png" alt={copy.hero.imageAlt} fill priority sizes="(max-width: 900px) 100vw, 45vw" /></div>
         </div>
       </section>
 
