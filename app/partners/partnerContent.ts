@@ -223,6 +223,12 @@ export const PARTNER_EN: PartnerCopy = {
     imageAlt: 'A small-business owner and community-development partners reviewing a growth plan',
     facts: ['English and Spanish, end to end', 'Owners approve posts before they publish, by default', 'Terms set per program'],
   },
+  booking: { label: 'Book a time with us', note: 'Prefer to talk it through? Pick a time that suits you.' },
+  quotes: {
+    eyebrow: 'IN THEIR WORDS',
+    heading: 'What do our partners say?',
+    copy: 'Quoted as they said it, with their approval.',
+  },
   quick: {
     lead: 'Ready to learn more about how to support your organization with AI?',
     sub: 'Tell us who you are and someone on the Moil team will reach out personally.',

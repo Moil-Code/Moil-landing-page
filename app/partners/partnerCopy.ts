@@ -58,6 +58,11 @@ export type PartnerCopy = {
     facts: readonly string[];
   };
 
+  booking: { label: string; note: string };
+
+  /** Heading for the partner quotes. The section renders only when real quotes exist. */
+  quotes: { eyebrow: string; heading: string; copy: string };
+
   /** The two-field inquiry form shown in the open. */
   quick: {
     lead: string;

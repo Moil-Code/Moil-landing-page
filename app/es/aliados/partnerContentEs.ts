@@ -112,6 +112,12 @@ export const PARTNER_ES: PartnerCopy = {
     imageAlt: 'Una dueña de negocio y aliados de desarrollo comunitario revisando un plan de crecimiento',
     facts: ['Español e inglés, de principio a fin', 'Los dueños aprueban las publicaciones antes de que salgan, por defecto', 'Términos definidos por programa'],
   },
+  booking: { label: 'Agenda una cita con nosotros', note: '¿Prefieres conversarlo? Elige la hora que te convenga.' },
+  quotes: {
+    eyebrow: 'EN SUS PALABRAS',
+    heading: '¿Qué dicen nuestros aliados?',
+    copy: 'Citado tal como lo dijeron y con su aprobación (en el idioma original).',
+  },
   quick: {
     lead: '¿Listo para saber cómo apoyar a tu organización con IA?',
     sub: 'Cuéntanos quién eres y alguien del equipo de Moil te escribirá personalmente.',

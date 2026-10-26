@@ -408,3 +408,12 @@
 .quickDone svg { flex: none; color: var(--orange); margin-top: 2px; }
 .quickDone p { margin: 4px 0 0; color: var(--text2); font-size: 13.5px; }
 @media (max-width: 640px) { .quickRow { grid-template-columns: 1fr; } }
+
+/* /partners: partner quotes */
+.quoteGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.quoteCard { margin: 0; padding: 30px; border: 1px solid var(--border2); border-left: 3px solid var(--orange); border-radius: 14px; background: linear-gradient(145deg, color-mix(in srgb, var(--surface2) 82%, transparent), var(--surface)); }
+.quoteCard blockquote { margin: 0; color: var(--text); font-size: clamp(18px, 1.9vw, 22px); line-height: 1.45; letter-spacing: -.02em; }
+.quoteCard figcaption { margin-top: 18px; color: var(--text2); font-size: 13px; line-height: 1.5; }
+@media (max-width: 900px) { .quoteGrid { grid-template-columns: 1fr; } }
+.quickNote a { color: var(--text2); text-decoration: underline; text-underline-offset: 3px; }
+.quickRow input[name='organization'] { grid-column: 1 / -1; }
