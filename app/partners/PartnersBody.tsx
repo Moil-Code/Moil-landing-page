@@ -6,6 +6,7 @@ import { jsonLd } from '../../src/common/seo/jsonLd';
 import { faqPageJsonLd } from '../compare/aeoLocks';
 import styles from '../showcase-pages.module.css';
 import { PARTNER_ORGS, type PartnerCopy } from './partnerCopy';
+import { PartnerQuickForm } from './PartnerQuickForm';
 import { PartnershipInquiryButton } from './PartnershipInquiryButton';
 
 /**
@@ -59,20 +60,52 @@ export function PartnersBody({ copy }: { copy: PartnerCopy }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(structuredData) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(faqPageJsonLd(copy.faq.items)) }} />
 
+      {copy.conference && (
+        <section className={styles.conferenceBanner} aria-labelledby="conference-heading">
+          <div>
+            <span className={styles.eyebrow}>{copy.conference.eyebrow}</span>
+            <h2 id="conference-heading">{copy.conference.heading}</h2>
+            <p>{copy.conference.copy}</p>
+            <ul className={styles.conferencePoints}>{copy.conference.points.map((point) => <li key={point}><Check size={15} aria-hidden="true" /><span>{point}</span></li>)}</ul>
+          </div>
+          <PartnerQuickForm copy={copy} source="iedc" />
+        </section>
+      )}
+
       <section className={`${styles.hero} ${styles.partnerHero}`}>
         <div className={styles.heroInner}>
           <div>
             <span className={styles.eyebrow}>{copy.hero.eyebrow}</span>
             <h1 className={styles.title}>{copy.hero.titleLead}<span className={styles.titleAccent}>{copy.hero.titleAccent}</span></h1>
             <p className={styles.lede} id="partner-answer">{copy.hero.answer}</p>
-            <div className={styles.actions}>
-              <PartnershipInquiryButton className={styles.primary} label={copy.hero.cta} defaultSubject={copy.inquirySubject} lang={lang} />
-              <a className={styles.secondary} href="#how-it-works">{copy.hero.secondary}</a>
-            </div>
+            {copy.conference ? (
+              <div className={styles.actions}>
+                <PartnershipInquiryButton className={styles.primary} label={copy.hero.cta} defaultSubject={copy.inquirySubject} defaultMessage={copy.conference.message} lang={lang} />
+                <a className={styles.secondary} href="#how-it-works">{copy.hero.secondary}</a>
+              </div>
+            ) : (
+              <>
+                <PartnerQuickForm copy={copy} />
+                <div className={styles.actions}>
+                  <PartnershipInquiryButton className={styles.secondary} label={copy.hero.cta} defaultSubject={copy.inquirySubject} lang={lang} />
+                  <a className={styles.secondary} href="#how-it-works">{copy.hero.secondary}</a>
+                </div>
+              </>
+            )}
+            <ul className={styles.factRow}>{copy.hero.facts.map((fact) => <li key={fact}><Check size={14} aria-hidden="true" />{fact}</li>)}</ul>
             <p className={styles.partnerProof}>{copy.hero.proofLead}<a href="#current-partners">{copy.hero.proofLink}</a>.</p>
           </div>
           <div className={`${styles.heroImage} ${styles.partnerImage}`}><Image src="/page-heroes/partner-community-v2.png" alt={copy.hero.imageAlt} fill priority sizes="(max-width: 900px) 100vw, 45vw" /></div>
         </div>
+      </section>
+
+      <section className={styles.section} id="how-moil-works">
+        <div className={styles.sectionHeader}>
+          <div><span className={styles.eyebrow}>{copy.flow.eyebrow}</span><h2 className={styles.sectionHeading}>{copy.flow.heading}</h2></div>
+          <p className={styles.sectionCopy}>{copy.flow.copy}</p>
+        </div>
+        <ol className={styles.flowGrid}>{copy.flow.items.map((step) => <li key={step.label} className={styles.flowStep}><span className={styles.pathNumber}>{step.label}</span><h3>{step.title}</h3><p>{step.copy}</p></li>)}</ol>
+        <p className={styles.flowNote}>{copy.flow.footnote}</p>
       </section>
 
       <section className={`${styles.section} ${styles.partnerSection}`} id="why-moil">
@@ -83,16 +116,20 @@ export function PartnersBody({ copy }: { copy: PartnerCopy }) {
         <div className={styles.pathGrid}>{copy.why.cards.map((card) => <article key={card.title} className={styles.benefitCard}><h3>{card.title}</h3><p>{card.copy}</p></article>)}</div>
       </section>
 
-      <section className={styles.section} id="what-businesses-get">
-        <div className={styles.splitPanel}>
-          <div>
-            <span className={styles.eyebrow}>{copy.gets.eyebrow}</span>
-            <h2 className={styles.sectionHeading}>{copy.gets.heading}</h2>
-            <p className={styles.splitCopy}>{copy.gets.lead}</p>
-            <p className={styles.splitNote}>{copy.gets.planLine} <Link href={copy.gets.pricingHref}>{copy.gets.pricingLabel}</Link>.</p>
-          </div>
-          <ul className={styles.checkList}>{copy.gets.items.map((item) => <li key={item}><Check size={17} aria-hidden="true" /><span>{item}</span></li>)}</ul>
+      <section className={styles.section} id="program-jobs">
+        <div className={styles.sectionHeader}>
+          <div><span className={styles.eyebrow}>{copy.jobs.eyebrow}</span><h2 className={styles.sectionHeading}>{copy.jobs.heading}</h2></div>
+          <p className={styles.sectionCopy}>{copy.jobs.copy}</p>
         </div>
+        <div className={styles.jobGrid}>{copy.jobs.items.map((job) => <article key={job.title} className={styles.jobCard}>
+          <h3>{job.title}</h3>
+          <dl>
+            <div><dt>{copy.jobs.stuckLabel}</dt><dd>{job.stuck}</dd></div>
+            <div className={styles.jobMoil}><dt>{copy.jobs.moilLabel}</dt><dd>{job.moil}</dd></div>
+            <div><dt>{copy.jobs.staffLabel}</dt><dd>{job.staff}</dd></div>
+          </dl>
+        </article>)}</div>
+        <div className={styles.inlineCta}><PartnershipInquiryButton className={styles.primary} label={copy.jobs.cta} defaultSubject={copy.inquirySubject} defaultMessage={copy.conference?.message} lang={lang} /></div>
       </section>
 
       <section className={styles.section} id="program-fit">
@@ -106,30 +143,7 @@ export function PartnersBody({ copy }: { copy: PartnerCopy }) {
           <p>{useCase.copy}</p>
           <small>{useCase.fits}</small>
         </article>)}</div>
-        <div className={styles.inlineCta}><PartnershipInquiryButton className={styles.primary} label={copy.fit.cta} defaultSubject={copy.inquirySubject} lang={lang} /></div>
-      </section>
-
-      <section className={styles.section} id="how-it-works">
-        <div className={styles.sectionHeader}>
-          <div><span className={styles.eyebrow}>{copy.steps.eyebrow}</span><h2 className={styles.sectionHeading}>{copy.steps.heading}</h2></div>
-          <p className={styles.sectionCopy}>{copy.steps.copy}</p>
-        </div>
-        <ol className={styles.stepGrid}>{copy.steps.items.map(([number, title, text]) => <li key={number} className={styles.stepCard}><span className={styles.pathNumber}>{number}</span><h3>{title}</h3><p>{text}</p></li>)}</ol>
-      </section>
-
-      <section className={styles.section} id="cost">
-        <div className={styles.costPanel}>
-          <div>
-            <span className={styles.eyebrow}>{copy.cost.eyebrow}</span>
-            <h2 className={styles.sectionHeading}>{copy.cost.heading}</h2>
-            <p className={styles.splitCopy}>{copy.cost.lead}</p>
-          </div>
-          <dl className={styles.costFigures}>
-            <div><dt>{copy.cost.agencyLabel}</dt><dd>{copy.cost.agencyRange}</dd><small>{copy.cost.agencyNote}</small></div>
-            <div><dt>{copy.cost.moilLabel}</dt><dd>{copy.cost.moilTotal}</dd><small>{copy.cost.moilNote}</small></div>
-          </dl>
-          <p className={styles.costNote}>{copy.cost.noteBefore}<Link href={copy.cost.compareHref}>{copy.cost.compareLabel}</Link>.</p>
-        </div>
+        <div className={styles.inlineCta}><PartnershipInquiryButton className={styles.primary} label={copy.fit.cta} defaultSubject={copy.inquirySubject} defaultMessage={copy.conference?.message} lang={lang} /></div>
       </section>
 
       <section className={`${styles.section} ${styles.partnerSection}`} id="current-partners">
@@ -156,6 +170,42 @@ export function PartnersBody({ copy }: { copy: PartnerCopy }) {
         </div>
       </section>
 
+      <section className={styles.section} id="how-it-works">
+        <div className={styles.sectionHeader}>
+          <div><span className={styles.eyebrow}>{copy.steps.eyebrow}</span><h2 className={styles.sectionHeading}>{copy.steps.heading}</h2></div>
+          <p className={styles.sectionCopy}>{copy.steps.copy}</p>
+        </div>
+        <ol className={styles.stepGrid}>{copy.steps.items.map(([number, title, text]) => <li key={number} className={styles.stepCard}><span className={styles.pathNumber}>{number}</span><h3>{title}</h3><p>{text}</p></li>)}</ol>
+      </section>
+
+      <section className={styles.section} id="what-businesses-get">
+        <div className={styles.splitPanel}>
+          <div>
+            <span className={styles.eyebrow}>{copy.gets.eyebrow}</span>
+            <h2 className={styles.sectionHeading}>{copy.gets.heading}</h2>
+            <p className={styles.splitCopy}>{copy.gets.lead}</p>
+            <p className={styles.splitNote}>{copy.gets.planLine} <Link href={copy.gets.pricingHref}>{copy.gets.pricingLabel}</Link>.</p>
+          </div>
+          <ul className={styles.checkList}>{copy.gets.items.map((item) => <li key={item}><Check size={17} aria-hidden="true" /><span>{item}</span></li>)}</ul>
+        </div>
+      </section>
+
+      <section className={styles.section} id="cost">
+        <div className={styles.costPanel}>
+          <div>
+            <span className={styles.eyebrow}>{copy.cost.eyebrow}</span>
+            <h2 className={styles.sectionHeading}>{copy.cost.heading}</h2>
+            <p className={styles.splitCopy}>{copy.cost.lead}</p>
+          </div>
+          <dl className={styles.costFigures}>
+            <div><dt>{copy.cost.agencyLabel}</dt><dd>{copy.cost.agencyRange}</dd><small>{copy.cost.agencyNote}</small></div>
+            <div><dt>{copy.cost.perLabel}</dt><dd>{copy.cost.perValue}</dd><small>{copy.cost.perNote}</small></div>
+            <div><dt>{copy.cost.moilLabel}</dt><dd>{copy.cost.moilTotal}</dd><small>{copy.cost.moilNote}</small></div>
+          </dl>
+          <p className={styles.costNote}>{copy.cost.noteBefore}<Link href={copy.cost.compareHref}>{copy.cost.compareLabel}</Link>.</p>
+        </div>
+      </section>
+
       <section className={styles.section} id="limits">
         <div className={styles.splitPanel}>
           <div>
@@ -177,7 +227,7 @@ export function PartnersBody({ copy }: { copy: PartnerCopy }) {
       </section>
 
       <section className={styles.section}>
-        <div className={styles.partnerPanel}><div><span className={styles.eyebrow}>{copy.final.eyebrow}</span><h2>{copy.final.heading}</h2><p>{copy.final.copy}</p></div><PartnershipInquiryButton className={styles.primary} label={copy.final.cta} defaultSubject={copy.inquirySubject} lang={lang} /></div>
+        <div className={styles.partnerPanel}><div><span className={styles.eyebrow}>{copy.final.eyebrow}</span><h2>{copy.final.heading}</h2><p>{copy.final.copy}</p></div><PartnershipInquiryButton className={styles.primary} label={copy.final.cta} defaultSubject={copy.inquirySubject} defaultMessage={copy.conference?.message} lang={lang} /></div>
       </section>
     </main>
   );

@@ -19,6 +19,45 @@ const escapeHtml = (value: string) => value
   .replaceAll('"', '&quot;')
   .replaceAll("'", '&#039;');
 
+/**
+ * Extra inboxes for partnership leads, on top of EMAIL_TO. Comma separated,
+ * overridable with PARTNER_LEAD_TO. Leads from the partners page go straight to
+ * the founder, so a mis-set EMAIL_TO alone cannot hide them.
+ */
+const DEFAULT_PARTNER_LEAD_TO = 'andres@moilapp.com';
+
+function leadRecipients(destination: 'contact' | 'partners') {
+  const primary = destination === 'contact'
+    ? process.env.EMAIL_CONTACT_TO || 'cs@moilapp.com'
+    : process.env.EMAIL_TO;
+  const extra = destination === 'partners'
+    ? (process.env.PARTNER_LEAD_TO ?? DEFAULT_PARTNER_LEAD_TO)
+    : '';
+  const all = [primary, ...extra.split(',')].map((v) => (v || '').trim()).filter(isEmail);
+  return [...new Set(all.map((v) => v.toLowerCase()))];
+}
+
+/**
+ * A second channel that does not depend on SMTP (a Slack incoming webhook, or
+ * anything that accepts {"text": ...}). Best effort and bounded: it never
+ * throws, and answers whether the lead was delivered there.
+ */
+async function notifyLeadWebhook(text: string): Promise<boolean> {
+  const url = process.env.PARTNER_LEAD_WEBHOOK_URL;
+  if (!url || !/^https:\/\//.test(url)) return false;
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
+      signal: AbortSignal.timeout(5000),
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
 const isEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
 function isRateLimited(ip: string) {
@@ -67,6 +106,9 @@ export async function POST(request: Request) {
   const message = typeof payload.message === 'string' ? payload.message.trim() : '';
   const website = typeof payload.website === 'string' ? payload.website.trim() : '';
   const destination = payload.destination === 'contact' ? 'contact' : 'partners';
+  const name = typeof payload.name === 'string' ? payload.name.trim().replace(/[\r\n]+/g, ' ').slice(0, 120) : '';
+  const organization = typeof payload.organization === 'string' ? payload.organization.trim().replace(/[\r\n]+/g, ' ').slice(0, 120) : '';
+  const source = typeof payload.source === 'string' && /^[a-z-]{1,24}$/.test(payload.source) ? payload.source : '';
 
   // Quietly accept bot submissions so the honeypot is not discoverable.
   if (website) return NextResponse.json({ ok: true });
@@ -84,9 +126,7 @@ export async function POST(request: Request) {
   const sender = process.env.EMAIL;
   const alias = "noreply@moilapp.com";
   const password = process.env.EMAIL_PASS;
-  const recipient = destination === 'contact'
-    ? process.env.EMAIL_CONTACT_TO || 'cs@moilapp.com'
-    : process.env.EMAIL_TO;
+  const recipient = leadRecipients(destination).join(', ');
 
   if (!sender || !password || !recipient) {
     // THE SAME LEAD LOSS, ONE BRANCH EARLIER, and this is the likelier of
@@ -125,16 +165,24 @@ export async function POST(request: Request) {
   // describe the same thing. A second literal here is how the log and the
   // email start disagreeing about what somebody wrote.
   const lead = { destination, email, subject, message };
+  const details = [name && `Name: ${name}`, organization && `Organization: ${organization}`, source && `Source: ${source}`].filter(Boolean).join('\n');
+  const fullMessage = details ? `${details}\n\n${message}` : message;
+  const webhookDelivered = notifyLeadWebhook(
+    `New ${destination === 'contact' ? 'contact message' : 'partner inquiry'}: ${subject}\nFrom: ${email}\n${fullMessage}`,
+  );
+  const urgent = /\bIEDC\b/i.test(subject) || source === 'iedc';
 
   try {
     await transporter.sendMail({
       from: `Moil Partnerships <${alias}>`,
       to: recipient,
       replyTo: email,
-      subject: `[${destination === 'contact' ? 'Contact' : 'Partner inquiry'}] ${subject}`,
-      text: `${destination === 'contact' ? 'Contact message' : 'Partnership inquiry'} from ${email}\n\n${message}`,
-      html: `<div style="font-family:Arial,sans-serif;line-height:1.65;color:#171325"><p style="font-size:12px;letter-spacing:.12em;color:#7c3aed;text-transform:uppercase">New ${destination === 'contact' ? 'contact message' : 'partnership inquiry'}</p><h1 style="font-size:24px">${escapeHtml(subject)}</h1><p><strong>Reply to:</strong> ${escapeHtml(email)}</p><hr style="border:0;border-top:1px solid #e7e1f3;margin:24px 0"><p>${escapeHtml(message).replaceAll('\n', '<br>')}</p></div>`,
+      ...(urgent ? { priority: 'high' as const } : {}),
+      subject: `[${destination === 'contact' ? 'Contact' : 'Partner inquiry'}] ${subject}${name || organization ? ` · ${[name, organization].filter(Boolean).join(', ')}` : ''}`,
+      text: `${destination === 'contact' ? 'Contact message' : 'Partnership inquiry'} from ${email}\n\n${fullMessage}`,
+      html: `<div style="font-family:Arial,sans-serif;line-height:1.65;color:#171325"><p style="font-size:12px;letter-spacing:.12em;color:#7c3aed;text-transform:uppercase">New ${destination === 'contact' ? 'contact message' : 'partnership inquiry'}</p><h1 style="font-size:24px">${escapeHtml(subject)}</h1><p><strong>Reply to:</strong> ${escapeHtml(email)}</p><hr style="border:0;border-top:1px solid #e7e1f3;margin:24px 0"><p>${escapeHtml(fullMessage).replaceAll('\n', '<br>')}</p></div>`,
     });
+    await webhookDelivered;
     return NextResponse.json({ ok: true });
   } catch (error) {
     const { kind } = classifyMailFailure(error);
@@ -152,6 +200,10 @@ export async function POST(request: Request) {
       kind,
       error instanceof Error ? error.message : 'Unknown mail error',
     );
+
+    // The lead is recorded above. If the webhook channel got it to a person,
+    // the visitor's message was delivered even though the mailbox was not.
+    if (await webhookDelivered) return NextResponse.json({ ok: true });
 
     // "Try again" is an instruction, and an instruction that cannot work is
     // worse than none: a rejected credential fails identically every time.

@@ -84,10 +84,46 @@ export const STEPS = [
 const LIST_PRICE_HIGH = Number(PLANS.marketPro.price);
 const EXAMPLE_BUSINESSES = 100;
 export const COST_EXAMPLE = {
+  perBusiness: `$${LIST_PRICE_HIGH}`,
   businesses: EXAMPLE_BUSINESSES,
   total: `$${(EXAMPLE_BUSINESSES * LIST_PRICE_HIGH).toLocaleString('en-US')}`,
   agencyRange: '$3,000 to $8,000',
 } as const;
+
+export const FLOW = [
+  { label: '01 · CONVERSATION', title: 'The owner talks', copy: 'By voice or text. Moil learns the business once and remembers it, so nobody explains it twice.' },
+  { label: '02 · RESEARCH', title: 'Moil studies the market', copy: 'The owner’s local market, customers and competitors.' },
+  { label: '03 · PLAN', title: 'A plan a lender can read', copy: 'A business plan with projections, built from the conversation and the research.' },
+  { label: '04 · DOCUMENTS', title: 'The files owners use', copy: 'Word documents, spreadsheets and presentation decks.' },
+  { label: '05 · CONTENT', title: 'Brand and posts', copy: 'Brand assets, flyers and social posts in the owner’s voice. Posts wait for the owner’s approval by default.' },
+] as const;
+
+export const JOBS = [
+  {
+    title: 'Small-business and entrepreneur support',
+    stuck: 'Every new client needs the same first drafts: research, a plan, documents.',
+    moil: 'Produces them from one conversation with the owner.',
+    staff: 'Coach the owners who now have something concrete to react to.',
+  },
+  {
+    title: 'Grants, loans and incentives',
+    stuck: 'Recipients are funded for a plan, then left to turn it into work.',
+    moil: 'Turns the funded plan into research, documents and content.',
+    staff: 'Follow up with recipients and decide who needs more help.',
+  },
+  {
+    title: 'Business retention and expansion',
+    stuck: 'Visits surface needs that one team cannot meet business by business.',
+    moil: 'Gives each business planning and marketing output between visits.',
+    staff: 'Keep the relationship and make the introductions.',
+  },
+  {
+    title: 'Spanish-speaking owners',
+    stuck: 'Serving them well usually means a translator or a second program.',
+    moil: 'Runs in Spanish from the first conversation to every document and post.',
+    staff: 'Run one program, not two.',
+  },
+] as const;
 
 export const LIMITS = [
   'It does not replace your advisors. Moil produces the work. Judgement, introductions and funding decisions stay with your people.',
@@ -185,6 +221,38 @@ export const PARTNER_EN: PartnerCopy = {
     proofLead: 'Working with ',
     proofLink: 'Queen Creek Chamber of Commerce and Buda EDC',
     imageAlt: 'A small-business owner and community-development partners reviewing a growth plan',
+    facts: ['English and Spanish, end to end', 'Owners approve posts before they publish, by default', 'Terms set per program'],
+  },
+  quick: {
+    lead: 'Ready to learn more about how to support your organization with AI?',
+    sub: 'Tell us who you are and someone on the Moil team will reach out personally.',
+    name: 'Your name',
+    email: 'Your email',
+    organization: 'Your organization',
+    send: 'Let’s talk',
+    sending: 'Sending…',
+    sentTitle: 'Thank you. We have your details.',
+    sentBody: 'The Moil partnerships team will email you directly.',
+    note: 'Prefer to write? Email',
+    failed: 'We could not send that just now. Please try again, or email us directly.',
+    defaultMessage: 'I would like to talk about how Moil could work with our programs.',
+  },
+  flow: {
+    eyebrow: 'HOW MOIL WORKS',
+    heading: 'What happens for one owner, start to finish?',
+    copy: 'One conversation starts it. Everything after is work your team would otherwise draft by hand.',
+    items: FLOW,
+    footnote: 'All of it in English and Spanish. Your team reviews what owners produce and steps in where a person helps most.',
+  },
+  jobs: {
+    eyebrow: 'WHERE IT FITS',
+    heading: 'Which of your programs does Moil change?',
+    copy: 'Four jobs economic development organizations already do, and what shifts in each.',
+    stuckLabel: 'WHERE IT STALLS',
+    moilLabel: 'WHAT MOIL DOES',
+    staffLabel: 'WHAT YOUR TEAM DOES',
+    items: JOBS,
+    cta: 'Tell us which one is yours',
   },
   why: {
     eyebrow: 'WHY PARTNERS USE MOIL',
@@ -224,6 +292,9 @@ export const PARTNER_EN: PartnerCopy = {
     moilLabel: `${COST_EXAMPLE.businesses} businesses, with Moil`,
     moilTotal: COST_EXAMPLE.total,
     moilNote: 'At list price on Market Pro, the higher of the two plans.',
+    perLabel: 'One business, with Moil',
+    perValue: COST_EXAMPLE.perBusiness,
+    perNote: 'The same list price, per business. Partner pricing is set per program.',
     noteBefore: 'An agency also gives judgement and accountability, which Moil does not. Read the ',
     compareHref: '/compare/moil-vs-agency',
     compareLabel: 'full comparison with a marketing agency',

@@ -85,7 +85,7 @@ function spanishFailure(status: number): string {
 }
 
 
-export function PartnershipInquiryButton({ label, className, defaultSubject = '', destination = 'partners', lang = 'en', children }: { label: string; className?: string; defaultSubject?: string; destination?: 'partners' | 'contact'; lang?: Lang; children?: ReactNode }) {
+export function PartnershipInquiryButton({ label, className, defaultSubject = '', defaultMessage = '', destination = 'partners', lang = 'en', children }: { label: string; className?: string; defaultSubject?: string; defaultMessage?: string; destination?: 'partners' | 'contact'; lang?: Lang; children?: ReactNode }) {
   const t = COPY[lang];
   const team = destination === 'contact' ? t.teamContact : t.teamPartners;
   const [open, setOpen] = useState(false);
@@ -167,7 +167,7 @@ export function PartnershipInquiryButton({ label, className, defaultSubject = ''
       <button ref={triggerRef} type="button" className={className} onClick={() => {
         setStatus('idle');
         setError('');
-        setForm((current) => current.subject ? current : { ...current, subject: defaultSubject });
+        setForm((current) => ({ ...current, subject: current.subject || defaultSubject, message: current.message || defaultMessage }));
         setOpen(true);
       }}>
         {children || <>{label} <ArrowUpRight size={17} aria-hidden="true" /></>}
