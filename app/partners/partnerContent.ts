@@ -223,6 +223,18 @@ export const PARTNER_EN: PartnerCopy = {
     imageAlt: 'A small-business owner and community-development partners reviewing a growth plan',
     facts: ['English and Spanish, end to end', 'Owners approve posts before they publish, by default', 'Terms set per program'],
   },
+  quick: {
+    lead: 'Not ready for a full conversation? Leave your email and organization and we will reach out.',
+    email: 'Your email',
+    organization: 'Your organization',
+    send: 'Send',
+    sending: 'Sending…',
+    sentTitle: 'Thank you. We have your details.',
+    sentBody: 'The Moil partnerships team will email you directly.',
+    note: 'Prefer to write? Email',
+    failed: 'We could not send that just now. Please try again, or email us directly.',
+    defaultMessage: 'I would like to talk about how Moil could work with our programs.',
+  },
   flow: {
     eyebrow: 'HOW MOIL WORKS',
     heading: 'What happens for one owner, start to finish?',

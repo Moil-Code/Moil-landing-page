@@ -6,6 +6,7 @@ import { jsonLd } from '../../src/common/seo/jsonLd';
 import { faqPageJsonLd } from '../compare/aeoLocks';
 import styles from '../showcase-pages.module.css';
 import { PARTNER_ORGS, type PartnerCopy } from './partnerCopy';
+import { PartnerQuickForm } from './PartnerQuickForm';
 import { PartnershipInquiryButton } from './PartnershipInquiryButton';
 
 /**
@@ -67,7 +68,7 @@ export function PartnersBody({ copy }: { copy: PartnerCopy }) {
             <p>{copy.conference.copy}</p>
             <ul className={styles.conferencePoints}>{copy.conference.points.map((point) => <li key={point}><Check size={15} aria-hidden="true" /><span>{point}</span></li>)}</ul>
           </div>
-          <PartnershipInquiryButton className={styles.primary} label={copy.conference.cta} defaultSubject={copy.inquirySubject} defaultMessage={copy.conference.message} lang={lang} />
+          <PartnerQuickForm copy={copy} source="iedc" />
         </section>
       )}
 
@@ -77,10 +78,20 @@ export function PartnersBody({ copy }: { copy: PartnerCopy }) {
             <span className={styles.eyebrow}>{copy.hero.eyebrow}</span>
             <h1 className={styles.title}>{copy.hero.titleLead}<span className={styles.titleAccent}>{copy.hero.titleAccent}</span></h1>
             <p className={styles.lede} id="partner-answer">{copy.hero.answer}</p>
-            <div className={styles.actions}>
-              <PartnershipInquiryButton className={styles.primary} label={copy.hero.cta} defaultSubject={copy.inquirySubject} defaultMessage={copy.conference?.message} lang={lang} />
-              <a className={styles.secondary} href="#how-it-works">{copy.hero.secondary}</a>
-            </div>
+            {copy.conference ? (
+              <div className={styles.actions}>
+                <PartnershipInquiryButton className={styles.primary} label={copy.hero.cta} defaultSubject={copy.inquirySubject} defaultMessage={copy.conference.message} lang={lang} />
+                <a className={styles.secondary} href="#how-it-works">{copy.hero.secondary}</a>
+              </div>
+            ) : (
+              <>
+                <PartnerQuickForm copy={copy} />
+                <div className={styles.actions}>
+                  <PartnershipInquiryButton className={styles.secondary} label={copy.hero.cta} defaultSubject={copy.inquirySubject} lang={lang} />
+                  <a className={styles.secondary} href="#how-it-works">{copy.hero.secondary}</a>
+                </div>
+              </>
+            )}
             <ul className={styles.factRow}>{copy.hero.facts.map((fact) => <li key={fact}><Check size={14} aria-hidden="true" />{fact}</li>)}</ul>
             <p className={styles.partnerProof}>{copy.hero.proofLead}<a href="#current-partners">{copy.hero.proofLink}</a>.</p>
           </div>

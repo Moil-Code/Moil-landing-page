@@ -59,7 +59,12 @@ check('the inquiry form prefills the message only when the visitor has typed not
 check('every inquiry button passes the conference message through', () => {
 	const buttons = BODY.match(/<PartnershipInquiryButton[^>]*\/>/g) || [];
 	assert.ok(buttons.length >= 5, `found ${buttons.length}`);
-	for (const b of buttons) assert.match(b, /defaultMessage=\{copy\.conference/, b);
+	for (const b of buttons) {
+		// The one exception is the evergreen hero button, which sits beside the inline form
+		// in the branch where no conference message exists.
+		if (/className=\{styles\.secondary\} label=\{copy\.hero\.cta\}/.test(b)) continue;
+		assert.match(b, /defaultMessage=\{copy\.conference/, b);
+	}
 });
 
 check('the evergreen /partners page has no conference banner', () => {
@@ -96,6 +101,43 @@ check('"how it works" and the partners come before the cost case', () => {
 	assert.ok(at('how-moil-works') < at('program-jobs'));
 	assert.ok(at('current-partners') < at('cost'));
 	assert.ok(at('how-it-works') < at('cost'));
+});
+
+const ROUTE = strip(read('app/api/partner-inquiry/route.ts'));
+const QUICK = strip(read('app/partners/PartnerQuickForm.tsx'));
+
+check('partner leads go straight to the founder, with an env override', () => {
+	assert.match(ROUTE, /DEFAULT_PARTNER_LEAD_TO = 'andres@moilapp\.com'/);
+	assert.match(ROUTE, /process\.env\.PARTNER_LEAD_TO \?\? DEFAULT_PARTNER_LEAD_TO/);
+	assert.match(ROUTE, /to:\s*recipient/);
+	assert.match(ROUTE, /leadRecipients\(destination\)\.join/);
+});
+
+check('contact-form mail is never copied to the partnerships inbox', () => {
+	assert.match(ROUTE, /destination === 'partners'\s*\?\s*\(process\.env\.PARTNER_LEAD_TO/);
+});
+
+check('an optional webhook is a second channel that never throws and needs https', () => {
+	assert.match(ROUTE, /PARTNER_LEAD_WEBHOOK_URL/);
+	assert.match(ROUTE, /\^https:/);
+	assert.match(ROUTE, /AbortSignal\.timeout\(/);
+	assert.match(ROUTE, /if \(await webhookDelivered\) return NextResponse\.json\(\{ ok: true \}\)/);
+});
+
+check('IEDC leads are marked high priority and carry organization and source', () => {
+	assert.match(ROUTE, /priority:\s*'high'/);
+	assert.match(ROUTE, /Organization: \$\{organization\}/);
+	assert.match(ROUTE, /\^\[a-z-\]\{1,24\}\$/, 'source is a short slug, never free text');
+});
+
+check('the inline form posts to the same route, keeps the honeypot, and says where to write', () => {
+	assert.match(QUICK, /fetch\('\/api\/partner-inquiry'/);
+	assert.match(QUICK, /name="website"/);
+	assert.match(QUICK, /PUBLIC_FALLBACK_EMAIL/);
+	assert.match(QUICK, /subject:\s*copy\.inquirySubject/);
+	assert.match(BODY, /<PartnerQuickForm copy=\{copy\} \/>/, 'the hero shows the inline form');
+	assert.match(BODY, /<PartnerQuickForm copy=\{copy\} source="iedc" \/>/, 'the conference banner shows it too');
+	for (const lang of [EN, ES]) assert.match(lang, /\n  quick: \{/);
 });
 
 check('reachability: every check above ran', () => {

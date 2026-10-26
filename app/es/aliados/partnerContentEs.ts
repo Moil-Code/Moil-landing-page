@@ -112,6 +112,18 @@ export const PARTNER_ES: PartnerCopy = {
     imageAlt: 'Una dueña de negocio y aliados de desarrollo comunitario revisando un plan de crecimiento',
     facts: ['Español e inglés, de principio a fin', 'Los dueños aprueban las publicaciones antes de que salgan, por defecto', 'Términos definidos por programa'],
   },
+  quick: {
+    lead: '¿Aún no es momento de una conversación completa? Déjanos tu correo y tu organización y te contactaremos.',
+    email: 'Tu correo',
+    organization: 'Tu organización',
+    send: 'Enviar',
+    sending: 'Enviando…',
+    sentTitle: 'Gracias. Ya tenemos tus datos.',
+    sentBody: 'El equipo de alianzas de Moil te escribirá directamente.',
+    note: '¿Prefieres escribir? Envía un correo a',
+    failed: 'No pudimos enviarlo ahora. Inténtalo de nuevo o escríbenos directamente.',
+    defaultMessage: 'Me gustaría conversar sobre cómo Moil podría trabajar con nuestros programas.',
+  },
   flow: {
     eyebrow: 'CÓMO FUNCIONA MOIL',
     heading: '¿Qué pasa con un dueño, de principio a fin?',

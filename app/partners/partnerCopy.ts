@@ -58,6 +58,21 @@ export type PartnerCopy = {
     facts: readonly string[];
   };
 
+  /** The two-field inquiry form shown in the open. */
+  quick: {
+    lead: string;
+    email: string;
+    organization: string;
+    send: string;
+    sending: string;
+    sentTitle: string;
+    sentBody: string;
+    note: string;
+    failed: string;
+    /** Message sent when no conference message applies. */
+    defaultMessage: string;
+  };
+
   /** One owner, start to finish: the path from a conversation to finished work. */
   flow: {
     eyebrow: string;

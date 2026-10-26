@@ -390,3 +390,19 @@
 @media (max-width: 1100px) { .flowGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .flowStep::after { display: none; } .flowStep:last-child { grid-column: 1 / -1; } }
 @media (max-width: 900px) { .jobGrid, .conferenceBanner { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .flowGrid { grid-template-columns: 1fr; } .conferenceBanner { width: min(100% - 40px, 1240px); padding: 22px; } .jobCard { padding: 22px; } }
+
+/* /partners: inline inquiry form */
+.srOnly { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.quickForm { margin-top: 26px; max-width: 640px; }
+.quickLead { margin: 0 0 10px; color: var(--text2); font-size: 13.5px; line-height: 1.55; }
+.quickRow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 10px; align-items: stretch; }
+.quickRow input[type='email'], .quickRow input[type='text'] { min-width: 0; padding: 14px 16px; border: 1px solid var(--border2); border-radius: 10px; background: var(--surface); color: var(--text); font: inherit; font-size: 14px; }
+.quickRow input:focus-visible { outline: 2px solid var(--orange); outline-offset: 1px; }
+.quickRow .primary { white-space: nowrap; justify-content: center; border: 0; cursor: pointer; }
+.quickRow .primary:disabled { opacity: .65; cursor: progress; }
+.quickNote { margin: 10px 0 0; color: var(--text3); font-size: 12px; }
+.quickError { margin: 10px 0 0; color: #b42318; font-size: 13px; }
+.quickDone { display: flex; align-items: flex-start; gap: 12px; margin-top: 26px; max-width: 640px; padding: 18px 20px; border: 1px solid var(--orange); border-radius: 12px; background: color-mix(in srgb, var(--orange) 8%, var(--surface)); }
+.quickDone svg { flex: none; color: var(--orange); margin-top: 2px; }
+.quickDone p { margin: 4px 0 0; color: var(--text2); font-size: 13.5px; }
+@media (max-width: 640px) { .quickRow { grid-template-columns: 1fr; } }
