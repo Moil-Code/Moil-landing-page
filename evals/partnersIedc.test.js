@@ -58,7 +58,7 @@ check('the inquiry form prefills the message only when the visitor has typed not
 
 check('every inquiry button passes the conference message through', () => {
 	const buttons = BODY.match(/<PartnershipInquiryButton[^>]*\/>/g) || [];
-	assert.ok(buttons.length >= 5, `found ${buttons.length}`);
+	assert.ok(buttons.length >= 3, `found ${buttons.length}`);
 	for (const b of buttons) {
 		// The one exception is the evergreen hero button, which sits beside the inline form
 		// in the branch where no conference message exists.

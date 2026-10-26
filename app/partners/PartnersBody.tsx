@@ -6,6 +6,8 @@ import { jsonLd } from '../../src/common/seo/jsonLd';
 import { faqPageJsonLd } from '../compare/aeoLocks';
 import styles from '../showcase-pages.module.css';
 import { PARTNER_ORGS, type PartnerCopy } from './partnerCopy';
+import { PARTNER_BOOKING_URL } from './booking';
+import { PARTNER_QUOTES } from './partnerQuotes';
 import { PartnerQuickForm } from './PartnerQuickForm';
 import { PartnershipInquiryButton } from './PartnershipInquiryButton';
 
@@ -68,7 +70,10 @@ export function PartnersBody({ copy }: { copy: PartnerCopy }) {
             <p>{copy.conference.copy}</p>
             <ul className={styles.conferencePoints}>{copy.conference.points.map((point) => <li key={point}><Check size={15} aria-hidden="true" /><span>{point}</span></li>)}</ul>
           </div>
-          <PartnerQuickForm copy={copy} source="iedc" />
+          <div>
+            <PartnerQuickForm copy={copy} source="iedc" />
+            <p className={styles.quickNote}>{copy.booking.note} <a href={PARTNER_BOOKING_URL} target="_blank" rel="noopener noreferrer">{copy.booking.label}</a></p>
+          </div>
         </section>
       )}
 
@@ -80,14 +85,14 @@ export function PartnersBody({ copy }: { copy: PartnerCopy }) {
             <p className={styles.lede} id="partner-answer">{copy.hero.answer}</p>
             {copy.conference ? (
               <div className={styles.actions}>
-                <PartnershipInquiryButton className={styles.primary} label={copy.hero.cta} defaultSubject={copy.inquirySubject} defaultMessage={copy.conference.message} lang={lang} />
+                <a className={styles.primary} href={PARTNER_BOOKING_URL} target="_blank" rel="noopener noreferrer">{copy.booking.label} <ArrowUpRight size={17} aria-hidden="true" /></a>
                 <a className={styles.secondary} href="#how-it-works">{copy.hero.secondary}</a>
               </div>
             ) : (
               <>
                 <PartnerQuickForm copy={copy} />
                 <div className={styles.actions}>
-                  <PartnershipInquiryButton className={styles.secondary} label={copy.hero.cta} defaultSubject={copy.inquirySubject} lang={lang} />
+                  <a className={styles.primary} href={PARTNER_BOOKING_URL} target="_blank" rel="noopener noreferrer">{copy.booking.label} <ArrowUpRight size={17} aria-hidden="true" /></a>
                   <a className={styles.secondary} href="#how-it-works">{copy.hero.secondary}</a>
                 </div>
               </>
@@ -170,6 +175,19 @@ export function PartnersBody({ copy }: { copy: PartnerCopy }) {
         </div>
       </section>
 
+      {PARTNER_QUOTES.length > 0 && (
+        <section className={styles.section} id="partner-quotes">
+          <div className={styles.sectionHeader}>
+            <div><span className={styles.eyebrow}>{copy.quotes.eyebrow}</span><h2 className={styles.sectionHeading}>{copy.quotes.heading}</h2></div>
+            <p className={styles.sectionCopy}>{copy.quotes.copy}</p>
+          </div>
+          <div className={styles.quoteGrid}>{PARTNER_QUOTES.map((q) => <figure key={q.quote} className={styles.quoteCard}>
+            <blockquote>{q.quote}</blockquote>
+            <figcaption><strong>{q.name}</strong>, {q.role}, {q.organization}</figcaption>
+          </figure>)}</div>
+        </section>
+      )}
+
       <section className={styles.section} id="how-it-works">
         <div className={styles.sectionHeader}>
           <div><span className={styles.eyebrow}>{copy.steps.eyebrow}</span><h2 className={styles.sectionHeading}>{copy.steps.heading}</h2></div>
@@ -227,7 +245,7 @@ export function PartnersBody({ copy }: { copy: PartnerCopy }) {
       </section>
 
       <section className={styles.section}>
-        <div className={styles.partnerPanel}><div><span className={styles.eyebrow}>{copy.final.eyebrow}</span><h2>{copy.final.heading}</h2><p>{copy.final.copy}</p></div><PartnershipInquiryButton className={styles.primary} label={copy.final.cta} defaultSubject={copy.inquirySubject} defaultMessage={copy.conference?.message} lang={lang} /></div>
+        <div className={styles.partnerPanel}><div><span className={styles.eyebrow}>{copy.final.eyebrow}</span><h2>{copy.final.heading}</h2><p>{copy.final.copy}</p></div><div className={styles.actions}><a className={styles.primary} href={PARTNER_BOOKING_URL} target="_blank" rel="noopener noreferrer">{copy.booking.label} <ArrowUpRight size={17} aria-hidden="true" /></a><PartnershipInquiryButton className={styles.secondary} label={copy.final.cta} defaultSubject={copy.inquirySubject} defaultMessage={copy.conference?.message} lang={lang} /></div></div>
       </section>
     </main>
   );
