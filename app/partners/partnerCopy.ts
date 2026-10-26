@@ -54,6 +54,40 @@ export type PartnerCopy = {
     proofLead: string;
     proofLink: string;
     imageAlt: string;
+    /** Three short, scannable facts under the lede. Each is stated elsewhere on the page. */
+    facts: readonly string[];
+  };
+
+  /** One owner, start to finish: the path from a conversation to finished work. */
+  flow: {
+    eyebrow: string;
+    heading: string;
+    copy: string;
+    items: readonly { label: string; title: string; copy: string }[];
+    footnote: string;
+  };
+
+  /** The jobs an economic development organization already runs, and what changes in each. */
+  jobs: {
+    eyebrow: string;
+    heading: string;
+    copy: string;
+    stuckLabel: string;
+    moilLabel: string;
+    staffLabel: string;
+    items: readonly { title: string; stuck: string; moil: string; staff: string }[];
+    cta: string;
+  };
+
+  /** Present only on the conference landing (/partners/iedc). */
+  conference?: {
+    eyebrow: string;
+    heading: string;
+    copy: string;
+    points: readonly string[];
+    cta: string;
+    /** Prefilled into the inquiry form so a visitor can send with only an email. */
+    message: string;
   };
 
   why: { eyebrow: string; heading: string; copy: string; cards: readonly { title: string; copy: string }[] };
@@ -93,6 +127,9 @@ export type PartnerCopy = {
     moilLabel: string;
     moilTotal: string;
     moilNote: string;
+    perLabel: string;
+    perValue: string;
+    perNote: string;
     noteBefore: string;
     compareHref: string;
     compareLabel: string;
