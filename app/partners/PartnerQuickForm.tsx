@@ -14,6 +14,7 @@ import type { PartnerCopy } from './partnerCopy';
 export function PartnerQuickForm({ copy, source = 'partners-hero' }: { copy: PartnerCopy; source?: string }) {
   const q = copy.quick;
   const id = useId();
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [organization, setOrganization] = useState('');
   const [website, setWebsite] = useState('');
@@ -33,13 +34,14 @@ export function PartnerQuickForm({ copy, source = 'partners-hero' }: { copy: Par
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          name,
           email,
           organization,
           website,
           source,
           destination: 'partners',
           subject: copy.inquirySubject,
-          message: `${base} (${organization})`.slice(0, 4000),
+          message: `${base} (${name}, ${organization})`.slice(0, 4000),
         }),
       });
       const result = (await response.json().catch(() => ({}))) as { error?: string };
@@ -65,7 +67,10 @@ export function PartnerQuickForm({ copy, source = 'partners-hero' }: { copy: Par
   return (
     <form className={styles.quickForm} onSubmit={submit}>
       <p className={styles.quickLead}>{q.lead}</p>
+      <p className={styles.quickSub}>{q.sub}</p>
       <div className={styles.quickRow}>
+        <label htmlFor={`${id}-name`} className={styles.srOnly}>{q.name}</label>
+        <input id={`${id}-name`} type="text" name="name" autoComplete="name" required maxLength={120} placeholder={q.name} value={name} onChange={(e) => setName(e.target.value)} />
         <label htmlFor={`${id}-email`} className={styles.srOnly}>{q.email}</label>
         <input id={`${id}-email`} type="email" name="email" autoComplete="email" required maxLength={254} placeholder={q.email} value={email} onChange={(e) => { setEmail(e.target.value); if (status === 'error') setStatus('idle'); }} />
         <label htmlFor={`${id}-org`} className={styles.srOnly}>{q.organization}</label>

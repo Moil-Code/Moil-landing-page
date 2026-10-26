@@ -106,6 +106,7 @@ export async function POST(request: Request) {
   const message = typeof payload.message === 'string' ? payload.message.trim() : '';
   const website = typeof payload.website === 'string' ? payload.website.trim() : '';
   const destination = payload.destination === 'contact' ? 'contact' : 'partners';
+  const name = typeof payload.name === 'string' ? payload.name.trim().replace(/[\r\n]+/g, ' ').slice(0, 120) : '';
   const organization = typeof payload.organization === 'string' ? payload.organization.trim().replace(/[\r\n]+/g, ' ').slice(0, 120) : '';
   const source = typeof payload.source === 'string' && /^[a-z-]{1,24}$/.test(payload.source) ? payload.source : '';
 
@@ -164,7 +165,7 @@ export async function POST(request: Request) {
   // describe the same thing. A second literal here is how the log and the
   // email start disagreeing about what somebody wrote.
   const lead = { destination, email, subject, message };
-  const details = [organization && `Organization: ${organization}`, source && `Source: ${source}`].filter(Boolean).join('\n');
+  const details = [name && `Name: ${name}`, organization && `Organization: ${organization}`, source && `Source: ${source}`].filter(Boolean).join('\n');
   const fullMessage = details ? `${details}\n\n${message}` : message;
   const webhookDelivered = notifyLeadWebhook(
     `New ${destination === 'contact' ? 'contact message' : 'partner inquiry'}: ${subject}\nFrom: ${email}\n${fullMessage}`,
@@ -177,7 +178,7 @@ export async function POST(request: Request) {
       to: recipient,
       replyTo: email,
       ...(urgent ? { priority: 'high' as const } : {}),
-      subject: `[${destination === 'contact' ? 'Contact' : 'Partner inquiry'}] ${subject}`,
+      subject: `[${destination === 'contact' ? 'Contact' : 'Partner inquiry'}] ${subject}${name || organization ? ` · ${[name, organization].filter(Boolean).join(', ')}` : ''}`,
       text: `${destination === 'contact' ? 'Contact message' : 'Partnership inquiry'} from ${email}\n\n${fullMessage}`,
       html: `<div style="font-family:Arial,sans-serif;line-height:1.65;color:#171325"><p style="font-size:12px;letter-spacing:.12em;color:#7c3aed;text-transform:uppercase">New ${destination === 'contact' ? 'contact message' : 'partnership inquiry'}</p><h1 style="font-size:24px">${escapeHtml(subject)}</h1><p><strong>Reply to:</strong> ${escapeHtml(email)}</p><hr style="border:0;border-top:1px solid #e7e1f3;margin:24px 0"><p>${escapeHtml(fullMessage).replaceAll('\n', '<br>')}</p></div>`,
     });

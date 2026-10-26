@@ -394,8 +394,10 @@
 /* /partners: inline inquiry form */
 .srOnly { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .quickForm { margin-top: 26px; max-width: 640px; }
-.quickLead { margin: 0 0 10px; color: var(--text2); font-size: 13.5px; line-height: 1.55; }
-.quickRow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 10px; align-items: stretch; }
+.quickLead { margin: 0 0 4px; color: var(--text); font-size: 16px; font-weight: 620; line-height: 1.35; letter-spacing: -.02em; }
+.quickSub { margin: 0 0 12px; color: var(--text2); font-size: 13.5px; line-height: 1.55; }
+.quickRow { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-items: stretch; }
+.quickRow .primary { grid-column: 1 / -1; }
 .quickRow input[type='email'], .quickRow input[type='text'] { min-width: 0; padding: 14px 16px; border: 1px solid var(--border2); border-radius: 10px; background: var(--surface); color: var(--text); font: inherit; font-size: 14px; }
 .quickRow input:focus-visible { outline: 2px solid var(--orange); outline-offset: 1px; }
 .quickRow .primary { white-space: nowrap; justify-content: center; border: 0; cursor: pointer; }

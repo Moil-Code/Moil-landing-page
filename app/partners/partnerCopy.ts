@@ -61,6 +61,8 @@ export type PartnerCopy = {
   /** The two-field inquiry form shown in the open. */
   quick: {
     lead: string;
+    sub: string;
+    name: string;
     email: string;
     organization: string;
     send: string;
