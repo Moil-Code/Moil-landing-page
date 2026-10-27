@@ -5,6 +5,7 @@ import { CheckCircle2, Send } from 'lucide-react';
 import styles from '../showcase-pages.module.css';
 import { PUBLIC_FALLBACK_EMAIL } from '../api/partner-inquiry/deliveryOutcome';
 import type { PartnerCopy } from './partnerCopy';
+import { postInquiry } from './postInquiry';
 
 /**
  * The two-field version of the partnership inquiry, shown in the open so a
@@ -30,10 +31,7 @@ export function PartnerQuickForm({ copy, source = 'partners-hero' }: { copy: Par
     setError('');
     try {
       const base = copy.conference?.message ?? q.defaultMessage;
-      const response = await fetch('/api/partner-inquiry', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const response = await postInquiry({
           name,
           email,
           organization,
@@ -42,7 +40,6 @@ export function PartnerQuickForm({ copy, source = 'partners-hero' }: { copy: Par
           destination: 'partners',
           subject: copy.inquirySubject,
           message: `${base} (${name}, ${organization})`.slice(0, 4000),
-        }),
       });
       const result = (await response.json().catch(() => ({}))) as { error?: string };
       if (!response.ok) throw new Error(copy.lang === 'es' ? q.failed : result.error || q.failed);

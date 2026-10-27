@@ -236,8 +236,16 @@ const nextConfig = {
     const planOrigin = String(
       process.env.PLAN_API_ORIGIN || process.env.NEXT_PUBLIC_PLAN_API_ORIGIN || "",
     ).replace(/\/+$/, "");
-    if (!planOrigin) return [];
+    // The partnership form posts to /partners/inquiry, which Next serves from its
+    // own /api/partner-inquiry handler. The host's nginx shares a name with the Moil
+    // gateway and can send bare /api/* paths there, where this route does not exist
+    // (the form answered 404). /partners/* always reaches this app.
+    const own = [
+      { source: "/partners/inquiry", destination: "/api/partner-inquiry" },
+    ];
+    if (!planOrigin) return own;
     return [
+      ...own,
       {
         source: "/plan/preview",
         destination: `${planOrigin}/plan/preview`,
