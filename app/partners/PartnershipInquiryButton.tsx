@@ -6,6 +6,7 @@ import { createPortal } from 'react-dom';
 import { AlertCircle, ArrowUpRight, CheckCircle2, Send, X } from 'lucide-react';
 import styles from '../showcase-pages.module.css';
 import { PUBLIC_FALLBACK_EMAIL } from '../api/partner-inquiry/deliveryOutcome';
+import { postInquiry } from './postInquiry';
 
 type FormState = {
   email: string;
@@ -141,11 +142,7 @@ export function PartnershipInquiryButton({ label, className, defaultSubject = ''
     setError('');
 
     try {
-      const response = await fetch('/api/partner-inquiry', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, destination }),
-      });
+      const response = await postInquiry({ ...form, destination });
       // A proxy or platform error page is HTML, not JSON. Reading it as JSON
       // threw "Unexpected token '<'" straight into the visitor's error line.
       const result = (await response.json().catch(() => ({}))) as { error?: string };

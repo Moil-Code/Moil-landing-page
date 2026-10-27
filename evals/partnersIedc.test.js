@@ -131,13 +131,29 @@ check('IEDC leads are marked high priority and carry organization and source', (
 });
 
 check('the inline form posts to the same route, keeps the honeypot, and says where to write', () => {
-	assert.match(QUICK, /fetch\('\/api\/partner-inquiry'/);
+	assert.match(QUICK, /postInquiry\(\{/);
 	assert.match(QUICK, /name="website"/);
 	assert.match(QUICK, /PUBLIC_FALLBACK_EMAIL/);
 	assert.match(QUICK, /subject:\s*copy\.inquirySubject/);
 	assert.match(BODY, /<PartnerQuickForm copy=\{copy\} \/>/, 'the hero shows the inline form');
 	assert.match(BODY, /<PartnerQuickForm copy=\{copy\} source="iedc" \/>/, 'the conference banner shows it too');
 	for (const lang of [EN, ES]) assert.match(lang, /\n  quick: \{/);
+});
+
+check('both forms post through one helper that tries /partners/inquiry first, then the API path', () => {
+	const helper = strip(read('app/partners/postInquiry.ts'));
+	assert.match(helper, /INQUIRY_PATHS = \['\/partners\/inquiry', '\/api\/partner-inquiry'\]/);
+	assert.match(helper, /response\.status !== 404/);
+	assert.match(QUICK, /from '\.\/postInquiry'/);
+	assert.match(BUTTON, /from '\.\/postInquiry'/);
+	assert.doesNotMatch(QUICK + BUTTON, /fetch\('\/api\/partner-inquiry'/, 'no form may bypass the helper');
+});
+
+check('next.config rewrites /partners/inquiry to the API route, with or without the plan origin', () => {
+	const cfg = strip(read('next.config.js'));
+	assert.match(cfg, /source: "\/partners\/inquiry", destination: "\/api\/partner-inquiry"/);
+	assert.match(cfg, /if \(!planOrigin\) return own;/);
+	assert.match(cfg, /\.\.\.own,/);
 });
 
 check('reachability: every check above ran', () => {

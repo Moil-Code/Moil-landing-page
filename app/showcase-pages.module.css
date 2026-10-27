@@ -417,3 +417,10 @@
 @media (max-width: 900px) { .quoteGrid { grid-template-columns: 1fr; } }
 .quickNote a { color: var(--text2); text-decoration: underline; text-underline-offset: 3px; }
 .quickRow input[name='organization'] { grid-column: 1 / -1; }
+
+/* /partners hero: the left column is tall (headline, form, links), so the image fills it
+   instead of sitting at the bottom with empty space above. */
+@media (min-width: 901px) {
+  .partnerHero .heroInner { align-items: stretch; }
+  .partnerHero .partnerImage { align-self: stretch; min-height: 480px; max-height: 820px; }
+}
