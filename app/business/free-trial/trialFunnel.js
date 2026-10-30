@@ -11,7 +11,9 @@
  * Rules:
  *   - Only the five utm_* keys and fbclid that ARRIVED on the landing page
  *     travel to the register link. Nothing else from the URL is kept.
- *   - A visitor with no ad data gets a register link carrying only `lg`.
+ *   - Every link carries `ref` (TRIAL_REF), so the register page can tell a
+ *     sign-up came from this funnel. A visitor with no ad data gets `lg` and
+ *     `ref` only.
  *   - Ad data is kept for the session, so moving to the other language's
  *     page (a different URL) does not drop it.
  *   - Scarcity is never invented: `deadline` needs a real end date, otherwise
@@ -22,6 +24,9 @@
  */
 
 const AD_PARAM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid'];
+// Identifies this funnel on the register page: every sign-up link from the
+// free-trial page carries ref=<this>, whatever the visitor arrived with.
+const TRIAL_REF = 'flow_b4c2a1694d0a77ef';
 const AD_STORAGE_KEY = 'moil_trial_ad_params';
 const MAX_PARAM_LENGTH = 500;
 
@@ -63,11 +68,12 @@ function rememberAdParams(storage, search) {
 	return readAdParams(storage);
 }
 
-/** Register link for one page language: `lg` first, then the ad params that arrived. */
+/** Register link for one page language: `lg`, the funnel `ref`, then the ad params that arrived. */
 function trialRegisterHref(registerUrl, lang, adParams) {
 	const lg = lang === 'es' ? 'es' : 'en';
 	const u = new URL(registerUrl);
 	u.searchParams.set('lg', lg);
+	u.searchParams.set('ref', TRIAL_REF);
 	const params = adParams && typeof adParams === 'object' ? adParams : {};
 	for (const key of AD_PARAM_KEYS) {
 		if (typeof params[key] === 'string' && params[key]) u.searchParams.set(key, params[key]);
@@ -131,6 +137,7 @@ function crossedDepths(fraction, alreadySent) {
 module.exports = {
 	AD_PARAM_KEYS,
 	AD_STORAGE_KEY,
+	TRIAL_REF,
 	adParamsFromSearch,
 	readAdParams,
 	rememberAdParams,

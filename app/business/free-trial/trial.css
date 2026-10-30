@@ -87,193 +87,288 @@
   white-space: nowrap;
 }
 
-/* ---------- 2. Hero: one left-aligned reading line ----------
-   Label, headline, then the promise and the action side by side, a hairline,
-   and the trial terms. The calendar below shares the same left edge and width,
-   so the whole hero reads down a single axis. */
-.trial-hero.business-hero { min-height: 0; }
-/* Keep the left column readable over the shader dots. */
-.trial-hero.business-hero::after {
-  background:
-    linear-gradient(90deg, color-mix(in srgb, var(--hero-bg) 92%, transparent) 0%, color-mix(in srgb, var(--hero-bg) 70%, transparent) 46%, transparent 78%),
-    linear-gradient(to bottom, transparent 82%, var(--hero-bg));
+/* ---------- 2. Hero: the stage ----------
+   After the "Mindly" concept: pastel wash + faint grid, centred copy with two
+   pills, floating icon orbs, and three fanned cards (Day 1, the month,
+   Day 2) cut by the bottom edge. Wide text keeps the copy to a few lines. */
+.trial-stage {
+  --stage-ink: #171225;
+  --stage-muted: #5E5670;
+  --stage-rule: rgb(88 67 190 / 16%);
+  --stage-glass: rgb(255 255 255 / 78%);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 132px 24px 0;
+  background: #FBFAFE;
+  color: var(--stage-ink);
+  text-align: center;
 }
-.trial-hero .business-hero__content { align-items: stretch; text-align: left; }
-.trial-hero__lead {
-  width: min(980px, 100%);
-  margin: 0 auto;
+[data-theme="dark"] .trial-stage {
+  --stage-ink: #F7F4FF;
+  --stage-muted: #BBB4CE;
+  --stage-rule: rgb(173 153 245 / 20%);
+  --stage-glass: rgb(17 12 30 / 72%);
+  background: #0B0814;
 }
 
-.trial-hero__label {
+/* Background: the wash, flipped so the colour pools low, under a soft top fade. */
+.trial-stage__art { position: absolute; inset: 0; z-index: -2; pointer-events: none; }
+.trial-stage__wash {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scaleY(-1);
+}
+.trial-stage__wash--dark { display: none; opacity: 0.55; }
+[data-theme="dark"] .trial-stage__wash--light { display: none; }
+[data-theme="dark"] .trial-stage__wash--dark { display: block; }
+.trial-stage__art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, #FBFAFE 0%, rgb(251 250 254 / 88%) 30%, rgb(251 250 254 / 30%) 62%, transparent 100%);
+}
+[data-theme="dark"] .trial-stage__art::after {
+  background: linear-gradient(to bottom, #0B0814 0%, rgb(11 8 20 / 86%) 34%, rgb(11 8 20 / 30%) 66%, transparent 100%);
+}
+.trial-stage__grid {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image:
+    linear-gradient(var(--stage-rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--stage-rule) 1px, transparent 1px);
+  background-size: 88px 88px;
+  background-position: center top;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 55%, black 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 55%, black 20%, transparent 75%);
+  opacity: 0.7;
+}
+
+/* Copy */
+.trial-stage__copy {
+  position: relative;
+  z-index: 2;
+  width: min(1120px, 100%);
+  margin: 0 auto;
+}
+.trial-stage__label {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 6px 12px 6px 6px;
-  border: 1px solid var(--hero-rule);
+  padding: 7px 14px;
+  border: 1px solid var(--stage-rule);
   border-radius: 999px;
-  background: var(--hero-glass);
-  color: var(--hero-ink);
+  background: var(--stage-glass);
+  color: var(--stage-ink);
   font: 600 12px / 1.3 var(--body);
-  letter-spacing: -0.005em;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
-.trial-hero__label-mark {
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 999px;
-  color: #FFFFFF;
-  background: #5843BE;
-}
-.trial-hero__label-mark svg { width: 13px; height: 13px; }
-.trial-hero__label i {
-  width: 1px;
-  height: 14px;
-  background: var(--hero-rule);
-}
-.trial-hero__label-offer { color: #5843BE; }
-[data-theme="dark"] .trial-hero__label-offer { color: #B2A0FF; }
-
-.trial-hero.business-hero h1 {
-  max-width: 900px;
-  margin: 26px 0 0;
-  font-size: clamp(48px, 6.6vw, 88px);
-  font-weight: 720;
-  line-height: 0.98;
+.trial-stage__label i { width: 1px; height: 13px; background: var(--stage-rule); }
+.trial-stage__label-offer { color: #5843BE; }
+[data-theme="dark"] .trial-stage__label-offer { color: #B2A0FF; }
+.trial-stage h1 {
+  margin: 22px auto 0;
+  color: var(--stage-ink);
+  font: 720 clamp(44px, 5.2vw, 76px) / 1.02 var(--display);
   letter-spacing: -0.058em;
   text-wrap: balance;
 }
-.trial-hero.business-hero h1 > span:last-child { display: inline; }
-.trial-hero.business-hero h1 strong {
-  display: inline;
+.trial-stage h1 strong {
+  font-weight: inherit;
   background: linear-gradient(100deg, #5843BE 10%, #8675D5 90%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
-[data-theme="dark"] .trial-hero.business-hero h1 strong {
-  background-image: linear-gradient(100deg, #B2A0FF 10%, #E2DAFF 90%);
-}
-
-.trial-hero__row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 24px 48px;
-  align-items: end;
-  margin-top: 30px;
-}
-.trial-hero__sub {
-  max-width: 520px;
-  color: var(--hero-muted);
+[data-theme="dark"] .trial-stage h1 strong { background-image: linear-gradient(100deg, #B2A0FF 10%, #E2DAFF 90%); }
+.trial-stage__sub {
+  max-width: 920px;
+  margin: 18px auto 0;
+  color: var(--stage-muted);
   font-size: 18px;
   line-height: 1.6;
   letter-spacing: -0.01em;
   text-wrap: pretty;
 }
-.trial-hero__action { display: grid; justify-items: start; gap: 10px; }
-.trial-hero__actions.business-hero__actions { margin: 0; justify-content: flex-start; }
-/* /business styles a lone action as its glass secondary button (it is also
-   :last-child); the trial page's single action is the primary one. */
-.business-hero__actions.trial-hero__actions > a.trial-cta {
-  min-height: 56px;
-  padding: 15px 30px;
-  border: 0;
-  background: var(--trial-accent);
-  color: var(--trial-on-accent);
-  font-size: 16px;
-}
-.business-hero__actions.trial-hero__actions > a.trial-cta:hover { background: #FF7A40; }
-.trial-hero__note {
-  max-width: 300px;
-  color: var(--hero-muted);
-  font-size: 12px;
-  line-height: 1.55;
-}
-
-.trial-hero__terms {
+.trial-stage__actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px 24px;
-  margin-top: 32px;
-  padding-top: 16px;
-  border-top: 1px solid var(--hero-rule);
+  justify-content: center;
+  gap: 10px;
+  margin-top: 28px;
 }
-.trial-hero__terms ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 22px;
-  list-style: none;
-}
-.trial-hero__terms li {
+.trial-cta--pill { border-radius: 999px; padding-inline: 30px; }
+.trial-stage__secondary {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  color: var(--hero-ink);
-  font-size: 13px;
-  font-weight: 550;
-}
-.trial-hero__terms li svg { color: #5843BE; }
-[data-theme="dark"] .trial-hero__terms li svg { color: #B2A0FF; }
-.trial-hero__urgency {
-  color: var(--hero-muted);
-  font-family: var(--mono);
-  font-size: 11px;
+  min-height: 56px;
+  padding: 0 28px;
+  border: 1px solid var(--stage-rule);
+  border-radius: 999px;
+  background: var(--stage-glass);
+  color: var(--stage-ink);
+  font-size: 16px;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  text-decoration: none;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.2s ease, transform 0.2s ease;
 }
-.trial-hero__preview.business-hero__preview {
-  width: min(560px, 100%);
-  margin: 44px auto 0;
-  padding: 16px 16px 22px;
+.trial-stage__secondary:hover { border-color: #5843BE; transform: translateY(-2px); color: var(--stage-ink); }
+.trial-stage__terms {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 4px 14px;
+  margin-top: 16px;
 }
-.trial-hero__hook {
-  color: var(--hero-ink);
-  font-size: 14px;
+.trial-stage__note {
+  color: var(--stage-muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.trial-stage__urgency {
+  color: #5843BE;
+  font-size: 13px;
   font-weight: 650;
-  line-height: 1.4;
-  letter-spacing: -0.015em;
+}
+[data-theme="dark"] .trial-stage__urgency { color: #B2A0FF; }
+#trial-peek { scroll-margin-top: 96px; }
+
+/* Floating orbs: /business icon tiles in a glass ring. */
+.trial-orb {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border: 1px solid var(--stage-rule);
+  border-radius: 50%;
+  background: var(--stage-glass);
+  box-shadow: 0 18px 40px -18px rgb(54 35 112 / 45%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: trial-float 7s ease-in-out infinite;
+}
+.trial-orb svg {
+  box-sizing: content-box;
+  width: 18px;
+  height: 18px;
+  padding: 10px;
+  border-radius: 50%;
+  color: #FFFFFF;
+}
+.trial-orb--left { top: 330px; left: max(24px, calc(50% - 560px)); }
+.trial-orb--left svg { background: var(--trial-accent); }
+.trial-orb--right { top: 196px; right: max(24px, calc(50% - 540px)); animation-delay: -3.5s; }
+.trial-orb--right svg { background: #5843BE; }
+@keyframes trial-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
-/* The phone: a CSS frame around the /business calendar tiles. No image, so
-   nothing shifts while it loads. */
-.trial-phone {
-  width: min(300px, 100%);
-  margin: 4px auto 0;
-  padding: 26px 12px 14px;
-  border: 8px solid #171225;
-  border-radius: 36px;
-  background: var(--surface);
+/* The fan: three cards, cut by the bottom edge of the stage. */
+.trial-fan {
   position: relative;
-  box-shadow: 0 30px 60px -28px rgb(54 35 112 / 55%);
+  z-index: 2;
+  width: min(1060px, 100%);
+  height: 400px;
+  margin: 44px auto 0;
 }
-[data-theme="dark"] .trial-phone { border-color: #2C2245; }
-.trial-phone__notch {
+.trial-fan__card {
   position: absolute;
-  top: 8px;
+  bottom: -70px;
+  border: 1px solid var(--border2);
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: 0 30px 70px -40px rgb(54 35 112 / 55%);
+  text-align: left;
+}
+.trial-fan__side {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 280px;
+  height: 340px;
+  padding: 20px;
+}
+.trial-fan__side--left { left: 0; transform: rotate(-8deg); transform-origin: bottom right; }
+.trial-fan__side--right { right: 0; transform: rotate(8deg); transform-origin: bottom left; }
+.trial-fan__headline {
+  color: var(--text);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.025em;
+}
+.trial-fan__image {
+  flex: 1;
+  min-height: 90px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, color-mix(in srgb, #5843BE 22%, var(--surface2)), color-mix(in srgb, var(--trial-accent) 18%, var(--surface2)));
+}
+.trial-fan__center {
   left: 50%;
-  width: 64px;
-  height: 7px;
-  border-radius: 8px;
-  background: #171225;
+  z-index: 2;
+  width: min(600px, 100%);
+  padding: 16px 16px 90px;
   transform: translateX(-50%);
+  background: color-mix(in srgb, #5843BE 7%, var(--surface));
+  border-color: color-mix(in srgb, #5843BE 26%, var(--border2));
+  box-shadow: 0 40px 90px -40px rgb(54 35 112 / 65%);
+}
+.trial-fan__hook {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 4px 14px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+.trial-fan__hook-mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  color: #FFFFFF;
+  background: #5843BE;
+}
+.trial-fan__hook-mark svg { width: 15px; height: 15px; }
+
+/* The month inside the centre card. */
+.trial-phone {
+  padding: 14px;
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  background: var(--surface);
 }
 .trial-phone__bar {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin: 0 2px 10px;
+  margin: 0 2px 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
   color: var(--text);
   font-size: 12px;
 }
 .trial-phone__bar span { color: var(--text3); font: 650 9px var(--mono); letter-spacing: 0.1em; }
 .trial-phone__grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(10, minmax(0, 1fr));
   gap: 5px;
 }
 .trial-page .cal-mini {
@@ -293,45 +388,52 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.trial-page .trial-phone .cm-img { height: 16px; }
 .trial-cal--open { border-color: color-mix(in srgb, #5843BE 35%, var(--border)); }
 .trial-cal--locked {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 52px;
+  min-height: 50px;
   border-style: dashed !important;
   background: transparent !important;
 }
 .trial-cal__lock { align-self: center; color: var(--text4); }
-.trial-cal__lock svg { width: 12px; height: 12px; }
+.trial-cal__lock svg { width: 11px; height: 11px; }
 
-/* Desktop and tablet: the month runs wide (10 days a row, 3 rows) in an app
-   window frame, so the calendar costs half the height it does as a phone.
-   Phones keep the phone frame below 681px. */
-@media (min-width: 681px) {
-  .trial-hero__preview.business-hero__preview { width: min(980px, 100%); }
-  .trial-phone {
+/* Tablet: the side cards tuck further behind the month. */
+@media (max-width: 960px) {
+  .trial-fan { height: 380px; }
+  .trial-fan__side { width: 240px; height: 300px; }
+  .trial-fan__side--left { left: -2%; }
+  .trial-fan__side--right { right: -2%; }
+  .trial-fan__center { width: min(560px, 100%); }
+  /* No margin left for the orbs beside the headline. */
+  .trial-orb { display: none; }
+}
+
+/* Phones: one card, the month, five days a row; orbs and side cards rest. */
+@media (max-width: 680px) {
+  .trial-stage { padding: 100px 16px 0; }
+  .trial-stage h1 { margin-top: 16px; font-size: clamp(40px, 12vw, 52px); }
+  .trial-stage__sub { margin-top: 14px; font-size: 16px; }
+  .trial-stage__actions { margin-top: 22px; }
+  .trial-stage__actions > a { width: 100%; justify-content: center; }
+  .trial-orb,
+  .trial-fan__side { display: none; }
+  /* In flow, cropped by the stage: the card can never grow up over the buttons. */
+  .trial-fan { height: auto; max-height: 340px; margin-top: 32px; overflow: hidden; }
+  .trial-fan__center {
+    position: relative;
+    left: auto;
+    bottom: auto;
     width: 100%;
-    padding: 14px 16px 16px;
-    border: 1px solid var(--border2);
-    border-radius: 16px;
-    box-shadow: 0 24px 60px -36px rgb(54 35 112 / 45%);
+    padding: 12px;
+    border-radius: 20px 20px 0 0;
+    transform: none;
   }
-  [data-theme="dark"] .trial-phone { border-color: var(--border2); }
-  .trial-phone__notch { display: none; }
-  .trial-phone__bar {
-    margin: 0 2px 12px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-  }
-  .trial-phone__grid {
-    grid-template-columns: repeat(10, minmax(0, 1fr));
-    gap: 6px;
-  }
-  .trial-page .trial-phone .cal-mini { padding: 6px; }
-  .trial-page .trial-phone .cal-mini .cm-type { font-size: 8px; }
-  .trial-page .trial-phone .cm-img { height: 20px; }
-  .trial-phone .trial-cal--locked { min-height: 58px; }
+  .trial-fan__hook { font-size: 13px; text-align: left; }
+  .trial-phone__grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 }
 
 /* ---------- Sections ---------- */
@@ -543,16 +645,6 @@
   .trial-sticky { display: none; }
 }
 @media (max-width: 680px) {
-  .trial-hero.business-hero h1 { margin-top: 18px; font-size: clamp(40px, 12vw, 52px); }
-  .trial-hero__row { grid-template-columns: minmax(0, 1fr); gap: 18px; margin-top: 16px; }
-  .trial-hero__sub { font-size: 16px; }
-  .trial-hero__action { justify-items: stretch; }
-  .trial-hero__actions.business-hero__actions { width: 100%; }
-  .business-hero__actions.trial-hero__actions > a.trial-cta { width: 100%; }
-  .trial-hero__note { max-width: none; }
-  .trial-hero__terms { margin-top: 22px; }
-  .trial-hero__terms ul { gap: 8px 16px; }
-  .trial-hero__preview.business-hero__preview { margin-top: 30px; }
   .trial-shell { padding: 64px 16px; }
   .trial-registry { grid-template-columns: minmax(0, 1fr); }
   .trial-solution__actions { padding-left: 0; }
@@ -570,6 +662,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .trial-page .rv { opacity: 1; transform: none; transition: none; }
+  .trial-orb { animation: none; }
   .trial-cta,
   .trial-cta__shine,
   .trial-sticky,

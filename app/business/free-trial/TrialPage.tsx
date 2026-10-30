@@ -39,6 +39,13 @@ import './trial.css';
  * UTMs and fbclid) when they move to the twin.
  */
 
+// The /business/pricing light hero wash, flipped in CSS so its colour sits at
+// the bottom; public/hero_bg.jpg is its dark-mode counterpart.
+const WASH_LIGHT =
+  'https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_1920/v1783442089/hero_bg_light_eeeazi.png';
+const WASH_LIGHT_SM =
+  'https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_900/v1783442089/hero_bg_light_eeeazi.png';
+
 type CtaLocation = 'hero' | 'solution' | 'offer' | 'final' | 'sticky';
 
 // One icon per flagged feature row, from the icon set /business uses.
@@ -331,53 +338,77 @@ function TrialPageBody({ copy, serverNow }: { copy: TrialCopy; serverNow: number
       />
 
       <main>
-        {/* 2. Hero: the /business shader hero, as a still poster (no autoplay video). */}
-        <section className="business-hero trial-hero" aria-labelledby="trial-h1">
-          <div className="business-hero__art" aria-hidden="true" />
-          <div className="business-hero__content">
-            {/* One left-aligned reading line: label, headline, then the
-                promise and the action side by side, then the terms. */}
-            <div className="trial-hero__lead">
-              <p className="trial-hero__label">
-                <span className="trial-hero__label-mark" aria-hidden="true">
-                  {IconMap.calendar}
-                </span>
-                <span>{copy.hero.eyebrow}</span>
-                <i aria-hidden="true" />
-                <span className="trial-hero__label-offer">{copy.trust[0]}</span>
-              </p>
-              <h1 id="trial-h1">
-                <span>{h1Lead}</span> <strong>{h1Accent}</strong>
-              </h1>
-              <div className="trial-hero__row">
-                <p className="trial-hero__sub">{copy.hero.sub}</p>
-                <div className="trial-hero__action">
-                  <div className="business-hero__actions trial-hero__actions">{cta('hero', '', heroCtaRef)}</div>
-                  <p className="trial-hero__note">{copy.trialNote}</p>
-                </div>
-              </div>
-              <div className="trial-hero__terms">
-                <ul aria-label={copy.tags.offer}>
-                  {copy.trust.map((item) => (
-                    <li key={item}>
-                      <Check size={13} aria-hidden="true" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                {scarcityLine('trial-hero__urgency')}
-              </div>
-            </div>
+        {/* 2. Hero. Composition after the "Mindly" concept (Dribbble 26895790):
+            a pastel wash with a faint grid, a centred headline and two pills,
+            floating icon orbs, and three fanned cards cut by the bottom edge:
+            Day 1, the month, Day 2. Every
+            visual is an existing Moil asset; nothing here autoplays. */}
+        <section className="trial-stage" aria-labelledby="trial-h1">
+          <div className="trial-stage__art" aria-hidden="true">
+            <img
+              className="trial-stage__wash trial-stage__wash--light"
+              src={WASH_LIGHT}
+              srcSet={`${WASH_LIGHT_SM} 900w, ${WASH_LIGHT} 1920w`}
+              sizes="100vw"
+              alt=""
+              decoding="async"
+            />
+            <img className="trial-stage__wash trial-stage__wash--dark" src="/hero_bg.jpg" alt="" decoding="async" loading="lazy" />
+            <div className="trial-stage__grid" />
+          </div>
 
-            <div className="business-hero__preview trial-hero__preview">
-              <div className="business-hero__preview-heading">
-                <span className="business-hero__preview-mark" aria-hidden="true">
+          <span className="trial-orb trial-orb--left" aria-hidden="true">
+            {IconMap.palette}
+          </span>
+          <span className="trial-orb trial-orb--right" aria-hidden="true">
+            {IconMap.calendar}
+          </span>
+
+          <div className="trial-stage__copy">
+            <p className="trial-stage__label">
+              <span>{copy.hero.eyebrow}</span>
+              <i aria-hidden="true" />
+              <span className="trial-stage__label-offer">{copy.trust[0]}</span>
+            </p>
+            <h1 id="trial-h1">
+              <span>{h1Lead}</span> <strong>{h1Accent}</strong>
+            </h1>
+            <p className="trial-stage__sub">{copy.hero.sub}</p>
+            <div className="trial-stage__actions">
+              {cta('hero', 'trial-cta--pill', heroCtaRef)}
+              <a href="#trial-peek" className="trial-stage__secondary">
+                {copy.tags.peek}
+              </a>
+            </div>
+            <div className="trial-stage__terms">
+              <p className="trial-stage__note">{copy.trialNote}</p>
+              {scarcityLine('trial-stage__urgency')}
+            </div>
+          </div>
+
+          <div className="trial-fan">
+            {[copy.peek.examples[0], copy.peek.examples[1]].map((ex, i) => (
+              <article key={ex.day} className={`trial-fan__card trial-fan__side trial-fan__side--${i === 0 ? 'left' : 'right'}`} aria-hidden="true">
+                <div className="trial-peek__top">
+                  <span>
+                    {copy.phone.dayLabel} {pad(ex.day)}
+                  </span>
+                  <span className="trial-peek__label">{copy.peek.exampleLabel}</span>
+                </div>
+                <span className={`cm-type cm-${ex.tone} trial-peek__kind`}>{ex.kind}</span>
+                <p className="trial-fan__headline">{ex.headline}</p>
+                <div className="trial-fan__image" />
+              </article>
+            ))}
+
+            <div className="trial-fan__card trial-fan__center">
+              <div className="trial-fan__hook">
+                <span className="trial-fan__hook-mark" aria-hidden="true">
                   {IconMap.calendar}
                 </span>
-                <p className="trial-hero__hook">{copy.hero.hook}</p>
+                <p>{copy.hero.hook}</p>
               </div>
               <div className="trial-phone" role="img" aria-label={`${copy.phone.title}: ${copy.peek.unlock}`}>
-                <div className="trial-phone__notch" aria-hidden="true" />
                 <div className="trial-phone__bar" aria-hidden="true">
                   <strong>{copy.phone.title}</strong>
                   <span>30</span>

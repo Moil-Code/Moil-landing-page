@@ -12,6 +12,7 @@ export type ScarcityState =
 
 export const AD_PARAM_KEYS: readonly string[];
 export const AD_STORAGE_KEY: string;
+export const TRIAL_REF: string;
 export function adParamsFromSearch(search: string): AdParams;
 export function readAdParams(storage: Pick<Storage, 'getItem'>): AdParams;
 export function rememberAdParams(storage: Pick<Storage, 'getItem' | 'setItem'>, search: string): AdParams;

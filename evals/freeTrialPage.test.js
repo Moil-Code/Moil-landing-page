@@ -33,19 +33,20 @@ function memoryStorage(seed = {}) {
 }
 
 describe('register link', () => {
-	it('a visitor with no ad data gets only lg', () => {
-		assert.equal(funnel.trialRegisterHref(REGISTER, 'en', {}), `${REGISTER}?lg=en`);
-		assert.equal(funnel.trialRegisterHref(REGISTER, 'es', undefined), `${REGISTER}?lg=es`);
+	it('a visitor with no ad data gets lg and the funnel ref only', () => {
+		assert.equal(funnel.TRIAL_REF, 'flow_b4c2a1694d0a77ef');
+		assert.equal(funnel.trialRegisterHref(REGISTER, 'en', {}), `${REGISTER}?lg=en&ref=flow_b4c2a1694d0a77ef`);
+		assert.equal(funnel.trialRegisterHref(REGISTER, 'es', undefined), `${REGISTER}?lg=es&ref=flow_b4c2a1694d0a77ef`);
 	});
 
-	it('carries the brief\'s example UTMs and fbclid, lg first', () => {
+	it('carries the brief\'s example UTMs and fbclid after lg and ref', () => {
 		const ad = funnel.adParamsFromSearch(
 			'?utm_source=facebook&utm_medium=paid_social&utm_campaign=moil360_30day_free&utm_content=v1-en-4x5&fbclid=IwAR123',
 		);
 		const href = funnel.trialRegisterHref(REGISTER, 'en', ad);
 		assert.equal(
 			href,
-			`${REGISTER}?lg=en&utm_source=facebook&utm_medium=paid_social&utm_campaign=moil360_30day_free&utm_content=v1-en-4x5&fbclid=IwAR123`,
+			`${REGISTER}?lg=en&ref=flow_b4c2a1694d0a77ef&utm_source=facebook&utm_medium=paid_social&utm_campaign=moil360_30day_free&utm_content=v1-en-4x5&fbclid=IwAR123`,
 		);
 	});
 
@@ -56,7 +57,7 @@ describe('register link', () => {
 	});
 
 	it('an unknown language falls back to English rather than a broken lg', () => {
-		assert.match(funnel.trialRegisterHref(REGISTER, 'fr', {}), /\?lg=en$/);
+		assert.match(funnel.trialRegisterHref(REGISTER, 'fr', {}), /\?lg=en&ref=flow_b4c2a1694d0a77ef$/);
 	});
 });
 
