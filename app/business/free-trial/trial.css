@@ -196,6 +196,35 @@
 .trial-cal__lock { align-self: center; color: var(--text4); }
 .trial-cal__lock svg { width: 12px; height: 12px; }
 
+/* Desktop and tablet: the month runs wide (10 days a row, 3 rows) in an app
+   window frame, so the calendar costs half the height it does as a phone.
+   Phones keep the phone frame below 681px. */
+@media (min-width: 681px) {
+  .trial-hero__preview.business-hero__preview { width: min(980px, 100%); }
+  .trial-phone {
+    width: 100%;
+    padding: 14px 16px 16px;
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    box-shadow: 0 24px 60px -36px rgb(54 35 112 / 45%);
+  }
+  [data-theme="dark"] .trial-phone { border-color: var(--border2); }
+  .trial-phone__notch { display: none; }
+  .trial-phone__bar {
+    margin: 0 2px 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .trial-phone__grid {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .trial-page .trial-phone .cal-mini { padding: 6px; }
+  .trial-page .trial-phone .cal-mini .cm-type { font-size: 8px; }
+  .trial-page .trial-phone .cm-img { height: 20px; }
+  .trial-phone .trial-cal--locked { min-height: 58px; }
+}
+
 /* ---------- Sections ---------- */
 .trial-section { padding: 0; }
 .trial-section--tint { background: var(--surface2); }
