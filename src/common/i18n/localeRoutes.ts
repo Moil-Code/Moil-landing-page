@@ -22,6 +22,7 @@ export const LOCALE_TWINS: ReadonlyArray<Readonly<Record<TwinLang, string>>> = [
   { en: '/business', es: '/es/business' },
   { en: '/business/pricing', es: '/es/business/pricing' },
   { en: '/help', es: '/es/ayuda' },
+  { en: '/partners', es: '/es/aliados' },
   // Spanish compare twins (plan 3.5). The toggle reaches them as soon as they
   // exist — a reader can use a draft — while indexing and hreflang wait on
   // `reviewed` in src/common/es/esPages.ts.

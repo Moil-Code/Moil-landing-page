@@ -1,0 +1,21 @@
+export const VISITOR_COOKIE: string;
+export const VISITOR_STORAGE_KEY: string;
+export const VISIT_PATH: string;
+export const BEAT_MS: number;
+export function isVisitorId(v: unknown): boolean;
+export function mintVisitorId(random: (n: number) => ArrayLike<number>): string;
+export function readCookie(name: string, cookieString: string): string;
+export function cookieDomainFor(hostname: string): string;
+export function visitorCookie(vid: string, hostname: string, secure: boolean): string;
+export function resolveVisitorId(input: {
+  consent: 'accepted' | 'rejected' | null;
+  cookieString: string;
+  setCookie: (cookie: string) => void;
+  session: Pick<Storage, 'getItem' | 'setItem'> | null;
+  random: (n: number) => ArrayLike<number>;
+  hostname: string;
+  secure: boolean;
+}): string;
+export function visitUrl(origin: string | undefined): string;
+export function referrerHost(referrer: string, ownHost: string): string;
+export function visitBody(input: { vid: string; pathname: string; referrer: string; ownHost: string }): string;

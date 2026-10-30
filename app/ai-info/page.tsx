@@ -20,7 +20,7 @@ import { jsonLd } from '~~/src/common/seo/jsonLd';
  * marketing and gets discounted as a source.
  */
 
-const UPDATED = 'August 2026';
+const UPDATED = 'October 2026';
 
 export const metadata: Metadata = {
   title: 'AI info — what Moil is, who it is for, and what it does not do',
@@ -165,6 +165,21 @@ export default function AiInfoPage() {
               <li key={item}>{item}</li>
             ))}
           </ul>
+        </section>
+
+        <section>
+          <h2>For organizations that support small businesses</h2>
+          <p className="ai-info__note">
+            Economic development corporations, chambers of commerce, business associations and
+            workforce boards can give the owners they serve access to Moil, either as a program
+            resource under their own name or as part of a grant, loan or incentive package. Moil
+            produces the research, plans, documents and content for each business in English and
+            Spanish, so the organization&rsquo;s staff are not drafting them by hand. Who is covered,
+            which plan and for how long are agreed per program. Moil does not replace an
+            organization&rsquo;s advisors. Current partners include Queen Creek Chamber of Commerce
+            (Arizona) and Buda Economic Development Corporation (Texas). Details:{' '}
+            <a href="/partners">moilapp.com/partners</a>.
+          </p>
         </section>
 
         <section>

@@ -376,18 +376,21 @@ export function BusinessNav({
                 if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setOpenMegaMenu(null);
               }}
             >
-              <button
+              {/* A real link: clicking "Partners" or "Work" goes to its page. The dropdown
+                  opens on hover and keyboard focus, and Escape closes it. */}
+              <a
                 className="nav-menu-trigger"
-                type="button"
+                href={item.href}
+                aria-haspopup="true"
                 aria-expanded={openMegaMenu === menuName}
                 aria-controls={`${menuName}-mega-menu`}
-                onClick={() => setOpenMegaMenu((open) => open === menuName ? null : menuName)}
+                onFocus={() => setOpenMegaMenu(menuName)}
                 onKeyDown={(event) => {
                   if (event.key === 'Escape') setOpenMegaMenu(null);
                 }}
               >
                 {item.label} <ChevronDown size={14} aria-hidden="true" />
-              </button>
+              </a>
               <NavMegaMenu name={menuName} onClose={() => setOpenMegaMenu(null)} />
             </li>
           );

@@ -400,3 +400,25 @@ it produces.
 TypeScript and ESLint build errors can be bypassed via `NEXT_PUBLIC_IGNORE_BUILD_ERROR=true`
 (see `next.config.js`) — though note Next 16 no longer reads the `eslint` key there
 and warns about it on every build.
+
+### Landing visitors on the admin "Active users" page (2026-10-07)
+
+`src/common/components/PresenceBeacon.tsx` (mounted in `app/layout.tsx`) posts
+`{vid, route, site: 'landing', ref}` to the gateway's
+`POST /api/presence/visit` on load, on each route change, and every minute
+while the tab is visible. Rules are in `src/common/presence/visitorBeacon.js`.
+
+- **Off unless `NEXT_PUBLIC_MOIL_GATEWAY_ORIGIN` is set** (the gateway origin,
+  no path). The host is never guessed.
+- **Consent decides how long the id lives, not whether the visit counts.**
+  Only an explicit "accepted" (GPC counts as a refusal) writes the persistent
+  `moil_vid` cookie on `.moilapp.com`; the app reads that cookie after sign-up
+  so earlier landing visits are tied to the account. Anyone else gets a
+  per-tab id in sessionStorage. Consent is read at send time with
+  `effectiveConsent()`, not `useConsent()`, which starts at null.
+- `credentials: 'include'` lets the gateway read the app's jwt cookie, so a
+  signed-in founder on the landing site is shown by name.
+- text/plain body, so there is no CORS preflight. The referrer is sent as its
+  host only.
+
+Pinned by `evals/presenceBeacon.test.js`.

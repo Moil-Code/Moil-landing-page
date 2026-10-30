@@ -3,5 +3,5 @@ import '../business/business.css';
 import { BrandPageShell } from '../../src/common/components/BrandPageShell';
 
 export default function PartnersLayout({ children }: { children: ReactNode }) {
-  return <BrandPageShell>{children}</BrandPageShell>;
+  return <BrandPageShell initialLang="en">{children}</BrandPageShell>;
 }
