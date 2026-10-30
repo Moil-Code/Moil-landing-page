@@ -28,8 +28,11 @@
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const root = path.resolve(new URL('.', import.meta.url).pathname, '..');
+// fileURLToPath, not URL#pathname: the latter keeps %20 for a space in the
+// checkout path, and git then runs in a directory that does not exist.
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(root, 'src/common/seo/pageDates.json');
 const OUT_PATHSPEC = ':(exclude)src/common/seo/pageDates.json';
 const args = new Set(process.argv.slice(2));

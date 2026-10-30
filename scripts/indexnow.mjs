@@ -22,6 +22,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 export const INDEXNOW_KEY = 'e1266a0a275f8f275bcbc64f5e4a4312';
 const ENDPOINT = 'https://api.indexnow.org/indexnow';
@@ -49,7 +50,7 @@ export function buildPayload(urls) {
 }
 
 async function main() {
-  const keyFile = path.join(path.dirname(new URL(import.meta.url).pathname), '..', 'public', `${INDEXNOW_KEY}.txt`);
+  const keyFile = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'public', `${INDEXNOW_KEY}.txt`);
   if (!fs.existsSync(keyFile) || fs.readFileSync(keyFile, 'utf8').trim() !== INDEXNOW_KEY) {
     console.error(`[indexnow] public/${INDEXNOW_KEY}.txt is missing or does not hold the key`);
     process.exit(1);
