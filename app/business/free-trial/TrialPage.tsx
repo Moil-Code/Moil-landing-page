@@ -335,17 +335,39 @@ function TrialPageBody({ copy, serverNow }: { copy: TrialCopy; serverNow: number
         <section className="business-hero trial-hero" aria-labelledby="trial-h1">
           <div className="business-hero__art" aria-hidden="true" />
           <div className="business-hero__content">
-            <div className="business-hero__eyebrow">
-              <span aria-hidden="true">{IconMap.calendar}</span>
-              {copy.hero.eyebrow}
+            {/* One left-aligned reading line: label, headline, then the
+                promise and the action side by side, then the terms. */}
+            <div className="trial-hero__lead">
+              <p className="trial-hero__label">
+                <span className="trial-hero__label-mark" aria-hidden="true">
+                  {IconMap.calendar}
+                </span>
+                <span>{copy.hero.eyebrow}</span>
+                <i aria-hidden="true" />
+                <span className="trial-hero__label-offer">{copy.trust[0]}</span>
+              </p>
+              <h1 id="trial-h1">
+                <span>{h1Lead}</span> <strong>{h1Accent}</strong>
+              </h1>
+              <div className="trial-hero__row">
+                <p className="trial-hero__sub">{copy.hero.sub}</p>
+                <div className="trial-hero__action">
+                  <div className="business-hero__actions trial-hero__actions">{cta('hero', '', heroCtaRef)}</div>
+                  <p className="trial-hero__note">{copy.trialNote}</p>
+                </div>
+              </div>
+              <div className="trial-hero__terms">
+                <ul aria-label={copy.tags.offer}>
+                  {copy.trust.map((item) => (
+                    <li key={item}>
+                      <Check size={13} aria-hidden="true" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                {scarcityLine('trial-hero__urgency')}
+              </div>
             </div>
-            <h1 id="trial-h1">
-              <span>{h1Lead}</span> <strong>{h1Accent}</strong>
-            </h1>
-            <p className="business-hero__intro">{copy.hero.sub}</p>
-            <div className="business-hero__actions trial-hero__actions">{cta('hero', '', heroCtaRef)}</div>
-            <p className="trial-hero__note">{copy.trialNote}</p>
-            {scarcityLine('trial-hero__urgency')}
 
             <div className="business-hero__preview trial-hero__preview">
               <div className="business-hero__preview-heading">
