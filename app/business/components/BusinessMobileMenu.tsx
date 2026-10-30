@@ -17,6 +17,8 @@ type BusinessMobileMenuProps = {
   items: NavItem[];
   ctaLabel?: string;
   ctaHref?: string;
+  /** false keeps the CTA in the same tab (ad landing pages: in-app browsers block new windows). */
+  ctaNewTab?: boolean;
   currentLang?: 'en' | 'es';
 };
 
@@ -28,6 +30,7 @@ export function BusinessMobileMenu({
   items,
   ctaLabel = 'Start free — no credit card',
   ctaHref = getRegisterUrl(),
+  ctaNewTab = true,
   currentLang,
 }: BusinessMobileMenuProps) {
   // Seeded from the prop, exactly as BusinessNav and BusinessFooter do. An
@@ -178,7 +181,7 @@ export function BusinessMobileMenu({
           </button>
         </div>
       </div>
-      <a className="mob-cta" href={appendLangToUrl(ctaHref, lang)} target="_blank" rel="noreferrer" onClick={onClose} data-signup-cta="mobile-menu">
+      <a className="mob-cta" href={appendLangToUrl(ctaHref, lang)} target={ctaNewTab ? '_blank' : undefined} rel="noreferrer" onClick={onClose} data-signup-cta="mobile-menu">
         <span>{ctaLabel}</span>
         <ArrowUpRight size={18} aria-hidden="true" />
       </a>

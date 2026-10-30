@@ -1,0 +1,435 @@
+/* Moil360 free-trial page (/business/free-trial): overrides on top of
+   app/business/business.css. Header, footer and every visual come from the
+   /business design system; this file only adds what an ad landing page needs
+   and /business does not have: a still hero, the calendar visual, the peek
+   grid, a sticky mobile button, and body text sized for phones. Scoped under
+   .trial-page. */
+
+.trial-page {
+  --trial-accent: #FF6633;
+  /* DESIGN.md: orange fills carry white text and icons. */
+  --trial-on-accent: #FFFFFF;
+  min-height: 100svh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  overflow-x: clip;
+}
+.trial-page :is(a, button):focus-visible {
+  outline: 3px solid #5843BE;
+  outline-offset: 3px;
+}
+
+/* ---------- The primary button: the /business orange pill, white text ---------- */
+.trial-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 15px 30px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--trial-accent);
+  color: var(--trial-on-accent);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  box-shadow: 0 14px 34px -14px rgb(255 102 51 / 80%);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+.trial-cta:hover {
+  color: var(--trial-on-accent);
+  background: #FF7A40;
+  transform: translateY(-2px);
+  box-shadow: 0 18px 44px -14px rgb(255 102 51 / 92%);
+}
+.trial-cta__shine {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform: translateX(-100%);
+  background: linear-gradient(45deg, transparent 30%, rgb(255 255 255 / 28%) 50%, transparent 70%);
+  transition: transform 0.45s ease;
+}
+.trial-cta:hover .trial-cta__shine { transform: translateX(100%); }
+.trial-cta__label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.trial-cta__arrow { display: grid; place-items: center; }
+.trial-cta__arrow svg { width: 18px; height: 18px; }
+.trial-cta--panel { width: 100%; justify-content: space-between; }
+.trial-cta--final { padding: 19px 44px; font-size: 17px; }
+
+.trial-note {
+  margin-top: 12px;
+  color: var(--text2);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.trial-review-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #F2EE00;
+  color: #221366;
+  font-size: 11px;
+  font-weight: 700;
+  vertical-align: middle;
+}
+.trial-countdown {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ---------- 2. Hero ---------- */
+.trial-hero.business-hero { min-height: 0; }
+.trial-hero h1 { margin-top: 22px; }
+.trial-hero h1 strong { display: inline; }
+.trial-hero__actions { margin-top: 26px; }
+/* /business styles a lone action as its glass secondary button (it is also
+   :last-child); the trial page's single action is the primary one. */
+.business-hero__actions.trial-hero__actions > a.trial-cta {
+  min-height: 56px;
+  padding: 15px 30px;
+  border: 0;
+  background: var(--trial-accent);
+  color: var(--trial-on-accent);
+  font-size: 16px;
+}
+.business-hero__actions.trial-hero__actions > a.trial-cta:hover { background: #FF7A40; }
+.trial-hero__note {
+  max-width: 460px;
+  margin: 14px auto 0;
+  color: var(--hero-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.trial-hero__urgency {
+  margin-top: 8px;
+  color: #5843BE;
+  font-size: 13px;
+  font-weight: 650;
+}
+[data-theme="dark"] .trial-hero__urgency { color: #B2A0FF; }
+.trial-hero__preview.business-hero__preview {
+  width: min(560px, 100%);
+  margin-top: 40px;
+  padding: 16px 16px 22px;
+}
+.trial-hero__hook {
+  color: var(--hero-ink);
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+}
+
+/* The phone: a CSS frame around the /business calendar tiles. No image, so
+   nothing shifts while it loads. */
+.trial-phone {
+  width: min(300px, 100%);
+  margin: 4px auto 0;
+  padding: 26px 12px 14px;
+  border: 8px solid #171225;
+  border-radius: 36px;
+  background: var(--surface);
+  position: relative;
+  box-shadow: 0 30px 60px -28px rgb(54 35 112 / 55%);
+}
+[data-theme="dark"] .trial-phone { border-color: #2C2245; }
+.trial-phone__notch {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  width: 64px;
+  height: 7px;
+  border-radius: 8px;
+  background: #171225;
+  transform: translateX(-50%);
+}
+.trial-phone__bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 0 2px 10px;
+  color: var(--text);
+  font-size: 12px;
+}
+.trial-phone__bar span { color: var(--text3); font: 650 9px var(--mono); letter-spacing: 0.1em; }
+.trial-phone__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+}
+.trial-page .cal-mini {
+  min-width: 0;
+  padding: 5px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface2);
+}
+.trial-page .cal-mini .cm-type {
+  margin-bottom: 3px;
+  padding: 1px 3px;
+  border-radius: 3px;
+  overflow: hidden;
+  font-size: 7px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.trial-cal--open { border-color: color-mix(in srgb, #5843BE 35%, var(--border)); }
+.trial-cal--locked {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 52px;
+  border-style: dashed !important;
+  background: transparent !important;
+}
+.trial-cal__lock { align-self: center; color: var(--text4); }
+.trial-cal__lock svg { width: 12px; height: 12px; }
+
+/* ---------- Sections ---------- */
+.trial-section { padding: 0; }
+.trial-section--tint { background: var(--surface2); }
+.trial-section--surface { background: var(--surface); }
+.trial-shell {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  padding: 96px 32px;
+}
+.trial-section-header { margin-bottom: 30px; }
+.trial-page .business-section-header .section-sub {
+  max-width: 420px;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.trial-solution__actions { padding-left: 92px; }
+
+/* What you get: the /business registry rows, in a grid. */
+.trial-registry {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  list-style: none;
+}
+.trial-registry .capability-registry__row { min-height: 0; }
+.trial-page .capability-registry .cap-desc { font-size: 14px; line-height: 1.6; }
+
+/* How it works: the journey step list, without the sticky visual beside it. */
+.trial-steps.journey-steps { max-width: 760px; }
+/* Desktop: the three steps sit in one row (there is no product visual beside them). */
+@media (min-width: 961px) {
+  .trial-steps.journey-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    max-width: none;
+  }
+  .trial-steps .jstep + .jstep { margin-top: 0; }
+  .trial-page .journey-v2 .trial-steps .jstep-body { border-bottom: 0; }
+}
+.trial-page .journey-v2 .jstep-desc { font-size: 14px; }
+
+/* Peek inside */
+.trial-peek {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 8px;
+  list-style: none;
+}
+.trial-peek > li { display: flex; min-width: 0; }
+.trial-peek__example {
+  grid-column: span 10;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--business-rule);
+  border-radius: 16px;
+  background: var(--business-panel);
+  box-shadow: 0 24px 60px -52px rgb(7 5 20 / 74%);
+}
+.trial-peek__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text3);
+  font: 660 10px var(--mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.trial-peek__label {
+  padding: 3px 8px;
+  border-radius: 999px;
+  color: #FFFFFF;
+  background: #5843BE;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+.trial-peek__kind.cm-type {
+  align-self: flex-start;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 650;
+}
+.trial-peek__headline {
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+.trial-peek__locked {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 64px;
+  padding: 9px;
+  border: 1px dashed var(--border2);
+  border-radius: 12px;
+  color: var(--text3);
+  background: transparent;
+  font: 660 10px var(--mono);
+  letter-spacing: 0.06em;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+.trial-peek__locked:hover {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--trial-accent) 45%, var(--business-rule));
+  background: color-mix(in srgb, var(--trial-accent) 5%, var(--surface));
+  transform: translateY(-2px);
+}
+.trial-peek__lock {
+  display: grid;
+  place-items: center;
+  align-self: flex-end;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  color: var(--trial-accent);
+  background: color-mix(in srgb, var(--trial-accent) 10%, transparent);
+}
+.trial-peek__lock svg { width: 13px; height: 13px; }
+
+/* Offer band: the /business dark CTA panel. */
+.trial-offer { padding: 24px 32px 96px; }
+.trial-offer__panel { padding: 30px 30px 30px 22px; }
+.trial-offer__title {
+  max-width: 620px;
+  margin: 0;
+  color: #FFFFFF;
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 760;
+  line-height: 1.04;
+  letter-spacing: -0.05em;
+}
+.trial-page .capabilities-v2__cta-copy p {
+  font-size: 14px;
+  color: rgb(255 255 255 / 74%);
+}
+.trial-page .capabilities-v2__cta-copy p.trial-offer__urgency {
+  color: #FFC2AC;
+  font-weight: 650;
+}
+
+/* FAQ: answers always shown on desktop, accordion on phones. */
+.trial-faq.faq-v2 { text-align: center; }
+.trial-faq .section-tag { justify-content: center; }
+.trial-faq .faq-list { text-align: left; }
+.trial-faq__q { font: inherit; }
+.trial-faq .faq-q {
+  width: 100%;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: 600 16px var(--body);
+  text-align: left;
+}
+.trial-faq .faq-a-inner { font-size: 15px; }
+@media (min-width: 768px) {
+  .trial-faq .faq-a { max-height: none; }
+  .trial-faq .faq-icon { display: none; }
+  .trial-faq .faq-q { cursor: default; pointer-events: none; }
+}
+
+/* Final */
+#final.trial-final { min-height: 0; padding: 112px 24px; }
+.trial-final .final-headline { text-transform: none; }
+
+/* Mobile sticky button */
+.trial-sticky {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 150;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  background: var(--nav-bg);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transform: translateY(110%);
+  visibility: hidden;
+  transition: transform 0.22s ease, visibility 0.22s;
+}
+.trial-sticky.is-visible { transform: none; visibility: visible; }
+.trial-cta--sticky { width: 100%; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 960px) {
+  .trial-registry { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .trial-peek { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .trial-peek__example { grid-column: span 6; }
+  .trial-solution__actions { padding-left: 82px; }
+}
+@media (min-width: 961px) {
+  .trial-peek__example { grid-column: span 10; }
+  .trial-peek { grid-template-columns: repeat(9, minmax(0, 1fr)); }
+  .trial-peek__example { grid-column: span 3; }
+}
+@media (max-width: 767px) {
+  /* Leave room for the sticky button below the /business footer. */
+  .trial-page { padding-bottom: 76px; }
+}
+@media (min-width: 768px) {
+  .trial-sticky { display: none; }
+}
+@media (max-width: 680px) {
+  .trial-hero h1 { margin-top: 16px; font-size: clamp(36px, 10.5vw, 48px); }
+  .trial-hero .business-hero__intro { margin-top: 14px; font-size: 15px; line-height: 1.6; }
+  .trial-hero__actions { width: 100%; margin-top: 20px; }
+  .trial-hero__actions > .trial-cta { width: 100%; }
+  .trial-hero__preview.business-hero__preview { margin-top: 30px; }
+  .trial-shell { padding: 64px 16px; }
+  .trial-registry { grid-template-columns: minmax(0, 1fr); }
+  .trial-solution__actions { padding-left: 0; }
+  .trial-solution__actions .trial-cta { width: 100%; }
+  /* Five across keeps the 27 locked days to about six short rows. */
+  .trial-peek { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+  .trial-peek__example { grid-column: span 5; }
+  .trial-peek__locked { min-height: 54px; padding: 7px; border-radius: 10px; }
+  .trial-peek__lock { width: 22px; height: 22px; border-radius: 7px; }
+  .trial-offer { padding: 8px 16px 64px; }
+  .trial-offer__panel { padding: 24px 20px; }
+  #final.trial-final { padding: 80px 16px; }
+  .trial-cta--final { width: 100%; padding: 17px 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trial-page .rv { opacity: 1; transform: none; transition: none; }
+  .trial-cta,
+  .trial-cta__shine,
+  .trial-sticky,
+  .trial-peek__locked { transition: none; }
+  .trial-cta:hover { transform: none; }
+}

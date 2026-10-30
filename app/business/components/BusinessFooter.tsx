@@ -14,9 +14,13 @@ type BusinessFooterProps = {
   onToggleTheme: () => void;
   onLanguageChange?: (lang: 'en' | 'es') => void;
   currentLang?: 'en' | 'es';
+  /** Register link for the footer's sign-up entry (defaults to the plain register page). */
+  ctaHref?: string;
+  /** false keeps the sign-up entry in the same tab (ad landing pages: in-app browsers block new windows). */
+  ctaNewTab?: boolean;
 };
 
-export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, currentLang }: BusinessFooterProps) {
+export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, currentLang, ctaHref, ctaNewTab = true }: BusinessFooterProps) {
   const { t } = useLanguageContext();
   const pathname = usePathname() || '/';
   // The PATH is the locale source of truth (src/common/i18n/pathLocale.ts says so
@@ -133,7 +137,7 @@ export function BusinessFooter({ theme, onToggleTheme, onLanguageChange, current
         <div>
           <div className="footer-col-title">{t.footer.getStarted}</div>
           <div className="footer-links">
-            <a href={appendLangToUrl(getRegisterUrl(), lang)} target="_blank" rel="noreferrer" data-signup-cta="footer">
+            <a href={appendLangToUrl(ctaHref ?? getRegisterUrl(), lang)} target={ctaNewTab ? '_blank' : undefined} rel="noreferrer" data-signup-cta="footer">
               {t.footer.getStartedLinks.freeConsultation}
             </a>
             <a href={appendLangToUrl(getLoginUrl(), lang)} target="_blank" rel="noreferrer">

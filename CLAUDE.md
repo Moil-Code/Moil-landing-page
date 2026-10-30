@@ -367,6 +367,7 @@ Red-verified both directions, including the real CI failure restored verbatim.
 
 ### Styling
 
+- Design rules (colour, type, section grammar) are in `DESIGN.md`. **Orange fills carry white text and icons**, never dark text.
 - Tailwind CSS with custom brand colors (`moil-navy`, `moil-blue`, `moil-orange`, `moil-green`) defined in `tailwind.config.js`
 - Custom breakpoints: `vsm` (320px), `xsm` (400px), `zsm` (480px), `tablet`, `ipad`, `desktop`, `xtraxl` (1440px), `xxlarge` (3200px)
 - Global styles split across `app/globals.css` (2009 lines) and `styles/globals.css`

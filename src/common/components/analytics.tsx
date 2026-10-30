@@ -9,7 +9,9 @@ import { useConsent } from '../consent';
 // makes junk network requests on every page load.
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 const CLARITY_PROJECT_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
-const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
+// Moil's Meta Pixel (Events Manager, sent by Jacob 2026-10-27). A Pixel ID is
+// public by design (it ships in every page's HTML); the env var can override it.
+const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FB_PIXEL_ID || '3022440931437127';
 const APOLLO_APP_ID = '6882701177d61d001958874e';
 
 /**

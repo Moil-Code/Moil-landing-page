@@ -214,6 +214,8 @@ type BusinessNavProps = {
   logoHref?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  /** false keeps the CTA in the same tab (ad landing pages: in-app browsers block new windows). */
+  ctaNewTab?: boolean;
   signinLabel?: string;
   signinHref?: string;
   switchLabel?: string;
@@ -233,6 +235,7 @@ export function BusinessNav({
   logoHref = '/business',
   ctaLabel = 'Get Started',
   ctaHref = getRegisterUrl(),
+  ctaNewTab = true,
   signinLabel = 'Log In',
   signinHref = getLoginUrl(),
   switchLabel = 'Switch to candidates',
@@ -505,7 +508,7 @@ export function BusinessNav({
         <a className="nav-signin" href={appendLangToUrl(signinHref, lang)} target="_blank" rel="noreferrer">
           {signinLabel}
         </a>
-        <a className="nav-cta" href={appendLangToUrl(ctaHref, lang)} target="_blank" rel="noreferrer" data-signup-cta="nav">
+        <a className="nav-cta" href={appendLangToUrl(ctaHref, lang)} target={ctaNewTab ? '_blank' : undefined} rel="noreferrer" data-signup-cta="nav">
           {ctaLabel}
         </a>
         <button

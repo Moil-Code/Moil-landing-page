@@ -46,7 +46,9 @@ function git(...argv) {
 // the sitemap deliberately omits. Keep this exclusion list in step with
 // app/robots.ts and app/sitemap.ts; the eval asserts every sitemap route has
 // a date, so a route missing here fails the build rather than reading "today".
-const EXCLUDED = new Set(['/legacy', '/login', '/register']);
+// The free-trial ad landing pages are noindex and out of the sitemap until
+// launch (app/business/free-trial/trialContent.ts, TRIAL_CONFIG.indexable).
+const EXCLUDED = new Set(['/legacy', '/login', '/register', '/business/free-trial', '/es/business/prueba-gratis']);
 const DIR_OF = new Map();
 function routes() {
   const out = [];
