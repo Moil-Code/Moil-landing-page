@@ -148,7 +148,7 @@ export async function POST(request: Request) {
   }
 
   const transporter = nodemailer.createTransport({
-    host: 'smtp.office365.com', // ✅ This is correct
+    host: 'smtp.gmail.com', // ✅ This is correct
     port: 587,
     secure: false,
     auth: { user: sender, pass: password },
