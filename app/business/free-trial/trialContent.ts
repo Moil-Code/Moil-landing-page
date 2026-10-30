@@ -52,8 +52,11 @@ export const TRIAL_PATHS: Record<TrialLang, string> = {
 
 export type TrialRow = { title: string; body: string; claim?: string };
 export type TrialFaq = { q: string; a: string; claim?: string };
-/** `chip` is the one-word label on the hero calendar tile. */
-export type ExamplePost = { day: number; kind: string; chip: string; headline: string; tone: 'bts' | 'edu' | 'eng' };
+/**
+ * `chip` is the one-word label on the hero calendar tile. `image` is a finished
+ * post shown in the hero's side cards (public/business/free-trial/).
+ */
+export type ExamplePost = { day: number; kind: string; chip: string; headline: string; tone: 'bts' | 'edu' | 'eng' | 'promo'; image?: string };
 
 export type TrialCopy = {
   lang: TrialLang;
@@ -146,11 +149,13 @@ export const TRIAL_EN: TrialCopy = {
     unlock: 'Days 4 to 30 unlock when you start free.',
     exampleLabel: 'Example',
     lockedAria: 'Day {n} is locked. Start free to unlock it.',
-    // Placeholder examples for a sample cleaning service until Ablad supplies
-    // the real example posts for days 1 to 3 (Assets table in the brief).
+    // Days 1 and 2 match the two finished posts in the hero's side cards (their
+    // headlines are the posts' own). Day 1 is a client's post (Nativa
+    // Aesthetics): it needs their sign-off before paid traffic. Day 3 is still
+    // a placeholder for a sample cleaning service.
     examples: [
-      { day: 1, tone: 'bts', chip: 'Team', kind: 'Behind the scenes', headline: 'Meet the crew behind your Saturday clean' },
-      { day: 2, tone: 'edu', chip: 'Tip', kind: 'Tip', headline: 'A 10-minute reset for a busy kitchen' },
+      { day: 1, image: '/business/free-trial/example-day-01.webp', tone: 'promo', chip: 'Promo', kind: 'Promotion', headline: 'Fullness that builds itself' },
+      { day: 2, image: '/business/free-trial/example-day-02.webp', tone: 'edu', chip: 'Product', kind: 'Product', headline: 'Stop wasting hours on manual posts' },
       { day: 3, tone: 'eng', chip: 'Ask', kind: 'Question', headline: 'Which room do you always clean last?' },
     ],
   },
@@ -244,8 +249,8 @@ export const TRIAL_ES: TrialCopy = {
     exampleLabel: 'Ejemplo',
     lockedAria: 'El día {n} está bloqueado. Empieza gratis para desbloquearlo.',
     examples: [
-      { day: 1, tone: 'bts', chip: 'Equipo', kind: 'Detrás de cámaras', headline: 'Conoce al equipo detrás de tu limpieza del sábado' },
-      { day: 2, tone: 'edu', chip: 'Consejo', kind: 'Consejo', headline: 'Diez minutos para ordenar una cocina con mucho uso' },
+      { day: 1, image: '/business/free-trial/example-day-01.webp', tone: 'promo', chip: 'Promo', kind: 'Promoción', headline: 'Volumen que se construye solo' },
+      { day: 2, image: '/business/free-trial/example-day-02.webp', tone: 'edu', chip: 'Producto', kind: 'Producto', headline: 'Deja de perder horas en publicaciones manuales' },
       { day: 3, tone: 'eng', chip: 'Pregunta', kind: 'Pregunta', headline: '¿Qué cuarto limpias siempre al final?' },
     ],
   },

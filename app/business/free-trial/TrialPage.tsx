@@ -403,7 +403,11 @@ function TrialPageBody({ copy, serverNow }: { copy: TrialCopy; serverNow: number
                 </div>
                 <span className={`cm-type cm-${ex.tone} trial-peek__kind`}>{ex.kind}</span>
                 <p className="trial-fan__headline">{ex.headline}</p>
-                <div className="trial-fan__image" />
+                {ex.image ? (
+                  <img className="trial-fan__image" src={ex.image} alt="" width={640} height={800} loading="lazy" decoding="async" />
+                ) : (
+                  <div className="trial-fan__image" />
+                )}
               </article>
             ))}
 
