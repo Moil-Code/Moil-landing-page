@@ -7,7 +7,7 @@ import { BusinessFooter } from '../components/BusinessFooter';
 import { BusinessMobileMenu } from '../components/BusinessMobileMenu';
 import { BusinessNav, type NavItem } from '../components/BusinessNav';
 import { useBusinessUi } from '../hooks/useBusinessUi';
-import { getRegisterUrl } from '../preview/previewClient';
+import { businessBaseUrl } from '../../../src/common/constants/baseUrl';
 import { IconMap } from '../sections/iconMap';
 import {
   claimVisible,
@@ -230,7 +230,13 @@ function TrialPageBody({ copy, serverNow }: { copy: TrialCopy; serverNow: number
     return () => clearInterval(id);
   }, [ticking, serverNow]);
 
-  const registerHref = useMemo(() => trialRegisterHref(getRegisterUrl(), lang, adParams), [lang, adParams]);
+  // The register page of THIS environment: businessBaseUrl is environment-owned
+  // (employer-beta in staging, business.moilapp.com in production), and the
+  // sync script keeps each repo's copy, so a sync never crosses them.
+  const registerHref = useMemo(
+    () => trialRegisterHref(`${businessBaseUrl}/register`, lang, adParams),
+    [lang, adParams],
+  );
   const closed = scarcity.kind === 'closed';
 
   const onCtaClick = useCallback(

@@ -174,6 +174,13 @@ describe('page wiring', () => {
 		assert.doesNotMatch(page, /target="_blank"|window\.open\(/);
 	});
 
+	it('the register link is this environment\'s (businessBaseUrl), not the shared production default', () => {
+		assert.match(page, /trialRegisterHref\(`\$\{businessBaseUrl\}\/register`/);
+		assert.doesNotMatch(page.replace(/\/\/.*$/gm, ''), /getRegisterUrl\(/);
+		// Staging's copy points at employer-beta; production's at business.moilapp.com.
+		assert.match(read('src/common/constants/baseUrl.tsx'), /export const businessBaseUrl = "https:\/\/(employer-beta|business)\.moilapp\.com";/);
+	});
+
 	it('the /business header, menu and footer get the trial link and stay in the same tab', () => {
 		for (const component of ['BusinessNav', 'BusinessMobileMenu', 'BusinessFooter']) {
 			const tag = page.match(new RegExp(`<${component}\\b[\\s\\S]*?/>`));
