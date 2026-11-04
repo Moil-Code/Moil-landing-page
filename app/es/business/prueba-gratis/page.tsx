@@ -1,6 +1,6 @@
-import { TrialPage } from '../../../business/free-trial/TrialPage';
-import { TRIAL_ES } from '../../../business/free-trial/trialContent';
-import { trialMetadata } from '../../../business/free-trial/trialMetadata';
+import { TrialPage } from '../../../(en)/business/free-trial/TrialPage';
+import { TRIAL_ES } from '../../../(en)/business/free-trial/trialContent';
+import { trialMetadata } from '../../../(en)/business/free-trial/trialMetadata';
 
 /**
  * /es/prueba-gratis, el gemelo en español de /free-trial. Mismo cuerpo, mismo

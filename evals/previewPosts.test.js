@@ -27,7 +27,7 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 
-const posts = require('../app/business/preview/previewPosts');
+const posts = require('../app/(en)/business/preview/previewPosts');
 const fixture = require('./fixtures/wzP6PJqiVxqG');
 
 const BRAND = {
@@ -103,7 +103,7 @@ describe('a card needs words and something to look at', () => {
 
 describe('nothing about their business is composed here', () => {
 	it('the module writes no prose — no template literal builds a sentence', () => {
-		const src = read('app/business/preview/previewPosts.js');
+		const src = read('app/(en)/business/preview/previewPosts.js');
 		const body = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 		// A backtick with an interpolation in it is how a sentence gets
 		// built. The one legitimate use is the '#' colour prefix, which
@@ -215,7 +215,7 @@ describe('the design matches what the product composes after the wall', () => {
 });
 
 describe('the free ready card does not paint posts', () => {
-	const gtk = read('app/business/components/GettingToKnowYou.tsx');
+	const gtk = read('app/(en)/business/components/GettingToKnowYou.tsx');
 	const gtkBody = gtk
 		.replace(/\/\*[\s\S]*?\*\//g, '')
 		.replace(/\{\/\*[\s\S]*?\*\/\}/g, '')
@@ -231,7 +231,7 @@ describe('the free ready card does not paint posts', () => {
 		assert.doesNotMatch(gtkBody, /preview-posts-section/);
 		assert.doesNotMatch(gtkBody, /data:image\/svg/);
 		assert.doesNotMatch(gtkBody, /dangerouslySetInnerHTML/);
-		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
 		assert.doesNotMatch(magnet, /postsBeforeCta/);
 		assert.doesNotMatch(magnet, /previewPosts/);
 	});
@@ -259,7 +259,7 @@ describe('the copy exists in both languages', () => {
 });
 
 describe('the magnet actually forwards what the server sent', () => {
-	const magnet = read('app/business/components/PreviewMagnet.tsx');
+	const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
 
 	it('ReadyPayload may still hold what the server sent, and the card is not handed it', () => {
 		assert.match(magnet, /content\?: \{ kind\?: string; posts\?: ReadyPost\[\] \}/);

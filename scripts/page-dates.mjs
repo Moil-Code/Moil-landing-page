@@ -85,8 +85,10 @@ function sourcesFor(route) {
   const dir = DIR_OF.get(route) ?? (route === '/' ? 'app' : `app${route}`);
   const own = [dir];
   // Route-group siblings (e.g. app/compare/aeoLocks.ts) change the page too.
+  // A top-level route group (app/(en)) is where the root layout lives, not a
+  // section: its loose files would date every English route at once.
   const group = path.dirname(dir);
-  if (group !== 'app' && group !== '.') {
+  if (group !== 'app' && group !== '.' && !TOP_GROUP.test(group)) {
     for (const e of fs.readdirSync(path.join(root, group), { withFileTypes: true })) {
       if (e.isFile()) own.push(path.join(group, e.name));
     }
@@ -107,11 +109,20 @@ function sourcesFor(route) {
   return [...own, ...shared].filter((p) => fs.existsSync(path.join(root, p)));
 }
 
+// The English routes moved into the app/(en) route group (2026-11, one root
+// layout per language). The move changed no page, so the move commit must not
+// become every English page's "last change": history is read across both
+// paths, and a commit that only renamed or deleted files under them is not a
+// change to the page (-M --diff-filter=ACMT: added, copied, modified, type).
+const TOP_GROUP = /^app\/\([^/]+\)$/;
+const legacyPathOf = (p) => p.replace(/^app\/\([^/]+\)(?=\/|$)/, 'app');
+
 function lastChange(paths) {
   // The output lives under src/common/seo, one of the shared source trees.
   // Excluding it prevents a commit of this generated file from changing the
   // result and making that same file stale immediately after the push.
-  const iso = git('log', '-1', '--format=%cI', '--', ...paths, OUT_PATHSPEC);
+  const legacy = paths.map(legacyPathOf).filter((p) => !paths.includes(p));
+  const iso = git('log', '-1', '-M', '--diff-filter=ACMT', '--format=%cI', '--', ...paths, ...legacy, OUT_PATHSPEC);
   return iso ? iso.slice(0, 10) : null;
 }
 

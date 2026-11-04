@@ -26,28 +26,28 @@ const {
 	PRODUCT_ANCHORS,
 	PRODUCT_LINKS,
 	productHref,
-} = require('../app/business/productLinks');
+} = require('../app/(en)/business/productLinks');
 
 const ROOT = path.join(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
 const stripComments = (s) =>
 	s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/[^\n]*$/gm, '');
 
-const PAGE = read('app/business/BusinessPageContent.tsx');
-const NAV = read('app/business/components/BusinessNav.tsx');
+const PAGE = read('app/(en)/business/BusinessPageContent.tsx');
+const NAV = read('app/(en)/business/components/BusinessNav.tsx');
 
 /** Every id the /business page renders, literal or from the vocabulary. */
 function renderedIds() {
 	const sources = [
 		PAGE,
 		...fs
-			.readdirSync(path.join(ROOT, 'app/business/components'))
+			.readdirSync(path.join(ROOT, 'app/(en)/business/components'))
 			.filter((f) => f.endsWith('.tsx'))
-			.map((f) => read(`app/business/components/${f}`)),
+			.map((f) => read(`app/(en)/business/components/${f}`)),
 		...fs
-			.readdirSync(path.join(ROOT, 'app/business/sections'))
+			.readdirSync(path.join(ROOT, 'app/(en)/business/sections'))
 			.filter((f) => f.endsWith('.tsx'))
-			.map((f) => read(`app/business/sections/${f}`)),
+			.map((f) => read(`app/(en)/business/sections/${f}`)),
 	];
 	const ids = new Set();
 	for (const src of sources) {

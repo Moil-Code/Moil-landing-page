@@ -18,11 +18,11 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 
-const client = require('../app/business/preview/previewClient');
-const wait = require('../app/business/preview/previewWaitCopy');
-const cookie = require('../app/business/preview/previewCookie');
-const reveal = require('../app/business/preview/previewReveal');
-const input = require('../app/business/preview/previewInput');
+const client = require('../app/(en)/business/preview/previewClient');
+const wait = require('../app/(en)/business/preview/previewWaitCopy');
+const cookie = require('../app/(en)/business/preview/previewCookie');
+const reveal = require('../app/(en)/business/preview/previewReveal');
+const input = require('../app/(en)/business/preview/previewInput');
 
 const MAGNET_KEYS = [
 	'websitePlaceholder',
@@ -128,7 +128,7 @@ describe('preview client — origin and URLs', () => {
 	});
 
 	it('omitted-env path is a static process.env.NEXT_PUBLIC_REGISTER_ORIGIN member', () => {
-		const src = read('app/business/preview/previewClient.js');
+		const src = read('app/(en)/business/preview/previewClient.js');
 		const fn = src.slice(
 			src.indexOf('function getRegisterOrigin'),
 			src.indexOf('function getRegisterUrl'),
@@ -182,7 +182,7 @@ describe('preview client — GET is a view', () => {
 			false,
 			names.join(','),
 		);
-		const src = read('app/business/preview/previewClient.js');
+		const src = read('app/(en)/business/preview/previewClient.js');
 		assert.equal(
 			/function\s+\w*generate\w*/i.test(src),
 			false,
@@ -223,7 +223,7 @@ describe('wait copy B25 ladder', () => {
 	});
 
 	it('ready GET goes to the ready card — does not type beats off the ready body', () => {
-		const src = read('app/business/components/PreviewMagnet.tsx');
+		const src = read('app/(en)/business/components/PreviewMagnet.tsx');
 		const pollFn = src.slice(src.indexOf('const poll ='), src.indexOf('const beginWait'));
 		const readyIdx = pollFn.indexOf("result.kind === 'ready'");
 		const failedIdx = pollFn.indexOf("result.kind === 'failed'");
@@ -261,7 +261,7 @@ describe('wait copy B25 ladder', () => {
 	});
 
 	it('the ready swap waits on the type-out, and is bounded', () => {
-		const src = read('app/business/components/PreviewMagnet.tsx');
+		const src = read('app/(en)/business/components/PreviewMagnet.tsx');
 		// Ready no longer unmounts the wait block the instant it lands —
 		// on a one-beat site that showed 42 of 150 characters.
 		assert.match(src, /beatsSettled\(waitBeats, typedChars, reduceMotion\)/);
@@ -280,7 +280,7 @@ describe('wait copy B25 ladder', () => {
 	});
 
 	it('the wait card types one line at a time', () => {
-		const src = read('app/business/components/PreviewMagnet.tsx');
+		const src = read('app/(en)/business/components/PreviewMagnet.tsx');
 		const effect = src.slice(
 			src.indexOf('const pace = pendingReady'),
 			src.indexOf('const commitReady'),
@@ -345,14 +345,14 @@ describe('door bodies pass through — no handle parser', () => {
 
 describe('structural refusals', () => {
 	const files = [
-		'app/business/preview/previewClient.js',
-		'app/business/preview/previewWaitCopy.js',
-		'app/business/preview/previewCookie.js',
-		'app/business/preview/previewReveal.js',
-		'app/business/preview/gettingToKnowYou.js',
-		'app/business/components/PreviewMagnet.tsx',
-		'app/business/components/GettingToKnowYou.tsx',
-		'app/business/sections/HeroSection.tsx',
+		'app/(en)/business/preview/previewClient.js',
+		'app/(en)/business/preview/previewWaitCopy.js',
+		'app/(en)/business/preview/previewCookie.js',
+		'app/(en)/business/preview/previewReveal.js',
+		'app/(en)/business/preview/gettingToKnowYou.js',
+		'app/(en)/business/components/PreviewMagnet.tsx',
+		'app/(en)/business/components/GettingToKnowYou.tsx',
+		'app/(en)/business/sections/HeroSection.tsx',
 		'.env.example',
 		'next.config.js',
 	];
@@ -379,7 +379,7 @@ describe('structural refusals', () => {
 	});
 
 	it('magnet poll path calls viewPreview, not submitPreview', () => {
-		const src = read('app/business/components/PreviewMagnet.tsx');
+		const src = read('app/(en)/business/components/PreviewMagnet.tsx');
 		const pollFn = src.slice(src.indexOf('const poll ='));
 		const pollBody = pollFn.slice(0, pollFn.indexOf('const beginWait'));
 		assert.match(pollBody, /viewPreview\(/);
@@ -387,7 +387,7 @@ describe('structural refusals', () => {
 	});
 
 	it('hero primary CTA is still the register URL without requiring a slug', () => {
-		const src = read('app/business/sections/HeroSection.tsx');
+		const src = read('app/(en)/business/sections/HeroSection.tsx');
 		assert.match(src, /buildRegisterUrl\(/);
 		assert.doesNotMatch(src, /employer-beta/);
 		assert.doesNotMatch(src, /href="#journey"/);
@@ -399,13 +399,13 @@ describe('structural refusals', () => {
 
 	it('client magnet uses relative /plan/preview and env-gated register', () => {
 		const gated = [
-			'app/business/preview/previewClient.js',
-			'app/business/components/PreviewMagnet.tsx',
-			'app/business/sections/HeroSection.tsx',
-			'app/business/components/BusinessNav.tsx',
-			'app/business/components/BusinessMobileMenu.tsx',
-			'app/business/components/BusinessFooter.tsx',
-			'app/business/components/BusinessPricingSection.tsx',
+			'app/(en)/business/preview/previewClient.js',
+			'app/(en)/business/components/PreviewMagnet.tsx',
+			'app/(en)/business/sections/HeroSection.tsx',
+			'app/(en)/business/components/BusinessNav.tsx',
+			'app/(en)/business/components/BusinessMobileMenu.tsx',
+			'app/(en)/business/components/BusinessFooter.tsx',
+			'app/(en)/business/components/BusinessPricingSection.tsx',
 			'next.config.js',
 			'.env.example',
 		];
@@ -418,11 +418,11 @@ describe('structural refusals', () => {
 				assert.doesNotMatch(src, /ai\.moilapp\.com/, f);
 			}
 		}
-		const clientSrc = read('app/business/preview/previewClient.js');
+		const clientSrc = read('app/(en)/business/preview/previewClient.js');
 		assert.match(clientSrc, /['"]\/plan\/preview['"]/);
 		assert.doesNotMatch(clientSrc, /process\.env\.NEXT_PUBLIC_PLAN_API_ORIGIN/);
 		assert.doesNotMatch(clientSrc, /src\.NEXT_PUBLIC_PLAN_API_ORIGIN/);
-		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
 		assert.doesNotMatch(magnet, /getPlanApiOrigin/);
 		assert.doesNotMatch(magnet, /isPlanApiConfigured/);
 		assert.doesNotMatch(magnet, /NEXT_PUBLIC_PLAN_API_ORIGIN/);
@@ -462,7 +462,7 @@ describe('structural refusals', () => {
 	});
 
 	it('Places stays hidden and the rewrite is not a model route', () => {
-		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
 		assert.doesNotMatch(magnet, /doorBtn\('place'/);
 		assert.doesNotMatch(magnet, /react-google-autocomplete/);
 		assert.doesNotMatch(magnet, /GOOGLE_API_KEY_2/);
@@ -509,7 +509,7 @@ describe('tagline sanitizer', () => {
 
 describe('website-only door — no handle generate', () => {
 	it('does not render the Social handle chip or Places chip', () => {
-		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
 		assert.doesNotMatch(magnet, /doorBtn\('handle'/);
 		assert.doesNotMatch(magnet, /m\.doorHandle/);
 		assert.doesNotMatch(magnet, /name="handle"/);
@@ -531,7 +531,7 @@ describe('website-only door — no handle generate', () => {
 			assert.notEqual(decision.kind, 'submit', url);
 		}
 
-		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
 		assert.match(magnet, /websiteFieldDecision/);
 		assert.match(magnet, /socialLinkRefuse/);
 		assert.doesNotMatch(magnet, /setDoor\('handle'\)/);
@@ -548,7 +548,7 @@ describe('website-only door — no handle generate', () => {
 	});
 
 	it('does not show the handle honest-miss copy', () => {
-		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
 		const en = read('src/common/translations/en.ts');
 		const es = read('src/common/translations/es.ts');
 		assert.doesNotMatch(magnet, /handleNoName/);
@@ -563,14 +563,14 @@ describe('ready card v1 locks', () => {
 		assert.equal(reveal.canShowReadyCard({ name: '' }), false);
 		assert.equal(reveal.canShowReadyCard({ name: '   ' }), false);
 		assert.equal(reveal.canShowReadyCard({ name: 'Taste On Main' }), true);
-		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
 		assert.doesNotMatch(magnet, /unnamedBrand/);
 		assert.doesNotMatch(magnet, /Your business/);
 		assert.match(magnet, /canShowReadyCard/);
 	});
 
 	it('promise list strings are gone from the card and magnet i18n', () => {
-		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
 		const en = read('src/common/translations/en.ts');
 		const es = read('src/common/translations/es.ts');
 		const enMagnet = en.slice(en.indexOf('magnet: {'), en.indexOf('aeoAnswer:'));
@@ -591,14 +591,14 @@ describe('ready card v1 locks', () => {
 	});
 
 	it('hex is used for swatch colour only — not rendered as text', () => {
-		const src = read('app/business/components/GettingToKnowYou.tsx');
+		const src = read('app/(en)/business/components/GettingToKnowYou.tsx');
 		assert.match(src, /style=\{\{ background: hex\(c\) \}\}/);
 		assert.doesNotMatch(src, />\{hex\(c\)\}</);
 		assert.doesNotMatch(src, /font-mono[^>]*>\{hex/);
 	});
 
 	it('no email field on ready or wait', () => {
-		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
 		assert.doesNotMatch(magnet, /type="email"/);
 		assert.doesNotMatch(magnet, /waitEmailLabel/);
 		assert.doesNotMatch(magnet, /emailLabel/);
@@ -608,13 +608,13 @@ describe('ready card v1 locks', () => {
 		assert.ok(waitStart > 0 && waitEnd > waitStart, 'wait block not found');
 		const waitBlock = magnet.slice(waitStart, waitEnd);
 		assert.doesNotMatch(waitBlock, /email/i);
-		const gtk = read('app/business/components/GettingToKnowYou.tsx');
+		const gtk = read('app/(en)/business/components/GettingToKnowYou.tsx');
 		assert.doesNotMatch(gtk, /type="email"/);
 	});
 
 	it('does not claim visitor mail or ship a confirm helper', () => {
-		const magnet = read('app/business/components/PreviewMagnet.tsx');
-		const revealSrc = read('app/business/preview/previewReveal.js');
+		const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
+		const revealSrc = read('app/(en)/business/preview/previewReveal.js');
 		const enMagnet = read('src/common/translations/en.ts').slice(
 			read('src/common/translations/en.ts').indexOf('magnet: {'),
 			read('src/common/translations/en.ts').indexOf('aeoAnswer:'),
@@ -626,13 +626,13 @@ describe('ready card v1 locks', () => {
 			assert.doesNotMatch(src, /honest-optional/i);
 			assert.doesNotMatch(src, /abandon notify/i);
 		}
-		assert.equal(fs.existsSync(path.join(root, 'app/business/preview/previewConfirm.js')), false);
-		assert.equal(fs.existsSync(path.join(root, 'app/business/preview/confirmEmail.js')), false);
+		assert.equal(fs.existsSync(path.join(root, 'app/(en)/business/preview/previewConfirm.js')), false);
+		assert.equal(fs.existsSync(path.join(root, 'app/(en)/business/preview/confirmEmail.js')), false);
 	});
 });
 
 describe('frozen GET contract on the ready card', () => {
-	const magnet = () => read('app/business/components/PreviewMagnet.tsx');
+	const magnet = () => read('app/(en)/business/components/PreviewMagnet.tsx');
 
 	it('readThin is gone from ready JSX and magnet i18n', () => {
 		const src = magnet();
@@ -862,7 +862,7 @@ describe('frozen GET contract on the ready card', () => {
 		assert.doesNotMatch(src, /<article/);
 		assert.doesNotMatch(src, /I'm learning/);
 		assert.doesNotMatch(src, /Reveal My First Posts/);
-		assert.match(read('app/business/components/GettingToKnowYou.tsx'), /platformDecideForMe/);
+		assert.match(read('app/(en)/business/components/GettingToKnowYou.tsx'), /platformDecideForMe/);
 		assert.match(read('src/common/translations/en.ts'), /Decide For Me/);
 	});
 
@@ -874,7 +874,7 @@ describe('frozen GET contract on the ready card', () => {
 		assert.match(block, /buildRegisterUrl\(/);
 		assert.match(block, /previewSlug: slug/);
 		assert.match(block, /platforms,/);
-		assert.match(read('app/business/components/GettingToKnowYou.tsx'), /\{m\.startFree\}/);
+		assert.match(read('app/(en)/business/components/GettingToKnowYou.tsx'), /\{m\.startFree\}/);
 		assert.doesNotMatch(src, /colorsLabel/);
 		const url = client.buildRegisterUrl({ lang: 'en', previewSlug: 'taco-shop' });
 		assert.match(url, /[?&]preview=taco-shop/);

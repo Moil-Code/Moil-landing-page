@@ -10,10 +10,10 @@ const root = path.join(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 
 describe('pricing sections v2', () => {
-  const page = read('app/business/BusinessPageContent.tsx');
-  const pricing = read('app/business/components/BusinessPricingSection.tsx');
-  const pricingPage = read('app/business/pricing/BusinessPricingPageContent.tsx');
-  const css = read('app/business/business.css');
+  const page = read('app/(en)/business/BusinessPageContent.tsx');
+  const pricing = read('app/(en)/business/components/BusinessPricingSection.tsx');
+  const pricingPage = read('app/(en)/business/pricing/BusinessPricingPageContent.tsx');
+  const css = read('app/(en)/business/business.css');
   const v2 = css.slice(css.indexOf('Pricing system v2: editorial index'));
 
   it('turns the glance section into three intentional modules without a six-column ghost grid', () => {

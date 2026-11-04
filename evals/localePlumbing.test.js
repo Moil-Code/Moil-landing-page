@@ -72,7 +72,7 @@ describe('path locale contract', () => {
 
 describe('first-paint document language', () => {
 	it('root html lang is not hardcoded en', () => {
-		const src = read('app/layout.tsx');
+		const src = read('app/(en)/layout.tsx');
 		assert.doesNotMatch(src, /<html lang="en"/);
 		assert.match(src, /<html lang=\{lang\}/);
 		assert.match(src, /headers\(\)/);
@@ -129,7 +129,7 @@ describe('English quotes stay English and are labelled on ES', () => {
 	});
 
 	it('ES review cards render the escrito en inglés label', () => {
-		const page = read('app/business/BusinessPageContent.tsx');
+		const page = read('app/(en)/business/BusinessPageContent.tsx');
 		assert.match(page, /writtenInEnglishLabel/);
 		assert.match(page, /t\.business\.testimonials\.writtenInEnglish/);
 		assert.match(page, /currentLang === 'es'/);
@@ -176,7 +176,7 @@ describe('this PR keeps EN and ES documents on their own paths', () => {
 		assert.equal(composedH1(enHero), EN_H1);
 		assert.equal(composedH1(esHero), ES_H1);
 		assert.match(
-			read('app/business/layout.tsx'),
+			read('app/(en)/business/layout.tsx'),
 			/AI co-founder that writes the plan and the month \| Moil/,
 		);
 		assert.match(
@@ -231,9 +231,9 @@ describe('the language control NAVIGATES to the twin document (plan 3.1)', () =>
 	// shares. One list now, and every switcher reads it.
 	const routes = read('src/common/i18n/localeRoutes.ts');
 	const provider = read('src/common/components/I18nProvider.tsx');
-	const nav = read('app/business/components/BusinessNav.tsx');
-	const footer = read('app/business/components/BusinessFooter.tsx');
-	const modal = read('app/business/components/BusinessCustomizeModal.tsx');
+	const nav = read('app/(en)/business/components/BusinessNav.tsx');
+	const footer = read('app/(en)/business/components/BusinessFooter.tsx');
+	const modal = read('app/(en)/business/components/BusinessCustomizeModal.tsx');
 	const sitemap = read('app/sitemap.ts');
 
 	it('holds the twin list once and the sitemap alternates derive from it', () => {

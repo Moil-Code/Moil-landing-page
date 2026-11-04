@@ -1,6 +1,6 @@
-import type { AeoLabels } from '../../../app/compare/AeoCitePage';
+import type { AeoLabels } from '../../../app/(en)/compare/AeoCitePage';
 
-import { buildRegisterUrl } from '~~/app/business/preview/previewClient';
+import { buildRegisterUrl } from '~~/app/(en)/business/preview/previewClient';
 /** The citation-page chrome in Spanish. */
 export const ES_LABELS: AeoLabels = {
   cta: 'Empieza gratis, sin tarjeta.',

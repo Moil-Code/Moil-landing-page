@@ -1,6 +1,6 @@
 // @ts-check
 
-const { getLoginUrl, getRegisterUrl } = require("./app/business/preview/previewClient");
+const { getLoginUrl, getRegisterUrl } = require("./app/(en)/business/preview/previewClient");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

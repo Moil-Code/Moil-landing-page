@@ -23,6 +23,7 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.join(__dirname, '..');
+const { routeFile } = require('./lib/routeFile');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 const exists = (p) => fs.existsSync(path.join(root, p));
 
@@ -37,20 +38,11 @@ function loadEsPages() {
 const ES_PAGES = loadEsPages();
 
 function pageFile(route) {
-	// app/es/<slug>/page.tsx or app/es/(group)/<slug>/page.tsx
-	const rel = route.replace(/^\//, '');
-	const direct = `app/${rel}/page.tsx`;
-	if (exists(direct)) return direct;
-	const parts = rel.split('/');
-	const parent = parts.slice(0, -1).join('/');
-	const leaf = parts[parts.length - 1];
-	for (const e of fs.readdirSync(path.join(root, 'app', parent), { withFileTypes: true })) {
-		if (e.isDirectory() && /^\(.*\)$/.test(e.name)) {
-			const grouped = `app/${parent}/${e.name}/${leaf}/page.tsx`;
-			if (exists(grouped)) return grouped;
-		}
-	}
-	assert.fail(`no page.tsx for ${route}`);
+	// app/es/<slug>/page.tsx, app/es/(group)/<slug>/page.tsx, and the English
+	// twins under app/(en)/: route groups are folders, not URL segments.
+	const file = routeFile(root, route);
+	if (!file) assert.fail(`no page.tsx for ${route}`);
+	return file;
 }
 
 const stripComments = (s) => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
@@ -76,7 +68,7 @@ describe('registry', () => {
 		for (const p of ES_PAGES) {
 			assert.match(p.path, /^\/es\//, p.path);
 			pageFile(p.path);
-			if (p.en) assert.ok(exists(`app${p.en}/page.tsx`), `${p.en} must exist for ${p.path}`);
+			if (p.en) assert.ok(routeFile(root, p.en), `${p.en} must exist for ${p.path}`);
 			assert.equal(typeof p.reviewed, 'boolean', `${p.path}.reviewed`);
 		}
 	});
@@ -123,7 +115,7 @@ describe('the page itself', () => {
 			it(`${p.path}: twin alternates come from the registry, on BOTH halves`, () => {
 				assert.match(src, /twinAlternates\(baseURL1, EN_PATH\)/);
 				assert.ok(src.includes(`const EN_PATH = '${p.en}'`));
-				const en = stripComments(read(`app${p.en}/page.tsx`));
+				const en = stripComments(read(pageFile(p.en)));
 				assert.ok(en.includes(`twinAlternates(baseURL1, '${p.en}')`), `${p.en} must declare its Spanish twin through the registry`);
 			});
 		}
@@ -163,7 +155,7 @@ describe('one flag, three surfaces', () => {
 			assert.match(src, /<I18nProvider initialLang="es">/, layout);
 			assert.match(src, /<CompareShell>/, layout);
 		}
-		assert.match(read('app/compare/layout.tsx'), /CompareShell/, 'English compare layout shares the shell');
+		assert.match(read('app/(en)/compare/layout.tsx'), /CompareShell/, 'English compare layout shares the shell');
 	});
 	it('page-dates keys a route-group page on its URL, so a reviewed page can be dated', () => {
 		const dates = JSON.parse(read('src/common/seo/pageDates.json'));

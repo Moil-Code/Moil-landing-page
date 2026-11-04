@@ -40,7 +40,7 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 
-const funnel = require('../app/business/preview/funnelEvents');
+const funnel = require('../app/(en)/business/preview/funnelEvents');
 
 /** Comments stripped, so an explanation cannot satisfy a check about code. */
 function stripComments(src) {
@@ -162,7 +162,7 @@ describe('buildEvent refuses rather than coerces', () => {
 
 describe('the sender is a measurement, not a tracker', () => {
 	const src = stripComments(
-		read('app/business/preview/funnelEvents.js'),
+		read('app/(en)/business/preview/funnelEvents.js'),
 	);
 
 	it('sets no cookie, reads no device id, contacts no third party', () => {
@@ -225,10 +225,10 @@ describe('the sender is a measurement, not a tracker', () => {
 
 describe('every landing emitter is wired at its own site', () => {
 	const magnet = stripComments(
-		read('app/business/components/PreviewMagnet.tsx'),
+		read('app/(en)/business/components/PreviewMagnet.tsx'),
 	);
 	const card = stripComments(
-		read('app/business/components/GettingToKnowYou.tsx'),
+		read('app/(en)/business/components/GettingToKnowYou.tsx'),
 	);
 
 	it('the magnet emits a VIEW once, guarded — a view is not a render', () => {

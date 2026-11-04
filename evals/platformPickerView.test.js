@@ -23,11 +23,11 @@ const {
 	pickerState,
 	decideChip,
 	chooseDecide,
-} = require('../app/business/preview/platformPickerView');
+} = require('../app/(en)/business/preview/platformPickerView');
 const {
 	OFFERED,
 	COMING,
-} = require('../app/business/preview/platformChoice');
+} = require('../app/(en)/business/preview/platformChoice');
 
 test('every offered network is selectable, and only those', () => {
 	const rows = pickerRows();
@@ -93,7 +93,7 @@ test('an untouched picker is in the decide state', () => {
 
 test('the module is pure', () => {
 	const src = fs.readFileSync(
-		path.join(__dirname, '../app/business/preview/platformPickerView.js'),
+		path.join(__dirname, '../app/(en)/business/preview/platformPickerView.js'),
 		'utf8',
 	);
 	const body = src
@@ -141,7 +141,7 @@ test('every row has copy in BOTH languages', () => {
 
 test('the screen renders the rows it is given, and refuses through toggle', () => {
 	const src = fs.readFileSync(
-		path.join(__dirname, '../app/business/components/GettingToKnowYou.tsx'),
+		path.join(__dirname, '../app/(en)/business/components/GettingToKnowYou.tsx'),
 		'utf8',
 	);
 	assert.ok(/pickerRows\(\{ selected: platforms \}\)/.test(src));
@@ -157,7 +157,7 @@ test('the choice reaches the register URL', () => {
 	// A picker whose answer nothing carries is decoration — the rule this
 	// whole feature exists under.
 	const src = fs.readFileSync(
-		path.join(__dirname, '../app/business/components/PreviewMagnet.tsx'),
+		path.join(__dirname, '../app/(en)/business/components/PreviewMagnet.tsx'),
 		'utf8',
 	);
 	const at = src.indexOf('const signupHref = useMemo(');

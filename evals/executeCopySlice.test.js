@@ -76,7 +76,7 @@ function namedBlock(src, name) {
 }
 
 describe('execute copy slice — /business metadata', () => {
-	const layout = read('app/business/layout.tsx');
+	const layout = read('app/(en)/business/layout.tsx');
 	const meta = metadataExport(layout);
 	const og = namedBlock(meta, 'openGraph');
 	const twitter = namedBlock(meta, 'twitter');

@@ -29,16 +29,17 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const root = path.join(__dirname, '..');
+const { routeFile } = require('./lib/routeFile');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 const stripComments = (s) =>
 	s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/[^\n]*$/gm, '');
 
 // The page is a thin wrapper now: PartnersBody holds the layout and schema for
 // both languages, page.tsx holds the English metadata.
-const WRAPPER = stripComments(read('app/partners/page.tsx'));
-const BODY = stripComments(read('app/partners/PartnersBody.tsx'));
+const WRAPPER = stripComments(read('app/(en)/partners/page.tsx'));
+const BODY = stripComments(read('app/(en)/partners/PartnersBody.tsx'));
 const PAGE = BODY;
-const CONTENT_RAW = read('app/partners/partnerContent.ts');
+const CONTENT_RAW = read('app/(en)/partners/partnerContent.ts');
 const CONTENT = stripComments(CONTENT_RAW);
 
 let ran = 0;
@@ -143,18 +144,18 @@ check('no claim the product does not document', () => {
 
 check('no plan price is typed on the page; all come from the pricing source', () => {
 	assert.doesNotMatch(CONTENT + PAGE, /\$(25|75)\b/, 'type no plan price here; read it from offers.ts / pricingCopy.ts');
-	assert.match(CONTENT, /from '\.\.\/\.\.\/src\/common\/seo\/offers'/);
-	assert.match(CONTENT, /from '\.\.\/\.\.\/src\/common\/seo\/pricingCopy'/);
+	assert.match(CONTENT, /from '(?:\.\.\/)+src\/common\/seo\/offers'/);
+	assert.match(CONTENT, /from '(?:\.\.\/)+src\/common\/seo\/pricingCopy'/);
 });
 
 check('the agency range is the one /compare/moil-vs-agency publishes', () => {
-	const agency = read('app/compare/moil-vs-agency/page.tsx');
+	const agency = read('app/(en)/compare/moil-vs-agency/page.tsx');
 	assert.match(agency, /\$3,000 and \$8,000|\$3,000 to \$8,000/);
 	assert.match(CONTENT, /agencyRange:\s*'\$3,000 to \$8,000'/);
 });
 
 check('both real partners are named, and links to them open safely', () => {
-	const orgs = stripComments(read('app/partners/partnerCopy.ts'));
+	const orgs = stripComments(read('app/(en)/partners/partnerCopy.ts'));
 	for (const name of ['Queen Creek Chamber of Commerce', 'Buda Economic Development Corporation']) {
 		assert.ok(orgs.includes(name), `${name} missing`);
 	}
@@ -176,14 +177,13 @@ check('every internal link on the page resolves to a real route', () => {
 	].filter((h) => h !== '/');
 	assert.ok(hrefs.length >= 6, `only ${hrefs.length} internal links found`);
 	for (const h of hrefs) {
-		const file = path.join(root, 'app', h, 'page.tsx');
-		assert.ok(fs.existsSync(file), `${h} does not resolve to app${h}/page.tsx`);
+		assert.ok(routeFile(root, h), `${h} does not resolve to a page.tsx under app/ (route groups included)`);
 	}
 });
 
 check('the surfaces assistants read all point at /partners', () => {
 	assert.match(read('public/llms.txt'), /moilapp\.com\/partners/);
-	assert.match(read('app/ai-info/page.tsx'), /href="\/partners"/);
+	assert.match(read('app/(en)/ai-info/page.tsx'), /href="\/partners"/);
 	assert.match(read('app/sitemap.ts'), /\/partners/);
 });
 

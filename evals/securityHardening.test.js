@@ -104,7 +104,7 @@ test('every JSON-LD block is serialised through jsonLd(), which escapes </script
 test('cookies carry Secure: middleware lang cookie and the preview slug cookie', () => {
 	const mw = stripComments(read('middleware.ts'));
 	assert.match(mw, /secure:\s*process\.env\.NODE_ENV === 'production'/);
-	const cookie = require(path.join(ROOT, 'app/business/preview/previewCookie.js'));
+	const cookie = require(path.join(ROOT, 'app/(en)/business/preview/previewCookie.js'));
 	const doc = { cookie: '', location: { protocol: 'https:' } };
 	cookie.setPreviewSlugCookie('abc_123', doc);
 	assert.match(doc.cookie, /; Secure$/);

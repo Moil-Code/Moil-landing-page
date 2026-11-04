@@ -57,12 +57,12 @@ const positioningCopy = (file) =>
 		: read(file);
 
 const COMPARE_PAGES = [
-	'app/compare/moil-vs-buffer/page.tsx',
-	'app/compare/moil-vs-later/page.tsx',
-	'app/compare/moil-vs-hootsuite/page.tsx',
-	'app/compare/moil-vs-chatgpt/page.tsx',
-	'app/compare/moil-vs-agency/page.tsx',
-	'app/compare/alternative-to-consultant/page.tsx',
+	'app/(en)/compare/moil-vs-buffer/page.tsx',
+	'app/(en)/compare/moil-vs-later/page.tsx',
+	'app/(en)/compare/moil-vs-hootsuite/page.tsx',
+	'app/(en)/compare/moil-vs-chatgpt/page.tsx',
+	'app/(en)/compare/moil-vs-agency/page.tsx',
+	'app/(en)/compare/alternative-to-consultant/page.tsx',
 ];
 
 describe('the "shop" lock stays retired', () => {
@@ -76,7 +76,7 @@ describe('the "shop" lock stays retired', () => {
 	});
 
 	it('the H1 is driven by translations, not hardcoded English', () => {
-		const hero = read('app/business/sections/HeroSection.tsx');
+		const hero = read('app/(en)/business/sections/HeroSection.tsx');
 		assert.match(hero, /t\.business\.hero\.headline/);
 		assert.match(hero, /t\.business\.hero\.headlineHighlight/);
 		assert.match(hero, /t\.business\.hero\.subheadline/);
@@ -91,7 +91,7 @@ describe('no fabricated or unsourced social proof', () => {
 
 	it('keeps every published review in one place', () => {
 		// Two lists is how the FAQ ended up publishing contradictory answers.
-		const page = read('app/business/BusinessPageContent.tsx');
+		const page = read('app/(en)/business/BusinessPageContent.tsx');
 		assert.match(page, /businessReviews\(\)/);
 		for (const file of ['src/common/translations/en.ts', 'src/common/translations/es.ts']) {
 			const src = read(file);
@@ -250,20 +250,20 @@ describe('bilingual parity', () => {
 	});
 
 	it('renders the FAQ from translations rather than a hardcoded array', () => {
-		const faq = read('app/business/components/BusinessFaqSection.tsx');
+		const faq = read('app/(en)/business/components/BusinessFaqSection.tsx');
 		assert.match(faq, /t\.business\.faq\.items\.map/);
 		assert.doesNotMatch(faq, /const BUSINESS_FAQ_ITEMS/);
 	});
 
 	it('generates FAQ structured data from the same source the page renders', () => {
-		const layout = read('app/business/layout.tsx');
+		const layout = read('app/(en)/business/layout.tsx');
 		assert.match(layout, /faqJsonLd\(en\.business\.faq\.items\)/);
 		// A hand-written mainEntity array is what drifted from the component before.
 		assert.doesNotMatch(layout, /"@type":\s*"FAQPage"/);
 	});
 
 	it('serves stat labels from translations', () => {
-		const page = read('app/business/BusinessPageContent.tsx');
+		const page = read('app/(en)/business/BusinessPageContent.tsx');
 		assert.match(page, /t\.business\.statsSection\.stats\.professional/);
 		assert.doesNotMatch(page, /label: 'Professional \/ month'/);
 	});
@@ -294,7 +294,7 @@ const ES_H1 = 'No deberías tener que encargarte de todo, además de hacer el tr
 
 describe('answer-engine surfaces', () => {
 	it('renders the direct-answer block', () => {
-		const page = read('app/business/BusinessPageContent.tsx');
+		const page = read('app/(en)/business/BusinessPageContent.tsx');
 		assert.match(page, /t\.business\.aeoAnswer\.body/);
 		assert.match(page, /id="what-is-moil"/);
 	});
@@ -316,7 +316,7 @@ describe('answer-engine surfaces', () => {
 			'https://blog.moilapp.com/article/best-ai-business-plan-generator-2025-compared',
 			'https://blog.moilapp.com/article/30-day-social-media-content-calendar-small-business',
 		];
-		const page = read('app/business/BusinessPageContent.tsx');
+		const page = read('app/(en)/business/BusinessPageContent.tsx');
 		const llms = read('public/llms.txt');
 		const en = read('src/common/translations/en.ts');
 		for (const url of urls) {
@@ -332,7 +332,7 @@ describe('answer-engine surfaces', () => {
 	});
 
 	it('ships an /ai-info page with limitations and assistant guidelines', () => {
-		const src = read('app/ai-info/page.tsx');
+		const src = read('app/(en)/ai-info/page.tsx');
 		assert.match(src, /Guidelines for AI assistants/);
 		assert.match(src, /Who it is not for/);
 		assert.match(src, /NOT_FOR/);
@@ -361,8 +361,8 @@ describe('answer-engine surfaces', () => {
 		// moil-vs-claude was a near-duplicate of the ChatGPT page and had BOTH a
 		// route and a permanent redirect away from itself (the redirect wins, so
 		// the route was dead code). Retired for real 2026-09-05 (plan WS5.2).
-		assert.ok(!fs.existsSync(path.join(root, 'app/compare/moil-vs-claude')));
-		assert.ok(!fs.existsSync(path.join(root, 'app/compare/bilingual-local-shop')));
+		assert.ok(!fs.existsSync(path.join(root, 'app/(en)/compare/moil-vs-claude')));
+		assert.ok(!fs.existsSync(path.join(root, 'app/(en)/compare/bilingual-local-shop')));
 		const config = read('next.config.js');
 		assert.match(config, /source: '\/compare\/bilingual-local-shop'/);
 		assert.match(config, /source: '\/compare\/moil-vs-claude'/);
@@ -400,7 +400,7 @@ describe('answer-engine surfaces', () => {
 		// A surface may state both prices as literals (llms.txt is static text) or
 		// by importing a pricingCopy sentence that names both — never one alone.
 		const bothTiers = /pricingCopy\.(en|es)\.(entityPrice|split|faqCost|meta|trustBoth)/;
-		for (const file of ['public/llms.txt', 'app/ai-info/page.tsx']) {
+		for (const file of ['public/llms.txt', 'app/(en)/ai-info/page.tsx']) {
 			const src = read(file);
 			const literal = src.includes('$25') && src.includes('$75');
 			assert.ok(literal || bothTiers.test(src), `${file} states one tier but not the other`);
@@ -510,7 +510,7 @@ describe('publishing is described accurately', () => {
 	});
 
 	it('the machine-facing surfaces name the networks Moil actually publishes to', () => {
-		for (const file of ['app/ai-info/page.tsx', 'public/llms.txt']) {
+		for (const file of ['app/(en)/ai-info/page.tsx', 'public/llms.txt']) {
 			const src = read(file);
 			assert.match(src, /Facebook/i, `${file} never names Facebook as a publish target`);
 			assert.match(src, /Instagram/i, `${file} never names Instagram as a publish target`);

@@ -29,7 +29,16 @@ The site has four distinct sections, each with its own route, layout, and compon
 | `/marketing` | Content360 marketing product |
 | `/legacy` | Legacy page (not actively maintained) |
 
-Each section has a `layout.tsx` for SEO metadata and may have its own CSS file (e.g., `app/business/business.css`).
+Each section has a `layout.tsx` for SEO metadata and may have its own CSS file (e.g., `app/(en)/business/business.css`).
+
+**One root layout per language.** The English routes live in the route group
+`app/(en)/` (a folder in parentheses is not part of the URL: `/business` is
+`app/(en)/business/page.tsx`) and the Spanish ones in `app/es/`, each with its
+own root layout, so every document's `<html lang>` is a property of its route.
+There is no `app/layout.tsx`. An unmatched URL is answered by the catch-all
+`[...missing]` page in each tree (404). Navigating between the two trees is a
+full page load, which the language switch already was. Evals that resolve a
+URL to its file use `evals/lib/routeFile.js`, which looks through groups.
 
 ### Component organization
 
@@ -47,7 +56,7 @@ Custom i18n system layered on top of i18next:
 - Detection priority: URL querystring `?lg=` → localStorage `tlang` → browser navigator
 - Translation strings live in `src/common/translations/en.ts` and `es.ts` as nested objects
 - Language state is managed via `src/contexts/LanguageContext.tsx`
-- Each section has a `useTranslation.ts` hook (e.g., `app/business/useTranslation.ts`) that selects the right subtree of translations
+- Each section has a `useTranslation.ts` hook (e.g., `app/(en)/business/useTranslation.ts`) that selects the right subtree of translations
 - `src/common/components/I18nProvider.tsx` wraps the app and handles detection/persistence
 
 ### AI endpoints: this repo calls none, and that is the rule

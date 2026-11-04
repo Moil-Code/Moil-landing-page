@@ -39,7 +39,7 @@ const FILES = [...walk('app'), ...walk('src')];
 
 // A file may sit here only with a reason a human wrote down.
 const EXEMPT = {
-	'app/business/preview/previewClient.js':
+	'app/(en)/business/preview/previewClient.js':
 		'DEFAULT_REGISTER_ORIGIN is deliberately production, so an unset env on ' +
 		'the PROD twin cannot retarget www from source. .github/deploy.sh REFUSES ' +
 		'a stagebeta build that has not overridden it (STAGEBETA_REGISTER_ORIGIN), ' +

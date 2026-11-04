@@ -1,11 +1,11 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { getRegisterUrl } from '~~/app/business/preview/previewClient';
-import { BusinessFooter } from '../../../app/business/components/BusinessFooter';
-import { BusinessMobileMenu } from '../../../app/business/components/BusinessMobileMenu';
-import { BusinessNav, type NavItem } from '../../../app/business/components/BusinessNav';
-import { useBusinessUi } from '../../../app/business/hooks/useBusinessUi';
+import { getRegisterUrl } from '~~/app/(en)/business/preview/previewClient';
+import { BusinessFooter } from '../../../app/(en)/business/components/BusinessFooter';
+import { BusinessMobileMenu } from '../../../app/(en)/business/components/BusinessMobileMenu';
+import { BusinessNav, type NavItem } from '../../../app/(en)/business/components/BusinessNav';
+import { useBusinessUi } from '../../../app/(en)/business/hooks/useBusinessUi';
 import { I18nProvider, useLanguageContext } from './I18nProvider';
 import styles from './BrandPageShell.module.css';
 

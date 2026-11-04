@@ -19,7 +19,7 @@ const path = require('path');
 
 const root = path.join(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
-const funnel = require('../app/business/free-trial/trialFunnel.js');
+const funnel = require('../app/(en)/business/free-trial/trialFunnel.js');
 
 const REGISTER = 'https://business.moilapp.com/register';
 
@@ -123,7 +123,7 @@ describe('flagged claims and events', () => {
 });
 
 describe('content follows the brief', () => {
-	const content = read('app/business/free-trial/trialContent.ts');
+	const content = read('app/(en)/business/free-trial/trialContent.ts');
 
 	it('no em dashes anywhere in the copy file', () => {
 		assert.doesNotMatch(content, /—/);
@@ -165,7 +165,7 @@ describe('content follows the brief', () => {
 });
 
 describe('page wiring', () => {
-	const page = read('app/business/free-trial/TrialPage.tsx');
+	const page = read('app/(en)/business/free-trial/TrialPage.tsx');
 
 	it('every register link carries data-signup-cta and opens in the same tab', () => {
 		const anchors = page.match(/<a\b[^>]*href=\{registerHref\}[^>]*>/g) || [];
@@ -200,7 +200,7 @@ describe('page wiring', () => {
 	});
 
 	it('both languages render the same component from the same content file', () => {
-		assert.match(read('app/business/free-trial/page.tsx'), /<TrialPage copy=\{TRIAL_EN\}/);
+		assert.match(read('app/(en)/business/free-trial/page.tsx'), /<TrialPage copy=\{TRIAL_EN\}/);
 		assert.match(read('app/es/business/prueba-gratis/page.tsx'), /<TrialPage copy=\{TRIAL_ES\}/);
 	});
 });
