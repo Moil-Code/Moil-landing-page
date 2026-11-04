@@ -5,12 +5,14 @@ import {
   failureResponse,
   undeliveredRecord,
 } from './deliveryOutcome';
+import { clientIp, createLimiter } from './rateLimit';
 
 export const runtime = 'nodejs';
 
-const WINDOW_MS = 15 * 60 * 1000;
-const MAX_REQUESTS = 4;
-const requestCounts = new Map<string, { count: number; resetAt: number }>();
+// 4 per 15 minutes per visitor, keyed on the address our proxy saw (rateLimit.js).
+const limiter = createLimiter();
+// A contact message is a few KB; refuse anything far larger before parsing it.
+const MAX_BODY_BYTES = 32 * 1024;
 
 const escapeHtml = (value: string) => value
   .replaceAll('&', '&amp;')
@@ -60,20 +62,6 @@ async function notifyLeadWebhook(text: string): Promise<boolean> {
 
 const isEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-function isRateLimited(ip: string) {
-  const now = Date.now();
-  const current = requestCounts.get(ip);
-
-  if (!current || current.resetAt <= now) {
-    requestCounts.set(ip, { count: 1, resetAt: now + WINDOW_MS });
-    return false;
-  }
-
-  if (current.count >= MAX_REQUESTS) return true;
-  current.count += 1;
-  return false;
-}
-
 export async function POST(request: Request) {
   if (request.headers.get('sec-fetch-site') === 'cross-site') {
     return NextResponse.json({ error: 'This request is not allowed.' }, { status: 403 });
@@ -84,8 +72,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid request format.' }, { status: 415 });
   }
 
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
-  if (isRateLimited(ip)) {
+  const declaredLength = Number(request.headers.get('content-length') || 0);
+  if (declaredLength > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: 'The message is too long.' }, { status: 413 });
+  }
+
+  const ip = clientIp(request.headers);
+  if (limiter.isRateLimited(ip)) {
     return NextResponse.json({ error: 'Too many messages were sent. Please wait a few minutes and try again.' }, { status: 429 });
   }
 
