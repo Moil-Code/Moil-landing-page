@@ -1,6 +1,8 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Briefcase, FileText, Languages, Mic } from "lucide-react";
+import { useCandidateTheme } from "../hooks/useCandidateTheme";
 import SearchComponent from "../components/search";
 import { useCandidateCopy, styles } from "../components/landing/elements";
 import { openCandidateApp, openCandidateRegister } from "../utils/urlBuilder";
@@ -9,6 +11,81 @@ interface CandidateHeroProps {
   onGetStarted?: () => void;
   refQuery?: string;
   lgQuery?: string;
+}
+
+const HERO_VIDEO = {
+  light: {
+    src: "/candidate/shaders/hero-shader-loop-v1.mp4",
+    poster: "/candidate/shaders/hero-shader-v2.webp",
+  },
+  dark: {
+    src: "/candidate/shaders/hero-shader-dark-loop-v1.mp4",
+    poster: "/candidate/shaders/hero-shader-dark-poster-v1.jpg",
+  },
+} as const;
+
+/**
+ * One background loop, for the theme on screen.
+ *
+ * The hero used to render BOTH loops (light and dark, ~3 MB each) with
+ * autoPlay and hide one with CSS, so every visit downloaded and decoded the
+ * one nobody could see, and both kept playing after the hero scrolled away.
+ * Now only the current theme's video exists; it plays while the hero is on
+ * screen and the tab is visible, as the /business hero does. The poster is
+ * the hero's CSS background, so nothing is lost before the client mounts or
+ * when reduced motion is preferred (no video at all then).
+ */
+function HeroVideo() {
+  const { theme } = useCandidateTheme();
+  const video = useRef<HTMLVideoElement>(null);
+  const [motionAllowed, setMotionAllowed] = useState(false);
+
+  useEffect(() => {
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setMotionAllowed(!preference.matches);
+    sync();
+    preference.addEventListener("change", sync);
+    return () => preference.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    const player = video.current;
+    if (!player || !motionAllowed) return;
+    let visible = true;
+    const syncPlayback = () => {
+      if (!visible || document.hidden) player.pause();
+      else void player.play().catch(() => { /* the poster stays when autoplay is refused */ });
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      syncPlayback();
+    });
+    observer.observe(player);
+    document.addEventListener("visibilitychange", syncPlayback);
+    syncPlayback();
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", syncPlayback);
+      player.pause();
+    };
+  }, [theme, motionAllowed]);
+
+  if (!motionAllowed) return null;
+  const { src, poster } = HERO_VIDEO[theme === "dark" ? "dark" : "light"];
+  return (
+    <video
+      ref={video}
+      key={theme}
+      className={styles.heroVideo}
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      poster={poster}
+      src={src}
+      aria-hidden="true"
+    />
+  );
 }
 
 export default function CandidateHero({ refQuery, lgQuery }: CandidateHeroProps) {
@@ -34,37 +111,7 @@ export default function CandidateHero({ refQuery, lgQuery }: CandidateHeroProps)
 
   return (
     <section id="candidate-top" className={styles.hero} aria-labelledby="candidate-hero-heading">
-      <video
-        className={`${styles.heroVideo} ${styles.heroVideoLight}`}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster="/candidate/shaders/hero-shader-v2.webp"
-        aria-hidden="true"
-      >
-        <source
-          src="/candidate/shaders/hero-shader-loop-v1.mp4"
-          type="video/mp4"
-        />
-      </video>
-
-      <video
-        className={`${styles.heroVideo} ${styles.heroVideoDark}`}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster="/candidate/shaders/hero-shader-dark-poster-v1.jpg"
-        aria-hidden="true"
-      >
-        <source
-          src="/candidate/shaders/hero-shader-dark-loop-v1.mp4"
-          type="video/mp4"
-        />
-      </video>
+      <HeroVideo />
 
       <div className={styles.heroContainer}>
         <div className={styles.heroBadge}>

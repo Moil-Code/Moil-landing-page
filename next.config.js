@@ -229,6 +229,35 @@ const nextConfig = {
           },
         ],
       },
+      {
+        // Video and modern image formats (public/). They were served
+        // `max-age=0`, so every visit re-downloaded the ~3 MB hero loops.
+        // Most of these names are NOT versioned (footer_2.webp, card_bg_1.webp),
+        // and a file replaced under the same name must reach visitors, so the
+        // default is a day fresh, then revalidated (ETag) while a stale copy
+        // keeps serving for a week.
+        source: '/(.*)\\.(mp4|webm|webp|avif)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=604800',
+          },
+        ],
+      },
+      {
+        // ...except a VERSIONED name (hero-light-loop-v1.mp4,
+        // bilingual-section-shader-v3.webp): a new version ships under a new
+        // name, so the old URL never changes and can be cached for a year.
+        // Listed after the rule above: for the same header key, the last
+        // matching rule wins.
+        source: '/(.*)-v(\\d+)\\.(mp4|webm|webp|avif)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
     ];
   },
 
