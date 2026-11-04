@@ -6,7 +6,7 @@
  * nothing else.
  *   node --test evals/dtsSidecarParity.test.js
  *
- * `app/business/preview/*.js` are CommonJS modules with hand-written
+ * `app/(en)/business/preview/*.js` are CommonJS modules with hand-written
  * `.d.ts` sidecars beside them. TypeScript resolves an import to the
  * DECLARATION file and never looks at the JavaScript, so a sidecar that
  * has stopped listing what its module exports is not a stale comment —

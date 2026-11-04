@@ -92,17 +92,17 @@ describe('stagebeta-only deploy', () => {
 
 describe('0f7f5ae0 door + title', () => {
 	it('pins the execute-copy title and the type-out door', () => {
-		const layout = read('app/business/layout.tsx');
+		const layout = read('app/(en)/business/layout.tsx');
 		assert.match(
 			layout,
 			/AI co-founder that writes the plan and the month \| Moil/,
 		);
 		assert.match(
-			read('app/business/components/PreviewMagnet.tsx'),
+			read('app/(en)/business/components/PreviewMagnet.tsx'),
 			/GettingToKnowYou/,
 		);
 		assert.match(
-			read('app/business/components/GettingToKnowYou.tsx'),
+			read('app/(en)/business/components/GettingToKnowYou.tsx'),
 			/leftover-4 dest HOLD/,
 		);
 		assert.equal(fs.existsSync(path.join(root, 'evals/gettingToKnowYou.test.js')), true);

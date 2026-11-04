@@ -22,13 +22,14 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const root = path.join(__dirname, '..');
+const { routeFile } = require('./lib/routeFile');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 const strip = (s) => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/[^\n]*$/gm, '');
 
 const ES = strip(read('app/es/aliados/partnerContentEs.ts'));
 const PAGE = strip(read('app/es/aliados/page.tsx'));
-const EN_PAGE = strip(read('app/partners/page.tsx'));
-const BODY = strip(read('app/partners/PartnersBody.tsx'));
+const EN_PAGE = strip(read('app/(en)/partners/page.tsx'));
+const BODY = strip(read('app/(en)/partners/PartnersBody.tsx'));
 const TWINS = strip(read('src/common/es/esTwinPages.ts'));
 const SITEMAP = strip(read('app/sitemap.ts'));
 const ROUTES = strip(read('src/common/i18n/localeRoutes.ts'));
@@ -44,7 +45,10 @@ check('one component renders both languages', () => {
 	assert.match(PAGE, /<PartnersBody copy=\{PARTNER_ES\}/);
 	assert.match(EN_PAGE, /<PartnersBody copy=\{PARTNER_EN\}/);
 	assert.match(ES, /export const PARTNER_ES: PartnerCopy/, 'the Spanish copy must satisfy the shared type');
-	assert.match(read('app/es/aliados/layout.tsx'), /initialLang="es"/);
+	// The Spanish shell forces Spanish (and ships the Spanish table only).
+	assert.match(read('app/es/aliados/layout.tsx'), /<BrandPageShellEs>/);
+	assert.match(read('src/common/components/BrandPageShellEs.tsx'), /<SpanishI18nProvider>/);
+	assert.match(read('src/common/components/SpanishI18nProvider.tsx'), /initialLang="es"/);
 });
 
 check('Spanish FAQ: question-shaped, 35-95 words, and the array the schema uses', () => {
@@ -96,7 +100,7 @@ check('Spanish page names both real partners through the shared facts', () => {
 check('every internal link resolves to a real route', () => {
 	const hrefs = [...ES.matchAll(/(?:href|pricingHref|compareHref):\s*'(\/[^']*)'/g)].map((m) => m[1]);
 	assert.ok(hrefs.length >= 6, `only ${hrefs.length} links`);
-	for (const h of hrefs) assert.ok(fs.existsSync(path.join(root, 'app', h, 'page.tsx')), `${h} does not resolve`);
+	for (const h of hrefs) assert.ok(routeFile(root, h), `${h} does not resolve`);
 });
 
 check('metadata: self-canonical, description and title in range', () => {
@@ -123,7 +127,7 @@ check('while a draft: the Spanish page is not advertised to crawlers or assistan
 	const reviewed = /reviewed:\s*true/.test(TWINS);
 	if (reviewed) return;
 	assert.doesNotMatch(read('public/llms.txt'), /es\/aliados/, 'a draft must not be in llms.txt');
-	assert.doesNotMatch(read('app/ai-info/page.tsx'), /es\/aliados/, 'a draft must not be in /ai-info');
+	assert.doesNotMatch(read('app/(en)/ai-info/page.tsx'), /es\/aliados/, 'a draft must not be in /ai-info');
 });
 
 check('the language toggle reaches the twin from either side', () => {
@@ -131,7 +135,7 @@ check('the language toggle reaches the twin from either side', () => {
 });
 
 check('the inquiry form has a Spanish voice and the same fallback address', () => {
-	const btn = strip(read('app/partners/PartnershipInquiryButton.tsx'));
+	const btn = strip(read('app/(en)/partners/PartnershipInquiryButton.tsx'));
 	assert.match(btn, /lang = 'en'.*lang\?: Lang/);
 	assert.match(btn, /type Lang = 'en' \| 'es'/);
 	assert.match(btn, /es:\s*\{/);
@@ -143,20 +147,20 @@ check('a Spanish visit does not turn the English page Spanish', () => {
 	// The shell remembers the last language. Without an explicit initialLang the
 	// English page rendered with <html lang="es"> and a Spanish footer after a
 	// visit to /es/aliados (measured in Chromium).
-	assert.match(read('app/partners/layout.tsx'), /<BrandPageShell initialLang="en">/);
+	assert.match(read('app/(en)/partners/layout.tsx'), /<BrandPageShell initialLang="en">/);
 });
 
 check('a non-JSON error response never reaches the visitor as a parse error', () => {
 	// A proxy 502 page is HTML; parsing it as JSON put "Unexpected token '<'"
 	// in the form's error line in both languages (measured in Chromium).
-	const btn = strip(read('app/partners/PartnershipInquiryButton.tsx'));
+	const btn = strip(read('app/(en)/partners/PartnershipInquiryButton.tsx'));
 	assert.match(btn, /await response\.json\(\)\.catch\(\(\) => \(\{\}\)\)/);
 });
 
 check('no network claim beyond what the site states elsewhere', () => {
 	// TikTok and YouTube are built but held for platform approval, and LinkedIn
 	// is publishable on the backend, so naming networks here goes stale.
-	const en = strip(read('app/partners/partnerContent.ts'));
+	const en = strip(read('app/(en)/partners/partnerContent.ts'));
 	for (const src of [en, ES]) {
 		assert.doesNotMatch(src, /TikTok|YouTube|LinkedIn|\bX\b\./, 'the limits name no network beyond Facebook Pages and Instagram');
 	}

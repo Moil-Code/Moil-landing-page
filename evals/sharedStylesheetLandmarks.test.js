@@ -19,7 +19,7 @@
  *     had reported that one.
  *
  * The same stylesheet styled `footer` the same way, and that leak was live and
- * unreported too: `app/reviews/page.tsx` gives each review card's byline a
+ * unreported too: `app/(en)/reviews/page.tsx` gives each review card's byline a
  * `<footer className="review__author">`, and `.review__author` declares no
  * padding or background of its own — so every byline on `/reviews` was painted
  * with the PAGE FOOTER's chrome (72px/52px padding, a surface fill and a top
@@ -140,10 +140,10 @@ describe('a shared stylesheet never styles a landmark by element name', () => {
 	it('each scoped rule still names an element that exists', () => {
 		// Scoping is only a fix if the id is really on the component. A rule
 		// pointing at nothing is the same bug with the bar missing instead.
-		const css = read('app/business/business.css');
+		const css = read('app/(en)/business/business.css');
 		for (const [selector, component, tag] of [
-			['#nav', 'app/business/components/BusinessNav.tsx', 'nav'],
-			['#site-footer', 'app/business/components/BusinessFooter.tsx', 'footer'],
+			['#nav', 'app/(en)/business/components/BusinessNav.tsx', 'nav'],
+			['#site-footer', 'app/(en)/business/components/BusinessFooter.tsx', 'footer'],
 		]) {
 			const id = selector.slice(1);
 			assert.match(

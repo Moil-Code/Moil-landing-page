@@ -52,7 +52,7 @@ describe('page dates (8.4)', () => {
 		for (const d of Object.values(dates)) assert.match(d, /^\d{4}-\d{2}-\d{2}$/);
 	});
 	it('both Article blocks read dateModified from the same source', () => {
-		const en = read('app/business/layout.tsx');
+		const en = read('app/(en)/business/layout.tsx');
 		const es = read('app/es/business/layout.tsx');
 		assert.match(en, /"dateModified": pageDates\["\/business"\]/);
 		assert.doesNotMatch(en, /"dateModified": "20\d\d-/, 'a hand-typed dateModified is back');

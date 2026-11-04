@@ -121,7 +121,7 @@ describe('request', () => {
 
 describe('wiring', () => {
 	const comp = strip(read('src/common/components/PresenceBeacon.tsx'));
-	const layout = strip(read('app/layout.tsx'));
+	const layout = strip(read('src/common/components/RootDocument.tsx'));
 
 	it('is mounted in the root layout', () => {
 		assert.match(layout, /<PresenceBeacon \/>/);

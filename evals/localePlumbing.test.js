@@ -65,31 +65,69 @@ describe('path locale contract', () => {
 		assert.match(src, /path === '\/es' \|\| path\.startsWith\('\/es\/'\)/);
 		assert.match(src, /function documentLocaleFromPathname/);
 		assert.match(src, /function langCookieValue/);
-		assert.match(src, /HTML_LANG_HEADER = 'x-html-lang'/);
 		assert.doesNotMatch(code, /accept-language|acceptLang/i);
+		// The request header that carried the language to the old single root
+		// layout is gone: nothing may reintroduce a per-request read of it.
+		assert.doesNotMatch(code, /x-html-lang|HTML_LANG_HEADER/);
 	});
 });
 
 describe('first-paint document language', () => {
-	it('root html lang is not hardcoded en', () => {
-		const src = read('app/layout.tsx');
-		assert.doesNotMatch(src, /<html lang="en"/);
-		assert.match(src, /<html lang=\{lang\}/);
-		assert.match(src, /headers\(\)/);
-		assert.match(src, /HTML_LANG_HEADER/);
-		assert.match(src, /=== 'es' \? 'es' : 'en'/);
+	it('each language has its own root layout and passes its lang literally', () => {
+		const doc = read('src/common/components/RootDocument.tsx');
+		assert.doesNotMatch(doc, /<html lang="en"/);
+		assert.match(doc, /<html lang=\{lang\}/);
+		assert.match(read('app/(en)/layout.tsx'), /<RootDocument lang="en">/);
+		assert.match(read('app/es/layout.tsx'), /<RootDocument lang="es">/);
+		assert.ok(!fs.existsSync(path.join(root, 'app/layout.tsx')), 'a single app/layout.tsx would be the root of BOTH trees again');
 	});
 
-	it('middleware sets html-lang, Content-Language, and cookie from the path', () => {
+	it('no layout or page reads the request to learn its language (static rendering)', () => {
+		// app/layout.tsx used to `await headers()` for x-html-lang, which made
+		// 44 of 46 routes dynamic and `private, no-store`. The language is the
+		// route's now; a request-time read anywhere in the tree is a regression
+		// unless it is one of the two pages that are dynamic on purpose.
+		const DYNAMIC_ON_PURPOSE = new Set([
+			'app/(en)/business/free-trial/page.tsx', // countdown from server time
+			'app/es/business/prueba-gratis/page.tsx',
+			'app/(en)/candidate/searchjob/page.tsx', // search results read the query string
+		]);
+		const files = [];
+		const walk = (dir) => {
+			for (const e of fs.readdirSync(path.join(root, dir), { withFileTypes: true })) {
+				const rel = `${dir}/${e.name}`;
+				if (e.isDirectory()) walk(rel);
+				else if (/\.(tsx?|jsx?)$/.test(e.name)) files.push(rel);
+			}
+		};
+		walk('app');
+		files.push('src/common/components/RootDocument.tsx');
+		assert.ok(files.length > 100, `walked only ${files.length} files`);
+		for (const f of files) {
+			const code = read(f).replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+			assert.doesNotMatch(code, /from ['"]next\/headers['"]/, `${f} reads request headers/cookies`);
+			if (!DYNAMIC_ON_PURPOSE.has(f)) {
+				assert.doesNotMatch(code, /dynamic\s*=\s*['"]force-dynamic['"]/, `${f} forces per-request rendering`);
+			}
+		}
+	});
+
+	it('middleware sets Content-Language from the path and the cookie only when it changes', () => {
 		const src = read('middleware.ts');
 		assert.match(src, /from '\.\/src\/common\/i18n\/pathLocale'/);
 		assert.match(src, /documentLocaleFromPathname/);
 		assert.match(src, /langCookieValue/);
 		assert.match(src, /Content-Language/);
-		assert.match(src, /cookies\.set\('lang', cookieLang/);
-		assert.match(src, /HTML_LANG_HEADER/);
 		const code = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 		assert.doesNotMatch(code, /accept-language|acceptLang/i);
+		assert.doesNotMatch(code, /x-html-lang|HTML_LANG_HEADER/, 'the request header for <html lang> is back');
+		// The Set-Cookie is guarded by the incoming cookie, and the guard wraps
+		// the ONLY cookies.set (a second unguarded one would undo it).
+		const guard = code.indexOf("if (request.cookies.get('lang')?.value !== cookieLang)");
+		const set = code.indexOf("response.cookies.set('lang', cookieLang");
+		assert.ok(guard !== -1, 'the cookie is no longer compared with the incoming one');
+		assert.ok(set > guard, 'cookies.set must sit inside the comparison');
+		assert.equal((code.match(/cookies\.set\(/g) || []).length, 1, 'exactly one cookies.set');
 	});
 
 	it('next.config also sends Content-Language: es on /es and /es/*', () => {
@@ -129,7 +167,7 @@ describe('English quotes stay English and are labelled on ES', () => {
 	});
 
 	it('ES review cards render the escrito en inglés label', () => {
-		const page = read('app/business/BusinessPageContent.tsx');
+		const page = read('app/(en)/business/BusinessPageContent.tsx');
 		assert.match(page, /writtenInEnglishLabel/);
 		assert.match(page, /t\.business\.testimonials\.writtenInEnglish/);
 		assert.match(page, /currentLang === 'es'/);
@@ -176,7 +214,7 @@ describe('this PR keeps EN and ES documents on their own paths', () => {
 		assert.equal(composedH1(enHero), EN_H1);
 		assert.equal(composedH1(esHero), ES_H1);
 		assert.match(
-			read('app/business/layout.tsx'),
+			read('app/(en)/business/layout.tsx'),
 			/AI co-founder that writes the plan and the month \| Moil/,
 		);
 		assert.match(
@@ -231,9 +269,9 @@ describe('the language control NAVIGATES to the twin document (plan 3.1)', () =>
 	// shares. One list now, and every switcher reads it.
 	const routes = read('src/common/i18n/localeRoutes.ts');
 	const provider = read('src/common/components/I18nProvider.tsx');
-	const nav = read('app/business/components/BusinessNav.tsx');
-	const footer = read('app/business/components/BusinessFooter.tsx');
-	const modal = read('app/business/components/BusinessCustomizeModal.tsx');
+	const nav = read('app/(en)/business/components/BusinessNav.tsx');
+	const footer = read('app/(en)/business/components/BusinessFooter.tsx');
+	const modal = read('app/(en)/business/components/BusinessCustomizeModal.tsx');
 	const sitemap = read('app/sitemap.ts');
 
 	it('holds the twin list once and the sitemap alternates derive from it', () => {

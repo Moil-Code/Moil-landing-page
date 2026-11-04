@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import '../../business/business.css';
+import '../../(en)/business/business.css';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
 import { es } from '../../../src/common/translations/es';
 import { faqJsonLd } from '../../../src/common/utils/faqJsonLd';

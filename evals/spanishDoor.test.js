@@ -117,19 +117,19 @@ describe('ES pricing first screen', () => {
 
 describe('this PR stays inside S1', () => {
 	it('pricing page files only default-export a page', () => {
-		for (const file of ['app/business/pricing/page.tsx', 'app/es/business/pricing/page.tsx']) {
+		for (const file of ['app/(en)/business/pricing/page.tsx', 'app/es/business/pricing/page.tsx']) {
 			const src = read(file);
 			assert.match(src, /export default function/, file);
 			assert.doesNotMatch(src, /^export function /m, `${file} must not export extra components`);
 		}
 		assert.ok(
-			fs.existsSync(path.join(root, 'app/business/pricing/BusinessPricingPageContent.tsx')),
+			fs.existsSync(path.join(root, 'app/(en)/business/pricing/BusinessPricingPageContent.tsx')),
 			'pricing content must live outside the page file',
 		);
 	});
 
 	it('magnet stays website-only', () => {
-		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
 		assert.doesNotMatch(magnet, /doorBtn\('handle'/);
 		assert.doesNotMatch(magnet, /doorBtn\('place'/);
 		assert.doesNotMatch(magnet, /type="email"/);
@@ -144,11 +144,11 @@ describe('this PR stays inside S1', () => {
 		// src/common/es/esPages.ts — evals/spanishPages.test.js owns that rule.
 		assert.equal(fs.existsSync(path.join(root, 'app/es/ai-info')), false, 'do not add /es/ai-info');
 		const door = [
-			'app/business/components/PreviewMagnet.tsx',
-			'app/business/components/GettingToKnowYou.tsx',
-			'app/business/sections/HeroSection.tsx',
-			'app/business/preview/previewClient.js',
-			'app/business/BusinessPageContent.tsx',
+			'app/(en)/business/components/PreviewMagnet.tsx',
+			'app/(en)/business/components/GettingToKnowYou.tsx',
+			'app/(en)/business/sections/HeroSection.tsx',
+			'app/(en)/business/preview/previewClient.js',
+			'app/(en)/business/BusinessPageContent.tsx',
 		];
 		for (const file of door) {
 			assert.doesNotMatch(read(file), /employer-beta/, file);

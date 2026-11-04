@@ -1,6 +1,7 @@
-import { TrialPage } from '../../../business/free-trial/TrialPage';
-import { TRIAL_ES } from '../../../business/free-trial/trialContent';
-import { trialMetadata } from '../../../business/free-trial/trialMetadata';
+import { SpanishI18nProvider } from '../../../../src/common/components/SpanishI18nProvider';
+import { TrialPage } from '../../../(en)/business/free-trial/TrialPage';
+import { TRIAL_ES } from '../../../(en)/business/free-trial/trialContent';
+import { trialMetadata } from '../../../(en)/business/free-trial/trialMetadata';
 
 /**
  * /es/prueba-gratis, el gemelo en español de /free-trial. Mismo cuerpo, mismo
@@ -12,5 +13,9 @@ export const metadata = trialMetadata('es');
 export const dynamic = 'force-dynamic';
 
 export default function PruebaGratisPage() {
-  return <TrialPage copy={TRIAL_ES} serverNow={Date.now()} />;
+  return (
+    <SpanishI18nProvider>
+      <TrialPage copy={TRIAL_ES} serverNow={Date.now()} />
+    </SpanishI18nProvider>
+  );
 }

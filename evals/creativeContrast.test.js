@@ -6,7 +6,7 @@ const assert = require('node:assert/strict');
 const fs = require('fs');
 const path = require('path');
 
-const contrast = require('../app/business/preview/creativeContrast');
+const contrast = require('../app/(en)/business/preview/creativeContrast');
 const root = path.join(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 
@@ -36,14 +36,14 @@ describe('preview creative contrast', () => {
 	});
 
 	it('the free ready card has no post text layers that need the contrast helper', () => {
-		const source = read('app/business/components/GettingToKnowYou.tsx');
+		const source = read('app/(en)/business/components/GettingToKnowYou.tsx');
 		assert.doesNotMatch(source, /accessibleTextColor\(/);
 		assert.doesNotMatch(source, /backgroundColor: surface/);
 		assert.equal(typeof contrast.accessibleTextColor, 'function');
 	});
 
 	it('preview actions use exact brand orange with the application-standard white ink', () => {
-		const css = read('app/business/business.css');
+		const css = read('app/(en)/business/business.css');
 		assert.match(css, /--preview-orange:\s*#FF6633/);
 		const ready = css.slice(css.indexOf('Preview ready v2: Focus canvas'));
 		assert.match(ready, /\.preview-magnet-shell--ready \.preview-platform-chip--active\s*\{[^}]*color:\s*#FFFFFF[^}]*background:\s*#FF6633/s);

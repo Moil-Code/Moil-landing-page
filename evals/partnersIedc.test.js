@@ -20,11 +20,11 @@ const root = path.join(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 const strip = (s) => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/[^\n]*$/gm, '');
 
-const PAGE = strip(read('app/partners/iedc/page.tsx'));
-const COPY = strip(read('app/partners/iedc/iedcCopy.ts'));
-const BODY = strip(read('app/partners/PartnersBody.tsx'));
-const BUTTON = strip(read('app/partners/PartnershipInquiryButton.tsx'));
-const EN = strip(read('app/partners/partnerContent.ts'));
+const PAGE = strip(read('app/(en)/partners/iedc/page.tsx'));
+const COPY = strip(read('app/(en)/partners/iedc/iedcCopy.ts'));
+const BODY = strip(read('app/(en)/partners/PartnersBody.tsx'));
+const BUTTON = strip(read('app/(en)/partners/PartnershipInquiryButton.tsx'));
+const EN = strip(read('app/(en)/partners/partnerContent.ts'));
 const ES = strip(read('app/es/aliados/partnerContentEs.ts'));
 
 let ran = 0;
@@ -104,7 +104,7 @@ check('"how it works" and the partners come before the cost case', () => {
 });
 
 const ROUTE = strip(read('app/api/partner-inquiry/route.ts'));
-const QUICK = strip(read('app/partners/PartnerQuickForm.tsx'));
+const QUICK = strip(read('app/(en)/partners/PartnerQuickForm.tsx'));
 
 check('partner leads go straight to the founder, with an env override', () => {
 	assert.match(ROUTE, /DEFAULT_PARTNER_LEAD_TO = 'andres@moilapp\.com'/);
@@ -141,7 +141,7 @@ check('the inline form posts to the same route, keeps the honeypot, and says whe
 });
 
 check('both forms post through one helper that tries /partners/inquiry first, then the API path', () => {
-	const helper = strip(read('app/partners/postInquiry.ts'));
+	const helper = strip(read('app/(en)/partners/postInquiry.ts'));
 	assert.match(helper, /INQUIRY_PATHS = \['\/partners\/inquiry', '\/api\/partner-inquiry'\]/);
 	assert.match(helper, /response\.status !== 404/);
 	assert.match(QUICK, /from '\.\/postInquiry'/);

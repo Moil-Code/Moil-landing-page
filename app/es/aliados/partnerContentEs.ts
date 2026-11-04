@@ -16,8 +16,8 @@
 
 import { PLANS } from '../../../src/common/seo/offers';
 import { pricingCopy } from '../../../src/common/seo/pricingCopy';
-import type { AeoFaq } from '../../compare/aeoLocks';
-import type { PartnerCopy } from '../../partners/partnerCopy';
+import type { AeoFaq } from '../../(en)/compare/aeoLocks';
+import type { PartnerCopy } from '../../(en)/partners/partnerCopy';
 
 const SUBJECT = 'Consulta de alianza con Moil';
 const PLAN_LINE = pricingCopy.es.split;

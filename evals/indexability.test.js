@@ -23,7 +23,7 @@ describe('canonical URLs stay consolidated and indexable', () => {
   });
 
   it('uses a permanent root redirect to the canonical business page', () => {
-    const page = read('app/page.tsx');
+    const page = read('app/(en)/page.tsx');
     assert.match(page, /import \{ permanentRedirect \} from 'next\/navigation'/);
     assert.match(page, /permanentRedirect\('\/business'\)/);
   });
@@ -43,7 +43,7 @@ describe('canonical URLs stay consolidated and indexable', () => {
 
   it('gives the job directory a crawlable link and server-rendered guidance', () => {
     const footer = read('src/candidate/components/landing/footer.tsx');
-    const page = read('app/candidate/searchjob/page.tsx');
+    const page = read('app/(en)/candidate/searchjob/page.tsx');
     assert.match(footer, /"\/candidate\/searchjob"/);
     assert.doesNotMatch(page, /^['"]use client['"]/);
     assert.match(page, /id="job-search-guide"/);

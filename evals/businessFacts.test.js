@@ -25,7 +25,7 @@ const {
 	orderDays,
 	scheduleLines,
 	businessFacts,
-} = require('../app/business/preview/businessFacts');
+} = require('../app/(en)/business/preview/businessFacts');
 
 let checks = 0;
 let failed = 0;
@@ -177,7 +177,7 @@ const full = {
 	const card = fs.readFileSync(
 		path.join(
 			__dirname,
-			'../app/business/components/GettingToKnowYou.tsx',
+			'../app/(en)/business/components/GettingToKnowYou.tsx',
 		),
 		'utf8',
 	);

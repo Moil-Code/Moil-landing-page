@@ -1,7 +1,5 @@
-'use client';
-
-import { I18nProvider } from '../../../src/common/components/I18nProvider';
-import { BusinessPageContent } from '../../business/BusinessPageContent';
+import { SpanishI18nProvider } from '../../../src/common/components/SpanishI18nProvider';
+import { BusinessPageContent } from '../../(en)/business/BusinessPageContent';
 
 // Spanish-locale variant of /business. Same component tree, but locale
 // is forced to 'es' so the URL → content → schema → hreflang all agree.
@@ -10,8 +8,8 @@ import { BusinessPageContent } from '../../business/BusinessPageContent';
 // duplicate-content trap.
 export default function BusinessPageEs() {
   return (
-    <I18nProvider initialLang="es">
+    <SpanishI18nProvider>
       <BusinessPageContent />
-    </I18nProvider>
+    </SpanishI18nProvider>
   );
 }

@@ -36,7 +36,7 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 
 /** The one module allowed to name a default app origin. */
-const RESOLVER = 'app/business/preview/previewClient.js';
+const RESOLVER = 'app/(en)/business/preview/previewClient.js';
 
 /**
  * A file may sit here only with a reason a human wrote down.

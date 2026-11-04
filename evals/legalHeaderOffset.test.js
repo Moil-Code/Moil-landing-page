@@ -43,11 +43,14 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.join(__dirname, '..');
+const { routeFile } = require('./lib/routeFile');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 
-const SHELL = read('src/common/components/BrandPageShell.tsx');
-const NAV = read('app/business/components/BusinessNav.tsx');
-const NAV_CSS = read('app/business/business.css');
+// BrandPageShell is the English provider around BrandPageChrome, which is
+// where the nav lives (BrandPageShellEs wraps the same chrome).
+const SHELL = read('src/common/components/BrandPageShell.tsx') + read('src/common/components/BrandPageChrome.tsx');
+const NAV = read('app/(en)/business/components/BusinessNav.tsx');
+const NAV_CSS = read('app/(en)/business/business.css');
 const LEGAL = read('src/common/components/LegalPage.tsx');
 const LEGAL_CSS = read('src/common/components/LegalPage.module.css');
 
@@ -204,7 +207,7 @@ describe('legal pages clear the fixed nav', () => {
 		// these pages do not render. Pin the nav they DO get.
 		for (const route of LEGAL_ROUTES) {
 			assert.match(
-				read(path.join('app', route, 'layout.tsx')),
+				read(routeFile(root, route, 'layout.tsx') || path.join('app', route, 'layout.tsx')),
 				/BrandPageShell/,
 				`app/${route}/layout.tsx must render through BrandPageShell`,
 			);
@@ -245,7 +248,7 @@ describe('legal pages clear the fixed nav', () => {
 		// /terms used to hand-roll a byte-for-byte copy of this shell, which is
 		// why the same overlap existed twice and fixing one left the other.
 		for (const p of LEGAL_ROUTES) {
-			const src = read(path.join('app', p, 'page.tsx'));
+			const src = read(routeFile(root, p) || path.join('app', p, 'page.tsx'));
 			assert.match(src, /LegalPage/, `app/${p}/page.tsx must render the shared LegalPage`);
 			assert.doesNotMatch(
 				src,

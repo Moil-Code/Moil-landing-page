@@ -14,8 +14,8 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 
-const gtk = require('../app/business/preview/gettingToKnowYou');
-const reveal = require('../app/business/preview/previewReveal');
+const gtk = require('../app/(en)/business/preview/gettingToKnowYou');
+const reveal = require('../app/(en)/business/preview/previewReveal');
 const fixture = require('./fixtures/wzP6PJqiVxqG');
 
 const MAGNET_NEW_KEYS = [
@@ -142,7 +142,7 @@ describe('wzP6PJqiVxqG paint — filled in, empty/banned out', () => {
 	it('voice sentence is the lead; chips are optional under, not the hero', () => {
 		assert.equal(byId.voice.sentence, 'Direct. Practical. Empowering.');
 		assert.deepEqual(byId.voice.chips, fixture.brand.voiceChips);
-		const gtkSrc = read('app/business/components/GettingToKnowYou.tsx');
+		const gtkSrc = read('app/(en)/business/components/GettingToKnowYou.tsx');
 		const voiceView = gtkSrc.slice(gtkSrc.indexOf("section.kind === 'voice'"), gtkSrc.indexOf("section.kind === 'platforms'"));
 		assert.ok(voiceView.indexOf('section.sentence') < voiceView.indexOf('section.chips'), 'sentence before chips');
 	});
@@ -376,7 +376,7 @@ describe('audience and problem paint when GET has them', () => {
 		assert.equal(gtk.headingKeyFor('cadence'), 'posCadence');
 		assert.equal(gtk.headingKeyFor('keyTerms'), 'posKeyTerms');
 		assert.equal(gtk.headingKeyFor('tagline'), 'headingTagline');
-		const helperBody = read('app/business/preview/gettingToKnowYou.js')
+		const helperBody = read('app/(en)/business/preview/gettingToKnowYou.js')
 			.replace(/\/\*[\s\S]*?\*\//g, '')
 			.replace(/^\s*\/\/.*$/gm, '');
 		assert.doesNotMatch(helperBody, /content\.posts/);
@@ -409,7 +409,7 @@ describe('wait beats — admit progress array, never scrape theatre', () => {
 			}),
 			[],
 		);
-		const helper = read('app/business/preview/gettingToKnowYou.js');
+		const helper = read('app/(en)/business/preview/gettingToKnowYou.js');
 		assert.doesNotMatch(helper, /function\s+\w*(fromReady|readyBeats|typeFromReady)\w*/i);
 		assert.match(helper, /admitProgress\(into, body\.progress\)/);
 	});
@@ -556,7 +556,7 @@ describe('wait beats — admit progress array, never scrape theatre', () => {
 		assert.equal(gtk.foldBeatHeading('scrape_started'), '');
 		assert.equal(gtk.foldBeatHeading('pages_read'), '');
 		assert.equal(gtk.foldBeatHeading('tokens_ready'), '');
-		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
 		assert.doesNotMatch(magnet, /waitStepScrapeStarted/);
 		assert.doesNotMatch(magnet, /waitStepPagesRead/);
 		assert.doesNotMatch(magnet, /waitStepTokensReady/);
@@ -592,9 +592,9 @@ describe('wait beats — admit progress array, never scrape theatre', () => {
 });
 
 describe('the free card walls posts, and none of the Munch theatre', () => {
-	const gtkSrc = read('app/business/components/GettingToKnowYou.tsx');
-	const magnet = read('app/business/components/PreviewMagnet.tsx');
-	const helper = read('app/business/preview/gettingToKnowYou.js');
+	const gtkSrc = read('app/(en)/business/components/GettingToKnowYou.tsx');
+	const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
+	const helper = read('app/(en)/business/preview/gettingToKnowYou.js');
 
 	it('Decide For Me is present; posts are walled off the free ready card', () => {
 		assert.match(gtkSrc, /platformDecideForMe/);
@@ -682,7 +682,7 @@ describe('the free card walls posts, and none of the Munch theatre', () => {
 	});
 
 	it('uses the exact Moil orange for ready-card actions with the standard white foreground', () => {
-		const css = read('app/business/business.css');
+		const css = read('app/(en)/business/business.css');
 		const readyV2 = css.slice(css.indexOf('Preview ready v2: Focus canvas'));
 		assert.match(css, /--preview-orange:\s*#FF6633/);
 		assert.match(readyV2, /\.preview-magnet-shell--ready/);
@@ -723,8 +723,8 @@ describe('ready lead is the five wait sentences; Unique CTAs fold or omit', () =
 	});
 
 	it('does not fake-type the ready payload', () => {
-		const helper = read('app/business/preview/gettingToKnowYou.js');
-		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		const helper = read('app/(en)/business/preview/gettingToKnowYou.js');
+		const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
 		assert.doesNotMatch(helper, /function\s+\w*(fromReady|readyBeats|typeFromReady)\w*/i);
 		assert.doesNotMatch(magnet, /waitBeatsFromReady/);
 		assert.doesNotMatch(magnet, /typeFromReady/);
@@ -847,7 +847,7 @@ describe('ready-card headings are the wait GET headings', () => {
 		assert.equal(gtk.headingKeyFor('name'), 'headingName');
 		assert.equal(gtk.headingKeyFor('framing'), 'headingOverview');
 		assert.equal(magnetQuoted('src/common/translations/en.ts', 'headingOverview'), 'Overview');
-		const gtkSrc = read('app/business/components/GettingToKnowYou.tsx');
+		const gtkSrc = read('app/(en)/business/components/GettingToKnowYou.tsx');
 		assert.match(gtkSrc, /headingKeyFor\(section\.id\)/);
 		assert.match(gtkSrc, /\{heading \? \(/);
 	});
@@ -979,7 +979,7 @@ describe('ready card reveal', () => {
 	it('the signup CTA is never delayed behind the cascade', () => {
 		// An action must not wait on an animation. The CTA is deliberately
 		// absent from the id list the card builds.
-		const src = read('app/business/components/GettingToKnowYou.tsx');
+		const src = read('app/(en)/business/components/GettingToKnowYou.tsx');
 		const list = src.slice(src.indexOf('revealDelays('), src.indexOf('const reveal ='));
 		assert.doesNotMatch(list, /signupHref|startFree/);
 		const cta = src.slice(src.indexOf('href={signupHref}'), src.indexOf('{m.tryAgain}'));
@@ -993,7 +993,7 @@ describe('ready card reveal', () => {
 		// Tailwind compiles arbitrary values by scanning source, so a
 		// delay class built at runtime does not exist in the stylesheet
 		// and the section would never animate — or never appear.
-		const src = read('app/business/components/GettingToKnowYou.tsx');
+		const src = read('app/(en)/business/components/GettingToKnowYou.tsx');
 		assert.match(src, /animationDelay: `\$\{delays\[id\] \|\| 0\}ms`/);
 		assert.doesNotMatch(src, /\[animation-delay:/);
 		assert.doesNotMatch(src, /delay-\[/);
@@ -1002,7 +1002,7 @@ describe('ready card reveal', () => {
 	it('a section is visible by default — the animation only fades IN', () => {
 		// Content parked at opacity 0 waiting on a script is the failure
 		// this avoids: if animations are unavailable the section renders.
-		const css = read('app/business/business.css');
+		const css = read('app/(en)/business/business.css');
 		const rule = css.slice(css.indexOf('@keyframes previewReveal'), css.indexOf('@keyframes previewReveal') + 600);
 		assert.match(rule, /from \{\s*opacity: 0;/);
 		assert.match(rule, /to \{\s*opacity: 1;/);
@@ -1126,8 +1126,8 @@ describe('composed research card — markdown-safe, identity, problem ≠ UVP', 
 	});
 
 	it('the convert CTA is sticky on the ready card', () => {
-		const gtkSrc = read('app/business/components/GettingToKnowYou.tsx');
-		const css = read('app/business/business.css');
+		const gtkSrc = read('app/(en)/business/components/GettingToKnowYou.tsx');
+		const css = read('app/(en)/business/business.css');
 		assert.match(gtkSrc, /preview-ready-actions--sticky/);
 		assert.match(css, /preview-ready-actions--sticky/);
 		assert.match(css, /position:\s*sticky/);

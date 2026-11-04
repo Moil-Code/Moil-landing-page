@@ -41,6 +41,3 @@ export function langCookieValue(pathname: string, lgParam: string | null): SiteL
   if (lgParam === 'en' || lgParam === 'es') return lgParam;
   return 'en';
 }
-
-/** Request header middleware writes so the root layout can set `<html lang>` on first paint. */
-export const HTML_LANG_HEADER = 'x-html-lang';

@@ -1,12 +1,17 @@
 // @ts-check
 
-const { getLoginUrl, getRegisterUrl } = require("./app/business/preview/previewClient");
+const { getLoginUrl, getRegisterUrl } = require("./app/(en)/business/preview/previewClient");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Do not advertise the framework in every response.
   poweredByHeader: false,
   reactStrictMode: true,
+  experimental: {
+    // One root layout per language (app/(en), app/es) leaves no app-wide root
+    // for an unmatched URL; app/global-not-found.tsx answers those (404).
+    globalNotFound: true,
+  },
   typescript: {
     ignoreBuildErrors: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",
   },
@@ -217,6 +222,35 @@ const nextConfig = {
       {
         // Cache static assets aggressively
         source: '/(.*)\\.(png|jpg|jpeg|gif|svg|ico|woff|woff2)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        // Video and modern image formats (public/). They were served
+        // `max-age=0`, so every visit re-downloaded the ~3 MB hero loops.
+        // Most of these names are NOT versioned (footer_2.webp, card_bg_1.webp),
+        // and a file replaced under the same name must reach visitors, so the
+        // default is a day fresh, then revalidated (ETag) while a stale copy
+        // keeps serving for a week.
+        source: '/(.*)\\.(mp4|webm|webp|avif)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=604800',
+          },
+        ],
+      },
+      {
+        // ...except a VERSIONED name (hero-light-loop-v1.mp4,
+        // bilingual-section-shader-v3.webp): a new version ships under a new
+        // name, so the old URL never changes and can be cached for a year.
+        // Listed after the rule above: for the same header key, the last
+        // matching rule wins.
+        source: '/(.*)-v(\\d+)\\.(mp4|webm|webp|avif)',
         headers: [
           {
             key: 'Cache-Control',

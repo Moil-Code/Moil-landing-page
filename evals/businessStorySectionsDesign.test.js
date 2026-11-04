@@ -10,8 +10,8 @@ const root = path.join(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
 
 describe('business story sections editorial system', () => {
-  const page = read('app/business/BusinessPageContent.tsx');
-  const css = read('app/business/business.css');
+  const page = read('app/(en)/business/BusinessPageContent.tsx');
+  const css = read('app/(en)/business/business.css');
   const v2 = css.slice(css.indexOf('BUSINESS STORY SYSTEM'));
 
   it('connects all four requested sections to one shared design system', () => {

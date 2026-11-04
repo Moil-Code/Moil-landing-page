@@ -35,8 +35,8 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 
-const wait = require('../app/business/preview/previewWaitCopy');
-const client = require('../app/business/preview/previewClient');
+const wait = require('../app/(en)/business/preview/previewWaitCopy');
+const client = require('../app/(en)/business/preview/previewClient');
 
 describe('the poll cadence cannot rate-limit the founder out of their own answer', () => {
 	it('stays ~1s across the window a healthy generation lives in', () => {
@@ -86,9 +86,9 @@ describe('the poll cadence cannot rate-limit the founder out of their own answer
 
 describe('a ready body is READY', () => {
 	it('classifies as ready even when it also carries a slug', () => {
-		const r = client.previewViewUrl && require('../app/business/preview/previewClient');
+		const r = client.previewViewUrl && require('../app/(en)/business/preview/previewClient');
 		assert.ok(r);
-		const src = read('app/business/preview/previewClient.js');
+		const src = read('app/(en)/business/preview/previewClient.js');
 		const readyIdx = src.indexOf("json.status === 'ready'");
 		const slugIdx = src.indexOf('json && json.slug');
 		assert.ok(readyIdx > 0 && slugIdx > readyIdx,
@@ -96,14 +96,14 @@ describe('a ready body is READY', () => {
 	});
 
 	it('submit still reads slug/status off the body, so the reorder cannot break it', () => {
-		const magnet = read('app/business/components/PreviewMagnet.tsx');
+		const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
 		assert.match(magnet, /result\.body\.slug/);
 		assert.match(magnet, /beginWait\(result\.body\.slug, result\.body\.status\)/);
 	});
 });
 
 describe('the magnet honours both bounds', () => {
-	const magnet = read('app/business/components/PreviewMagnet.tsx');
+	const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
 	const pollFn = magnet.slice(
 		magnet.indexOf('const poll ='),
 		magnet.indexOf('const beginWait'),

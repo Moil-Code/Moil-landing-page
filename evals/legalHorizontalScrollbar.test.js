@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 const businessCss = fs.readFileSync(
-	path.join(__dirname, '..', 'app', 'business', 'business.css'),
+	path.join(__dirname, '..', 'app', '(en)', 'business', 'business.css'),
 	'utf8',
 );
 

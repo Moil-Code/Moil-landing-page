@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../../../src/common/constants/baseUrl';
-import { AeoCitePage } from '../../../compare/AeoCitePage';
-import { ENTITY_LINE_ES, faqPageJsonLd, type AeoFaq } from '../../../compare/aeoLocks';
+import { AeoCitePage } from '../../../(en)/compare/AeoCitePage';
+import { ENTITY_LINE_ES, faqPageJsonLd, type AeoFaq } from '../../../(en)/compare/aeoLocks';
 import { jsonLd } from '~~/src/common/seo/jsonLd';
 import { pricingCopy } from '../../../../src/common/seo/pricingCopy';
 import { TIER_LIMITS } from '../../../../src/common/seo/tierLimits';

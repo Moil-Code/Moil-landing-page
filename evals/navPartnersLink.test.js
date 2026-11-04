@@ -15,7 +15,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const SRC = fs.readFileSync(path.join(__dirname, '../app/business/components/BusinessNav.tsx'), 'utf8')
+const SRC = fs.readFileSync(path.join(__dirname, '../app/(en)/business/components/BusinessNav.tsx'), 'utf8')
 	.replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
 
 test('the Work and Partners triggers are links to their pages', () => {
@@ -34,6 +34,6 @@ test('hover and keyboard focus still open the dropdown, and Escape closes it', (
 });
 
 test('the Partners nav item points at /partners', () => {
-	const content = fs.readFileSync(path.join(__dirname, '../app/business/BusinessPageContent.tsx'), 'utf8');
+	const content = fs.readFileSync(path.join(__dirname, '../app/(en)/business/BusinessPageContent.tsx'), 'utf8');
 	assert.match(content, /label: 'Partners', href: '\/partners'/);
 });

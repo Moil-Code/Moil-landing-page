@@ -30,8 +30,8 @@ const {
 	brandCity,
 	cityFromAddress,
 	fillBrandCity,
-} = require('../app/business/preview/previewCity');
-const gtk = require('../app/business/preview/gettingToKnowYou');
+} = require('../app/(en)/business/preview/previewCity');
+const gtk = require('../app/(en)/business/preview/gettingToKnowYou');
 const fixture = require('./fixtures/wzP6PJqiVxqG');
 
 describe('given city, or a parseable address — never invented', () => {
@@ -118,9 +118,9 @@ describe('payload city is the same field hydrate reads', () => {
 });
 
 describe('the card surfaces city; leftover-6 stays OFF', () => {
-	const citySrc = read('app/business/preview/previewCity.js');
-	const gtkSrc = read('app/business/components/GettingToKnowYou.tsx');
-	const magnet = read('app/business/components/PreviewMagnet.tsx');
+	const citySrc = read('app/(en)/business/preview/previewCity.js');
+	const gtkSrc = read('app/(en)/business/components/GettingToKnowYou.tsx');
+	const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
 	const cityBody = strip(citySrc);
 	const gtkBody = strip(gtkSrc);
 
