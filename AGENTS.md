@@ -35,9 +35,14 @@ Each section has a `layout.tsx` for SEO metadata and may have its own CSS file (
 `app/(en)/` (a folder in parentheses is not part of the URL: `/business` is
 `app/(en)/business/page.tsx`) and the Spanish ones in `app/es/`, each with its
 own root layout, so every document's `<html lang>` is a property of its route.
-There is no `app/layout.tsx`. An unmatched URL is answered by the catch-all
-`[...missing]` page in each tree (404). Navigating between the two trees is a
-full page load, which the language switch already was. Evals that resolve a
+There is no `app/layout.tsx`, and no page reads the request (no `headers()`
+or `cookies()`), so every page is prerendered static except three that are dynamic on purpose:
+the two free-trial ad pages (the countdown reads server time) and
+`/candidate/searchjob` (its results read the query string); an eval in
+`evals/localePlumbing.test.js` keeps it so. An unmatched URL is answered by
+`app/global-not-found.tsx` (404, `experimental.globalNotFound`). Navigating
+between the two trees is a full page load, which the language switch already
+was. Evals that resolve a
 URL to its file use `evals/lib/routeFile.js`, which looks through groups.
 
 ### Component organization

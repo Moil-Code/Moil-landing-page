@@ -2,6 +2,12 @@ import { Suspense } from 'react';
 import Link from 'next/link';
 import SearchJobField from '../../../../src/candidate/sections/search_field';
 
+// Rendered per request: the search field reads the query string (?title=,
+// ?location=, ?page=, ?lg=) with useSearchParams. Prerendered statically, that
+// hook makes the whole field (and the page's only <h1>) client-only, and the
+// SEO gate fails on a page with no h1. Search results are request data.
+export const dynamic = 'force-dynamic';
+
 function SearchJobFieldContent() {
   return <SearchJobField accType="client" />;
 }

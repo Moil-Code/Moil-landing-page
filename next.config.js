@@ -7,6 +7,11 @@ const nextConfig = {
   // Do not advertise the framework in every response.
   poweredByHeader: false,
   reactStrictMode: true,
+  experimental: {
+    // One root layout per language (app/(en), app/es) leaves no app-wide root
+    // for an unmatched URL; app/global-not-found.tsx answers those (404).
+    globalNotFound: true,
+  },
   typescript: {
     ignoreBuildErrors: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",
   },
