@@ -5,7 +5,8 @@ import { getRegisterUrl } from '~~/app/(en)/business/preview/previewClient';
 import { BusinessMobileMenu } from '../business/components/BusinessMobileMenu';
 import { BusinessNav, type NavItem } from '../business/components/BusinessNav';
 import { useBusinessUi } from '../business/hooks/useBusinessUi';
-import { I18nProvider, useLanguageContext } from '../../../src/common/components/I18nProvider';
+import { EnglishI18nProvider } from '../../../src/common/components/EnglishI18nProvider';
+import { useLanguageContext } from '../../../src/common/components/I18nProvider';
 import '../business/business.css';
 import '../compare/comparison.css';
 
@@ -57,8 +58,8 @@ function AboutShell({ children }: { children: React.ReactNode }) {
 
 export default function AboutLayout({ children }: { children: React.ReactNode }) {
   return (
-    <I18nProvider>
+    <EnglishI18nProvider>
       <AboutShell>{children}</AboutShell>
-    </I18nProvider>
+    </EnglishI18nProvider>
   );
 }

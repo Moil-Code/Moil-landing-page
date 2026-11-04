@@ -1,3 +1,4 @@
+import { SpanishI18nProvider } from '../../../../src/common/components/SpanishI18nProvider';
 import { TrialPage } from '../../../(en)/business/free-trial/TrialPage';
 import { TRIAL_ES } from '../../../(en)/business/free-trial/trialContent';
 import { trialMetadata } from '../../../(en)/business/free-trial/trialMetadata';
@@ -12,5 +13,9 @@ export const metadata = trialMetadata('es');
 export const dynamic = 'force-dynamic';
 
 export default function PruebaGratisPage() {
-  return <TrialPage copy={TRIAL_ES} serverNow={Date.now()} />;
+  return (
+    <SpanishI18nProvider>
+      <TrialPage copy={TRIAL_ES} serverNow={Date.now()} />
+    </SpanishI18nProvider>
+  );
 }

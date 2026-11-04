@@ -46,7 +46,9 @@ const root = path.join(__dirname, '..');
 const { routeFile } = require('./lib/routeFile');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 
-const SHELL = read('src/common/components/BrandPageShell.tsx');
+// BrandPageShell is the English provider around BrandPageChrome, which is
+// where the nav lives (BrandPageShellEs wraps the same chrome).
+const SHELL = read('src/common/components/BrandPageShell.tsx') + read('src/common/components/BrandPageChrome.tsx');
 const NAV = read('app/(en)/business/components/BusinessNav.tsx');
 const NAV_CSS = read('app/(en)/business/business.css');
 const LEGAL = read('src/common/components/LegalPage.tsx');

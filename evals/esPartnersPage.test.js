@@ -45,7 +45,10 @@ check('one component renders both languages', () => {
 	assert.match(PAGE, /<PartnersBody copy=\{PARTNER_ES\}/);
 	assert.match(EN_PAGE, /<PartnersBody copy=\{PARTNER_EN\}/);
 	assert.match(ES, /export const PARTNER_ES: PartnerCopy/, 'the Spanish copy must satisfy the shared type');
-	assert.match(read('app/es/aliados/layout.tsx'), /initialLang="es"/);
+	// The Spanish shell forces Spanish (and ships the Spanish table only).
+	assert.match(read('app/es/aliados/layout.tsx'), /<BrandPageShellEs>/);
+	assert.match(read('src/common/components/BrandPageShellEs.tsx'), /<SpanishI18nProvider>/);
+	assert.match(read('src/common/components/SpanishI18nProvider.tsx'), /initialLang="es"/);
 });
 
 check('Spanish FAQ: question-shaped, 35-95 words, and the array the schema uses', () => {

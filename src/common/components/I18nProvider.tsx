@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
-import { en, es, type TranslationKeys } from '../translations';
+import type { TranslationKeys } from '../translations';
 import { isEnglishBusinessPath, isSpanishPath } from '../i18n/pathLocale';
 import { twinPath } from '../i18n/localeRoutes';
 
@@ -14,7 +14,26 @@ interface LanguageContextType {
   isLoading: boolean;
 }
 
-const translations: Record<Language, TranslationKeys> = { en, es };
+/**
+ * The dictionary a page ships with, plus how to fetch the other one.
+ *
+ * This provider used to import BOTH tables (en.ts ~35 KB, es.ts ~37 KB) into
+ * every page's JavaScript, though a page renders one language. It now takes
+ * the page's language as `dictionary` from a thin wrapper that imports only
+ * that table (EnglishI18nProvider, SpanishI18nProvider), and the other table
+ * is a separate chunk, fetched only if a visitor switches language on a page
+ * with no twin to navigate to, or arrives with `?lg=` or a stored preference
+ * for it.
+ */
+export interface LocaleDictionary {
+  lang: Language;
+  t: TranslationKeys;
+}
+
+const loadDictionary = (lang: Language): Promise<TranslationKeys> =>
+  lang === 'es'
+    ? import('../translations/es').then((m) => m.es)
+    : import('../translations/en').then((m) => m.en);
 
 const LanguageContext = createContext<LanguageContextType | null>(null);
 
@@ -35,13 +54,44 @@ function detectInitialLang(): Language {
   return 'en';
 }
 
-export function I18nProvider({ children, initialLang }: { children: ReactNode; initialLang?: Language }) {
+export function I18nProvider({
+  children,
+  initialLang,
+  dictionary,
+}: {
+  children: ReactNode;
+  initialLang?: Language;
+  dictionary: LocaleDictionary;
+}) {
   // initialLang forces a language for the entire subtree — used by
   // /es/* routes so server-rendered HTML matches the URL's locale and
   // crawlers see Spanish content at the Spanish URL. When omitted, we
   // fall back to path → URL ?lg= → localStorage (never path-blind).
   const [lang, setLangState] = useState<Language>(initialLang ?? detectInitialLang);
   const [isLoading, setIsLoading] = useState(false);
+  const [tables, setTables] = useState<Partial<Record<Language, TranslationKeys>>>(() => ({
+    [dictionary.lang]: dictionary.t,
+  }));
+
+  // A wanted language that did not ship with the page renders in the shipped
+  // one until its table arrives (which is also what the server rendered, so
+  // hydration matches), then switches.
+  useEffect(() => {
+    if (tables[lang]) return;
+    let live = true;
+    loadDictionary(lang)
+      .then((t) => {
+        if (live) setTables((prev) => ({ ...prev, [lang]: t }));
+      })
+      .catch(() => {
+        /* offline or a failed chunk: stay in the shipped language */
+      });
+    return () => {
+      live = false;
+    };
+  }, [lang, tables]);
+
+  const activeLang: Language = tables[lang] ? lang : dictionary.lang;
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -78,8 +128,8 @@ export function I18nProvider({ children, initialLang }: { children: ReactNode; i
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
-    document.documentElement.lang = lang;
-  }, [lang]);
+    document.documentElement.lang = activeLang;
+  }, [activeLang]);
 
   const setLang = useCallback((newLang: Language) => {
     if (typeof window === 'undefined') return;
@@ -109,7 +159,14 @@ export function I18nProvider({ children, initialLang }: { children: ReactNode; i
   }, []);
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t: translations[lang], isLoading }}>
+    <LanguageContext.Provider
+      value={{
+        lang: activeLang,
+        setLang,
+        t: tables[activeLang] ?? dictionary.t,
+        isLoading: isLoading || activeLang !== lang,
+      }}
+    >
       {children}
     </LanguageContext.Provider>
   );

@@ -152,10 +152,12 @@ describe('one flag, three surfaces', () => {
 	it('the Spanish layouts force the document language', () => {
 		for (const layout of ['app/es/(guias)/layout.tsx', 'app/es/compare/layout.tsx']) {
 			const src = read(layout);
-			assert.match(src, /<I18nProvider initialLang="es">/, layout);
+			assert.match(src, /<SpanishI18nProvider>/, layout);
 			assert.match(src, /<CompareShell>/, layout);
 		}
 		assert.match(read('app/(en)/compare/layout.tsx'), /CompareShell/, 'English compare layout shares the shell');
+		// SpanishI18nProvider is what forces the language now.
+		assert.match(read('src/common/components/SpanishI18nProvider.tsx'), /<I18nProvider dictionary=\{ES\} initialLang="es">/);
 	});
 	it('page-dates keys a route-group page on its URL, so a reviewed page can be dated', () => {
 		const dates = JSON.parse(read('src/common/seo/pageDates.json'));

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Check } from 'lucide-react';
-import { I18nProvider, useLanguageContext } from '../../../../src/common/components/I18nProvider';
+import { useLanguageContext } from '../../../../src/common/components/I18nProvider';
 import { BusinessFooter } from '../components/BusinessFooter';
 import { BusinessMobileMenu } from '../components/BusinessMobileMenu';
 import { BusinessNav, type NavItem } from '../components/BusinessNav';
@@ -117,12 +117,11 @@ function splitAccent(text: string, words: number): [string, string] {
   return [parts.slice(0, -words).join(' '), parts.slice(-words).join(' ')];
 }
 
+// The page wraps this in its language's provider (EnglishI18nProvider on
+// /business/free-trial, SpanishI18nProvider on /es/business/prueba-gratis),
+// so each page ships one translation table.
 export function TrialPage({ copy, serverNow }: { copy: TrialCopy; serverNow: number }) {
-  return (
-    <I18nProvider initialLang={copy.lang}>
-      <TrialPageBody copy={copy} serverNow={serverNow} />
-    </I18nProvider>
-  );
+  return <TrialPageBody copy={copy} serverNow={serverNow} />;
 }
 
 function TrialPageBody({ copy, serverNow }: { copy: TrialCopy; serverNow: number }) {

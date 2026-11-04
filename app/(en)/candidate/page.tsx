@@ -6,7 +6,8 @@ import { motion } from "framer-motion";
 import SelectLanguage from "../../../src/common/components/selectLanguage";
 import CandidateFooter from "../../../src/candidate/components/landing/footer";
 import styles from "../../../src/candidate/components/landing/landing.module.css";
-import { I18nProvider, useLanguageContext } from "../../../src/common/components/I18nProvider";
+import { EnglishI18nProvider } from "../../../src/common/components/EnglishI18nProvider";
+import { useLanguageContext } from "../../../src/common/components/I18nProvider";
 
 // Candidate Components
 import CandidateNavigation from "../../../src/candidate/components/navigation";
@@ -139,8 +140,8 @@ function CandidatePageContent() {
 
 export default function CandidatePage() {
   return (
-    <I18nProvider>
+    <EnglishI18nProvider>
       <CandidatePageContent />
-    </I18nProvider>
+    </EnglishI18nProvider>
   );
 }

@@ -66,6 +66,11 @@ Custom i18n system layered on top of i18next:
 - Detection priority: URL querystring `?lg=` → localStorage `tlang` → browser navigator
 - Translation strings live in `src/common/translations/en.ts` and `es.ts` as nested objects
 - Language state is managed via `src/contexts/LanguageContext.tsx`
+- A page mounts `EnglishI18nProvider` (English documents) or `SpanishI18nProvider`
+  (`/es/*`), never `I18nProvider` itself: each wrapper imports ONE translation
+  table and the provider fetches the other with `import()` only when a visitor
+  asks for it. `evals/localeBundles.test.js` fails on a client module that
+  imports both tables.
 - Each section has a `useTranslation.ts` hook (e.g., `app/(en)/business/useTranslation.ts`) that selects the right subtree of translations
 - `src/common/components/I18nProvider.tsx` wraps the app and handles detection/persistence
 

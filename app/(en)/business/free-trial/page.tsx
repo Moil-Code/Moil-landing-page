@@ -1,3 +1,4 @@
+import { EnglishI18nProvider } from '../../../../src/common/components/EnglishI18nProvider';
 import { TrialPage } from './TrialPage';
 import { TRIAL_EN } from './trialContent';
 import { trialMetadata } from './trialMetadata';
@@ -8,5 +9,9 @@ export const metadata = trialMetadata('en');
 export const dynamic = 'force-dynamic';
 
 export default function FreeTrialPage() {
-  return <TrialPage copy={TRIAL_EN} serverNow={Date.now()} />;
+  return (
+    <EnglishI18nProvider initialLang="en">
+      <TrialPage copy={TRIAL_EN} serverNow={Date.now()} />
+    </EnglishI18nProvider>
+  );
 }

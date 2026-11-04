@@ -1,62 +1,11 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { getRegisterUrl } from '~~/app/(en)/business/preview/previewClient';
-import { BusinessFooter } from '../../../app/(en)/business/components/BusinessFooter';
-import { BusinessMobileMenu } from '../../../app/(en)/business/components/BusinessMobileMenu';
-import { BusinessNav, type NavItem } from '../../../app/(en)/business/components/BusinessNav';
-import { useBusinessUi } from '../../../app/(en)/business/hooks/useBusinessUi';
-import { I18nProvider, useLanguageContext } from './I18nProvider';
-import styles from './BrandPageShell.module.css';
+import { BrandPageChrome } from './BrandPageChrome';
+import { EnglishI18nProvider } from './EnglishI18nProvider';
 
-const NAV_ITEMS: NavItem[] = [
-  { label: 'Work', href: '/work' },
-  { label: 'Partners', href: '/partners' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/contact' },
-];
-
-const MOBILE_ITEMS: NavItem[] = [
-  { label: 'Business Plan', href: '/business' },
-  { label: 'Moil360', href: '/business#pricing' },
-  { label: 'Hiring', href: '/candidate' },
-  ...NAV_ITEMS,
-];
-
-function PageChrome({ children }: { children: ReactNode }) {
-  const { theme, toggleTheme, menuOpen, setMenuOpen, scrolled } = useBusinessUi();
-  const { lang, setLang } = useLanguageContext();
-
-  return (
-    <div className={styles.shell}>
-      <div className="cursor" id="cur" aria-hidden="true" />
-      <div className="cursor-ring" id="curR" aria-hidden="true" />
-      <BusinessMobileMenu
-        open={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        onToggleTheme={toggleTheme}
-        theme={theme}
-        items={MOBILE_ITEMS}
-        ctaLabel="Get started"
-        currentLang={lang}
-      />
-      <BusinessNav
-        scrolled={scrolled}
-        menuOpen={menuOpen}
-        onToggleMenu={() => setMenuOpen((open) => !open)}
-        theme={theme}
-        items={NAV_ITEMS}
-        ctaHref={getRegisterUrl()}
-        ctaLabel="Get Started"
-        currentLang={lang}
-        onLanguageChange={setLang}
-      />
-      {children}
-      <BusinessFooter theme={theme} onToggleTheme={toggleTheme} currentLang={lang} onLanguageChange={setLang} />
-    </div>
-  );
-}
-
+// The brand pages' shell for English documents. Spanish documents use
+// BrandPageShellEs (same chrome, Spanish table only).
 export function BrandPageShell({
   children,
   initialLang,
@@ -65,8 +14,8 @@ export function BrandPageShell({
   initialLang?: 'en' | 'es';
 }) {
   return (
-    <I18nProvider initialLang={initialLang}>
-      <PageChrome>{children}</PageChrome>
-    </I18nProvider>
+    <EnglishI18nProvider initialLang={initialLang}>
+      <BrandPageChrome>{children}</BrandPageChrome>
+    </EnglishI18nProvider>
   );
 }
