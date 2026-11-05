@@ -35,6 +35,7 @@ export default [
     ignores: [
       '.next/**',
       'node_modules/**',
+      '.claude/**',
       'out/**',
       'build/**',
       'next-env.d.ts',
