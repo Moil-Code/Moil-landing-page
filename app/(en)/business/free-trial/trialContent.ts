@@ -32,6 +32,12 @@ export const CLAIMS_SIGNED_OFF: Record<string, boolean> = {
   // Named platforms (Instagram, Facebook) on sample posts. The example tiles
   // name no platform until this is confirmed.
   namedPlatforms: false,
+  // Connecting Instagram and Facebook and publishing to them from Moil360.
+  // Added 2026-11-09 after the brief (it was left out of the hand-off). The
+  // whole "Post straight to Instagram and Facebook" section hides until this
+  // is signed off; it names the platforms, so it signs off namedPlatforms for
+  // that section too.
+  socialPublishing: false,
 };
 
 export const TRIAL_CONFIG: {
@@ -75,6 +81,14 @@ export type TrialCopy = {
   pain: { h2: string; body: string };
   solution: { h2: string; body: string };
   features: { h2: string; rows: TrialRow[] };
+  /** Connect and post to Instagram and Facebook. Gated as a whole by `claim`. */
+  social: {
+    claim: string;
+    h2: string;
+    body: string;
+    points: TrialRow[];
+    visual: { accounts: string; connected: string; ready: string; postNow: string; postingTo: string };
+  };
   how: { h2: string; steps: TrialRow[] };
   peek: {
     h2: string;
@@ -88,7 +102,7 @@ export type TrialCopy = {
   final: { h2: string; sub: string };
   review: { badge: string };
   /** Short section labels in the /business style (the orange mono tag above each headline). */
-  tags: { pain: string; solution: string; features: string; how: string; peek: string; offer: string; faq: string };
+  tags: { pain: string; solution: string; features: string; social: string; how: string; peek: string; offer: string; faq: string };
   /** Trial terms repeated beside the final button. Confirmed terms only. */
   trust: string[];
 };
@@ -135,6 +149,17 @@ export const TRIAL_EN: TrialCopy = {
       { title: 'Ideas based on trends.', body: 'Post ideas shaped by what is current in your market.', claim: 'trendResearch' },
       { title: 'No prompts to write.', body: 'You answer a few questions. Moil360 does the rest.', claim: 'noPrompting' },
     ],
+  },
+  social: {
+    claim: 'socialPublishing',
+    h2: 'Post straight to Instagram and Facebook.',
+    body: 'Connect your accounts once. When a post is ready, publish it from Moil360. No downloading images, no copying captions, no switching apps.',
+    points: [
+      { title: 'Connect in a few clicks.', body: 'Link your Instagram and Facebook accounts from inside Moil360.', claim: 'socialPublishing' },
+      { title: 'Publish from one place.', body: 'Your post, image and caption go out from Moil360, just as you approved them.', claim: 'socialPublishing' },
+      { title: 'Both feeds, one step.', body: 'Send the same post to Instagram and Facebook together.', claim: 'socialPublishing' },
+    ],
+    visual: { accounts: 'Connected accounts', connected: 'Connected', ready: 'Ready to post', postNow: 'Post now', postingTo: 'Posting to' },
   },
   how: {
     h2: 'How it works',
@@ -184,6 +209,7 @@ export const TRIAL_EN: TrialCopy = {
     pain: 'The hard part',
     solution: 'The fix',
     features: 'In the plan',
+    social: 'Connect and post',
     how: 'Three steps',
     peek: 'Peek inside',
     offer: 'The offer',
@@ -235,6 +261,17 @@ export const TRIAL_ES: TrialCopy = {
       { title: 'Sin instrucciones que escribir.', body: 'Respondes unas preguntas. Moil360 hace el resto.', claim: 'noPrompting' },
     ],
   },
+  social: {
+    claim: 'socialPublishing',
+    h2: 'Publica directo en Instagram y Facebook.',
+    body: 'Conecta tus cuentas una vez. Cuando una publicación esté lista, publícala desde Moil360. Sin descargar imágenes, sin copiar textos, sin cambiar de app.',
+    points: [
+      { title: 'Conecta en unos clics.', body: 'Vincula tus cuentas de Instagram y Facebook desde Moil360.', claim: 'socialPublishing' },
+      { title: 'Publica desde un solo lugar.', body: 'Tu publicación, imagen y texto salen desde Moil360, tal como los aprobaste.', claim: 'socialPublishing' },
+      { title: 'Las dos cuentas, un paso.', body: 'Envía la misma publicación a Instagram y Facebook a la vez.', claim: 'socialPublishing' },
+    ],
+    visual: { accounts: 'Cuentas conectadas', connected: 'Conectada', ready: 'Lista para publicar', postNow: 'Publicar ahora', postingTo: 'Publicando en' },
+  },
   how: {
     h2: 'Cómo funciona',
     steps: [
@@ -277,6 +314,7 @@ export const TRIAL_ES: TrialCopy = {
     pain: 'Lo difícil',
     solution: 'La solución',
     features: 'En el plan',
+    social: 'Conecta y publica',
     how: 'Tres pasos',
     peek: 'Échale un vistazo',
     offer: 'La oferta',

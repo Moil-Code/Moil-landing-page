@@ -46,7 +46,7 @@ const WASH_LIGHT =
 const WASH_LIGHT_SM =
   'https://res.cloudinary.com/daudj5isi/image/upload/f_auto,q_auto,w_900/v1783442089/hero_bg_light_eeeazi.png';
 
-type CtaLocation = 'hero' | 'solution' | 'offer' | 'final' | 'sticky';
+type CtaLocation = 'hero' | 'solution' | 'social' | 'offer' | 'final' | 'sticky';
 
 // One icon per flagged feature row, from the icon set /business uses.
 const FEATURE_ICONS: Record<string, string> = {
@@ -56,6 +56,38 @@ const FEATURE_ICONS: Record<string, string> = {
   trendResearch: 'chart',
   noPrompting: 'bot',
 };
+
+/** Platform marks for the publishing section, drawn inline (no extra requests). */
+function InstagramMark() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className="trial-social__mark">
+      <defs>
+        <linearGradient id="trial-ig" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0" stopColor="#FEDA75" />
+          <stop offset="0.35" stopColor="#FA7E1E" />
+          <stop offset="0.65" stopColor="#D62976" />
+          <stop offset="1" stopColor="#4F5BD5" />
+        </linearGradient>
+      </defs>
+      <rect width="24" height="24" rx="6.5" fill="url(#trial-ig)" />
+      <rect x="5.5" y="5.5" width="13" height="13" rx="4" fill="none" stroke="#fff" strokeWidth="1.8" />
+      <circle cx="12" cy="12" r="3.1" fill="none" stroke="#fff" strokeWidth="1.8" />
+      <circle cx="16.1" cy="7.9" r="1" fill="#fff" />
+    </svg>
+  );
+}
+
+function FacebookMark() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className="trial-social__mark">
+      <circle cx="12" cy="12" r="12" fill="#1877F2" />
+      <path
+        fill="#fff"
+        d="M13.4 24v-8.6h2.6l.45-3.1H13.4v-2c0-.9.3-1.5 1.55-1.5h1.6V6.05c-.3-.04-1.2-.12-2.3-.12-2.3 0-3.85 1.4-3.85 3.95v2.4H7.8v3.1h2.6V24z"
+      />
+    </svg>
+  );
+}
 
 function prefersReducedMotion(): boolean {
   try {
@@ -294,10 +326,11 @@ function TrialPageBody({ copy, serverNow }: { copy: TrialCopy; serverNow: number
 
   const reviewBadge = <span className="trial-review-badge">{copy.review.badge}</span>;
   const features = copy.features.rows.filter((r) => claimVisible(r.claim, CLAIMS_SIGNED_OFF, reviewMode));
+  const showSocial = claimVisible(copy.social.claim, CLAIMS_SIGNED_OFF, reviewMode);
   const faqs = copy.faq.items.filter((f) => claimVisible(f.claim, CLAIMS_SIGNED_OFF, reviewMode));
   const unsigned = (claim?: string) => Boolean(claim) && CLAIMS_SIGNED_OFF[claim as string] !== true;
-  // Numbered sections, as /business numbers its own: pain, solution, (features), steps, peek.
-  const totalSections = features.length > 0 ? 5 : 4;
+  // Numbered sections, as /business numbers its own: pain, solution, (features), (social), steps, peek.
+  const totalSections = 4 + (features.length > 0 ? 1 : 0) + (showSocial ? 1 : 0);
   let sectionNo = 0;
   const next = () => (sectionNo += 1);
 
@@ -312,6 +345,8 @@ function TrialPageBody({ copy, serverNow }: { copy: TrialCopy; serverNow: number
   const [painLead, painAccent] = splitAccent(copy.pain.h2, lang === 'es' ? 3 : 3);
   const [solutionLead, solutionAccent] = splitAccent(copy.solution.h2, lang === 'es' ? 3 : 3);
   const [h1Lead, h1Accent] = splitAccent(copy.hero.h1, 1);
+  const [socialLead, socialAccent] = splitAccent(copy.social.h2, 3);
+  const socialPost = copy.peek.examples[1];
   const [finalLead, finalAccent] = splitAccent(copy.final.h2, 1);
 
   return (
@@ -504,6 +539,95 @@ function TrialPageBody({ copy, serverNow }: { copy: TrialCopy; serverNow: number
                     </li>
                   ))}
                 </ul>
+              </div>
+            </section>
+          </>
+        )}
+
+        {/* 5b. Connect and post: Instagram and Facebook, published from Moil360.
+            One flagged claim gates the whole section. The visual on the right
+            is a still, decorative mock of the product, labelled as an example. */}
+        {showSocial && (
+          <>
+            <div className="divider" />
+            <section className="business-system-section trial-section trial-section--tint trial-social" aria-labelledby="trial-social">
+              <div className="trial-shell">
+                <SectionHeader
+                  id="trial-social"
+                  index={next()}
+                  total={totalSections}
+                  tag={copy.tags.social}
+                  title={socialLead}
+                  accent={socialAccent}
+                  sub={copy.social.body}
+                />
+                <div className="trial-social__grid">
+                  <ul className="trial-social__points">
+                    {copy.social.points.map((pt, i) => (
+                      <li key={pt.title} className={`trial-social__point rv ${i === 1 ? 'd1' : i === 2 ? 'd2' : ''}`}>
+                        <span className="trial-social__check" aria-hidden="true">
+                          <Check size={14} strokeWidth={3} />
+                        </span>
+                        <div>
+                          <h3>{pt.title.replace(/\.$/, '')}</h3>
+                          <p>
+                            {pt.body}
+                            {reviewMode && unsigned(pt.claim) && reviewBadge}
+                          </p>
+                        </div>
+                      </li>
+                    ))}
+                    <li className="trial-social__cta rv d2">{cta('social')}</li>
+                  </ul>
+
+                  <div className="trial-social__visual rv d1" aria-hidden="true">
+                    <div className="trial-social__panel trial-social__accounts">
+                      <div className="trial-peek__top">
+                        <span>{copy.social.visual.accounts}</span>
+                        <span className="trial-peek__label">{copy.peek.exampleLabel}</span>
+                      </div>
+                      {[
+                        { name: 'Instagram', mark: <InstagramMark /> },
+                        { name: 'Facebook', mark: <FacebookMark /> },
+                      ].map((acct) => (
+                        <div key={acct.name} className="trial-social__account">
+                          {acct.mark}
+                          <strong>{acct.name}</strong>
+                          <span className="trial-social__status">
+                            <i />
+                            {copy.social.visual.connected}
+                          </span>
+                          <span className="trial-social__toggle" />
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="trial-social__wire">
+                      <span />
+                    </div>
+
+                    <div className="trial-social__panel trial-social__post">
+                      {socialPost.image ? (
+                        <img src={socialPost.image} alt="" width={640} height={800} loading="lazy" decoding="async" />
+                      ) : (
+                        <div className="trial-social__thumb" />
+                      )}
+                      <div className="trial-social__post-body">
+                        <span className={`cm-type cm-${socialPost.tone} trial-peek__kind`}>{copy.social.visual.ready}</span>
+                        <p className="trial-social__post-title">{socialPost.headline}</p>
+                        <div className="trial-social__targets">
+                          <span>{copy.social.visual.postingTo}</span>
+                          <InstagramMark />
+                          <FacebookMark />
+                        </div>
+                        <span className="trial-social__post-btn">
+                          {copy.social.visual.postNow}
+                          {IconMap.arrowRight}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </section>
           </>
