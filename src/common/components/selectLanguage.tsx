@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+// lucide, not @mui/icons-material: this was the last MUI import, and it
+// pulled the MUI runtime (~63 KB gzipped) into the pages that render it.
+import { CheckCircle2 } from 'lucide-react';
+
+// MUI's CheckCircle is a filled disc with a white tick: fill the lucide
+// circle with the current colour and draw the strokes white.
+const CheckCircleIcon = ({ className }: { className?: string }) => (
+  <CheckCircle2 aria-hidden="true" size={24} fill="currentColor" stroke="white" className={className} />
+);
 import { deleteCookie } from 'cookies-next';
 import BackButton from "./back_button";
 

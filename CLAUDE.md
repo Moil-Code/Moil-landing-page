@@ -34,7 +34,21 @@ The site has four distinct sections, each with its own route, layout, and compon
 | `/marketing` | Content360 marketing product |
 | `/legacy` | Legacy page (not actively maintained) |
 
-Each section has a `layout.tsx` for SEO metadata and may have its own CSS file (e.g., `app/business/business.css`).
+Each section has a `layout.tsx` for SEO metadata and may have its own CSS file (e.g., `app/(en)/business/business.css`).
+
+**One root layout per language.** The English routes live in the route group
+`app/(en)/` (a folder in parentheses is not part of the URL: `/business` is
+`app/(en)/business/page.tsx`) and the Spanish ones in `app/es/`, each with its
+own root layout, so every document's `<html lang>` is a property of its route.
+There is no `app/layout.tsx`, and no page reads the request (no `headers()`
+or `cookies()`), so every page is prerendered static except three that are dynamic on purpose:
+the two free-trial ad pages (the countdown reads server time) and
+`/candidate/searchjob` (its results read the query string); an eval in
+`evals/localePlumbing.test.js` keeps it so. An unmatched URL is answered by
+`app/global-not-found.tsx` (404, `experimental.globalNotFound`). Navigating
+between the two trees is a full page load, which the language switch already
+was. Evals that resolve a
+URL to its file use `evals/lib/routeFile.js`, which looks through groups.
 
 ### Component organization
 
@@ -52,7 +66,12 @@ Custom i18n system layered on top of i18next:
 - Detection priority: URL querystring `?lg=` → localStorage `tlang` → browser navigator
 - Translation strings live in `src/common/translations/en.ts` and `es.ts` as nested objects
 - Language state is managed via `src/contexts/LanguageContext.tsx`
-- Each section has a `useTranslation.ts` hook (e.g., `app/business/useTranslation.ts`) that selects the right subtree of translations
+- A page mounts `EnglishI18nProvider` (English documents) or `SpanishI18nProvider`
+  (`/es/*`), never `I18nProvider` itself: each wrapper imports ONE translation
+  table and the provider fetches the other with `import()` only when a visitor
+  asks for it. `evals/localeBundles.test.js` fails on a client module that
+  imports both tables.
+- Each section has a `useTranslation.ts` hook (e.g., `app/(en)/business/useTranslation.ts`) that selects the right subtree of translations
 - `src/common/components/I18nProvider.tsx` wraps the app and handles detection/persistence
 
 ### AI endpoints: this repo calls none, and that is the rule
@@ -314,7 +333,7 @@ suspect the injection before the code.**
 
 ### A `.d.ts` sidecar shadows its module, so drift breaks the BUILD alone (2026-09-04)
 
-`app/business/preview/*.js` are CommonJS modules with hand-written `.d.ts`
+`app/(en)/business/preview/*.js` are CommonJS modules with hand-written `.d.ts`
 sidecars beside them. **TypeScript resolves an import to the DECLARATION file
 and never looks at the JavaScript**, so a sidecar that has stopped listing what
 its module exports is not a stale comment — it is the only thing the compiler
@@ -367,6 +386,7 @@ Red-verified both directions, including the real CI failure restored verbatim.
 
 ### Styling
 
+- Design rules (colour, type, section grammar) are in `DESIGN.md`. **Orange fills carry white text and icons**, never dark text.
 - Tailwind CSS with custom brand colors (`moil-navy`, `moil-blue`, `moil-orange`, `moil-green`) defined in `tailwind.config.js`
 - Custom breakpoints: `vsm` (320px), `xsm` (400px), `zsm` (480px), `tablet`, `ipad`, `desktop`, `xtraxl` (1440px), `xxlarge` (3200px)
 - Global styles split across `app/globals.css` (2009 lines) and `styles/globals.css`
@@ -403,7 +423,7 @@ and warns about it on every build.
 
 ### Landing visitors on the admin "Active users" page (2026-10-07)
 
-`src/common/components/PresenceBeacon.tsx` (mounted in `app/layout.tsx`) posts
+`src/common/components/PresenceBeacon.tsx` (mounted in `app/(en)/layout.tsx`) posts
 `{vid, route, site: 'landing', ref}` to the gateway's
 `POST /api/presence/visit` on load, on each route change, and every minute
 while the tab is visible. Rules are in `src/common/presence/visitorBeacon.js`.

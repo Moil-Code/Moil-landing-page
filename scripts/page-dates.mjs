@@ -28,8 +28,11 @@
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const root = path.resolve(new URL('.', import.meta.url).pathname, '..');
+// fileURLToPath, not URL#pathname: the latter keeps %20 for a space in the
+// checkout path, and git then runs in a directory that does not exist.
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(root, 'src/common/seo/pageDates.json');
 const OUT_PATHSPEC = ':(exclude)src/common/seo/pageDates.json';
 const args = new Set(process.argv.slice(2));
@@ -43,7 +46,9 @@ function git(...argv) {
 // the sitemap deliberately omits. Keep this exclusion list in step with
 // app/robots.ts and app/sitemap.ts; the eval asserts every sitemap route has
 // a date, so a route missing here fails the build rather than reading "today".
-const EXCLUDED = new Set(['/legacy', '/login', '/register']);
+// The free-trial ad landing pages are noindex and out of the sitemap until
+// launch (app/business/free-trial/trialContent.ts, TRIAL_CONFIG.indexable).
+const EXCLUDED = new Set(['/legacy', '/login', '/register', '/business/free-trial', '/es/business/prueba-gratis']);
 const DIR_OF = new Map();
 function routes() {
   const out = [];
@@ -80,8 +85,10 @@ function sourcesFor(route) {
   const dir = DIR_OF.get(route) ?? (route === '/' ? 'app' : `app${route}`);
   const own = [dir];
   // Route-group siblings (e.g. app/compare/aeoLocks.ts) change the page too.
+  // A top-level route group (app/(en)) is where the root layout lives, not a
+  // section: its loose files would date every English route at once.
   const group = path.dirname(dir);
-  if (group !== 'app' && group !== '.') {
+  if (group !== 'app' && group !== '.' && !TOP_GROUP.test(group)) {
     for (const e of fs.readdirSync(path.join(root, group), { withFileTypes: true })) {
       if (e.isFile()) own.push(path.join(group, e.name));
     }
@@ -102,11 +109,20 @@ function sourcesFor(route) {
   return [...own, ...shared].filter((p) => fs.existsSync(path.join(root, p)));
 }
 
+// The English routes moved into the app/(en) route group (2026-11, one root
+// layout per language). The move changed no page, so the move commit must not
+// become every English page's "last change": history is read across both
+// paths, and a commit that only renamed or deleted files under them is not a
+// change to the page (-M --diff-filter=ACMT: added, copied, modified, type).
+const TOP_GROUP = /^app\/\([^/]+\)$/;
+const legacyPathOf = (p) => p.replace(/^app\/\([^/]+\)(?=\/|$)/, 'app');
+
 function lastChange(paths) {
   // The output lives under src/common/seo, one of the shared source trees.
   // Excluding it prevents a commit of this generated file from changing the
   // result and making that same file stale immediately after the push.
-  const iso = git('log', '-1', '--format=%cI', '--', ...paths, OUT_PATHSPEC);
+  const legacy = paths.map(legacyPathOf).filter((p) => !paths.includes(p));
+  const iso = git('log', '-1', '-M', '--diff-filter=ACMT', '--format=%cI', '--', ...paths, ...legacy, OUT_PATHSPEC);
   return iso ? iso.slice(0, 10) : null;
 }
 

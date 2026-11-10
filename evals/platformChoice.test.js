@@ -22,7 +22,7 @@ const {
 	normalizeChoice,
 	isOffered,
 	isComing,
-} = require('../app/business/preview/platformChoice.js');
+} = require('../app/(en)/business/preview/platformChoice.js');
 
 test('only publishable networks are offered', () => {
 	// If this ever grows, the backend pin (evals/fixtures/landing-platformChoice.js
@@ -97,7 +97,7 @@ test('input is normalized and de-duplicated', () => {
 
 test('the module is pure', () => {
 	const src = fs.readFileSync(
-		path.join(__dirname, '../app/business/preview/platformChoice.js'),
+		path.join(__dirname, '../app/(en)/business/preview/platformChoice.js'),
 		'utf8',
 	);
 	const body = src
@@ -116,7 +116,7 @@ test('the module is pure', () => {
 // forever) and a PREFERENCE stored there is another visitor's answer. The
 // consumer is `Business-plan-Staging/service/preview/previewPlatformSeed.js`.
 
-const client = require('../app/business/preview/previewClient');
+const client = require('../app/(en)/business/preview/previewClient');
 
 test('a real choice rides the register URL', () => {
 	const url = client.buildRegisterUrl({
@@ -175,7 +175,7 @@ test('a mixed list carries only what is offered', () => {
 
 test('the carrier is bound to OFFERED, never a second hardcoded list', () => {
 	const src = fs.readFileSync(
-		path.join(__dirname, '../app/business/preview/previewClient.js'),
+		path.join(__dirname, '../app/(en)/business/preview/previewClient.js'),
 		'utf8',
 	);
 	const body = src

@@ -5,9 +5,9 @@ const path = require('node:path');
 const read = file => fs.readFileSync(path.join(__dirname, '..', file), 'utf8');
 
 describe('reference testimonial carousel and finished work', () => {
-  const page = read('app/business/BusinessPageContent.tsx');
-  const carousel = read('app/business/components/TestimonialCarousel.tsx');
-  const css = read('app/business/business.css');
+  const page = read('app/(en)/business/BusinessPageContent.tsx');
+  const carousel = read('app/(en)/business/components/TestimonialCarousel.tsx');
+  const css = read('app/(en)/business/business.css');
 
   it('uses the original sourced quotes, dated provenance, and no invented ratings', () => {
     assert.match(page, /businessReviews\(\)\.map/);

@@ -73,7 +73,7 @@ describe('pure rules', () => {
 
 describe('wiring', () => {
 	it('the bridge is mounted in the root layout and gated on consent', () => {
-		assert.match(read('app/layout.tsx'), /<SignupEventBridge \/>/);
+		assert.match(read('src/common/components/RootDocument.tsx'), /<SignupEventBridge \/>/);
 		const bridge = read('src/common/components/SignupEventBridge.tsx');
 		assert.match(bridge, /effectiveConsent\(\) !== 'accepted'\) return/);
 		assert.match(bridge, /closest\?\.\('a\[data-signup-cta\]'\)/);

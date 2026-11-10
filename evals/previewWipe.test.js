@@ -43,8 +43,8 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 
-const magnet = read('app/business/components/PreviewMagnet.tsx');
-const cookie = require('../app/business/preview/previewCookie');
+const magnet = read('app/(en)/business/components/PreviewMagnet.tsx');
+const cookie = require('../app/(en)/business/preview/previewCookie');
 
 // Bound a claim to the function it is about. A whole-file grep for
 // `clearPreviewSlugCookie()` passes on the THREE call sites that already
@@ -186,7 +186,7 @@ describe('the founder can reach the wipe from the screen they are stuck on', () 
 	});
 
 	it('the ready card keeps its own', () => {
-		const ready = read('app/business/components/GettingToKnowYou.tsx');
+		const ready = read('app/(en)/business/components/GettingToKnowYou.tsx');
 		assert.match(ready, /onClick=\{onReset\}/);
 		assert.match(ready, /\{m\.tryAgain\}/);
 	});

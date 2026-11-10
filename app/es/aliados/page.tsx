@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { baseURL1 } from '../../../src/common/constants/baseUrl';
 import { esTwinRobots } from '../../../src/common/es/esTwinPages';
-import { PartnersBody } from '../../partners/PartnersBody';
-import { PARTNER_EN } from '../../partners/partnerContent';
+import { PartnersBody } from '../../(en)/partners/PartnersBody';
+import { PARTNER_EN } from '../../(en)/partners/partnerContent';
 import { PARTNER_ES } from './partnerContentEs';
 
 /**

@@ -14,9 +14,9 @@ const path = require('node:path');
 const root = path.join(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 const strip = (s) => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/[^\n]*$/gm, '');
-const QUOTES = strip(read('app/partners/partnerQuotes.ts'));
-const BODY = strip(read('app/partners/PartnersBody.tsx'));
-const BOOKING = strip(read('app/partners/booking.ts'));
+const QUOTES = strip(read('app/(en)/partners/partnerQuotes.ts'));
+const BODY = strip(read('app/(en)/partners/PartnersBody.tsx'));
+const BOOKING = strip(read('app/(en)/partners/booking.ts'));
 
 let ran = 0;
 const check = (name, fn) => test(name, () => { fn(); ran += 1; });
@@ -46,7 +46,7 @@ check('the booking link is one constant on Microsoft Bookings, opened safely', (
 });
 
 check('the booking copy exists in both languages and promises no meeting length', () => {
-	for (const f of ['app/partners/partnerContent.ts', 'app/es/aliados/partnerContentEs.ts']) {
+	for (const f of ['app/(en)/partners/partnerContent.ts', 'app/es/aliados/partnerContentEs.ts']) {
 		const s = strip(read(f));
 		assert.match(s, /\n  booking: \{/);
 		assert.match(s, /\n  quotes: \{/);

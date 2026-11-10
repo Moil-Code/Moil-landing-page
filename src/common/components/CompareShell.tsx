@@ -6,11 +6,11 @@
  * the same shell. Lives here (not in a layout file) because Next restricts
  * what a layout may export.
  */
-import { BusinessFooter } from '../../../app/business/components/BusinessFooter';
-import { getRegisterUrl } from '~~/app/business/preview/previewClient';
-import { BusinessMobileMenu } from '../../../app/business/components/BusinessMobileMenu';
-import { BusinessNav, type NavItem } from '../../../app/business/components/BusinessNav';
-import { useBusinessUi } from '../../../app/business/hooks/useBusinessUi';
+import { BusinessFooter } from '../../../app/(en)/business/components/BusinessFooter';
+import { getRegisterUrl } from '~~/app/(en)/business/preview/previewClient';
+import { BusinessMobileMenu } from '../../../app/(en)/business/components/BusinessMobileMenu';
+import { BusinessNav, type NavItem } from '../../../app/(en)/business/components/BusinessNav';
+import { useBusinessUi } from '../../../app/(en)/business/hooks/useBusinessUi';
 import { useLanguageContext } from './I18nProvider';
 
 const NAV_ITEMS: NavItem[] = [

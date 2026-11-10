@@ -29,7 +29,7 @@ const {
 	readHandle,
 	readPlaceId,
 	platformFromUrl,
-} = require('../app/business/preview/previewInput');
+} = require('../app/(en)/business/preview/previewInput');
 
 describe('website door', () => {
 	it('accepts a bare domain, which is how people type it', () => {
@@ -150,7 +150,7 @@ describe('the preview slug cookie', () => {
 	const {
 		readPreviewSlugCookie,
 		PREVIEW_SLUG_COOKIE,
-	} = require('../app/business/preview/previewCookie');
+	} = require('../app/(en)/business/preview/previewCookie');
 
 	it('reads back a slug so a returning visitor is not stranded', () => {
 		// The cookie was write-only: submit, take the copy's advice and leave,
@@ -179,7 +179,7 @@ describe('the preview slug cookie', () => {
 });
 
 describe('the wait ladder', () => {
-	const { waitCopyKey } = require('../app/business/preview/previewWaitCopy');
+	const { waitCopyKey } = require('../app/(en)/business/preview/previewWaitCopy');
 	const en = require('fs').readFileSync(
 		require('path').join(__dirname, '..', 'src/common/translations/en.ts'),
 		'utf8',
