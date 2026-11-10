@@ -36,8 +36,8 @@ export const CLAIMS_SIGNED_OFF: Record<string, boolean> = {
   // Added 2026-11-09 after the brief (it was left out of the hand-off). The
   // whole "Post straight to Instagram and Facebook" section hides until this
   // is signed off; it names the platforms, so it signs off namedPlatforms for
-  // that section too.
-  socialPublishing: false,
+  // that section too. Turned on 2026-11-09 at Taiwo's request (staging review).
+  socialPublishing: true,
 };
 
 export const TRIAL_CONFIG: {
