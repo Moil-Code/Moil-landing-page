@@ -7,8 +7,9 @@
  * native-speaker review the brief requires before launch.
  *
  * Rules the brief sets, and how this file keeps them:
- *   - Only the trial terms are confirmed (30 days free, no credit card, a paid
- *     plan after 30 days). Every PRODUCT claim carries a `claim` id and stays
+ *   - Only the trial terms are confirmed (14 days free, no credit card, a paid
+ *     plan after 14 days; the content plan itself covers 30 days, corrected
+ *     2026-11-11). Every PRODUCT claim carries a `claim` id and stays
  *     hidden until it is signed off in CLAIMS_SIGNED_OFF by Andres or Jacobi.
  *     A reviewer can preview them with `?review=claims`, badged as unsigned.
  *   - No statistics, user counts, logos, testimonials, ratings or press. The
@@ -110,23 +111,23 @@ export type TrialCopy = {
 export const TRIAL_EN: TrialCopy = {
   lang: 'en',
   meta: {
-    title: '30 days of content. Free. | Moil360',
+    title: '30 days of content. Free for 14 days. | Moil360',
     description:
-      'Answer a few questions about your business. Moil360 plans and designs a month of posts for you. 30 days free, no credit card needed.',
+      'Answer a few questions about your business. Moil360 plans and designs a month of posts for you. 14 days free, no credit card needed.',
     ogLocale: 'en_US',
   },
-  cta: 'Claim my 30 free days',
-  trialNote: 'No credit card needed. After 30 days, you choose a plan to keep going.',
+  cta: 'Claim my 14 free days',
+  trialNote: 'No credit card needed. After 14 days, you choose a plan to keep going.',
   hero: {
     eyebrow: 'Moil360 content studio',
-    h1: '30 days of content. Free.',
+    h1: '30 days of content. Free for 14 days.',
     sub: 'Answer a few questions about your business. Moil360 plans and designs a month of posts for you.',
     hook: 'Want to see what a month of posts for your business could look like?',
   },
   scarcity: {
-    trueUrgency: 'Your 30 days start the day you sign up.',
-    deadline: 'The free 30-day offer ends {date}.',
-    closed: 'The free 30-day offer has ended.',
+    trueUrgency: 'Your 14 free days start the day you sign up.',
+    deadline: 'The 14-day free offer ends {date}.',
+    closed: 'The 14-day free offer has ended.',
     countdownLabel: 'Time left',
     units: { days: 'd', hours: 'h', minutes: 'm', seconds: 's' },
   },
@@ -185,14 +186,14 @@ export const TRIAL_EN: TrialCopy = {
     ],
   },
   offer: {
-    h2: 'Free for 30 days.',
-    body: 'No credit card needed to start. When the 30 days end, you choose a plan to keep using Moil360.',
+    h2: 'Free for 14 days.',
+    body: 'No credit card needed to start. When the 14 days end, you choose a plan to keep using Moil360.',
   },
   faq: {
     h2: 'Questions',
     items: [
       { q: 'Do I need a credit card?', a: 'No. You can start without one.' },
-      { q: 'What happens after 30 days?', a: 'Your free period ends and you choose one of our plans to continue.' },
+      { q: 'What happens after 14 days?', a: 'Your free period ends and you choose one of our plans to continue.' },
       {
         q: 'Do I have to write prompts?',
         a: 'No. Moil360 builds your content from what it learns about your business when you start.',
@@ -215,29 +216,29 @@ export const TRIAL_EN: TrialCopy = {
     offer: 'The offer',
     faq: 'Before you start',
   },
-  trust: ['30 days free', 'No credit card needed', 'Choose a plan after 30 days'],
+  trust: ['14 days free', 'No credit card needed', 'Choose a plan after 14 days'],
 };
 
 export const TRIAL_ES: TrialCopy = {
   lang: 'es',
   meta: {
-    title: '30 días de contenido. Gratis. | Moil360',
+    title: '30 días de contenido. Gratis por 14 días. | Moil360',
     description:
-      'Responde unas preguntas sobre tu negocio. Moil360 planea y diseña un mes de publicaciones para ti. 30 días gratis, sin tarjeta de crédito.',
+      'Responde unas preguntas sobre tu negocio. Moil360 planea y diseña un mes de publicaciones para ti. 14 días gratis, sin tarjeta de crédito.',
     ogLocale: 'es_US',
   },
-  cta: 'Reclamar mis 30 días gratis',
-  trialNote: 'Sin tarjeta de crédito. Después de 30 días, eliges un plan para continuar.',
+  cta: 'Reclamar mis 14 días gratis',
+  trialNote: 'Sin tarjeta de crédito. Después de 14 días, eliges un plan para continuar.',
   hero: {
     eyebrow: 'Estudio de contenido Moil360',
-    h1: '30 días de contenido. Gratis.',
+    h1: '30 días de contenido. Gratis por 14 días.',
     sub: 'Responde unas preguntas sobre tu negocio. Moil360 planea y diseña un mes de publicaciones para ti.',
     hook: '¿Quieres ver cómo se vería un mes de publicaciones para tu negocio?',
   },
   scarcity: {
-    trueUrgency: 'Tus 30 días empiezan el día que te registras.',
-    deadline: 'La oferta gratis de 30 días termina el {date}.',
-    closed: 'La oferta gratis de 30 días terminó.',
+    trueUrgency: 'Tus 14 días gratis empiezan el día que te registras.',
+    deadline: 'La oferta de 14 días gratis termina el {date}.',
+    closed: 'La oferta de 14 días gratis terminó.',
     countdownLabel: 'Tiempo restante',
     units: { days: 'd', hours: 'h', minutes: 'm', seconds: 's' },
   },
@@ -292,14 +293,14 @@ export const TRIAL_ES: TrialCopy = {
     ],
   },
   offer: {
-    h2: 'Gratis por 30 días.',
-    body: 'No necesitas tarjeta de crédito para empezar. Cuando terminen los 30 días, eliges un plan para seguir usando Moil360.',
+    h2: 'Gratis por 14 días.',
+    body: 'No necesitas tarjeta de crédito para empezar. Cuando terminen los 14 días, eliges un plan para seguir usando Moil360.',
   },
   faq: {
     h2: 'Preguntas',
     items: [
       { q: '¿Necesito tarjeta de crédito?', a: 'No. Puedes empezar sin una.' },
-      { q: '¿Qué pasa después de 30 días?', a: 'Tu periodo gratis termina y eliges uno de nuestros planes para continuar.' },
+      { q: '¿Qué pasa después de 14 días?', a: 'Tu periodo gratis termina y eliges uno de nuestros planes para continuar.' },
       {
         q: '¿Tengo que escribir instrucciones?',
         a: 'No. Moil360 crea tu contenido a partir de lo que aprende de tu negocio cuando empiezas.',
@@ -320,7 +321,7 @@ export const TRIAL_ES: TrialCopy = {
     offer: 'La oferta',
     faq: 'Antes de empezar',
   },
-  trust: ['30 días gratis', 'Sin tarjeta de crédito', 'Eliges un plan después de 30 días'],
+  trust: ['14 días gratis', 'Sin tarjeta de crédito', 'Eliges un plan después de 14 días'],
 };
 
 export const TRIAL_COPY: Record<TrialLang, TrialCopy> = { en: TRIAL_EN, es: TRIAL_ES };

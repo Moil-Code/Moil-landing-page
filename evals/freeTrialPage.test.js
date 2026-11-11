@@ -146,8 +146,8 @@ describe('content follows the brief', () => {
 	});
 
 	it('the same button label is used everywhere, in each language', () => {
-		assert.match(content, /cta: 'Claim my 30 free days'/);
-		assert.match(content, /cta: 'Reclamar mis 30 días gratis'/);
+		assert.match(content, /cta: 'Claim my 14 free days'/);
+		assert.match(content, /cta: 'Reclamar mis 14 días gratis'/);
 	});
 
 	it('scarcity ships off unless a dated deadline is configured', () => {

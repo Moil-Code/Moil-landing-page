@@ -344,7 +344,8 @@ function TrialPageBody({ copy, serverNow }: { copy: TrialCopy; serverNow: number
 
   const [painLead, painAccent] = splitAccent(copy.pain.h2, lang === 'es' ? 3 : 3);
   const [solutionLead, solutionAccent] = splitAccent(copy.solution.h2, lang === 'es' ? 3 : 3);
-  const [h1Lead, h1Accent] = splitAccent(copy.hero.h1, 1);
+  // The offer is the accent: "Free for 14 days." / "Gratis por 14 días."
+  const [h1Lead, h1Accent] = splitAccent(copy.hero.h1, 4);
   const [socialLead, socialAccent] = splitAccent(copy.social.h2, 3);
   const socialPost = copy.peek.examples[1];
   const [finalLead, finalAccent] = splitAccent(copy.final.h2, 1);
